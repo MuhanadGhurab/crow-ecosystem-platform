@@ -1,0 +1,1175 @@
+// Crow Ecosystem Platform — unified schema (8 logical groups)
+// Golden rule: Discovery understands. Blueprint defines. CEM runs. CyberCrow protects. SAREA adapts.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── 1. Request tables ───────────────────────────────────────────────────────
+
+enum ImplementationRequestStatus {
+  DRAFT
+  PENDING_REVIEW
+  UNDER_DISCOVERY
+  BLUEPRINT_BUILD
+  TENANT_PROVISIONING
+  SECURITY_INIT
+  SAREA_INIT
+  GO_LIVE
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model ImplementationRequest {
+  id                    String                        @id @default(cuid())
+  referenceCode         String                        @unique
+  organizationName      String
+  organizationNameAr    String?
+  industry              String?
+  employeeBand          String?
+  countryCode           String                        @default("SA")
+  status                ImplementationRequestStatus   @default(PENDING_REVIEW)
+  estimatedMonthlySar   Decimal?                      @db.Decimal(12, 2)
+  notes                 String?
+  /** Supabase Auth user id when submitter signed in or linked via Entra email match */
+  submittedByUserId     String?
+  createdAt             DateTime                      @default(now())
+  updatedAt             DateTime                      @updatedAt
+
+  contacts              RequestContact[]
+  requestedModules      RequestedModule[]
+  requestedSecurityPkgs RequestedSecurityPackage[]
+  requestedPlans        RequestedSubscriptionPlan[]
+  discoveryProfile      DiscoveryProfile?
+  enterpriseBlueprint   EnterpriseBlueprint?
+
+  @@map("implementation_requests")
+}
+
+model RequestContact {
+  id         String   @id @default(cuid())
+  requestId  String
+  fullName   String
+  email      String
+  phone      String?
+  jobTitle   String?
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@map("request_contacts")
+}
+
+model RequestedModule {
+  id        String @id @default(cuid())
+  requestId String
+  moduleKey String
+
+  request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@unique([requestId, moduleKey])
+  @@map("requested_modules")
+}
+
+model RequestedSecurityPackage {
+  id          String @id @default(cuid())
+  requestId   String
+  packageKey  String
+
+  request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@unique([requestId, packageKey])
+  @@map("requested_security_packages")
+}
+
+model RequestedSubscriptionPlan {
+  id        String @id @default(cuid())
+  requestId String
+  planKey   String
+
+  request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@map("requested_subscription_plans")
+}
+
+// ─── 2. Discovery tables ───────────────────────────────────────────────────────
+
+enum DiscoveryStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  APPROVED
+}
+
+model DiscoveryProfile {
+  id          String          @id @default(cuid())
+  requestId   String          @unique
+  status      DiscoveryStatus @default(NOT_STARTED)
+  summary     String?
+  completedAt DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  request              ImplementationRequest           @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  answers              DiscoveryAnswer[]
+  departments          DiscoveryDepartment[]
+  branches             DiscoveryBranch[]
+  roles                DiscoveryRole[]
+  workflows            DiscoveryWorkflow[]
+  securityRequirements DiscoverySecurityRequirement[]
+  integrations         DiscoveryIntegration[]
+  experienceRequirements DiscoveryExperienceRequirement[]
+  enterpriseBlueprint  EnterpriseBlueprint?
+
+  @@map("discovery_profiles")
+}
+
+model DiscoveryAnswer {
+  id         String @id @default(cuid())
+  profileId  String
+  sectionKey String
+  questionKey String
+  valueJson  Json
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, sectionKey, questionKey])
+  @@map("discovery_answers")
+}
+
+model DiscoveryDepartment {
+  id        String @id @default(cuid())
+  profileId String
+  name      String
+  nameAr    String?
+  headcount Int?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_departments")
+}
+
+model DiscoveryBranch {
+  id        String @id @default(cuid())
+  profileId String
+  name      String
+  city      String?
+  region    String?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_branches")
+}
+
+model DiscoveryRole {
+  id        String @id @default(cuid())
+  profileId String
+  name      String
+  level     String?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_roles")
+}
+
+model DiscoveryWorkflow {
+  id          String @id @default(cuid())
+  profileId   String
+  name        String
+  description String?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_workflows")
+}
+
+model DiscoverySecurityRequirement {
+  id          String @id @default(cuid())
+  profileId   String
+  requirement String
+  priority    String?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_security_requirements")
+}
+
+model DiscoveryIntegration {
+  id            String @id @default(cuid())
+  profileId     String
+  providerKey   String
+  notes         String?
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_integrations")
+}
+
+model DiscoveryExperienceRequirement {
+  id          String @id @default(cuid())
+  profileId   String
+  personaKey  String
+  requirement String
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("discovery_experience_requirements")
+}
+
+// ─── 3. Blueprint tables ───────────────────────────────────────────────────────
+
+enum BlueprintStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  ARCHIVED
+}
+
+enum ProposalStatus {
+  DRAFT
+  SENT
+  CLIENT_APPROVED
+  DECLINED
+}
+
+model EnterpriseBlueprint {
+  id                String          @id @default(cuid())
+  requestId         String          @unique
+  discoveryProfileId String         @unique
+  status            BlueprintStatus @default(DRAFT)
+  proposalStatus    ProposalStatus  @default(DRAFT)
+  proposalToken     String?         @unique
+  proposalSentAt    DateTime?
+  clientApprovedAt  DateTime?
+  version           Int             @default(1)
+  approvedAt        DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  request            ImplementationRequest @relation(fields: [requestId], references: [id])
+  discoveryProfile   DiscoveryProfile      @relation(fields: [discoveryProfileId], references: [id])
+  modules            BlueprintModule[]
+  workflows          BlueprintWorkflow[]
+  roles              BlueprintRole[]
+  permissions        BlueprintPermission[]
+  securityBaselines  BlueprintSecurityBaseline[]
+  sareaProfiles      BlueprintSareaProfile[]
+  integrations       BlueprintIntegration[]
+  goLiveChecklists   BlueprintGoLiveChecklist[]
+  tenant             Tenant?
+
+  @@map("enterprise_blueprints")
+}
+
+model BlueprintModule {
+  id          String @id @default(cuid())
+  blueprintId String
+  moduleKey   String
+  enabled     Boolean @default(true)
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@unique([blueprintId, moduleKey])
+  @@map("blueprint_modules")
+}
+
+model BlueprintWorkflow {
+  id          String @id @default(cuid())
+  blueprintId String
+  name        String
+  configJson  Json?
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@map("blueprint_workflows")
+}
+
+model BlueprintRole {
+  id          String @id @default(cuid())
+  blueprintId String
+  name        String
+  slug        String
+
+  blueprint   EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+  permissions BlueprintPermission[]
+
+  @@unique([blueprintId, slug])
+  @@map("blueprint_roles")
+}
+
+model BlueprintPermission {
+  id            String @id @default(cuid())
+  blueprintId   String
+  blueprintRoleId String?
+  permissionKey String
+
+  blueprint     EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+  blueprintRole BlueprintRole?      @relation(fields: [blueprintRoleId], references: [id])
+
+  @@map("blueprint_permissions")
+}
+
+model BlueprintSecurityBaseline {
+  id          String @id @default(cuid())
+  blueprintId String
+  controlKey  String
+  configJson  Json?
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@map("blueprint_security_baselines")
+}
+
+model BlueprintSareaProfile {
+  id          String @id @default(cuid())
+  blueprintId String
+  personaKey  String
+  configJson  Json?
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@map("blueprint_sarea_profiles")
+}
+
+model BlueprintIntegration {
+  id          String @id @default(cuid())
+  blueprintId String
+  providerKey String
+  configJson  Json?
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@map("blueprint_integrations")
+}
+
+model BlueprintGoLiveChecklist {
+  id          String @id @default(cuid())
+  blueprintId String
+  itemKey     String
+  completed   Boolean @default(false)
+
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+
+  @@unique([blueprintId, itemKey])
+  @@map("blueprint_go_live_checklists")
+}
+
+// ─── 4. Tenant / CEM tables ──────────────────────────────────────────────────
+
+model Organization {
+  id           String   @id @default(cuid())
+  legalName    String
+  displayName  String
+  displayNameAr String?
+  vatNumber    String?
+  industry     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenants Tenant[]
+
+  @@map("organizations")
+}
+
+model Tenant {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  organizationId String
+  blueprintId    String?  @unique
+  planKey        String
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization         @relation(fields: [organizationId], references: [id])
+  blueprint    EnterpriseBlueprint? @relation(fields: [blueprintId], references: [id])
+  modules      OrganizationModule[]
+  departments  Department[]
+  branches     Branch[]
+  profiles     Profile[]
+  roles        Role[]
+  workflows    Workflow[]
+  tasks        Task[]
+  approvals    Approval[]
+  documents    Document[]
+  reports      Report[]
+  subscription TenantSubscription?
+  cybercrowAuditLogs CybercrowAuditLog[]
+  securityEvents     SecurityEvent[]
+  riskScores         RiskScore[]
+  incidents          Incident[]
+  sareaProfiles      SareaExperienceProfile[]
+  memberships        TenantMembership[]
+  hrEmployees        HrEmployee[]
+  crmAccounts        CrmAccount[]
+  crmContacts        CrmContact[]
+  salesOpportunities TenantSalesOpportunity[]
+  inventoryItems     TenantInventoryItem[]
+  warehouseLocations TenantWarehouseLocation[]
+  financeEntries     TenantFinanceEntry[]
+  purchaseRequests   TenantPurchaseRequest[]
+
+  @@map("tenants")
+}
+
+/// Links Supabase Auth users to tenant workspaces (synced with app_metadata.tenant_slugs).
+model TenantMembership {
+  id             String   @id @default(cuid())
+  supabaseUserId String
+  tenantId       String
+  role           String
+  createdAt      DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([supabaseUserId, tenantId])
+  @@index([supabaseUserId])
+  @@map("tenant_memberships")
+}
+
+model OrganizationModule {
+  id        String  @id @default(cuid())
+  tenantId  String
+  moduleKey String
+  enabled   Boolean @default(true)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, moduleKey])
+  @@map("organization_modules")
+}
+
+model Department {
+  id        String @id @default(cuid())
+  tenantId  String
+  name      String
+  nameAr    String?
+  parentId  String?
+
+  tenant   Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent   Department?  @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children Department[] @relation("DeptHierarchy")
+  profiles    Profile[]
+  hrEmployees HrEmployee[]
+
+  @@map("departments")
+}
+
+model Branch {
+  id       String @id @default(cuid())
+  tenantId String
+  name     String
+  city     String?
+  region   String?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("branches")
+}
+
+model Profile {
+  id           String   @id @default(cuid())
+  tenantId     String
+  email        String
+  fullName     String
+  departmentId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  department Department? @relation(fields: [departmentId], references: [id])
+  userRoles  UserRole[]
+
+  @@unique([tenantId, email])
+  @@map("profiles")
+}
+
+model Role {
+  id        String @id @default(cuid())
+  tenantId  String
+  name      String
+  slug      String
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@unique([tenantId, slug])
+  @@map("roles")
+}
+
+model Permission {
+  id  String @id @default(cuid())
+  key String @unique
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String @id @default(cuid())
+  roleId       String
+  permissionId String
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id        String @id @default(cuid())
+  profileId String
+  roleId    String
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  role    Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, roleId])
+  @@map("user_roles")
+}
+
+model Workflow {
+  id        String @id @default(cuid())
+  tenantId  String
+  name      String
+  status    String @default("active")
+
+  tenant Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  steps  WorkflowStep[]
+  tasks  Task[]
+
+  @@map("workflows")
+}
+
+model WorkflowStep {
+  id         String @id @default(cuid())
+  workflowId String
+  name       String
+  orderIndex Int
+
+  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@map("workflow_steps")
+}
+
+model Task {
+  id         String   @id @default(cuid())
+  tenantId   String
+  workflowId String?
+  title      String
+  status     String   @default("open")
+  assigneeId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  workflow Workflow? @relation(fields: [workflowId], references: [id])
+
+  @@map("tasks")
+}
+
+model Approval {
+  id        String   @id @default(cuid())
+  tenantId  String
+  entityType String
+  entityId  String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("approvals")
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  tenantId  String
+  title     String
+  storageKey String?
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("documents")
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  configJson Json?
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+model HrEmployee {
+  id               String    @id @default(cuid())
+  tenantId         String
+  employeeNumber   String?
+  fullName         String
+  email            String
+  jobTitle         String?
+  departmentId     String?
+  employmentStatus String    @default("active")
+  hireDate         DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  department Department? @relation(fields: [departmentId], references: [id])
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@map("hr_employees")
+}
+
+model CrmAccount {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  industry  String?
+  website   String?
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant   Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  contacts CrmContact[]
+  salesOpportunities TenantSalesOpportunity[]
+
+  @@index([tenantId])
+  @@map("crm_accounts")
+}
+
+model CrmContact {
+  id        String   @id @default(cuid())
+  tenantId  String
+  accountId String?
+  fullName  String
+  email     String?
+  phone     String?
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant  Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  account CrmAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@map("crm_contacts")
+}
+
+/// Tenant-scoped sales quotes, orders, and B2B opportunities (CEM sales module).
+model TenantSalesOpportunity {
+  id            String   @id @default(cuid())
+  tenantId      String
+  crmAccountId  String?
+  referenceCode String?
+  title         String
+  kind          String   @default("opportunity")
+  status        String   @default("draft")
+  customerName  String?
+  amountSar     Int?
+  workflowName  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  crmAccount CrmAccount? @relation(fields: [crmAccountId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, referenceCode])
+  @@index([tenantId])
+  @@map("tenant_sales_opportunities")
+}
+
+/// Tenant-scoped stock items (CEM inventory module).
+model TenantInventoryItem {
+  id            String   @id @default(cuid())
+  tenantId      String
+  referenceCode String?
+  sku           String
+  name          String
+  category      String   @default("general")
+  qtyOnHand     Int      @default(0)
+  reorderLevel  Int      @default(0)
+  location      String?
+  status        String   @default("active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, referenceCode])
+  @@index([tenantId])
+  @@map("tenant_inventory_items")
+}
+
+/// Tenant-scoped warehouse zones, bins, and movement lanes (CEM warehouse module).
+model TenantWarehouseLocation {
+  id            String   @id @default(cuid())
+  tenantId      String
+  referenceCode String?
+  name          String
+  site          String
+  zone          String?
+  bin           String?
+  movementKind  String   @default("staging")
+  status        String   @default("active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, referenceCode])
+  @@index([tenantId])
+  @@map("tenant_warehouse_locations")
+}
+
+/// Tenant-scoped finance entries — invoices, payments, AR/AP (CEM finance module).
+model TenantFinanceEntry {
+  id              String   @id @default(cuid())
+  tenantId        String
+  referenceCode   String?
+  title           String
+  entryType       String   @default("invoice")
+  direction       String   @default("ar")
+  status          String   @default("open")
+  amountSar       Int?
+  customerName    String?
+  linkedReference String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, referenceCode])
+  @@index([tenantId])
+  @@map("tenant_finance_entries")
+}
+
+/// Tenant-scoped purchase requests (CEM procurement module, lite PR workflow).
+model TenantPurchaseRequest {
+  id                    String   @id @default(cuid())
+  tenantId              String
+  referenceCode         String?
+  title                 String
+  status                String   @default("draft")
+  priority              String   @default("normal")
+  amountSar             Int?
+  vendorName            String?
+  linkedInventoryRef    String?
+  linkedFinanceRef      String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, referenceCode])
+  @@index([tenantId])
+  @@map("tenant_purchase_requests")
+}
+
+// ─── 5. CyberCrow tables ─────────────────────────────────────────────────────
+
+model CybercrowAuditLog {
+  id         String   @id @default(cuid())
+  tenantId   String
+  actorId    String?
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@map("cybercrow_audit_logs")
+}
+
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  tenantId  String
+  eventType String
+  severity  String
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("security_events")
+}
+
+model LoginEvent {
+  id        String   @id @default(cuid())
+  tenantId  String
+  userId    String?
+  success   Boolean
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([tenantId, createdAt])
+  @@map("login_events")
+}
+
+model SessionEvent {
+  id        String   @id @default(cuid())
+  tenantId  String
+  sessionId String
+  eventType String
+  createdAt DateTime @default(now())
+
+  @@map("session_events")
+}
+
+model AccessAttempt {
+  id           String   @id @default(cuid())
+  tenantId     String
+  resourceKey  String
+  allowed      Boolean
+  createdAt    DateTime @default(now())
+
+  @@map("access_attempts")
+}
+
+model RiskScore {
+  id        String   @id @default(cuid())
+  tenantId  String
+  score     Float
+  factors   Json?
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("risk_scores")
+}
+
+model Incident {
+  id        String   @id @default(cuid())
+  tenantId  String
+  title     String
+  status    String   @default("open")
+  severity  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("incidents")
+}
+
+model ComplianceControl {
+  id          String @id @default(cuid())
+  tenantId    String
+  controlKey  String
+  status      String @default("not_assessed")
+
+  evidence ComplianceEvidence[]
+
+  @@unique([tenantId, controlKey])
+  @@map("compliance_controls")
+}
+
+model ComplianceEvidence {
+  id        String   @id @default(cuid())
+  controlId String
+  title     String
+  storageKey String?
+  createdAt DateTime @default(now())
+
+  control ComplianceControl @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@map("compliance_evidence")
+}
+
+model GrcFinding {
+  id        String   @id @default(cuid())
+  tenantId  String
+  title     String
+  status    String
+  createdAt DateTime @default(now())
+
+  @@map("grc_findings")
+}
+
+model DeviceTrustRecord {
+  id        String   @id @default(cuid())
+  tenantId  String
+  deviceId  String
+  trustLevel String
+  createdAt DateTime @default(now())
+
+  @@map("device_trust_records")
+}
+
+// ─── 6. SAREA tables ─────────────────────────────────────────────────────────
+
+model SareaExperienceProfile {
+  id          String @id @default(cuid())
+  tenantId    String?
+  name        String
+  personaKey  String
+  configJson  Json?
+
+  tenant              Tenant?              @relation(fields: [tenantId], references: [id])
+  roleExperienceMaps  RoleExperienceMap[]
+  dashboardLayouts    DashboardLayout[]
+  widgetRules         WidgetRule[]
+  navigationProfiles  NavigationProfile[]
+  deviceRules         DeviceExperienceRule[]
+  adaptiveRules       AdaptiveUiRule[]
+
+  @@map("sarea_experience_profiles")
+}
+
+model RoleExperienceMap {
+  id        String @id @default(cuid())
+  profileId String
+  roleSlug  String
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, roleSlug])
+  @@map("role_experience_maps")
+}
+
+model DashboardLayout {
+  id        String @id @default(cuid())
+  profileId String
+  name      String
+  layoutJson Json?
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("dashboard_layouts")
+}
+
+model WidgetRule {
+  id         String @id @default(cuid())
+  profileId  String
+  widgetKey  String
+  visibility String @default("visible")
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("widget_rules")
+}
+
+model NavigationProfile {
+  id         String @id @default(cuid())
+  profileId  String
+  configJson Json?
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("navigation_profiles")
+}
+
+model DeviceExperienceRule {
+  id         String @id @default(cuid())
+  profileId  String
+  deviceType String
+  rulesJson  Json?
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("device_experience_rules")
+}
+
+model AdaptiveUiRule {
+  id         String @id @default(cuid())
+  profileId  String
+  ruleKey    String
+  configJson Json?
+
+  profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, ruleKey])
+  @@map("adaptive_ui_rules")
+}
+
+// ─── 7. Subscription tables ──────────────────────────────────────────────────
+
+model SubscriptionPlan {
+  id              String  @id @default(cuid())
+  key             String  @unique
+  nameEn          String
+  nameAr          String
+  baseMonthlySar  Decimal @db.Decimal(12, 2)
+  descriptionEn   String?
+  descriptionAr   String?
+  isActive        Boolean @default(true)
+
+  tenantSubscriptions TenantSubscription[]
+  moduleLimits        ModuleLimit[]
+
+  @@map("subscription_plans")
+}
+
+model TenantSubscription {
+  id        String   @id @default(cuid())
+  tenantId  String   @unique
+  planId    String
+  status    String   @default("active")
+  startedAt DateTime @default(now())
+  endsAt    DateTime?
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+  billingRecords BillingRecord[]
+  usageMetrics   UsageMetric[]
+
+  @@map("tenant_subscriptions")
+}
+
+model ModuleLimit {
+  id        String @id @default(cuid())
+  planId    String
+  moduleKey String
+  maxUsers  Int?
+
+  plan SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, moduleKey])
+  @@map("module_limits")
+}
+
+model UsageMetric {
+  id             String   @id @default(cuid())
+  subscriptionId String
+  metricKey      String
+  value          Float
+  recordedAt     DateTime @default(now())
+
+  subscription TenantSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@map("usage_metrics")
+}
+
+model BillingRecord {
+  id             String   @id @default(cuid())
+  subscriptionId String
+  amountSar      Decimal  @db.Decimal(12, 2)
+  periodStart    DateTime
+  periodEnd      DateTime
+  status         String   @default("pending")
+  createdAt      DateTime @default(now())
+
+  subscription TenantSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@map("billing_records")
+}
+
+// ─── Platform notifications (Phase 6) ───────────────────────────────────────
+
+model PlatformNotification {
+  id             String   @id @default(cuid())
+  eventType      String
+  recipientEmail String
+  subject        String
+  body           String   @db.Text
+  status         String   @default("logged")
+  errorMessage   String?
+  metadata       Json?
+  createdAt      DateTime @default(now())
+
+  @@index([eventType, createdAt])
+  @@map("platform_notifications")
+}
+
+// ─── 8. Integration tables ───────────────────────────────────────────────────
+
+model IntegrationConnection {
+  id          String   @id @default(cuid())
+  tenantId    String?
+  providerKey String
+  status      String   @default("pending")
+  configJson  Json?
+  createdAt   DateTime @default(now())
+
+  @@map("integration_connections")
+}
+
+model IdentityProvider {
+  id          String @id @default(cuid())
+  tenantId    String
+  providerType String
+  name        String
+  isActive    Boolean @default(true)
+
+  ssoConfigs SsoConfig[]
+  entraConfigs EntraIdConfig[]
+
+  @@map("identity_providers")
+}
+
+model SsoConfig {
+  id         String @id @default(cuid())
+  providerId String
+  metadataUrl String?
+  configJson Json?
+
+  provider IdentityProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@map("sso_configs")
+}
+
+model EntraIdConfig {
+  id           String @id @default(cuid())
+  providerId   String
+  tenantIdAzure String
+  clientId     String
+  configJson   Json?
+
+  provider IdentityProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@map("entra_id_configs")
+}
+
+model SyncJob {
+  id          String   @id @default(cuid())
+  tenantId    String
+  jobType     String
+  status      String   @default("queued")
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  @@map("sync_jobs")
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  keyHash   String
+  scopes    String[]
+  createdAt DateTime @default(now())
+  expiresAt DateTime?
+
+  @@map("api_keys")
+}
+
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  tenantId    String?
+  eventType   String
+  payload     Json?
+  deliveredAt DateTime?
+  createdAt   DateTime @default(now())
+
+  @@map("webhook_events")
+}

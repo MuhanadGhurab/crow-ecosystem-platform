@@ -1,0 +1,78 @@
+{
+  "key": "logistics",
+  "label": "Logistics & supply chain",
+  "organization": {
+    "operatingModel": "multi_branch",
+    "employeeBand": "51-200",
+    "goLiveTarget": "90_days",
+    "discoveryNotes": "Logistics template: multi-branch fleet, warehouse ops, and NCA-aligned security baseline."
+  },
+  "moduleKeys": [
+    "logistics",
+    "warehouse",
+    "inventory",
+    "hr",
+    "crm",
+    "finance",
+    "approvals",
+    "bi"
+  ],
+  "securityPackageKeys": ["crow_sentinel"],
+  "departments": [
+    { "name": "Fleet operations", "nameAr": "عمليات الأسطول", "headcount": 45 },
+    { "name": "Warehouse & fulfillment", "nameAr": "المستودعات والتجهيز", "headcount": 60 },
+    { "name": "Customer service", "nameAr": "خدمة العملاء", "headcount": 25 },
+    { "name": "Finance & compliance", "nameAr": "المالية والامتثال", "headcount": 15 }
+  ],
+  "branches": [
+    { "name": "Riyadh HQ & hub", "city": "Riyadh", "region": "Central" },
+    { "name": "Jeddah port hub", "city": "Jeddah", "region": "Western" },
+    { "name": "Dammam eastern hub", "city": "Dammam", "region": "Eastern" }
+  ],
+  "roles": [
+    { "name": "Fleet manager", "level": "manager" },
+    { "name": "Warehouse supervisor", "level": "supervisor" },
+    { "name": "Dispatcher", "level": "operator" },
+    { "name": "Driver / field agent", "level": "frontline" },
+    { "name": "Finance controller", "level": "manager" }
+  ],
+  "workflows": [
+    {
+      "name": "Shipment dispatch approval",
+      "description": "Dispatcher submits route plan; fleet manager approves before release."
+    },
+    {
+      "name": "Warehouse goods receipt",
+      "description": "GRN capture, quality check, and inventory update."
+    },
+    {
+      "name": "Incident escalation (CyberCrow)",
+      "description": "Security or operational incident routed to compliance owner."
+    }
+  ],
+  "securityRequirements": [
+    { "requirement": "MFA for all admin and dispatcher accounts", "priority": "high" },
+    { "requirement": "Audit logging on shipment status changes", "priority": "high" },
+    { "requirement": "Role-based access to customer PII in CRM", "priority": "medium" },
+    { "requirement": "NCA ECC alignment for identity and access", "priority": "high" }
+  ],
+  "integrations": [
+    { "providerKey": "entra_id", "notes": "Corporate SSO for HQ and hub staff" },
+    { "providerKey": "sap", "notes": "Optional ERP for finance and inventory sync" },
+    { "providerKey": "google_maps", "notes": "Fleet routing and ETA for dispatch" }
+  ],
+  "experienceRequirements": [
+    { "personaKey": "executive", "requirement": "KPI dashboard: on-time delivery, fleet utilization, open incidents" },
+    { "personaKey": "manager", "requirement": "Branch ops view with approvals queue and team workload" },
+    { "personaKey": "frontline", "requirement": "Mobile-first dispatch list; minimal navigation; large touch targets" }
+  ],
+  "identity": {
+    "idpPreference": "entra_id",
+    "mfaRequired": "yes",
+    "ssoNotes": "Logistics template: Entra ID for HQ/hub; MFA mandatory for admins and dispatchers."
+  },
+  "security": {
+    "complianceNotes": "Fleet telematics and customer data subject to PDPL; segment warehouse vs CRM access.",
+    "ncaAlignment": "aligned"
+  }
+}

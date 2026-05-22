@@ -1,0 +1,222 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
+import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
+import { PageHeader } from "@/components/ui/page-header";
+import { StatCard } from "@/components/ui/stat-card";
+import { hasErpModule } from "@/lib/constants/erp-module-registry";
+import { LOGISTICS_SALES_SAMPLES } from "@/lib/erp/industry-packs/logistics";
+import { isUseMockData } from "@/lib/mock/env";
+import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { routes } from "@/lib/routes";
+import { getSalesSummary, listSalesOpportunities } from "@/lib/services/sales.service";
+import { getTenantBySlug } from "@/lib/services/tenant.service";
+
+const STATUS_CLASS: Record<string, string> = {
+  draft: "bg-slate-600/30 text-slate-300",
+  quoted: "bg-cyan-500/15 text-cyan-300",
+  negotiation: "bg-amber-500/15 text-amber-300",
+  won: "bg-teal-500/15 text-teal-300",
+  fulfilled: "bg-teal-500/15 text-teal-300",
+  lost: "bg-rose-500/15 text-rose-300",
+};
+
+const KIND_LABEL: Record<string, string> = {
+  quote: "Freight quote",
+  order: "Order / contract",
+  opportunity: "B2B opportunity",
+};
+
+function formatSar(amount: number) {
+  return new Intl.NumberFormat("en-SA", { maximumFractionDigits: 0 }).format(amount);
+}
+
+function isLogisticsIndustry(industry: string | null | undefined): boolean {
+  return industry === "logistics" || industry === "logistics_fulfillment";
+}
+
+export default async function SalesPage({
+  params,
+}: {
+  params: Promise<{ tenant: string }>;
+}) {
+  const { tenant: slug } = await params;
+  const tenant = await getTenantBySlug(slug);
+  if (!tenant) notFound();
+
+  const tenantModules = tenant.modules ?? [];
+  const showLogisticsHub =
+    isLogisticsIndustry(tenant.organization.industry) || slug === MEEM_TENANT_SLUG;
+  const useMockSales = isUseMockData() && slug === MEEM_TENANT_SLUG;
+  const hasSalesModule = hasErpModule(tenantModules, "sales");
+  const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
+
+  const [opportunities, summary] = useMockSales
+    ? [
+        LOGISTICS_SALES_SAMPLES.map((s, i) => ({
+          id: `mock-sales-${i}`,
+          tenantId: tenant.id,
+          crmAccountId: null,
+          referenceCode: s.referenceCode,
+          title: s.title,
+          kind: s.kind,
+          status: s.status,
+          customerName: s.customerName,
+          amountSar: s.amountSar,
+          workflowName: s.workflowName,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          crmAccount: null,
+        })),
+        {
+          total: LOGISTICS_SALES_SAMPLES.length,
+          quotes: LOGISTICS_SALES_SAMPLES.filter((s) => s.kind === "quote").length,
+          orders: LOGISTICS_SALES_SAMPLES.filter((s) => s.kind === "order").length,
+          pipelineSar: LOGISTICS_SALES_SAMPLES.filter(
+            (s) => s.status !== "won" && s.status !== "fulfilled"
+          ).reduce((n, s) => n + s.amountSar, 0),
+          wonSar: LOGISTICS_SALES_SAMPLES.filter(
+            (s) => s.status === "won" || s.status === "fulfilled"
+          ).reduce((n, s) => n + s.amountSar, 0),
+        },
+      ]
+    : await Promise.all([
+        listSalesOpportunities(tenant.id),
+        getSalesSummary(tenant.id),
+      ]);
+
+  const r = routes.tenant(slug);
+
+  return (
+    <div className="space-y-8">
+      <PageHeader
+        badge="CEM · Sales"
+        entity="cem"
+        title="Sales"
+        description={
+          showLogisticsHub
+            ? `Freight quotes, B2B deals, and shipment sales for ${tenant.organization.displayName}.`
+            : `Pipeline, quotes, and orders for ${tenant.organization.displayName}.`
+        }
+      />
+
+      {showLogisticsHub && (
+        <ErpModuleHub
+          slug={slug}
+          organizationName={tenant.organization.displayName}
+          moduleKey="sales"
+        />
+      )}
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Open pipeline"
+          value={`${formatSar(summary.pipelineSar)} SAR`}
+          entity="cem"
+          accent="cyan"
+          hint="Quoted & in negotiation"
+        />
+        <StatCard
+          label="Won / fulfilled"
+          value={`${formatSar(summary.wonSar)} SAR`}
+          entity="cem"
+          accent="teal"
+        />
+        <StatCard
+          label="Freight quotes"
+          value={summary.quotes}
+          entity="cem"
+          accent="cyan"
+        />
+        <StatCard
+          label="Orders & contracts"
+          value={summary.orders}
+          entity="cem"
+          accent="teal"
+          hint={`${summary.total} total lines`}
+        />
+      </section>
+
+      <section className="cc-glass-card">
+        <h3 className="font-display text-sm font-semibold text-cyan-400">
+          Quotes & orders ({opportunities.length})
+        </h3>
+        {opportunities.length === 0 ? (
+          <p className="mt-4 text-sm text-slate-500">
+            No sales records yet.
+            {hasSalesModule && (
+              <>
+                {" "}
+                Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
+                data when the sales module is enabled.
+              </>
+            )}
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {opportunities.map((row) => (
+              <li
+                key={row.id}
+                className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium text-white">{row.title}</p>
+                    {row.referenceCode && (
+                      <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-xs text-slate-500">
+                    {KIND_LABEL[row.kind] ?? row.kind}
+                    {row.customerName ? ` · ${row.customerName}` : ""}
+                    {row.crmAccount ? ` · ${row.crmAccount.name}` : ""}
+                  </p>
+                  {row.workflowName && (
+                    <p className="mt-1 text-xs text-slate-500">
+                      Workflow:{" "}
+                      <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
+                        {row.workflowName}
+                      </Link>
+                      {hasLogisticsModule && (
+                        <>
+                          {" "}
+                          ·{" "}
+                          <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
+                            Logistics
+                          </Link>
+                        </>
+                      )}
+                    </p>
+                  )}
+                  {row.amountSar != null && (
+                    <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
+                      {formatSar(row.amountSar)} SAR
+                    </p>
+                  )}
+                </div>
+                <span
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
+                    STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
+                  }`}
+                >
+                  {row.status.replace("_", " ")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <ErpChainLinks tenantSlug={slug} currentModule="sales" tenantModules={tenantModules} />
+
+      <div className="flex flex-wrap gap-3">
+        <Link href={r.crm} className="text-sm text-slate-400 hover:text-white">
+          CRM →
+        </Link>
+        <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
+          ← Dashboard
+        </Link>
+      </div>
+    </div>
+  );
+}

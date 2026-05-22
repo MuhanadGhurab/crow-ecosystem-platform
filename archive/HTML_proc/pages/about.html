@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — CyberCrow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+  </head>
+  <body data-page="about">
+    <div class="cc-noise" aria-hidden="true"></div>
+    <div class="cc-page">
+      <header class="cc-header">
+        <div class="cc-container cc-header__inner">
+          <a class="cc-brand" href="../index.html" aria-label="CyberCrow home">
+            <img
+              class="cc-brand__logo"
+              src="../assets/img/cybercrow.png"
+              alt=""
+              width="160"
+              height="40"
+            />
+            <span>CyberCrow</span>
+          </a>
+          <button
+            type="button"
+            class="cc-nav-toggle"
+            aria-expanded="false"
+            aria-controls="cc-primary-nav"
+            data-nav-toggle
+          >
+            Menu
+          </button>
+          <nav id="cc-primary-nav" class="cc-nav" data-nav>
+            <a href="../index.html"><span class="nav-icon" aria-hidden="true">🏠</span> Home</a>
+            <a href="request.html"><span class="nav-icon" aria-hidden="true">🧩</span> ERP request</a>
+            <a href="request.html#modules"><span class="nav-icon" aria-hidden="true">🧱</span> ERP modules</a>
+            <a href="request.html#security"><span class="nav-icon" aria-hidden="true">🛡️</span> Security layer</a>
+            <a href="request.html#plans"><span class="nav-icon" aria-hidden="true">💳</span> Plans</a>
+            <a href="dashboard.html"><span class="nav-icon" aria-hidden="true">📊</span> Client dashboard</a>
+            <a href="admin.html"><span class="nav-icon" aria-hidden="true">🧑‍💻</span> Admin</a>
+            <a href="about.html" aria-current="page"><span class="nav-icon" aria-hidden="true">🧭</span> About</a>
+            <div class="cc-nav-auth" data-nav-auth aria-label="Account"></div>
+          </nav>
+        </div>
+      </header>
+
+      <main class="cc-main cc-container cc-section">
+        <p class="cc-kicker"><span class="nav-icon" aria-hidden="true">🧭</span> Vision</p>
+        <h1 class="cc-title-xl"><span class="section-icon" aria-hidden="true">🛡️</span>About CyberCrow</h1>
+        <div class="cc-card cc-mt-lg">
+          <h2 class="cc-card__title"><span class="section-icon" aria-hidden="true">🔐</span>ERP secured from day one</h2>
+          <p class="cc-card__text cc-prose-wide">
+            CyberCrow treats cybersecurity as part of the ERP design—not a late
+            add-on. You move from configuration requests through CyberCrow
+            layers (Crow Shield, Crow Sentinel, Crow Fortress) into subscription
+            and operations with governance-friendly clarity.
+          </p>
+        </div>
+        <div class="cc-grid-3 cc-mt-lg">
+          <article class="cc-card">
+            <div class="cc-card__icon" aria-hidden="true">🔐</div>
+            <h3 class="cc-card__title">Why embed security?</h3>
+            <p class="cc-card__text">
+              Permissions, audit trails, and password policy shape the ERP
+              footprint. CyberCrow forces an explicit security choice in the
+              request path instead of hiding it in the last slide of a proposal.
+            </p>
+          </article>
+          <article class="cc-card">
+            <div class="cc-card__icon" aria-hidden="true">🏢</div>
+            <h3 class="cc-card__title">Who is this for?</h3>
+            <p class="cc-card__text">
+              Operations, IT, and finance teams that need a crisp ERP scope plus
+              a CyberCrow security tier aligned with risk and compliance
+              expectations.
+            </p>
+          </article>
+          <article class="cc-card">
+            <div class="cc-card__icon" aria-hidden="true">👤</div>
+            <h3 class="cc-card__title">Who builds it?</h3>
+            <p class="cc-card__text">
+              Muhanad Ghurab — CS/IT graduate with a security focus, working as
+              an IT specialist and building CyberCrow as a long-term product
+              brand.
+            </p>
+          </article>
+        </div>
+
+        <div class="cc-page-actions">
+          <a class="cc-btn cc-btn--primary" href="request.html"><span class="nav-icon" aria-hidden="true">🧩</span> Start ERP request</a>
+          <a class="cc-btn cc-btn--ghost" href="../index.html"><span class="nav-icon" aria-hidden="true">🏠</span> Back to home</a>
+        </div>
+      </main>
+
+      <footer class="cc-footer">
+        <div class="cc-container cc-footer__grid">
+          <p>© CyberCrow — secure ERP request platform.</p>
+          <p>Founder: Muhanad Ghurab — IT specialist, cybersecurity focus.</p>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/app.js"></script>
+  </body>
+</html>

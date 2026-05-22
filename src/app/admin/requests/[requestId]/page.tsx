@@ -1,0 +1,519 @@
+import Link from "next/link";
+
+import { notFound } from "next/navigation";
+
+import { PageHeader } from "@/components/ui/page-header";
+
+import { PromoteClientForm } from "@/components/admin/promote-client-form";
+import { RequestAdminActions } from "@/components/admin/request-admin-actions";
+
+import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+
+import { DeptChips } from "@/components/pipeline/dept-chips";
+
+import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
+
+import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
+
+import { moduleLabel, planLabel, securityPackageLabel } from "@/lib/catalog-labels";
+
+import { routes } from "@/lib/routes";
+
+import {
+
+  formatSar,
+
+  getRequestPricingEstimate,
+
+  proposalStatusLabel,
+
+} from "@/lib/services/commercial.service";
+
+import { getImplementationRequest } from "@/lib/services/implementation-request.service";
+
+import { isUseMockData } from "@/lib/mock/env";
+import { MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
+import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
+
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
+
+
+
+export default async function AdminRequestDetailPage({
+
+  params,
+
+}: {
+
+  params: Promise<{ requestId: string }>;
+
+}) {
+
+  const { requestId } = await params;
+
+  const mockRow = MOCK_PIPELINE_REQUESTS.find((m) => m.id === requestId);
+
+  let request = isUseMockData()
+    ? null
+    : await getImplementationRequest(requestId).catch(() => null);
+
+  let estimate =
+    request && !isUseMockData()
+      ? await getRequestPricingEstimate(requestId).catch(() => null)
+      : null;
+
+  if (isUseMockData()) {
+    if (!mockRow) notFound();
+    estimate = MOCK_PRICING_ESTIMATE;
+  } else if (!request && mockRow) {
+    estimate = MOCK_PRICING_ESTIMATE;
+  }
+
+
+
+  if (!request && !mockRow) {
+
+    notFound();
+
+  }
+
+
+
+  const status = (request?.status ?? mockRow!.status) as ImplementationRequestStatus;
+
+  const orgName = request?.organizationName ?? mockRow!.organizationName;
+
+  const refCode = request?.referenceCode ?? mockRow!.referenceCode;
+
+  const planKey = request?.requestedPlans[0]?.planKey ?? mockRow?.planKey;
+
+  const primaryContact = request?.contacts.find((c) => c.isPrimary) ?? request?.contacts[0];
+
+  const mockBlueprintId = mockRow?.blueprintId ?? null;
+  const blueprint =
+    request?.enterpriseBlueprint ??
+    (mockBlueprintId
+      ? {
+          id: mockBlueprintId,
+          proposalStatus: "SENT" as const,
+          proposalToken: MOCK_PROPOSAL_TOKEN,
+        }
+      : null);
+
+  const hasSecurity = (request?.requestedSecurityPkgs.length ?? 0) > 0 || mockRow?.hasSecurity;
+  const discoveryHref =
+    mockRow?.discoveryAvailable ? routes.discovery(requestId).organization : null;
+
+  const hasModules = (request?.requestedModules.length ?? 0) > 0 || mockRow?.hasModules;
+
+
+
+  return (
+
+    <div className="space-y-8">
+
+      <Link href={routes.admin.requests} className="text-sm text-cyan-400 hover:text-cyan-300">
+
+        ← All requests
+
+      </Link>
+
+
+
+      <PageHeader
+
+        badge="Implementation request"
+
+        title={orgName}
+
+        description={refCode}
+
+        actions={
+
+          <div className="flex flex-col items-end gap-2">
+
+            <RequestStatusBadge status={status} />
+
+            <DeptChips hasSecurity={hasSecurity} hasModules={hasModules} />
+
+            <a href="#commercial" className="text-xs text-cyan-400 hover:text-cyan-300">
+              Commercial estimate ↓
+            </a>
+
+          </div>
+
+        }
+
+      />
+
+
+
+      <LifecycleStrip status={status} />
+
+
+
+      <div className="grid gap-8 lg:grid-cols-[1fr_min(22rem,38%)] lg:items-start">
+
+        <div className="space-y-6">
+
+          {request && (
+
+            <section className="cc-glass-card">
+
+              <h3 className="text-sm font-medium text-cyan-400">Pipeline actions</h3>
+
+              <div className="mt-4">
+
+                <RequestAdminActions
+
+                  requestId={request.id}
+
+                  status={status}
+
+                  blueprintId={request.enterpriseBlueprint?.id ?? null}
+
+                  tenantSlug={request.enterpriseBlueprint?.tenant?.slug ?? null}
+
+                />
+
+              </div>
+
+            </section>
+
+          )}
+
+
+
+          <div className="grid gap-6 md:grid-cols-2">
+
+            <section className="cc-entity-block cc-entity-block--cem space-y-3">
+
+              <h3 className="text-sm font-medium text-cyan-400">Organization</h3>
+
+              {request ? (
+
+                <dl className="cc-meta-dl !border-0 !bg-transparent !p-0">
+
+                  <div>
+
+                    <dt>Name (EN)</dt>
+
+                    <dd>{request.organizationName}</dd>
+
+                  </div>
+
+                  {request.organizationNameAr && (
+
+                    <div>
+
+                      <dt>Name (AR)</dt>
+
+                      <dd dir="rtl">{request.organizationNameAr}</dd>
+
+                    </div>
+
+                  )}
+
+                  {request.industry && (
+
+                    <div>
+
+                      <dt>Industry</dt>
+
+                      <dd>{request.industry}</dd>
+
+                    </div>
+
+                  )}
+
+                  {request.employeeBand && (
+
+                    <div>
+
+                      <dt>Employees</dt>
+
+                      <dd>{request.employeeBand}</dd>
+
+                    </div>
+
+                  )}
+
+                  <div>
+
+                    <dt>Country</dt>
+
+                    <dd>{request.countryCode}</dd>
+
+                  </div>
+
+                </dl>
+
+              ) : (
+
+                <p className="text-sm text-slate-400">Demo record — connect database for full org metadata.</p>
+
+              )}
+
+            </section>
+
+
+
+            <section className="cc-glass-card space-y-3">
+
+              <h3 className="text-sm font-medium text-cyan-400">Contact</h3>
+
+              {primaryContact ? (
+
+                <dl className="cc-meta-dl !border-0 !bg-transparent !p-0">
+
+                  <div>
+
+                    <dt>Name</dt>
+
+                    <dd>{primaryContact.fullName}</dd>
+
+                  </div>
+
+                  <div>
+
+                    <dt>Email</dt>
+
+                    <dd className="text-cyan-300">{primaryContact.email}</dd>
+
+                  </div>
+
+                  {primaryContact.phone && (
+
+                    <div>
+
+                      <dt>Phone</dt>
+
+                      <dd>{primaryContact.phone}</dd>
+
+                    </div>
+
+                  )}
+
+                </dl>
+
+              ) : (
+
+                <p className="text-sm text-slate-500">No contact on file.</p>
+
+              )}
+
+            </section>
+
+            {request?.enterpriseBlueprint?.tenant && primaryContact?.email && (
+              <section className="cc-glass-card">
+                <h3 className="text-sm font-medium text-teal-400">Client → tenant</h3>
+                <div className="mt-4">
+                  <PromoteClientForm
+                    tenantId={request.enterpriseBlueprint.tenant.id}
+                    tenantSlug={request.enterpriseBlueprint.tenant.slug}
+                    contactEmail={primaryContact.email}
+                  />
+                </div>
+              </section>
+            )}
+
+          </div>
+
+
+
+          <section className="cc-entity-block cc-entity-block--cem space-y-3">
+
+            <h3 className="text-sm font-medium text-cyan-400">CEM · Plan & modules</h3>
+
+            <p className="text-sm text-white">
+
+              Plan: <span className="text-cyan-300">{planKey ? planLabel(planKey) : "—"}</span>
+
+            </p>
+
+            {request && (
+
+              <ul className="mt-2 space-y-1 text-sm text-slate-300">
+
+                {request.requestedModules.length === 0 ? (
+
+                  <li className="text-slate-500">None selected</li>
+
+                ) : (
+
+                  request.requestedModules.map((m) => (
+
+                    <li key={m.id}>{moduleLabel(m.moduleKey)}</li>
+
+                  ))
+
+                )}
+
+              </ul>
+
+            )}
+
+          </section>
+
+
+
+          <section className="cc-entity-block cc-entity-block--cybercrow space-y-3">
+
+            <h3 className="text-sm font-medium text-violet-300">CyberCrow · Security</h3>
+
+            {request ? (
+
+              <ul className="space-y-1 text-sm text-slate-300">
+
+                {request.requestedSecurityPkgs.length === 0 ? (
+
+                  <li className="text-slate-500">None selected</li>
+
+                ) : (
+
+                  request.requestedSecurityPkgs.map((p) => (
+
+                    <li key={p.id}>{securityPackageLabel(p.packageKey)}</li>
+
+                  ))
+
+                )}
+
+              </ul>
+
+            ) : (
+
+              <p className="text-sm text-violet-200/80">Shield + Sentinel (demo)</p>
+
+            )}
+
+          </section>
+
+
+
+          {request?.notes && (
+
+            <section className="cc-glass-card">
+
+              <h3 className="text-sm font-medium text-cyan-400">Notes</h3>
+
+              <p className="mt-2 text-sm text-slate-300">{request.notes}</p>
+
+            </section>
+
+          )}
+
+
+
+          {(request || mockRow) && (
+            <section className="cc-glass-card space-y-2 text-sm text-slate-500">
+              {request && <p>Submitted {request.createdAt.toLocaleString()}</p>}
+              {discoveryHref && (
+                <p>
+                  <Link href={discoveryHref} className="text-cyan-400 hover:text-cyan-300">
+                    Open discovery workspace →
+                  </Link>
+                </p>
+              )}
+              {mockBlueprintId && (
+                <p>
+                  <Link
+                    href={routes.blueprint(mockBlueprintId).overview}
+                    className="text-cyan-400 hover:text-cyan-300"
+                  >
+                    Open blueprint overview →
+                  </Link>
+                  {" · "}
+                  <Link
+                    href={routes.blueprint(mockBlueprintId).pricing}
+                    className="text-violet-300/90 hover:text-violet-200"
+                  >
+                    Pricing tab
+                  </Link>
+                </p>
+              )}
+            </section>
+          )}
+
+        </div>
+
+
+
+        <div id="commercial" className="space-y-4 scroll-mt-24">
+
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Commercial estimate</p>
+
+          {estimate ? (
+
+            <PricingHeroPanel
+
+              breakdown={estimate}
+
+              storedTotal={
+
+                request?.estimatedMonthlySar ? Number(request.estimatedMonthlySar) : mockRow?.estimatedMonthlySar
+
+              }
+
+              proposalStatusLabel={
+
+                blueprint ? proposalStatusLabel(blueprint.proposalStatus) : undefined
+
+              }
+
+            />
+
+          ) : (
+
+            <section className="cc-pricing-panel">
+
+              <p className="text-sm text-slate-400">Pricing estimate unavailable.</p>
+
+            </section>
+
+          )}
+
+
+
+          {blueprint?.proposalToken && (
+
+            <p className="text-center text-xs text-slate-500">
+
+              <a
+
+                href={`/proposal/${blueprint.proposalToken}`}
+
+                className="text-cyan-400 hover:text-cyan-300"
+
+              >
+
+                Open client proposal →
+
+              </a>
+
+            </p>
+
+          )}
+
+
+
+          {estimate && !blueprint && (
+
+            <p className="text-center text-xs text-slate-500">
+
+              Estimated {formatSar(estimate.totalMonthlySar)}/mo from request selections
+
+            </p>
+
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+

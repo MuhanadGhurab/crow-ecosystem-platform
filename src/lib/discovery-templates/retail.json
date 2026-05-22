@@ -1,0 +1,62 @@
+{
+  "key": "retail",
+  "label": "Retail",
+  "organization": {
+    "operatingModel": "multi_branch",
+    "employeeBand": "51-200",
+    "goLiveTarget": "60_days",
+    "discoveryNotes": "Retail template: stores, e-commerce, inventory, and customer loyalty baseline."
+  },
+  "moduleKeys": ["sales", "crm", "inventory", "hr", "finance", "bi", "approvals"],
+  "securityPackageKeys": ["crow_shield"],
+  "departments": [
+    { "name": "Store operations", "nameAr": "عمليات المتاجر", "headcount": 80 },
+    { "name": "E-commerce", "nameAr": "التجارة الإلكترونية", "headcount": 20 },
+    { "name": "Merchandising", "nameAr": "التسويق والمنتجات", "headcount": 15 },
+    { "name": "Finance", "nameAr": "المالية", "headcount": 12 }
+  ],
+  "branches": [
+    { "name": "Flagship store — Riyadh", "city": "Riyadh", "region": "Central" },
+    { "name": "Mall branch — Jeddah", "city": "Jeddah", "region": "Western" },
+    { "name": "Regional DC — Dammam", "city": "Dammam", "region": "Eastern" }
+  ],
+  "roles": [
+    { "name": "Store manager", "level": "manager" },
+    { "name": "Sales associate", "level": "frontline" },
+    { "name": "Inventory controller", "level": "supervisor" },
+    { "name": "E-commerce lead", "level": "manager" }
+  ],
+  "workflows": [
+    {
+      "name": "Purchase order approval",
+      "description": "Store manager submits PO; finance approves above threshold."
+    },
+    {
+      "name": "Stock transfer between branches",
+      "description": "Inter-store inventory transfer with audit trail."
+    }
+  ],
+  "securityRequirements": [
+    { "requirement": "POS and back-office role separation", "priority": "high" },
+    { "requirement": "PCI-aware handling for payment data (policy)", "priority": "high" },
+    { "requirement": "Audit on price and discount changes", "priority": "medium" }
+  ],
+  "integrations": [
+    { "providerKey": "entra_id", "notes": "Staff SSO for HQ and store back-office" },
+    { "providerKey": "shopify", "notes": "Optional e-commerce catalog sync" }
+  ],
+  "experienceRequirements": [
+    { "personaKey": "executive", "requirement": "Sales KPIs, margin, stock-outs by region" },
+    { "personaKey": "manager", "requirement": "Store dashboard with approvals and staff schedule" },
+    { "personaKey": "frontline", "requirement": "Simple POS-adjacent task list; minimal nav" }
+  ],
+  "identity": {
+    "idpPreference": "supabase_email",
+    "mfaRequired": "yes",
+    "ssoNotes": "Retail template: MFA for managers; store associates via managed accounts."
+  },
+  "security": {
+    "complianceNotes": "Customer PII in CRM; segment store staff from finance roles.",
+    "ncaAlignment": "aligned"
+  }
+}

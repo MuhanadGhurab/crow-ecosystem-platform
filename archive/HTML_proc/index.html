@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberCrow — Secure ERP request platform</title>
+    <meta
+      name="description"
+      content="CyberCrow helps organizations request, configure, and subscribe to ERP systems with tiered CyberCrow security layers."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+  </head>
+  <body data-page="home">
+    <div class="cc-noise" aria-hidden="true"></div>
+    <div class="cc-page">
+      <header class="cc-header">
+        <div class="cc-container cc-header__inner">
+          <a class="cc-brand" href="index.html" aria-label="CyberCrow home">
+            <img
+              class="cc-brand__logo"
+              src="assets/img/cybercrow.png"
+              alt=""
+              width="160"
+              height="40"
+            />
+            <span>CyberCrow</span>
+          </a>
+          <button
+            type="button"
+            class="cc-nav-toggle"
+            aria-expanded="false"
+            aria-controls="cc-primary-nav"
+            data-nav-toggle
+          >
+            Menu
+          </button>
+          <nav id="cc-primary-nav" class="cc-nav" data-nav>
+            <a href="index.html" aria-current="page"><span class="nav-icon" aria-hidden="true">🏠</span> Home</a>
+            <a href="pages/request.html"><span class="nav-icon" aria-hidden="true">🧩</span> ERP request</a>
+            <a href="pages/request.html#modules"><span class="nav-icon" aria-hidden="true">🧱</span> ERP modules</a>
+            <a href="pages/request.html#security"><span class="nav-icon" aria-hidden="true">🛡️</span> Security layer</a>
+            <a href="pages/request.html#plans"><span class="nav-icon" aria-hidden="true">💳</span> Plans</a>
+            <a href="pages/dashboard.html"><span class="nav-icon" aria-hidden="true">📊</span> Client dashboard</a>
+            <a href="pages/admin.html"><span class="nav-icon" aria-hidden="true">🧑‍💻</span> Admin</a>
+            <a href="pages/about.html"><span class="nav-icon" aria-hidden="true">🧭</span> About</a>
+            <div class="cc-nav-auth" data-nav-auth aria-label="Account"></div>
+          </nav>
+        </div>
+      </header>
+
+      <main class="cc-main">
+        <section class="cc-hero cc-container">
+          <div class="cc-hero__content">
+            <p class="cc-kicker"><span class="nav-icon" aria-hidden="true">🛡️</span> Secure ERP from design to operations</p>
+            <h1 class="cc-title-xl">
+              Request a secured ERP stack that fits how you work
+            </h1>
+            <p class="cc-lead">
+              CyberCrow is an enterprise-style front door for configuring ERP
+              scope, activating CyberCrow security tiers, and estimating SAR
+              subscription cost—before you connect a real backend.
+            </p>
+            <div class="cc-hero__actions">
+              <a class="cc-btn cc-btn--primary" href="pages/request.html">
+                <span class="nav-icon" aria-hidden="true">🧩</span> Start ERP request
+              </a>
+              <a class="cc-btn cc-btn--ghost" href="pages/about.html">
+                <span class="nav-icon" aria-hidden="true">🧭</span> Read the vision
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="cc-section cc-container">
+          <p class="cc-kicker"><span class="nav-icon" aria-hidden="true">🛡️</span> Why CyberCrow</p>
+          <h2 class="cc-title-lg">
+            <span class="section-icon" aria-hidden="true">🔐</span>Cybersecurity embedded in the ERP request path
+          </h2>
+          <p class="cc-lead cc-lead--spaced">
+            Security is not a slide at the end of the deck—you choose ERP
+            modules, a CyberCrow layer (Crow Shield / Crow Sentinel / Crow
+            Fortress), and a plan, with transparent review before submit.
+          </p>
+          <div class="cc-grid-3">
+            <article class="cc-card">
+              <div class="cc-card__icon" aria-hidden="true">📋</div>
+              <h3 class="cc-card__title">Structured enterprise request</h3>
+              <p class="cc-card__text">
+                Company profile, industry, timeline, and operational notes so
+                CyberCrow can interpret scope without guesswork.
+              </p>
+            </article>
+            <article class="cc-card">
+              <div class="cc-card__icon" aria-hidden="true">🧩</div>
+              <h3 class="cc-card__title">Selectable ERP modules</h3>
+              <p class="cc-card__text">
+                Pick only what you need—identity, finance, CRM, inventory, and
+                more—with a monthly estimate that updates as you go.
+              </p>
+            </article>
+            <article class="cc-card">
+              <div class="cc-card__icon" aria-hidden="true">🛡️</div>
+              <h3 class="cc-card__title">CyberCrow security layers</h3>
+              <p class="cc-card__text">
+                Match governance and risk: baseline controls through enterprise
+                incident workflows and compliance-oriented evidence.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="cc-footer">
+        <div class="cc-container cc-footer__grid">
+          <p>© CyberCrow — secure ERP request platform.</p>
+          <p>Founder: Muhanad Ghurab — IT specialist, cybersecurity focus.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="assets/js/auth.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
+  </body>
+</html>

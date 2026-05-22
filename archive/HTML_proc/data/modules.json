@@ -1,0 +1,98 @@
+[
+  {
+    "id": "iam",
+    "name_en": "Identity & access management",
+    "name_ar": "إدارة الهوية والمستخدمين",
+    "slug": "identity-users",
+    "icon": "👤",
+    "monthly_addon_sar": 199
+  },
+  {
+    "id": "hr",
+    "name_en": "Human resources",
+    "name_ar": "الموارد البشرية",
+    "slug": "hr",
+    "icon": "🧑‍💼",
+    "monthly_addon_sar": 249
+  },
+  {
+    "id": "finance",
+    "name_en": "Finance & accounting",
+    "name_ar": "المالية والمحاسبة",
+    "slug": "finance",
+    "icon": "💳",
+    "monthly_addon_sar": 349
+  },
+  {
+    "id": "inventory",
+    "name_en": "Inventory & warehousing",
+    "name_ar": "المخزون والمستودعات",
+    "slug": "inventory",
+    "icon": "📦",
+    "monthly_addon_sar": 279
+  },
+  {
+    "id": "procurement",
+    "name_en": "Procurement",
+    "name_ar": "المشتريات",
+    "slug": "procurement",
+    "icon": "🧾",
+    "monthly_addon_sar": 229
+  },
+  {
+    "id": "projects",
+    "name_en": "Project management",
+    "name_ar": "إدارة المشاريع",
+    "slug": "projects",
+    "icon": "🏗️",
+    "monthly_addon_sar": 259
+  },
+  {
+    "id": "crm",
+    "name_en": "CRM",
+    "name_ar": "إدارة العملاء CRM",
+    "slug": "crm",
+    "icon": "🤝",
+    "monthly_addon_sar": 289
+  },
+  {
+    "id": "bi",
+    "name_en": "Reporting & dashboards",
+    "name_ar": "التقارير ولوحات المؤشرات",
+    "slug": "bi",
+    "icon": "📊",
+    "monthly_addon_sar": 319
+  },
+  {
+    "id": "audit_logs",
+    "name_en": "Audit logs",
+    "name_ar": "سجلات التدقيق",
+    "slug": "audit-logs",
+    "icon": "🛡️",
+    "monthly_addon_sar": 199
+  },
+  {
+    "id": "assets",
+    "name_en": "Asset management",
+    "name_ar": "إدارة الأصول",
+    "slug": "assets",
+    "icon": "🖥️",
+    "monthly_addon_sar": 219
+  },
+  {
+    "id": "documents",
+    "name_en": "Document management",
+    "name_ar": "إدارة المستندات",
+    "slug": "documents",
+    "icon": "📁",
+    "monthly_addon_sar": 189
+  },
+  {
+    "id": "approvals",
+    "name_en": "Approval workflows",
+    "name_ar": "مسارات الموافقة",
+    "slug": "approvals",
+    "icon": "✅",
+    "monthly_addon_sar": 239
+  }
+]

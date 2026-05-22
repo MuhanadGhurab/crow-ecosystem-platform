@@ -1,0 +1,71 @@
+{
+  "key": "healthcare",
+  "label": "Healthcare",
+  "organization": {
+    "operatingModel": "multi_branch",
+    "employeeBand": "201-500",
+    "goLiveTarget": "120_days",
+    "discoveryNotes": "Healthcare template: hospitals/clinics, clinical workflows, PHI-aware security, and NCA-aligned identity baseline."
+  },
+  "moduleKeys": ["hr", "crm", "finance", "documents", "approvals", "bi", "iam"],
+  "securityPackageKeys": ["crow_fortress"],
+  "departments": [
+    { "name": "Clinical operations", "nameAr": "العمليات السريرية", "headcount": 120 },
+    { "name": "Nursing", "nameAr": "التمريض", "headcount": 200 },
+    { "name": "Administration & billing", "nameAr": "الإدارة والفوترة", "headcount": 45 },
+    { "name": "Pharmacy", "nameAr": "الصيدلية", "headcount": 30 },
+    { "name": "IT & security", "nameAr": "تقنية المعلومات والأمن", "headcount": 25 }
+  ],
+  "branches": [
+    { "name": "Main hospital — Riyadh", "city": "Riyadh", "region": "Central" },
+    { "name": "Outpatient clinic — Jeddah", "city": "Jeddah", "region": "Western" },
+    { "name": "Diagnostic center — Dammam", "city": "Dammam", "region": "Eastern" }
+  ],
+  "roles": [
+    { "name": "Chief medical officer", "level": "executive" },
+    { "name": "Department head", "level": "manager" },
+    { "name": "Registered nurse", "level": "frontline" },
+    { "name": "Reception / patient access", "level": "frontline" },
+    { "name": "Billing specialist", "level": "operator" },
+    { "name": "Compliance officer", "level": "manager" }
+  ],
+  "workflows": [
+    {
+      "name": "Patient admission & registration",
+      "description": "Reception captures demographics; clinical record opened with role-based access."
+    },
+    {
+      "name": "Clinical order approval",
+      "description": "Orders above scope require department head sign-off; full audit trail."
+    },
+    {
+      "name": "Security incident (CyberCrow)",
+      "description": "PHI access anomaly or breach routed to compliance and CISO workflow."
+    }
+  ],
+  "securityRequirements": [
+    { "requirement": "MFA for all clinical and admin privileged accounts", "priority": "high" },
+    { "requirement": "Role-based access to patient identifiers (PDPL / PHI policy)", "priority": "high" },
+    { "requirement": "Audit logging on record view and export", "priority": "high" },
+    { "requirement": "NCA ECC alignment for identity and access management", "priority": "high" },
+    { "requirement": "Session timeout on shared clinical workstations", "priority": "medium" }
+  ],
+  "integrations": [
+    { "providerKey": "entra_id", "notes": "SSO for hospital staff; conditional access for clinical VLAN" },
+    { "providerKey": "sap", "notes": "Optional ERP for finance and supply (medical consumables)" }
+  ],
+  "experienceRequirements": [
+    { "personaKey": "executive", "requirement": "Occupancy, revenue cycle, open incidents, compliance posture KPIs" },
+    { "personaKey": "manager", "requirement": "Department workload, pending approvals, staffing overview" },
+    { "personaKey": "frontline", "requirement": "Task-focused UI; minimal PHI on screen; fast handoff between shifts" }
+  ],
+  "identity": {
+    "idpPreference": "entra_id",
+    "mfaRequired": "yes",
+    "ssoNotes": "Healthcare template: Entra ID + MFA mandatory for clinical and billing admins; break-glass procedure documented."
+  },
+  "security": {
+    "complianceNotes": "Patient data under PDPL; segregate clinical, billing, and HR datasets; no PHI in non-production environments.",
+    "ncaAlignment": "aligned"
+  }
+}

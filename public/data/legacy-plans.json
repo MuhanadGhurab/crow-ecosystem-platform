@@ -1,0 +1,29 @@
+[
+  {
+    "id": "starter",
+    "name_en": "Starter",
+    "name_ar": "البداية",
+    "icon": "🌱",
+    "base_monthly_sar": 1499,
+    "description_en": "Small teams with straightforward ERP requirements.",
+    "description_ar": "للفرق الصغيرة وبساطة متطلبات الـ ERP."
+  },
+  {
+    "id": "growth",
+    "name_en": "Growth",
+    "name_ar": "النمو",
+    "icon": "🚀",
+    "base_monthly_sar": 3499,
+    "description_en": "Growing companies that need more modules, reporting, and stronger security.",
+    "description_ar": "للشركات النامية التي تحتاج المزيد من الوحدات والتقارير وأمانًا أقوى."
+  },
+  {
+    "id": "enterprise",
+    "name_en": "Enterprise",
+    "name_ar": "المؤسسات",
+    "icon": "🏢",
+    "base_monthly_sar": 7999,
+    "description_en": "Large organizations with advanced workflows, tailored security, and priority support.",
+    "description_ar": "للمؤسسات الكبيرة مع مسارات عمل متقدمة وأمن مخصص ودعم ذي أولوية."
+  }
+]
