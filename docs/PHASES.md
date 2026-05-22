@@ -292,9 +292,9 @@
 
 | Item | Status |
 |------|--------|
-| Vercel project + `NEXT_PUBLIC_SITE_URL` | [ ] |
+| Vercel project + `NEXT_PUBLIC_SITE_URL` | [~] `vercel.json` + M7 doc |
 | Supabase production Postgres (`DATABASE_URL` pooler + `DIRECT_URL`) | [ ] |
-| `npx prisma migrate deploy` in CI/CD | [ ] |
+| `npx prisma migrate deploy` in CI/CD | [x] CI `postgres-smoke` + Vercel buildCommand |
 | Supabase Auth production keys (anon + service role server-only) | [ ] |
 | Entra app registration — prod redirect URIs | [ ] |
 | `AZURE_SSO_ENABLED=true` on production | [ ] |
@@ -317,8 +317,8 @@ See [`MILESTONES.md`](MILESTONES.md) for the executive map. Summary:
 | M3 Modular ERP (E1–E9) | ~92% | Muhanad |
 | M4 CyberCrow ops (E10 + dashboard/GRC/auditor) | 100% | Muhanad |
 | M5 MEEM SAREA acceptance | ~25% | MEEM (Omar) |
-| M6 Auth & SaaS prep | ~45% | Muhanad |
-| M7 Cloud & production | ~5% | Muhanad (when ready) |
+| M6 Auth & SaaS prep | ~65% | Muhanad |
+| M7 Cloud & production | ~20% | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) |
 | M8 Paid / full MEEM ERP | deferred | Product |
 
 ---

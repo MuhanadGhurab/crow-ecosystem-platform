@@ -16,7 +16,7 @@
 | **M4** | CyberCrow operations | 6, E10 | Muhanad | **100%** | Done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | **M5** | MEEM SAREA acceptance | 7, E11 | **MEEM (Omar)** · Muhanad (hooks) | **~25%** | Customer acceptance — not Crow dev |
 | **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~65%** | Prod auth guard; CI Postgres smoke; dept chips |
-| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~5%** | Documented; deploy deferred |
+| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~20%** | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) + `vercel.json`; deploy when ready |
 | **M8** | Paid customer / full MEEM ERP | Post-revenue | Product | **deferred** | Until paying / SaaS commitment |
 
 ---
@@ -101,9 +101,16 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 
 ## M7 — Cloud & production
 
-**Scope:** Vercel, Supabase prod, Entra prod redirects, Resend, `prisma migrate deploy` in CI.
+**Scope:** Vercel, Supabase prod, Entra prod redirects, Resend, `prisma migrate deploy` in deploy pipeline.
 
-**Deferred by design** until first paying customer or explicit go-live date. Notification **logging** works; **send** requires `RESEND_API_KEY` ([`PHASES.md`](PHASES.md) § Phase Cloud).
+| Done | Open |
+|------|------|
+| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) — env matrix, steps | Live Vercel project + prod env vars |
+| `vercel.json` — generate + migrate + build | Custom domain |
+| CI `postgres-smoke` on GitHub | Entra prod redirect URIs |
+| | `RESEND_API_KEY` when email required |
+
+**Deferred by design** until first paying customer or explicit go-live date. Notification **logging** works; **send** requires `RESEND_API_KEY`.
 
 ---
 

@@ -12,6 +12,8 @@
 | [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | MEEM live rehearsal script (deferred) |
 | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 CyberCrow ops rehearsal (~10 min) |
 | [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) | Auth hardening, migrate deploy, `app_metadata` |
+| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) | Vercel + Supabase production deploy |
+| [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | GitHub repo + CI jobs |
 
 **North star:** [`ARCHITECTURE_DIAGRAM.md`](ARCHITECTURE_DIAGRAM.md) · [`CORE_PRODUCT_FLOW.md`](CORE_PRODUCT_FLOW.md)
 

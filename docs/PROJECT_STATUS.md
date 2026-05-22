@@ -31,7 +31,7 @@
 | M4 CyberCrow operations | 100% | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | M5 MEEM SAREA acceptance | ~25% | Omar (customer) |
 | M6 Auth & SaaS prep | ~65% | CI Postgres smoke + migrate deploy in Actions |
-| M7 Cloud & production | ~5% | Resend deferred |
+| M7 Cloud & production | ~20% | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) + `vercel.json` |
 | M8 Paid / full MEEM ERP | deferred | Until revenue |
 
 ---
@@ -54,7 +54,7 @@
 | **8** | Auth & roles | **60%** | `AUTH_DISABLED` prod guard; dept chips from request data |
 | **9** | Postgres & demo hardening | **35%** | migrate deploy doc; smoke script ready |
 | **10** | Marketing & launch | **35%** | Portal live; Stripe/email/SEO pending |
-| **Cloud** | Vercel + Supabase prod + Entra prod | **5%** | Documented in PHASES § Phase Cloud |
+| **Cloud** | Vercel + Supabase prod + Entra prod | **20%** | M7 deploy guide; live Vercel pending |
 
 ---
 
@@ -84,7 +84,7 @@
 2. **Postgres hardening (M6)** — `smoke:phase1` on clean DB in CI; optional Postgres service in GitHub Actions (Muhanad).
 3. **M4 (done)** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) + `npm run rehearsal:m4` (Muhanad).
 4. **SAREA handoff (M5)** — Share [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) with Omar for MEEM dashboard acceptance.
-5. **Phase Cloud (M7)** — Vercel + Supabase env matrix when customer go-live date is set (Muhanad).
+5. **Phase Cloud (M7)** — Import repo to Vercel; set prod env per [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) (Muhanad).
 
 ---
 
