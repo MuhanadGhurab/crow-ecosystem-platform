@@ -123,6 +123,7 @@ Add `.vercel/` to git (ignored). Never commit `.env.vercel.local`.
 
 | Issue | Fix |
 |-------|-----|
+| Log shows `at "localhost:5432"` during build | **You pasted local `.env` on Vercel.** Replace `DATABASE_URL` / `DIRECT_URL` with **Supabase pooler** URLs (not `localhost`). |
 | Build fails at `migrate deploy` | Set `DATABASE_URL` + `DIRECT_URL` on Vercel; check Supabase password |
 | `db: unreachable` on health | Pooler URL wrong or IP banned — use Supabase pooler not localhost |
 | Auth callback error | `NEXT_PUBLIC_SITE_URL` + Supabase redirect URL must match |
