@@ -146,6 +146,30 @@ export default async function AdminOverviewPage() {
         </div>
       </section>
 
+      <section className="cc-glass-card !p-6 border border-teal-500/15">
+        <h2 className="font-display text-sm font-semibold text-white">Cloud & SaaS (M7 / M8)</h2>
+        <p className="mt-2 text-sm text-slate-400">
+          Production deploy and paying-customer onboarding — MEEM stays lighthouse; customer #2+ uses
+          blueprint provision.
+        </p>
+        <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+          <li>
+            <a href="/api/health" className="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noreferrer">
+              API health →
+            </a>
+            <span className="text-slate-500"> · deployReady flag</span>
+          </li>
+          <li>
+            <a href="/api/billing/status" className="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noreferrer">
+              Billing status →
+            </a>
+          </li>
+        </ul>
+        <p className="mt-4 text-xs text-slate-500">
+          Docs: M7_CLOUD_DEPLOY.md · M8_SAAS_CUSTOMER.md · npm run deploy:check · npm run onboard:tenant
+        </p>
+      </section>
+
       <section className="cc-glass-card !p-6">
         <h2 className="font-display text-sm font-semibold text-white">Lifecycle</h2>
         <ol className="mt-4 grid gap-2 sm:grid-cols-2">

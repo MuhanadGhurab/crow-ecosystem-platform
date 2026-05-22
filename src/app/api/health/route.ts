@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { isStripeConfigured } from "@/lib/billing/env";
 import { isUseMockData } from "@/lib/mock/env";
 import { isAuthDisabled, isSupabaseAuthConfigured } from "@/lib/supabase/env";
 
@@ -21,10 +22,24 @@ export async function GET() {
       ? "configured"
       : "not_configured";
 
+  const isProduction = process.env.NODE_ENV === "production";
+  const productionBlocked =
+    isProduction && (isAuthDisabled() || isUseMockData());
+  const deployReady =
+    db === "ok" &&
+    auth === "configured" &&
+    !isUseMockData() &&
+    !isAuthDisabled() &&
+    Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim());
+
   return NextResponse.json({
-    ok: true,
+    ok: db === "ok" && !productionBlocked,
     db,
     auth,
     mockData: isUseMockData(),
+    deployReady,
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? null,
+    stripeConfigured: isStripeConfigured(),
+    productionBlocked: productionBlocked || undefined,
   });
 }

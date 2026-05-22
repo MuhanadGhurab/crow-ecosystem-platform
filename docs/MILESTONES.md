@@ -16,8 +16,8 @@
 | **M4** | CyberCrow operations | 6, E10 | Muhanad | **100%** | Done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | **M5** | MEEM SAREA acceptance | 7, E11 | **MEEM (Omar)** · Muhanad (hooks) | **~25%** | Customer acceptance — not Crow dev |
 | **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~65%** | Prod auth guard; CI Postgres smoke; dept chips |
-| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~20%** | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) + `vercel.json`; deploy when ready |
-| **M8** | Paid customer / full MEEM ERP | Post-revenue | Product | **deferred** | Until paying / SaaS commitment |
+| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~45%** | Deploy guide + `deploy:check`; live Vercel pending |
+| **M8** | Paid customer / SaaS | 10, billing | Muhanad | **~35%** | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) + `onboard:tenant` |
 
 ---
 
@@ -107,16 +107,29 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 |------|------|
 | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) — env matrix, steps | Live Vercel project + prod env vars |
 | `vercel.json` — generate + migrate + build | Custom domain |
-| CI `postgres-smoke` on GitHub | Entra prod redirect URIs |
-| | `RESEND_API_KEY` when email required |
+| [`.env.production.example`](../.env.production.example) | Entra prod verified on URL |
+| `npm run deploy:check` | `RESEND_API_KEY` when email required |
+| CI `postgres-smoke` on GitHub | `/api/health` `deployReady` on prod |
+| Entra prod checklist — [`ENTRA_SSO.md`](ENTRA_SSO.md) § Production | |
 
-**Deferred by design** until first paying customer or explicit go-live date. Notification **logging** works; **send** requires `RESEND_API_KEY`.
+**Commands:** `npm run deploy:check` · `DEPLOY_TARGET=vercel npm run deploy:check`
+
+Notification **logging** works; **send** requires `RESEND_API_KEY`.
 
 ---
 
-## M8 — Paid customer / full MEEM ERP
+## M8 — Paid customer / SaaS
 
-**Deferred** until revenue / SaaS commitment. MEEM “full ERP” depth (multi-entity, production integrations) is **not** the current Crow sprint — lighthouse demo proves modular chain only.
+**Scope:** Repeatable paying-customer path — blueprint modules, provision, optional Stripe. MEEM “full ERP” depth remains **revenue-gated**.
+
+| Done | Open |
+|------|------|
+| [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) — lifecycle + checklist | Live Stripe checkout |
+| `npm run onboard:tenant` — CLI second customer | Customer #2 on staging |
+| `GET /api/billing/status` | Webhook + admin subscription portal |
+| E1–E9 machinery (any tenant) | Contract-specific ERP depth |
+
+**MEEM** stays lighthouse — [`customers/MEEM_GLOBAL.md`](customers/MEEM_GLOBAL.md).
 
 ---
 

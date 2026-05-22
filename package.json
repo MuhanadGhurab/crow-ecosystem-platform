@@ -23,6 +23,8 @@
     "db:seed:meem:ops": "npx tsx --env-file=.env prisma/seed-meem-ops.ts",
     "db:seed:tenant:ops": "npx tsx --env-file=.env prisma/seed-tenant-ops.ts",
     "env:check": "node --env-file=.env scripts/env-check.mjs",
+    "deploy:check": "node --env-file=.env scripts/deploy-readiness.mjs",
+    "onboard:tenant": "npx tsx --env-file=.env scripts/onboard-tenant-from-blueprint.ts",
     "auth:bootstrap": "npx tsx --env-file=.env scripts/bootstrap-platform-admin.ts",
     "auth:grant-role": "npx tsx --env-file=.env scripts/grant-crow-role.ts",
     "auth:grant-client": "npx tsx --env-file=.env scripts/grant-crow-role.ts",

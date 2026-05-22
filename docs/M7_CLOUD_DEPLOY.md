@@ -90,7 +90,7 @@ npm run db:seed:meem
 npm run db:seed:meem:ops
 ```
 
-4. Confirm health: `GET https://your-app.vercel.app/api/health` → `{ ok: true, db: "ok" }`.
+4. Confirm health: `GET https://your-app.vercel.app/api/health` → `{ ok: true, db: "ok", deployReady: true }`.
 
 ---
 
@@ -112,6 +112,17 @@ USER_EMAIL=you@company.com CROW_ROLE=platform_admin npm run auth:bootstrap
 - Connect repo; deploy on push to `main` (default).
 - CI already runs on `main`: `verify` + `postgres-smoke` ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)).
 - After green CI, Vercel production deploy should succeed if env vars are set.
+
+---
+
+## Pre-flight (local)
+
+```bash
+npm run deploy:check
+DEPLOY_TARGET=vercel npm run deploy:check
+```
+
+Validates required env without printing secrets. Fix blockers before pasting into Vercel.
 
 ---
 

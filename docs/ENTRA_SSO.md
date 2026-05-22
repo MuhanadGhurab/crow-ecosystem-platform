@@ -177,3 +177,19 @@ Do not add `@azure/msal-node` to the Next app unless you intentionally replace S
 
 - Roles from **`app_metadata` only** — never `user_metadata`.
 - Enforce MFA in Entra (Conditional Access) for production.
+
+---
+
+## Production (M7) — Entra checklist
+
+When moving from local hybrid to Vercel + Supabase prod ([`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md)):
+
+| Step | Action |
+|------|--------|
+| 1 | Azure app registration — add redirect `https://<PROJECT_REF>.supabase.co/auth/v1/callback` (unchanged) |
+| 2 | Supabase → Authentication → URL configuration — add `https://<your-domain>/auth/callback` |
+| 3 | Set `NEXT_PUBLIC_SITE_URL=https://<your-domain>` on Vercel |
+| 4 | Set `AZURE_SSO_ENABLED=true` and `NEXT_PUBLIC_AZURE_TENANT_ID` on Vercel |
+| 5 | Smoke: `/login` → Microsoft → lands on `/admin/overview` or `next` path |
+
+Do **not** copy `http://localhost:3000/auth/callback` as the only allow-list entry in production.

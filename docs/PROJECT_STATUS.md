@@ -31,8 +31,8 @@
 | M4 CyberCrow operations | 100% | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | M5 MEEM SAREA acceptance | ~25% | Omar (customer) |
 | M6 Auth & SaaS prep | ~65% | CI Postgres smoke + migrate deploy in Actions |
-| M7 Cloud & production | ~20% | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) + `vercel.json` |
-| M8 Paid / full MEEM ERP | deferred | Until revenue |
+| M7 Cloud & production | ~45% | `deploy:check`, `.env.production.example` |
+| M8 Paid / SaaS customer | ~35% | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md), `onboard:tenant` |
 
 ---
 
