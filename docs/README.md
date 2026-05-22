@@ -13,6 +13,7 @@
 | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 CyberCrow ops rehearsal (~10 min) |
 | [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) | Auth hardening, migrate deploy, `app_metadata` |
 | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) | Vercel + Supabase production deploy |
+| [`VERCEL_CONNECT.md`](VERCEL_CONNECT.md) | **Connect Vercel** — import GitHub + env vars |
 | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) | Paid customer onboarding (post-MEEM) |
 | [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | GitHub repo + CI jobs |
 

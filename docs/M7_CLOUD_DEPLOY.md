@@ -21,6 +21,8 @@ For first cloud deploy, most teams move **both** Prisma data and Auth to **one S
 
 ## Step 1 — Vercel project
 
+**Walkthrough:** [`VERCEL_CONNECT.md`](VERCEL_CONNECT.md) (step-by-step for this repo).
+
 1. https://vercel.com → **Add New Project** → import `crow-ecosystem-platform`.
 2. Framework: **Next.js** (auto-detected).
 3. Root directory: `.` (repo root).
