@@ -32,6 +32,7 @@
     "cem:backfill-seed": "npx tsx --env-file=.env scripts/backfill-cem-seed.ts",
     "sarea:backfill-seed": "npx tsx --env-file=.env scripts/backfill-sarea-seed.ts",
     "cybercrow:backfill-seed": "npx tsx --env-file=.env scripts/backfill-cybercrow-seed.ts",
+    "rehearsal:m4": "node scripts/rehearsal-m4.mjs",
     "audit:src": "node scripts/audit-src.mjs",
     "test:billing": "npx tsx src/lib/billing/money.test.ts",
     "test:routes": "node scripts/check-responsive-routes.mjs",

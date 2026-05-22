@@ -30,6 +30,20 @@ export async function listTenantComplianceControls(tenantId: string) {
   });
 }
 
+export async function listTenantComplianceControlsWithEvidence(
+  tenantId: string,
+  evidenceLimit = 3
+) {
+  return prisma.complianceControl.findMany({
+    where: { tenantId },
+    orderBy: { controlKey: "asc" },
+    include: {
+      evidence: { orderBy: { createdAt: "desc" }, take: evidenceLimit },
+      _count: { select: { evidence: true } },
+    },
+  });
+}
+
 export async function listTenantGrcFindings(tenantId: string) {
   return prisma.grcFinding.findMany({
     where: { tenantId },

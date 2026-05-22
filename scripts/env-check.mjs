@@ -83,6 +83,12 @@ if (/\/rest\/v1\/?$/i.test(supabaseUrl.trim())) {
 
 if (authDisabled) {
   console.log("\nNote: AUTH_DISABLED=true — middleware uses synthetic dev user (not production).");
+  if (process.env.NODE_ENV === "production") {
+    console.error(
+      "\n✗ AUTH_DISABLED=true is not allowed when NODE_ENV=production. See docs/M6_AUTH_SAAS.md."
+    );
+    process.exit(1);
+  }
 }
 
 console.log("\nDocs: docs/HYBRID_LOCAL_DB_SUPABASE_AUTH.md");

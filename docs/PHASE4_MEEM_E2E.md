@@ -1,5 +1,7 @@
 # Phase 4 — MEEM Holding live E2E rehearsal
 
+> **Postponed (May 2026):** Live E2E rehearsal is **deferred** until M4 (CyberCrow ops), M6 (auth/SaaS prep), and M7 (cloud) platform milestones are polished. RBAC, seeds, and this script remain valid — run when product approves the rehearsal window.
+
 **Prerequisites:** Local Postgres, Supabase Auth, `USE_MOCK_DATA=false`, `AUTH_DISABLED=false`.
 
 ```bash

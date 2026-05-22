@@ -1,4 +1,8 @@
 import Link from "next/link";
+import {
+  AdminAuditFilterPersistence,
+  AdminAuditTenantRow,
+} from "@/components/admin/admin-audit-tenant-links";
 import { PageHeader } from "@/components/ui/page-header";
 import { CybercrowAuditLogList } from "@/components/tenant/cybercrow/cybercrow-audit-log-list";
 import type { LogisticsAuditFilter } from "@/lib/constants/cybercrow-audit-events";
@@ -17,6 +21,7 @@ export default async function AdminAuditPage({
 }) {
   const { category: categoryParam, tenant: tenantSlug } = await searchParams;
   const category = parseCategory(categoryParam);
+  const hasQueryParams = Boolean(categoryParam || tenantSlug);
   const { cyberLogs, notifications } = await listPlatformAuditFeed(60, {
     category,
     tenantSlug: tenantSlug || undefined,
@@ -36,6 +41,11 @@ export default async function AdminAuditPage({
 
   return (
     <div className="space-y-8">
+      <AdminAuditFilterPersistence
+        category={category}
+        tenantSlug={tenantSlug}
+        hasQueryParams={hasQueryParams}
+      />
       <PageHeader
         badge="Platform Admin"
         title="Audit & notifications"
@@ -147,11 +157,14 @@ export default async function AdminAuditPage({
                 createdAt: log.createdAt,
               }))}
             />
-            <ul className="space-y-1 border-t border-white/5 pt-3 text-xs text-slate-500">
+            <ul className="space-y-2 border-t border-white/5 pt-3 text-xs text-slate-500">
               {cyberLogs.slice(0, 12).map((log) => (
                 <li key={`${log.id}-tenant`}>
-                  {log.tenant.organization.displayName} · /{log.tenant.slug}
-                  {isLogisticsAuditAction(log.action) ? " · logistics" : null}
+                  <AdminAuditTenantRow
+                    slug={log.tenant.slug}
+                    displayName={log.tenant.organization.displayName}
+                    isLogistics={isLogisticsAuditAction(log.action)}
+                  />
                 </li>
               ))}
             </ul>

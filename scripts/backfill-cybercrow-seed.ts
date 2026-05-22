@@ -1,5 +1,8 @@
 import { prisma } from "../src/lib/db";
-import { seedCybercrowBaseline } from "../src/lib/services/cybercrow-seed.service";
+import {
+  seedCybercrowBaseline,
+  seedCybercrowEvidenceIfMissing,
+} from "../src/lib/services/cybercrow-seed.service";
 
 async function main() {
   const slug = process.env.TENANT_SLUG;
@@ -9,7 +12,8 @@ async function main() {
 
   for (const t of tenants) {
     const result = await seedCybercrowBaseline(t.id);
-    console.log(`/${t.slug}:`, result.skipped ? "skipped" : "seeded");
+    await seedCybercrowEvidenceIfMissing(t.id);
+    console.log(`/${t.slug}:`, result.skipped ? "skipped (evidence checked)" : "seeded");
   }
 }
 

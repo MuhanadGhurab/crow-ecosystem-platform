@@ -33,7 +33,23 @@ export function isSupabaseAuthConfigured(): boolean {
   );
 }
 
+const AUTH_DISABLED_PRODUCTION_ERROR =
+  "AUTH_DISABLED=true is not allowed when NODE_ENV=production. " +
+  "Remove AUTH_DISABLED from production env (or set AUTH_DISABLED=false). " +
+  "UI-only demos require NODE_ENV=development. See docs/M6_AUTH_SAAS.md.";
+
+/** Throws if auth bypass is enabled in a production build. Call at startup and in middleware. */
+export function assertAuthNotDisabledInProduction(): void {
+  if (
+    process.env.NODE_ENV === "production" &&
+    process.env.AUTH_DISABLED === "true"
+  ) {
+    throw new Error(AUTH_DISABLED_PRODUCTION_ERROR);
+  }
+}
+
 /** Local dev only — skips auth checks when true. Never enable in production. */
 export function isAuthDisabled(): boolean {
+  assertAuthNotDisabledInProduction();
   return process.env.AUTH_DISABLED === "true";
 }

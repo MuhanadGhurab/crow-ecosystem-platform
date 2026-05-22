@@ -15,6 +15,7 @@ import {
   isPublicPath,
 } from "@/lib/auth/route-protection";
 import {
+  assertAuthNotDisabledInProduction,
   getSupabaseAnonKey,
   getSupabaseUrl,
   isAuthDisabled,
@@ -36,6 +37,8 @@ function redirectToLogin(request: NextRequest, error?: string) {
 }
 
 export async function updateSession(request: NextRequest) {
+  assertAuthNotDisabledInProduction();
+
   const { pathname } = request.nextUrl;
 
   if (isAuthApiPath(pathname)) {

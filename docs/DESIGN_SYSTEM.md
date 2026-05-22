@@ -45,7 +45,9 @@ Defined in `src/app/globals.css` and `tailwind.config.ts`:
 | `cc-entity-cem` / `cc-entity-cybercrow` / `cc-entity-sarea` | Shell & card tint per engine |
 | `cc-entity-badge--*` | Entity-colored badges |
 | `cc-entity-hub` | CEM · CyberCrow · SAREA switcher in app header |
-| `cc-engine-card--cem` / `--cybercrow` / `--sarea` | Homepage engine bento cards |
+| `cc-engine-card--cem` / `--cybercrow` / `--sarea` / `--discovery` / `--blueprint` | Homepage engine bento cards |
+| `cc-public-band` | Full-width marketing section band |
+| `cc-bento-stat` | Homepage stats strip tiles |
 
 ---
 
@@ -57,6 +59,10 @@ Defined in `src/app/globals.css` and `tailwind.config.ts`:
 | App shell (admin, tenant, discovery, blueprint) | `src/components/ui/area-shell.tsx` |
 | Public header / footer | `src/components/public/public-header.tsx` |
 | Public page hero band | `src/components/public/public-page-header.tsx` |
+| Engine bento card | `src/components/public/crow-engine-card.tsx` |
+| Crow motif (SVG decor) | `src/components/public/crow-motif.tsx` |
+| Homepage hero wordmark | `public/images/cybercrow-hero.png` — `HeroSection` via `next/image`; **not** nav logo or favicon (`CYBERCROW_HERO_IMAGE` in `hero-section.tsx`) |
+| Public section intro | `src/components/public/public-section-intro.tsx` |
 | Page header (app areas) | `src/components/ui/page-header.tsx` |
 | Stat card | `src/components/ui/stat-card.tsx` |
 | Entity hub | `src/components/ui/entity-hub.tsx` |

@@ -17,7 +17,7 @@ export function PublicLifecycleStrip() {
         <ol className="flex gap-2 lg:flex-wrap lg:justify-center">
           {FULL_PLATFORM_LIFECYCLE.map((label, index) => (
             <li key={label}>
-              <span className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-slate-200 backdrop-blur-md">
+              <span className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-slate-200 backdrop-blur-md transition hover:border-cyan-400/30 hover:bg-white/[0.06] hover:text-white">
                 <span className="font-mono text-xs font-bold text-cc-star">
                   {String(index + 1).padStart(2, "0")}
                 </span>

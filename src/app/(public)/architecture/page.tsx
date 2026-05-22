@@ -1,9 +1,8 @@
 import Link from "next/link";
-
+import { CrowEngineCard } from "@/components/public/crow-engine-card";
 import { PublicPageHeader } from "@/components/public/public-page-header";
-
 import { PublicLifecycleStrip } from "@/components/public/public-lifecycle-strip";
-
+import { PublicSectionIntro } from "@/components/public/public-section-intro";
 import { PLATFORM_IDENTITIES } from "@/lib/constants/platform";
 
 
@@ -44,46 +43,34 @@ export default function ArchitecturePage() {
 
       />
 
-      <div className="cc-public-section space-y-10">
+      <div className="cc-public-section space-y-12 sm:space-y-14">
 
         <section>
-
-          <h2 className="font-display text-lg font-semibold text-white">Three engines</h2>
-
-          <p className="mt-2 max-w-2xl text-sm text-slate-400">
-
-            CEM runs operations. CyberCrow protects with NCA-aware security. SAREA adapts dashboards and navigation to
-
-            each role — without fragmenting the platform.
-
-          </p>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-
+          <PublicSectionIntro
+            badge="Runtime"
+            title="Three engines"
+            description="CEM runs operations. CyberCrow protects with NCA-aware security. SAREA adapts dashboards and navigation to each role — without fragmenting the platform."
+            centered={false}
+          />
+          <div className="mt-8 grid gap-4 md:grid-cols-3 md:gap-5">
             {engines.map((key) => {
-
               const id = PLATFORM_IDENTITIES[key];
-
+              const href =
+                key === "cem" ? "/modules" : key === "cybercrow" ? "/security" : "/about";
               return (
-
-                <article key={key} className={`cc-glass-card cc-engine-card--${key}`}>
-
-                  <span className={`cc-entity-badge cc-entity-badge--${key}`}>{id.name}</span>
-
-                  <h3 className="mt-2 font-semibold text-white">{id.fullName}</h3>
-
-                  <p className="mt-2 text-sm italic text-slate-400">{id.tagline}</p>
-
-                  <p className="mt-2 text-sm text-slate-500">{id.description}</p>
-
-                </article>
-
+                <CrowEngineCard
+                  key={key}
+                  entity={key}
+                  name={id.name}
+                  fullName={id.fullName}
+                  tagline={id.tagline}
+                  description={id.description}
+                  href={href}
+                  ctaLabel="Explore"
+                />
               );
-
             })}
-
           </div>
-
         </section>
 
 

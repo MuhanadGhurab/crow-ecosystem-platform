@@ -13,12 +13,42 @@ import {
 import { slugifyOrganization } from "../src/lib/slugify";
 
 const baseUrl = process.env.SMOKE_BASE_URL ?? "http://localhost:3002";
+const checkHealth = process.env.SMOKE_CHECK_HEALTH === "1";
+
+async function preflightHealth() {
+  if (!checkHealth) return;
+  console.log("0. Health preflight…");
+  try {
+    const res = await fetch(`${baseUrl}/api/health`);
+    const body = (await res.json()) as {
+      ok?: boolean;
+      db?: string;
+      auth?: string;
+      mockData?: boolean;
+    };
+    if (body.db !== "ok") {
+      throw new Error(`GET /api/health db=${body.db ?? "unknown"} (expected ok)`);
+    }
+    if (body.mockData) {
+      throw new Error("USE_MOCK_DATA=true — smoke requires live Postgres");
+    }
+    console.log(`   ✓ health db=${body.db} auth=${body.auth}`);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      `Health preflight failed (${baseUrl}/api/health): ${msg}. Start dev server or unset SMOKE_CHECK_HEALTH.`
+    );
+  }
+}
+
 const stamp = Date.now().toString(36);
 const orgName = `E2E Smoke ${stamp}`;
 const slug = `${slugifyOrganization(orgName)}-${stamp}`.slice(0, 48);
 
 async function main() {
   console.log("\n=== Phase 1 smoke test ===\n");
+
+  await preflightHealth();
 
   console.log("1. Submit implementation request…");
   const request = await createImplementationRequest({

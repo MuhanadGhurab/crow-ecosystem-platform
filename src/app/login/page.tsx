@@ -1,9 +1,20 @@
 import Link from "next/link";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
+import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { routes } from "@/lib/routes";
+import type { TenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
+
+const LOGIN_ENTRA_DEFAULTS: TenantSecuritySettings = {
+  mfaRequired: true,
+  mfaLabel: "Required for admins (platform default)",
+  idpPreference: "entra_id",
+  idpLabel: "Microsoft Entra ID (SSO)",
+  ssoNotes: null,
+  source: "default",
+};
 
 const ERROR_MESSAGES: Record<string, string> = {
   forbidden: "You do not have permission to access that area.",
@@ -54,6 +65,14 @@ export default async function LoginPage({
           <div className="mt-6">
             <SignInForm nextPath={nextPath} entraEnabled={entraEnabled} />
           </div>
+        )}
+
+        {configured && entraEnabled && (
+          <EntraOpsPanel
+            security={LOGIN_ENTRA_DEFAULTS}
+            showEntraNarrative
+            variant="login"
+          />
         )}
 
         <p className="mt-6 text-center text-sm text-slate-500">

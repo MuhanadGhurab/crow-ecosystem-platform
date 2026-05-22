@@ -19,18 +19,18 @@
 | Phase | Focus | Est. | Depends on | Completion |
 |-------|--------|------|------------|------------|
 | [0](#phase-0--docs--baseline) | Docs & baseline | S | — | **100%** |
-| [1](#phase-1--design-system--public) | Design system & public | M | 0 | **92%** |
+| [1](#phase-1--design-system--public) | Design system & public | M | 0 | **96%** |
 | [1b](#phase-1b--product-narrative) | Product narrative | S | 1 | **75%** |
 | [2](#phase-2--commercial-pipeline-ui) | Commercial pipeline UI | M | 0, 1 | **95%** |
 | [**MEEM**](#phase-meem--lighthouse-customer-demo) | **Lighthouse customer demo** | M | 2 | **78%** |
 | [3](#phase-3--discovery--blueprint-data) | Discovery & blueprint data | L | 2 | **85%** |
 | [4](#phase-4--go-live--tenant-seed) | Go-live & tenant seed | M | 3, MEEM | **78%** |
 | [5](#phase-5--cem-tenant-runtime) | CEM tenant runtime | L | 4 | **88%** |
-| [6](#phase-6--cybercrow-dept-console) | CyberCrow dept console | L | 4, 5 | **70%** |
+| [6](#phase-6--cybercrow-dept-console) | CyberCrow dept console | L | 4, 5 | **100%** |
 | [7](#phase-7--sarea-dept-meem-customer) | SAREA (MEEM customer acceptance) | M | 4, 5 | **25%** |
 | [7b](#phase-7b--unified-identity--client-portal) | Identity & client portal | M | 2 | **88%** |
-| [8](#phase-8--auth--roles) | Auth & roles | L | 5–7 | **45%** |
-| [9](#phase-9--postgres--demo-hardening) | Postgres & demo hardening | M | 3–8 | **20%** |
+| [8](#phase-8--auth--roles) | Auth & roles | L | 5–7 | **55%** |
+| [9](#phase-9--postgres--demo-hardening) | Postgres & demo hardening | M | 3–8 | **35%** |
 | [10](#phase-10--go-live-marketing) | Marketing & launch | L | 1, 9 | **35%** |
 | [**Cloud**](#phase-cloud--vercel-supabase-entra-production) | **Cloud & production** | L | 9 | **5%** |
 
@@ -153,7 +153,7 @@
 | 2 | **Go-Live Provisioning Pipeline** — validate blueprint, org + tenant, seed CEM → CyberCrow → SAREA, lifecycle LIVE (real Prisma) | **Muhanad** | [x] `pipeline.service` + `/go-live` + docs |
 | 3 | **Tenant operationalization** — `/{slug}/dashboard` with real post-provision data | **Muhanad** | [x] MEEM `meem-global`; dashboard + workflows + ops seed |
 | 4 | **SAREA operational experience** — executive, ops, HR, logistics, analyst, mobile on real mappings | **MEEM (Omar)** validates · **Muhanad** ships runtime | [ ] See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) |
-| 5 | **MEEM Global Phase 4 demo** — validate full commercial → go-live → tenant story | **Muhanad** (demo) + **MEEM (Omar)** (SAREA acceptance) | [~] RBAC + E2E script [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md); live rehearsal pending |
+| 5 | **MEEM Global Phase 4 demo** — validate full commercial → go-live → tenant story | **Muhanad** (demo) + **MEEM (Omar)** (SAREA acceptance) | [~] RBAC + E2E script ready; **live rehearsal deferred** until M4/M6/M7 polish |
 | 5b | **RBAC matrix** — `crow_role`, permissions, route guards, MEEM role seed | **Muhanad** | [x] [`RBAC.md`](RBAC.md), `src/lib/auth/permissions.ts` |
 | 6 | **Notification pipeline** — log to DB + `/admin/audit`; Resend deferred to Phase Cloud | **Muhanad** | [~] Events log; `skipped` expected without `RESEND_API_KEY` |
 
@@ -165,10 +165,10 @@
 - [x] MEEM live path: `meem-global` (seed + dashboard + `db:seed:meem:ops`)
 - [x] MEEM tenant workflows (4 logistics workflows + WorkflowStep rows)
 - [x] MEEM OCR/AI — discovery `doc_intelligence` + logistics hub UI
-- [~] MEEM Phase 4 validation table — RBAC + [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md); live rehearsal pending
+- [~] MEEM Phase 4 validation table — RBAC + [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md); **E2E rehearsal deferred** (platform milestones first)
 - [~] Notification pipeline operational — `platformNotification` + `/admin/audit`; Resend **deferred** until Phase Cloud ([`BASELINE.md`](BASELINE.md) § Notifications)
 - [x] RBAC — platform/tenant permission matrix, middleware + nav guards, MEEM Hub Manager / Dispatcher seed
-- [~] MEEM audit page rehearsal — `/admin/audit` (checklist #12; script in [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md))
+- [~] MEEM audit page rehearsal — `/admin/audit` (checklist #12; bundled in deferred [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md))
 - [ ] MEEM (Omar) SAREA persona acceptance on MEEM dashboard (priority 4 — customer-side)
 - [ ] Backfill scripts in [`BASELINE.md`](BASELINE.md) (if pre–Phase 4 tenants exist)
 
@@ -207,11 +207,13 @@
 **Exit criteria**
 
 - [x] Platform admin audit feed — `/admin/audit` (CyberCrow cross-tenant log + notification log + summary strip)
-- [x] Compliance / GRC shell — `/[tenant]/cybercrow/grc` data-backed summary from DB counts
+- [x] Platform admin overview — `/admin/overview` cross-tenant CyberCrow posture strip (events, incidents, controls, logistics audit)
+- [x] Compliance / GRC — `/[tenant]/cybercrow/grc` NCA ECC labels + evidence preview (2–3 rows per control)
 - [x] Auditor read-only UI — `auditor_readonly` nav + banner + tenant CyberCrow audit paths
-- [ ] Entra ops narrative on settings + login
+- [x] Entra ops narrative on settings + login + CyberCrow identity (`/help/entra-sso` → `docs/ENTRA_SSO.md`)
 - [x] Logistics workflow events → tenant CyberCrow audit (MEEM dispatch/OCR) — **E10**
 - [x] Dashboard risk card from real incident / security-event counts (not static mock)
+- [x] M4 rehearsal — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) + `npm run rehearsal:m4`
 
 ---
 
@@ -252,7 +254,7 @@
 
 - [x] `auditor_readonly` crow_role + CyberCrow read-only policy (tenant + `/admin/audit`)
 - [ ] Dept chips from DB on all request surfaces
-- [ ] `AUTH_DISABLED` blocked in production checklist
+- [x] `AUTH_DISABLED` blocked when `NODE_ENV=production` — [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md)
 
 ---
 
@@ -263,9 +265,9 @@
 **Exit criteria**
 
 - [ ] `GET /api/health` → `db: "ok"`
-- [ ] `npm run smoke:phase1` on clean DB
+- [~] `npm run smoke:phase1` on clean DB — script + optional `SMOKE_CHECK_HEALTH=1`; CI run open
 - [ ] MEEM path without `USE_MOCK_DATA`
-- [ ] `prisma migrate` baseline PR
+- [x] `prisma migrate` baseline — ordered folder + `migrate deploy` in [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md)
 
 ---
 
@@ -313,9 +315,9 @@ See [`MILESTONES.md`](MILESTONES.md) for the executive map. Summary:
 | M1 Platform foundation | 100% | Muhanad |
 | M2 MEEM lighthouse + RBAC | ~88% | Muhanad · MEEM E2E sign-off |
 | M3 Modular ERP (E1–E9) | ~92% | Muhanad |
-| M4 CyberCrow ops (E10 + dashboard/GRC/auditor) | ~70% | Muhanad |
+| M4 CyberCrow ops (E10 + dashboard/GRC/auditor) | 100% | Muhanad |
 | M5 MEEM SAREA acceptance | ~25% | MEEM (Omar) |
-| M6 Auth & SaaS prep | ~30% | Muhanad |
+| M6 Auth & SaaS prep | ~45% | Muhanad |
 | M7 Cloud & production | ~5% | Muhanad (when ready) |
 | M8 Paid / full MEEM ERP | deferred | Product |
 
@@ -325,9 +327,9 @@ See [`MILESTONES.md`](MILESTONES.md) for the executive map. Summary:
 
 | Priority | Action | Milestone |
 |----------|--------|-----------|
-| 1 | Live MEEM E2E — [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) + `/admin/audit` logistics filter | M2 |
-| 2 | Phase 6 remainder — Entra ops copy on settings/login; GRC depth | M4 |
-| 3 | `smoke:phase1` + migrate baseline on clean Postgres | M6 |
+| 1 | MEEM E2E — [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) **after** M6/M7 polish | M2 |
+| 2 | `smoke:phase1` on clean Postgres + CI | M6 |
+| 3 | M4 done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 |
 | 4 | Hand off SAREA persona checklist to MEEM (Omar) | M5 |
 | 5 | Phase Cloud env matrix when go-live date set | M7 |
 
@@ -347,6 +349,8 @@ See [`MILESTONES.md`](MILESTONES.md) for the executive map. Summary:
 | Go-live pipeline | [`GO_LIVE_PIPELINE.md`](GO_LIVE_PIPELINE.md) |
 | RBAC matrix | [`RBAC.md`](RBAC.md) |
 | MEEM Phase 4 E2E | [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) |
+| M4 CyberCrow rehearsal | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
+| M6 Auth & SaaS prep | [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) |
 | Team ownership | [`TEAM_OWNERSHIP.md`](TEAM_OWNERSHIP.md) |
 | Omar SAREA scope | [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) |
 | Built routes | [`PLATFORM_STATUS.md`](PLATFORM_STATUS.md) |

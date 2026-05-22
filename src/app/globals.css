@@ -127,6 +127,18 @@ body {
     background: linear-gradient(135deg, #4f46e5 0%, var(--cc-cyan) 45%, var(--cc-teal) 100%);
   }
 
+  /** Homepage hero wordmark — blends PNG black into dark page background */
+  .cc-hero-brand-img {
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(
+      ellipse 94% 88% at 50% 46%,
+      #000 52%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(ellipse 94% 88% at 50% 46%, #000 52%, transparent 100%);
+    filter: drop-shadow(0 0 32px rgba(34, 211, 238, 0.28));
+  }
+
   .cc-gradient-text {
     @apply bg-gradient-to-r from-violet-400 via-cyan-300 to-teal-300 bg-clip-text text-transparent;
   }
@@ -345,7 +357,7 @@ body {
   }
 
   .cc-bento-card {
-    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl transition duration-300 hover:border-cyan-400/25 hover:bg-white/[0.06];
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl transition duration-300 hover:border-cyan-400/25 hover:bg-white/[0.06] hover:shadow-[0_8px_32px_rgba(0,0,0,0.25)];
   }
 
   .cc-engine-card {
@@ -510,8 +522,48 @@ body {
     @apply border-l-violet-500/60 hover:border-violet-400/40 hover:shadow-cc-glow-cybercrow;
   }
 
+  .cc-cybercrow-card-preview {
+    @apply max-h-[11rem] sm:max-h-none;
+  }
+
+  @media (max-width: 639px) {
+    .cc-engine-card--cybercrow .cc-cybercrow-card-preview {
+      transform: scale(0.97);
+      transform-origin: top left;
+    }
+  }
+
   .cc-engine-card--sarea {
     @apply border-l-rose-500/60 hover:border-rose-400/40 hover:shadow-cc-glow-sarea;
+  }
+
+  .cc-engine-card--discovery {
+    @apply border-l-amber-400/55 hover:border-amber-400/35 hover:shadow-[0_0_28px_rgba(251,191,36,0.12)];
+  }
+
+  .cc-engine-card--blueprint {
+    @apply border-l-violet-500/50 hover:border-violet-400/35 hover:shadow-[0_0_28px_rgba(139,92,246,0.14)];
+  }
+
+  .cc-entity-badge--discovery {
+    @apply border-amber-400/35 bg-amber-400/10 text-amber-100;
+  }
+
+  .cc-entity-badge--blueprint {
+    @apply border-violet-500/35 bg-gradient-to-r from-violet-500/12 to-cyan-500/10 text-violet-100;
+  }
+
+  .cc-public-band {
+    @apply relative border-y border-cyan-500/10 bg-cc-elevated/30 py-16 sm:py-24;
+  }
+
+  .cc-bento-stat {
+    @apply cc-bento-card relative overflow-hidden p-6 sm:p-7;
+  }
+
+  .cc-bento-stat::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent opacity-0 transition duration-300 group-hover:opacity-100;
   }
 
   .cc-stat-card--cem {

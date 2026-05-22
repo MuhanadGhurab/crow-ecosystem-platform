@@ -4,6 +4,8 @@ import { isAuditorReadOnly } from "@/lib/auth/auditor-nav";
 import { getCrowAuth } from "@/lib/auth/roles";
 import { requireTenantAccess } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
+import { tenantHasLogisticsModule } from "@/lib/services/cybercrow-logistics-audit.service";
+import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export default async function CybercrowLayout({
   children,
@@ -17,6 +19,11 @@ export default async function CybercrowLayout({
   const { role } = getCrowAuth(user);
   const auditorView = isAuditorReadOnly(role);
   const r = routes.tenant(tenant).cybercrow;
+  const tenantRecord = await getTenantBySlug(tenant);
+  const moduleKeys = (tenantRecord?.modules ?? []).map((m) => m.moduleKey);
+  const platformAuditHref = tenantHasLogisticsModule(moduleKeys)
+    ? `/admin/audit?category=logistics&tenant=${tenant}`
+    : "/admin/audit";
 
   const nav = [
     { href: r.dashboard, label: "Dashboard" },
@@ -40,14 +47,7 @@ export default async function CybercrowLayout({
         items={nav}
       />
       {auditorView && (
-        <AuditorReadOnlyBanner
-          slug={tenant}
-          platformAuditHref={
-            tenant === "meem-global"
-              ? "/admin/audit?category=logistics&tenant=meem-global"
-              : "/admin/audit"
-          }
-        />
+        <AuditorReadOnlyBanner slug={tenant} platformAuditHref={platformAuditHref} />
       )}
       {children}
     </div>

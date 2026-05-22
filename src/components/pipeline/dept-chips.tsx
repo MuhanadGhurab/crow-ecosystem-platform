@@ -33,9 +33,12 @@ export function DeptChips({
         </span>
       )}
       {showSarea && (
-        <span className="cc-dept-chip cc-dept-chip--sarea" title="SAREA experience — Omar dept">
+        <span
+          className="cc-dept-chip cc-dept-chip--sarea"
+          title="SAREA experience — customer acceptance at go-live"
+        >
           <span className="cc-dept-chip-dot bg-rose-400" aria-hidden />
-          {ENTITY_THEME.sarea.shortLabel} · Omar
+          {ENTITY_THEME.sarea.shortLabel}
         </span>
       )}
     </div>

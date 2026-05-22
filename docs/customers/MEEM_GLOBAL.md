@@ -2,7 +2,9 @@
 
 **Profile:** Saudi logistics group, **50–250 employees**, multi-hub operations.  
 **Narrative:** Blueprint → provision → live **CEM tenant** with **CyberCrow** (NCA-aligned) and **SAREA** (role-adaptive UI).  
-**Identity:** Microsoft Entra ID SSO (kept in discovery + tenant settings story).
+**Identity:** Microsoft Entra ID SSO (discovery + tenant settings + `/meem-global/cybercrow/identity` + `/help/entra-sso`).
+
+> **Phase 4 E2E rehearsal deferred:** The live walkthrough in [`PHASE4_MEEM_E2E.md`](../PHASE4_MEEM_E2E.md) is **postponed** until M4/M6/M7 platform work is perfected. MEEM demo URLs, seeds, and RBAC below remain the rehearsal target.
 
 ### SAREA — Crow ships, MEEM validates
 
@@ -12,7 +14,7 @@
 | Persona acceptance | **MEEM (Omar)** | Validates executive / ops / logistics / frontline layouts on `/meem-global/dashboard` — not CYBERCROW implementation |
 | CyberCrow | **Muhanad** | `/meem-global/cybercrow/*` data-backed dashboard, audit logs, GRC summary; platform `/admin/audit` for auditors |
 
-**ERP plan (all tenants):** Modular CEM ERP chain (E1–E9 **done** on MEEM), blueprint-driven ops seed — see **[`ERP_ROADMAP.md`](../ERP_ROADMAP.md)** · milestones **[`MILESTONES.md`](../MILESTONES.md)** (M3 demo, M4 CyberCrow ~70%, M5 Omar SAREA acceptance).
+**ERP plan (all tenants):** Modular CEM ERP chain (E1–E9 **done** on MEEM), blueprint-driven ops seed — see **[`ERP_ROADMAP.md`](../ERP_ROADMAP.md)** · milestones **[`MILESTONES.md`](../MILESTONES.md)** (M3 demo, M4 CyberCrow ~82%, M5 Omar SAREA acceptance).
 
 ---
 
@@ -226,9 +228,9 @@ Re-seed does not re-send notifications when tenant already exists; trigger new e
 
 ## Continue here (Muhanad — next 5 clicks)
 
-**Env:** `USE_MOCK_DATA=false`, local Postgres, `npm run db:seed:meem` then `npm run db:seed:meem:ops`. Full script: [`PHASE4_MEEM_E2E.md`](../PHASE4_MEEM_E2E.md) (M2 sign-off).
+**Env:** `USE_MOCK_DATA=false`, local Postgres, `npm run db:seed:meem` then `npm run db:seed:meem:ops`. Full script: [`PHASE4_MEEM_E2E.md`](../PHASE4_MEEM_E2E.md) (M2 sign-off — **deferred** until M4/M6/M7 polish).
 
-1. **Live E2E** — Run PHASE4 script: readiness → go-live → dashboard → ERP samples → RBAC spot-checks.
+1. **Live E2E** — *Postponed* — run PHASE4 script when platform milestones are complete.
 2. **CyberCrow logistics audit** — [`/meem-global/cybercrow/audit-logs?category=logistics`](http://localhost:3000/meem-global/cybercrow/audit-logs?category=logistics) — E10 events after ops seed.
 3. **Platform audit** — [`/admin/audit?category=logistics&tenant=meem-global`](http://localhost:3000/admin/audit?category=logistics&tenant=meem-global) — ≥4 notifications + `CYBERCROW_INITIALIZED` (`skipped` Resend OK).
 4. **Auditor role** — `auditor_readonly` + `meem-global` — read-only banner on CyberCrow; no CEM writes.

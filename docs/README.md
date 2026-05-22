@@ -9,7 +9,9 @@
 | [`BASELINE.md`](BASELINE.md) | Run locally, env, verification |
 | [`PHASES.md`](PHASES.md) | Roadmap to production (0–10 + MEEM + Cloud) |
 | [`RBAC.md`](RBAC.md) | Platform + tenant permission matrix |
-| [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | MEEM live rehearsal script |
+| [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | MEEM live rehearsal script (deferred) |
+| [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 CyberCrow ops rehearsal (~10 min) |
+| [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) | Auth hardening, migrate deploy, `app_metadata` |
 
 **North star:** [`ARCHITECTURE_DIAGRAM.md`](ARCHITECTURE_DIAGRAM.md) · [`CORE_PRODUCT_FLOW.md`](CORE_PRODUCT_FLOW.md)
 

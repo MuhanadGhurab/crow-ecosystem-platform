@@ -6,7 +6,10 @@
 import type { Prisma } from "@prisma/client";
 import { prisma, prismaTransaction } from "@/lib/db";
 import { getConfirmedModuleKeys } from "@/lib/discovery-answers";
-import { seedCybercrowBaseline } from "@/lib/services/cybercrow-seed.service";
+import {
+  seedCybercrowBaseline,
+  seedCybercrowEvidenceIfMissing,
+} from "@/lib/services/cybercrow-seed.service";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
 import { seedSareaProfileDefaults } from "@/lib/services/sarea-seed.service";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
@@ -244,6 +247,7 @@ export async function initializeCyberCrow(tenantId: string) {
   });
 
   await seedCybercrowBaseline(tenantId);
+  await seedCybercrowEvidenceIfMissing(tenantId);
 
   return prisma.cybercrowAuditLog.create({
     data: {

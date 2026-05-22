@@ -10,6 +10,7 @@ import { RequestAdminActions } from "@/components/admin/request-admin-actions";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 
 import { DeptChips } from "@/components/pipeline/dept-chips";
+import { getRequestDeptContext } from "@/lib/pipeline/request-dept-context";
 
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
 
@@ -100,11 +101,13 @@ export default async function AdminRequestDetailPage({
         }
       : null);
 
-  const hasSecurity = (request?.requestedSecurityPkgs.length ?? 0) > 0 || mockRow?.hasSecurity;
+  const dept = getRequestDeptContext({
+    status,
+    securityPackageCount: request?.requestedSecurityPkgs.length ?? (mockRow?.hasSecurity ? 1 : 0),
+    moduleCount: request?.requestedModules.length ?? (mockRow?.hasModules ? 1 : 0),
+  });
   const discoveryHref =
     mockRow?.discoveryAvailable ? routes.discovery(requestId).organization : null;
-
-  const hasModules = (request?.requestedModules.length ?? 0) > 0 || mockRow?.hasModules;
 
 
 
@@ -134,7 +137,7 @@ export default async function AdminRequestDetailPage({
 
             <RequestStatusBadge status={status} />
 
-            <DeptChips hasSecurity={hasSecurity} hasModules={hasModules} />
+            <DeptChips {...dept} />
 
             <a href="#commercial" className="text-xs text-cyan-400 hover:text-cyan-300">
               Commercial estimate ↓

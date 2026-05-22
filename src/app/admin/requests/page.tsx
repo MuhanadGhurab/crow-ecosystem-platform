@@ -6,6 +6,7 @@ import { AdminListPage } from "@/components/ui/admin-list-page";
 import { ListCard } from "@/components/ui/list-card";
 import { planLabel } from "@/lib/catalog-labels";
 import { formatSar } from "@/lib/services/commercial.service";
+import { getRequestDeptContext } from "@/lib/pipeline/request-dept-context";
 import { listImplementationRequests } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
@@ -18,8 +19,9 @@ type RequestRow = {
   status: string;
   planKey?: string;
   estimatedMonthlySar?: number | null;
-  hasSecurity?: boolean;
-  hasModules?: boolean;
+  hasSecurity: boolean;
+  hasModules: boolean;
+  showSarea: boolean;
 };
 
 const FILTER_STATUSES = ["PENDING_REVIEW", "UNDER_DISCOVERY", "BLUEPRINT_BUILD"] as const;
@@ -34,25 +36,45 @@ export default async function AdminRequestsPage({
   let usingMock = isUseMockData();
 
   if (usingMock) {
-    requests = MOCK_PIPELINE_REQUESTS.map((m) => ({ ...m }));
+    requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
+      ...m,
+      ...getRequestDeptContext({
+        status: m.status,
+        securityPackageCount: m.hasSecurity ? 1 : 0,
+        moduleCount: m.hasModules ? 1 : 0,
+      }),
+    }));
   }
 
   try {
     if (usingMock) throw new Error("USE_MOCK_DATA");
     const rows = await listImplementationRequests();
-    requests = rows.map((r) => ({
-      id: r.id,
-      organizationName: r.organizationName,
-      referenceCode: r.referenceCode,
-      status: r.status,
-      planKey: r.requestedPlans[0]?.planKey,
-      estimatedMonthlySar: r.estimatedMonthlySar ? Number(r.estimatedMonthlySar) : null,
-      hasSecurity: r.requestedSecurityPkgs.length > 0,
-      hasModules: r.requestedModules.length > 0,
-    }));
+    requests = rows.map((r) => {
+      const dept = getRequestDeptContext({
+        status: r.status,
+        securityPackageCount: r.requestedSecurityPkgs.length,
+        moduleCount: r.requestedModules.length,
+      });
+      return {
+        id: r.id,
+        organizationName: r.organizationName,
+        referenceCode: r.referenceCode,
+        status: r.status,
+        planKey: r.requestedPlans[0]?.planKey,
+        estimatedMonthlySar: r.estimatedMonthlySar ? Number(r.estimatedMonthlySar) : null,
+        ...dept,
+      };
+    });
   } catch {
     usingMock = true;
-    requests = MOCK_PIPELINE_REQUESTS.map((m) => ({ ...m }));
+    requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
+      ...m,
+      ...getRequestDeptContext({
+        status: m.status,
+        securityPackageCount: m.hasSecurity ? 1 : 0,
+        moduleCount: m.hasModules ? 1 : 0,
+      }),
+    }));
   }
 
   if (
@@ -88,9 +110,9 @@ export default async function AdminRequestsPage({
             <p className="font-medium text-white">{r.organizationName}</p>
             <p className="font-mono text-xs text-slate-500">{r.referenceCode}</p>
             <DeptChips
-              hasSecurity={r.hasSecurity ?? true}
-              hasModules={r.hasModules ?? true}
-              showSarea={r.status === "UNDER_DISCOVERY" || r.status === "BLUEPRINT_BUILD"}
+              hasSecurity={r.hasSecurity}
+              hasModules={r.hasModules}
+              showSarea={r.showSarea}
             />
             {r.planKey && (
               <p className="text-xs text-slate-500">

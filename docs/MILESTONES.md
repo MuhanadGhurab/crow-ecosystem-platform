@@ -13,9 +13,9 @@
 | **M1** | Platform foundation | 0, 1, 2, 7b | Muhanad | **100%** | Done |
 | **M2** | MEEM lighthouse pipeline | MEEM, 3, 4 (+ RBAC) | Muhanad · MEEM (Omar) E2E sign-off | **~88%** | Live rehearsal pending |
 | **M3** | Modular ERP chain | 5, E1–E9 | Muhanad | **~92%** | Done for MEEM demo |
-| **M4** | CyberCrow operations | 6, E10 | Muhanad | **~70%** | In progress |
+| **M4** | CyberCrow operations | 6, E10 | Muhanad | **100%** | Done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | **M5** | MEEM SAREA acceptance | 7, E11 | **MEEM (Omar)** · Muhanad (hooks) | **~25%** | Customer acceptance — not Crow dev |
-| **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~30%** | Auditor role shipped; migrate/E2E open |
+| **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~65%** | Prod auth guard; CI Postgres smoke; dept chips |
 | **M7** | Cloud & production | Cloud, Resend | Muhanad | **~5%** | Documented; deploy deferred |
 | **M8** | Paid customer / full MEEM ERP | Post-revenue | Product | **deferred** | Until paying / SaaS commitment |
 
@@ -65,9 +65,13 @@
 
 | Done | Open |
 |------|------|
-| E10 logistics → `cybercrowAuditLog` | Entra ops narrative on tenant settings + login |
-| `/[tenant]/cybercrow/grc` data-backed | GRC bulk / deeper NCA control mapping |
-| `auditor_readonly` + tenant CyberCrow paths | Platform risk widgets beyond MEEM counts |
+| E10 logistics → `cybercrowAuditLog` | GRC bulk import / extended NCA catalog (post-M4) |
+| `/[tenant]/cybercrow/grc` — NCA labels + evidence preview (2–3 rows/control) | — |
+| `/admin/overview` — cross-tenant CyberCrow posture strip | — |
+| `auditor_readonly` + tenant CyberCrow paths; logistics admin audit filter | — |
+| Entra ops narrative — settings, login, `/cybercrow/identity`, `/help/entra-sso` | — |
+| Rehearsal script — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) + `npm run rehearsal:m4` | — |
+| **MEEM Phase 4 E2E** | **Deferred** until M6/M7 polish ([`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md)) |
 
 ---
 
@@ -88,8 +92,10 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 | Done | Open |
 |------|------|
 | `auditor_readonly` crow_role (overlap M4) | Dept chips fully DB-driven on requests |
-| Client role + portal | `AUTH_DISABLED` blocked in production checklist |
-| MEEM permission seed | `smoke:phase1` on clean DB; MEEM without `USE_MOCK_DATA` |
+| Client role + portal | `smoke:phase1` on clean DB in CI |
+| `AUTH_DISABLED` blocked when `NODE_ENV=production` | MEEM without `USE_MOCK_DATA` in CI |
+| [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) — migrate deploy + `app_metadata` RBAC | `prisma migrate deploy` in CI/CD (M7) |
+| `smoke:phase1` + optional `SMOKE_CHECK_HEALTH=1` | — |
 
 ---
 
@@ -109,9 +115,9 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 
 ## Recommended track — Muhanad (implementation)
 
-1. **Close M4** — Entra settings/login ops copy; rehearse GRC + auditor paths on live MEEM seed.  
-2. **Close M2** — Run [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) once on live Postgres; confirm `/admin/audit` logistics filter + notifications.  
-3. **M6** — `smoke:phase1`, migrate baseline PR, production auth checklist.  
+1. **Close M2** — Run [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) **after** M6/M7 polish; confirm `/admin/audit` logistics filter + notifications.  
+2. **M6** — Dept chips on requests; `smoke:phase1` on clean DB in CI; MEEM live path without mocks.  
+3. **M4 (done)** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) for platform overview + GRC + auditor.  
 4. **M7** — Phase Cloud env matrix when customer date is set.  
 5. **Hand off M5** — Omar SAREA acceptance checklist; Muhanad only adjusts runtime from feedback.
 

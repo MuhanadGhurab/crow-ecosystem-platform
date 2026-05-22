@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 
 import { PublicPageHeader } from "@/components/public/public-page-header";
+import { PublicSectionIntro } from "@/components/public/public-section-intro";
 
 import { EXTRA_SERVICES } from "@/lib/constants/extra-services";
 
@@ -95,18 +96,12 @@ export default function ModulesPage() {
 
 
         <section className="mt-14 rounded-2xl border border-violet-500/15 bg-gradient-to-br from-violet-950/30 via-cc-elevated/80 to-rose-950/20 p-6 sm:p-8">
-
-          <span className="cc-star-badge">Extra services</span>
-
-          <h2 className="mt-3 font-display text-lg font-semibold text-white">AI & optional add-ons</h2>
-
-          <p className="mt-2 max-w-2xl text-sm text-slate-400">
-
-            Not included in every base tier — scoped during discovery and quoted on your blueprint. CyberCrow-aligned
-
-            when touching security or compliance data.
-
-          </p>
+          <PublicSectionIntro
+            badge="Extra services"
+            title="AI & optional add-ons"
+            description="Not included in every base tier — scoped during discovery and quoted on your blueprint. CyberCrow-aligned when touching security or compliance data."
+            centered={false}
+          />
 
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
 

@@ -1,49 +1,71 @@
 import Link from "next/link";
+import { PlatformCybercrowPostureStrip } from "@/components/admin/platform-cybercrow-posture";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { DeptChips } from "@/components/pipeline/dept-chips";
 import { PLATFORM_IDENTITIES, PLATFORM_LIFECYCLE } from "@/lib/constants/platform";
 import { routes } from "@/lib/routes";
+import { getPlatformCybercrowPosture } from "@/lib/services/cybercrow-platform.service";
+import { getPlatformPipelineStats } from "@/lib/services/platform-pipeline-stats.service";
 
-const PIPELINE_CARDS = [
+function pipelineCountLabel(
+  stats: Awaited<ReturnType<typeof getPlatformPipelineStats>>,
+  value: number,
+  fallback: string
+) {
+  if (!stats.live) return fallback;
+  return value === 1 ? "1" : String(value);
+}
+
+const PIPELINE_CARD_DEFS = [
   {
     href: routes.admin.requests,
     label: "Implementation requests",
-    count: "Queue",
+    fallbackCount: "Queue",
+    countKey: "requestCount" as const,
     dept: { hasSecurity: true, hasModules: true, showSarea: false },
     entity: "cem" as const,
   },
   {
     href: routes.admin.discovery,
     label: "Active discovery",
-    count: "In progress",
+    fallbackCount: "In progress",
+    countKey: "discoveryCount" as const,
     dept: { hasSecurity: true, hasModules: true, showSarea: true },
     entity: "cem" as const,
   },
   {
     href: routes.admin.blueprints,
     label: "Blueprints",
-    count: "Pricing",
+    fallbackCount: "Pricing",
+    countKey: "blueprintCount" as const,
     dept: { hasSecurity: true, hasModules: true, showSarea: true },
     entity: "cybercrow" as const,
   },
   {
     href: routes.admin.tenants,
     label: "Live tenants",
-    count: "CEM runtime",
+    fallbackCount: "CEM runtime",
+    countKey: "liveTenantCount" as const,
     dept: { hasSecurity: true, hasModules: true, showSarea: true },
     entity: "sarea" as const,
   },
   {
     href: routes.admin.audit,
     label: "Audit & notifications",
-    count: "Pipeline log",
+    fallbackCount: "Pipeline log",
+    countKey: null,
     dept: { hasSecurity: true, hasModules: false, showSarea: false },
     entity: "cybercrow" as const,
   },
 ] as const;
 
-export default function AdminOverviewPage() {
+export default async function AdminOverviewPage() {
+  const [posture, pipelineStats] = await Promise.all([
+    getPlatformCybercrowPosture(),
+    getPlatformPipelineStats(),
+  ]);
+
   return (
     <div className="space-y-10">
       <PageHeader
@@ -51,6 +73,8 @@ export default function AdminOverviewPage() {
         title="Overview"
         description="Crow Admin Console — pipeline health from request through go-live."
       />
+
+      <PlatformCybercrowPostureStrip posture={posture} />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="Platform identities" value={Object.keys(PLATFORM_IDENTITIES).length} accent="cyan" />
@@ -63,7 +87,16 @@ export default function AdminOverviewPage() {
           Pipeline
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {PIPELINE_CARDS.map((card) => (
+          {PIPELINE_CARD_DEFS.map((card) => {
+            const count =
+              card.countKey != null
+                ? pipelineCountLabel(
+                    pipelineStats,
+                    pipelineStats[card.countKey],
+                    card.fallbackCount
+                  )
+                : card.fallbackCount;
+            return (
             <Link
               key={card.href}
               href={card.href}
@@ -77,12 +110,13 @@ export default function AdminOverviewPage() {
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium text-white">{card.label}</p>
-                <span className="text-xs text-slate-500">{card.count}</span>
+                <span className="font-mono text-xs tabular-nums text-slate-500">{count}</span>
               </div>
               <DeptChips {...card.dept} className="mt-2" />
               <span className="mt-3 text-sm text-cyan-400">Open →</span>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </section>
 

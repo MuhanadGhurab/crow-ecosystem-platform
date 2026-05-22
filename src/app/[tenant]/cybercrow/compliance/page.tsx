@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { routes } from "@/lib/routes";
+import { getNcaControlDefinition } from "@/lib/constants/nca-compliance-controls";
 import { listTenantComplianceControls } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
@@ -23,19 +24,31 @@ export default async function CybercrowCompliancePage({
         <EmptyState title="No controls" description="Provision the tenant to seed the security baseline." />
       ) : (
         <ul className="space-y-2">
-          {controls.map((c) => (
-            <li key={c.id} className="cc-list-item">
-              <span className="font-mono text-white">{c.controlKey}</span>
-              <span className="text-slate-500">
-                {c.status} · {c._count.evidence} evidence
-              </span>
-            </li>
-          ))}
+          {controls.map((c) => {
+            const nca = getNcaControlDefinition(c.controlKey);
+            return (
+              <li key={c.id} className="cc-list-item flex-col !items-start gap-1 sm:flex-row sm:!items-center">
+                <div>
+                  <span className="font-mono text-xs text-violet-300">{nca.frameworkId}</span>
+                  <span className="ml-2 text-white">{nca.title}</span>
+                  <span className="ml-2 text-xs text-slate-600">({c.controlKey})</span>
+                </div>
+                <span className="text-slate-500">
+                  {c.status} · {c._count.evidence} evidence
+                </span>
+              </li>
+            );
+          })}
         </ul>
       )}
-      <Link href={routes.tenant(slug).cybercrow.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-        ← CyberCrow dashboard
-      </Link>
+      <div className="flex flex-wrap gap-4 text-sm">
+        <Link href={routes.tenant(slug).settings} className="text-cyan-400 hover:text-cyan-300">
+          Identity & Entra settings →
+        </Link>
+        <Link href={routes.tenant(slug).cybercrow.dashboard} className="text-violet-400 hover:text-violet-300">
+          ← CyberCrow dashboard
+        </Link>
+      </div>
     </div>
   );
 }

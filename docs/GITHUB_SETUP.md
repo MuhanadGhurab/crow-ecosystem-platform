@@ -59,7 +59,14 @@ gh repo edit --description "Multi-tenant enterprise platform: Discovery, Bluepri
 
 ## CI
 
-Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — runs `audit:src`, `typecheck`, and `build` on push/PR to `main`/`master` with mock env (no real database).
+Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml):
+
+| Job | What it runs |
+|-----|----------------|
+| `verify` | `audit:src`, `typecheck`, `build` |
+| `postgres-smoke` | Postgres 16 → `db:migrate:deploy` → `smoke:phase1` (live DB, no mocks) |
+
+Push to `main` triggers both jobs. See [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) for local mirror commands.
 
 ## Recommended next (Cloud phase)
 
