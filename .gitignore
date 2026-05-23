@@ -22,6 +22,9 @@ node_modules/
 out/
 .env
 .env*.local
+.env.staging
+.env.production
+.env.vercel
 
 # Prisma
 prisma/*.db

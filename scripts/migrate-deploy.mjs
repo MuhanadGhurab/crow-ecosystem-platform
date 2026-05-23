@@ -2,6 +2,7 @@
  * Production migrate: deploy, then auto-baseline on P3005 (db push without history).
  * Used by vercel.json buildCommand and npm run db:migrate:deploy.
  */
+import "./assert-remote-database-url.mjs";
 import { spawnSync } from "node:child_process";
 
 function runMigrateDeploy() {
