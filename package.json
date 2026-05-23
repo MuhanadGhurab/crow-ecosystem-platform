@@ -30,6 +30,7 @@
     "deploy:check": "node --env-file=.env scripts/deploy-readiness.mjs",
     "simulate:vercel-build": "node --env-file=.env scripts/simulate-vercel-build.mjs",
     "public:mirror-manifest": "node scripts/prepare-public-mirror.mjs",
+    "public:build": "node scripts/build-public-repository.mjs",
     "onboard:tenant": "npx tsx --env-file=.env scripts/onboard-tenant-from-blueprint.ts",
     "auth:bootstrap": "npx tsx --env-file=.env scripts/bootstrap-platform-admin.ts",
     "auth:grant-role": "npx tsx --env-file=.env scripts/grant-crow-role.ts",
