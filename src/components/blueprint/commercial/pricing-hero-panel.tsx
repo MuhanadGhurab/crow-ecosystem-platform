@@ -1,5 +1,5 @@
 import { MOCK_SAREA_MONTHLY_SAR } from "@/lib/mock/pipeline";
-import { formatSar } from "@/lib/services/commercial.service";
+import { formatSar } from "@/lib/commercial-display";
 import { SAUDI_VAT_RATE } from "@/lib/services/pricing.service";
 
 export type PricingBreakdown = {

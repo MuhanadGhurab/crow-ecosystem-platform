@@ -1,3 +1,5 @@
+import "server-only";
+
 import { randomBytes } from "crypto";
 import type { ProposalStatus } from "@prisma/client";
 import { prisma } from "@/lib/db";
@@ -41,7 +43,7 @@ function pricingInputFromRequest(
   };
 }
 
-export { formatSar };
+export { formatSar } from "@/lib/services/pricing.service";
 
 export async function refreshRequestPricingEstimate(requestId: string) {
   const request = await prisma.implementationRequest.findUniqueOrThrow({
@@ -172,12 +174,4 @@ export async function declineProposalByToken(token: string) {
   });
 }
 
-export function proposalStatusLabel(status: ProposalStatus): string {
-  const labels: Record<ProposalStatus, string> = {
-    DRAFT: "Draft",
-    SENT: "Sent to client",
-    CLIENT_APPROVED: "Client approved",
-    DECLINED: "Declined",
-  };
-  return labels[status];
-}
+export { proposalStatusLabel } from "@/lib/commercial-display";

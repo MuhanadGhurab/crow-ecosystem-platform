@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import type { ProposalStatus } from "@prisma/client";
 import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
 import { adminSendProposalAction } from "@/lib/actions/commercial";
-import { proposalStatusLabel } from "@/lib/services/commercial.service";
+import { proposalStatusLabel } from "@/lib/commercial-display";
 
 export function BlueprintProposalPanel({
   blueprintId,

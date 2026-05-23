@@ -2,7 +2,11 @@
   "name": "crow-ecosystem-platform",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
+    "postinstall": "prisma generate",
     "predev": "node scripts/free-port.mjs",
     "dev": "node --use-system-ca ./node_modules/next/dist/bin/next dev",
     "build": "node --use-system-ca ./node_modules/next/dist/bin/next build",
