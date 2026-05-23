@@ -16,6 +16,7 @@
     "db:migrate:baseline": "node scripts/baseline-migrations-from-push.mjs",
     "db:status": "prisma migrate status",
     "db:test": "node --env-file=.env.staging scripts/test-db-connection.mjs",
+    "db:test:full": "node --env-file=.env.staging scripts/test-db-connection.mjs --full",
     "db:push": "prisma db push",
     "db:push:local": "powershell -ExecutionPolicy Bypass -File scripts/db-push-local.ps1",
     "db:tables": "node scripts/db-table-count.mjs",
