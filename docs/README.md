@@ -1,10 +1,32 @@
 # Documentation index
 
+## Public portfolio (safe to share on GitHub)
+
+| Doc | Use |
+|-----|-----|
+| [`SECDEVOPS.md`](SECDEVOPS.md) | **SecDevOps — identity, audit, CyberCrow, CI** |
+| [`AI_PLATFORM.md`](AI_PLATFORM.md) | **Governed AI extras** |
+| [`MULTI_TENANT.md`](MULTI_TENANT.md) | **Multi-tenant Crow Ecosystem** |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Conceptual system architecture |
+| [`PLATFORM_ENGINES.md`](PLATFORM_ENGINES.md) | CEM · CyberCrow · SAREA |
+| [`LIFECYCLE.md`](LIFECYCLE.md) | Request → Go-live pipeline |
+| [`CEM.md`](CEM.md) · [`CYBERCROW.md`](CYBERCROW.md) · [`SAREA.md`](SAREA.md) | Engine deep dives |
+| [`ROADMAP.md`](ROADMAP.md) | Public roadmap |
+| [`PHILOSOPHY.md`](PHILOSOPHY.md) | Product philosophy & guardrails |
+| [`PUBLIC_GITHUB.md`](PUBLIC_GITHUB.md) | **What to publish vs keep private** |
+| [`assets/screenshots/README.md`](assets/screenshots/README.md) | README screenshot gallery |
+
+---
+
+## Internal engineering (private repo / mirror exclude)
+
 **Start here**
 
 | Doc | Use |
 |-----|-----|
 | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) | **Progress %, blockers, next actions** |
+| [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md) | **Finish platform locally** before Azure |
+| [`RESEND_SETUP.md`](RESEND_SETUP.md) | Pipeline email — `RESEND_API_KEY` (M2–M3) |
 | [`MILESTONES.md`](MILESTONES.md) | **M1–M8** milestone map (% complete, owners) |
 | [`BASELINE.md`](BASELINE.md) | Run locally, env, verification |
 | [`PHASES.md`](PHASES.md) | Roadmap to production (0–10 + MEEM + Cloud) |
@@ -12,8 +34,9 @@
 | [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | MEEM live rehearsal script (deferred) |
 | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 CyberCrow ops rehearsal (~10 min) |
 | [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) | Auth hardening, migrate deploy, `app_metadata` |
-| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) | Vercel + Supabase production deploy |
-| [`VERCEL_CONNECT.md`](VERCEL_CONNECT.md) | **Connect Vercel** — import GitHub + env vars |
+| [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md) | **Primary production** — Azure App Service + PostgreSQL |
+| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) | Cloud deploy matrix (Azure primary; Vercel interim) |
+| [`VERCEL_CONNECT.md`](VERCEL_CONNECT.md) | Optional Vercel preview — not primary platform |
 | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) | Paid customer onboarding (post-MEEM) |
 | [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | GitHub repo + CI jobs |
 

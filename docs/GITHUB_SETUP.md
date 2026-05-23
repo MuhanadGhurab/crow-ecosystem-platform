@@ -54,7 +54,7 @@ git push -u origin main
 > Multi-tenant adaptive enterprise platform — Discovery → Blueprint → CEM, CyberCrow, and SAREA. Next.js 15, Prisma, Supabase. MEEM Global is the lighthouse customer demo.
 
 ```powershell
-gh repo edit --description "Multi-tenant enterprise platform: Discovery, Blueprint, CEM, CyberCrow, SAREA. Next.js 15 + Prisma + Supabase."
+gh repo edit --description "SecDevOps · governed AI · multi-tenant platform (Crow Ecosystem). Next.js 15, Prisma, PostgreSQL, Microsoft Entra."
 ```
 
 ## CI

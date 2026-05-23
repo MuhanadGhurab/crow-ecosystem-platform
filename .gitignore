@@ -32,6 +32,10 @@ credentials.json
 *.pem
 .supabase/
 
+# Private strategy (keep in full repo; exclude from public mirror — see docs/PUBLIC_GITHUB.md)
+# docs/CYBERCROW_MASTER_CONTEXT.md
+# docs/customers/
+
 # Vercel CLI
 .vercel/
 .env.vercel.local
