@@ -19,6 +19,16 @@ if (result.stderr) process.stderr.write(result.stderr);
 
 const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
 
+if (result.status !== 0 && /P1000/i.test(output)) {
+  console.error(
+    "\n✗ Database authentication failed (P1000). Vercel cannot finish migrate deploy.\n" +
+      "  Reset password in Supabase → Database → Connect → copy fresh Session + Transaction URIs.\n" +
+      "  Ensure NEXT_PUBLIC_SUPABASE_URL matches the same project as DATABASE_URL.\n" +
+      "  Local check: npm run db:test\n"
+  );
+  process.exit(1);
+}
+
 if (result.status !== 0 && /P3005/.test(output)) {
   console.log(
     "\n→ Database has tables but no migration history (typical after db push). Baselining…\n"
