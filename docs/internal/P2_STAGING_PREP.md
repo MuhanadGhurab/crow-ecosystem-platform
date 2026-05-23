@@ -4,7 +4,7 @@
 
 **Goal:** A **staging URL** with hosted Postgres, real auth, `/api/health` `deployReady: true`, and optional MEEM lighthouse seed.
 
-**Primary prod later:** Azure ([`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md)). **Staging interim:** Vercel + Supabase pooler (fastest path).
+**Primary prod later:** Azure ([`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md)). **Staging interim:** Vercel + Supabase pooler — or **[`STAGING_WITHOUT_VERCEL.md`](STAGING_WITHOUT_VERCEL.md)** if Vercel fails.
 
 ---
 
