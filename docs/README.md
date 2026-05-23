@@ -1,23 +1,22 @@
 # Documentation
 
-Crow Ecosystem documentation is split intentionally:
-
-| Folder | Audience | Purpose |
-|--------|----------|---------|
-| **[`public/`](public/)** | GitHub, portfolio, contributors, clients | Curated architecture & platform story |
-| **[`internal/`](internal/)** | Founder, operators, delivery | Operational intelligence — **not for public mirror** |
+Public architecture and platform guides for **Crow Ecosystem Platform**.
 
 ---
 
-## Quick links
+## Start here
 
-- **New to the repo?** → [`public/README.md`](public/README.md)
-- **Running locally?** → [`internal/BASELINE.md`](internal/BASELINE.md)
-- **Publishing to GitHub?** → [`internal/PUBLIC_GITHUB.md`](internal/PUBLIC_GITHUB.md)
-- **Full operator context?** → [`internal/MASTER_CONTEXT.md`](internal/MASTER_CONTEXT.md)
+| Document | Topic |
+|----------|--------|
+| [`public/README.md`](public/README.md) | Index |
+| [`public/ARCHITECTURE.md`](public/ARCHITECTURE.md) | System architecture |
+| [`public/LIFECYCLE.md`](public/LIFECYCLE.md) | Delivery pipeline |
+| [`public/SETUP.md`](public/SETUP.md) | Clone & run (demo) |
 
 ---
 
 ## Repository root
 
-[`../README.md`](../README.md) — public-facing project overview.
+[`../README.md`](../README.md) — project overview.
+
+Questions: [open an issue](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues) or [start a discussion](https://github.com/MuhanadGhurab/crow-ecosystem-platform/discussions) on GitHub.

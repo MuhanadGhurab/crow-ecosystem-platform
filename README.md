@@ -16,9 +16,7 @@
 
 **Crow Ecosystem Platform** is an adaptive **enterprise orchestration ecosystem** built around Discovery, Enterprise Blueprinting, **CEM**, **CyberCrow**, and **SAREA** — for organizations that need governed delivery from first request to live operations, not a module catalog dropped on day one.
 
-**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Public docs:** [`docs/public/`](docs/public/)
-
-> This is a **curated architecture showcase** for portfolio and engineering credibility. Operator-only documentation (`docs/internal/`) is not intended for public export.
+**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/)
 
 ---
 

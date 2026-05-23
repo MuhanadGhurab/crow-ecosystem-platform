@@ -81,9 +81,7 @@ npm run db:seed
 npm run dev
 ```
 
-Use `AUTH_DISABLED=false` and `USE_MOCK_DATA=false` for real auth paths.
-
-Detailed operator guides live in `docs/internal/` (not shipped in public mirrors).
+Use `AUTH_DISABLED=false` and `USE_MOCK_DATA=false` for real auth paths. See [`/help/entra-sso`](http://localhost:3000/help/entra-sso) for Microsoft SSO setup notes.
 
 ---
 

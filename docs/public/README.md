@@ -47,8 +47,4 @@ These docs explain **concepts and architecture** — not internal operations, li
 
 ---
 
-## Internal documentation
-
-Operator, founder, and customer-specific docs live in [`../internal/`](../internal/) — **not** intended for public mirror or open-source export.
-
 Repository root: [`../../README.md`](../../README.md)
