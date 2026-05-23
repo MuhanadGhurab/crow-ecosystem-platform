@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { planLabel } from "@/lib/catalog-labels";
+import { isStripeConfigured } from "@/lib/billing/env";
 import { routes } from "@/lib/routes";
 import {
   listSubscriptionPlansWithUsage,
@@ -7,6 +8,7 @@ import {
 } from "@/lib/services/platform-admin.service";
 
 export default async function AdminSubscriptionsPage() {
+  const stripeConfigured = isStripeConfigured();
   const [plans, subscriptions] = await Promise.all([
     listSubscriptionPlansWithUsage(),
     listTenantSubscriptions(),
@@ -18,6 +20,20 @@ export default async function AdminSubscriptionsPage() {
       <p className="text-sm text-slate-400">
         Catalog plans from seed data and active tenant subscriptions.
       </p>
+
+      {stripeConfigured ? (
+        <p className="rounded-cc-sm border border-teal-500/20 bg-teal-500/10 px-4 py-2 text-sm text-teal-100">
+          Stripe keys detected —{" "}
+          <Link href="/api/billing/status" className="text-cyan-300 hover:text-cyan-200">
+            billing status →
+          </Link>
+        </p>
+      ) : (
+        <p className="rounded-cc-sm border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm text-amber-100">
+          Stripe not configured — set <code className="text-amber-50">STRIPE_*</code> env vars for
+          live checkout (see docs/internal/STRIPE_BILLING.md).
+        </p>
+      )}
 
       <section>
         <h3 className="text-sm font-medium text-cyan-400">Plans</h3>
@@ -37,7 +53,8 @@ export default async function AdminSubscriptionsPage() {
         <h3 className="text-sm font-medium text-cyan-400">Active tenant subscriptions</h3>
         {subscriptions.length === 0 ? (
           <p className="mt-2 text-sm text-slate-500">
-            No tenant subscriptions yet. Run <code className="text-cyan-400">npm run db:seed</code> for plans.
+            No tenant subscriptions yet. Run <code className="text-cyan-400">npm run db:seed</code>{" "}
+            for plans.
           </p>
         ) : (
           <ul className="mt-3 space-y-2">
@@ -46,12 +63,19 @@ export default async function AdminSubscriptionsPage() {
                 key={s.id}
                 className="flex flex-wrap justify-between gap-2 rounded-cc border border-cyan-500/10 bg-white/5 px-4 py-3 text-sm"
               >
-                <Link
-                  href={routes.tenant(s.tenant.slug).dashboard}
-                  className="text-cyan-400 hover:text-cyan-300"
-                >
-                  {s.tenant.organization.displayName}
-                </Link>
+                <div className="min-w-0">
+                  <Link
+                    href={routes.tenant(s.tenant.slug).dashboard}
+                    className="text-cyan-400 hover:text-cyan-300"
+                  >
+                    {s.tenant.organization.displayName}
+                  </Link>
+                  {s.stripeCustomerId && (
+                    <p className="mt-1 font-mono text-xs text-slate-500">
+                      Stripe customer: {s.stripeCustomerId}
+                    </p>
+                  )}
+                </div>
                 <span className="text-slate-500">
                   {s.plan.nameEn} · {s.status}
                 </span>

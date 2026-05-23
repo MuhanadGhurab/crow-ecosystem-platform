@@ -1,28 +1,55 @@
 import Link from "next/link";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+import { DeptChips } from "@/components/pipeline/dept-chips";
 import { requireClientAccess } from "@/lib/auth/session";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_CLIENT_REQUESTS } from "@/lib/mock/portal";
+import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
+import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 import { routes } from "@/lib/routes";
 import { listClientRequests } from "@/lib/services/client-request-link.service";
 import { formatSar } from "@/lib/services/commercial.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
+
+type PortalRequestRow = {
+  id: string;
+  referenceCode: string;
+  organizationName: string;
+  status: ImplementationRequestStatus;
+  estimatedMonthlySar: number | null;
+  proposalToken: string | null;
+  updatedAt: Date | string;
+  dept: ReturnType<typeof getRequestDeptContextFromRow>;
+};
+
+function mockDeptForRequest(id: string, status: ImplementationRequestStatus) {
+  const pipeline = MOCK_PIPELINE_REQUESTS.find((m) => m.id === id);
+  return getRequestDeptContextFromRow({
+    status,
+    requestedSecurityPkgs: pipeline?.hasSecurity ? [1] : [],
+    requestedModules: pipeline?.hasModules ? [1] : [],
+    discoveryProfile:
+      status === "BLUEPRINT_BUILD" || status === "UNDER_DISCOVERY"
+        ? {
+            answers: [
+              {
+                sectionKey: "experience",
+                questionKey: "sareaPackageKey",
+                valueJson: "professional",
+              },
+            ],
+          }
+        : null,
+  });
+}
 
 export default async function PortalRequestsPage() {
   const user = await requireClientAccess();
   const { role } = getCrowAuth(user);
   const staffPreview = isPlatformStaff(role);
 
-  let rows: {
-    id: string;
-    referenceCode: string;
-    organizationName: string;
-    status: ImplementationRequestStatus;
-    estimatedMonthlySar: number | null;
-    proposalToken: string | null;
-    updatedAt: Date | string;
-  }[] = [];
+  let rows: PortalRequestRow[] = [];
 
   if (isUseMockData()) {
     rows = MOCK_CLIENT_REQUESTS.map((r) => ({
@@ -33,6 +60,7 @@ export default async function PortalRequestsPage() {
       estimatedMonthlySar: r.estimatedMonthlySar,
       proposalToken: r.proposalToken,
       updatedAt: r.updatedAt,
+      dept: mockDeptForRequest(r.id, r.status),
     }));
   } else if (user.email) {
     try {
@@ -45,6 +73,12 @@ export default async function PortalRequestsPage() {
         estimatedMonthlySar: r.estimatedMonthlySar ? Number(r.estimatedMonthlySar) : null,
         proposalToken: r.enterpriseBlueprint?.proposalToken ?? null,
         updatedAt: r.updatedAt,
+        dept: getRequestDeptContextFromRow({
+          status: r.status,
+          requestedSecurityPkgs: r.requestedSecurityPkgs,
+          requestedModules: r.requestedModules,
+          discoveryProfile: r.discoveryProfile,
+        }),
       }));
     } catch {
       rows = [];
@@ -95,6 +129,7 @@ export default async function PortalRequestsPage() {
                       {r.organizationName}
                     </p>
                     <p className="mt-1 font-mono text-sm text-slate-500">{r.referenceCode}</p>
+                    <DeptChips {...r.dept} className="mt-3" />
                   </div>
                   <RequestStatusBadge status={r.status} />
                 </div>

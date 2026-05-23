@@ -61,6 +61,16 @@ if (process.env.DEPLOY_TARGET === "vercel" && isLocalDb) {
   warnings.push("DATABASE_URL points at localhost — use Supabase pooler URLs on Vercel");
 }
 
+if (process.env.DEPLOY_TARGET === "azure") {
+  if (isLocalDb) {
+    errors.push("DATABASE_URL points at localhost — use Azure Database for PostgreSQL in production");
+  }
+  if (!siteUrl) {
+    warnings.push("NEXT_PUBLIC_SITE_URL should be your Azure App Service URL for Entra redirects");
+  }
+  console.log("Deploy target: Azure App Service (see docs/internal/AZURE_DEPLOY.md)");
+}
+
 if (databaseUrl && !databaseUrl.includes("pgbouncer=true") && isSupabaseDb) {
   warnings.push("DATABASE_URL should use transaction pooler (port 6543) with ?pgbouncer=true");
 }

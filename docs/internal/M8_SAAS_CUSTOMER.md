@@ -101,9 +101,10 @@ Do **not** enable modules on tenant that were not sold on blueprint.
 | Step | Doc / code |
 |------|------------|
 | Env keys | [`.env.production.example`](../.env.production.example), [`STRIPE_BILLING.md`](STRIPE_BILLING.md) |
-| Config check | `GET /api/billing/status` |
-| Checkout | `billing.service` — wire when keys set |
-| Admin | `/admin/subscriptions` — link to portal when live |
+| Config check | `GET /api/billing/status` (`checkoutReady` when keys + `stripe` package) |
+| Checkout | `POST /api/billing/checkout` + `billing.service` (Stripe Checkout subscription) |
+| Webhook | `POST /api/billing/webhook` — `checkout.session.completed`, subscription updated/deleted |
+| Admin | `/admin/subscriptions` — Stripe banner + customer id when present |
 
 Billing is **post-provision** — tenant exists first, subscription records in `tenant_subscriptions`.
 
@@ -127,7 +128,8 @@ Billing is **post-provision** — tenant exists first, subscription records in `
 - [ ] Modules match blueprint only
 - [ ] `tenant_admin` can access `/{slug}/dashboard`
 - [ ] CyberCrow baseline visible
-- [ ] Stripe keys in Vercel (when billing live)
+- [ ] Stripe keys + webhook secret in Vercel/Azure (when billing live)
+- [x] Checkout + webhook routes (requires live keys to charge)
 - [ ] MEEM E2E deferred until M7+M8 rehearsal window ([`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md))
 
 ---

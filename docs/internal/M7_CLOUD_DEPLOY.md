@@ -97,7 +97,7 @@ npm run db:seed:meem
 npm run db:seed:meem:ops
 ```
 
-4. Confirm health: `GET https://your-app.vercel.app/api/health` → `{ ok: true, db: "ok", deployReady: true }`.
+4. Confirm health: `GET https://your-app.vercel.app/api/health` → `{ ok: true, db: "ok", deployReady: true, migrationsApplied: N, billingReady: bool }`.
 
 ---
 
@@ -127,6 +127,8 @@ USER_EMAIL=you@company.com CROW_ROLE=platform_admin npm run auth:bootstrap
 ```bash
 npm run deploy:check
 DEPLOY_TARGET=vercel npm run deploy:check
+DEPLOY_TARGET=azure npm run deploy:check
+npm run simulate:production-env
 ```
 
 Validates required env without printing secrets. Fix blockers before pasting into Vercel.

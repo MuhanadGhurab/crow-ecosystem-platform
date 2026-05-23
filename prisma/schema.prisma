@@ -1021,12 +1021,15 @@ model SubscriptionPlan {
 }
 
 model TenantSubscription {
-  id        String   @id @default(cuid())
-  tenantId  String   @unique
-  planId    String
-  status    String   @default("active")
-  startedAt DateTime @default(now())
-  endsAt    DateTime?
+  id                   String   @id @default(cuid())
+  tenantId             String   @unique
+  planId               String
+  status               String   @default("active")
+  startedAt            DateTime @default(now())
+  endsAt               DateTime?
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  stripePriceId        String?
 
   tenant Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   plan   SubscriptionPlan @relation(fields: [planId], references: [id])

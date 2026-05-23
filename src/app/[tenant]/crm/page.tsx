@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { CrmAccountEditRow, CrmContactEditRow } from "@/components/tenant/crm/crm-edit-rows";
 import { CrmAccountForm, CrmContactForm } from "@/components/tenant/crm/crm-forms";
+import { MeemCrmHub } from "@/components/tenant/meem-crm-hub";
+import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { routes } from "@/lib/routes";
 import { listCrmAccounts, listCrmContacts } from "@/lib/services/crm.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -15,6 +17,11 @@ export default async function TenantCrmPage({
   const { tenant: slug } = await params;
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
+
+  const tenantModules = tenant.modules ?? [];
+  const showMeemHub = showMeemErpHub(slug, tenant.organization.industry, tenantModules);
+  const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
+  const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "crm") : [];
 
   const [accounts, contacts] = await Promise.all([
     listCrmAccounts(tenant.id),
@@ -30,6 +37,14 @@ export default async function TenantCrmPage({
         title="Customer relationships"
         description={`Accounts and contacts for ${tenant.organization.displayName}.`}
       />
+
+      {showMeemHub && (
+        <MeemCrmHub
+          slug={slug}
+          organizationName={tenant.organization.displayName}
+          aiExtraKeys={aiExtraKeys}
+        />
+      )}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <CrmAccountForm tenantSlug={slug} />

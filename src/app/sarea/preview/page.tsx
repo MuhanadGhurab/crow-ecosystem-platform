@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { routes } from "@/lib/routes";
 import {
@@ -17,6 +18,8 @@ export default async function SareaPreviewPage() {
       title="Studio preview"
       description="Aggregate view of SAREA data across all tenants."
     >
+      <SareaAcceptanceHub compact />
+
       <section className="grid gap-3 sm:grid-cols-3">
         <div className="cc-glass-card text-center">
           <p className="text-xl font-bold text-cyan-300">{summary.layoutCount}</p>

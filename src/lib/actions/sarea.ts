@@ -5,8 +5,12 @@ import { requireActionPlatformStaff } from "@/lib/auth/action-guard";
 import { routes } from "@/lib/routes";
 import {
   updateAdaptiveUiRule,
+  updateAdaptiveRuleDensity,
   updateDashboardLayout,
   updateDeviceExperienceRule,
+  updateDeviceRuleJson,
+  updateExperienceProfileName,
+  updateNavigationPrimaryKeys,
   updateRoleExperienceMap,
   updateWidgetRuleVisibility,
 } from "@/lib/services/sarea.service";
@@ -102,4 +106,76 @@ export async function updateDeviceRuleAction(
   }
   revalidateSarea(routes.sarea.deviceRules);
   return { success: "Device rule updated." };
+}
+
+export async function updateNavigationKeysAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const primaryRaw = String(formData.get("primaryKeys") ?? "").trim();
+  if (!id || !primaryRaw) return { error: "Navigation id and keys required." };
+  const primary = primaryRaw
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
+  try {
+    await updateNavigationPrimaryKeys(id, primary);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.navigation);
+  return { success: "Navigation updated." };
+}
+
+export async function updateDensityLevelAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const level = String(formData.get("level") ?? "").trim();
+  if (!id || !level) return { error: "Rule id and density level required." };
+  try {
+    await updateAdaptiveRuleDensity(id, level);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.rules);
+  return { success: "Density updated." };
+}
+
+export async function updateDeviceCompactAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const compact = String(formData.get("compact") ?? "") === "true";
+  if (!id) return { error: "Device rule id required." };
+  try {
+    await updateDeviceRuleJson(id, { compact, touchTargets: compact ? "large" : "default" });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.deviceRules);
+  return { success: "Compact mode updated." };
+}
+
+export async function updateProfileNameAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const name = String(formData.get("name") ?? "").trim();
+  if (!id || !name) return { error: "Profile id and name required." };
+  try {
+    await updateExperienceProfileName(id, name);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.profiles);
+  return { success: "Profile renamed." };
 }

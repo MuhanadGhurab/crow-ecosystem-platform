@@ -10,7 +10,7 @@ import { RequestAdminActions } from "@/components/admin/request-admin-actions";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 
 import { DeptChips } from "@/components/pipeline/dept-chips";
-import { getRequestDeptContext } from "@/lib/pipeline/request-dept-context";
+import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
 import { PipelineProcessGuide } from "@/components/pipeline/pipeline-process-guide";
@@ -102,11 +102,30 @@ export default async function AdminRequestDetailPage({
         }
       : null);
 
-  const dept = getRequestDeptContext({
-    status,
-    securityPackageCount: request?.requestedSecurityPkgs.length ?? (mockRow?.hasSecurity ? 1 : 0),
-    moduleCount: request?.requestedModules.length ?? (mockRow?.hasModules ? 1 : 0),
-  });
+  const dept = request
+    ? getRequestDeptContextFromRow({
+        status: request.status,
+        requestedSecurityPkgs: request.requestedSecurityPkgs,
+        requestedModules: request.requestedModules,
+        discoveryProfile: request.discoveryProfile,
+      })
+    : getRequestDeptContextFromRow({
+        status,
+        requestedSecurityPkgs: mockRow?.hasSecurity ? [1] : [],
+        requestedModules: mockRow?.hasModules ? [1] : [],
+        discoveryProfile:
+          mockRow?.status === "BLUEPRINT_BUILD"
+            ? {
+                answers: [
+                  {
+                    sectionKey: "experience",
+                    questionKey: "sareaPackageKey",
+                    valueJson: "professional",
+                  },
+                ],
+              }
+            : null,
+      });
   const discoveryHref =
     mockRow?.discoveryAvailable ? routes.discovery(requestId).organization : null;
 

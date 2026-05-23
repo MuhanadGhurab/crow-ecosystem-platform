@@ -1,13 +1,21 @@
 # SAREA — MEEM customer liaison scope (Omar)
 
-**Role:** Omar — **MEEM Holding**, SAREA experience owner for **MEEM Global** (customer-side).  
-**Not:** Crow engineer, CYBERCROW repo implementer, or owner of Prisma / provision / CyberCrow delivery.
+**Role:** Omar — **MEEM Holding**, **SAREA admin** for **MEEM Global** (and future tenants). Same integration pattern as **Muhanad (Crow)** as **CyberCrow admin** — both embedded inside each tenant slug, not separate apps.
 
-**Crow platform owner:** Muhanad seeds personas, layouts, and rules at go-live; ships SAREA runtime and `/sarea/*` studio in this repo. Omar **validates** MEEM-facing experience against discovery and workshop briefs.
+| Admin | Engine | Primary tenant routes |
+|-------|--------|------------------------|
+| **Omar** | SAREA | `/{slug}/dashboard`, `/sarea/*`, blueprint SAREA tab, discovery experience |
+| **Muhanad** | CyberCrow | `/{slug}/cybercrow/*`, platform `/admin/audit` |
+
+**Lighthouse:** **MEEM Global** (`meem-global`) — first and largest customer; Omar’s sign-off here is the template for every tenant after.
+
+**Crow platform owner:** Muhanad seeds personas, layouts, and rules at go-live; ships SAREA runtime and `/sarea/*` studio in this repo. Omar **validates and accepts** MEEM-facing SAREA against discovery and blueprint — admin parity with Muhanad’s CyberCrow acceptance on the same tenant.
 
 **Milestone:** **M5 — MEEM SAREA acceptance** (~25%) — see [`MILESTONES.md`](MILESTONES.md). Not blocking M2 E2E or M3 ERP demo.
 
-**Routes Omar reviews (no code ownership):** `/sarea/*` (studio preview), `/{tenant}/dashboard` (runtime), blueprint **SAREA** tab.
+**Sign-off pack (share with Omar):** [`customers/OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md`](customers/OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md)
+
+**Omar’s 5-step path:** discovery `/experience` → blueprint `/sarea` → `/sarea/preview` → three persona buttons → sign at bottom.
 
 ---
 
@@ -30,14 +38,16 @@ Use discovery **experience** answers and blueprint **SAREA** tab as the brief; r
 
 ## Studio & runtime — acceptance checklist (not implementation tasks)
 
-| Surface | Omar acceptance |
-|---------|-----------------|
-| `/sarea/profiles` | MEEM personas match workshop names |
-| `/sarea/layouts` | Dashboard grid matches exec vs frontline brief |
-| `/sarea/role-mapping` | CEM role slugs → experience profile makes sense for MEEM |
-| `/sarea/widgets` | Widget visibility per profile |
-| `/sarea/navigation` | Nav keys appropriate for logistics tenant |
-| `/sarea/preview` | Demo-ready before customer walkthrough |
+| Surface | Omar acceptance | Crow studio |
+|---------|-----------------|-------------|
+| `/sarea/profiles` | MEEM personas match workshop names | Rename display names |
+| `/sarea/layouts` | Dashboard grid matches exec vs frontline brief | Edit layout name |
+| `/sarea/role-mapping` | CEM role slugs → experience profile makes sense for MEEM | Edit role slug |
+| `/sarea/widgets` | Widget visibility per profile (incl. CyberCrow posture) | Visibility select |
+| `/sarea/navigation` | Nav keys appropriate for logistics tenant | Edit primary keys |
+| `/sarea/rules` | Density level per persona | Edit spacious / comfortable / compact |
+| `/sarea/device-rules` | Mobile compact mode for frontline | Edit device + compact |
+| `/sarea/preview` | Demo-ready before customer walkthrough | Persona preview links |
 
 **Crow implements** studio routes and runtime wiring; Omar **approves** MEEM demo behavior.
 
@@ -55,11 +65,24 @@ Use discovery **experience** answers and blueprint **SAREA** tab as the brief; r
 
 ## Suggested MEEM validation order
 
-1. Review MEEM discovery **experience** step and blueprint **SAREA** tab.  
-2. With Muhanad, open `/sarea/role-mapping` — confirm `tenant-admin` → executive, `manager` → manager, `employee` → frontline.  
-3. On `http://localhost:3000/meem-global/dashboard`, compare exec vs frontline (test users or `AUTH_DEV_ROLE` where applicable).  
-4. Sign off logistics KPI visibility on executive dashboard (widgets/layout — Crow may adjust from feedback).  
-5. Mobile check for frontline persona (compact nav).
+1. Review MEEM discovery **experience** step and blueprint **SAREA** tab (`/blueprints/{id}/sarea`).
+2. Open `/sarea/profiles` — confirm **MEEM Group CIO view**, **Hub operations manager**, **Dispatcher mobile**.
+3. Open `/sarea/role-mapping` — confirm `tenant-admin` → executive, `hub-manager` → manager, `dispatcher` → frontline.
+4. Open `/sarea/widgets` — executive sees **Fleet KPIs** + **Reports**; frontline sees **POD mobile** only (no reports).
+5. **Persona preview (platform staff):** `/sarea/preview` → **Preview executive / manager / frontline** — opens `/meem-global/dashboard` with cookie-driven SAREA runtime (nav + widgets + density).
+6. **Full role simulation:** set `AUTH_DEV_ROLE=tenant_user` in `.env` and reload `/meem-global/dashboard` (frontline). Reset to platform role for exec view.
+7. Mobile check for frontline persona (compact nav + smaller dashboard grid).
+
+### Demo URLs (local)
+
+| Surface | URL |
+|---------|-----|
+| Studio overview | `http://localhost:3000/sarea/overview` |
+| Persona preview | `http://localhost:3000/sarea/preview` |
+| MEEM dashboard | `http://localhost:3000/meem-global/dashboard` |
+| Blueprint SAREA | `http://localhost:3000/blueprints/{MEEM_BLUEPRINT_ID}/sarea` |
+
+**Upgrade existing MEEM tenant (after pull):** `npm run sarea:meem-upgrade`
 
 ---
 

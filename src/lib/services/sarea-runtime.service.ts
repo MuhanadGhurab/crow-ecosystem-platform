@@ -48,41 +48,77 @@ export async function resolveRoleSlugForUser(
 export async function getSareaRuntimeContext(
   tenantId: string,
   userEmail: string,
-  crowRole: CrowRole | null
+  crowRole: CrowRole | null,
+  previewPersonaKey?: string | null
 ): Promise<SareaRuntimeContext> {
   const roleSlug = await resolveRoleSlugForUser(tenantId, userEmail, crowRole);
 
-  const roleMap = await prisma.roleExperienceMap.findFirst({
-    where: {
-      roleSlug,
-      profile: { tenantId },
-    },
-    include: {
-      profile: {
+  let profile:
+    | Awaited<
+        ReturnType<
+          typeof prisma.sareaExperienceProfile.findFirst<{
+            include: {
+              widgetRules: true;
+              navigationProfiles: true;
+              deviceRules: true;
+              adaptiveRules: true;
+            };
+          }>
+        >
+      >
+    | undefined;
+
+  if (
+    previewPersonaKey &&
+    crowRole &&
+    isPlatformStaff(crowRole) &&
+    ["executive", "manager", "frontline"].includes(previewPersonaKey)
+  ) {
+    profile =
+      (await prisma.sareaExperienceProfile.findFirst({
+        where: { tenantId, personaKey: previewPersonaKey },
         include: {
           widgetRules: true,
           navigationProfiles: true,
           deviceRules: true,
           adaptiveRules: true,
         },
-      },
-    },
-  });
+      })) ?? undefined;
+  }
 
-  let profile = roleMap?.profile ?? undefined;
+  if (!profile) {
+    const roleMap = await prisma.roleExperienceMap.findFirst({
+      where: {
+        roleSlug,
+        profile: { tenantId },
+      },
+      include: {
+        profile: {
+          include: {
+            widgetRules: true,
+            navigationProfiles: true,
+            deviceRules: true,
+            adaptiveRules: true,
+          },
+        },
+      },
+    });
+
+    profile = roleMap?.profile ?? undefined;
+  }
 
   if (!profile) {
     profile =
       (await prisma.sareaExperienceProfile.findFirst({
-      where: { tenantId },
-      include: {
-        widgetRules: true,
-        navigationProfiles: true,
-        deviceRules: true,
-        adaptiveRules: true,
-      },
-      orderBy: { personaKey: "asc" },
-    })) ?? undefined;
+        where: { tenantId },
+        include: {
+          widgetRules: true,
+          navigationProfiles: true,
+          deviceRules: true,
+          adaptiveRules: true,
+        },
+        orderBy: { personaKey: "asc" },
+      })) ?? undefined;
   }
 
   if (!profile) {

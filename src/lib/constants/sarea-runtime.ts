@@ -84,6 +84,11 @@ export const SAREA_DASHBOARD_WIDGETS = [
   { key: "reports", label: "Reports", description: "Analytics & exports" },
   { key: "modules", label: "Modules", description: "Enabled CEM modules" },
   { key: "structure", label: "Organization", description: "Departments & roles" },
+  { key: "fleet_kpis", label: "Fleet KPIs", description: "SLA breaches & hub performance" },
+  { key: "ops_board", label: "Ops board", description: "Dispatch & warehouse throughput" },
+  { key: "pod_mobile", label: "POD mobile", description: "Shipment scan & proof of delivery" },
+  { key: "operational_load", label: "Operational load", description: "Tasks, workflows, modules" },
+  { key: "cybercrow_posture", label: "CyberCrow posture", description: "Risk, compliance, init status" },
 ] as const;
 
 export type SareaDashboardWidgetKey = (typeof SAREA_DASHBOARD_WIDGETS)[number]["key"];

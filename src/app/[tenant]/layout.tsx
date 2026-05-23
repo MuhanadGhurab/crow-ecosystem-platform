@@ -4,7 +4,8 @@ import { AreaShell } from "@/components/ui/area-shell";
 import { RoleBadge } from "@/components/auth/role-badge";
 import { buildAuditorTenantNav, isAuditorReadOnly } from "@/lib/auth/auditor-nav";
 import { filterNavByCrowRole } from "@/lib/auth/permissions";
-import { getCrowAuth } from "@/lib/auth/roles";
+import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
+import { readSareaPreviewPersona } from "@/lib/sarea/preview-cookie";
 import { getEnabledErpNavItems } from "@/lib/constants/erp-module-registry";
 import { buildTenantNavItems } from "@/lib/constants/sarea-runtime";
 import { requireTenantAccess } from "@/lib/auth/session";
@@ -28,10 +29,13 @@ export default async function TenantLayout({
   }
 
   const { role } = getCrowAuth(user);
+  const previewPersona =
+    role && isPlatformStaff(role) ? await readSareaPreviewPersona() : null;
   const runtime = await getSareaRuntimeContext(
     tenant.id,
     user.email ?? "",
-    role
+    role,
+    previewPersona
   );
   const erpNav = getEnabledErpNavItems(slug, tenant.modules);
   const nav = isAuditorReadOnly(role)

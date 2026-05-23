@@ -4,7 +4,7 @@
 
 **Related:** [`RBAC.md`](RBAC.md) · [`HYBRID_LOCAL_DB_SUPABASE_AUTH.md`](HYBRID_LOCAL_DB_SUPABASE_AUTH.md) · [`MILESTONES.md`](MILESTONES.md) M6
 
-**Progress (~65%):** Production `AUTH_DISABLED` guard · Supabase role table · migrate deploy doc · **DB-driven dept chips** · live `/admin/overview` counts · **GitHub Actions `postgres-smoke` job** (`migrate deploy` + `smoke:phase1`).
+**Progress (~90%):** Production `AUTH_DISABLED` guard · `npm run gate:production-auth` + CI `production-gate` job · **DB-driven dept chips** (admin + portal) · **GitHub Actions `postgres-smoke`** (`db:seed` + `smoke:phase1` + `onboard:tenant` ci-acme).
 
 ---
 
@@ -15,7 +15,8 @@ Workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml):
 | Job | Steps |
 |-----|--------|
 | `verify` | `audit:src`, `typecheck`, `build` |
-| `postgres-smoke` | Postgres 16 service → `db:migrate:deploy` → `npm run smoke:phase1` |
+| `production-gate` | `npm run gate:production-auth` |
+| `postgres-smoke` | Postgres 16 → `db:migrate:deploy` → `db:seed` → `smoke:phase1` → `onboard:tenant` (ci-acme) |
 
 Env: `USE_MOCK_DATA=false`, `AUTH_DISABLED=true`, local `DATABASE_URL` to service.
 
@@ -143,9 +144,10 @@ npm run smoke:phase1
 | `smoke:phase1` + optional health preflight | Shipped |
 | Migrate folder + deploy doc (this file) | Shipped |
 | `app_metadata` RBAC table | Shipped |
-| Dept chips DB-driven on all request surfaces | Open |
-| MEEM path without `USE_MOCK_DATA` in CI | Open |
-| `prisma migrate deploy` in CI/CD (M7) | Open |
+| Dept chips DB-driven on all request surfaces | Shipped |
+| Portal `/portal/requests` DeptChips | Shipped |
+| MEEM path without `USE_MOCK_DATA` in CI | Open (MEEM seed optional in smoke) |
+| `prisma migrate deploy` in CI/CD (M7) | Shipped in GitHub Actions |
 
 ---
 

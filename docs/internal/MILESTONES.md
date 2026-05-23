@@ -15,9 +15,9 @@
 | **M3** | Modular ERP chain | 5, E1–E9 | Muhanad | **~92%** | Done for MEEM demo |
 | **M4** | CyberCrow operations | 6, E10 | Muhanad | **100%** | Done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | **M5** | MEEM SAREA acceptance | 7, E11 | **MEEM (Omar)** · Muhanad (hooks) | **~25%** | Customer acceptance — not Crow dev |
-| **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~65%** | Prod auth guard; CI Postgres smoke; dept chips |
-| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~45%** | Deploy guide + `deploy:check`; live Vercel pending |
-| **M8** | Paid customer / SaaS | 10, billing | Muhanad | **~35%** | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) + `onboard:tenant` |
+| **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~90%** | Prod auth gate + CI; dept chips DB-driven; MEEM CI path |
+| **M7** | Cloud & production | Cloud, Resend | Muhanad | **~75%** | Code-complete; live Azure/Vercel + Entra prod pending |
+| **M8** | Paid customer / SaaS | 10, billing | Muhanad | **~70%** | Stripe scaffold + checkout when keys set |
 
 ---
 
@@ -91,11 +91,11 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 
 | Done | Open |
 |------|------|
-| `auditor_readonly` crow_role (overlap M4) | Dept chips fully DB-driven on requests |
-| Client role + portal | `smoke:phase1` on clean DB in CI |
-| `AUTH_DISABLED` blocked when `NODE_ENV=production` | MEEM without `USE_MOCK_DATA` in CI |
-| [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) — migrate deploy + `app_metadata` RBAC | `prisma migrate deploy` in CI/CD (M7) |
-| `smoke:phase1` + optional `SMOKE_CHECK_HEALTH=1` | — |
+| `AUTH_DISABLED` blocked + `gate:production-auth` CI job | MEEM full seed in CI (optional) |
+| Dept chips on admin + portal (discovery `sareaPackageKey`) | — |
+| `postgres-smoke`: seed + smoke + `onboard:tenant` ci-acme | — |
+| Client role + portal DeptChips | — |
+| [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) — migrate deploy + RBAC | — |
 
 ---
 
@@ -109,8 +109,9 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 | [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) — env matrix, shared migrate rules | Entra prod verified on Azure URL |
 | `vercel.json` — generate + migrate + build (interim) | Custom domain on Azure |
 | [`.env.production.example`](../.env.production.example) | `RESEND_API_KEY` when email required |
-| `npm run deploy:check` | `/api/health` `deployReady` on Azure prod |
-| CI `postgres-smoke` on GitHub | Optional Vercel preview (not required) |
+| `npm run deploy:check` + `DEPLOY_TARGET=azure` | `/api/health` `deployReady` on Azure prod |
+| `/api/health` — `migrationsApplied`, `billingReady` | Optional Vercel preview (not required) |
+| CI `postgres-smoke` + `production-gate` | — |
 | Entra prod checklist — [`ENTRA_SSO.md`](ENTRA_SSO.md) § Production | |
 
 **Commands:** `npm run deploy:check` · `DEPLOY_TARGET=vercel npm run deploy:check`
@@ -127,7 +128,8 @@ Notification **logging** works; **send** requires `RESEND_API_KEY`.
 |------|------|
 | [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) — lifecycle + checklist | Live Stripe checkout |
 | `npm run onboard:tenant` — CLI second customer | Customer #2 on staging |
-| `GET /api/billing/status` | Webhook + admin subscription portal |
+| `GET /api/billing/status` (`checkoutReady`) | Live charges (Stripe keys in prod) |
+| Checkout + webhook + Prisma Stripe fields | Customer #2 on staging |
 | E1–E9 machinery (any tenant) | Contract-specific ERP depth |
 
 **MEEM** stays lighthouse — [`customers/MEEM_GLOBAL.md`](customers/MEEM_GLOBAL.md).

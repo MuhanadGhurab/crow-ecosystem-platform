@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
 import {
@@ -16,16 +17,27 @@ const STUDIO_LINKS = [
 ] as const;
 
 export default async function SareaOverviewPage() {
-  let summary = { profileCount: 0, tenantsWithProfiles: 0, layoutCount: 0, adaptiveRuleCount: 0 };
+  let summary: Awaited<ReturnType<typeof getSareaStudioSummary>> | null = null;
   let profiles: Awaited<ReturnType<typeof listSareaExperienceProfiles>> = [];
+  let dbError: string | null = null;
 
   try {
     [summary, profiles] = await Promise.all([
       getSareaStudioSummary(),
       listSareaExperienceProfiles(),
     ]);
-  } catch {
-    summary = { profileCount: 6, tenantsWithProfiles: 2, layoutCount: 12, adaptiveRuleCount: 18 };
+  } catch (err) {
+    dbError = err instanceof Error ? err.message : "Database unavailable";
+  }
+
+  if (dbError || !summary) {
+    return (
+      <div className="space-y-4">
+        <p className="rounded-cc border border-amber-500/20 bg-amber-950/20 px-4 py-3 text-sm text-amber-200">
+          SAREA studio could not load live data: {dbError}
+        </p>
+      </div>
+    );
   }
 
   const personaCounts = profiles.reduce<Record<string, number>>((acc, p) => {
@@ -47,6 +59,8 @@ export default async function SareaOverviewPage() {
           fragmenting the Crow shell.
         </p>
       </section>
+
+      <SareaAcceptanceHub />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

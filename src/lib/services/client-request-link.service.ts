@@ -110,6 +110,9 @@ export async function listClientRequests(userId: string, email: string) {
     include: {
       contacts: true,
       requestedPlans: true,
+      requestedModules: true,
+      requestedSecurityPkgs: true,
+      discoveryProfile: { include: { answers: true } },
       enterpriseBlueprint: { select: { id: true, proposalToken: true, proposalStatus: true } },
     },
   });

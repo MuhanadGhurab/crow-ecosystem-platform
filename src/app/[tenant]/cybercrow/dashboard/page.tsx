@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
+import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
+import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { routes } from "@/lib/routes";
 import {
@@ -86,6 +88,8 @@ export default async function CybercrowDashboardPage({
         title="Security operations center"
         description="NCA-aligned baseline · real-time posture · audit, risk, and compliance in one console."
       />
+
+      {slug === MEEM_TENANT_SLUG && <TwinEngineStrip tenantSlug={slug} variant="cybercrow" />}
 
       <section className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/40 via-cc-elevated/90 to-indigo-950/30 p-6 sm:p-8">
         <div

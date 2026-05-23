@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { HrEmployeeEditRow } from "@/components/tenant/hr/hr-employee-edit-row";
 import { HrEmployeeForm } from "@/components/tenant/hr/hr-employee-form";
+import { MeemHrHub } from "@/components/tenant/meem-hr-hub";
+import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { routes } from "@/lib/routes";
 import { listHrEmployees } from "@/lib/services/hr.service";
 import { listTenantDepartments } from "@/lib/services/tenant-identity.service";
@@ -17,6 +19,11 @@ export default async function TenantHrPage({
   const { tenant: slug } = await params;
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
+
+  const tenantModules = tenant.modules ?? [];
+  const showMeemHub = showMeemErpHub(slug, tenant.organization.industry, tenantModules);
+  const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
+  const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "hr") : [];
 
   const [employees, departments] = await Promise.all([
     listHrEmployees(tenant.id),
@@ -32,6 +39,14 @@ export default async function TenantHrPage({
         title="Human Resources"
         description={`Employee records for ${tenant.organization.displayName}. Scoped to this tenant only.`}
       />
+
+      {showMeemHub && (
+        <MeemHrHub
+          slug={slug}
+          organizationName={tenant.organization.displayName}
+          aiExtraKeys={aiExtraKeys}
+        />
+      )}
 
       <HrEmployeeForm tenantSlug={slug} departments={deptOptions} />
 
@@ -51,9 +66,7 @@ export default async function TenantHrPage({
                   <span className="font-medium text-white">{e.fullName}</span>
                   <span
                     className={
-                      e.employmentStatus === "active"
-                        ? "text-teal-300"
-                        : "text-slate-500"
+                      e.employmentStatus === "active" ? "text-teal-300" : "text-slate-500"
                     }
                   >
                     {e.employmentStatus}

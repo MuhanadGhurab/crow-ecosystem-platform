@@ -2,10 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
-import { PageHeader } from "@/components/ui/page-header";
+import { MeemInventoryHub } from "@/components/tenant/meem-inventory-hub";
+import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_INVENTORY_SAMPLES } from "@/lib/erp/industry-packs/logistics";
+import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
 import { routes } from "@/lib/routes";
@@ -31,10 +33,6 @@ function formatQty(n: number) {
   return new Intl.NumberFormat("en-SA", { maximumFractionDigits: 0 }).format(n);
 }
 
-function isLogisticsIndustry(industry: string | null | undefined): boolean {
-  return industry === "logistics" || industry === "logistics_fulfillment";
-}
-
 export default async function InventoryPage({
   params,
 }: {
@@ -45,13 +43,19 @@ export default async function InventoryPage({
   if (!tenant) notFound();
 
   const tenantModules = tenant.modules ?? [];
-  const showLogisticsHub =
-    isLogisticsIndustry(tenant.organization.industry) || slug === MEEM_TENANT_SLUG;
+  const showMeemHub = showMeemErpHub(
+    slug,
+    tenant.organization.industry,
+    tenantModules,
+    "inventory"
+  );
   const useMockInventory = isUseMockData() && slug === MEEM_TENANT_SLUG;
   const hasInventoryModule = hasErpModule(tenantModules, "inventory");
   const hasWarehouseModule = hasErpModule(tenantModules, "warehouse");
   const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
   const hasSalesModule = hasErpModule(tenantModules, "sales");
+  const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
+  const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "inventory") : [];
 
   const [items, summary] = useMockInventory
     ? [
@@ -80,150 +84,153 @@ export default async function InventoryPage({
           qtyOnHand: LOGISTICS_INVENTORY_SAMPLES.reduce((n, s) => n + s.qtyOnHand, 0),
         },
       ]
-    : await Promise.all([
-        listInventoryItems(tenant.id),
-        getInventorySummary(tenant.id),
-      ]);
+    : await Promise.all([listInventoryItems(tenant.id), getInventorySummary(tenant.id)]);
 
   const r = routes.tenant(slug);
 
   return (
-    <div className="space-y-8">
-      <PageHeader
-        badge="CEM · Inventory"
-        entity="cem"
-        title="Inventory"
-        description={
-          showLogisticsHub
-            ? `Stock levels, hub locations, and reorder signals for ${tenant.organization.displayName}.`
-            : `SKUs, warehouses, and stock for ${tenant.organization.displayName}.`
-        }
-      />
+    <TenantModulePage
+      engine="CEM"
+      title="Inventory"
+      description={
+        showMeemHub
+          ? `Stock levels, hub locations, and reorder signals for ${tenant.organization.displayName}.`
+          : `SKUs, warehouses, and stock for ${tenant.organization.displayName}.`
+      }
+      route="/[tenant]/inventory"
+      tenantSlug={slug}
+    >
+      {showMeemHub ? (
+        <div className="space-y-8">
+          <ErpModuleHub
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            moduleKey="inventory"
+          />
+          <MeemInventoryHub
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            aiExtraKeys={aiExtraKeys}
+          />
 
-      {showLogisticsHub && (
-        <ErpModuleHub
-          slug={slug}
-          organizationName={tenant.organization.displayName}
-          moduleKey="inventory"
-        />
-      )}
+          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              label="SKUs on hand"
+              value={summary.totalSkus}
+              entity="cem"
+              accent="cyan"
+              hint={`${formatQty(summary.qtyOnHand)} units total`}
+            />
+            <StatCard
+              label="Low stock"
+              value={summary.lowStock}
+              entity="cem"
+              accent="amber"
+              hint="At or below reorder level"
+            />
+            <StatCard
+              label="Locations"
+              value={summary.locations}
+              entity="cem"
+              accent="cyan"
+            />
+            <StatCard
+              label="Units on hand"
+              value={formatQty(summary.qtyOnHand)}
+              entity="cem"
+              accent="teal"
+            />
+          </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          label="SKUs on hand"
-          value={summary.totalSkus}
-          entity="cem"
-          accent="cyan"
-          hint={`${formatQty(summary.qtyOnHand)} units total`}
-        />
-        <StatCard
-          label="Low stock"
-          value={summary.lowStock}
-          entity="cem"
-          accent="amber"
-          hint="At or below reorder level"
-        />
-        <StatCard
-          label="Locations"
-          value={summary.locations}
-          entity="cem"
-          accent="cyan"
-        />
-        <StatCard
-          label="Units on hand"
-          value={formatQty(summary.qtyOnHand)}
-          entity="cem"
-          accent="teal"
-        />
-      </section>
-
-      <section className="cc-glass-card">
-        <h3 className="font-display text-sm font-semibold text-cyan-400">
-          Stock items ({items.length})
-        </h3>
-        {items.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">
-            No inventory records yet.
-            {hasInventoryModule && (
-              <>
-                {" "}
-                Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
-                data when the inventory module is enabled.
-              </>
+          <section className="cc-glass-card">
+            <h3 className="font-display text-sm font-semibold text-cyan-400">
+              Stock items ({items.length})
+            </h3>
+            {items.length === 0 ? (
+              <p className="mt-4 text-sm text-slate-500">
+                No inventory records yet.
+                {hasInventoryModule && (
+                  <>
+                    {" "}
+                    Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
+                    data when the inventory module is enabled.
+                  </>
+                )}
+              </p>
+            ) : (
+              <ul className="mt-4 space-y-3">
+                {items.map((row) => (
+                  <li
+                    key={row.id}
+                    className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="font-medium text-white">{row.name}</p>
+                        <span className="font-mono text-xs text-cyan-400/80">{row.sku}</span>
+                        {row.referenceCode && (
+                          <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {CATEGORY_LABEL[row.category] ?? row.category}
+                        {row.location ? ` · ${row.location}` : ""}
+                      </p>
+                      <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
+                        {formatQty(row.qtyOnHand)} on hand
+                        {row.reorderLevel > 0 && (
+                          <span className="ml-2 text-sm font-normal text-slate-500">
+                            (reorder at {formatQty(row.reorderLevel)})
+                          </span>
+                        )}
+                      </p>
+                      {(hasWarehouseModule || hasLogisticsModule || hasSalesModule) && (
+                        <p className="mt-1 text-xs text-slate-500">
+                          {hasWarehouseModule && (
+                            <Link href={r.warehouse} className="text-cyan-400 hover:text-cyan-300">
+                              Warehouse
+                            </Link>
+                          )}
+                          {hasWarehouseModule && (hasLogisticsModule || hasSalesModule) && " · "}
+                          {hasLogisticsModule && (
+                            <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
+                              Logistics
+                            </Link>
+                          )}
+                          {hasLogisticsModule && hasSalesModule && " · "}
+                          {hasSalesModule && (
+                            <Link href={r.sales} className="text-teal-400 hover:text-teal-300">
+                              Sales
+                            </Link>
+                          )}
+                        </p>
+                      )}
+                    </div>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
+                        STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
+                      }`}
+                    >
+                      {row.status.replace("_", " ")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             )}
-          </p>
-        ) : (
-          <ul className="mt-4 space-y-3">
-            {items.map((row) => (
-              <li
-                key={row.id}
-                className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-medium text-white">{row.name}</p>
-                    <span className="font-mono text-xs text-cyan-400/80">{row.sku}</span>
-                    {row.referenceCode && (
-                      <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
-                    )}
-                  </div>
-                  <p className="mt-1 text-xs text-slate-500">
-                    {CATEGORY_LABEL[row.category] ?? row.category}
-                    {row.location ? ` · ${row.location}` : ""}
-                  </p>
-                  <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
-                    {formatQty(row.qtyOnHand)} on hand
-                    {row.reorderLevel > 0 && (
-                      <span className="ml-2 text-sm font-normal text-slate-500">
-                        (reorder at {formatQty(row.reorderLevel)})
-                      </span>
-                    )}
-                  </p>
-                  {(hasWarehouseModule || hasLogisticsModule || hasSalesModule) && (
-                    <p className="mt-1 text-xs text-slate-500">
-                      {hasWarehouseModule && (
-                        <Link href={r.warehouse} className="text-cyan-400 hover:text-cyan-300">
-                          Warehouse
-                        </Link>
-                      )}
-                      {hasWarehouseModule && (hasLogisticsModule || hasSalesModule) && " · "}
-                      {hasLogisticsModule && (
-                        <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
-                          Logistics
-                        </Link>
-                      )}
-                      {hasLogisticsModule && hasSalesModule && " · "}
-                      {hasSalesModule && (
-                        <Link href={r.sales} className="text-teal-400 hover:text-teal-300">
-                          Sales
-                        </Link>
-                      )}
-                    </p>
-                  )}
-                </div>
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                    STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
-                  }`}
-                >
-                  {row.status.replace("_", " ")}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+          </section>
 
-      <ErpChainLinks tenantSlug={slug} currentModule="inventory" tenantModules={tenantModules} />
+          <ErpChainLinks tenantSlug={slug} currentModule="inventory" tenantModules={tenantModules} />
 
-      <div className="flex flex-wrap gap-3">
-        <Link href={r.sales} className="text-sm text-slate-400 hover:text-white">
-          Sales →
-        </Link>
-        <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-          ← Dashboard
-        </Link>
-      </div>
-    </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href={r.sales} className="text-sm text-slate-400 hover:text-white">
+              Sales →
+            </Link>
+            <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
+              ← Dashboard
+            </Link>
+          </div>
+        </div>
+      ) : undefined}
+    </TenantModulePage>
   );
 }

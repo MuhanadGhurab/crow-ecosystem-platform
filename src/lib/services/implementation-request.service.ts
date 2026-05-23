@@ -102,6 +102,7 @@ export async function listImplementationRequests(status?: string) {
       requestedPlans: true,
       requestedModules: true,
       requestedSecurityPkgs: true,
+      discoveryProfile: { include: { answers: true } },
     },
   });
 }
@@ -124,7 +125,7 @@ export async function getImplementationRequest(id: string) {
       requestedModules: true,
       requestedSecurityPkgs: true,
       requestedPlans: true,
-      discoveryProfile: true,
+      discoveryProfile: { include: { answers: true } },
       enterpriseBlueprint: { include: { tenant: true } },
     },
   });

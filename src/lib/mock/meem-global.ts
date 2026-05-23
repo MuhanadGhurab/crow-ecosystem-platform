@@ -10,6 +10,9 @@ export const MEEM_TENANT_SLUG = "meem-global";
 export const MEEM_REQUEST_ID = "mock-req-meem";
 export const MEEM_DISCOVERY_REQUEST_ID = "mock-req-meem-discovery";
 export const MEEM_BLUEPRINT_ID = "mock-bp-meem";
+/** Live Postgres seed IDs — stable after `npm run db:seed:meem` unless DB reset */
+export const MEEM_LIVE_REQUEST_ID = "cmpge193x0000vhws8nclouoi";
+export const MEEM_LIVE_BLUEPRINT_ID = "cmpge196o0015vhws2r7akekx";
 export const MEEM_PROPOSAL_TOKEN = "mock-proposal-meem";
 export const MEEM_REFERENCE_CODE = "CROW-2026-MEEM";
 

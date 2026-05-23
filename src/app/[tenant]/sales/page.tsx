@@ -2,10 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
-import { PageHeader } from "@/components/ui/page-header";
+import { MeemSalesHub } from "@/components/tenant/meem-sales-hub";
+import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_SALES_SAMPLES } from "@/lib/erp/industry-packs/logistics";
+import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
 import { routes } from "@/lib/routes";
@@ -31,10 +33,6 @@ function formatSar(amount: number) {
   return new Intl.NumberFormat("en-SA", { maximumFractionDigits: 0 }).format(amount);
 }
 
-function isLogisticsIndustry(industry: string | null | undefined): boolean {
-  return industry === "logistics" || industry === "logistics_fulfillment";
-}
-
 export default async function SalesPage({
   params,
 }: {
@@ -45,11 +43,12 @@ export default async function SalesPage({
   if (!tenant) notFound();
 
   const tenantModules = tenant.modules ?? [];
-  const showLogisticsHub =
-    isLogisticsIndustry(tenant.organization.industry) || slug === MEEM_TENANT_SLUG;
+  const showMeemHub = showMeemErpHub(slug, tenant.organization.industry, tenantModules, "sales");
   const useMockSales = isUseMockData() && slug === MEEM_TENANT_SLUG;
   const hasSalesModule = hasErpModule(tenantModules, "sales");
   const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
+  const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
+  const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "sales") : [];
 
   const [opportunities, summary] = useMockSales
     ? [
@@ -88,25 +87,29 @@ export default async function SalesPage({
   const r = routes.tenant(slug);
 
   return (
-    <div className="space-y-8">
-      <PageHeader
-        badge="CEM · Sales"
-        entity="cem"
-        title="Sales"
-        description={
-          showLogisticsHub
-            ? `Freight quotes, B2B deals, and shipment sales for ${tenant.organization.displayName}.`
-            : `Pipeline, quotes, and orders for ${tenant.organization.displayName}.`
-        }
-      />
-
-      {showLogisticsHub && (
-        <ErpModuleHub
-          slug={slug}
-          organizationName={tenant.organization.displayName}
-          moduleKey="sales"
-        />
-      )}
+    <TenantModulePage
+      engine="CEM"
+      title="Sales"
+      description={
+        showMeemHub
+          ? `Freight quotes, B2B deals, and shipment sales for ${tenant.organization.displayName}.`
+          : `Pipeline, quotes, and orders for ${tenant.organization.displayName}.`
+      }
+      route="/[tenant]/sales"
+      tenantSlug={slug}
+    >
+      {showMeemHub ? (
+        <div className="space-y-8">
+          <ErpModuleHub
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            moduleKey="sales"
+          />
+          <MeemSalesHub
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            aiExtraKeys={aiExtraKeys}
+          />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
@@ -217,6 +220,8 @@ export default async function SalesPage({
           ← Dashboard
         </Link>
       </div>
-    </div>
+        </div>
+      ) : undefined}
+    </TenantModulePage>
   );
 }

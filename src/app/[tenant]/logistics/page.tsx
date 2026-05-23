@@ -3,9 +3,8 @@ import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemLogisticsHub } from "@/components/tenant/meem-logistics-hub";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
-import { isLogisticsIndustry } from "@/lib/constants/cybercrow-audit-events";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
-import { getAiExtraKeys } from "@/lib/discovery-answers";
+import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export default async function LogisticsPage({
@@ -19,14 +18,14 @@ export default async function LogisticsPage({
 
   const tenantModules = tenant.modules ?? [];
   const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
-  const showLogisticsHub =
-    hasLogisticsModule || isLogisticsIndustry(tenant.organization.industry);
+  const showLogisticsHub = showMeemErpHub(
+    slug,
+    tenant.organization.industry,
+    tenantModules,
+    "logistics"
+  );
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
-  const aiExtraKeys = showLogisticsHub
-    ? getAiExtraKeys(answers).length > 0
-      ? getAiExtraKeys(answers)
-      : ["route_optimization", "doc_intelligence"]
-    : [];
+  const aiExtraKeys = showLogisticsHub ? resolveMeemHubAiKeys(answers, "logistics") : [];
   return (
     <TenantModulePage
       engine="CEM"

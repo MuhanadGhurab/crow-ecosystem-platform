@@ -23,10 +23,12 @@ import {
 import {
   addDiscoveryBranch,
   addDiscoveryDepartment,
+  addDiscoveryExperienceRequirement,
   addDiscoveryRole,
   addDiscoveryWorkflow,
 } from "../src/lib/services/discovery.service";
 import { enrichMeemGlobalOps } from "../src/lib/services/meem-ops.service";
+import { upgradeLogisticsSareaForTenant } from "../src/lib/services/sarea-seed.service";
 
 const prisma = new PrismaClient();
 
@@ -170,6 +172,19 @@ async function main() {
     description: "Load plan → AI optimize routes → dispatcher approval",
   });
 
+  await addDiscoveryExperienceRequirement(request.id, {
+    personaKey: "executive",
+    requirement: "Fleet KPIs, SLA breaches, regional hub map",
+  });
+  await addDiscoveryExperienceRequirement(request.id, {
+    personaKey: "manager",
+    requirement: "Dispatch board, warehouse throughput",
+  });
+  await addDiscoveryExperienceRequirement(request.id, {
+    personaKey: "frontline",
+    requirement: "Mobile-first shipment scan and POD",
+  });
+
   const blueprint = await completeDiscoveryAndCreateBlueprint(request.id);
 
   const tenant = await provisionAndInitializeTenant(
@@ -179,6 +194,8 @@ async function main() {
     "enterprise",
     ["executive", "manager", "frontline"]
   );
+
+  await upgradeLogisticsSareaForTenant(tenant.id);
 
   await prisma.enterpriseBlueprint.update({
     where: { id: blueprint.id },

@@ -354,6 +354,302 @@ export const LOGISTICS_TASK_SAMPLES = [
   },
 ] as const;
 
+export type LogisticsAiFeature = {
+  key: string;
+  title: string;
+  aiExtraKey: string;
+  description: string;
+  status: string;
+};
+
+/** Sales module AI capability cards (MEEM logistics tenant). */
+export const LOGISTICS_SALES_FEATURES = [
+  {
+    key: "quote_intel",
+    title: "Quote & contract intelligence",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "Extract freight lanes, rates, and SLA terms from B2B quotes and distribution contracts — human verify before pipeline commit.",
+    status: "Active",
+  },
+  {
+    key: "pipeline_forecast",
+    title: "Pipeline demand signals",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Seasonal freight demand tied to quote win probability and hub capacity — feeds inventory and procurement.",
+    status: "Active",
+  },
+  {
+    key: "deal_anomaly",
+    title: "Deal anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Flags rate outliers, duplicate quotes, and stalled negotiations — events post to CyberCrow audit.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_SALES_PIPELINE = [
+  "CRM account qualified → freight quote draft with lane and SLA",
+  "AI extracts contract terms → sales ops verify and publish",
+  "Quote won → hand off to dispatch workflow and AR billing",
+  "Executive narrative summarizes pipeline and hub load weekly",
+] as const;
+
+/** Inventory module AI capability cards. */
+export const LOGISTICS_INVENTORY_FEATURES = [
+  {
+    key: "demand_stock",
+    title: "Demand-driven stocking",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Multi-hub reorder signals from seasonal demand — auto-suggest PRs when SKUs hit reorder level.",
+    status: "Active",
+  },
+  {
+    key: "stock_anomaly",
+    title: "Stock anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Detects shrinkage patterns, negative adjustments, and hub transfer mismatches across DCs.",
+    status: "Active",
+  },
+  {
+    key: "asn_intel",
+    title: "ASN document intelligence",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "OCR on advance ship notices — match expected qty to warehouse intake before putaway.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_INVENTORY_PIPELINE = [
+  "Demand forecast → reorder level adjustment per hub SKU",
+  "Low stock alert → procurement PR with linked inventory ref",
+  "ASN OCR intake → QC scan confirms qty at warehouse lane",
+  "Anomaly review → CyberCrow audit on exception events",
+] as const;
+
+/** Warehouse module AI capability cards. */
+export const LOGISTICS_WAREHOUSE_FEATURES = [
+  {
+    key: "intake_ocr",
+    title: "Intake document OCR",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "Scan ASNs and packing lists at inbound lanes — extract SKU, qty, and lot before QC putaway.",
+    status: "Active",
+  },
+  {
+    key: "lane_anomaly",
+    title: "Lane & cold-chain anomalies",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Temperature excursion and dwell-time alerts on cold storage zones — escalate to hub manager.",
+    status: "Active",
+  },
+  {
+    key: "staging_forecast",
+    title: "Outbound staging forecast",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Predict pack-lane load from dispatch schedule — balance Jeddah cold room vs Dammam staging.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_WAREHOUSE_PIPELINE = [
+  "ASN received at inbound lane → OCR extract and QC scan",
+  "Putaway confirm → inventory sync with hub location",
+  "Dispatch staging → LABEL → outbound lane release",
+  "Cold-chain anomaly → workflow task to hub manager",
+] as const;
+
+/** Procurement module AI capability cards. */
+export const LOGISTICS_PROCUREMENT_FEATURES = [
+  {
+    key: "pr_forecast",
+    title: "AI reorder suggestions",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Low-stock SKUs and seasonal spikes auto-draft PRs with vendor hints and estimated SAR value.",
+    status: "Active",
+  },
+  {
+    key: "vendor_doc",
+    title: "Vendor invoice intelligence",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "Extract line items from supplier invoices — match to approved PR before AP posting on finance.",
+    status: "Active",
+  },
+  {
+    key: "spend_anomaly",
+    title: "Spend anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Flags duplicate PRs, off-contract pricing, and urgent spend spikes — CyberCrow audit trail.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_PROCUREMENT_PIPELINE = [
+  "Low stock signal → draft PR with inventory SKU ref",
+  "Hub manager approve → vendor PO issued",
+  "Goods received → warehouse intake workflow",
+  "Supplier invoice OCR → AP line on finance ledger",
+] as const;
+
+/** Reports / BI module AI capability cards. */
+export const LOGISTICS_REPORTS_FEATURES = [
+  {
+    key: "exec_narratives",
+    title: "Executive AI narratives",
+    aiExtraKey: "executive_narratives",
+    description:
+      "Leadership summaries on pipeline, receivables, hub throughput, and compliance posture — SAREA exec persona.",
+    status: "Active",
+  },
+  {
+    key: "kpi_forecast",
+    title: "KPI demand outlook",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Forward-looking freight volume and stock coverage projections across enabled ERP modules.",
+    status: "Active",
+  },
+  {
+    key: "ops_anomaly",
+    title: "Cross-module anomaly roll-up",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Aggregates shipment, billing, and stock exceptions into a single ops risk view on the dashboard.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_REPORTS_PIPELINE = [
+  "Aggregate KPIs from sales, inventory, finance, and workflows",
+  "AI narrative draft for executive persona (SAREA)",
+  "Anomaly roll-up → CyberCrow security and audit views",
+  "Frontline persona sees task-focused widgets only",
+] as const;
+
+/** CRM module AI capability cards. */
+export const LOGISTICS_CRM_FEATURES = [
+  {
+    key: "account_intel",
+    title: "Account document intelligence",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "Extract contacts, credit terms, and lane preferences from customer MSAs and onboarding packs.",
+    status: "Active",
+  },
+  {
+    key: "relationship_narratives",
+    title: "Relationship narratives",
+    aiExtraKey: "executive_narratives",
+    description:
+      "Account health summaries for sales leadership — ties CRM to pipeline and AR aging.",
+    status: "Active",
+  },
+  {
+    key: "crm_anomaly",
+    title: "CRM data anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Duplicate accounts, stale contacts, and credit-limit breaches flagged before quote release.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_CRM_PIPELINE = [
+  "New B2B account → document OCR for MSA terms",
+  "Contacts synced → freight quote tied to CRM account",
+  "Win/loss signals → executive narrative on key accounts",
+  "Anomaly review before high-value quote approval",
+] as const;
+
+/** HR module AI capability cards. */
+export const LOGISTICS_HR_FEATURES = [
+  {
+    key: "workforce_narratives",
+    title: "Workforce narratives",
+    aiExtraKey: "executive_narratives",
+    description:
+      "Hub staffing and role coverage summaries for operations leadership — complements SAREA personas.",
+    status: "Active",
+  },
+  {
+    key: "shift_forecast",
+    title: "Shift demand forecast",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Predict dispatcher and hub-manager load from seasonal freight volume and workflow throughput.",
+    status: "Active",
+  },
+  {
+    key: "access_anomaly",
+    title: "Access anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Unusual login patterns and role changes on tenant users — integrates with CyberCrow IAM posture.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+export const LOGISTICS_HR_PIPELINE = [
+  "Employee onboarded → role mapped to SAREA persona",
+  "Hub assignment → workflow task routing by job title",
+  "Shift forecast → staffing hints on dashboard widgets",
+  "Access anomaly → CyberCrow audit and admin review",
+] as const;
+
+export const LOGISTICS_LOGISTICS_PIPELINE = [
+  "OCR document capture — upload POD/BOL, extract, verify",
+  "Shipment dispatch approval — hub review and release",
+  "AI route optimization — dispatcher approves fleet plan",
+  "Anomaly detection — SLA breach alerts to CyberCrow",
+] as const;
+
+/** Finance module capability cards (MEEM logistics tenant). */
+export const LOGISTICS_FINANCE_FEATURES = [
+  {
+    key: "freight_ar",
+    title: "Freight AR billing",
+    aiExtraKey: "doc_intelligence",
+    description:
+      "Convert freight quotes and B2B contracts to posted invoices — OCR-verified POD/BOL can trigger AR lines on shipment close.",
+    status: "Active",
+  },
+  {
+    key: "demand_cash",
+    title: "Demand & cash signals",
+    aiExtraKey: "demand_forecast",
+    description:
+      "Forecast-driven procurement and AP timing — ties inventory reorder signals to working-capital planning.",
+    status: "Active",
+  },
+  {
+    key: "billing_anomaly",
+    title: "Billing anomaly detection",
+    aiExtraKey: "anomaly_detection",
+    description:
+      "Flags duplicate invoices, rate mismatches, and SLA-linked billing exceptions — events flow to CyberCrow audit.",
+    status: "Active",
+  },
+] as const satisfies readonly LogisticsAiFeature[];
+
+/** Freight billing pipeline steps (MEEM demo narrative). */
+export const LOGISTICS_FINANCE_PIPELINE = [
+  "Freight quote won → AR invoice draft from sales reference",
+  "OCR POD/BOL verified → post revenue to ledger",
+  "AP fleet & consumables — match procurement PR to supplier invoice",
+  "Payment clearance — bank feed reconcile to MEEM reference codes",
+] as const;
+
 export const LOGISTICS_LOGISTICS_FEATURES = [
   {
     key: "ocr_capture",
@@ -385,4 +681,4 @@ export const LOGISTICS_LOGISTICS_FEATURES = [
     description: "SLA breach and exception detection on shipment events with CyberCrow audit trail.",
     status: "Active",
   },
-] as const;
+] as const satisfies readonly LogisticsAiFeature[];

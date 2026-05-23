@@ -1,3 +1,5 @@
+import { SareaEditRow } from "@/components/studio/sarea/sarea-edit-row";
+import { updateProfileNameAction } from "@/lib/actions/sarea";
 import Link from "next/link";
 import { routes } from "@/lib/routes";
 import {
@@ -47,6 +49,13 @@ export default async function SareaProfilesPage() {
                 <p>{p._count.roleExperienceMaps} role maps</p>
                 <p>{p._count.dashboardLayouts} layouts</p>
                 <p>{p._count.widgetRules} widget rules</p>
+              </div>
+              <div className="w-full basis-full border-t border-rose-500/10 pt-3">
+                <SareaEditRow
+                  id={p.id}
+                  action={updateProfileNameAction}
+                  fields={[{ name: "name", label: "Display name", defaultValue: p.name }]}
+                />
               </div>
             </li>
           ))}

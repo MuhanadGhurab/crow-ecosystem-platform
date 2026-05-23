@@ -32,22 +32,23 @@ Muhanad is the **primary architect and full-stack owner** of the Crow Ecosystem 
 
 ---
 
-## Omar — MEEM Holding (customer SAREA liaison)
+## Omar — MEEM Holding (SAREA admin per tenant)
 
-**Omar is not on the CYBERCROW development team.** He works **inside MEEM Holding** and supports **MEEM Global** as their **SAREA experience owner** on the **customer side**.
+**Omar is not on the CYBERCROW development team.** He is **MEEM’s SAREA admin** — same class of tenant-integrated ownership as **Muhanad’s CyberCrow admin** role on each slug. **MEEM Global** is the first and largest lighthouse tenant.
 
 | Area | Ownership |
 |------|-----------|
-| Persona validation (executive, ops, HR, logistics, frontline) | ● (MEEM acceptance) |
+| SAREA acceptance (discovery experience → blueprint SAREA → preview personas) | ● (MEEM) |
+| Persona validation (executive, ops, logistics, frontline) | ● (MEEM acceptance) |
 | Adaptive dashboard expectations vs discovery brief | ● |
 | MEEM demo sign-off for layout/nav/widget density | ● |
 | Workshop feedback on `/meem-global/dashboard` | ● |
 
-**Does not own:** this repo’s Prisma schema, provision pipeline, `/admin/*`, CyberCrow GRC logic, `auditor_readonly` wiring, or implementation tasks in `PHASES.md` owner columns.
+**Muhanad (parallel on same tenant):** CyberCrow dashboard, audit, GRC, platform `/admin/audit` — see M4 / [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md).
 
-**Crow delivers for Omar to validate:** SAREA runtime/config, seeded personas, platform hooks (`/sarea/*` studio, blueprint SAREA tab). Omar validates **how MEEM roles should feel**; Muhanad ships **runtime and data**.
+**Does not own:** this repo’s Prisma schema, provision pipeline, CyberCrow GRC logic, or Crow implementation tasks.
 
-See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) for MEEM-side acceptance criteria (not Crow engineer scope).
+**Crow delivers for Omar to accept:** SAREA runtime/config, seeded personas, `/sarea/*` studio, blueprint SAREA tab. Sign-off: [`customers/OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md`](customers/OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md).
 
 ---
 

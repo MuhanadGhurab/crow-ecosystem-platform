@@ -38,6 +38,19 @@ jobs:
       - name: Production build
         run: npm run build
 
+  production-gate:
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Production auth gate
+        run: npm run gate:production-auth
+
   postgres-smoke:
     runs-on: ubuntu-latest
     needs: verify
@@ -76,5 +89,11 @@ jobs:
       - name: Migration status
         run: npm run db:status
 
+      - name: Seed catalog
+        run: npm run db:seed
+
       - name: Phase 1 pipeline smoke (Postgres)
         run: npm run smoke:phase1
+
+      - name: Onboard CI tenant (idempotent)
+        run: npm run onboard:tenant -- --slug=ci-acme --name="CI ACME" --modules=sales,crm

@@ -192,7 +192,7 @@ Re-seed does not re-send notifications when tenant already exists; trigger new e
 | 5 | Go-live / provision | `/blueprints/cmpge196o0015vhws2r7akekx/go-live` | **Already live** + dashboard link when tenant exists; provision form when not | [x] | Muhanad |
 | 6 | Tenant dashboard | `/meem-global/dashboard` | Load/risk/OCR-AI hints, open tasks, **≥4 workflows**, SAREA persona | [x] | Muhanad |
 | 7 | CyberCrow visibility | `/meem-global/cybercrow/dashboard` | `CYBERCROW_INITIALIZED` banner + posture when seeded | [x] | Muhanad |
-| 8 | SAREA adaptation | `/meem-global/dashboard` (exec vs frontline user) | Layout/nav/widgets differ by persona | [ ] | MEEM (Omar) validates · Muhanad ships SAREA runtime |
+| 8 | SAREA adaptation | `/meem-global/dashboard` (exec vs frontline user) | Layout/nav/widgets differ by persona | [x] platform · [ ] Omar sign-off | Muhanad ships · MEEM (Omar) validates — **[`OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md`](OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md)** |
 | 9 | Logistics module | `/meem-global/logistics` | OCR/AI feature cards + shipment pipeline | [x] | Muhanad |
 | — | Tenant sales | `/meem-global/sales` | Stat row + 5 freight/B2B lines; workflow + logistics links | [x] | Muhanad |
 | — | Tenant inventory | `/meem-global/inventory` | Stat row + 6 SKUs; warehouse + logistics + sales links | [x] | Muhanad |
@@ -237,7 +237,7 @@ Re-seed does not re-send notifications when tenant already exists; trigger new e
 2. **CyberCrow logistics audit** — [`/meem-global/cybercrow/audit-logs?category=logistics`](http://localhost:3000/meem-global/cybercrow/audit-logs?category=logistics) — E10 events after ops seed.
 3. **Platform audit** — [`/admin/audit?category=logistics&tenant=meem-global`](http://localhost:3000/admin/audit?category=logistics&tenant=meem-global) — ≥4 notifications + `CYBERCROW_INITIALIZED` (`skipped` Resend OK).
 4. **Auditor role** — `auditor_readonly` + `meem-global` — read-only banner on CyberCrow; no CEM writes.
-5. **Hand off SAREA** — Share [`SAREA_OMAR_SCOPE.md`](../SAREA_OMAR_SCOPE.md) with Omar (M5); Crow does not block on persona copy tweaks.
+5. **Hand off SAREA** — Share [`OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md`](OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md) with Omar (M5); scope context in [`SAREA_OMAR_SCOPE.md`](../SAREA_OMAR_SCOPE.md).
 
 ### RBAC rehearsal (Phase 4)
 

@@ -6,7 +6,7 @@ import { AdminListPage } from "@/components/ui/admin-list-page";
 import { ListCard } from "@/components/ui/list-card";
 import { planLabel } from "@/lib/catalog-labels";
 import { formatSar } from "@/lib/services/commercial.service";
-import { getRequestDeptContext } from "@/lib/pipeline/request-dept-context";
+import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 import { listImplementationRequests } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
@@ -38,10 +38,14 @@ export default async function AdminRequestsPage({
   if (usingMock) {
     requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
       ...m,
-      ...getRequestDeptContext({
+      ...getRequestDeptContextFromRow({
         status: m.status,
-        securityPackageCount: m.hasSecurity ? 1 : 0,
-        moduleCount: m.hasModules ? 1 : 0,
+        requestedSecurityPkgs: m.hasSecurity ? [1] : [],
+        requestedModules: m.hasModules ? [1] : [],
+        discoveryProfile:
+          m.status === "BLUEPRINT_BUILD"
+            ? { answers: [{ sectionKey: "experience", questionKey: "sareaPackageKey", valueJson: "professional" }] }
+            : null,
       }),
     }));
   }
@@ -50,11 +54,7 @@ export default async function AdminRequestsPage({
     if (usingMock) throw new Error("USE_MOCK_DATA");
     const rows = await listImplementationRequests();
     requests = rows.map((r) => {
-      const dept = getRequestDeptContext({
-        status: r.status,
-        securityPackageCount: r.requestedSecurityPkgs.length,
-        moduleCount: r.requestedModules.length,
-      });
+      const dept = getRequestDeptContextFromRow(r);
       return {
         id: r.id,
         organizationName: r.organizationName,
@@ -69,10 +69,14 @@ export default async function AdminRequestsPage({
     usingMock = true;
     requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
       ...m,
-      ...getRequestDeptContext({
+      ...getRequestDeptContextFromRow({
         status: m.status,
-        securityPackageCount: m.hasSecurity ? 1 : 0,
-        moduleCount: m.hasModules ? 1 : 0,
+        requestedSecurityPkgs: m.hasSecurity ? [1] : [],
+        requestedModules: m.hasModules ? [1] : [],
+        discoveryProfile:
+          m.status === "BLUEPRINT_BUILD"
+            ? { answers: [{ sectionKey: "experience", questionKey: "sareaPackageKey", valueJson: "professional" }] }
+            : null,
       }),
     }));
   }

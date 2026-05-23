@@ -159,6 +159,28 @@ export async function updateDeviceExperienceRule(id: string, deviceType: string)
   return prisma.deviceExperienceRule.update({ where: { id }, data: { deviceType } });
 }
 
+export async function updateDeviceRuleJson(id: string, rulesJson: { compact?: boolean; touchTargets?: string }) {
+  return prisma.deviceExperienceRule.update({ where: { id }, data: { rulesJson } });
+}
+
+export async function updateNavigationPrimaryKeys(id: string, primary: string[]) {
+  return prisma.navigationProfile.update({
+    where: { id },
+    data: { configJson: { primary } },
+  });
+}
+
+export async function updateAdaptiveRuleDensity(id: string, level: string) {
+  return prisma.adaptiveUiRule.update({
+    where: { id },
+    data: { configJson: { level } },
+  });
+}
+
+export async function updateExperienceProfileName(id: string, name: string) {
+  return prisma.sareaExperienceProfile.update({ where: { id }, data: { name } });
+}
+
 export async function getSareaStudioSummary() {
   const [profileCount, tenantCount, layoutCount, ruleCount, widgetCount, navCount, deviceCount] =
     await Promise.all([

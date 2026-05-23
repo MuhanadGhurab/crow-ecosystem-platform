@@ -11,7 +11,7 @@ import {
   seedCybercrowEvidenceIfMissing,
 } from "@/lib/services/cybercrow-seed.service";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
-import { seedSareaProfileDefaults } from "@/lib/services/sarea-seed.service";
+import { seedSareaProfileDefaults, PERSONA_DISPLAY_NAMES } from "@/lib/services/sarea-seed.service";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { seedTenantCemFromDiscovery } from "@/lib/services/tenant-cem-seed.service";
 import { seedLogisticsAuditSamples } from "@/lib/services/cybercrow-logistics-audit.service";
@@ -271,7 +271,7 @@ export async function initializeSarea(tenantId: string, personaKeys: string[]) {
     const profile = await prisma.sareaExperienceProfile.create({
       data: {
         tenantId,
-        name: `${personaKey} experience`,
+        name: PERSONA_DISPLAY_NAMES[personaKey] ?? `${personaKey} experience`,
         personaKey,
         configJson: { complexity: "adaptive", mobileFirst: personaKey === "frontline" },
       },
