@@ -16,6 +16,8 @@
    - `installCommand`: `npm ci`
    - `buildCommand`: `node scripts/vercel-build-guard.mjs && npm run db:generate && npm run db:migrate:deploy && npm run build`
 
+**Node.js:** `package.json` → `"engines": { "node": "24.x" }` (matches CI and `.nvmrc`). Set Vercel **Project Settings → General → Node.js Version** to **24.x** so it aligns with the repo.
+
 ---
 
 ## Step 2 — Environment variables
