@@ -38,12 +38,16 @@ if (databaseUrl.includes(":6543") && !databaseUrl.includes("pgbouncer=true")) {
 
 console.log("\nTesting DIRECT_URL (used by prisma migrate deploy)…\n");
 
-const r = spawnSync("npx", ["prisma", "db", "execute", "--stdin"], {
-  input: "SELECT 1 AS ok;",
-  encoding: "utf8",
-  shell: true,
-  env: { ...process.env, DATABASE_URL: directUrl },
-});
+const r = spawnSync(
+  "npx",
+  ["prisma", "db", "execute", "--url", directUrl, "--stdin"],
+  {
+    input: "SELECT 1 AS ok;",
+    encoding: "utf8",
+    shell: true,
+    env: process.env,
+  }
+);
 
 const out = `${r.stdout ?? ""}${r.stderr ?? ""}`;
 if (r.status === 0) {
