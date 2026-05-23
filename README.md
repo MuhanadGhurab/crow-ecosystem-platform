@@ -4,6 +4,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/MuhanadGhurab"><img src="https://img.shields.io/badge/GitHub-MuhanadGhurab-181717?style=flat-square&logo=github" alt="GitHub" /></a>
   <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js" alt="Next.js 15" /></a>
   <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
   <a href="https://www.prisma.io"><img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=flat-square&logo=prisma" alt="Prisma" /></a>
@@ -13,23 +14,28 @@
 
 ---
 
-**Crow Ecosystem** is an adaptive **enterprise orchestration platform** for organizations that need governed delivery — not another module catalog dropped on day one.
+**Crow Ecosystem Platform** is an adaptive **enterprise orchestration ecosystem** built around Discovery, Enterprise Blueprinting, **CEM**, **CyberCrow**, and **SAREA** — for organizations that need governed delivery from first request to live operations, not a module catalog dropped on day one.
 
-Organizations are understood through **Discovery**, defined in a **Blueprint** (architecture + commercial contract), then provisioned as a live multi-tenant workspace with three engines: **CEM**, **CyberCrow**, and **SAREA**.
+**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Public docs:** [`docs/public/`](docs/public/)
 
-> Documentation: **[public architecture & guides](docs/public/)** · Internal operator docs stay in [`docs/internal/`](docs/internal/) (not required for contributors exploring the platform story).
+> This is a **curated architecture showcase** for portfolio and engineering credibility. Operator-only documentation (`docs/internal/`) is not intended for public export.
 
 ---
 
-## Ecosystem overview
+## Platform engines
 
-| Engine | Role | Guide |
-|--------|------|-------|
-| **CEM** | Crow Enterprise Manager — operations, modules, workflows | [`docs/public/CEM.md`](docs/public/CEM.md) |
-| **CyberCrow** | Trust orchestration — security, audit, identity posture | [`docs/public/CYBERCROW.md`](docs/public/CYBERCROW.md) |
-| **SAREA** | Adaptive experience — persona layouts & navigation | [`docs/public/SAREA.md`](docs/public/SAREA.md) |
+| Engine | Name | Role |
+|--------|------|------|
+| **CEM** | Crow Enterprise Manager | Operations — modules, workflows, tenant workspace |
+| **CyberCrow** | Security & Trust Orchestration | Identity posture, audit, compliance narrative, NCA-aware framing |
+| **SAREA** | Smart Adaptive Role Experience Architecture | Persona-aware layouts, navigation, and widgets |
 
-Full overview: [`docs/public/PLATFORM_ENGINES.md`](docs/public/PLATFORM_ENGINES.md)
+| Guide | Link |
+|-------|------|
+| Overview | [`docs/public/PLATFORM_ENGINES.md`](docs/public/PLATFORM_ENGINES.md) |
+| CEM | [`docs/public/CEM.md`](docs/public/CEM.md) |
+| CyberCrow | [`docs/public/CYBERCROW.md`](docs/public/CYBERCROW.md) |
+| SAREA | [`docs/public/SAREA.md`](docs/public/SAREA.md) |
 
 ```text
 RBAC controls access.  SAREA controls experience.
@@ -39,13 +45,11 @@ RBAC controls access.  SAREA controls experience.
 
 ## Platform lifecycle
 
-The pipeline is the product:
-
 ```text
-Request  →  Discovery  →  Blueprint  →  Provision  →  Go-Live  →  Operations
+Request  →  Discovery  →  Blueprint  →  Provision  →  Go-Live  →  Continuous Improvement
 ```
 
-The **Blueprint is the contract** for what gets built — architecture, pricing intent, readiness, and engine configuration.
+The **Blueprint** is the contract for what gets built — architecture intent, readiness, and engine configuration.
 
 Details: [`docs/public/LIFECYCLE.md`](docs/public/LIFECYCLE.md)
 
@@ -53,16 +57,15 @@ Details: [`docs/public/LIFECYCLE.md`](docs/public/LIFECYCLE.md)
 
 ## Architecture highlights
 
-- **Multi-tenant** workspaces under `/{tenant-slug}/…`
-- **Adaptive RBUX** — authorization vs experience, deliberately separated
-- **CyberCrow trust orchestration** — visible security, not bolt-on ops
+- **Multi-tenant architecture** — isolated workspaces under `/{tenant-slug}/…`
 - **Blueprint-driven provisioning** — readiness before go-live
+- **Adaptive RBUX** — RBAC for authorization; SAREA for experience
+- **CyberCrow trust orchestration** — security visible on the tenant, not hidden in ops
 - **PostgreSQL + Prisma** — structured organizational memory
-- **Next.js 15 + Tailwind** — public, admin, discovery, blueprint, portal, tenant surfaces
+- **Next.js + Tailwind** — public, admin, discovery, blueprint, portal, tenant surfaces
+- **Supabase Auth + Microsoft Entra readiness** — enterprise SSO path
 
 Conceptual architecture: [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md)
-
-Also: [`SecDevOps`](docs/public/SECDEVOPS.md) · [`Governed AI`](docs/public/AI_PLATFORM.md) · [`Multi-tenant model`](docs/public/MULTI_TENANT.md)
 
 ---
 
@@ -70,12 +73,15 @@ Also: [`SecDevOps`](docs/public/SECDEVOPS.md) · [`Governed AI`](docs/public/AI_
 
 | Surface | Preview |
 |---------|---------|
-| Homepage & public marketing | [`docs/public/assets/screenshots/README.md`](docs/public/assets/screenshots/README.md) |
-| Pipeline & blueprint | Add captures to `docs/public/assets/screenshots/` |
-| Tenant dashboard | CEM + SAREA runtime |
-| CyberCrow console | Trust & audit narrative |
+| Homepage | `docs/public/assets/screenshots/` |
+| Architecture & pipeline | [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md) |
+| Dashboard examples | Add PNG captures per [`screenshots README`](docs/public/assets/screenshots/README.md) |
 
-Visual identity: dark enterprise UI · cyan CEM · violet CyberCrow · rose SAREA · north-star motif.
+**Visual identity:** dark enterprise UI · cyan CEM · violet CyberCrow · rose SAREA · north-star motif.
+
+<!-- When screenshots exist, embed e.g.:
+![Crow Ecosystem homepage](docs/public/assets/screenshots/homepage.png)
+-->
 
 ---
 
@@ -89,21 +95,19 @@ Visual identity: dark enterprise UI · cyan CEM · violet CyberCrow · rose SARE
 | Database | PostgreSQL |
 | ORM | Prisma |
 | Auth | Supabase Auth · Microsoft Entra ID |
-| Notifications | Resend (pipeline events) |
+| Notifications | Resend (pipeline events, optional) |
 
 ---
 
-## Public roadmap
+## Current status
 
-Strategic direction — no internal completion metrics:
+| | |
+|--|--|
+| **Stage** | Active development · architecture showcase · local-first MVP |
+| **Focus** | Governed pipeline UI, multi-tenant shells, CyberCrow trust narrative, SAREA runtime hooks |
+| **Cloud** | Production path documented internally; public demo uses mock or local stack |
 
-- Discovery Engine evolution
-- Blueprint provisioning maturity
-- CyberCrow trust orchestration
-- SAREA adaptive UX
-- Azure production readiness
-
-Full public roadmap: [`docs/public/ROADMAP.md`](docs/public/ROADMAP.md)
+Public roadmap: [`docs/public/ROADMAP.md`](docs/public/ROADMAP.md)
 
 ---
 
@@ -117,48 +121,58 @@ CyberCrow protects.
 SAREA adapts.
 ```
 
-Expanded: [`docs/public/PHILOSOPHY.md`](docs/public/PHILOSOPHY.md)
+[`docs/public/PHILOSOPHY.md`](docs/public/PHILOSOPHY.md)
 
 ---
 
-## Quick start (UI demo)
+## Quick start (public-safe UI demo)
 
 ```bash
 git clone https://github.com/MuhanadGhurab/crow-ecosystem-platform.git
 cd crow-ecosystem-platform
 cp .env.example .env
-# AUTH_DISABLED=true  USE_MOCK_DATA=true
+```
+
+In `.env` for a **no-database** walkthrough:
+
+```env
+AUTH_DISABLED=true
+USE_MOCK_DATA=true
+```
+
+```bash
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` · Demo: `npm run demo:meem`
+Open `http://localhost:3000` · Optional demo path: `npm run demo:meem` (mock IDs only).
+
+Full setup: [`docs/public/SETUP.md`](docs/public/SETUP.md) · [`.env.example`](.env.example)
 
 ---
 
-## Documentation map
+## Documentation
 
 | Audience | Path |
 |----------|------|
-| **Public** (GitHub, contributors, clients) | [`docs/public/`](docs/public/) |
-| **Internal** (operators, founder — not for public mirror) | [`docs/internal/`](docs/internal/) |
-
-| Doc | Topic |
-|-----|--------|
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to contribute |
-| [`SECURITY.md`](SECURITY.md) | Responsible disclosure |
+| **Public** | [`docs/public/`](docs/public/) |
+| **Contributing** | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| **Security** | [`SECURITY.md`](SECURITY.md) |
 
 ---
 
-## Founder
+## Author
 
-**Muhanad Ghurab** — platform architect. SecDevOps · governed AI · multi-tenant enterprise systems.
+**Muhanad Ghurab** — platform architect · SecDevOps · governed AI · multi-tenant enterprise systems
+
+- GitHub: [@MuhanadGhurab](https://github.com/MuhanadGhurab)
+- Email: [muhanadghurab@gmail.com](mailto:muhanadghurab@gmail.com)
 
 ---
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) — commercial deployments and terms are separate from this open-source presentation.
 
 ---
 

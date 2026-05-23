@@ -32,9 +32,8 @@ credentials.json
 *.pem
 .supabase/
 
-# Private strategy (keep in full repo; exclude from public mirror — see docs/PUBLIC_GITHUB.md)
-# docs/CYBERCROW_MASTER_CONTEXT.md
-# docs/customers/
+# Private strategy — keep in repo; exclude from public mirror only (see docs/internal/PUBLIC_GITHUB.md)
+# docs/internal/ is tracked in the private monorepo; do NOT gitignore here.
 
 # Vercel CLI
 .vercel/

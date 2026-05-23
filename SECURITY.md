@@ -10,7 +10,9 @@
 
 **Do not** open public GitHub issues for security vulnerabilities.
 
-Email the maintainer with:
+Email the maintainer: **muhanadghurab@gmail.com**
+
+Include:
 
 - Description of the issue
 - Steps to reproduce
@@ -32,7 +34,7 @@ This repository is a **curated public presentation**. It may not include all pro
 - [ ] `.env` is gitignored and never committed
 - [ ] `.env.example` contains placeholders only
 - [ ] No service role keys, Resend keys, or Stripe secrets in history
-- [ ] Customer-specific docs (`docs/customers/`) excluded from public mirror
+- [ ] `docs/internal/` excluded from public mirror
 - [ ] Real request/blueprint IDs sanitized in public docs
 - [ ] `AUTH_DISABLED` must not be `true` in production deployments
 

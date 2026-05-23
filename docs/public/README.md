@@ -41,6 +41,7 @@ These docs explain **concepts and architecture** — not internal operations, li
 
 | Document | Topic |
 |----------|--------|
+| [`SETUP.md`](SETUP.md) | Public clone & run |
 | [`ROADMAP.md`](ROADMAP.md) | Public strategic roadmap |
 | [`assets/screenshots/README.md`](assets/screenshots/README.md) | Screenshot gallery |
 

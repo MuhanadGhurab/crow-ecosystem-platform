@@ -10,7 +10,7 @@ Crow Ecosystem delivers **three engines** on one tenant after go-live. They are 
 |--------|------|------------------|-----------------|
 | **CEM** | Crow Enterprise Manager | Runs the organization | Cyan / teal |
 | **CyberCrow** | Security & trust orchestration | Protects the organization | Violet |
-| **SAREA** | Adaptive experience studio | Adapts the experience to each role | Rose |
+| **SAREA** | Smart Adaptive Role Experience Architecture | Adapts the experience to each role | Rose |
 
 Deep dives: [`CEM.md`](CEM.md) · [`CYBERCROW.md`](CYBERCROW.md) · [`SAREA.md`](SAREA.md)
 

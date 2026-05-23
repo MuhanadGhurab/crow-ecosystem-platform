@@ -7,7 +7,7 @@ The **lifecycle is the product**. Dashboards, modules, and consoles are outputs 
 ## Customer-visible pipeline
 
 ```text
-Request  →  Discovery  →  Blueprint  →  Proposal  →  Go-live  →  Operations
+Request  →  Discovery  →  Blueprint  →  Proposal  →  Go-live  →  Continuous Improvement
 ```
 
 ```mermaid

@@ -1,4 +1,4 @@
-# SAREA — adaptive experience
+# SAREA — Smart Adaptive Role Experience Architecture
 
 **SAREA** is the experience engine of Crow Ecosystem — persona-aware layouts, navigation, and widgets so each role sees the right operational density.
 
