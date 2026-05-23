@@ -1,6 +1,8 @@
 /**
  * Wrapper: tsx smoke with NODE_OPTIONS=--use-system-ca (Windows Resend TLS).
+ * Uses .env when present; CI passes DATABASE_URL via workflow env.
  */
+import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const env = {
@@ -8,10 +10,17 @@ const env = {
   NODE_OPTIONS: [process.env.NODE_OPTIONS, "--use-system-ca"].filter(Boolean).join(" "),
 };
 
-const r = spawnSync(
-  "npx",
-  ["tsx", "--env-file=.env", "scripts/run-phase1-smoke.ts"],
-  { stdio: "inherit", shell: true, env, cwd: process.cwd() }
-);
+const tsxArgs = ["tsx"];
+if (existsSync(".env")) {
+  tsxArgs.push("--env-file=.env");
+}
+tsxArgs.push("scripts/run-phase1-smoke.ts");
+
+const r = spawnSync("npx", tsxArgs, {
+  stdio: "inherit",
+  shell: true,
+  env,
+  cwd: process.cwd(),
+});
 
 process.exit(r.status ?? 1);
