@@ -115,4 +115,4 @@ But: *operational clarity, governance, visibility, trust, execution confidence*
 
 ## Founder intent (public)
 
-**Muhanad Ghurab** — platform architect building a **real early-stage enterprise platform company**, not a student exercise. Private repo holds implementation truth; public repo holds philosophy and credible engineering presentation.
+**Maintainer:** [@MuhanadGhurab](https://github.com/MuhanadGhurab) on GitHub.

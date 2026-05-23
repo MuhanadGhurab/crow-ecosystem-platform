@@ -161,12 +161,12 @@ Full setup: [`docs/public/SETUP.md`](docs/public/SETUP.md) · [`.env.example`](.
 
 ---
 
-## Author
+## Maintainer
 
 **Muhanad Ghurab** — platform architect · SecDevOps · governed AI · multi-tenant enterprise systems
 
 - GitHub: [@MuhanadGhurab](https://github.com/MuhanadGhurab)
-- Email: [muhanadghurab@gmail.com](mailto:muhanadghurab@gmail.com)
+- Questions or feedback: [open an issue](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues) or [start a discussion](https://github.com/MuhanadGhurab/crow-ecosystem-platform/discussions) on GitHub
 
 ---
 

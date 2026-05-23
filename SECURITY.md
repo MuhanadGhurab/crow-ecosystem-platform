@@ -10,7 +10,7 @@
 
 **Do not** open public GitHub issues for security vulnerabilities.
 
-Email the maintainer: **muhanadghurab@gmail.com**
+Use **[GitHub Security Advisories](https://github.com/MuhanadGhurab/crow-ecosystem-platform/security/advisories/new)** (Report a vulnerability) on this repository, or contact maintainers via a **private** channel on GitHub.
 
 Include:
 

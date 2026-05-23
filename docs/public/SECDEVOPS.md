@@ -2,7 +2,7 @@
 
 How **security and delivery** are engineered in this repository — not as a checklist PDF, but as **product surfaces and pipeline discipline**.
 
-**Author focus:** Muhanad Ghurab — cybersecurity-oriented platform engineering.
+**Author focus:** Platform engineering — cybersecurity-oriented delivery and trust orchestration.
 
 ---
 

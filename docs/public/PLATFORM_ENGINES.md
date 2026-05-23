@@ -86,7 +86,7 @@ All three engines are configured **before** go-live — not discovered in produc
 
 ## Founder engineering scope (public)
 
-**Muhanad Ghurab** owns the cross-engine orchestration:
+**Crow engineering** owns the cross-engine orchestration:
 
 - Discovery and Blueprint engines
 - Commercial pricing integration

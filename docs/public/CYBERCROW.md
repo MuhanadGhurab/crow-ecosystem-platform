@@ -66,6 +66,6 @@ Some metrics surfaces may show **demo data** until Entra session store and produ
 
 ## Founder scope
 
-Muhanad owns CyberCrow orchestration narrative, auditor UI paths, platform audit integration, and Entra ops story in the Crow codebase. Customer CISO acceptance is separate from implementation.
+**Crow engineering** owns CyberCrow orchestration narrative, auditor UI paths, platform audit integration, and Entra ops story in the codebase. Customer CISO acceptance is separate from implementation.
 
 See [`PLATFORM_ENGINES.md`](PLATFORM_ENGINES.md) · [`ROADMAP.md`](ROADMAP.md).
