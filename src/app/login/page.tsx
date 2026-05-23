@@ -20,11 +20,11 @@ const ERROR_MESSAGES: Record<string, string> = {
   forbidden: "You do not have permission to access that area.",
   config: "Supabase Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and anon key to .env.",
   auth_callback:
-    "Sign-in could not be completed. For Microsoft: Azure redirect URI must be your Supabase callback (https://<ref>.supabase.co/auth/v1/callback), Supabase allow list must include http://localhost:3000/auth/callback exactly — see docs/ENTRA_SSO.md.",
+    "Sign-in could not be completed. For Microsoft: Azure redirect URI must be your Supabase callback (https://<ref>.supabase.co/auth/v1/callback), Supabase allow list must include http://localhost:3000/auth/callback exactly — see docs/internal/ENTRA_SSO.md.",
   entra_start_failed:
     "Could not start Microsoft sign-in. Check NEXT_PUBLIC_SUPABASE_URL, enable the Azure provider in Supabase Dashboard, and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
   entra_not_configured:
-    "Microsoft SSO is not enabled. Set AZURE_SSO_ENABLED=true, NEXT_PUBLIC_AZURE_TENANT_ID, and configure Azure in Supabase (see docs/ENTRA_SSO.md).",
+    "Microsoft SSO is not enabled. Set AZURE_SSO_ENABLED=true, NEXT_PUBLIC_AZURE_TENANT_ID, and configure Azure in Supabase (see docs/internal/ENTRA_SSO.md).",
   no_role:
     "Your Microsoft account signed in, but no Crow access is assigned yet. Use the same email as your implementation request to track it, or ask an administrator.",
 };

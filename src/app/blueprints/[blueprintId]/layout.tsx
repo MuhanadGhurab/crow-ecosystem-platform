@@ -34,6 +34,8 @@ export default async function BlueprintLayout({
     { href: b.cem, label: "CEM" },
     { href: b.cybercrow, label: "CyberCrow" },
     { href: b.sarea, label: "SAREA", permission: Permission["platform.sarea.studio"] },
+    { href: b.identity, label: "Identity" },
+    { href: b.integrations, label: "Integrations" },
     { href: b.readiness, label: "Readiness" },
     { href: b.goLive, label: "Go live", permission: Permission["platform.blueprint.provision"] },
   ] as const;

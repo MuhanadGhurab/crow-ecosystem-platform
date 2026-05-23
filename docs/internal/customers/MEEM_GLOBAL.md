@@ -143,7 +143,7 @@ Discovery `experience.aiExtras` and blueprint pricing include all four keys afte
 
 ## Audit & notifications baseline
 
-Captured after MEEM seed / go-live rehearsal (`USE_MOCK_DATA=false`, local Postgres). Pipeline events are **always logged** to `platformNotification`; `/admin/audit` lists them even when email is not sent. Resend is **deferred** until Phase Cloud (see [`BASELINE.md`](../BASELINE.md) § Notifications, [`PHASES.md`](../PHASES.md) § Phase Cloud).
+Captured after MEEM seed / go-live rehearsal (`USE_MOCK_DATA=false`, local Postgres). Pipeline events are **always logged** to `platformNotification`; `/admin/audit` lists them. For **`sent`** (not `skipped`), configure Resend — [`RESEND_SETUP.md`](../RESEND_SETUP.md).
 
 **Notification target:** `faisal@meem-logistics.demo` (seed contact). Optional platform copy: `PLATFORM_NOTIFY_EMAIL` on `request_received` only.
 
@@ -154,7 +154,9 @@ Captured after MEEM seed / go-live rehearsal (`USE_MOCK_DATA=false`, local Postg
 | Discovery started — CROW-2026-MEEM | `discovery_started` | faisal@meem-logistics.demo | skipped |
 | Request received — CROW-2026-MEEM | `request_received` | faisal@meem-logistics.demo | skipped |
 
-**Skipped is OK for MEEM baseline:** `RESEND_API_KEY` is intentionally unset in local dev. Status `skipped` is **expected** until Phase Cloud; it does not block demo validation. Events still fire from `notification.service` → `pipeline.service` / `implementation-request.service`; `/admin/audit` shows `skipped — RESEND_API_KEY not configured` (logged, not a silent failure).
+**Demo recipient:** seed contact `faisal@meem-logistics.demo` is not deliverable. Set `PIPELINE_NOTIFY_EMAIL_OVERRIDE=your@email.com` in `.env` so Resend reaches your inbox while audit rows keep the demo address.
+
+**Platform finish (M2–M3):** configure `RESEND_API_KEY` and run `npm run test:resend` before E2E step 12.
 
 **CyberCrow audit log (platform admin):**
 
@@ -162,11 +164,12 @@ Captured after MEEM seed / go-live rehearsal (`USE_MOCK_DATA=false`, local Postg
 |--------|--------|------|
 | `CYBERCROW_INITIALIZED` | MEEM Holding Logistics | `meem-global` |
 
-**Enable real email (Phase Cloud / production):** set in `.env`:
+**Enable real email:** set in `.env` — see [`RESEND_SETUP.md`](../RESEND_SETUP.md):
 
 ```env
 RESEND_API_KEY=re_...
-NOTIFICATION_FROM_EMAIL="Crow Ecosystem <noreply@yourdomain.com>"
+NOTIFICATION_FROM_EMAIL=Crow Ecosystem <onboarding@resend.dev>
+PIPELINE_NOTIFY_EMAIL_OVERRIDE=you@yourcompany.com
 # PLATFORM_NOTIFY_EMAIL=ops@yourcompany.com
 ```
 

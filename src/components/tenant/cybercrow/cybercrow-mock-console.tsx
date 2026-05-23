@@ -29,6 +29,9 @@ export function CybercrowMockConsole({
 
   return (
     <div className="cc-entity-cybercrow space-y-8">
+      <div className="cc-alert-warning text-sm text-amber-100">
+        Demo metrics — connect Entra / session store for production session and evidence data.
+      </div>
       <PageHeader badge="CyberCrow" title={title} description={description} entity="cybercrow" />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

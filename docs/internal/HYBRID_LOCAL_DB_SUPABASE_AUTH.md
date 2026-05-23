@@ -2,6 +2,8 @@
 
 **Recommended for day-to-day development:** organizational data lives in **local PostgreSQL** (`crow_ecosystem`); **Supabase** handles **identity only** (login, sessions, JWT roles, Entra SSO). Prisma never points at Supabase Postgres in this mode.
 
+**Production target:** **Azure** (App Service + Azure PostgreSQL) — [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md). Vercel is optional interim only.
+
 **Related:** [`LOCAL_POSTGRES_SETUP.md`](LOCAL_POSTGRES_SETUP.md) · [`PRISMA_DB_PUSH.md`](PRISMA_DB_PUSH.md) · [`BASELINE.md`](BASELINE.md) · [`.env.example`](../.env.example)
 
 ---

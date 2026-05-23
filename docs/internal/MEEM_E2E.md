@@ -1,6 +1,6 @@
 # Phase 4 — MEEM Holding live E2E rehearsal
 
-> **Postponed (May 2026):** Live E2E rehearsal is **deferred** until M4 (CyberCrow ops), M6 (auth/SaaS prep), and M7 (cloud) platform milestones are polished. RBAC, seeds, and this script remain valid — run when product approves the rehearsal window.
+> **Platform-first (May 2026):** Run this **now** to finish the local platform. Cloud (Azure M7) waits until E2E + M4 rehearsal + smoke pass — see [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md).
 
 **Prerequisites:** Local Postgres, Supabase Auth, `USE_MOCK_DATA=false`, `AUTH_DISABLED=false`.
 
@@ -42,7 +42,7 @@ npm run dev
 9. [`/meem-global/cybercrow/dashboard`](http://localhost:3000/meem-global/cybercrow/dashboard) — `CYBERCROW_INITIALIZED`.
 10. [`/meem-global/cybercrow/audit-logs?category=logistics`](http://localhost:3000/meem-global/cybercrow/audit-logs) — logistics ops events.
 11. [`/admin/audit?category=logistics&tenant=meem-global`](http://localhost:3000/admin/audit) — platform feed + **MEEM logistics** filter tab.
-12. Confirm **≥4** `platformNotification` rows (`request_received`, `discovery_started`, `blueprint_ready`, `tenant_provisioned`) with status **`skipped`** and reason `RESEND_API_KEY not configured` — **expected** until Phase Cloud.
+12. Confirm **≥4** `platformNotification` rows (`request_received`, `discovery_started`, `blueprint_ready`, `tenant_provisioned`) with status **`sent`** — requires [`RESEND_SETUP.md`](RESEND_SETUP.md) (`RESEND_API_KEY` + `PIPELINE_NOTIFY_EMAIL_OVERRIDE` for demo address). If key unset, `skipped` is logged only (not platform-finish complete).
 
 ### 4. RBAC spot-checks (Phase 4)
 
@@ -62,7 +62,7 @@ npm run dev
 - [ ] Dashboard + logistics + workflows + ERP samples
 - [ ] Admin audit: notifications + `CYBERCROW_INITIALIZED` + logistics filter
 - [ ] RBAC: sales/auditor/client/tenant_user boundaries as above
-- [ ] Notifications documented as skipped (no Resend)
+- [ ] Notifications **`sent`** (Resend configured per `RESEND_SETUP.md`)
 
 **Owner:** Muhanad. **Deferred:** MEEM (Omar) SAREA persona acceptance (flow 8 — M5); Resend / Phase Cloud (M7).
 

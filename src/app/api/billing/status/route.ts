@@ -13,6 +13,6 @@ export async function GET() {
       : [],
     message: stripe
       ? "Stripe keys present — checkout can be wired"
-      : "Stripe not configured — see docs/STRIPE_BILLING.md",
+      : "Stripe not configured — see docs/internal/STRIPE_BILLING.md",
   });
 }

@@ -49,6 +49,22 @@ console.log(
   `Service role key:      ${process.env.SUPABASE_SERVICE_ROLE_KEY ? "set" : "missing"}`
 );
 
+const resendKey = process.env.RESEND_API_KEY?.trim();
+const notifyOverride = process.env.PIPELINE_NOTIFY_EMAIL_OVERRIDE?.trim();
+console.log(`RESEND_API_KEY:        ${resendKey ? "set" : "missing (audit shows skipped)"}`);
+if (resendKey) {
+  console.log(
+    `Notify override:       ${notifyOverride ? notifyOverride : "(none — uses request contact email)"}`
+  );
+  if (!notifyOverride) {
+    console.warn(
+      "  ⚠ MEEM seed uses faisal@meem-logistics.demo — set PIPELINE_NOTIFY_EMAIL_OVERRIDE for deliverable mail"
+    );
+  }
+} else {
+  console.warn("  → docs/internal/RESEND_SETUP.md · npm run test:resend");
+}
+
 const dbLooksSupabase =
   /supabase\.co/i.test(databaseUrl) || /supabase\.co/i.test(directUrl);
 const dbLooksLocal =
@@ -61,7 +77,7 @@ if (dbLooksSupabase) {
     "⚠ DATABASE_URL or DIRECT_URL contains supabase.co — Option B hybrid expects local Postgres."
   );
   console.warn(
-    "  See docs/HYBRID_LOCAL_DB_SUPABASE_AUTH.md — keep Prisma on localhost; use Supabase keys for auth only."
+    "  See docs/internal/HYBRID_LOCAL_DB_SUPABASE_AUTH.md — keep Prisma on localhost; use Supabase keys for auth only."
   );
 } else if (dbLooksLocal) {
   console.log("✓ Database URLs look local (Option B friendly).");
@@ -91,4 +107,4 @@ if (authDisabled) {
   }
 }
 
-console.log("\nDocs: docs/HYBRID_LOCAL_DB_SUPABASE_AUTH.md");
+console.log("\nDocs: docs/internal/HYBRID_LOCAL_DB_SUPABASE_AUTH.md");

@@ -101,15 +101,16 @@ See [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) · [`customers/MEEM_GLOBAL.md`]
 
 ## M7 — Cloud & production
 
-**Scope:** Vercel, Supabase prod, Entra prod redirects, Resend, `prisma migrate deploy` in deploy pipeline.
+**Scope:** **Azure primary** (App Service + Azure PostgreSQL), Entra prod redirects, `prisma migrate deploy` in release pipeline. Vercel + Supabase pooler = **optional interim** only. Resend optional.
 
 | Done | Open |
 |------|------|
-| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) — env matrix, steps | Live Vercel project + prod env vars |
-| `vercel.json` — generate + migrate + build | Custom domain |
-| [`.env.production.example`](../.env.production.example) | Entra prod verified on URL |
-| `npm run deploy:check` | `RESEND_API_KEY` when email required |
-| CI `postgres-smoke` on GitHub | `/api/health` `deployReady` on prod |
+| [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md) — primary target checklist | Azure Postgres + App Service live |
+| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) — env matrix, shared migrate rules | Entra prod verified on Azure URL |
+| `vercel.json` — generate + migrate + build (interim) | Custom domain on Azure |
+| [`.env.production.example`](../.env.production.example) | `RESEND_API_KEY` when email required |
+| `npm run deploy:check` | `/api/health` `deployReady` on Azure prod |
+| CI `postgres-smoke` on GitHub | Optional Vercel preview (not required) |
 | Entra prod checklist — [`ENTRA_SSO.md`](ENTRA_SSO.md) § Production | |
 
 **Commands:** `npm run deploy:check` · `DEPLOY_TARGET=vercel npm run deploy:check`
@@ -135,11 +136,14 @@ Notification **logging** works; **send** requires `RESEND_API_KEY`.
 
 ## Recommended track — Muhanad (implementation)
 
-1. **Close M2** — Run [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) **after** M6/M7 polish; confirm `/admin/audit` logistics filter + notifications.  
-2. **M6** — Dept chips on requests; `smoke:phase1` on clean DB in CI; MEEM live path without mocks.  
-3. **M4 (done)** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) for platform overview + GRC + auditor.  
-4. **M7** — Phase Cloud env matrix when customer date is set.  
-5. **Hand off M5** — Omar SAREA acceptance checklist; Muhanad only adjusts runtime from feedback.
+**Finish platform locally first:** [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md) — then Azure (M7).
+
+1. **Close M2** — Run [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md); confirm `/admin/audit` logistics filter + notifications.  
+2. **M4** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) + `npm run rehearsal:m4`.  
+3. **M6** — `smoke:phase1` + CI `postgres-smoke` green; MEEM without `USE_MOCK_DATA`.  
+4. **Push** — commit tooling/docs on `main`.  
+5. **M7 (later)** — [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md) when platform gates pass.  
+6. **M5 (parallel)** — Omar SAREA checklist; not blocking platform finish.
 
 ---
 

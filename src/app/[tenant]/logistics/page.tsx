@@ -37,6 +37,7 @@ export default async function LogisticsPage({
           : "Shipments, carriers, and fulfillment operations."
       }
       route="/[tenant]/logistics"
+      tenantSlug={slug}
     >
       {showLogisticsHub ? (
         <div className="space-y-8">

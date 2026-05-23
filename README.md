@@ -1,93 +1,81 @@
 ﻿<p align="center">
-  <strong>Muhanad Ghurab</strong><br/>
-  <em>SecDevOps · AI-assisted platforms · Multi-tenant enterprise systems</em>
+  <strong>Crow Ecosystem Platform</strong><br/>
+  <em>Where Organizations Become Intelligent.</em>
 </p>
 
 <p align="center">
   <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js" alt="Next.js 15" /></a>
   <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
   <a href="https://www.prisma.io"><img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=flat-square&logo=prisma" alt="Prisma" /></a>
-  <img src="https://img.shields.io/badge/SecDevOps-NCA%20%2B%20Entra-violet?style=flat-square" alt="SecDevOps" />
-  <img src="https://img.shields.io/badge/AI-Governed%20extras-teal?style=flat-square" alt="AI" />
-  <img src="https://img.shields.io/badge/Multi--tenant-PostgreSQL-blue?style=flat-square" alt="Multi-tenant" />
+  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
 ---
 
-This repository is a **portfolio engineering workspace** for **Muhanad Ghurab** — focused on how security, DevOps discipline, and governed AI fit into real enterprise software.
+**Crow Ecosystem** is an adaptive **enterprise orchestration platform** for organizations that need governed delivery — not another module catalog dropped on day one.
 
-**Primary story:** **SecDevOps + AI** — identity, audit, compliance narrative, CI/build guards, local-first cloud discipline, and **assistive AI scoped in Blueprint** (not hype-first).
+Organizations are understood through **Discovery**, defined in a **Blueprint** (architecture + commercial contract), then provisioned as a live multi-tenant workspace with three engines: **CEM**, **CyberCrow**, and **SAREA**.
 
-**Implementation story:** **Crow Ecosystem** — a multi-tenant adaptive platform (CEM · CyberCrow · SAREA) that proves those practices in production-shaped code.
+> Documentation: **[public architecture & guides](docs/public/)** · Internal operator docs stay in [`docs/internal/`](docs/internal/) (not required for contributors exploring the platform story).
 
 ---
 
-## 1. SecDevOps
+## Ecosystem overview
 
-Security and delivery are **orchestrated in the product**, not pasted on after launch.
+| Engine | Role | Guide |
+|--------|------|-------|
+| **CEM** | Crow Enterprise Manager — operations, modules, workflows | [`docs/public/CEM.md`](docs/public/CEM.md) |
+| **CyberCrow** | Trust orchestration — security, audit, identity posture | [`docs/public/CYBERCROW.md`](docs/public/CYBERCROW.md) |
+| **SAREA** | Adaptive experience — persona layouts & navigation | [`docs/public/SAREA.md`](docs/public/SAREA.md) |
 
-| Practice | In this repo |
-|----------|----------------|
-| **Identity & SSO** | Supabase Auth + **Microsoft Entra ID** — one identity from client portal to tenant |
-| **RBAC** | Platform + tenant roles, route guards, auditor read-only paths |
-| **Trust layer (CyberCrow)** | Tenant security console, audit logs, GRC narrative, NCA-aware framing |
-| **Pipeline audit** | Lifecycle events logged (`request_received` → `tenant_provisioned`) |
-| **Build & deploy guards** | Vercel localhost DB block, migration baseline scripts, `AUTH_DISABLED` prod checks |
-| **Truth before scale** | Local Postgres E2E before Azure — **earn the cloud** |
-| **Responsible disclosure** | [`SECURITY.md`](SECURITY.md) |
-
-Deep dive: [`docs/SECDEVOPS.md`](docs/SECDEVOPS.md)
+Full overview: [`docs/public/PLATFORM_ENGINES.md`](docs/public/PLATFORM_ENGINES.md)
 
 ```text
-Shift-left security  +  visible trust  +  governed delivery  =  SecDevOps that ships
+RBAC controls access.  SAREA controls experience.
 ```
 
 ---
 
-## 2. AI (governed, not bolted on)
+## Platform lifecycle
 
-AI is **optional commercial scope** captured in Discovery and priced in Blueprint — assistive, auditable, tenant-bound.
+The pipeline is the product:
 
-| Capability (examples) | Where it lives |
-|------------------------|----------------|
-| OCR document intelligence | Logistics / workflows |
-| Route optimization | Dispatch & logistics hub |
-| Anomaly detection | Security + operations pipeline |
-| Demand forecast | Inventory signals |
+```text
+Request  →  Discovery  →  Blueprint  →  Provision  →  Go-Live  →  Operations
+```
 
-**Rules in this codebase:**
+The **Blueprint is the contract** for what gets built — architecture, pricing intent, readiness, and engine configuration.
 
-- AI extras are **line items**, not implied in every base tier  
-- Outputs stay **assistive** — human approval for financial, HR, compliance actions  
-- AI features that touch sensitive data stay **inside CyberCrow policy and audit trails**  
-- No shadow copilots bypassing tenant isolation  
-
-Deep dive: [`docs/AI_PLATFORM.md`](docs/AI_PLATFORM.md)
+Details: [`docs/public/LIFECYCLE.md`](docs/public/LIFECYCLE.md)
 
 ---
 
-## 3. Multi-tenant platform — Crow Ecosystem
+## Architecture highlights
 
-The **reference implementation** of the above: a governed B2B platform from first request to live tenant.
+- **Multi-tenant** workspaces under `/{tenant-slug}/…`
+- **Adaptive RBUX** — authorization vs experience, deliberately separated
+- **CyberCrow trust orchestration** — visible security, not bolt-on ops
+- **Blueprint-driven provisioning** — readiness before go-live
+- **PostgreSQL + Prisma** — structured organizational memory
+- **Next.js 15 + Tailwind** — public, admin, discovery, blueprint, portal, tenant surfaces
 
-| Engine | Role |
-|--------|------|
-| **CEM** | Operations — modules, workflows, tenant workspace |
-| **CyberCrow** | SecDevOps surface — trust, audit, identity posture |
-| **SAREA** | Adaptive UX — RBAC controls access, SAREA controls experience |
+Conceptual architecture: [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md)
 
-**Lifecycle (the product):**
+Also: [`SecDevOps`](docs/public/SECDEVOPS.md) · [`Governed AI`](docs/public/AI_PLATFORM.md) · [`Multi-tenant model`](docs/public/MULTI_TENANT.md)
 
-```text
-Request  →  Discovery  →  Blueprint  →  Proposal  →  Go-live  →  Operations
-```
+---
 
-Each customer gets an isolated workspace under `/{tenant-slug}/…` on PostgreSQL + Prisma.
+## Visual showcase
 
-Deep dive: [`docs/MULTI_TENANT.md`](docs/MULTI_TENANT.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+| Surface | Preview |
+|---------|---------|
+| Homepage & public marketing | [`docs/public/assets/screenshots/README.md`](docs/public/assets/screenshots/README.md) |
+| Pipeline & blueprint | Add captures to `docs/public/assets/screenshots/` |
+| Tenant dashboard | CEM + SAREA runtime |
+| CyberCrow console | Trust & audit narrative |
 
-> **Golden rule:** Discovery understands → Blueprint defines → CEM runs → CyberCrow protects → SAREA adapts.
+Visual identity: dark enterprise UI · cyan CEM · violet CyberCrow · rose SAREA · north-star motif.
 
 ---
 
@@ -95,50 +83,76 @@ Deep dive: [`docs/MULTI_TENANT.md`](docs/MULTI_TENANT.md) · [`docs/ARCHITECTURE
 
 | Layer | Technology |
 |-------|------------|
-| App | Next.js 15 · React 19 · TypeScript · Tailwind |
-| Data | PostgreSQL · Prisma (multi-tenant schema) |
+| Framework | Next.js 15 (App Router), React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Database | PostgreSQL |
+| ORM | Prisma |
 | Auth | Supabase Auth · Microsoft Entra ID |
 | Notifications | Resend (pipeline events) |
-| Target cloud | Azure (primary) · local-first until earned |
+
+---
+
+## Public roadmap
+
+Strategic direction — no internal completion metrics:
+
+- Discovery Engine evolution
+- Blueprint provisioning maturity
+- CyberCrow trust orchestration
+- SAREA adaptive UX
+- Azure production readiness
+
+Full public roadmap: [`docs/public/ROADMAP.md`](docs/public/ROADMAP.md)
+
+---
+
+## Philosophy
+
+```text
+Discovery understands.
+Blueprint defines.
+CEM runs.
+CyberCrow protects.
+SAREA adapts.
+```
+
+Expanded: [`docs/public/PHILOSOPHY.md`](docs/public/PHILOSOPHY.md)
 
 ---
 
 ## Quick start (UI demo)
 
 ```bash
-git clone https://github.com/YOUR_USER/cybercrow.git
-cd cybercrow
+git clone https://github.com/MuhanadGhurab/crow-ecosystem-platform.git
+cd crow-ecosystem-platform
 cp .env.example .env
 # AUTH_DISABLED=true  USE_MOCK_DATA=true
 npm install
 npm run dev
 ```
 
-Demo: `npm run demo:meem` — multi-tenant logistics narrative (mock path).
-
-Full stack: PostgreSQL + Supabase — [`.env.example`](.env.example).
+Open `http://localhost:3000` · Demo: `npm run demo:meem`
 
 ---
 
-## Documentation
+## Documentation map
+
+| Audience | Path |
+|----------|------|
+| **Public** (GitHub, contributors, clients) | [`docs/public/`](docs/public/) |
+| **Internal** (operators, founder — not for public mirror) | [`docs/internal/`](docs/internal/) |
 
 | Doc | Topic |
 |-----|--------|
-| [`docs/SECDEVOPS.md`](docs/SECDEVOPS.md) | **SecDevOps practices & CyberCrow** |
-| [`docs/AI_PLATFORM.md`](docs/AI_PLATFORM.md) | **Governed AI extras** |
-| [`docs/MULTI_TENANT.md`](docs/MULTI_TENANT.md) | **Multi-tenant architecture** |
-| [`docs/CYBERCROW.md`](docs/CYBERCROW.md) | CyberCrow trust engine |
-| [`docs/LIFECYCLE.md`](docs/LIFECYCLE.md) | Delivery pipeline |
-| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Public roadmap |
-| [`docs/PUBLIC_GITHUB.md`](docs/PUBLIC_GITHUB.md) | Publish vs private split |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to contribute |
+| [`SECURITY.md`](SECURITY.md) | Responsible disclosure |
 
 ---
 
-## About
+## Founder
 
-**Muhanad Ghurab** — IT specialist with a **cybersecurity focus**. Platform architect for Crow Ecosystem: SecDevOps narrative, Entra identity, multi-tenant delivery, and lighthouse enterprise demos.
-
-Sensitive customer seeds, provisioning internals, and production runbooks stay **private by design**.
+**Muhanad Ghurab** — platform architect. SecDevOps · governed AI · multi-tenant enterprise systems.
 
 ---
 
@@ -149,6 +163,6 @@ Sensitive customer seeds, provisioning internals, and production runbooks stay *
 ---
 
 <p align="center">
-  <strong>SecDevOps · AI · Multi-tenant</strong><br/>
-  <em>Crow Ecosystem — Where Organizations Become Intelligent.</em>
+  <strong>Crow Ecosystem Platform</strong><br/>
+  <em>Where Organizations Become Intelligent.</em>
 </p>

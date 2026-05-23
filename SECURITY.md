@@ -45,4 +45,4 @@ Full production checklist lives in private operational docs. Public readers shou
 - Microsoft Entra redirect URLs registered for production domain only
 - Database URLs never point at `localhost` on cloud build hosts
 
-See [`docs/PUBLIC_GITHUB.md`](docs/PUBLIC_GITHUB.md) for publish vs private split.
+See [`docs/internal/PUBLIC_GITHUB.md`](docs/internal/PUBLIC_GITHUB.md) for publish vs private split.

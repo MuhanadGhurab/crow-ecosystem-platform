@@ -1,10 +1,22 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   EntraOpsPanel,
   shouldShowEntraOpsNarrative,
 } from "@/components/tenant/entra-ops-panel";
+import { PageHeader } from "@/components/ui/page-header";
+import { routes } from "@/lib/routes";
 import { getTenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+
+const WORKSPACE_LINKS = (slug: string) => [
+  { href: routes.tenant(slug).users, label: "Users" },
+  { href: routes.tenant(slug).roles, label: "Roles" },
+  { href: routes.tenant(slug).departments, label: "Departments" },
+  { href: routes.tenant(slug).modules, label: "Modules" },
+  { href: routes.tenant(slug).cybercrow.identity, label: "CyberCrow identity" },
+  { href: routes.tenant(slug).cybercrow.sessions, label: "Sessions" },
+];
 
 export default async function TenantSettingsPage({
   params,
@@ -19,13 +31,26 @@ export default async function TenantSettingsPage({
   const showEntra = shouldShowEntraOpsNarrative(tenant.planKey, security);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold text-white">Settings</h2>
-        <p className="mt-1 text-sm text-slate-400">
-          Workspace configuration for {tenant.organization.displayName}.
-        </p>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        badge="CEM · Settings"
+        entity="cem"
+        title="Workspace settings"
+        description={`Configuration for ${tenant.organization.displayName}.`}
+      />
+
+      <section className="cc-glass-card">
+        <h3 className="text-sm font-medium text-cyan-400">Workspace operations</h3>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          {WORKSPACE_LINKS(slug).map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} className="text-sm text-slate-300 hover:text-cyan-300">
+                {link.label} →
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {showEntra ? (
         <EntraOpsPanel

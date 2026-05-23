@@ -97,4 +97,4 @@ Public repo shows **patterns**; private ops hold **production truth**.
 
 - [`AI_PLATFORM.md`](AI_PLATFORM.md) — AI within CyberCrow policy boundaries
 - [`MULTI_TENANT.md`](MULTI_TENANT.md) — tenant isolation model
-- [`../SECURITY.md`](../SECURITY.md) — responsible disclosure
+- [`../../SECURITY.md`](../../SECURITY.md) — responsible disclosure

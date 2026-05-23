@@ -1,6 +1,10 @@
 # M7 — Cloud & production deploy
 
-**Scope:** First production path for Crow Ecosystem — Vercel (app) + Supabase (Auth + optional Postgres) + Entra prod redirects. Resend stays optional until you want real email.
+**Primary production target:** **Azure** (App Service + Azure PostgreSQL) — see [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md).
+
+**Interim optional path:** Vercel + hosted Postgres (often Supabase pooler) for a quick public URL before Azure is ready.
+
+**Scope:** Production deploy patterns — env matrix, `migrate deploy` in CI/CD, Entra prod redirects. Resend optional until real email.
 
 **Prerequisites:** M6 complete (`AUTH_DISABLED` blocked in production, `migrate deploy` tested locally, CI `postgres-smoke` green).
 
@@ -12,10 +16,11 @@
 
 | Mode | When | `DATABASE_URL` | Auth |
 |------|------|----------------|------|
-| **Hybrid (dev)** | Local dev today | Local `crow_ecosystem` | Supabase Auth |
-| **Cloud (staging/prod)** | M7 go-live | Supabase pooler (6543) or dedicated Postgres | Supabase Auth |
+| **Hybrid (dev)** | Local dev today | Local `crow_ecosystem` | Supabase Auth + Entra |
+| **Azure (prod)** | **Primary** go-live | Azure Database for PostgreSQL | Supabase Auth + Entra (or Entra-only later) |
+| **Vercel (interim)** | Optional preview | Supabase pooler or other hosted Postgres | Supabase Auth |
 
-For first cloud deploy, most teams move **both** Prisma data and Auth to **one Supabase project** (simpler than hybrid in production). Keep hybrid locally if you prefer.
+Keep **local Postgres** for development while Azure is the production data plane. Do not require a second cloud database for day-to-day work.
 
 ---
 

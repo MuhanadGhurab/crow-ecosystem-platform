@@ -32,7 +32,7 @@ export async function createSubscriptionCheckout(
       ok: false,
       reason: "not_configured",
       message:
-        "Set STRIPE_SECRET_KEY and NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (see docs/STRIPE_BILLING.md)",
+        "Set STRIPE_SECRET_KEY and NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (see docs/internal/STRIPE_BILLING.md)",
     };
   }
 

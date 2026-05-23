@@ -29,6 +29,7 @@ const routes = [
   "/clients",
   "/industries",
   "/case-studies",
+  "/loyalty-programs",
   "/login",
 ];
 

@@ -56,7 +56,7 @@ export default function ArchitecturePage() {
             {engines.map((key) => {
               const id = PLATFORM_IDENTITIES[key];
               const href =
-                key === "cem" ? "/modules" : key === "cybercrow" ? "/security" : "/about";
+                key === "cem" ? "/modules" : key === "cybercrow" ? "/security" : "/about#sarea";
               return (
                 <CrowEngineCard
                   key={key}

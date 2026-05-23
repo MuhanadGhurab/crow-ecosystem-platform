@@ -21,6 +21,9 @@ export function PublicFooter() {
               { href: "/architecture", label: "Architecture" },
               { href: "/security", label: "Security" },
               { href: "/pricing", label: "Pricing" },
+              { href: "/clients", label: "Clients" },
+              { href: "/industries", label: "Industries" },
+              { href: "/case-studies", label: "Case studies" },
               { href: "/request", label: "Request" },
               { href: "/login", label: "Sign in" },
             ].map((link) => (

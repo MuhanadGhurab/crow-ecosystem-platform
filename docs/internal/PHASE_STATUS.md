@@ -15,7 +15,7 @@
 | **Backend pipeline (Phases 1–7 historical)** | **~90%** (see [`archive/PHASE1_PIPELINE.md`](archive/PHASE1_PIPELINE.md)) |
 | **Modular ERP (M3, E1–E9)** | **~92%** — MEEM demo chain complete |
 | **CyberCrow ops slice (M4)** | **100%** — rehearsal doc + E10/GRC/auditor paths |
-| **Production blockers** | Live Postgres/Supabase prod, cloud deploy, Entra production, migrate baseline |
+| **Production blockers** | Platform E2E + smoke not signed off; Azure/M7 deferred until local finish |
 
 **Team:** **Muhanad** — Crow platform, CyberCrow, broker/cloud/security. **Omar** — MEEM Holding SAREA liaison (customer acceptance, not Crow dev). See [`TEAM_OWNERSHIP.md`](TEAM_OWNERSHIP.md).
 
@@ -26,7 +26,7 @@
 | Milestone | % | Notes |
 |-----------|---|--------|
 | M1 Platform foundation | 100% | Phases 0–2, 7b |
-| M2 MEEM lighthouse + RBAC | ~88% | Live E2E rehearsal pending |
+| M2 MEEM lighthouse + RBAC | ~95% | Live E2E signed off; optional recorded demo |
 | M3 Modular ERP E1–E9 | ~92% | MEEM demo; E11–E14 open |
 | M4 CyberCrow operations | 100% | [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) |
 | M5 MEEM SAREA acceptance | ~25% | Omar (customer) |
@@ -71,20 +71,22 @@
 
 ## Blockers
 
-1. **Database (production)** — Supabase project paused or unreachable for shared staging; local Postgres OK for dev.
-2. **Cloud (M7)** — No production Vercel + env matrix; migrations still `db push` not `migrate deploy` baseline.
-3. **Entra production** — Dev SSO documented; production app registration + redirect URLs pending.
-4. **MEEM SAREA sign-off (M5)** — Crow runtime shipped; Omar customer acceptance on personas/widgets open.
+1. **Platform sign-off (local)** — MEEM live E2E + M4 rehearsal + `smoke:phase1` not all checked off — see [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md).
+2. **MEEM SAREA sign-off (M5)** — Omar customer acceptance; does not block Muhanad platform finish.
+3. **Cloud (M7)** — **Deferred** until platform finished; **Azure primary** — [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md).
+4. **Entra production** — Dev SSO works; prod redirects wait for Azure URL.
 
 ---
 
-## Next 5 actions
+## Next 5 actions (post–MEEM E2E)
 
-1. **MEEM live E2E** — [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md): readiness → dashboard → logistics audit → `/admin/audit` (Muhanad).
-2. **Postgres hardening (M6)** — `smoke:phase1` on clean DB in CI; optional Postgres service in GitHub Actions (Muhanad).
-3. **M4 (done)** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) + `npm run rehearsal:m4` (Muhanad).
-4. **SAREA handoff (M5)** — Share [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md) with Omar for MEEM dashboard acceptance.
-5. **Phase Cloud (M7)** — Import repo to Vercel; set prod env per [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) (Muhanad).
+1. **M4 rehearsal** — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) (~10 min browser).
+2. **Push pending repo** — Resend, Prisma config, migrate scripts, docs (`git push`).
+3. **M6 / CI** — confirm GitHub Actions `verify` + `postgres-smoke` green on `main`.
+4. **Platform sign-off** — all [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md) gates checked.
+5. **Azure (M7)** — [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md): Postgres + App Service + Entra prod URL.
+
+**Parallel (Omar):** M5 SAREA acceptance — [`SAREA_OMAR_SCOPE.md`](SAREA_OMAR_SCOPE.md).
 
 ---
 

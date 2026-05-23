@@ -37,6 +37,9 @@ export async function notifyPipelineEvent(
   const email = recipientEmail.trim().toLowerCase();
   if (!email) return;
 
+  const overrideTo = process.env.PIPELINE_NOTIFY_EMAIL_OVERRIDE?.trim().toLowerCase();
+  const sendTo = overrideTo || email;
+
   const { subject, body } = TEMPLATES[event](context);
 
   const row = await prisma.platformNotification.create({
@@ -46,7 +49,10 @@ export async function notifyPipelineEvent(
       subject,
       body,
       status: "logged",
-      metadata: context,
+      metadata: {
+        ...context,
+        ...(overrideTo ? { sendToOverride: sendTo } : {}),
+      },
     },
   });
 
@@ -55,7 +61,7 @@ export async function notifyPipelineEvent(
     const skipReason = "RESEND_API_KEY not configured";
     if (process.env.NODE_ENV !== "production") {
       console.warn(
-        `[notification] skipped ${event} → ${email}: configure RESEND_API_KEY (see docs/BASELINE.md)`
+        `[notification] skipped ${event} → ${email}: configure RESEND_API_KEY (see docs/internal/RESEND_SETUP.md)`
       );
     }
     await prisma.platformNotification.update({
@@ -76,7 +82,7 @@ export async function notifyPipelineEvent(
       },
       body: JSON.stringify({
         from,
-        to: [email],
+        to: [sendTo],
         subject,
         text: body,
       }),

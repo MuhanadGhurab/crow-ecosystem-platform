@@ -63,14 +63,15 @@ export default function AboutPage() {
           />
           <div className="mt-8 grid gap-4 md:grid-cols-3 md:gap-5">
             {CROW_DEPARTMENTS.map((dept) => (
-              <CrowEngineCard
-                key={dept.key}
-                entity={dept.entity}
-                name={dept.name}
-                fullName={dept.name}
-                tagline={dept.lead}
-                description={dept.delivers}
-              />
+              <div key={dept.key} id={dept.key === "sarea" ? "sarea" : undefined}>
+                <CrowEngineCard
+                  entity={dept.entity}
+                  name={dept.name}
+                  fullName={dept.name}
+                  tagline={dept.lead}
+                  description={dept.delivers}
+                />
+              </div>
             ))}
           </div>
         </section>

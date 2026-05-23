@@ -41,9 +41,15 @@ For CYBERCROW today that means roughly **74 models** → **74 `public` tables** 
 
 ---
 
+## Prisma CLI config
+
+Seed and migration paths live in [`prisma.config.ts`](../prisma.config.ts) (replaces deprecated `package.json#prisma`). Database URLs remain in `prisma/schema.prisma` (`DATABASE_URL`, `DIRECT_URL`) on Prisma 6.
+
+---
+
 ## Environment variables
 
-Prisma loads **`.env`** from the project root.
+Prisma loads **`.env`** from the project root (and `prisma.config.ts` imports `dotenv/config` for CLI commands).
 
 | Variable | Used for |
 |----------|----------|

@@ -6,7 +6,16 @@ import type { ImplementationRequestInput } from "@/lib/types/platform";
 
 const activeDiscoveryRequestArgs = {
   include: {
-    discoveryProfile: { select: { status: true } },
+    discoveryProfile: {
+      include: {
+        answers: true,
+        departments: { select: { id: true } },
+        branches: { select: { id: true } },
+        roles: { select: { id: true } },
+        workflows: { select: { id: true } },
+        securityRequirements: { select: { id: true } },
+      },
+    },
     enterpriseBlueprint: { select: { id: true, status: true } },
   },
 } satisfies Prisma.ImplementationRequestFindManyArgs;

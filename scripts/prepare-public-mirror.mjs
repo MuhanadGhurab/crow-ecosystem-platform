@@ -2,10 +2,8 @@
 /**
  * Lists files safe to copy into a public GitHub mirror.
  * Usage: node scripts/prepare-public-mirror.mjs [targetDir]
- *
- * Does NOT copy automatically — review output, then rsync/robocopy manually.
  */
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dirname, "..");
@@ -30,28 +28,15 @@ const INCLUDE = [
   "prisma/migrations",
   "public",
   "src",
-  "docs/SECDEVOPS.md",
-  "docs/AI_PLATFORM.md",
-  "docs/MULTI_TENANT.md",
-  "docs/ARCHITECTURE.md",
-  "docs/PLATFORM_ENGINES.md",
-  "docs/LIFECYCLE.md",
-  "docs/CEM.md",
-  "docs/CYBERCROW.md",
-  "docs/SAREA.md",
-  "docs/ROADMAP.md",
-  "docs/PHILOSOPHY.md",
-  "docs/PUBLIC_GITHUB.md",
-  "docs/assets",
+  "docs/README.md",
+  "docs/public",
   "scripts/free-port.mjs",
 ];
 
 const EXCLUDE_ALWAYS = [
   ".env",
   ".env.local",
-  "docs/customers",
-  "docs/archive",
-  "docs/CYBERCROW_MASTER_CONTEXT.md",
+  "docs/internal",
   "archive",
   "node_modules",
   ".next",
@@ -64,9 +49,9 @@ const manifest = {
   include: INCLUDE,
   excludeAlways: EXCLUDE_ALWAYS,
   notes: [
-    "Run rg for secrets before push — see docs/PUBLIC_GITHUB.md",
-    "Replace live MEEM IDs with mock-* in any copied internal doc",
-    "Set package.json private:false on public mirror if publishing OSS",
+    "Public docs live in docs/public/ only",
+    "Never copy docs/internal/ to a public mirror",
+    "Run rg for secrets before push — see docs/internal/PUBLIC_GITHUB.md",
   ],
 };
 
@@ -80,4 +65,3 @@ console.log("\nInclude paths (" + INCLUDE.length + "):");
 INCLUDE.forEach((p) => console.log("  +", p));
 console.log("\nAlways exclude:");
 EXCLUDE_ALWAYS.forEach((p) => console.log("  -", p));
-console.log("\nNext: copy files manually or extend this script with fs.cpSync.");

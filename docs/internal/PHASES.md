@@ -325,13 +325,16 @@ See [`MILESTONES.md`](MILESTONES.md) for the executive map. Summary:
 
 ## Current sprint recommendation
 
+**Track:** [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md) — local platform complete before Azure (M7). Vercel optional.
+
 | Priority | Action | Milestone |
 |----------|--------|-----------|
-| 1 | MEEM E2E — [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) **after** M6/M7 polish | M2 |
-| 2 | `smoke:phase1` on clean Postgres + CI | M6 |
-| 3 | M4 done — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 |
-| 4 | Hand off SAREA persona checklist to MEEM (Omar) | M5 |
-| 5 | Phase Cloud env matrix when go-live date set | M7 |
+| 1 | MEEM E2E — [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | M2 |
+| 2 | M4 rehearsal — [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 |
+| 3 | `smoke:phase1` + CI `postgres-smoke` | M6 |
+| 4 | Push pending commits to `main` | — |
+| 5 | Hand off SAREA to Omar (parallel) | M5 |
+| — | **Later:** Azure — [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md) | M7 |
 
 **Env this sprint:** `AUTH_DISABLED=false`, `USE_MOCK_DATA=false` (live Postgres + Supabase Auth). Verification: typecheck, build, seeds, `verify-logistics-audit`.
 

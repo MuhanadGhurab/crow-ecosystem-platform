@@ -13,6 +13,7 @@ import { DeptChips } from "@/components/pipeline/dept-chips";
 import { getRequestDeptContext } from "@/lib/pipeline/request-dept-context";
 
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
+import { PipelineProcessGuide } from "@/components/pipeline/pipeline-process-guide";
 
 import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
 
@@ -152,6 +153,20 @@ export default async function AdminRequestDetailPage({
 
 
       <LifecycleStrip status={status} />
+
+      <PipelineProcessGuide
+        status={status}
+        requestId={requestId}
+        blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
+        tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
+      />
+
+      {mockRow && !request && (
+        <section className="cc-alert-warning text-sm text-amber-100">
+          Demo request — pipeline actions and live pricing require a database record. Turn off{" "}
+          <code className="rounded bg-black/30 px-1">USE_MOCK_DATA</code> or seed this request in Postgres.
+        </section>
+      )}
 
 
 

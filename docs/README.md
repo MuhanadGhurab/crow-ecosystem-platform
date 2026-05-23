@@ -1,95 +1,23 @@
-# Documentation index
+# Documentation
 
-## Public portfolio (safe to share on GitHub)
+Crow Ecosystem documentation is split intentionally:
 
-| Doc | Use |
-|-----|-----|
-| [`SECDEVOPS.md`](SECDEVOPS.md) | **SecDevOps — identity, audit, CyberCrow, CI** |
-| [`AI_PLATFORM.md`](AI_PLATFORM.md) | **Governed AI extras** |
-| [`MULTI_TENANT.md`](MULTI_TENANT.md) | **Multi-tenant Crow Ecosystem** |
-| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Conceptual system architecture |
-| [`PLATFORM_ENGINES.md`](PLATFORM_ENGINES.md) | CEM · CyberCrow · SAREA |
-| [`LIFECYCLE.md`](LIFECYCLE.md) | Request → Go-live pipeline |
-| [`CEM.md`](CEM.md) · [`CYBERCROW.md`](CYBERCROW.md) · [`SAREA.md`](SAREA.md) | Engine deep dives |
-| [`ROADMAP.md`](ROADMAP.md) | Public roadmap |
-| [`PHILOSOPHY.md`](PHILOSOPHY.md) | Product philosophy & guardrails |
-| [`PUBLIC_GITHUB.md`](PUBLIC_GITHUB.md) | **What to publish vs keep private** |
-| [`assets/screenshots/README.md`](assets/screenshots/README.md) | README screenshot gallery |
+| Folder | Audience | Purpose |
+|--------|----------|---------|
+| **[`public/`](public/)** | GitHub, portfolio, contributors, clients | Curated architecture & platform story |
+| **[`internal/`](internal/)** | Founder, operators, delivery | Operational intelligence — **not for public mirror** |
 
 ---
 
-## Internal engineering (private repo / mirror exclude)
+## Quick links
 
-**Start here**
-
-| Doc | Use |
-|-----|-----|
-| [`PROJECT_STATUS.md`](PROJECT_STATUS.md) | **Progress %, blockers, next actions** |
-| [`FINISH_PLATFORM.md`](FINISH_PLATFORM.md) | **Finish platform locally** before Azure |
-| [`RESEND_SETUP.md`](RESEND_SETUP.md) | Pipeline email — `RESEND_API_KEY` (M2–M3) |
-| [`MILESTONES.md`](MILESTONES.md) | **M1–M8** milestone map (% complete, owners) |
-| [`BASELINE.md`](BASELINE.md) | Run locally, env, verification |
-| [`PHASES.md`](PHASES.md) | Roadmap to production (0–10 + MEEM + Cloud) |
-| [`RBAC.md`](RBAC.md) | Platform + tenant permission matrix |
-| [`PHASE4_MEEM_E2E.md`](PHASE4_MEEM_E2E.md) | MEEM live rehearsal script (deferred) |
-| [`M4_CYBERCROW_REHEARSAL.md`](M4_CYBERCROW_REHEARSAL.md) | M4 CyberCrow ops rehearsal (~10 min) |
-| [`M6_AUTH_SAAS.md`](M6_AUTH_SAAS.md) | Auth hardening, migrate deploy, `app_metadata` |
-| [`AZURE_DEPLOY.md`](AZURE_DEPLOY.md) | **Primary production** — Azure App Service + PostgreSQL |
-| [`M7_CLOUD_DEPLOY.md`](M7_CLOUD_DEPLOY.md) | Cloud deploy matrix (Azure primary; Vercel interim) |
-| [`VERCEL_CONNECT.md`](VERCEL_CONNECT.md) | Optional Vercel preview — not primary platform |
-| [`M8_SAAS_CUSTOMER.md`](M8_SAAS_CUSTOMER.md) | Paid customer onboarding (post-MEEM) |
-| [`GITHUB_SETUP.md`](GITHUB_SETUP.md) | GitHub repo + CI jobs |
-
-**North star:** [`ARCHITECTURE_DIAGRAM.md`](ARCHITECTURE_DIAGRAM.md) · [`CORE_PRODUCT_FLOW.md`](CORE_PRODUCT_FLOW.md)
+- **New to the repo?** → [`public/README.md`](public/README.md)
+- **Running locally?** → [`internal/BASELINE.md`](internal/BASELINE.md)
+- **Publishing to GitHub?** → [`internal/PUBLIC_GITHUB.md`](internal/PUBLIC_GITHUB.md)
+- **Full operator context?** → [`internal/MASTER_CONTEXT.md`](internal/MASTER_CONTEXT.md)
 
 ---
 
-## Customers & demos
+## Repository root
 
-| Doc | Description |
-|-----|-------------|
-| [`customers/MEEM_GLOBAL.md`](customers/MEEM_GLOBAL.md) | **Lighthouse demo** — MEEM Holding Logistics (50–250 users, logistics + AI) |
-| [`ERP_ROADMAP.md`](ERP_ROADMAP.md) | Modular ERP chain — backlog E1–E14 |
-| [`TEAM_OWNERSHIP.md`](TEAM_OWNERSHIP.md) | Muhanad (Crow) vs MEEM (Omar) |
-| [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md) | Walkthrough scripts |
-| [`BASELINE.md`](BASELINE.md) § Demo | Mock IDs + `npm run demo` |
-
----
-
-## Platform (Next.js)
-
-| Doc | Description |
-|-----|-------------|
-| [`PLATFORM_STATUS.md`](PLATFORM_STATUS.md) | Routes, services, auth — built vs shell |
-| [`PAGE_DESIGNS.md`](PAGE_DESIGNS.md) | Wireframe specs |
-| [`ROLES_AND_WORKFLOW.md`](ROLES_AND_WORKFLOW.md) | Roles, departments, guards |
-| [`IDENTITY_AND_PORTALS.md`](IDENTITY_AND_PORTALS.md) | Client portal + Microsoft identity |
-| [`PRODUCT_NARRATIVE.md`](PRODUCT_NARRATIVE.md) | Customer-facing story (3 engines) |
-| [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) | Tokens & components |
-| [`DEV_WITHOUT_DB.md`](DEV_WITHOUT_DB.md) | UI-only / paused Supabase |
-| [`SUPABASE_SETUP.md`](SUPABASE_SETUP.md) | Database + Auth setup |
-| [`ENTRA_SSO.md`](ENTRA_SSO.md) | Microsoft Entra ID |
-| [`ARCHITECTURE_DOMAINS.md`](ARCHITECTURE_DOMAINS.md) | `src/lib/domains/` layout |
-| [`GAP_AUDIT.md`](GAP_AUDIT.md) | Spec vs implementation (point-in-time) |
-
----
-
-## Delivery history
-
-Backend phases 1–8 (mostly complete): [`archive/README.md`](archive/README.md)
-
-| Phase | Doc |
-|-------|-----|
-| 1 — Pipeline | [`archive/PHASE1_PIPELINE.md`](archive/PHASE1_PIPELINE.md) |
-| 2 — Auth | [`archive/PHASE2_AUTH.md`](archive/PHASE2_AUTH.md) |
-| 3–6 | [`archive/PHASE3.md`](archive/PHASE3.md) … [`PHASE6.md`](archive/PHASE6.md) |
-| 7–8 | [`archive/PHASE7.md`](archive/PHASE7.md), [`PHASE8.md`](archive/PHASE8.md) |
-
----
-
-## Legacy
-
-| Path | Description |
-|------|-------------|
-| [`../archive/HTML_proc/README.md`](../archive/HTML_proc/README.md) | Static HTML prototype (archived) |
-| [`../src/STRUCTURE.md`](../src/STRUCTURE.md) | Source tree map |
+[`../README.md`](../README.md) — public-facing project overview.
