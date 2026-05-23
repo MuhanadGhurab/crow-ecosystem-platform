@@ -4,8 +4,8 @@ Thank you for your interest in this repository. It showcases **SecDevOps**, **go
 
 ## Before you start
 
-1. Read [`docs/internal/PUBLIC_GITHUB.md`](docs/internal/PUBLIC_GITHUB.md) — understand what is intentionally public vs private.
-2. Read [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md) and [`docs/public/LIFECYCLE.md`](docs/public/LIFECYCLE.md) — the pipeline is the product.
+1. Read [`PUBLIC_REPOSITORY.md`](PUBLIC_REPOSITORY.md) and [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md) — public scope and architecture.
+2. Read [`docs/public/LIFECYCLE.md`](docs/public/LIFECYCLE.md) — the pipeline is the product.
 3. Never commit secrets, `.env`, real tenant IDs, or customer-specific data.
 
 ## Development setup
