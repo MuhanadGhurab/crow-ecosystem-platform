@@ -72,22 +72,30 @@ try {
 }
 
 if (!siteUrl || siteUrl.includes("your-app.vercel.app")) {
-  warnings.push("NEXT_PUBLIC_SITE_URL is placeholder — set real Vercel URL and redeploy");
+  warnings.push("NEXT_PUBLIC_SITE_URL is placeholder — set http://localhost:3000 for local staging");
 } else {
   ok.push(`SITE_URL configured (${siteUrl})`);
+  const isLocal = /localhost|127\.0\.0\.1/i.test(siteUrl);
   try {
     const healthUrl = `${siteUrl}/api/health`;
     const res = await fetch(healthUrl, { signal: AbortSignal.timeout(20_000) });
     if (res.ok) {
       const body = await res.json();
-      if (body.deployReady && body.db === "ok") ok.push("Vercel /api/health deployReady");
-      else warnings.push(`/api/health returned but not deployReady: ${JSON.stringify(body)}`);
+      if (body.deployReady && body.db === "ok") {
+        ok.push(isLocal ? "localhost /api/health deployReady" : "remote /api/health deployReady");
+      } else warnings.push(`/api/health returned but not deployReady: ${JSON.stringify(body)}`);
     } else {
-      warnings.push(`Vercel /api/health HTTP ${res.status} — confirm deploy succeeded`);
+      warnings.push(
+        isLocal
+          ? `localhost /api/health HTTP ${res.status} — run npm run staging:local`
+          : `/api/health HTTP ${res.status} — confirm deploy succeeded`
+      );
     }
   } catch {
     warnings.push(
-      `Cannot reach ${siteUrl}/api/health — import project on Vercel or fix production domain`
+      isLocal
+        ? `Cannot reach ${siteUrl}/api/health — run npm run staging:local in another terminal`
+        : `Cannot reach ${siteUrl}/api/health — check host or use LOCAL_STAGING.md`
     );
   }
 }
@@ -109,7 +117,7 @@ if (blockers.length) {
 
 const base = siteUrl && !siteUrl.includes("your-app") ? siteUrl : "https://YOUR-VERCEL-URL";
 console.log("\n✓ Staging backend is ready.\n");
-console.log("After Vercel deploy succeeds:");
+console.log("Local: npm run staging:local  →  npm run staging:runbook");
 console.log(`  Health:  ${base}/api/health`);
 console.log(`  Login:   ${base}/login`);
 console.log(`  MEEM:    ${base}/meem-global/dashboard`);

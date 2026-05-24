@@ -1,14 +1,17 @@
 /**
- * Expose local staging host (port 3000) on a public HTTPS URL — Vercel workaround.
- *
- * Prerequisite: npm run staging:dev  OR  npm run staging:host  (in another terminal)
- *
- * Usage: npm run staging:tunnel
+ * Expose local staging host on a public HTTPS URL (optional — Omar remote).
+ * Prerequisite: npm run staging:local (another terminal)
  */
 import { spawn, spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, "..");
 const PORT = Number(process.env.PORT ?? 3000);
 const LOCAL = `http://localhost:${PORT}`;
+const nodeWithCa = [process.execPath, "--use-system-ca"];
 
 async function localHealthy() {
   try {
@@ -21,7 +24,7 @@ async function localHealthy() {
 
 if (!(await localHealthy())) {
   console.error(`\n✗ Nothing listening on ${LOCAL} with /api/health OK.`);
-  console.error("  Start staging first: npm run staging:dev\n");
+  console.error("  Start: npm run staging:local\n");
   process.exit(1);
 }
 
@@ -33,25 +36,22 @@ function hasCmd(name) {
   return r.status === 0;
 }
 
-console.log("\n=== Staging tunnel (Vercel workaround) ===\n");
+console.log("\n=== Staging tunnel (optional) ===\n");
 console.log(`Local server OK at ${LOCAL}\n`);
+console.log("For local-only Omar session, skip tunnel — use http://localhost:3000\n");
 
 if (hasCmd("cloudflared")) {
-  console.log("Using cloudflared quick tunnel…\n");
-  console.log("After URL appears:");
-  console.log("  1. Supabase → Auth → URL config → add https://<tunnel>/auth/callback");
-  console.log("  2. Set NEXT_PUBLIC_SITE_URL to tunnel URL in .env.staging (optional for email login)");
-  console.log("  3. Share https://<tunnel>/login with Omar\n");
+  console.log("Using cloudflared…\n");
   const child = spawn("cloudflared", ["tunnel", "--url", LOCAL], { stdio: "inherit", shell: true });
   child.on("exit", (code) => process.exit(code ?? 0));
 } else {
-  console.log("cloudflared not found — using localtunnel (npx)…\n");
-  console.log("After URL appears, add to Supabase Auth redirect allowlist:");
-  console.log("  https://<subdomain>.loca.lt/auth/callback\n");
-  const child = spawn(
-    "npx",
-    ["localtunnel", "--port", String(PORT)],
-    { stdio: "inherit", shell: true }
-  );
+  const ltBin = join(ROOT, "node_modules", "localtunnel", "bin", "lt.js");
+  const ltArgs = existsSync(ltBin)
+    ? [...nodeWithCa, ltBin, "--port", String(PORT)]
+    : [...nodeWithCa, join(ROOT, "node_modules", "npm", "bin", "npx-cli.js"), "localtunnel", "--port", String(PORT)];
+
+  console.log("Using localtunnel (node --use-system-ca)…\n");
+  console.log("Add to Supabase redirect allowlist: https://<subdomain>.loca.lt/auth/callback\n");
+  const child = spawn(ltArgs[0], ltArgs.slice(1), { stdio: "inherit", cwd: ROOT });
   child.on("exit", (code) => process.exit(code ?? 0));
 }
