@@ -210,7 +210,7 @@ export function getMockDiscoveryContext(
           requestId,
           discoveryProfileId: `mock-dp-${requestId}`,
           status: "IN_REVIEW",
-          proposalStatus: row.proposalStatus ?? "DRAFT",
+          proposalStatus: "DRAFT",
           proposalToken: null,
           proposalSentAt: null,
           clientApprovedAt: null,
