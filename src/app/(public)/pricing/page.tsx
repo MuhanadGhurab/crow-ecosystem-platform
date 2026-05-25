@@ -270,6 +270,10 @@ export default function PricingPage() {
             Final commercial terms follow discovery and blueprint — totals recalc via pricing.service.
           </p>
           <p className="mt-2 text-xs text-slate-500">15% VAT applied at invoice.</p>
+          <p className="mt-3 max-w-xl text-xs leading-relaxed text-slate-500">
+            Live card checkout (Mada, Apple Pay, BNPL) is not enabled in this environment — enterprise
+            billing follows proposal and platform administrator coordination.
+          </p>
           <Link href="/request" className="cc-btn-primary mt-6 inline-block">
             Start implementation request
           </Link>

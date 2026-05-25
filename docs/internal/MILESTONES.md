@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F19** | Saudi payment architecture readiness | Provider matrix, adapter design, safety model | Muhanad | **100%** | **Passed** — [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
 | **F18** | Google Sign-In & auth UX polish | Google OAuth, login UX, role safety | Muhanad | **100%** | **Passed** — [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
 | **F17** | Cost-controlled auth & payment readiness | Auth/billing audit, Saudi matrix, cost policy | Muhanad | **100%** | **Passed** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
 | **F16** | Production launch readiness | Env governance, deploy runbook, go/no-go | Muhanad | **100%** | **Passed** — [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
@@ -53,7 +54,22 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** F19 — Saudi payments architecture (see [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md)).
+**Next:** F20 — SAREA advanced controls (no paid infra). **F19 passed** — [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md).
+
+---
+
+## F19 — Saudi payment architecture: Mada / Apple Pay / Tabby readiness
+
+**Scope:** Document Saudi PSP matrix (Mada, Apple Pay, STC Pay, Tabby, Tamara, Moyasar, Tap, HyperPay, PayTabs, Stripe, manual invoice), provider-agnostic adapter architecture, payment safety model, pricing UX policy, Saudi operational notes, F17 cost-control extension. Advisory Stripe doc.
+
+**Status:** **Passed** (25 May 2026) — documentation and pricing advisory line only; no live payments or merchant accounts.
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
+| Stripe (advisory) | [`STRIPE_BILLING.md`](STRIPE_BILLING.md) |
+
+**Out of scope:** Live Mada/Apple Pay/Tabby/Tamara, Stripe enforcement, payment gates, subscription auto-activation, merchant onboarding, fake payment buttons, schema changes.
 
 ---
 

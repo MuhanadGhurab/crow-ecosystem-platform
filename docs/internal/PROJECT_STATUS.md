@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F18 Google Sign-In & auth UX polish)  
+**Last updated:** 25 May 2026 (F19 Saudi payment architecture readiness)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,18 +19,20 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F18 — Google Sign-In integration & auth UX polish** (25 May 2026).
+**Phase F19 — Saudi payment architecture: Mada / Apple Pay / Tabby readiness** (25 May 2026).
 
-Google OAuth via Supabase (`provider: google`), shared `/auth/callback`, login UX polish (dark glass card, Microsoft + Google provider section). **No** Apple, **no** live payments, **no** auto `platform_admin`, **no** paid auth services.
+Provider matrix, provider-agnostic adapter architecture, payment safety model, pricing UX policy, Saudi operational notes, F17 cost-control extension. **No** live Mada/Apple Pay/Tabby/Tamara, **no** merchant accounts, **no** checkout that can charge users, **no** Stripe live keys.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Google setup + auth audit | [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
-| Validation checklist | [`F18_AUTH_VALIDATION_CHECKLIST.md`](F18_AUTH_VALIDATION_CHECKLIST.md) |
+| Saudi payment architecture | [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
+| Stripe billing (advisory) | [`STRIPE_BILLING.md`](STRIPE_BILLING.md) |
 
-**Roadmap:** F19 Saudi payments architecture · F23 production launch when budget exists.
+**Roadmap:** F20 SAREA advanced controls (no paid infra) · F23 production launch when budget exists.
 
-**F18 acceptance:** **PASSED** (code + docs) — enable Google in Supabase/Google Cloud per setup doc for live Google login.
+**F19 acceptance:** **PASSED** (docs + advisory pricing line) — billing remains internal/advisory until budget approval.
+
+**F18 acceptance:** **PASSED** — [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) · enable Google in Supabase/Google Cloud for live Google login.
 
 **F17 acceptance:** **PASSED** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md).
 
