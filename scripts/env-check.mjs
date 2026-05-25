@@ -107,4 +107,15 @@ if (authDisabled) {
   }
 }
 
+const turnstileEnabled = process.env.TURNSTILE_ENABLED === "true";
+const turnstileReady =
+  turnstileEnabled &&
+  Boolean(process.env.TURNSTILE_SECRET_KEY?.trim()) &&
+  Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim());
+console.log(`TURNSTILE_ENABLED:     ${turnstileEnabled}`);
+console.log(
+  `Turnstile configured:  ${turnstileReady ? "yes (enforced on intake)" : turnstileEnabled ? "partial (check keys)" : "no (skipped — OK for local dev)"}`
+);
+
 console.log("\nDocs: docs/internal/HYBRID_LOCAL_DB_SUPABASE_AUTH.md");
+console.log("F1: docs/internal/PRODUCTION_READINESS.md");

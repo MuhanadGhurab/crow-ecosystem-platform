@@ -1,4 +1,4 @@
-# API security notes (RC1)
+# API security notes (RC1 + F1)
 
 Internal hardening tracker for Next.js App Router routes under `src/app/api/`. No OpenAPI spec; middleware + per-route auth apply.
 
@@ -7,7 +7,7 @@ Internal hardening tracker for Next.js App Router routes under `src/app/api/`. N
 | Method | Path | Auth |
 |--------|------|------|
 | GET | `/api/health` | None |
-| POST | `/api/implementation-requests` | None (Zod validation) |
+| POST | `/api/implementation-requests` | None (guarded intake pipeline) |
 | POST | `/api/billing/webhook` | Stripe `stripe-signature` in handler |
 
 ## Session routes (`isHandlerAuthorizedApiPath`)
@@ -20,21 +20,33 @@ Middleware requires Supabase session; **route handler** enforces tenant/platform
 
 All other `/api/*` routes require platform staff in middleware (`canAccessPlatformPath`).
 
-## SEC-004 / SEC-006 — Public intake abuse
+## SEC-004 / SEC-006 — Public intake abuse (F1)
 
 `POST /api/implementation-requests` is intentionally public (lead form).
 
-**Current controls**
+**Implemented**
 
-- Zod schema (enums, email, min lengths)
-- `Content-Length` cap: 256 KiB → `413`
-- Generic error bodies on 500/503 (no stack traces in responses)
+| Control | Notes |
+|---------|--------|
+| Zod schema | Enums for modules/packages/plan; max string lengths; max array sizes |
+| `Content-Length` cap | 256 KiB → `413` |
+| Honeypot | `companyWebsite` field → `400` if filled |
+| Rate limit | In-memory 5 req / IP / 10 min → `429` (per instance) |
+| Turnstile | **Optional** when `TURNSTILE_ENABLED=true` + keys set |
+| Error bodies | Production: generic 400/503; no stack traces in JSON |
+| Shared guard | API route + server action fallback use `runPublicIntakeGuards()` |
+
+**Recommended (operations, not code)**
+
+- [ ] Vercel Firewall rate limit on `POST /api/implementation-requests`
+- [ ] Enable Turnstile in production (`TURNSTILE_ENABLED=true`)
 
 **Planned (not implemented)**
 
-- [ ] Vercel Firewall / WAF rate limits on `/api/implementation-requests`
-- [ ] Cloudflare Turnstile or similar on `/request` form
-- [ ] Edge rate limiting (per IP / per email)
+- [ ] Shared Redis/Upstash rate limit for multi-instance Vercel
+- [ ] Per-email domain throttling
+
+See `PUBLIC_INTAKE_PROTECTION.md` and `PRODUCTION_READINESS.md`.
 
 ## SEC-005 — Health endpoint
 
@@ -44,7 +56,7 @@ All other `/api/*` routes require platform staff in middleware (`canAccessPlatfo
 | `NODE_ENV === production` | Reduced: `ok`, `db`, `deployReady` only |
 | Override | `HEALTH_DETAIL=verbose` → full; `HEALTH_DETAIL=minimal` → reduced |
 
-Staging smoke: use Preview or set `HEALTH_DETAIL=verbose` on Vercel if full detail is needed in production-like envs.
+Staging smoke: use Preview env or set `HEALTH_DETAIL=verbose` on Vercel if full detail is needed in production-like envs.
 
 ## Stripe enablement checklist
 
@@ -55,7 +67,14 @@ Before turning on live Stripe webhooks:
 3. Register webhook URL: `https://<site>/api/billing/webhook`.
 4. Test with Stripe CLI: invalid signature → `400`; valid event → `200`.
 
+Stripe checkout enforcement and paid gates remain **out of scope** for F1.
+
+## SAREA safe redirect
+
+Existing safe redirect validation for external URLs remains unchanged in F1 (see prior RC1 security work if documented in codebase).
+
 ## Related
 
 - `docs/internal/VERCEL_CONNECT.md` — env and pooler URLs
+- `docs/internal/PRODUCTION_READINESS.md` — deploy checklist
 - `docs/internal/STRIPE_BILLING.md` — if present

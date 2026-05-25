@@ -97,6 +97,17 @@ if (!siteUrl || siteUrl.includes("your-app.vercel.app")) {
   warnings.push("NEXT_PUBLIC_SITE_URL is placeholder — set after first deploy and redeploy");
 }
 
+if (process.env.TURNSTILE_ENABLED === "true") {
+  if (!process.env.TURNSTILE_SECRET_KEY?.trim() || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim()) {
+    errors.push("TURNSTILE_ENABLED=true but Turnstile keys are incomplete");
+    fixes.push("Set NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY in Vercel");
+  }
+} else {
+  warnings.push(
+    "TURNSTILE_ENABLED is not true — public intake relies on in-memory rate limit only; enable Turnstile + Vercel Firewall for production"
+  );
+}
+
 if (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY && !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   errors.push("Missing Supabase anon/publishable key");
 }

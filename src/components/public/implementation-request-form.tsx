@@ -10,6 +10,7 @@ import { SUBSCRIPTION_TIERS, type SubscriptionTierKey } from "@/lib/constants/su
 import type { ImplementationRequestInput } from "@/lib/types/platform";
 import { RequestLiveSummary } from "@/components/public/request-live-summary";
 import { RequestWizardStepper } from "@/components/public/request-wizard-stepper";
+import { TurnstileField } from "@/components/public/turnstile-field";
 
 const STEPS = ["01", "02", "03", "04", "05"] as const;
 
@@ -96,6 +97,7 @@ export function ImplementationRequestForm() {
   const [orgName, setOrgName] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const progressPct = useMemo(
     () =>
@@ -130,6 +132,12 @@ export function ImplementationRequestForm() {
     setStatus("loading");
     const fd = new FormData(form);
 
+    const honeypot = String(fd.get("companyWebsite") || "");
+    const intakeMeta = {
+      companyWebsite: honeypot,
+      turnstileToken,
+    };
+
     const payload: ImplementationRequestInput = {
       organizationName: String(fd.get("organizationName")),
       organizationNameAr: String(fd.get("organizationNameAr") || "") || undefined,
@@ -144,11 +152,13 @@ export function ImplementationRequestForm() {
       },
     };
 
+    const apiBody = { ...payload, ...intakeMeta };
+
     try {
       const res = await fetch("/api/implementation-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(apiBody),
       });
       if (res.ok) {
         const data = await res.json();
@@ -156,12 +166,16 @@ export function ImplementationRequestForm() {
         setStatus("success");
         return;
       }
+      if (res.status === 429) {
+        setStatus("error");
+        return;
+      }
     } catch {
       /* server action fallback */
     }
 
     try {
-      const result = await submitImplementationRequest(payload);
+      const result = await submitImplementationRequest(payload, intakeMeta);
       setReference(result.referenceCode);
       setStatus("success");
     } catch {
@@ -233,6 +247,7 @@ export function ImplementationRequestForm() {
                   id="organizationName"
                   name="organizationName"
                   required
+                  maxLength={200}
                   placeholder="Acme Holdings"
                   className="input-cc transition focus:ring-2 focus:ring-cyan-400/30"
                   value={orgName}
@@ -245,6 +260,7 @@ export function ImplementationRequestForm() {
                 <input
                   id="organizationNameAr"
                   name="organizationNameAr"
+                  maxLength={200}
                   placeholder="اسم المنشأة"
                   dir="rtl"
                   className="input-cc text-right transition focus:ring-2 focus:ring-cyan-400/30"
@@ -419,6 +435,7 @@ export function ImplementationRequestForm() {
                   id="contactName"
                   name="contactName"
                   required
+                  maxLength={200}
                   placeholder="Your name"
                   className="input-cc transition focus:ring-2 focus:ring-cyan-400/30"
                   value={contactName}
@@ -433,6 +450,7 @@ export function ImplementationRequestForm() {
                   name="contactEmail"
                   type="email"
                   required
+                  maxLength={254}
                   placeholder="you@company.com"
                   className="input-cc transition focus:ring-2 focus:ring-cyan-400/30"
                   value={contactEmail}
@@ -446,12 +464,27 @@ export function ImplementationRequestForm() {
                   id="contactPhone"
                   name="contactPhone"
                   type="tel"
+                  maxLength={40}
                   placeholder="+966 …"
                   className="input-cc transition focus:ring-2 focus:ring-cyan-400/30"
                   onFocus={() => focusStep("05")}
                 />
               </div>
             </div>
+            <div
+              className="absolute -left-[9999px] h-px w-px overflow-hidden opacity-0"
+              aria-hidden
+            >
+              <label htmlFor="companyWebsite">Company website</label>
+              <input
+                id="companyWebsite"
+                name="companyWebsite"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+            <TurnstileField onTokenChange={setTurnstileToken} />
           </FormStep>
 
           <div className="cc-submit-panel hidden lg:block">
