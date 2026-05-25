@@ -76,6 +76,8 @@ See [`LIFECYCLE.md`](LIFECYCLE.md).
 
 Public demos use **mock IDs** (`mock-req-meem`, `meem-global`) — not production customer data.
 
+On **staging**, the same architecture is validated across logistics, construction, and aviation-style onboarding paths (reference codes and tenant slugs only — no internal database IDs in public materials).
+
 ---
 
 ## Stack

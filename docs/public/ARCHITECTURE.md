@@ -16,6 +16,8 @@ Three engines  +  One delivery pipeline
 CEM · CyberCrow · SAREA     Request → Discovery → Blueprint → Go-live
 ```
 
+**Staging validation (public-safe):** The platform has been exercised across multiple tenant scenarios including **logistics** (lighthouse operations), **construction** (second-tenant onboarding), and **aviation-style** organic onboarding through the operator pipeline — without exposing customer-specific operational data in this repository.
+
 Engineers implement:
 
 ```text

@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F12** | Product demo & external readiness | Storyboard, routes, playbook, public polish | Muhanad | **100%** | **Passed** — [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) |
 | **F11** | Organic browser E2E closure | Najm aviation intake, operator sign-off, verify | Muhanad | **100%** | **Passed** — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) |
 | **F10** | Tenant onboarding operator console | Admin UX, pipeline bridge, lifecycle labels | Muhanad | **100%** | **Passed** — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) |
 | **F9** | Blueprint & go-live bridge | Gate, idempotent blueprint, provision safety | Muhanad | **100%** | **Passed** — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) |
@@ -45,6 +46,24 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F12 — Product demo, showcase & external readiness
+
+**Scope:** Make Crow easy to explain and demo externally — storyboard, safe route index, screenshot checklist, operator playbook, sanitized public/README/CV wording. No Stripe enforcement, SCIM, schema changes, or major public redesign.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Doc |
+|-------------|-----|
+| Demo storyboard (12 steps) | [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) |
+| Demo route index | [`F12_DEMO_ROUTE_INDEX.md`](F12_DEMO_ROUTE_INDEX.md) |
+| Screenshot checklist | [`F12_SCREENSHOT_CHECKLIST.md`](F12_SCREENSHOT_CHECKLIST.md) |
+| Operator demo playbook | [`F12_OPERATOR_DEMO_PLAYBOOK.md`](F12_OPERATOR_DEMO_PLAYBOOK.md) |
+| Public portfolio line | [`README.md`](../../README.md) · [`docs/public/ARCHITECTURE.md`](../public/ARCHITECTURE.md) |
+
+**Platform proof (unchanged):** MEEM logistics lighthouse · Rimal construction second tenant · Najm organic aviation pipeline (F11) · CyberCrow · SAREA · CEM Command Center.
 
 ---
 

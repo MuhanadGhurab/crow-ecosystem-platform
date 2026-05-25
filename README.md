@@ -16,6 +16,11 @@
 
 **Crow Ecosystem Platform** is an adaptive **enterprise orchestration ecosystem** built around Discovery, Enterprise Blueprinting, **CEM**, **CyberCrow**, and **SAREA** — for organizations that need governed delivery from first request to live operations, not a module catalog dropped on day one.
 
+Validated across multiple tenant scenarios on staging, including **logistics**, **construction**, and **aviation-style** onboarding paths (public-safe summary — see [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md)).
+
+**Portfolio / CV one-liner:**  
+*Crow Ecosystem Platform — adaptive enterprise orchestration platform with multi-tenant onboarding, CyberCrow security operations, and SAREA role-based experience orchestration.*
+
 **Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/)
 
 ---

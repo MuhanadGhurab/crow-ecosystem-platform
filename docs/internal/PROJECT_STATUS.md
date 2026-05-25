@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F11B browser operator sign-off)  
+**Last updated:** 25 May 2026 (F12 product demo & external readiness)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,15 +19,15 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F11 — organic browser E2E closure & operator sign-off** (25 May 2026) — **complete**.
+**Phase F12 — product demo, showcase & external readiness** (25 May 2026).
 
-Staging organic intake for **Najm Aviation Services** (aviation): reference **`CROW-2026-ARAX9K`**, discovery + draft blueprint on staging (no tenant provision). Full regression suite and `onboarding:verify --expect-blueprint --expect-sector=aviation` pass (F11A). Platform Admin browser operator sign-off passed (F11B). Detail: [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md).
+Demo storyboard, route index, screenshot checklist, and operator playbook for repeatable 5–10 minute walkthroughs. Public docs and root README polished for portfolio/CV (sanitized, no secrets, no internal IDs). Detail: [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) · [`F12_DEMO_ROUTE_INDEX.md`](F12_DEMO_ROUTE_INDEX.md) · [`F12_SCREENSHOT_CHECKLIST.md`](F12_SCREENSHOT_CHECKLIST.md) · [`F12_OPERATOR_DEMO_PLAYBOOK.md`](F12_OPERATOR_DEMO_PLAYBOOK.md).
 
-**F11 acceptance (25 May 2026):** **PASSED** — F11A automation + verify; **F11B browser operator sign-off** (Entra Platform Admin): admin request detail, discovery/operator flow, blueprint/readiness/go-live visibility verified; tenant **not** provisioned (intentional). F11 warnings **closed**.
+**F12 acceptance:** **PASSED** (docs + validation gate) — no product features, schema, or enforcement scope added.
 
-**Completed prior:** F10 operator console — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) · F9 — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) · F8 — [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md) · F7 — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+**Completed prior:** **F11** organic browser E2E — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) · F10 — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) · F9 · F8 · F7 · F6 Rimal.
 
-**Scripts:** `npm run onboarding:verify` · `scripts/f11-discovery-blueprint-staging.ts` (F11 staging helper, no provision) · `npm run request:e2e:dry` · `npm run request:pipeline:verify`.
+**Demo scripts:** `npm run meem:ids:staging` · `npm run tenant:verify:rimal` · `npm run request:pipeline:verify` · `npm run onboarding:verify` · `npm run public:mirror-manifest`.
 
 RC1 remains the staging health baseline; F7 does not replace production-readiness planning.
 
