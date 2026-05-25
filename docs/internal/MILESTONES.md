@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F9** | Blueprint & go-live bridge | Gate, idempotent blueprint, provision safety | Muhanad | **100%** | **Passed** — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) |
 | **F8** | Discovery templates + organic E2E | JSON packs, org-intel, verify scripts | Muhanad | **100%** | **Passed** — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) |
 | **F7** | Public → Discovery pipeline | Intake, admin, sector templates | Muhanad | **100%** | **Passed** — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) |
 | **F6** | Second tenant onboarding (Rimal) | Construction sector, isolation | Muhanad | **100%** | **Passed** — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
@@ -42,6 +43,14 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F9 — Blueprint generation & go-live bridge
+
+**Scope:** Advisory discovery→blueprint gate, hardened `completeDiscoveryAndCreateBlueprint`, readiness/go-live UX, admin pipeline links, duplicate provision guards, extended `request:e2e:verify` flags.
+
+**Status:** **Passed** (25 May 2026). Detail: [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md). Acceptance regression: [`F9_DEPLOYMENT_CHECKPOINT.md`](F9_DEPLOYMENT_CHECKPOINT.md) — **PASSED WITH WARNINGS** (25 May 2026).
 
 ---
 

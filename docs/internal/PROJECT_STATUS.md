@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F8 discovery templates + organic E2E)  
+**Last updated:** 25 May 2026 (F9 acceptance validation — PASSED WITH WARNINGS)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,13 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F8 — discovery template expansion & organic request E2E** (25 May 2026).
+**Phase F9 — blueprint generation & go-live bridge hardening** (25 May 2026).
 
-Adds construction + aviation discovery JSON packs, aligns org-intelligence sector models, staging verify scripts, and manual organic checklist. Detail: [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) · [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md).
+Advisory discovery→blueprint gate, idempotent blueprint completion, readiness/go-live UX bridge, admin pipeline links, provision duplicate guards, and extended organic verify flags. Detail: [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md). **Acceptance run:** [`F9_DEPLOYMENT_CHECKPOINT.md`](F9_DEPLOYMENT_CHECKPOINT.md) — automated regression **PASSED WITH WARNINGS** (lighthouse verify path + manual browser organic pending).
 
-**Scripts:** `npm run request:e2e:dry` · `npm run request:e2e:verify` · `npm run request:pipeline:verify` · F7/F6 tenant scripts unchanged.
+**Scripts:** `npm run request:e2e:dry` · `npm run request:e2e:verify` (optional `--expect-blueprint`, `--expect-tenant`, `--expect-sector=`, `--expect-plan=`) · `npm run request:pipeline:verify`.
 
-**Completed prior:** F7 pipeline hardening — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+**Completed prior:** F8 templates + organic E2E — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) · [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md) · F7 — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
 
 RC1 remains the staging health baseline; F7 does not replace production-readiness planning.
 
