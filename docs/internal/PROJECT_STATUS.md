@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F12 product demo & external readiness)  
+**Last updated:** 25 May 2026 (F14 SAREA Studio visibility & safe controls)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,15 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F12 — product demo, showcase & external readiness** (25 May 2026).
+**Phase F14 — SAREA Studio visibility & safe controls** (25 May 2026).
 
-Demo storyboard, route index, screenshot checklist, and operator playbook for repeatable 5–10 minute walkthroughs. Public docs and root README polished for portfolio/CV (sanitized, no secrets, no internal IDs). Detail: [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) · [`F12_DEMO_ROUTE_INDEX.md`](F12_DEMO_ROUTE_INDEX.md) · [`F12_SCREENSHOT_CHECKLIST.md`](F12_SCREENSHOT_CHECKLIST.md) · [`F12_OPERATOR_DEMO_PLAYBOOK.md`](F12_OPERATOR_DEMO_PLAYBOOK.md).
+Platform staff can inspect tenant-backed personas, role→profile mappings, widgets, navigation, device rules, and preview sources on `/sarea/*` and admin tenant **SAREA** tab. Safe edits limited to low-risk fields (profile name/complexity, layout name, widget visibility, nav keys, device compact, density, same-tenant role-map reassignment with confirm). No layout builder, raw JSON editor, or RBAC override. Detail: [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md).
 
-**F12 acceptance:** **PASSED** (docs + validation gate) — no product features, schema, or enforcement scope added.
+**F14 acceptance:** **PASSED** — studio visibility + safe controls; MEEM/Rimal verify green.
+
+**Completed prior:** **F13** — demo rehearsal & 12 public screenshots — [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) (**passed**).
+
+**Completed prior:** **F12** — [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) · [`F12_OPERATOR_DEMO_PLAYBOOK.md`](F12_OPERATOR_DEMO_PLAYBOOK.md) (**passed**).
 
 **Completed prior:** **F11** organic browser E2E — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) · F10 — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) · F9 · F8 · F7 · F6 Rimal.
 

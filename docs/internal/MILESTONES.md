@@ -10,6 +10,8 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F14** | SAREA Studio visibility & safe controls | Studio audit, overview, safe edits, admin tab | Muhanad | **100%** | **Passed** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
+| **F13** | Demo rehearsal & screenshot capture | Mock walkthrough, 12 public PNGs, README embeds | Muhanad | **100%** | **Passed** — [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) |
 | **F12** | Product demo & external readiness | Storyboard, routes, playbook, public polish | Muhanad | **100%** | **Passed** — [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) |
 | **F11** | Organic browser E2E closure | Najm aviation intake, operator sign-off, verify | Muhanad | **100%** | **Passed** — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) |
 | **F10** | Tenant onboarding operator console | Admin UX, pipeline bridge, lifecycle labels | Muhanad | **100%** | **Passed** — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) |
@@ -46,6 +48,39 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F14 — SAREA Studio visibility & safe controls
+
+**Scope:** Make SAREA Studio inspectable for platform staff — visibility (Level 1), safe field edits (Level 2), controlled same-tenant role→profile mapping (Level 3). No drag-and-drop builder, automation engine, raw JSON, profile deletion, or RBAC changes.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Audit + acceptance | [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
+| Studio service | [`src/lib/services/sarea-studio.service.ts`](../../src/lib/services/sarea-studio.service.ts) |
+| Studio UI | [`src/app/sarea/`](../../src/app/sarea/) · admin tenant SAREA tab |
+
+**Deferred:** Full layout builder, condition engine, widget reorder builder — F15+.
+
+---
+
+## F13 — Demo rehearsal & screenshot capture
+
+**Scope:** Execute F12 demo flow on local mock routes; capture and classify screenshot assets for portfolio/README; no features, schema, provisioning, or secrets.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Rehearsal notes | [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) |
+| Public gallery (12 PNG) | [`docs/public/assets/screenshots/`](../public/assets/screenshots/) |
+| Internal-only request detail | [`docs/internal/assets/screenshots/admin-request-detail.png`](assets/screenshots/admin-request-detail.png) |
+| Capture script | [`scripts/capture-f13-screenshots.mjs`](../../scripts/capture-f13-screenshots.mjs) |
+
+**Gaps (non-blocking):** Rimal dashboard (Entra), optional Najm detail, public-safe request-detail crop.
 
 ---
 

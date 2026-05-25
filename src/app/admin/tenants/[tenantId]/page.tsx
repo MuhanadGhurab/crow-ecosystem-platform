@@ -22,6 +22,8 @@ import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard
 import { getTenantLifecycleSnapshot } from "@/lib/services/lighthouse-pipeline.service";
 import { listTenantMemberships } from "@/lib/services/membership.service";
 import { listSareaProfilesForTenant } from "@/lib/services/sarea.service";
+import { getTenantPersonaMaterialization } from "@/lib/services/sarea-materialization.service";
+import { SareaPersonaMaterializationPanel } from "@/components/studio/sarea/sarea-persona-materialization-panel";
 import { getTenantIdentityCounts } from "@/lib/services/tenant-identity.service";
 import { getTenantHealthSummary } from "@/lib/services/tenant-health.service";
 import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.service";
@@ -52,6 +54,7 @@ export default async function AdminTenantDetailPage({
     lifecycle,
     cybercrow,
     sareaProfiles,
+    sareaPersonaMaterialization,
     orgIntel,
     capabilitySnapshot,
     capabilityReadiness,
@@ -65,6 +68,7 @@ export default async function AdminTenantDetailPage({
     getTenantLifecycleSnapshot(tenant.id),
     getCybercrowDashboardMetrics(tenant.id),
     listSareaProfilesForTenant(tenant.id),
+    getTenantPersonaMaterialization(tenant.id),
     request?.id ? getOrgIntelligenceForRequest(request.id) : Promise.resolve(null),
     getTenantCapabilitySnapshot(tenant.id),
     checkTenantCapabilityReadiness(tenant.id),
@@ -305,17 +309,56 @@ export default async function AdminTenantDetailPage({
       )}
 
       {activeTab === "sarea" && (
-        <section className="cc-glass-card cc-entity-block--sarea space-y-4 !p-6">
-          <p className="text-xs text-slate-500">
-            SAREA adapts this tenant&apos;s experience by role. Security analysts should validate
-            trust in CyberCrow; executives see summarized posture via persona widgets.
-          </p>
-          <h3 className="text-sm font-medium text-rose-300">SAREA experience profiles</h3>
-          <p className="text-sm text-slate-500">
-            Role → RBAC permission → SAREA profile → adaptive dashboard and navigation.
-          </p>
+        <section className="cc-glass-card cc-entity-block--sarea space-y-5 !p-6">
+          <div className="rounded-lg border border-rose-500/15 bg-rose-950/15 px-4 py-3 text-xs text-slate-400">
+            <p className="font-medium text-rose-200">RBAC controls access. SAREA controls experience.</p>
+            <p className="mt-1">
+              How healthy is this tenant&apos;s adaptive UI? Five personas should be tenant-backed
+              with layouts, navigation, and widgets. Partial or fallback states need studio review.
+            </p>
+          </div>
+          {(() => {
+            const backed = sareaPersonaMaterialization.filter((r) => r.state === "tenant_backed").length;
+            const needsReview = sareaPersonaMaterialization.filter(
+              (r) => r.state !== "tenant_backed"
+            ).length;
+            return (
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div className="rounded-cc border border-teal-500/15 bg-teal-950/15 px-3 py-2 text-center">
+                  <p className="text-lg font-semibold text-teal-300">{backed}/5</p>
+                  <p className="text-[10px] text-slate-500">Tenant-backed personas</p>
+                </div>
+                <div className="rounded-cc border border-amber-500/15 bg-amber-950/15 px-3 py-2 text-center">
+                  <p className="text-lg font-semibold text-amber-300">{needsReview}</p>
+                  <p className="text-[10px] text-slate-500">Needs review</p>
+                </div>
+                <div className="rounded-cc border border-rose-500/15 bg-rose-950/10 px-3 py-2 text-center">
+                  <p className="text-lg font-semibold text-rose-300">{sareaProfiles.length}</p>
+                  <p className="text-[10px] text-slate-500">Profile rows</p>
+                </div>
+              </div>
+            );
+          })()}
+          <h3 className="text-sm font-medium text-rose-300">Persona materialization</h3>
+          <SareaPersonaMaterializationPanel
+            rows={sareaPersonaMaterialization}
+            tenantSlug={tenant.slug}
+            compact
+          />
+          {sareaPersonaMaterialization.some((r) => r.state !== "tenant_backed") ? (
+            <p className="text-xs text-amber-200/90">
+              Next: open SAREA studio role mapping, assign recommended RBAC slugs, run{" "}
+              <span className="font-mono text-slate-400">npm run sarea:meem-upgrade</span> or tenant
+              backfill when applicable.
+            </p>
+          ) : (
+            <p className="text-xs text-teal-300/90">All five personas are tenant-backed for this tenant.</p>
+          )}
+          <h3 className="text-sm font-medium text-rose-300">Profiles & mappings</h3>
           {sareaProfiles.length === 0 ? (
-            <p className="text-sm text-slate-500">No SAREA profiles mapped yet.</p>
+            <p className="text-sm text-slate-500">
+              No SAREA profiles yet — run tenant provisioning or sarea:backfill-seed.
+            </p>
           ) : (
             <ul className="space-y-3">
               {sareaProfiles.map((p) => (
@@ -325,16 +368,31 @@ export default async function AdminTenantDetailPage({
                 >
                   <p className="font-medium text-white">{p.name}</p>
                   <p className="text-xs text-slate-500">
-                    Persona: {p.personaKey} · layouts {p._count.dashboardLayouts} · widgets{" "}
-                    {p._count.widgetRules}
+                    {p.personaKey} · {p._count.roleExperienceMaps} role maps ·{" "}
+                    {p._count.dashboardLayouts} layouts · {p._count.widgetRules} widgets ·{" "}
+                    {p._count.navigationProfiles} nav · {p._count.deviceRules} device
                   </p>
+                  <Link
+                    href={`/api/sarea/preview?persona=${p.personaKey}&redirect=${routes.tenant(tenant.slug).dashboard}`}
+                    className="mt-2 inline-block text-xs text-cyan-300"
+                  >
+                    Preview {p.personaKey} →
+                  </Link>
                 </li>
               ))}
             </ul>
           )}
-          <Link href={routes.sarea.profiles} className="text-sm text-rose-300 hover:text-rose-200">
-            SAREA studio →
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link href={routes.sarea.profiles} className="text-sm text-rose-300 hover:text-rose-200">
+              SAREA studio →
+            </Link>
+            <Link href={routes.sarea.roleMapping} className="text-sm text-slate-400 hover:text-slate-300">
+              Role mapping →
+            </Link>
+            <Link href={routes.sarea.preview} className="text-sm text-slate-400 hover:text-slate-300">
+              Preview →
+            </Link>
+          </div>
         </section>
       )}
 

@@ -1,4 +1,5 @@
 import { SareaEditRow } from "@/components/studio/sarea/sarea-edit-row";
+import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { updateDensityLevelAction } from "@/lib/actions/sarea";
 import { listAdaptiveUiRules } from "@/lib/services/sarea.service";
@@ -7,7 +8,11 @@ export default async function SareaRulesPage() {
   const rules = await listAdaptiveUiRules();
 
   return (
-    <SareaStudioPage title="Adaptive UI rules" description="Density and adaptive behavior rules.">
+    <SareaStudioPage
+      title="Adaptive UI rules"
+      description="Density and adaptive behavior rules — advisory; RBAC unchanged."
+    >
+      <SareaRbacBanner compact />
       {rules.length === 0 ? (
         <p className="text-sm text-slate-500">No adaptive rules yet.</p>
       ) : (

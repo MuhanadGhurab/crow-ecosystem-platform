@@ -181,6 +181,49 @@ export async function updateExperienceProfileName(id: string, name: string) {
   return prisma.sareaExperienceProfile.update({ where: { id }, data: { name } });
 }
 
+/** Merge safe presentation fields into profile configJson (no raw JSON editor). */
+export async function updateExperienceProfileConfig(
+  id: string,
+  patch: { complexity?: string }
+) {
+  const row = await prisma.sareaExperienceProfile.findUnique({ where: { id } });
+  if (!row) throw new Error("Profile not found");
+  const prev =
+    row.configJson && typeof row.configJson === "object"
+      ? (row.configJson as Record<string, unknown>)
+      : {};
+  const allowed = ["low", "medium", "high", "adaptive"];
+  const complexity =
+    patch.complexity && allowed.includes(patch.complexity) ? patch.complexity : prev.complexity;
+  return prisma.sareaExperienceProfile.update({
+    where: { id },
+    data: {
+      configJson: {
+        ...prev,
+        ...(complexity ? { complexity } : {}),
+      },
+    },
+  });
+}
+
+/** Reassign an existing role map to another profile on the same tenant (experience only). */
+export async function updateRoleMapProfile(id: string, profileId: string) {
+  const map = await prisma.roleExperienceMap.findUnique({
+    where: { id },
+    include: { profile: true },
+  });
+  if (!map) throw new Error("Role map not found");
+  const target = await prisma.sareaExperienceProfile.findUnique({ where: { id: profileId } });
+  if (!target) throw new Error("Target profile not found");
+  if (target.tenantId !== map.profile.tenantId) {
+    throw new Error("Profile must belong to the same tenant");
+  }
+  return prisma.roleExperienceMap.update({
+    where: { id },
+    data: { profileId },
+  });
+}
+
 export async function getSareaStudioSummary() {
   const [profileCount, tenantCount, layoutCount, ruleCount, widgetCount, navCount, deviceCount] =
     await Promise.all([

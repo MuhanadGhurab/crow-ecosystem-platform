@@ -9,9 +9,11 @@ import {
   updateDashboardLayout,
   updateDeviceExperienceRule,
   updateDeviceRuleJson,
+  updateExperienceProfileConfig,
   updateExperienceProfileName,
   updateNavigationPrimaryKeys,
   updateRoleExperienceMap,
+  updateRoleMapProfile,
   updateWidgetRuleVisibility,
 } from "@/lib/services/sarea.service";
 
@@ -20,6 +22,11 @@ export type SareaActionState = { error?: string; success?: string } | undefined;
 function revalidateSarea(path: string) {
   revalidatePath(routes.sarea.overview);
   revalidatePath(routes.sarea.profiles);
+  revalidatePath(routes.sarea.roleMapping);
+  revalidatePath(routes.sarea.preview);
+  revalidatePath(routes.sarea.widgets);
+  revalidatePath(routes.sarea.navigation);
+  revalidatePath(routes.sarea.deviceRules);
   revalidatePath(path);
 }
 
@@ -178,4 +185,40 @@ export async function updateProfileNameAction(
   }
   revalidateSarea(routes.sarea.profiles);
   return { success: "Profile renamed." };
+}
+
+export async function updateProfileConfigAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const complexity = String(formData.get("complexity") ?? "").trim();
+  if (!id) return { error: "Profile id required." };
+  try {
+    await updateExperienceProfileConfig(id, { complexity: complexity || undefined });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.profiles);
+  return { success: "Profile settings updated." };
+}
+
+export async function updateRoleMapProfileAction(
+  _prev: SareaActionState,
+  formData: FormData
+): Promise<SareaActionState> {
+  await requireActionPlatformStaff();
+  const id = String(formData.get("id") ?? "");
+  const profileId = String(formData.get("profileId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+  if (!id || !profileId) return { error: "Map id and profile required." };
+  if (confirm !== "yes") return { error: "Type confirmation to apply mapping change." };
+  try {
+    await updateRoleMapProfile(id, profileId);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Update failed." };
+  }
+  revalidateSarea(routes.sarea.roleMapping);
+  return { success: "Role mapped to profile." };
 }
