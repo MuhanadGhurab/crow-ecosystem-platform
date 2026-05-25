@@ -1,0 +1,17 @@
+{
+  "organizationName": "Najm Aviation Services",
+  "industry": "aviation",
+  "employeeBand": "51-250",
+  "countryCode": "SA",
+  "planKey": "growth",
+  "moduleKeys": ["hr", "finance", "bi", "crm", "procurement"],
+  "securityPackageKeys": ["crow_shield"],
+  "contact": {
+    "fullName": "F11 Organic E2E",
+    "email": "f11-najm-e2e@example.com",
+    "phone": "+966500000001",
+    "jobTitle": "Platform validation"
+  },
+  "notes": "Synthetic F11 staging E2E validation request. Focus on aviation operations, audit visibility, CyberCrow security posture, and SAREA role experiences.",
+  "companyWebsite": ""
+}
