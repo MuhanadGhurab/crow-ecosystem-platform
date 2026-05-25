@@ -95,6 +95,17 @@ export function isLogisticsSecurityEvent(eventType: string): boolean {
   return isLogisticsSecurityEventType(eventType);
 }
 
+export async function listTenantComplianceEvidence(tenantId: string, limit = 80) {
+  return prisma.complianceEvidence.findMany({
+    where: { control: { tenantId } },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    include: {
+      control: { select: { controlKey: true, status: true } },
+    },
+  });
+}
+
 export async function getCybercrowGrcSummary(tenantId: string) {
   const [controlCount, compliantCount, findingCount, openFindings, evidenceCount] =
     await Promise.all([

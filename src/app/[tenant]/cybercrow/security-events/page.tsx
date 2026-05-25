@@ -54,6 +54,11 @@ export default async function CybercrowSecurityEventsPage({
         }
       />
 
+      <section className="rounded-lg border border-violet-500/15 bg-violet-950/15 px-4 py-3 text-xs text-slate-400">
+        Read-only catalog — events are recorded for audit and posture scoring. Automated resolution
+        workflows and playbooks are not enforced in this phase.
+      </section>
+
       {tenantHasLogisticsModule(moduleKeys) && (
         <nav className="flex flex-wrap gap-2" aria-label="Security event filters">
           <Link
@@ -102,6 +107,9 @@ export default async function CybercrowSecurityEventsPage({
                   <span className="font-medium text-white">
                     {e.eventType.replace(/_/g, " ").toLowerCase()}
                   </span>
+                  <span className="rounded-full bg-slate-500/15 px-2 py-0.5 text-[10px] text-slate-400">
+                    recorded
+                  </span>
                   {isLogisticsSecurityEvent(e.eventType) && (
                     <span className="rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] text-teal-300">
                       Logistics
@@ -111,13 +119,18 @@ export default async function CybercrowSecurityEventsPage({
                     {e.severity}
                   </span>
                 </div>
-                {(workflow || ref) && (
-                  <p className="text-xs text-slate-400">
-                    {workflow}
-                    {workflow && ref ? " · " : null}
-                    {ref ? <span className="font-mono text-cyan-500/90">{ref}</span> : null}
-                  </p>
-                )}
+                <p className="text-xs text-slate-500">
+                  Source: <span className="font-mono text-slate-400">{e.eventType}</span>
+                  {ref ? (
+                    <>
+                      {" "}
+                      · affected <span className="font-mono text-cyan-500/90">{ref}</span>
+                    </>
+                  ) : null}
+                </p>
+                {workflow ? (
+                  <p className="text-xs text-slate-400">{workflow}</p>
+                ) : null}
                 <p className="text-xs text-slate-500">
                   {e.createdAt.toLocaleString("en-GB", {
                     dateStyle: "medium",

@@ -4,28 +4,36 @@ import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
 import {
   getSareaStudioSummary,
+  listRoleExperienceMaps,
   listSareaExperienceProfiles,
 } from "@/lib/services/sarea.service";
 
 const STUDIO_LINKS = [
   { href: routes.sarea.profiles, label: "Profiles", desc: "Persona-based experience" },
+  { href: routes.sarea.roleMapping, label: "Role mapping", desc: "CEM role → profile chain" },
   { href: routes.sarea.layouts, label: "Layouts", desc: "Dashboard compositions" },
-  { href: routes.sarea.rules, label: "Rules", desc: "Adaptive UI logic" },
-  { href: routes.sarea.widgets, label: "Widgets", desc: "Visibility per role" },
   { href: routes.sarea.navigation, label: "Navigation", desc: "Nav keys & density" },
-  { href: routes.sarea.preview, label: "Preview", desc: "Cross-tenant aggregate" },
+  { href: routes.sarea.widgets, label: "Widgets", desc: "Visibility per role" },
+  { href: routes.sarea.deviceRules, label: "Device rules", desc: "Desktop / tablet / mobile" },
+  { href: routes.sarea.rules, label: "Rules", desc: "Adaptive UI logic" },
+  { href: routes.sarea.preview, label: "Preview", desc: "Persona preview on live dashboard" },
 ] as const;
 
 export default async function SareaOverviewPage() {
   let summary: Awaited<ReturnType<typeof getSareaStudioSummary>> | null = null;
   let profiles: Awaited<ReturnType<typeof listSareaExperienceProfiles>> = [];
+  let roleMapCount = 0;
   let dbError: string | null = null;
 
   try {
-    [summary, profiles] = await Promise.all([
+    const [summaryResult, profilesResult, roleMaps] = await Promise.all([
       getSareaStudioSummary(),
       listSareaExperienceProfiles(),
+      listRoleExperienceMaps(),
     ]);
+    summary = summaryResult;
+    profiles = profilesResult;
+    roleMapCount = roleMaps.length;
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -82,6 +90,24 @@ export default async function SareaOverviewPage() {
           entity="sarea"
           accent="amber"
         />
+        <StatCard
+          label="Role mappings"
+          value={roleMapCount}
+          entity="sarea"
+          accent="rose"
+        />
+        <StatCard
+          label="Device rules"
+          value={summary.deviceRuleCount}
+          entity="sarea"
+          accent="amber"
+        />
+      </section>
+
+      <section className="rounded-lg border border-rose-500/15 bg-rose-950/15 px-4 py-3 text-xs text-slate-400">
+        RBAC controls who can access modules and actions. SAREA controls how the console is laid out
+        (navigation, widgets, density). Map every CEM role slug to a profile so frontline,
+        manager, and executive personas render consistently per tenant.
       </section>
 
       {Object.keys(personaCounts).length > 0 && (

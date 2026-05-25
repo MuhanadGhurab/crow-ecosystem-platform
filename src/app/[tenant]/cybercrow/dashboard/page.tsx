@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
+import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
+import { CybercrowRecommendedActions } from "@/components/tenant/cybercrow/cybercrow-recommended-actions";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
@@ -89,6 +91,7 @@ export default async function CybercrowDashboardPage({
         description="NCA-aligned baseline · real-time posture · audit, risk, and compliance in one console."
       />
 
+      <CybercrowConnectionPanel tenantSlug={slug} variant="cybercrow" />
       {slug === MEEM_TENANT_SLUG && <TwinEngineStrip tenantSlug={slug} variant="cybercrow" />}
 
       <section className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/40 via-cc-elevated/90 to-indigo-950/30 p-6 sm:p-8">
@@ -118,7 +121,7 @@ export default async function CybercrowDashboardPage({
               />
             </div>
             <p className="mt-2 text-right text-xs text-slate-500">
-              Derived from incidents ({metrics.openIncidentCount} open) and event severity
+              Derived from open incidents, high-severity events, and control status — not ML scoring
             </p>
           </div>
         </div>
@@ -180,6 +183,48 @@ export default async function CybercrowDashboardPage({
           )}
         </section>
       )}
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="cc-glass-card">
+          <h3 className="text-sm font-medium text-violet-300">Identity & session trust</h3>
+          <p className="mt-2 text-sm text-slate-400">
+            MFA policy and IdP alignment from discovery — live session inventory pending Entra
+            integration.
+          </p>
+          <Link href={r.identity} className="mt-3 inline-block text-xs text-violet-400 hover:text-violet-300">
+            Identity console →
+          </Link>
+        </div>
+        <div className="cc-glass-card">
+          <h3 className="text-sm font-medium text-violet-300">Suspicious activity</h3>
+          <p className="mt-2 text-3xl font-bold tabular-nums text-amber-200">
+            {metrics.highSeverityEventCount}
+          </p>
+          <p className="mt-1 text-xs text-slate-500">Medium-or-higher security events on record</p>
+          <Link
+            href={r.securityEvents}
+            className="mt-3 inline-block text-xs text-violet-400 hover:text-violet-300"
+          >
+            Review events →
+          </Link>
+        </div>
+        <div className="cc-glass-card">
+          <h3 className="text-sm font-medium text-violet-300">Audit activity</h3>
+          <p className="mt-2 text-3xl font-bold tabular-nums text-cyan-300">{summary.auditLogCount}</p>
+          <p className="mt-1 text-xs text-slate-500">Platform, policy, and logistics audit entries</p>
+          <Link href={r.auditLogs} className="mt-3 inline-block text-xs text-violet-400 hover:text-violet-300">
+            Audit logs →
+          </Link>
+        </div>
+      </section>
+
+      <CybercrowRecommendedActions
+        cybercrowHref={r}
+        initialized={initialized}
+        metrics={metrics}
+        auditLogCount={summary.auditLogCount}
+        highSeverityEvents={metrics.highSeverityEventCount}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="cc-glass-card">

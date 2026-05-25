@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MeemDashboardHints } from "@/components/tenant/meem-dashboard-hints";
 import { SareaDashboardWidgets } from "@/components/tenant/sarea-dashboard-widgets";
+import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
@@ -167,6 +168,8 @@ export default async function TenantDashboardPage({
         }}
         modules={tenant.modules}
       />
+
+      <CybercrowConnectionPanel tenantSlug={slug} variant="tenant" />
 
       {isMeem && <TwinEngineStrip tenantSlug={slug} variant="sarea" />}
 

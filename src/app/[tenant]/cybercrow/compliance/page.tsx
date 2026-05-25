@@ -19,7 +19,21 @@ export default async function CybercrowCompliancePage({
 
   return (
     <div className="space-y-8">
-      <PageHeader badge="CyberCrow" entity="cybercrow" title="Compliance controls" description="NCA-aligned control baseline for this tenant." />
+      <PageHeader
+        badge="CyberCrow"
+        entity="cybercrow"
+        title="Compliance controls"
+        description="NCA ECC–aligned control baseline — advisory mapping, not a certification claim."
+      />
+
+      <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-sm">
+        <p className="font-medium text-indigo-300">NCA-aware advisory posture</p>
+        <p className="mt-1 text-xs text-slate-400">
+          Control keys reference Saudi NCA Essential Cybersecurity Controls (ECC) domains for
+          orientation. Status labels reflect provisioned baseline data — they do not constitute an
+          attested compliance certification.
+        </p>
+      </section>
       {controls.length === 0 ? (
         <EmptyState title="No controls" description="Provision the tenant to seed the security baseline." />
       ) : (

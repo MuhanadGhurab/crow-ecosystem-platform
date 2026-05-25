@@ -36,6 +36,11 @@ export default async function CybercrowGrcPage({
         description="Governance, risk, and compliance — NCA ECC control labels with evidence preview."
       />
 
+      <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-xs text-slate-400">
+        Advisory GRC workspace — findings and evidence support audit readiness. This is not a
+        certified compliance attestation or automated remediation engine.
+      </section>
+
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-cc-sm border border-violet-500/20 bg-violet-500/5 p-4">
           <p className="text-xs text-slate-500">Controls</p>

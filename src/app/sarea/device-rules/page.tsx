@@ -8,8 +8,16 @@ export default async function SareaDeviceRulesPage() {
 
   return (
     <SareaStudioPage title="Device rules" description="Mobile vs desktop experience rules.">
+      <section className="rounded-lg border border-amber-500/15 bg-amber-950/15 px-4 py-3 text-xs text-slate-400">
+        Advisory device breakpoints: desktop (full nav), tablet (reduced columns), mobile (compact
+        flag). Runtime honors compact JSON when present; responsive CSS is not fully enforced in this
+        phase — use preview on a narrow viewport to validate.
+      </section>
+
       {rules.length === 0 ? (
-        <p className="text-sm text-slate-500">No device rules yet.</p>
+        <p className="text-sm text-slate-500">
+          No device rules yet. Add rules per profile for desktop, tablet, or mobile density.
+        </p>
       ) : (
         <ul className="space-y-4">
           {rules.map((r) => {

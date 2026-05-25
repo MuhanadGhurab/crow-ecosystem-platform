@@ -268,6 +268,10 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "cybercrow" && (
         <section className="cc-glass-card cc-entity-block--cybercrow space-y-4 !p-6">
+          <p className="text-xs text-slate-500">
+            CyberCrow protects this tenant. SAREA adapts presentation on the workspace dashboard —
+            RBAC still governs access.
+          </p>
           <h3 className="text-sm font-medium text-violet-300">CyberCrow trust posture</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -302,6 +306,10 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "sarea" && (
         <section className="cc-glass-card cc-entity-block--sarea space-y-4 !p-6">
+          <p className="text-xs text-slate-500">
+            SAREA adapts this tenant&apos;s experience by role. Security analysts should validate
+            trust in CyberCrow; executives see summarized posture via persona widgets.
+          </p>
           <h3 className="text-sm font-medium text-rose-300">SAREA experience profiles</h3>
           <p className="text-sm text-slate-500">
             Role → RBAC permission → SAREA profile → adaptive dashboard and navigation.
