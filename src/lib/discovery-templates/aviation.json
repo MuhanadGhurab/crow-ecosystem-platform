@@ -1,0 +1,81 @@
+{
+  "key": "aviation",
+  "label": "Aviation & aerospace",
+  "organization": {
+    "operatingModel": "multi_station",
+    "employeeBand": "251-1000",
+    "goLiveTarget": "180_days",
+    "discoveryNotes": "Aviation template: ops control, ground handling, MRO, safety/compliance, and shift-aware SAREA dashboards."
+  },
+  "moduleKeys": [
+    "hr",
+    "finance",
+    "approvals",
+    "crm",
+    "bi"
+  ],
+  "securityPackageKeys": ["crow_sentinel", "crow_fortress"],
+  "departments": [
+    { "name": "Operations control", "nameAr": "مركز العمليات", "headcount": 40 },
+    { "name": "Ground operations", "nameAr": "العمليات الأرضية", "headcount": 55 },
+    { "name": "Maintenance (MRO)", "nameAr": "الصيانة", "headcount": 45 },
+    { "name": "Safety & compliance", "nameAr": "السلامة والامتثال", "headcount": 18 },
+    { "name": "Finance", "nameAr": "المالية", "headcount": 12 }
+  ],
+  "branches": [
+    { "name": "Operations center", "city": "Riyadh", "region": "Central" },
+    { "name": "Station / airport", "city": "Jeddah", "region": "Western" },
+    { "name": "MRO facility", "city": "Dammam", "region": "Eastern" }
+  ],
+  "roles": [
+    { "name": "Operations control manager", "level": "manager" },
+    { "name": "Duty manager", "level": "manager" },
+    { "name": "Ramp supervisor", "level": "supervisor" },
+    { "name": "MRO lead", "level": "manager" },
+    { "name": "Safety officer", "level": "specialist" }
+  ],
+  "workflows": [
+    {
+      "name": "Disruption management",
+      "description": "Irregular ops events coordinated between OCC and station leads."
+    },
+    {
+      "name": "Maintenance work order",
+      "description": "MRO release workflow with safety sign-off and evidence retention."
+    },
+    {
+      "name": "Safety report",
+      "description": "Mandatory safety reporting with compliance review and closure tracking."
+    },
+    {
+      "name": "Shift handover",
+      "description": "Ground and OCC shift logs with open items passed to next crew."
+    }
+  ],
+  "securityRequirements": [
+    { "requirement": "Privileged monitoring for OCC and maintenance release roles", "priority": "high" },
+    { "requirement": "Immutable audit on disruption and work-order sign-offs", "priority": "high" },
+    { "requirement": "Station-scoped RBAC for ground and MRO staff", "priority": "high" },
+    { "requirement": "NCA ECC alignment for safety-critical systems", "priority": "high" }
+  ],
+  "integrations": [
+    { "providerKey": "entra_id", "notes": "Corporate SSO for OCC, stations, and MRO" },
+    { "providerKey": "sap", "notes": "Optional finance and maintenance planning" },
+    { "providerKey": "amos", "notes": "Optional MRO system interface for work orders" }
+  ],
+  "experienceRequirements": [
+    { "personaKey": "executive", "requirement": "Network KPIs: OTP, disruptions, safety open items" },
+    { "personaKey": "manager", "requirement": "OCC control board with fleet status and escalation paths" },
+    { "personaKey": "specialist", "requirement": "Ramp and MRO task boards tuned for shift handover" },
+    { "personaKey": "security", "requirement": "CyberCrow console for OCC audit and maintenance evidence" }
+  ],
+  "identity": {
+    "idpPreference": "entra_id",
+    "mfaRequired": "yes",
+    "ssoNotes": "Aviation template: MFA mandatory for OCC, MRO release, and safety compliance roles."
+  },
+  "security": {
+    "complianceNotes": "Safety-critical workflows require evidence retention; segment station vs MRO access.",
+    "ncaAlignment": "aligned"
+  }
+}
