@@ -72,6 +72,9 @@
     "sarea:backfill-seed": "npx tsx --env-file=.env scripts/backfill-sarea-seed.ts",
     "sarea:meem-upgrade": "npx tsx --env-file=.env.staging scripts/upgrade-meem-sarea.ts",
     "sarea:meem-verify": "npx tsx --env-file=.env.staging scripts/verify-meem-sarea.ts",
+    "tenant:seed:rimal": "node --env-file=.env.staging scripts/run-with-script-prisma.mjs prisma/seed-rimal.ts",
+    "tenant:seed:rimal:dry": "node --env-file=.env.staging scripts/run-with-script-prisma.mjs prisma/seed-rimal.ts --dry-run",
+    "tenant:verify:rimal": "npx tsx --env-file=.env.staging scripts/verify-rimal-tenant.ts",
     "cybercrow:backfill-seed": "npx tsx --env-file=.env scripts/backfill-cybercrow-seed.ts",
     "rehearsal:m4": "node scripts/rehearsal-m4.mjs",
     "audit:src": "node scripts/audit-src.mjs",
@@ -90,6 +93,7 @@
     "next": "^15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "server-only": "^0.0.1",
     "stripe": "^17.7.0",
     "zod": "^3.24.0"
   },

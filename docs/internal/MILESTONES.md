@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F6** | Second tenant onboarding (Rimal) | Construction sector, isolation | Muhanad | **100%** | **Passed** — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
 | **RC1** | Staging deploy & health validation | Staging sign-off | Muhanad | **100%** | **Passed** — [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) |
 | **M1** | Platform foundation | 0, 1, 2, 7b | Muhanad | **100%** | Done |
 | **M2** | MEEM lighthouse pipeline | MEEM, 3, 4 (+ RBAC) | Muhanad · MEEM (Omar) SAREA | **~95%** | Live E2E passed (P1); staging URL pending |
@@ -38,7 +39,22 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Planning required before Phase F — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+**Next:** Complete F6 validation gate (section 15 in F6 doc) — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F6 — Second tenant onboarding (Rimal Construction)
+
+**Scope:** Repeatable non-MEEM tenant via construction sector template; staging scripts; MEEM regression preserved.
+
+| Done | Open |
+|------|------|
+| Lifecycle audit in F6 doc | Live browser E2E on `/rimal-construction/*` |
+| `tenant:seed:rimal`, `tenant:verify:rimal` | Construction-specific ERP industry pack |
+| Construction org intelligence accept path | Optional controlled reset script |
+| Isolation checks vs `meem-global` | Lighthouse card still MEEM-only |
+
+**Verification:** `npm run tenant:verify:rimal` + `npm run sarea:meem-verify` + build gate.
 
 ---
 

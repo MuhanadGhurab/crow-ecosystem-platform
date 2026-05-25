@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026  
+**Last updated:** 25 May 2026 (F6 second-tenant hardening)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -17,11 +17,15 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ---
 
-## Next phase
+## Current delivery track
 
-**Planning required before Phase F.**
+**Phase F6 — second tenant onboarding hardening** (validation passed 25 May 2026).
 
-Do **not** start Phase F until the team agrees scope. RC1 intentionally freezes “deployed staging works” without committing to the next delivery track.
+Synthetic tenant **Rimal Construction** (`rimal-construction`, construction sector) exercises the full pipeline without MEEM logistics coupling. Detail: [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+
+**Scripts:** `npm run tenant:seed:rimal` · `npm run tenant:verify:rimal` · MEEM regression `npm run sarea:meem-verify`
+
+RC1 remains the staging health baseline; F6 does not replace production-readiness planning.
 
 ---
 
@@ -33,7 +37,7 @@ Pick **one primary track** after planning; others can run in parallel only if re
 |---|--------|---------|
 | 1 | **Production readiness** | Azure or Vercel prod, domain, Entra prod redirects, migrate deploy in release, health smoke |
 | 2 | **Public portfolio polish** | README/screenshots, sanitized public docs, contributor onboarding |
-| 3 | **Tenant onboarding hardening** | `onboard:tenant`, second customer path, provision rehearsal |
+| 3 | **Tenant onboarding hardening** | **F6 active** — `tenant:seed:rimal`, construction sector, [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
 | 4 | **Package UX** | Startup / Growth / Enterprise surfaces — still advisory unless billing chosen |
 | 5 | **Security hardening** | Rate limiting, Turnstile on public request API, extended audit |
 | 6 | **Stripe live alignment** | Live checkout, webhook reconciliation, enforcement policy decision |
