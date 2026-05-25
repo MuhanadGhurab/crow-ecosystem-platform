@@ -54,6 +54,7 @@
     "meem:ids:staging": "node --env-file=.env.staging scripts/print-meem-ids.mjs",
     "staging:tunnel": "node scripts/staging-tunnel.mjs",
     "validate:vercel-env": "node --env-file=.env.staging scripts/validate-vercel-env.mjs",
+    "f2:env-status": "node --env-file=.env.staging scripts/f2-env-status.mjs",
     "simulate:production-env": "node scripts/simulate-production-env.mjs",
     "simulate:vercel-build": "node --env-file=.env scripts/simulate-vercel-build.mjs",
     "simulate:vercel-build:staging": "node --env-file=.env.staging scripts/simulate-vercel-build.mjs",

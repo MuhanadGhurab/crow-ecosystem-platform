@@ -97,6 +97,12 @@ if (!siteUrl || siteUrl.includes("your-app.vercel.app")) {
   warnings.push("NEXT_PUBLIC_SITE_URL is placeholder — set after first deploy and redeploy");
 }
 
+if (siteUrl && siteUrl.startsWith("http://") && !siteUrl.startsWith("http://localhost")) {
+  warnings.push(
+    "NEXT_PUBLIC_SITE_URL uses http:// — use https:// for Vercel (OAuth, Turnstile, canonical links)"
+  );
+}
+
 if (process.env.TURNSTILE_ENABLED === "true") {
   if (!process.env.TURNSTILE_SECRET_KEY?.trim() || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim()) {
     errors.push("TURNSTILE_ENABLED=true but Turnstile keys are incomplete");
