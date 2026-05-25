@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
 import { CybercrowRecommendedActions } from "@/components/tenant/cybercrow/cybercrow-recommended-actions";
+import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
+import { CybercrowSocWorkflowStrip } from "@/components/tenant/cybercrow/cybercrow-soc-workflow-strip";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
@@ -13,6 +15,9 @@ import {
   tenantHasLogisticsModule,
 } from "@/lib/services/cybercrow-logistics-audit.service";
 import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard.service";
+import { getSocWorkflowSummary } from "@/lib/services/cybercrow-soc-workflow.service";
+import { getCybercrowIdentityTelemetrySummary } from "@/lib/services/cybercrow-identity-telemetry.service";
+import { canManageCybercrowIncidents } from "@/lib/auth/cybercrow-access";
 import { listTenantAuditLogs } from "@/lib/services/cybercrow-tenant.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -37,9 +42,12 @@ export default async function CybercrowDashboardPage({
     notFound();
   }
 
-  const [summary, metrics] = await Promise.all([
+  const [summary, metrics, identityTelemetry, canManageIncidents, soc] = await Promise.all([
     safeWorkspaceSummary(tenant.id),
     getCybercrowDashboardMetrics(tenant.id),
+    getCybercrowIdentityTelemetrySummary(tenant.id),
+    canManageCybercrowIncidents(slug),
+    getSocWorkflowSummary(tenant.id),
   ]);
   const moduleKeys = (tenant.modules ?? []).map((m) => m.moduleKey);
   const logisticsOpsEnabled = tenantHasLogisticsModule(moduleKeys);
@@ -92,6 +100,16 @@ export default async function CybercrowDashboardPage({
       />
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="cybercrow" />
+      <CybercrowSocPhilosophyBanner compact showSareaNote />
+      <CybercrowSocWorkflowStrip
+        steps={[
+          { label: "Security events", href: r.securityEvents, count: soc.pendingReviewEvents },
+          { label: "Incidents", href: r.incidents, count: soc.openIncidents + soc.reopenedIncidents },
+          { label: "Evidence", href: r.evidence, count: soc.evidenceCount },
+          { label: "Risk", href: r.risk },
+          { label: "GRC", href: r.grc, count: soc.openGrcFindings },
+        ]}
+      />
       {slug === MEEM_TENANT_SLUG && <TwinEngineStrip tenantSlug={slug} variant="cybercrow" />}
 
       <section className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/40 via-cc-elevated/90 to-indigo-950/30 p-6 sm:p-8">
@@ -129,11 +147,39 @@ export default async function CybercrowDashboardPage({
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
+          label="Events needing review"
+          value={soc.pendingReviewEvents}
+          entity="cybercrow"
+          accent="indigo"
+          hint="Pending review state"
+        />
+        <StatCard
+          label="Open incidents"
+          value={soc.openIncidents + soc.reopenedIncidents}
+          entity="cybercrow"
+          accent="star"
+          hint={`${soc.underReviewIncidents} under review`}
+        />
+        <StatCard
+          label="Evidence items"
+          value={soc.evidenceCount}
+          entity="cybercrow"
+          accent="violet"
+          hint={
+            soc.controlsWithoutEvidence > 0
+              ? `${soc.controlsWithoutEvidence} controls without evidence`
+              : "Readiness catalog"
+          }
+        />
+        <StatCard
           label="Audit log entries"
           value={summary.auditLogCount}
           entity="cybercrow"
           accent="violet"
         />
+      </section>
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Security events"
           value={summary.securityEventCount}
@@ -141,17 +187,22 @@ export default async function CybercrowDashboardPage({
           accent="indigo"
         />
         <StatCard
-          label="Open incidents"
-          value={metrics.openIncidentCount}
-          entity="cybercrow"
-          accent="star"
-          hint="Active response"
-        />
-        <StatCard
           label="High-severity events"
           value={metrics.highSeverityEventCount}
           entity="cybercrow"
           accent="violet"
+        />
+        <StatCard
+          label="Escalated events"
+          value={soc.escalatedEvents}
+          entity="cybercrow"
+          accent="teal"
+        />
+        <StatCard
+          label="Resolved incidents"
+          value={soc.resolvedIncidents}
+          entity="cybercrow"
+          accent="teal"
         />
       </section>
 
@@ -188,9 +239,15 @@ export default async function CybercrowDashboardPage({
         <div className="cc-glass-card">
           <h3 className="text-sm font-medium text-violet-300">Identity & session trust</h3>
           <p className="mt-2 text-sm text-slate-400">
-            MFA policy and IdP alignment from discovery — live session inventory pending Entra
-            integration.
+            {identityTelemetry.hasStoredTelemetry
+              ? `${identityTelemetry.loginEventCount} logins · ${identityTelemetry.sessionEventCount} session events · ${identityTelemetry.accessAttemptCount} access attempts`
+              : "MFA and IdP from discovery until auth flows write login/session telemetry."}
           </p>
+          {identityTelemetry.suspiciousIndicators.length > 0 ? (
+            <p className="mt-1 text-xs text-amber-400">
+              {identityTelemetry.suspiciousIndicators[0]}
+            </p>
+          ) : null}
           <Link href={r.identity} className="mt-3 inline-block text-xs text-violet-400 hover:text-violet-300">
             Identity console →
           </Link>
@@ -224,6 +281,8 @@ export default async function CybercrowDashboardPage({
         metrics={metrics}
         auditLogCount={summary.auditLogCount}
         highSeverityEvents={metrics.highSeverityEventCount}
+        pendingReviewEvents={soc.pendingReviewEvents}
+        controlsWithoutEvidence={soc.controlsWithoutEvidence}
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -293,7 +352,11 @@ export default async function CybercrowDashboardPage({
             { href: r.auditLogs, label: "Audit logs", sub: `${summary.auditLogCount} entries` },
             { href: r.risk, label: "Risk", sub: `Score ${metrics.riskScore}` },
             { href: r.compliance, label: "Compliance", sub: `${metrics.compliancePct}%` },
-            { href: r.incidents, label: "Incidents", sub: `${metrics.openIncidentCount} open` },
+            {
+              href: r.incidents,
+              label: "Incidents",
+              sub: `${metrics.openIncidentCount} open${canManageIncidents ? " · manage" : ""}`,
+            },
             { href: r.identity, label: "Identity", sub: "IdP & MFA" },
             { href: r.sessions, label: "Sessions", sub: "Activity" },
             { href: r.grc, label: "GRC", sub: "Summary & findings" },

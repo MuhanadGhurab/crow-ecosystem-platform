@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { getNcaControlDefinition } from "@/lib/constants/nca-compliance-controls";
 import { routes } from "@/lib/routes";
+import { getEvidenceReadiness } from "@/lib/services/cybercrow-soc-workflow.service";
 import {
   getCybercrowGrcSummary,
   listTenantComplianceEvidence,
@@ -19,9 +20,10 @@ export default async function CybercrowEvidencePage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [summary, evidence] = await Promise.all([
+  const [summary, evidence, readiness] = await Promise.all([
     getCybercrowGrcSummary(tenant.id),
     listTenantComplianceEvidence(tenant.id),
+    getEvidenceReadiness(tenant.id),
   ]);
   const r = routes.tenant(slug).cybercrow;
 
@@ -31,14 +33,15 @@ export default async function CybercrowEvidencePage({
         badge="CyberCrow"
         entity="cybercrow"
         title="Evidence repository"
-        description="Compliance evidence linked to NCA-aligned controls — read-only catalog from the database."
+        description="Compliance evidence linked to NCA-aligned controls — readiness-oriented, read-only catalog."
       />
 
       <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-sm text-indigo-100/90">
-        <p className="font-medium text-indigo-300">Advisory evidence catalog</p>
+        <p className="font-medium text-indigo-300">Advisory evidence readiness</p>
         <p className="mt-1 text-xs text-slate-400">
           Items are stored against control keys at provision or seed time. Upload workflows and
-          attestation sign-off are not enforced in this phase — use GRC for control context.
+          attestation sign-off are not enforced in this phase — use incidents and audit logs for
+          operational evidence trails.
         </p>
       </section>
 
@@ -52,17 +55,49 @@ export default async function CybercrowEvidencePage({
           <p className="mt-1 text-2xl font-bold tabular-nums text-violet-200">{summary.controlCount}</p>
         </div>
         <div className="rounded-cc-sm border border-violet-500/20 bg-violet-500/5 p-4">
-          <p className="text-xs text-slate-500">Compliance posture</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums text-teal-300">
-            {summary.compliancePct != null ? `${summary.compliancePct}%` : "—"}
+          <p className="text-xs text-slate-500">Controls missing evidence</p>
+          <p className="mt-1 text-2xl font-bold tabular-nums text-amber-300">
+            {readiness.controlsMissingEvidence.length}
           </p>
         </div>
+      </section>
+
+      {readiness.controlsMissingEvidence.length > 0 && (
+        <section className="cc-glass-card border-amber-500/15">
+          <h3 className="text-sm font-medium text-amber-300">Evidence gaps (advisory)</h3>
+          <ul className="mt-3 space-y-1 text-xs text-slate-400">
+            {readiness.controlsMissingEvidence.map((c) => (
+              <li key={c.controlKey}>
+                <span className="font-mono text-violet-300/80">{c.controlKey}</span> · {c.status}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="cc-glass-card">
+        <h3 className="text-sm font-medium text-violet-300">Recommended evidence to collect</h3>
+        <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-slate-400">
+          {readiness.guidance.map((g) => (
+            <li key={g}>{g}</li>
+          ))}
+        </ul>
+        {readiness.incidentEvidenceHints.length > 0 ? (
+          <>
+            <p className="mt-4 text-xs font-medium text-slate-500">Open incident hints</p>
+            <ul className="mt-2 space-y-1 text-xs text-slate-500">
+              {readiness.incidentEvidenceHints.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
       </section>
 
       {evidence.length === 0 ? (
         <EmptyState
           title="No evidence on file"
-          description="Evidence rows appear when CyberCrow baseline seed or GRC provisioning attaches artifacts to controls. Check GRC overview for control readiness."
+          description="Evidence rows appear when CyberCrow baseline seed or GRC provisioning attaches artifacts to controls."
         />
       ) : (
         <ul className="space-y-2">
@@ -95,6 +130,9 @@ export default async function CybercrowEvidencePage({
       )}
 
       <div className="flex flex-wrap gap-4 text-sm">
+        <Link href={r.incidents} className="text-amber-400 hover:text-amber-300">
+          Incidents (workflow) →
+        </Link>
         <Link href={r.grc} className="text-violet-400 hover:text-violet-300">
           GRC overview →
         </Link>

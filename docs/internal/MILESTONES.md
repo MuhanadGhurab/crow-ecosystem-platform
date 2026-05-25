@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F15** | CyberCrow SOC workflow depth | Event→incident chain, evidence, risk explainability, dashboard SOC | Muhanad | **100%** | **Passed** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
 | **F14** | SAREA Studio visibility & safe controls | Studio audit, overview, safe edits, admin tab | Muhanad | **100%** | **Passed** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
 | **F13** | Demo rehearsal & screenshot capture | Mock walkthrough, 12 public PNGs, README embeds | Muhanad | **100%** | **Passed** — [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) |
 | **F12** | Product demo & external readiness | Storyboard, routes, playbook, public polish | Muhanad | **100%** | **Passed** — [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) |
@@ -48,6 +49,22 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F15 — CyberCrow SOC workflow depth
+
+**Scope:** Deepen SOC/GRC workflow UX and explainability across CyberCrow tenant routes — security events, incidents, evidence readiness, rule-based risk, audit linkage, dashboard SOC strip — without fake AI, SIEM claims, schema churn, or destructive deletes.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Audit + acceptance | [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
+| SOC service | [`src/lib/services/cybercrow-soc-workflow.service.ts`](../../src/lib/services/cybercrow-soc-workflow.service.ts) |
+| Tenant CyberCrow UI | [`src/app/[tenant]/cybercrow/`](../../src/app/[tenant]/cybercrow/) |
+
+**Deferred:** Case assignment, evidence upload vault, SIEM integration, automated high-risk notifications.
 
 ---
 

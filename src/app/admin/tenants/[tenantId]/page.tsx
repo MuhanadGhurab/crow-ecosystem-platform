@@ -19,6 +19,7 @@ import { getTenantUsageSignals } from "@/lib/services/usage-signals.service";
 import { moduleLabel, planLabel } from "@/lib/catalog-labels";
 import { routes } from "@/lib/routes";
 import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard.service";
+import { getSocWorkflowSummary } from "@/lib/services/cybercrow-soc-workflow.service";
 import { getTenantLifecycleSnapshot } from "@/lib/services/lighthouse-pipeline.service";
 import { listTenantMemberships } from "@/lib/services/membership.service";
 import { listSareaProfilesForTenant } from "@/lib/services/sarea.service";
@@ -53,6 +54,7 @@ export default async function AdminTenantDetailPage({
     memberships,
     lifecycle,
     cybercrow,
+    socSummary,
     sareaProfiles,
     sareaPersonaMaterialization,
     orgIntel,
@@ -67,6 +69,7 @@ export default async function AdminTenantDetailPage({
     listTenantMemberships(tenant.id),
     getTenantLifecycleSnapshot(tenant.id),
     getCybercrowDashboardMetrics(tenant.id),
+    getSocWorkflowSummary(tenant.id),
     listSareaProfilesForTenant(tenant.id),
     getTenantPersonaMaterialization(tenant.id),
     request?.id ? getOrgIntelligenceForRequest(request.id) : Promise.resolve(null),
@@ -298,7 +301,17 @@ export default async function AdminTenantDetailPage({
                 {cybercrow.openIncidentCount}
               </p>
             </div>
+            <div>
+              <p className="text-xs text-slate-500">Events needing review</p>
+              <p className="text-lg font-semibold text-indigo-200">
+                {socSummary.pendingReviewEvents}
+              </p>
+            </div>
           </div>
+          <p className="text-xs text-slate-500">
+            SOC chain: security events → incidents → evidence → risk → GRC. Rule-based posture only
+            — not a SIEM replacement.
+          </p>
           <Link
             href={routes.tenant(tenant.slug).cybercrow.dashboard}
             className="inline-block text-sm text-violet-300 hover:text-violet-200"

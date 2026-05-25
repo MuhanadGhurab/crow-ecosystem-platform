@@ -2,8 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
+import { IncidentWorkflowPanel } from "@/components/tenant/cybercrow/incident-workflow-panel";
+import { canManageCybercrowIncidents } from "@/lib/auth/cybercrow-access";
+import { incidentStatusLabel } from "@/lib/constants/cybercrow-incident-status";
 import { routes } from "@/lib/routes";
-import { listTenantIncidents } from "@/lib/services/cybercrow-tenant.service";
+import { listIncidentsEnriched } from "@/lib/services/cybercrow-soc-workflow.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export default async function CybercrowIncidentsPage({
@@ -14,7 +18,11 @@ export default async function CybercrowIncidentsPage({
   const { tenant: slug } = await params;
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
-  const incidents = await listTenantIncidents(tenant.id);
+  const [rows, canManage] = await Promise.all([
+    listIncidentsEnriched(tenant.id),
+    canManageCybercrowIncidents(slug),
+  ]);
+  const r = routes.tenant(slug).cybercrow;
 
   return (
     <div className="space-y-8">
@@ -22,29 +30,42 @@ export default async function CybercrowIncidentsPage({
         badge="CyberCrow"
         entity="cybercrow"
         title="Incidents"
-        description="Security incidents and response status — status updates are read-only in this phase."
+        description="Security incidents with acknowledge, review, resolve, and reopen — each change is audit-logged."
       />
 
-      <section className="rounded-lg border border-amber-500/15 bg-amber-950/15 px-4 py-3 text-xs text-slate-400">
-        Open incidents reduce the dashboard posture score. Escalation and closure actions are not
-        wired to external ticketing in this release — use for visibility and audit alignment only.
+      <CybercrowSocPhilosophyBanner compact />
+
+      <section className="rounded-lg border border-violet-500/15 bg-violet-950/15 px-4 py-3 text-xs text-slate-400">
+        {canManage
+          ? "Status changes require cybercrow.incidents.manage. Incidents are never deleted — only status updates."
+          : "Read-only for your role. Analysts with incident manage permission can update workflow status."}
       </section>
-      {incidents.length === 0 ? (
-        <EmptyState title="No incidents" description="Baseline posture is healthy — incidents will list here when raised." />
+
+      {rows.length === 0 ? (
+        <EmptyState
+          title="No incidents"
+          description="Baseline posture is healthy — incidents appear when events are escalated or raised manually."
+        />
       ) : (
-        <ul className="space-y-2">
-          {incidents.map((i) => (
-            <li key={i.id} className="cc-list-item flex-col !items-start gap-1 sm:flex-row sm:items-center">
-              <span className="font-medium text-white">{i.title}</span>
-              <span className="text-slate-500">
-                {i.severity} · {i.status} ·{" "}
-                {i.createdAt.toLocaleString("en-GB", { dateStyle: "short", timeStyle: "short" })}
-              </span>
+        <ul className="space-y-3">
+          {rows.map((row) => (
+            <li key={row.incident.id} className="cc-glass-card">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <span className="font-medium text-white">{row.incident.title}</span>
+                <span className="text-slate-500">
+                  {row.incident.severity} · {incidentStatusLabel(row.incident.status)} ·{" "}
+                  {row.incident.createdAt.toLocaleString("en-GB", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                </span>
+              </div>
+              <IncidentWorkflowPanel tenantSlug={slug} row={row} canManage={canManage} />
             </li>
           ))}
         </ul>
       )}
-      <Link href={routes.tenant(slug).cybercrow.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
+      <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
         ← CyberCrow dashboard
       </Link>
     </div>

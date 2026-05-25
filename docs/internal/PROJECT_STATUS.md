@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F14 SAREA Studio visibility & safe controls)  
+**Last updated:** 25 May 2026 (F15 CyberCrow SOC workflow depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F14 — SAREA Studio visibility & safe controls** (25 May 2026).
+**Phase F15 — CyberCrow SOC workflow depth** (25 May 2026).
 
-Platform staff can inspect tenant-backed personas, role→profile mappings, widgets, navigation, device rules, and preview sources on `/sarea/*` and admin tenant **SAREA** tab. Safe edits limited to low-risk fields (profile name/complexity, layout name, widget visibility, nav keys, device compact, density, same-tenant role-map reassignment with confirm). No layout builder, raw JSON editor, or RBAC override. Detail: [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md).
+Tenant CyberCrow surfaces now emphasize the operational chain: security event review → escalation → incident status → evidence readiness → rule-based risk → audit linkage. Honest advisory language; no fake AI/SIEM; no schema changes; permissions unchanged. Detail: [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md).
 
-**F14 acceptance:** **PASSED** — studio visibility + safe controls; MEEM/Rimal verify green.
+**F15 acceptance:** **PASSED** — SOC workflow depth; MEEM/Rimal/pipeline verify green; typecheck/lint/build/mirror pass.
+
+**Completed prior:** **F14 — SAREA Studio visibility & safe controls** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) (**passed**).
 
 **Completed prior:** **F13** — demo rehearsal & 12 public screenshots — [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) (**passed**).
 

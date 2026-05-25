@@ -155,6 +155,7 @@ export default async function AdminAuditPage({
                 entityId: log.entityId,
                 metadata: log.metadata,
                 createdAt: log.createdAt,
+                actorId: log.actorId,
               }))}
             />
             <ul className="space-y-2 border-t border-white/5 pt-3 text-xs text-slate-500">

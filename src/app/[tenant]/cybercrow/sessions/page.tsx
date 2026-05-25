@@ -2,7 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
+import { IdentityTelemetrySummary } from "@/components/tenant/cybercrow/identity-telemetry-summary";
 import { routes } from "@/lib/routes";
+import {
+  getCybercrowIdentityTelemetrySummary,
+  listTenantSessionEvents,
+} from "@/lib/services/cybercrow-identity-telemetry.service";
 import { listTenantAuditLogs } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -23,8 +28,10 @@ export default async function CybercrowSessionsPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [security, recentAudit] = await Promise.all([
+  const [security, telemetry, sessionEvents, recentAudit] = await Promise.all([
     getTenantSecuritySettings(tenant.id),
+    getCybercrowIdentityTelemetrySummary(tenant.id),
+    listTenantSessionEvents(tenant.id, 20),
     listTenantAuditLogs(tenant.id, { limit: 40 }),
   ]);
   const sessionSignals = recentAudit.filter((log) => isSessionRelatedAction(log.action));
@@ -35,40 +42,60 @@ export default async function CybercrowSessionsPage({
       <PageHeader
         badge="CyberCrow"
         entity="cybercrow"
-        title="Sessions & privileged access"
-        description="Session telemetry and privileged access reviews — Entra-aligned when configured."
+        title="Sessions & session trust"
+        description="Session audit events and identity-related audit signals — not live Entra session inventory."
       />
 
       <section className="rounded-lg border border-amber-500/20 bg-amber-950/20 px-4 py-3 text-sm text-amber-100/90">
-        <p className="font-medium text-amber-300">Read-only session governance</p>
+        <p className="font-medium text-amber-300">Session trust (stored telemetry)</p>
         <p className="mt-1 text-xs text-slate-400">
-          Live Entra session inventory and forced sign-out are not connected in this release. This
-          view surfaces identity-related audit signals and MFA posture from tenant security settings
-          until a session store is integrated.
+          Forced sign-out and live Entra session lists are not connected. This view shows{" "}
+          <code className="text-amber-200/80">session_events</code> rows and supplemental audit
+          actions when recorded.
         </p>
       </section>
 
-      <section className="cc-glass-card grid gap-4 sm:grid-cols-2">
-        <div>
-          <p className="text-xs text-slate-500">MFA required (tenant policy)</p>
-          <p className="mt-1 text-lg font-semibold text-white">
-            {security.mfaRequired ? "Yes" : "Not enforced"}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs text-slate-500">IdP preference (discovery)</p>
-          <p className="mt-1 text-lg font-semibold text-white">{security.idpLabel}</p>
-        </div>
-      </section>
+      <IdentityTelemetrySummary
+        summary={telemetry}
+        mfaRequired={security.mfaRequired}
+        idpLabel={security.idpLabel}
+      />
 
-      {sessionSignals.length === 0 ? (
+      {sessionEvents.length === 0 ? (
         <EmptyState
-          title="No session signals in audit trail"
-          description="Login, logout, and MFA events will appear here when recorded in CyberCrow audit logs. Configure identity in Entra settings and run tenant workflows to generate activity."
+          title="No session_events rows"
+          description="Session lifecycle events appear when auth middleware records create, refresh, or revoke signals."
         />
       ) : (
         <section className="cc-glass-card">
-          <h3 className="text-sm font-medium text-violet-300">Recent identity-related audit events</h3>
+          <h3 className="text-sm font-medium text-violet-300">Session events</h3>
+          <ul className="mt-4 space-y-2">
+            {sessionEvents.map((e) => (
+              <li key={e.id} className="cc-list-item flex-col !items-start gap-1">
+                <span className="text-white">
+                  {e.eventType.replace(/_/g, " ").toLowerCase()}
+                  <span className="ml-2 font-mono text-xs text-slate-500">{e.sessionId}</span>
+                </span>
+                <span className="text-xs text-slate-500">
+                  {e.createdAt.toLocaleString("en-GB", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {sessionSignals.length === 0 ? (
+        <EmptyState
+          title="No session-related audit entries"
+          description="Login, logout, and MFA actions in CyberCrow audit logs supplement session_events when present."
+        />
+      ) : (
+        <section className="cc-glass-card">
+          <h3 className="text-sm font-medium text-violet-300">Identity-related audit events</h3>
           <ul className="mt-4 space-y-2">
             {sessionSignals.map((log) => (
               <li key={log.id} className="cc-list-item flex-col !items-start gap-1">

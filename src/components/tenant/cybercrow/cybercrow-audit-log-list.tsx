@@ -7,7 +7,7 @@ import {
 type AuditLogRow = Pick<
   CybercrowAuditLog,
   "id" | "action" | "entityType" | "entityId" | "metadata" | "createdAt"
->;
+> & { actorId?: string | null };
 
 function metadataRecord(metadata: unknown): Record<string, unknown> | null {
   if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return null;
@@ -38,6 +38,12 @@ export function CybercrowAuditLogList({ logs }: { logs: AuditLogRow[] }) {
           typeof meta?.workflowName === "string" ? meta.workflowName : null;
         const severity =
           typeof meta?.severity === "string" ? meta.severity : null;
+        const category =
+          typeof meta?.category === "string" ? meta.category : null;
+        const incidentId =
+          log.entityType === "incident" && log.entityId ? log.entityId : null;
+        const securityEventId =
+          log.entityType === "security_event" && log.entityId ? log.entityId : null;
 
         return (
           <li key={log.id} className="cc-list-item flex-col !items-start gap-1">
@@ -66,8 +72,27 @@ export function CybercrowAuditLogList({ logs }: { logs: AuditLogRow[] }) {
                 dateStyle: "medium",
                 timeStyle: "short",
               })}
+              {log.actorId ? (
+                <>
+                  {" "}
+                  · actor <span className="font-mono text-slate-600">{log.actorId.slice(0, 8)}…</span>
+                </>
+              ) : null}
               {log.entityType ? ` · ${log.entityType}` : null}
+              {category ? ` · ${category}` : null}
             </p>
+            {(incidentId || securityEventId) && (
+              <p className="text-xs text-violet-400/80">
+                SOC link:{" "}
+                {incidentId ? (
+                  <span className="font-mono">incident {incidentId.slice(0, 8)}…</span>
+                ) : null}
+                {incidentId && securityEventId ? " · " : null}
+                {securityEventId ? (
+                  <span className="font-mono">event {securityEventId.slice(0, 8)}…</span>
+                ) : null}
+              </p>
+            )}
           </li>
         );
       })}

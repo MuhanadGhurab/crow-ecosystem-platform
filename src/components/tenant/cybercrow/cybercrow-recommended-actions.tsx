@@ -6,6 +6,7 @@ type CybercrowRoutes = {
   incidents: string;
   securityEvents: string;
   compliance: string;
+  evidence: string;
   grc: string;
   auditLogs: string;
 };
@@ -16,6 +17,8 @@ type CybercrowRecommendedActionsProps = {
   metrics: CybercrowDashboardMetrics;
   auditLogCount: number;
   highSeverityEvents: number;
+  pendingReviewEvents?: number;
+  controlsWithoutEvidence?: number;
 };
 
 export function CybercrowRecommendedActions({
@@ -24,9 +27,18 @@ export function CybercrowRecommendedActions({
   metrics,
   auditLogCount,
   highSeverityEvents,
+  pendingReviewEvents = 0,
+  controlsWithoutEvidence = 0,
 }: CybercrowRecommendedActionsProps) {
   const actions: { label: string; href: string; reason: string }[] = [];
 
+  if (pendingReviewEvents > 0) {
+    actions.push({
+      label: `Review ${pendingReviewEvents} pending security event(s)`,
+      href: `${r.securityEvents}?review=pending`,
+      reason: "Observed activity awaiting analyst review in the SOC chain.",
+    });
+  }
   if (!initialized) {
     actions.push({
       label: "Complete CyberCrow baseline",
@@ -53,6 +65,13 @@ export function CybercrowRecommendedActions({
       label: "Review at-risk compliance controls",
       href: r.compliance,
       reason: "Advisory NCA-aligned controls need evidence or status updates.",
+    });
+  }
+  if (controlsWithoutEvidence > 0) {
+    actions.push({
+      label: "Close evidence gaps on controls",
+      href: r.evidence,
+      reason: `${controlsWithoutEvidence} control(s) have no linked evidence rows yet.`,
     });
   }
   if (metrics.controls.length === 0 && auditLogCount > 0) {
