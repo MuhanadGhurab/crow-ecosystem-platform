@@ -5,6 +5,10 @@
 
 import type { PrismaClient } from "@prisma/client";
 import { MEEM_REFERENCE_CODE, MEEM_TENANT_SLUG } from "@/lib/constants/meem";
+import {
+  legacyStatusFromSplit,
+  severityForNotification,
+} from "@/lib/services/platform-notification-links";
 import { routes } from "@/lib/routes";
 import {
   ADVISORY_SUBSCRIPTION_EVENT_TYPES,
@@ -15,6 +19,9 @@ import {
   type PlatformNotificationSeverity,
 } from "@/lib/services/platform-notification-links";
 
+/** Digest counts open advisories by inbox triage, not delivery state. */
+const DIGEST_OPEN_INBOX = "open" as const;
+
 const GO_LIVE_ADVISORY_EVENT_TYPES = ["blueprint_ready", "tenant_provisioned"] as const;
 
 export const DIGEST_ADVISORY_EVENT_TYPES = [
@@ -22,7 +29,6 @@ export const DIGEST_ADVISORY_EVENT_TYPES = [
   ...GO_LIVE_ADVISORY_EVENT_TYPES,
 ] as const;
 
-const OPEN_STATUSES = ["logged", "sent", "skipped", "failed"] as const;
 
 export type NotificationDigestPeriod = "daily" | "weekly" | "custom";
 
@@ -79,7 +85,8 @@ export type NotificationDigest = {
     title: string;
     eventType: string;
     severity: PlatformNotificationSeverity;
-    status: string;
+    deliveryStatus: string;
+    inboxStatus: string;
     createdAt: Date;
     tenantSlug: string | null;
     displayName: string | null;
@@ -369,7 +376,7 @@ export async function generateNotificationDigestWithPrisma(
 
   for (const row of enriched) {
     incrementCategoryCounts(byCategory, row);
-    if ((OPEN_STATUSES as readonly string[]).includes(row.status)) {
+    if (row.parsed.inboxStatus === DIGEST_OPEN_INBOX) {
       openAdvisories += 1;
       if (row.parsed.severity === "high") highPriorityOpen += 1;
       const key = row.parsed.tenantId ?? row.parsed.tenantSlug ?? row.id;
@@ -383,9 +390,9 @@ export async function generateNotificationDigestWithPrisma(
       existing.open += 1;
       if (row.parsed.severity === "high") existing.high += 1;
       tenantOpen.set(key, existing);
-    } else if (row.status === "reviewed") {
+    } else if (row.parsed.inboxStatus === "reviewed") {
       reviewedCount += 1;
-    } else if (row.status === "dismissed") {
+    } else if (row.parsed.inboxStatus === "dismissed") {
       dismissedCount += 1;
     }
   }
@@ -402,7 +409,7 @@ export async function generateNotificationDigestWithPrisma(
     .slice(0, 8);
 
   const latestImportant = enriched
-    .filter((r) => (OPEN_STATUSES as readonly string[]).includes(r.status))
+    .filter((r) => r.parsed.inboxStatus === DIGEST_OPEN_INBOX)
     .sort(
       (a, b) =>
         severityRank(a.parsed.severity) - severityRank(b.parsed.severity) ||
@@ -416,7 +423,8 @@ export async function generateNotificationDigestWithPrisma(
         title: row.parsed.title,
         eventType: row.eventType,
         severity: row.parsed.severity,
-        status: row.status,
+        deliveryStatus: row.parsed.deliveryStatus,
+        inboxStatus: row.parsed.inboxStatus,
         createdAt: row.createdAt,
         tenantSlug: row.parsed.tenantSlug,
         displayName: row.parsed.displayName,
@@ -427,15 +435,13 @@ export async function generateNotificationDigestWithPrisma(
 
   const meemLive = await resolveMeemIdsForDigest(db);
   const meemRows = enriched.filter((r) => r.parsed.tenantSlug === MEEM_TENANT_SLUG);
-  const meemOpen = meemRows.filter((r) =>
-    (OPEN_STATUSES as readonly string[]).includes(r.status)
-  ).length;
+  const meemOpen = meemRows.filter((r) => r.parsed.inboxStatus === DIGEST_OPEN_INBOX).length;
 
   const tenantsNeedingReview = new Set(
     enriched
       .filter(
         (r) =>
-          (OPEN_STATUSES as readonly string[]).includes(r.status) &&
+          r.parsed.inboxStatus === DIGEST_OPEN_INBOX &&
           r.parsed.severity === "high" &&
           r.parsed.tenantId
       )
@@ -554,7 +560,7 @@ export function formatNotificationDigestText(digest: NotificationDigest): string
     for (const n of digest.latestImportant) {
       const who = n.displayName ?? n.tenantSlug ?? "platform";
       lines.push(
-        `  • [${n.severity}] ${n.title} — ${who} (${n.status}, ${n.createdAt.toISOString().slice(0, 10)})`
+        `  • [${n.severity}] ${n.title} — ${who} (inbox:${n.inboxStatus}, delivery:${n.deliveryStatus}, ${n.createdAt.toISOString().slice(0, 10)})`
       );
       if (n.primaryLink) lines.push(`      ${n.primaryLink}`);
     }
@@ -597,7 +603,7 @@ export function formatNotificationDigestHtml(digest: NotificationDigest): string
       const link = n.primaryLink
         ? `<a href="${esc(n.primaryLink)}">${esc(n.primaryLinkLabel ?? "Open")}</a>`
         : "";
-      return `<li><strong>[${esc(n.severity)}]</strong> ${esc(n.title)} — ${esc(n.displayName ?? n.tenantSlug ?? "platform")} <span style="color:#64748b">(${esc(n.status)})</span> ${link}</li>`;
+      return `<li><strong>[${esc(n.severity)}]</strong> ${esc(n.title)} — ${esc(n.displayName ?? n.tenantSlug ?? "platform")} <span style="color:#64748b">(${esc(n.inboxStatus)} / ${esc(n.deliveryStatus)})</span> ${link}</li>`;
     })
     .join("");
 
@@ -667,20 +673,26 @@ export async function logDigestDeliveryWithPrisma(
     errorMessage?: string;
   }
 ) {
+  const deliveryStatus = input.status;
+  const inboxStatus = "open" as const;
+  const metadata = {
+    advisory: false,
+    digest: true,
+    period: input.period,
+    manualSend: true,
+  };
   await db.platformNotification.create({
     data: {
       eventType: DIGEST_EVENT_TYPE,
       recipientEmail: input.recipientEmail,
       subject: input.subject,
       body: input.body,
-      status: input.status,
+      status: legacyStatusFromSplit(deliveryStatus, inboxStatus),
+      deliveryStatus,
+      inboxStatus,
+      severity: severityForNotification(DIGEST_EVENT_TYPE, deliveryStatus, metadata),
       errorMessage: input.errorMessage,
-      metadata: {
-        advisory: false,
-        digest: true,
-        period: input.period,
-        manualSend: true,
-      },
+      metadata,
     },
   });
 }

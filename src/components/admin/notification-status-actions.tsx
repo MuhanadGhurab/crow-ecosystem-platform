@@ -8,18 +8,18 @@ import {
 
 export function NotificationStatusActions({
   notificationId,
-  status,
+  inboxStatus,
 }: {
   notificationId: string;
-  status: string;
+  inboxStatus: string;
 }) {
   const [pending, startTransition] = useTransition();
-  const isTerminal = status === "reviewed" || status === "dismissed";
+  const isTerminal = inboxStatus === "reviewed" || inboxStatus === "dismissed";
 
   if (isTerminal) {
     return (
       <span className="text-xs capitalize text-slate-500">
-        {status === "reviewed" ? "Reviewed" : "Dismissed"}
+        {inboxStatus === "reviewed" ? "Reviewed" : "Dismissed"}
       </span>
     );
   }

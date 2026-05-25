@@ -22,7 +22,28 @@ export async function SareaAcceptanceHub({
   const requestId = requestIdProp ?? live.requestId;
   const blueprintId = blueprintIdProp ?? live.blueprintId;
 
-  if (!requestId || !blueprintId || !tenantSlug) return null;
+  if (!tenantSlug) return null;
+
+  if (!requestId || !blueprintId) {
+    return (
+      <section className="cc-glass-card border-rose-500/20">
+        <p className="text-xs font-semibold uppercase tracking-wider text-rose-300">
+          Lighthouse · SAREA acceptance
+        </p>
+        <h3 className="mt-2 text-sm font-medium text-white">
+          {tenantSlug} — live IDs unavailable
+        </h3>
+        <p className="mt-2 text-xs text-slate-500">
+          {live.errorMessage ??
+            "MEEM tenant or blueprint not found in Postgres. Run npm run meem:ids:staging after seed."}
+        </p>
+        <p className="mt-2 text-xs text-slate-600">
+          Source: {live.source}
+          {live.referenceCode ? ` · reference ${live.referenceCode}` : ""}
+        </p>
+      </section>
+    );
+  }
 
   const d = routes.discovery(requestId);
   const bp = routes.blueprint(blueprintId);

@@ -9,9 +9,14 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 import { MEEM_REFERENCE_CODE, MEEM_TENANT_SLUG } from "../src/lib/constants/meem";
 import {
+  buildNotificationDedupeKey,
   enrichPlatformNotificationRow,
+  legacyStatusFromSplit,
   parsePlatformNotificationMetadata,
+  resolveDeliveryStatus,
+  resolveInboxStatus,
   resolveNotificationActionLinks,
+  severityForNotification,
   summarizeNotificationLinkReliability,
   type PlatformNotificationMetadata,
   type PlatformNotificationRow,
@@ -482,6 +487,60 @@ async function main() {
     }
     console.log(`Applied metadata patches: ${updated}\n`);
   }
+
+  let statusSplitPatched = 0;
+  let severityPatched = 0;
+  let dedupePatched = 0;
+  const freshRows = await prisma.platformNotification.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+
+  for (const row of freshRows) {
+    const meta = parsePlatformNotificationMetadata(row.metadata);
+    const deliveryStatus = resolveDeliveryStatus(row);
+    const inboxStatus = resolveInboxStatus(row);
+    const severity =
+      row.severity ??
+      severityForNotification(row.eventType, deliveryStatus, meta);
+    const tenantId = meta.tenantId;
+    const dedupeKey =
+      row.dedupeKey ??
+      (tenantId && meta.advisory !== false
+        ? buildNotificationDedupeKey(String(tenantId), row.eventType, row.createdAt)
+        : undefined);
+    const legacyStatus = legacyStatusFromSplit(deliveryStatus, inboxStatus);
+
+    const needsPatch =
+      row.deliveryStatus !== deliveryStatus ||
+      row.inboxStatus !== inboxStatus ||
+      row.severity !== severity ||
+      (dedupeKey && row.dedupeKey !== dedupeKey) ||
+      row.status !== legacyStatus;
+
+    if (!needsPatch) continue;
+    statusSplitPatched += 1;
+    if (!row.severity) severityPatched += 1;
+    if (!row.dedupeKey && dedupeKey) dedupePatched += 1;
+
+    if (!dryRun) {
+      await prisma.platformNotification.update({
+        where: { id: row.id },
+        data: {
+          deliveryStatus,
+          inboxStatus,
+          severity,
+          status: legacyStatus,
+          ...(dedupeKey ? { dedupeKey } : {}),
+        },
+      });
+    }
+  }
+
+  console.log("Status split / severity / dedupe (Phase E):\n");
+  console.log(`  Rows needing patch:     ${statusSplitPatched}`);
+  console.log(`  Severity backfills:   ${severityPatched}`);
+  console.log(`  Dedupe keys added:    ${dedupePatched}`);
+  console.log(`  Mode:                 ${dryRun ? "dry-run (no writes)" : "apply"}\n`);
 
   const enrichedAfterScan = rows.map((r) => {
     const proposal = proposals.find((p) => p.id === r.id);

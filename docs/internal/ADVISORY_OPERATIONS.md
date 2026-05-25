@@ -1,4 +1,4 @@
-# Advisory operations (Phase D+6)
+# Advisory operations (Phase E)
 
 Platform notifications are **advisory visibility only** — they inform platform staff about subscription posture, usage bands, go-live milestones, and pipeline email delivery. They do **not** enforce billing, block tenants, trigger Stripe checkout, or gate features.
 
@@ -10,9 +10,16 @@ Table: `platform_notifications` (Prisma `PlatformNotification`)
 |-------|------|
 | `eventType` | Machine key (see below) |
 | `subject` / `body` | Email or inbox copy |
-| `status` | Delivery **or** inbox triage (single column) |
+| `deliveryStatus` | Email / pipeline: `logged` \| `sent` \| `skipped` \| `failed` |
+| `inboxStatus` | Admin triage: `open` \| `reviewed` \| `dismissed` |
+| `severity` | Stored `high` \| `medium` \| `low` (set at write; filter prefers stored, else computed) |
+| `dedupeKey` | Optional unique `tenantId:eventType:YYYY-MM-DD` for cross-instance dedupe |
+| `status` | **Legacy** — mirrors inbox triage or delivery for old readers; new code uses split fields |
+| `updatedAt` | Touched on review/dismiss (`@updatedAt`) |
 | `metadata` | JSON — tenant/blueprint/request links |
 | `recipientEmail` | Pipeline email target; advisories use `platform-advisory@internal.crow` |
+
+Migration: `20260525120000_phase_e_notification_stabilization` backfills split fields and severity from legacy `status` + event rules.
 
 ## Categories and event types
 
@@ -25,21 +32,25 @@ Mapped in `platform-notification.service.ts` → `categorizeNotificationEvent()`
 | `go_live` | `blueprint_ready`, `tenant_provisioned` | `notification.service` (pipeline) |
 | `pipeline` | `request_received`, `discovery_started` | `notification.service` |
 
-## Severity (derived, not stored)
+## Severity
+
+Stored on `severity` at emit time (`subscription-notification.service`, `notification.service`, digest log). Inbox UI and filters use stored value when present; otherwise `severityForNotification()` from `deliveryStatus` + `eventType` + metadata.
 
 | Level | Typical triggers |
 |-------|------------------|
-| `high` | `failed` delivery, `subscription_missing`, `plan_mismatch_detected`, `tenant_over_recommended_limit` |
+| `high` | `deliveryStatus=failed`, `subscription_missing`, `plan_mismatch_detected`, `tenant_over_recommended_limit` |
 | `medium` | `upgrade_recommended`, `enterprise_capability_detected`, `tenant_near_plan_limit`, `metadata.advisory` |
 | `low` | Routine pipeline email log |
 
-## Status semantics
+## Status semantics (split)
 
-**Delivery** (pipeline / Resend): `logged` → `sent` | `skipped` | `failed`
+**Delivery** (`deliveryStatus`): `logged` → `sent` \| `skipped` \| `failed` — pipeline / Resend only.
 
-**Inbox triage** (admin UI): `reviewed` | `dismissed` via `platform-notifications` server actions
+**Inbox** (`inboxStatus`): `open` (default) → `reviewed` \| `dismissed` via `platform-notifications` server actions (updates `updatedAt`).
 
-Filter **open** = `logged`, `sent`, `skipped`, `failed` (not triaged terminal states).
+Filter **open** = `inboxStatus=open` (any delivery state). Filter `sent` / `failed` etc. = `deliveryStatus`. Filter `reviewed` / `dismissed` = `inboxStatus`.
+
+**Digest rows** (`advisory_digest`): use `deliveryStatus` for send outcome; `inboxStatus` stays `open` — digest logs do not use reviewed/dismissed inbox semantics.
 
 ## Metadata shape
 
@@ -79,7 +90,7 @@ Tenant self-serve plan (demo): `/[tenantSlug]/settings/plan` — not used in adm
 1. **Admin overview** — `emitSubscriptionAdvisoriesFromPlatformSummary()` once per overview render when subscription summary is available.
 2. **Tenant plan tab** — `evaluateTenantSubscriptionAdvisories()` when `/admin/tenants/[id]?tab=plan` loads.
 
-**Dedupe:** 24 hours per `tenantId` + `eventType`. Applies to all rows in the window, including `reviewed` / `dismissed`, so triage does not cause immediate re-emit on the next page load. After 24h, a new advisory may be logged if conditions still apply.
+**Dedupe:** 24 hours per `tenantId` + `eventType`, enforced via unique `dedupeKey` (`tenantId:eventType:YYYY-MM-DD`) with metadata+time fallback for legacy rows. Applies regardless of `inboxStatus`, so triage does not cause immediate re-emit on the next page load. After 24h (new date bucket), a new advisory may be logged if conditions still apply.
 
 **CyberCrow audit:** Optional `SUBSCRIPTION_ADVISORY` row in `cybercrow_audit_log` (best-effort, non-blocking).
 
@@ -113,7 +124,7 @@ Tenant self-serve plan (demo): `/[tenantSlug]/settings/plan` — not used in adm
 | Plan tab | `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1?tab=plan` |
 | Tenant plan settings | `/meem-global/settings/plan` |
 
-Resolve live IDs: `resolveMeemLiveIds()` in `src/lib/mock/meem-global.ts`.
+Resolve live IDs: `resolveMeemLiveIds()` in `src/lib/mock/meem-global.ts` — returns `source: live` or `unavailable` with **null** IDs (never stale hardcoded CUIDs). Offline mock IDs (`MEEM_MOCK_ONLY_FALLBACK_*`) are for demo cards only. Staff UI shows a clear message when unavailable; run `npm run meem:ids:staging`.
 
 ## Code map
 
@@ -149,8 +160,7 @@ Both use `--env-file=.env.staging` (same as `meem:ids:staging`, `db:test`).
 
 - Rows with no resolvable tenant, request, or blueprint in Postgres (reported as **unrepairable**)
 - Invalid or stale IDs that do not match any row (not overwritten)
-- `status`, email delivery, subscription advisories, or billing — metadata JSON only
-- No Prisma migration
+- `deliveryStatus`, `inboxStatus`, `severity`, `dedupeKey`, email delivery, or billing — metadata JSON only (Phase E fields backfilled in same script when `--apply`)
 
 ### Link reliability report (dry-run and apply)
 
@@ -174,8 +184,9 @@ Run dry-run first; compare MEEM block (`meem-global` slug) with `npm run meem:id
 
 - Legacy pipeline rows may lack `tenantId` / `blueprintId` in metadata — run backfill dry-run; links otherwise fall back to audit-by-slug or request only.
 - Staging may have zero advisory rows until overview or plan tab is opened once.
-- Severity is computed in app code, not indexed in DB — severity filter fetches extra rows then filters in memory.
-- Date filters use `createdAt` only (no `updatedAt` on model).
+- Severity filter still fetches extra rows then filters in memory when many rows lack stored `severity` (run backfill apply after migration).
+- `dedupeKey` unique constraint: duplicate emit same day same tenant+event fails insert — intentional; check logs if emit returns false unexpectedly.
+- Legacy `status` column retained for compatibility — prefer `deliveryStatus` + `inboxStatus` in new code.
 
 ## Notification digest (Phase D+8 / D+9)
 
@@ -203,6 +214,7 @@ Run `notifications:backfill:dry` first when link metadata may be sparse.
 
 ## Recommended next phase
 
-- Optional `lastEmittedAt` per tenant/event in Redis or tenant settings for cross-instance dedupe
-- Separate `deliveryStatus` vs `inboxStatus` columns if triage and email states need to coexist on one row
-- Digest delivery row separate from advisory inbox status if `advisory_digest` logs clutter triage filters
+- Drop legacy `status` column after all external readers migrate
+- Index `severity` + `metadata` tenant paths if inbox volume grows
+- Optional Redis `lastEmittedAt` for sub-day dedupe tuning (date bucket is day-level today)
+- Digest inbox filter preset to hide `advisory_digest` from default open triage view

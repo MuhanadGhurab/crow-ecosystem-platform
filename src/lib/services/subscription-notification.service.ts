@@ -4,6 +4,11 @@
  */
 
 import { prisma } from "@/lib/db";
+import {
+  buildNotificationDedupeKey,
+  legacyStatusFromSplit,
+  severityForNotification,
+} from "@/lib/services/platform-notification-links";
 import type { SubscriptionPlatformSummary } from "@/lib/services/subscription-capability.service";
 import type { TenantUsageSignals } from "@/lib/services/usage-signals.service";
 import type { CapabilityReadinessResult } from "@/lib/services/capability-readiness.service";
@@ -37,13 +42,19 @@ async function wasRecentlyNotified(
   tenantId: string
 ): Promise<boolean> {
   const since = new Date(Date.now() - DEDUPE_WINDOW_MS);
+  const dedupeKey = buildNotificationDedupeKey(tenantId, eventType);
   const recent = await prisma.platformNotification.findFirst({
     where: {
-      eventType,
-      createdAt: { gte: since },
-      metadata: { path: ["tenantId"], equals: tenantId },
+      OR: [
+        { dedupeKey },
+        {
+          eventType,
+          createdAt: { gte: since },
+          metadata: { path: ["tenantId"], equals: tenantId },
+        },
+      ],
     },
-    select: { id: true, status: true },
+    select: { id: true },
     orderBy: { createdAt: "desc" },
   });
   return Boolean(recent);
@@ -83,21 +94,31 @@ export async function emitAdvisorySubscriptionEvent(input: {
     return false;
   }
 
+  const deliveryStatus = "logged" as const;
+  const inboxStatus = "open" as const;
+  const metadata = {
+    tenantId: input.tenantId,
+    tenantSlug: input.tenantSlug,
+    displayName: input.displayName,
+    advisory: true,
+    dedupeWindowHours: 24,
+    ...input.metadata,
+  };
+  const severity = severityForNotification(input.eventType, deliveryStatus, metadata);
+  const dedupeKey = buildNotificationDedupeKey(input.tenantId, input.eventType);
+
   await prisma.platformNotification.create({
     data: {
       eventType: input.eventType,
       recipientEmail: PLATFORM_ADVISORY_EMAIL,
       subject: EVENT_SUBJECTS[input.eventType],
       body: `${input.displayName} (/${input.tenantSlug})\n\n${input.message}`,
-      status: "logged",
-      metadata: {
-        tenantId: input.tenantId,
-        tenantSlug: input.tenantSlug,
-        displayName: input.displayName,
-        advisory: true,
-        dedupeWindowHours: 24,
-        ...input.metadata,
-      },
+      status: legacyStatusFromSplit(deliveryStatus, inboxStatus),
+      deliveryStatus,
+      inboxStatus,
+      severity,
+      dedupeKey,
+      metadata,
     },
   });
 

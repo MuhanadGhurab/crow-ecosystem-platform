@@ -1,4 +1,8 @@
 import { prisma } from "@/lib/db";
+import {
+  legacyStatusFromSplit,
+  severityForNotification,
+} from "@/lib/services/platform-notification-links";
 
 export type PipelineNotificationEvent =
   | "request_received"
@@ -44,18 +48,26 @@ export async function notifyPipelineEvent(
 
   const isGoLiveSignal = event === "blueprint_ready" || event === "tenant_provisioned";
 
+  const deliveryStatus = "logged" as const;
+  const inboxStatus = "open" as const;
+  const metadata = {
+    ...context,
+    ...(isGoLiveSignal ? { advisory: true } : {}),
+    ...(overrideTo ? { sendToOverride: sendTo } : {}),
+  };
+  const severity = severityForNotification(event, deliveryStatus, metadata);
+
   const row = await prisma.platformNotification.create({
     data: {
       eventType: event,
       recipientEmail: email,
       subject,
       body,
-      status: "logged",
-      metadata: {
-        ...context,
-        ...(isGoLiveSignal ? { advisory: true } : {}),
-        ...(overrideTo ? { sendToOverride: sendTo } : {}),
-      },
+      status: legacyStatusFromSplit(deliveryStatus, inboxStatus),
+      deliveryStatus,
+      inboxStatus,
+      severity,
+      metadata,
     },
   });
 
@@ -69,7 +81,11 @@ export async function notifyPipelineEvent(
     }
     await prisma.platformNotification.update({
       where: { id: row.id },
-      data: { status: "skipped", errorMessage: skipReason },
+      data: {
+        deliveryStatus: "skipped",
+        status: legacyStatusFromSplit("skipped", inboxStatus),
+        errorMessage: skipReason,
+      },
     });
     return;
   }
@@ -98,13 +114,18 @@ export async function notifyPipelineEvent(
 
     await prisma.platformNotification.update({
       where: { id: row.id },
-      data: { status: "sent" },
+      data: {
+        deliveryStatus: "sent",
+        status: legacyStatusFromSplit("sent", inboxStatus),
+      },
     });
   } catch (err) {
     await prisma.platformNotification.update({
       where: { id: row.id },
       data: {
-        status: "failed",
+        deliveryStatus: "failed",
+        status: legacyStatusFromSplit("failed", inboxStatus),
+        severity: severityForNotification(event, "failed", metadata),
         errorMessage: err instanceof Error ? err.message : "Send failed",
       },
     });

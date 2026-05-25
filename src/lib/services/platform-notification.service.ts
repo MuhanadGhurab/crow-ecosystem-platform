@@ -8,8 +8,14 @@ import type { PlatformNotification, Prisma } from "@prisma/client";
 export {
   ADVISORY_SUBSCRIPTION_EVENT_TYPES,
   PIPELINE_EVENT_TYPES,
+  PLATFORM_NOTIFICATION_DELIVERY_STATUSES,
+  PLATFORM_NOTIFICATION_INBOX_STATUSES,
   categorizeNotificationEvent,
   severityForNotification,
+  resolveDeliveryStatus,
+  resolveInboxStatus,
+  legacyStatusFromSplit,
+  buildNotificationDedupeKey,
   resolveNotificationActionLinks,
   resolveNotificationActionLink,
   displayTitleForNotification,
@@ -18,6 +24,8 @@ export {
   parsePlatformNotificationMetadata,
   type PlatformNotificationCategory,
   type PlatformNotificationSeverity,
+  type PlatformNotificationDeliveryStatus,
+  type PlatformNotificationInboxStatus,
   type PlatformNotificationMetadata,
   type PlatformNotificationRow,
   type NotificationActionLink,
@@ -28,9 +36,13 @@ export {
 import {
   ADVISORY_SUBSCRIPTION_EVENT_TYPES,
   PIPELINE_EVENT_TYPES,
+  PLATFORM_NOTIFICATION_DELIVERY_STATUSES,
   enrichPlatformNotificationRow,
+  legacyStatusFromSplit,
   parsePlatformNotificationMetadata,
+  resolveDeliveryStatus,
   type PlatformNotificationCategory,
+  type PlatformNotificationDeliveryStatus,
   type PlatformNotificationSeverity,
   type PlatformNotificationRow,
 } from "@/lib/services/platform-notification-links";
@@ -55,18 +67,10 @@ export type PlatformNotificationInboxFilters = {
   limit?: number;
 };
 
-/** Delivery / inbox-open states — not reviewed or dismissed. */
-export const PLATFORM_NOTIFICATION_DELIVERY_STATUSES = [
-  "logged",
-  "sent",
-  "skipped",
-  "failed",
-] as const;
-
 /** Admin triage terminal states (no email retry). */
 export const PLATFORM_NOTIFICATION_INBOX_TRIAGE_STATUSES = ["reviewed", "dismissed"] as const;
 
-const OPEN_STATUSES = PLATFORM_NOTIFICATION_DELIVERY_STATUSES;
+const OPEN_INBOX = "open" as const;
 
 function buildWhere(filters: PlatformNotificationInboxFilters): Prisma.PlatformNotificationWhereInput {
   const where: Prisma.PlatformNotificationWhereInput = {};
@@ -94,7 +98,13 @@ function buildWhere(filters: PlatformNotificationInboxFilters): Prisma.PlatformN
 
   if (filters.status) {
     if (filters.status === "open") {
-      and.push({ status: { in: [...OPEN_STATUSES] } });
+      and.push({ inboxStatus: OPEN_INBOX });
+    } else if (
+      (PLATFORM_NOTIFICATION_DELIVERY_STATUSES as readonly string[]).includes(filters.status)
+    ) {
+      and.push({ deliveryStatus: filters.status });
+    } else if (filters.status === "reviewed" || filters.status === "dismissed") {
+      and.push({ inboxStatus: filters.status });
     } else {
       and.push({ status: filters.status });
     }
@@ -173,13 +183,13 @@ export async function getPlatformNotificationInboxSummary(): Promise<PlatformNot
       where: {
         createdAt: { gte: since },
         eventType: { in: [...ADVISORY_SUBSCRIPTION_EVENT_TYPES] },
-        status: { in: [...OPEN_STATUSES] },
+        inboxStatus: OPEN_INBOX,
       },
       select: { id: true, metadata: true },
     }),
     prisma.platformNotification.findMany({
       where: {
-        status: { in: [...OPEN_STATUSES] },
+        inboxStatus: OPEN_INBOX,
         eventType: {
           in: [
             "subscription_missing",
@@ -214,10 +224,21 @@ export async function getPlatformNotificationInboxSummary(): Promise<PlatformNot
 
 export async function updatePlatformNotificationStatus(
   id: string,
-  status: "reviewed" | "dismissed"
+  inboxStatus: "reviewed" | "dismissed"
 ): Promise<PlatformNotification> {
+  const existing = await prisma.platformNotification.findUnique({
+    where: { id },
+    select: { deliveryStatus: true, status: true },
+  });
+  const deliveryStatus = existing
+    ? resolveDeliveryStatus(existing)
+    : ("logged" as PlatformNotificationDeliveryStatus);
+  const legacyStatus = legacyStatusFromSplit(deliveryStatus, inboxStatus);
   return prisma.platformNotification.update({
     where: { id },
-    data: { status },
+    data: {
+      inboxStatus,
+      status: legacyStatus,
+    },
   });
 }

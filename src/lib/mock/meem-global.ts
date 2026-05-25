@@ -17,12 +17,10 @@ export const MEEM_DISCOVERY_REQUEST_ID = "mock-req-meem-discovery";
 /** MOCK ONLY */
 export const MEEM_BLUEPRINT_ID = "mock-bp-meem";
 
-/**
- * Last known live IDs from `npm run meem:ids` — may be stale after DB reset.
- * Prefer `resolveMeemLiveIds()` for staff links and E2E paths.
- */
-export const MEEM_LIVE_REQUEST_ID = "cmpi2uum60000vhqs9bfmblh2";
-export const MEEM_LIVE_BLUEPRINT_ID = "cmpi2w41q001pvhqs02qtao22";
+/** MOCK ONLY — offline demo cards; never returned from `resolveMeemLiveIds()` on DB miss. */
+export const MEEM_MOCK_ONLY_FALLBACK_REQUEST_ID = MEEM_REQUEST_ID;
+/** MOCK ONLY */
+export const MEEM_MOCK_ONLY_FALLBACK_BLUEPRINT_ID = MEEM_BLUEPRINT_ID;
 
 export type MeemLiveIds = {
   tenantSlug: string;
@@ -30,19 +28,22 @@ export type MeemLiveIds = {
   requestId: string | null;
   blueprintId: string | null;
   referenceCode: string | null;
-  source: "live" | "mock_fallback";
+  source: "live" | "unavailable";
+  /** Set when Postgres lookup fails — staff should run `npm run meem:ids:staging`. */
+  errorMessage?: string;
 };
 
 /** Resolve MEEM request/blueprint IDs from Postgres by tenant slug (source of truth: `npm run meem:ids`). */
 export async function resolveMeemLiveIds(): Promise<MeemLiveIds> {
-  const fallback: MeemLiveIds = {
+  const unavailable = (errorMessage?: string): MeemLiveIds => ({
     tenantSlug: MEEM_TENANT_SLUG,
     tenantId: null,
-    requestId: MEEM_LIVE_REQUEST_ID,
-    blueprintId: MEEM_LIVE_BLUEPRINT_ID,
+    requestId: null,
+    blueprintId: null,
     referenceCode: MEEM_REFERENCE_CODE,
-    source: "mock_fallback",
-  };
+    source: "unavailable",
+    errorMessage,
+  });
 
   try {
     const tenant = await prisma.tenant.findUnique({
@@ -60,7 +61,16 @@ export async function resolveMeemLiveIds(): Promise<MeemLiveIds> {
       },
     });
 
-    if (!tenant?.blueprint) return fallback;
+    if (!tenant) {
+      return unavailable(
+        `Tenant slug "${MEEM_TENANT_SLUG}" not found — seed MEEM or run npm run meem:ids:staging.`
+      );
+    }
+    if (!tenant.blueprint) {
+      return unavailable(
+        `Tenant "${MEEM_TENANT_SLUG}" has no blueprint — complete provisioning before SAREA acceptance links.`
+      );
+    }
 
     return {
       tenantSlug: tenant.slug,
@@ -70,8 +80,9 @@ export async function resolveMeemLiveIds(): Promise<MeemLiveIds> {
       referenceCode: tenant.blueprint.request.referenceCode,
       source: "live",
     };
-  } catch {
-    return fallback;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "MEEM ID lookup failed";
+    return unavailable(`${msg} — check DATABASE_URL and npm run meem:ids:staging.`);
   }
 }
 export const MEEM_PROPOSAL_TOKEN = "mock-proposal-meem";
@@ -329,8 +340,9 @@ export function getMeemMockBlueprint(blueprintId: string): EnterpriseBlueprintDe
 
 export async function getMeemDemoPaths(baseUrl = "http://localhost:3000") {
   const live = await resolveMeemLiveIds();
-  const requestId = live.requestId ?? MEEM_REQUEST_ID;
-  const blueprintId = live.blueprintId ?? MEEM_BLUEPRINT_ID;
+  /** Offline demo script only — not used for staff UI when source is unavailable. */
+  const requestId = live.requestId ?? MEEM_MOCK_ONLY_FALLBACK_REQUEST_ID;
+  const blueprintId = live.blueprintId ?? MEEM_MOCK_ONLY_FALLBACK_BLUEPRINT_ID;
 
   return {
     queue: `${baseUrl}/admin/requests/${requestId}`,

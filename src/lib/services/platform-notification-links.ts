@@ -31,6 +31,73 @@ export type PlatformNotificationCategory =
 
 export type PlatformNotificationSeverity = "high" | "medium" | "low";
 
+export type PlatformNotificationDeliveryStatus = "logged" | "sent" | "skipped" | "failed";
+export type PlatformNotificationInboxStatus = "open" | "reviewed" | "dismissed";
+
+export const PLATFORM_NOTIFICATION_DELIVERY_STATUSES = [
+  "logged",
+  "sent",
+  "skipped",
+  "failed",
+] as const satisfies readonly PlatformNotificationDeliveryStatus[];
+
+export const PLATFORM_NOTIFICATION_INBOX_STATUSES = [
+  "open",
+  "reviewed",
+  "dismissed",
+] as const satisfies readonly PlatformNotificationInboxStatus[];
+
+const DELIVERY_STATUS_SET = new Set<string>(PLATFORM_NOTIFICATION_DELIVERY_STATUSES);
+const INBOX_TRIAGE_STATUS_SET = new Set<string>(["reviewed", "dismissed"]);
+
+export function resolveDeliveryStatus(row: {
+  deliveryStatus?: string | null;
+  status: string;
+}): PlatformNotificationDeliveryStatus {
+  if (row.deliveryStatus && DELIVERY_STATUS_SET.has(row.deliveryStatus)) {
+    return row.deliveryStatus as PlatformNotificationDeliveryStatus;
+  }
+  if (DELIVERY_STATUS_SET.has(row.status)) {
+    return row.status as PlatformNotificationDeliveryStatus;
+  }
+  return "logged";
+}
+
+export function resolveInboxStatus(row: {
+  inboxStatus?: string | null;
+  status: string;
+}): PlatformNotificationInboxStatus {
+  if (
+    row.inboxStatus === "open" ||
+    row.inboxStatus === "reviewed" ||
+    row.inboxStatus === "dismissed"
+  ) {
+    return row.inboxStatus;
+  }
+  if (INBOX_TRIAGE_STATUS_SET.has(row.status)) {
+    return row.status as PlatformNotificationInboxStatus;
+  }
+  return "open";
+}
+
+/** Legacy `status` column value for readers not yet on split fields. */
+export function legacyStatusFromSplit(
+  deliveryStatus: PlatformNotificationDeliveryStatus,
+  inboxStatus: PlatformNotificationInboxStatus
+): string {
+  if (inboxStatus === "reviewed" || inboxStatus === "dismissed") return inboxStatus;
+  return deliveryStatus;
+}
+
+export function buildNotificationDedupeKey(
+  tenantId: string,
+  eventType: string,
+  at: Date = new Date()
+): string {
+  const dateBucket = at.toISOString().slice(0, 10);
+  return `${tenantId}:${eventType}:${dateBucket}`;
+}
+
 export type PlatformNotificationMetadata = {
   tenantId?: string;
   tenantSlug?: string;
@@ -48,6 +115,8 @@ export type PlatformNotificationRow = PlatformNotification & {
   parsed: {
     category: PlatformNotificationCategory;
     severity: PlatformNotificationSeverity;
+    deliveryStatus: PlatformNotificationDeliveryStatus;
+    inboxStatus: PlatformNotificationInboxStatus;
     title: string;
     tenantSlug: string | null;
     tenantId: string | null;
@@ -99,10 +168,10 @@ export function categorizeNotificationEvent(eventType: string): PlatformNotifica
 
 export function severityForNotification(
   eventType: string,
-  status: string,
+  deliveryStatus: string,
   metadata: PlatformNotificationMetadata
 ): PlatformNotificationSeverity {
-  if (status === "failed") return "high";
+  if (deliveryStatus === "failed") return "high";
   if (
     eventType === "subscription_missing" ||
     eventType === "plan_mismatch_detected" ||
@@ -237,11 +306,23 @@ export function enrichPlatformNotificationRow(
 ): PlatformNotificationRow {
   const metadata = parsePlatformNotificationMetadata(row.metadata);
   const category = categorizeNotificationEvent(row.eventType);
+  const deliveryStatus = resolveDeliveryStatus(row);
+  const inboxStatus = resolveInboxStatus(row);
+  const computedSeverity = severityForNotification(
+    row.eventType,
+    deliveryStatus,
+    metadata
+  );
   return {
     ...row,
     parsed: {
       category,
-      severity: severityForNotification(row.eventType, row.status, metadata),
+      deliveryStatus,
+      inboxStatus,
+      severity:
+        row.severity === "high" || row.severity === "medium" || row.severity === "low"
+          ? row.severity
+          : computedSeverity,
       title: displayTitleForNotification({
         eventType: row.eventType,
         subject: row.subject,

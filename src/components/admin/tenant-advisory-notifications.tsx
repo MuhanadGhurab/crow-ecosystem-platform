@@ -51,7 +51,8 @@ export function TenantAdvisoryNotifications({
                 {row.body}
               </p>
               <p className="mt-1 text-[10px] text-slate-500">
-                {row.createdAt.toLocaleString()} · {row.eventType} · {row.status}
+                {row.createdAt.toLocaleString()} · {row.eventType} · {row.parsed.deliveryStatus}
+                {row.parsed.inboxStatus !== "open" ? ` · ${row.parsed.inboxStatus}` : ""}
                 {action && (
                   <>
                     {" "}

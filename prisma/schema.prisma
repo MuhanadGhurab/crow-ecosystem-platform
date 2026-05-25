@@ -1128,12 +1128,24 @@ model PlatformNotification {
   recipientEmail String
   subject        String
   body           String   @db.Text
+  /// Legacy combined status — mirrors delivery or inbox triage for compatibility.
   status         String   @default("logged")
+  /// Email / pipeline delivery: logged | sent | skipped | failed
+  deliveryStatus String   @default("logged")
+  /// Admin inbox triage: open | reviewed | dismissed
+  inboxStatus    String   @default("open")
+  /// Stored advisory severity (high | medium | low); backfilled from event rules when null.
+  severity       String?
+  /// Cross-instance dedupe: tenantId:eventType:YYYY-MM-DD
+  dedupeKey      String?  @unique
   errorMessage   String?
   metadata       Json?
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([eventType, createdAt])
+  @@index([inboxStatus, createdAt])
+  @@index([deliveryStatus])
   @@map("platform_notifications")
 }
 
