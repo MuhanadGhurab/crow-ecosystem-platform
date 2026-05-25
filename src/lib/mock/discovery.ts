@@ -208,29 +208,17 @@ export function getMockDiscoveryContext(
       ? {
           id: blueprintId,
           requestId,
-          discoveryProfileId: `mock-discovery-${requestId}`,
+          discoveryProfileId: `mock-dp-${requestId}`,
           status: "IN_REVIEW",
-          proposalStatus:
-            blueprintId === MEEM_BLUEPRINT_ID
-              ? "CLIENT_APPROVED"
-              : blueprintId === MOCK_BLUEPRINT_ID
-                ? "SENT"
-                : "DRAFT",
-          proposalToken:
-            blueprintId === MEEM_BLUEPRINT_ID
-              ? MEEM_PROPOSAL_TOKEN
-              : blueprintId === MOCK_BLUEPRINT_ID
-                ? "mock-proposal-demo"
-                : null,
-          proposalSentAt:
-            blueprintId === MEEM_BLUEPRINT_ID || blueprintId === MOCK_BLUEPRINT_ID
-              ? now
-              : null,
+          proposalStatus: row.proposalStatus ?? "DRAFT",
+          proposalToken: null,
+          proposalSentAt: null,
           clientApprovedAt: null,
-          version: 1,
           approvedAt: null,
-          createdAt: now,
-          updatedAt: now,
+          version: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          tenant: row.tenantSlug ? { slug: row.tenantSlug } : null,
         }
       : null,
   };
