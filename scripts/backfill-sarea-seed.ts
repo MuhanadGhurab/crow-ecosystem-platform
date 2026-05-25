@@ -4,8 +4,10 @@
  * Optional: TENANT_SLUG=my-tenant npm run sarea:backfill-seed
  */
 
-import { prisma } from "../src/lib/db";
-import { backfillSareaProfileDefaults } from "../src/lib/services/sarea-seed.service";
+import { createScriptPrisma } from "../src/lib/prisma-script";
+import { backfillSareaProfileDefaults } from "../src/lib/services/sarea-seed-core";
+
+const prisma = createScriptPrisma();
 
 async function main() {
   const slug = process.env.TENANT_SLUG;
@@ -21,7 +23,7 @@ async function main() {
     console.log(`Backfilling SAREA for tenant /${slug}`);
   }
 
-  const result = await backfillSareaProfileDefaults(tenantId);
+  const result = await backfillSareaProfileDefaults(prisma, tenantId);
   console.log(`Seeded ${result.seeded} profile(s).`);
 }
 
