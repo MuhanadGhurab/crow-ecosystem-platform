@@ -4,6 +4,7 @@ import { AreaShell } from "@/components/ui/area-shell";
 import { Permission, hasPermission } from "@/lib/auth/permissions";
 import { getCrowAuth } from "@/lib/auth/roles";
 import { getSessionUser, requirePlatformConsole } from "@/lib/auth/session";
+import { buildPlatformEngineHubLinks } from "@/lib/constants/platform-engine-hub";
 import { routes } from "@/lib/routes";
 
 const ADMIN_NAV: { href: string; label: string; permission: (typeof Permission)[keyof typeof Permission] }[] = [
@@ -16,6 +17,7 @@ const ADMIN_NAV: { href: string; label: string; permission: (typeof Permission)[
   { href: routes.admin.integrations, label: "Integrations", permission: Permission["platform.admin.view"] },
   { href: routes.admin.subscriptions, label: "Subscriptions", permission: Permission["platform.requests.view"] },
   { href: routes.admin.securityBaselines, label: "Security baselines", permission: Permission["platform.admin.view"] },
+  { href: routes.admin.notifications, label: "Notifications", permission: Permission["platform.audit.view"] },
   { href: routes.admin.audit, label: "Audit", permission: Permission["platform.audit.view"] },
 ];
 
@@ -29,8 +31,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <AreaShell
-      title="Crow Admin Console"
-      badge="Platform Admin"
+      title="CEM Command Center"
+      badge="Crow Enterprise Manager"
+      hubLinks={buildPlatformEngineHubLinks({ includeAdmin: false })}
       nav={nav.length > 0 ? nav : [{ href: routes.admin.requests, label: "Requests" }]}
       headerActions={
         <div className="flex items-center gap-2">

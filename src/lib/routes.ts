@@ -33,6 +33,7 @@ export const routes = {
     subscriptions: "/admin/subscriptions",
     securityBaselines: "/admin/security-baselines",
     audit: "/admin/audit",
+    notifications: "/admin/notifications",
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,
@@ -46,6 +47,7 @@ export const routes = {
     identity: `/discovery/${requestId}/identity`,
     integrations: `/discovery/${requestId}/integrations`,
     experience: `/discovery/${requestId}/experience`,
+    organizationModel: `/discovery/${requestId}/organization-model`,
     summary: `/discovery/${requestId}/summary`,
   }),
   blueprint: (blueprintId: string) => ({
@@ -70,6 +72,7 @@ export const routes = {
     modules: `/${slug}/modules`,
     reports: `/${slug}/reports`,
     settings: `/${slug}/settings`,
+    settingsPlan: `/${slug}/settings/plan`,
     hr: `/${slug}/hr`,
     crm: `/${slug}/crm`,
     sales: `/${slug}/sales`,

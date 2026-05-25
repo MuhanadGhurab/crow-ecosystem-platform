@@ -19,12 +19,12 @@ const TEMPLATES: Record<
     body: `Discovery has started for ${ctx.organizationName} (${ctx.referenceCode}).\n\nSign in to continue the discovery workspace.\n\n— Crow Ecosystem`,
   }),
   blueprint_ready: (ctx) => ({
-    subject: `Blueprint ready — ${ctx.organizationName}`,
-    body: `Discovery is complete and an enterprise blueprint draft is ready for ${ctx.organizationName}.\n\nReview and approve in the Crow Admin Console.\n\n— Crow Ecosystem`,
+    subject: `Blueprint ready for review — ${ctx.organizationName}`,
+    body: `Discovery is complete and an enterprise blueprint draft is ready for ${ctx.organizationName} (${ctx.referenceCode ?? "reference pending"}).\n\nReview and approve in the Crow Admin Console.\n\n— Crow Ecosystem`,
   }),
   tenant_provisioned: (ctx) => ({
-    subject: `Tenant live — /${ctx.tenantSlug}`,
-    body: `Your Crow tenant workspace is provisioned.\n\nOrganization: ${ctx.organizationName}\nURL path: /${ctx.tenantSlug}\n\nCyberCrow and SAREA have been initialized.\n\n— Crow Ecosystem`,
+    subject: `Go-live advisory — tenant /${ctx.tenantSlug}`,
+    body: `Your Crow tenant workspace is provisioned.\n\nOrganization: ${ctx.organizationName}\nURL path: /${ctx.tenantSlug}\n\nCyberCrow and SAREA have been initialized. Platform staff: review go-live checklist in admin.\n\n— Crow Ecosystem`,
   }),
 };
 
@@ -42,6 +42,8 @@ export async function notifyPipelineEvent(
 
   const { subject, body } = TEMPLATES[event](context);
 
+  const isGoLiveSignal = event === "blueprint_ready" || event === "tenant_provisioned";
+
   const row = await prisma.platformNotification.create({
     data: {
       eventType: event,
@@ -51,6 +53,7 @@ export async function notifyPipelineEvent(
       status: "logged",
       metadata: {
         ...context,
+        ...(isGoLiveSignal ? { advisory: true } : {}),
         ...(overrideTo ? { sendToOverride: sendTo } : {}),
       },
     },
