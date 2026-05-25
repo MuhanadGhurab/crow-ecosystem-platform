@@ -10,7 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
-| **F11** | Organic browser E2E closure | Najm aviation intake, operator sign-off, verify | Muhanad | **100%** | **Passed with warnings** — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) |
+| **F11** | Organic browser E2E closure | Najm aviation intake, operator sign-off, verify | Muhanad | **100%** | **Passed** — [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md) |
 | **F10** | Tenant onboarding operator console | Admin UX, pipeline bridge, lifecycle labels | Muhanad | **100%** | **Passed** — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) |
 | **F9** | Blueprint & go-live bridge | Gate, idempotent blueprint, provision safety | Muhanad | **100%** | **Passed** — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) |
 | **F8** | Discovery templates + organic E2E | JSON packs, org-intel, verify scripts | Muhanad | **100%** | **Passed** — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) |
@@ -52,7 +52,14 @@
 
 **Scope:** Close F9/F10 organic-browser gap using **Najm Aviation Services** (aviation sector): live intake on staging, operator pipeline through discovery/blueprint/readiness/go-live visibility, `onboarding:verify` for organic `CROW-2026-{6-char}` ref — **no tenant provisioning**.
 
-**Status:** **Passed with warnings** (25 May 2026). Detail: [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md). Reference: `CROW-2026-ARAX9K`. Automated regression + verify pass; Platform Admin browser checklist (F8 §18) still pending.
+**Status:** **Passed** (25 May 2026). Detail: [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md). Reference: `CROW-2026-ARAX9K`.
+
+| Sub-phase | Result |
+|-----------|--------|
+| **F11A** | Automated regression + `onboarding:verify` — passed |
+| **F11B** | Browser operator sign-off (Platform Admin) — passed |
+
+Organic aviation request validated in browser; admin request detail, discovery/operator flow, and blueprint/readiness/go-live visibility verified. Tenant provisioning **not** performed (intentional). F11 warnings **closed**.
 
 ---
 

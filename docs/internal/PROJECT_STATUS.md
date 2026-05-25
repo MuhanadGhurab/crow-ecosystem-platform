@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F11 organic browser E2E sign-off)  
+**Last updated:** 25 May 2026 (F11B browser operator sign-off)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,11 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F11 — organic browser E2E closure & operator sign-off** (25 May 2026).
+**Phase F11 — organic browser E2E closure & operator sign-off** (25 May 2026) — **complete**.
 
-Staging organic intake for **Najm Aviation Services** (aviation): reference **`CROW-2026-ARAX9K`**, discovery + draft blueprint on staging (no tenant provision). Full regression suite and `onboarding:verify --expect-blueprint --expect-sector=aviation` pass. Detail: [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md).
+Staging organic intake for **Najm Aviation Services** (aviation): reference **`CROW-2026-ARAX9K`**, discovery + draft blueprint on staging (no tenant provision). Full regression suite and `onboarding:verify --expect-blueprint --expect-sector=aviation` pass (F11A). Platform Admin browser operator sign-off passed (F11B). Detail: [`F11_ORGANIC_BROWSER_E2E_SIGNOFF.md`](F11_ORGANIC_BROWSER_E2E_SIGNOFF.md).
 
-**F11 acceptance (25 May 2026):** **PASSED WITH WARNINGS** — automation + verify complete; Platform Admin browser walkthrough (F8 §18) still pending (browse MCP unavailable in agent run).
+**F11 acceptance (25 May 2026):** **PASSED** — F11A automation + verify; **F11B browser operator sign-off** (Entra Platform Admin): admin request detail, discovery/operator flow, blueprint/readiness/go-live visibility verified; tenant **not** provisioned (intentional). F11 warnings **closed**.
 
 **Completed prior:** F10 operator console — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) · F9 — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) · F8 — [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md) · F7 — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
 
