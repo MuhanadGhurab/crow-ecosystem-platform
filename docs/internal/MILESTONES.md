@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F15.6** | Public surface security regression | Post-F15.5 audit: routes, API, auth, mirror | Muhanad | **100%** | **Passed** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) |
 | **F15.5** | Homepage usability & public story | Hero, how-it-works, engines, trust, IA | Muhanad | **100%** | **Passed** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) |
 | **F15** | CyberCrow SOC workflow depth | Event→incident chain, evidence, risk explainability, dashboard SOC | Muhanad | **100%** | **Passed** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
 | **F14** | SAREA Studio visibility & safe controls | Studio audit, overview, safe edits, admin tab | Muhanad | **100%** | **Passed** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
@@ -50,6 +51,22 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F16 production launch readiness — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F15.6 — Public surface security regression audit
+
+**Scope:** After F15.5 homepage changes, confirm no regression on public routes, `/request` intake, public APIs, auth redirects, admin/tenant/portal protection, billing webhook/checkout, SAREA preview redirect safety, and public mirror boundary. Audit-only — no new features or schema.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Audit + acceptance | [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) |
+| API matrix | [`API_SECURITY.md`](API_SECURITY.md) |
+| Route guards | [`src/lib/auth/route-protection.ts`](../../src/lib/auth/route-protection.ts) · [`src/lib/supabase/middleware.ts`](../../src/lib/supabase/middleware.ts) |
+
+**Accepted risks (unchanged):** In-memory intake rate limit; optional Turnstile; no in-repo OpenAPI for automated Postman audit.
 
 ---
 

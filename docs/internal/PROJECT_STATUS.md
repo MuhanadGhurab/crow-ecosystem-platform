@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F15.5 homepage usability)  
+**Last updated:** 25 May 2026 (F15.6 public security regression audit)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F15.5 — Homepage usability & public story clarity** (25 May 2026).
+**Phase F15.6 — Public surface security regression audit** (25 May 2026).
 
-Public homepage (`/`) reordered for first-time visitors: clearer hero, six-step “how it works,” plain CEM/CyberCrow/SAREA section with RBAC vs SAREA line, “built for” audiences, lifecycle strip, and public-safe trust proof. No backend/schema changes; no fake compliance or AI claims. Detail: [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md).
+Post–F15.5 audit: public routes, intake API, billing webhook/checkout, SAREA preview redirect, middleware auth, and public mirror boundary — no new exposure; prior RC1/F1 API controls unchanged. Detail: [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md).
 
-**F15.5 acceptance:** **PASSED** — typecheck/lint/build/mirror pass; `homepage-hero.png` recapture recommended.
+**F15.6 acceptance:** **PASSED** — manual security regression + typecheck/lint/build/mirror pass; no code fixes required.
+
+**Completed prior:** **F15.5 — Homepage usability & public story clarity** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) (**passed**).
 
 **Completed prior:** **F15 — CyberCrow SOC workflow depth** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) (**passed**).
 
