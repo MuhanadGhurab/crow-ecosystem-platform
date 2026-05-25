@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F7 public→discovery pipeline)  
+**Last updated:** 25 May 2026 (F8 discovery templates + organic E2E)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,13 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F7 — public request → Discovery pipeline hardening** (25 May 2026).
+**Phase F8 — discovery template expansion & organic request E2E** (25 May 2026).
 
-Hardens reusable intake → admin review → discovery bootstrap and sector templates (construction + logistics paths) without public redesign. Detail: [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · checkpoint [`F7_DEPLOYMENT_CHECKPOINT.md`](F7_DEPLOYMENT_CHECKPOINT.md).
+Adds construction + aviation discovery JSON packs, aligns org-intelligence sector models, staging verify scripts, and manual organic checklist. Detail: [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) · [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md).
 
-**Scripts:** `npm run request:pipeline:verify` · `npm run discovery:verify:meem` · `npm run discovery:verify:rimal` · F6 `npm run tenant:verify:rimal` · MEEM `npm run meem:ids:staging`
+**Scripts:** `npm run request:e2e:dry` · `npm run request:e2e:verify` · `npm run request:pipeline:verify` · F7/F6 tenant scripts unchanged.
 
-**Completed prior:** F6 Rimal second tenant — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+**Completed prior:** F7 pipeline hardening — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
 
 RC1 remains the staging health baseline; F7 does not replace production-readiness planning.
 
@@ -39,7 +39,7 @@ Pick **one primary track** after planning; others can run in parallel only if re
 |---|--------|---------|
 | 1 | **Production readiness** | Azure or Vercel prod, domain, Entra prod redirects, migrate deploy in release, health smoke |
 | 2 | **Public portfolio polish** | README/screenshots, sanitized public docs, contributor onboarding |
-| 3 | **Tenant onboarding hardening** | **F6 passed** — Rimal; **F7 passed** — pipeline verify scripts |
+| 3 | **Tenant onboarding hardening** | **F6** Rimal · **F7** pipeline · **F8** five-sector templates + organic E2E |
 | 4 | **Package UX** | Startup / Growth / Enterprise surfaces — still advisory unless billing chosen |
 | 5 | **Security hardening** | Rate limiting, Turnstile on public request API, extended audit |
 | 6 | **Stripe live alignment** | Live checkout, webhook reconciliation, enforcement policy decision |

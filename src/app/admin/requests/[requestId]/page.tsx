@@ -17,7 +17,12 @@ import { PipelineProcessGuide } from "@/components/pipeline/pipeline-process-gui
 
 import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
 
-import { moduleLabel, planLabel, securityPackageLabel } from "@/lib/catalog-labels";
+import {
+  industryLabel,
+  moduleLabel,
+  planLabel,
+  securityPackageLabel,
+} from "@/lib/catalog-labels";
 
 import { routes } from "@/lib/routes";
 
@@ -257,7 +262,7 @@ export default async function AdminRequestDetailPage({
 
                       <dt>Industry</dt>
 
-                      <dd>{request.industry}</dd>
+                      <dd>{industryLabel(request.industry)}</dd>
 
                     </div>
 

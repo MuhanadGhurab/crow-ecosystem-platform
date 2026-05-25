@@ -4,7 +4,7 @@ import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { DeptChips } from "@/components/pipeline/dept-chips";
 import { AdminListPage } from "@/components/ui/admin-list-page";
 import { ListCard } from "@/components/ui/list-card";
-import { planLabel } from "@/lib/catalog-labels";
+import { industryLabel, planLabel } from "@/lib/catalog-labels";
 import { formatSar } from "@/lib/services/commercial.service";
 import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 import { listImplementationRequests } from "@/lib/services/implementation-request.service";
@@ -18,6 +18,7 @@ type RequestRow = {
   referenceCode: string;
   status: string;
   planKey?: string;
+  industry?: string | null;
   estimatedMonthlySar?: number | null;
   hasSecurity: boolean;
   hasModules: boolean;
@@ -61,6 +62,7 @@ export default async function AdminRequestsPage({
         referenceCode: r.referenceCode,
         status: r.status,
         planKey: r.requestedPlans[0]?.planKey,
+        industry: r.industry,
         estimatedMonthlySar: r.estimatedMonthlySar ? Number(r.estimatedMonthlySar) : null,
         ...dept,
       };
@@ -113,6 +115,11 @@ export default async function AdminRequestsPage({
           <div className="min-w-0 flex-1 space-y-2">
             <p className="font-medium text-white">{r.organizationName}</p>
             <p className="font-mono text-xs text-slate-500">{r.referenceCode}</p>
+            {r.industry != null && (
+              <p className="text-xs text-slate-500">
+                Industry: <span className="text-violet-300">{industryLabel(r.industry)}</span>
+              </p>
+            )}
             <DeptChips
               hasSecurity={r.hasSecurity}
               hasModules={r.hasModules}

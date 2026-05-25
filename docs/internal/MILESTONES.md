@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F8** | Discovery templates + organic E2E | JSON packs, org-intel, verify scripts | Muhanad | **100%** | **Passed** — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) |
 | **F7** | Public → Discovery pipeline | Intake, admin, sector templates | Muhanad | **100%** | **Passed** — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) |
 | **F6** | Second tenant onboarding (Rimal) | Construction sector, isolation | Muhanad | **100%** | **Passed** — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
 | **RC1** | Staging deploy & health validation | Staging sign-off | Muhanad | **100%** | **Passed** — [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) |
@@ -44,6 +45,21 @@
 
 ---
 
+## F8 — Discovery template expansion & organic E2E
+
+**Scope:** Five-sector discovery JSON packs (incl. construction + aviation), org-intelligence alignment, read-only E2E scripts, manual organic checklist.
+
+| Done | Open |
+|------|------|
+| `construction.json` + `aviation.json` packs | `NEEDS_INFO` admin state (schema) |
+| Org-intel construction/aviation expansion | Automated Playwright organic path |
+| `request:e2e:dry` / `request:e2e:verify` | One-click organic tenant provision |
+| `F8_ORGANIC_REQUEST_E2E.md` (18 steps) | Dedicated aviation lighthouse tenant |
+
+**Verification:** `npm run request:e2e:dry` + `request:pipeline:verify` + MEEM/Rimal scripts.
+
+---
+
 ## F7 — Public request → Discovery pipeline
 
 **Scope:** Audit and harden public `/request` intake, admin approve/reject, discovery bootstrap, multi-sector org intelligence (not logistics-only default).
@@ -51,8 +67,8 @@
 | Done | Open |
 |------|------|
 | Audit + fixes in F7 doc | `NEEDS_INFO` admin state (schema) |
-| `request:pipeline:verify` scripts | Construction discovery JSON template pack |
-| Reference code + sector bootstrap | Live browser E2E for new organic requests |
+| `request:pipeline:verify` scripts | — (superseded by F8 JSON packs) |
+| Reference code + sector bootstrap | Live browser E2E → F8 checklist |
 
 **Verification:** `npm run request:pipeline:verify` + MEEM/Rimal tenant scripts.
 

@@ -221,6 +221,15 @@ export function ImplementationRequestForm() {
           <span className="h-2 w-2 rounded-full bg-amber-400" />
           PENDING_REVIEW
         </p>
+        <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/40 px-4 py-3 text-left text-sm text-slate-400">
+          <p className="font-medium text-slate-300">What happens next</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5">
+            <li>Our team reviews your request in the admin queue (status PENDING_REVIEW).</li>
+            <li>We may contact you on the email you provided to clarify scope.</li>
+            <li>After approval, discovery opens with sector templates for your industry.</li>
+            <li>Blueprint and tenant provisioning follow discovery completion.</li>
+          </ol>
+        </div>
         <p className="mt-6 text-sm text-slate-400">
           Sign in with Microsoft using the same work email to track this request in your client portal.
         </p>
@@ -290,6 +299,10 @@ export function ImplementationRequestForm() {
               </div>
               <div className="sm:col-span-2">
                 <FieldLabel htmlFor="industry">Industry</FieldLabel>
+                <p className="mb-2 text-xs text-slate-500">
+                  Construction and aviation use sector-specific discovery templates (projects, HSE,
+                  ops control, compliance). General / other still maps to a neutral retail baseline.
+                </p>
                 <select
                   id="industry"
                   name="industry"
