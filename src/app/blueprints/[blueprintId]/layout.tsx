@@ -5,6 +5,7 @@ import { AreaShell } from "@/components/ui/area-shell";
 import { Permission, hasPermission } from "@/lib/auth/permissions";
 import { getCrowAuth } from "@/lib/auth/roles";
 import { getSessionUser, requirePermission } from "@/lib/auth/session";
+import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
@@ -51,14 +52,24 @@ export default async function BlueprintLayout({
       nav={nav}
       headerActions={<UserMenu />}
     >
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <RequestStatusBadge status={blueprint.request.status as ImplementationRequestStatus} />
-        <Link
-          href={routes.admin.request(blueprint.requestId)}
-          className="text-sm text-cyan-400 hover:text-cyan-300"
-        >
-          ← Admin request
-        </Link>
+      <div className="mb-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <RequestStatusBadge status={blueprint.request.status as ImplementationRequestStatus} />
+          <Link
+            href={routes.admin.request(blueprint.requestId)}
+            className="text-sm text-cyan-400 hover:text-cyan-300"
+          >
+            ← Admin request
+          </Link>
+        </div>
+        <OnboardingPipelineContext
+          requestId={blueprint.requestId}
+          status={blueprint.request.status as ImplementationRequestStatus}
+          blueprintId={blueprintId}
+          tenantSlug={blueprint.tenant?.slug ?? null}
+          discoveryAvailable={Boolean(blueprint.request.discoveryProfile)}
+          compact
+        />
       </div>
       {children}
     </AreaShell>

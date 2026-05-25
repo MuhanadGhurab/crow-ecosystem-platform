@@ -9,10 +9,22 @@
 ```bash
 npm run request:e2e:dry
 npm run request:e2e:verify -- --reference=CROW-2026-XXXXXX
+npm run onboarding:verify -- --reference=CROW-2026-XXXXXX
 npm run request:pipeline:verify
 ```
 
+Operator console UI (F10): [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) — lifecycle buckets on `/admin/overview`, checklist panel on request detail.
+
 Replace `XXXXXX` with the reference shown after step 5.
+
+**F9 — optional expectations** (after blueprint / go-live on staging):
+
+```bash
+npm run request:e2e:verify -- --reference=CROW-2026-XXXXXX --expect-blueprint --expect-sector=construction
+npm run request:e2e:verify -- --reference=CROW-2026-XXXXXX --expect-blueprint --expect-tenant --expect-plan=startup
+```
+
+See [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md).
 
 ---
 

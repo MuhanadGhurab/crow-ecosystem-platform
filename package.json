@@ -79,6 +79,7 @@
     "request:e2e:dry": "npx tsx scripts/verify-organic-request-e2e.ts --dry",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
+    "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "discovery:verify:meem": "npx tsx --env-file=.env.staging scripts/verify-discovery-pipeline.ts --target=meem",
     "discovery:verify:rimal": "npx tsx --env-file=.env.staging scripts/verify-discovery-pipeline.ts --target=rimal",
     "cybercrow:backfill-seed": "npx tsx --env-file=.env scripts/backfill-cybercrow-seed.ts",

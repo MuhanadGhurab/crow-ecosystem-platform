@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F10** | Tenant onboarding operator console | Admin UX, pipeline bridge, lifecycle labels | Muhanad | **100%** | **Passed** — [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md) |
 | **F9** | Blueprint & go-live bridge | Gate, idempotent blueprint, provision safety | Muhanad | **100%** | **Passed** — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) |
 | **F8** | Discovery templates + organic E2E | JSON packs, org-intel, verify scripts | Muhanad | **100%** | **Passed** — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) |
 | **F7** | Public → Discovery pipeline | Intake, admin, sector templates | Muhanad | **100%** | **Passed** — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) |
@@ -43,6 +44,14 @@
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
 **Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F10 — Tenant onboarding operator console
+
+**Scope:** Admin operator clarity — lifecycle buckets on overview, request detail next action, shared pipeline navigation on discovery/blueprint pages, human labels without schema, organic E2E checklist + `onboarding:verify`.
+
+**Status:** **Passed** (25 May 2026). Detail: [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md). Acceptance regression: [`F10_DEPLOYMENT_CHECKPOINT.md`](F10_DEPLOYMENT_CHECKPOINT.md) — **PASSED WITH WARNINGS** (25 May 2026).
 
 ---
 

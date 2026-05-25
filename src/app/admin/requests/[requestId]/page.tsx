@@ -6,6 +6,9 @@ import { PageHeader } from "@/components/ui/page-header";
 
 import { PromoteClientForm } from "@/components/admin/promote-client-form";
 import { RequestAdminActions } from "@/components/admin/request-admin-actions";
+import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
+import { OperatorNextActionPanel } from "@/components/admin/operator-next-action-panel";
+import { RequestPipelineLinks } from "@/components/admin/request-pipeline-links";
 
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 
@@ -177,6 +180,24 @@ export default async function AdminRequestDetailPage({
 
 
       <LifecycleStrip status={status} />
+
+      <>
+        <OperatorNextActionPanel
+          requestId={requestId}
+          status={status}
+          blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
+          tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
+          discoveryAvailable={Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable)}
+        />
+        <RequestPipelineLinks
+          requestId={requestId}
+          status={status}
+          blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
+          tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
+          discoveryAvailable={Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable)}
+        />
+        <OperatorE2eChecklistPanel referenceCode={refCode} />
+      </>
 
       <PipelineProcessGuide
         status={status}

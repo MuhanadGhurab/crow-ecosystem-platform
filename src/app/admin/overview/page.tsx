@@ -8,7 +8,9 @@ import { DeptChips } from "@/components/pipeline/dept-chips";
 import { PLATFORM_ENGINE_HUB } from "@/lib/constants/platform-engine-hub";
 import { FULL_PLATFORM_LIFECYCLE } from "@/lib/constants/platform";
 import { routes } from "@/lib/routes";
+import { OperatorConsoleSection } from "@/components/admin/operator-console-section";
 import { getCemCommandCenterSnapshot } from "@/lib/services/cem-command-center.service";
+import { getOperatorConsoleSnapshot } from "@/lib/services/operator-console.service";
 import { getLighthousePipelineSnapshot } from "@/lib/services/lighthouse-pipeline.service";
 import { SubscriptionIntelligenceSection } from "@/components/admin/subscription-intelligence-section";
 import { getOrgIntelligencePlatformSummary } from "@/lib/services/org-intelligence.service";
@@ -30,9 +32,10 @@ const PIPELINE_LINKS = [
 ] as const;
 
 export default async function AdminOverviewPage() {
-  const [command, lighthouse, orgIntel, subscriptionIntel, notificationSummary] =
+  const [command, operatorConsole, lighthouse, orgIntel, subscriptionIntel, notificationSummary] =
     await Promise.all([
       getCemCommandCenterSnapshot(),
+      getOperatorConsoleSnapshot(),
       getLighthousePipelineSnapshot().catch(() => null),
       getOrgIntelligencePlatformSummary().catch(() => ({
         templateCount: 5,
@@ -78,6 +81,8 @@ export default async function AdminOverviewPage() {
           <StatCard label="Open tasks" value={platformHealth.openTasks} accent="violet" />
         </div>
       </section>
+
+      <OperatorConsoleSection snapshot={operatorConsole} />
 
       {subscriptionIntel && <SubscriptionIntelligenceSection summary={subscriptionIntel} />}
 

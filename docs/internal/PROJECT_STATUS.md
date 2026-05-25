@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F9 acceptance validation — PASSED WITH WARNINGS)  
+**Last updated:** 25 May 2026 (F10 tenant onboarding operator console)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,13 +19,15 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F9 — blueprint generation & go-live bridge hardening** (25 May 2026).
+**Phase F10 — tenant onboarding UX & admin operator console** (25 May 2026).
 
-Advisory discovery→blueprint gate, idempotent blueprint completion, readiness/go-live UX bridge, admin pipeline links, provision duplicate guards, and extended organic verify flags. Detail: [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md). **Acceptance run:** [`F9_DEPLOYMENT_CHECKPOINT.md`](F9_DEPLOYMENT_CHECKPOINT.md) — automated regression **PASSED WITH WARNINGS** (lighthouse verify path + manual browser organic pending).
+Operator lifecycle buckets on `/admin/overview`, next-action panel and pipeline bridge on request detail, `OnboardingPipelineContext` on discovery/blueprint stages, human status labels (no schema), F8 E2E checklist UI, `onboarding:verify` script alias. Detail: [`F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md`](F10_TENANT_ONBOARDING_OPERATOR_CONSOLE.md).
 
-**Scripts:** `npm run request:e2e:dry` · `npm run request:e2e:verify` (optional `--expect-blueprint`, `--expect-tenant`, `--expect-sector=`, `--expect-plan=`) · `npm run request:pipeline:verify`.
+**Scripts:** `npm run onboarding:verify` (alias for organic E2E) · `npm run request:e2e:dry` · `npm run request:e2e:verify` · `npm run request:pipeline:verify`.
 
-**Completed prior:** F8 templates + organic E2E — [`F8_DISCOVERY_TEMPLATE_EXPANSION.md`](F8_DISCOVERY_TEMPLATE_EXPANSION.md) · [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md) · F7 — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+**F10 acceptance (25 May 2026):** [`F10_DEPLOYMENT_CHECKPOINT.md`](F10_DEPLOYMENT_CHECKPOINT.md) — **PASSED WITH WARNINGS** (automated staging suite + operator UI build verification).
+
+**Completed prior:** F9 blueprint/go-live bridge — [`F9_BLUEPRINT_GO_LIVE_BRIDGE.md`](F9_BLUEPRINT_GO_LIVE_BRIDGE.md) · F8 — [`F8_ORGANIC_REQUEST_E2E.md`](F8_ORGANIC_REQUEST_E2E.md) · F7 — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · F6 Rimal — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
 
 RC1 remains the staging health baseline; F7 does not replace production-readiness planning.
 

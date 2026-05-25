@@ -16,6 +16,11 @@ import {
   evaluatePreProvisionReadiness,
   isReadinessGateEnabled,
 } from "@/lib/services/readiness.service";
+import { evaluateDiscoveryBlueprintGate } from "@/lib/services/discovery-completion-gate.service";
+import { resolveSectorTemplateKey } from "@/lib/org-intelligence/resolve-sector";
+import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
+import { industryLabel, moduleLabel } from "@/lib/catalog-labels";
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function BlueprintGoLivePage({
   params,
@@ -28,19 +33,37 @@ export default async function BlueprintGoLivePage({
 
   const suggestedSlug = slugifyOrganization(blueprint.request.organizationName);
   const hasTenant = Boolean(blueprint.tenant);
-  const [grouped, preProvision, subscriptionReadiness, planContext, planDiff] = await Promise.all([
-    hasTenant ? null : evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
-    hasTenant ? null : evaluatePreProvisionReadiness(blueprintId).catch(() => null),
-    evaluateBlueprintSubscriptionReadiness(blueprintId).catch(() => null),
-    resolveBlueprintPlanContext(blueprintId).catch(() => null),
-    computeBlueprintPlanDiff(blueprintId).catch(() => null),
-  ]);
+  const sectorKey = resolveSectorTemplateKey({
+    industry: blueprint.request.industry,
+    moduleKeys: blueprint.modules.filter((m) => m.enabled).map((m) => m.moduleKey),
+  });
+  const enabledModules = blueprint.modules.filter((m) => m.enabled).map((m) => m.moduleKey);
+  const [grouped, preProvision, subscriptionReadiness, planContext, planDiff, discoveryGate] =
+    await Promise.all([
+      hasTenant ? null : evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
+      hasTenant ? null : evaluatePreProvisionReadiness(blueprintId).catch(() => null),
+      evaluateBlueprintSubscriptionReadiness(blueprintId).catch(() => null),
+      resolveBlueprintPlanContext(blueprintId).catch(() => null),
+      computeBlueprintPlanDiff(blueprintId).catch(() => null),
+      hasTenant
+        ? null
+        : evaluateDiscoveryBlueprintGate(blueprint.requestId).catch(() => null),
+    ]);
   const gateEnabled = isReadinessGateEnabled();
   const uiBlockers = preProvision?.blockers ?? [];
   const b = routes.blueprint(blueprintId);
 
   return (
     <div className="mx-auto max-w-2xl space-y-8">
+      <OnboardingPipelineContext
+        requestId={blueprint.requestId}
+        status={blueprint.request.status as ImplementationRequestStatus}
+        blueprintId={blueprintId}
+        tenantSlug={blueprint.tenant?.slug ?? null}
+        discoveryAvailable={Boolean(blueprint.request.discoveryProfile)}
+        current="go_live"
+      />
+
       <header className="cc-go-live-hero">
         <span className="cc-star-badge">CEM launch</span>
         <h2 className="mt-4 font-display text-2xl font-bold text-white">Go live</h2>
@@ -80,6 +103,69 @@ export default async function BlueprintGoLivePage({
         </section>
       ) : (
         <>
+          <section className="cc-glass-card space-y-3 text-sm text-slate-300">
+            <h3 className="text-sm font-medium text-cyan-400">Provision scope</h3>
+            <p className="text-xs text-slate-500">
+              One tenant per blueprint. Slug must be unique; existing tenants are linked, not
+              duplicated.
+            </p>
+            <dl className="cc-meta-dl !border-0 !bg-transparent !p-0 text-xs">
+              <div>
+                <dt className="text-slate-500">Organization</dt>
+                <dd>{blueprint.request.organizationName}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">Suggested slug</dt>
+                <dd className="font-mono text-cyan-300">/{suggestedSlug}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">Industry / sector</dt>
+                <dd>
+                  {industryLabel(blueprint.request.industry)} · sector{" "}
+                  <span className="font-mono text-slate-400">{sectorKey}</span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">CEM modules</dt>
+                <dd>
+                  {enabledModules.length
+                    ? enabledModules.map((k) => moduleLabel(k)).join(", ")
+                    : "None enabled on blueprint"}
+                </dd>
+              </div>
+              {planContext && (
+                <div>
+                  <dt className="text-slate-500">Plan (advisory)</dt>
+                  <dd>{planContext.planDisplayName}</dd>
+                </div>
+              )}
+            </dl>
+            {discoveryGate && discoveryGate.warnings.length > 0 && (
+              <ul className="space-y-1 text-xs text-amber-100/90">
+                {discoveryGate.warnings.slice(0, 4).map((w) => (
+                  <li key={w}>• {w}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          <section className="cc-glass-card space-y-2 text-sm text-slate-300">
+            <h3 className="text-sm font-medium text-white">Pre-provision checklist</h3>
+            <ul className="list-inside list-disc space-y-1 text-xs text-slate-400">
+              <li>Discovery marked complete and blueprint modules synced</li>
+              <li>Org intelligence accepted (recommended) for CEM structure seed</li>
+              <li>Readiness required checks green or manually waived</li>
+              <li>Slug confirmed unique — provision fails if slug already exists</li>
+              <li>CyberCrow baseline + SAREA personas seeded on first provision only</li>
+            </ul>
+            <Link
+              href={routes.discovery(blueprint.requestId).summary}
+              className="inline-block text-xs text-cyan-400 hover:text-cyan-300"
+            >
+              Discovery summary →
+            </Link>
+          </section>
+
           {subscriptionReadiness && planContext && (
             <GoLiveSubscriptionSection
               readiness={subscriptionReadiness}

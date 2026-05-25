@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
+import { DiscoveryBlueprintGatePanel } from "@/components/discovery/discovery-blueprint-gate-panel";
 import { DiscoveryCompleteButton } from "@/components/discovery/discovery-complete-button";
 import { DiscoveryStepFooter } from "@/components/discovery/discovery-step-footer";
 import { moduleLabel, planLabel, securityPackageLabel } from "@/lib/catalog-labels";
@@ -9,6 +11,8 @@ import { isUseMockData } from "@/lib/mock/env";
 import { routes } from "@/lib/routes";
 import { getConfirmedModuleKeys } from "@/lib/discovery-answers";
 import { getDiscoveryContext } from "@/lib/services/discovery.service";
+import { evaluateDiscoveryBlueprintGate } from "@/lib/services/discovery-completion-gate.service";
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 const OPERATING_LABELS: Record<string, string> = {
   single_hq: "Single headquarters",
@@ -43,9 +47,21 @@ export default async function DiscoverySummaryPage({
     ctx.enterpriseBlueprint?.id ??
     (isUseMockData() ? getMockBlueprintIdForRequest(requestId) : null);
   const blueprintRoutes = blueprintId ? routes.blueprint(blueprintId) : null;
+  const gate = canComplete
+    ? await evaluateDiscoveryBlueprintGate(requestId).catch(() => null)
+    : null;
 
   return (
     <div className="space-y-8">
+      <OnboardingPipelineContext
+        requestId={requestId}
+        status={ctx.status as ImplementationRequestStatus}
+        blueprintId={blueprintId}
+        tenantSlug={ctx.enterpriseBlueprint?.tenant?.slug ?? null}
+        discoveryAvailable
+        current="discovery"
+      />
+
       {blueprintRoutes && (
         <section className="cc-entity-block cc-entity-block--sarea !p-6">
           <p className="text-xs font-semibold uppercase tracking-wider text-rose-300">
@@ -123,8 +139,10 @@ export default async function DiscoverySummaryPage({
         )}
       </section>
 
+      {gate && <DiscoveryBlueprintGatePanel gate={gate} />}
+
       {canComplete ? (
-        <DiscoveryCompleteButton requestId={requestId} />
+        <DiscoveryCompleteButton requestId={requestId} gate={gate} />
       ) : blueprintRoutes ? (
         <section className="cc-glass-card border-teal-500/20 bg-teal-500/5">
           <p className="text-sm text-teal-300">Discovery completed — blueprint in build.</p>

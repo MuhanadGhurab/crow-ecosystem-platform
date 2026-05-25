@@ -7,6 +7,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { DiscoveryMockBanner } from "@/components/discovery/discovery-mock-banner";
 import { DiscoveryReadonlyBanner } from "@/components/discovery/discovery-readonly-banner";
+import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { DiscoveryProgressNav } from "@/components/discovery/discovery-progress-nav";
 import { routes } from "@/lib/routes";
 import { getDiscoveryContext } from "@/lib/services/discovery.service";
@@ -63,6 +64,17 @@ export default async function DiscoveryLayout({
           ← Admin request
         </Link>
       </div>
+
+      <OnboardingPipelineContext
+        requestId={requestId}
+        status={request.status as ImplementationRequestStatus}
+        blueprintId={request.enterpriseBlueprint?.id ?? null}
+        tenantSlug={request.enterpriseBlueprint?.tenant?.slug ?? null}
+        discoveryAvailable
+        current="discovery"
+        compact
+        className="mb-4"
+      />
 
       <DiscoveryMockBanner requestId={requestId} />
       <DiscoveryReadonlyBanner status={request.status as ImplementationRequestStatus} />

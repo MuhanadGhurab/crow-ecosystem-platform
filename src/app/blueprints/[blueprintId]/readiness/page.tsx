@@ -11,6 +11,10 @@ import {
   groupedReadinessSummary,
   isReadinessGateEnabled,
 } from "@/lib/services/readiness.service";
+import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
+import { DiscoveryBlueprintGatePanel } from "@/components/discovery/discovery-blueprint-gate-panel";
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
+import { evaluateDiscoveryBlueprintGate } from "@/lib/services/discovery-completion-gate.service";
 
 const ENTITY_BORDER: Record<string, string> = {
   cem: "border-cyan-500/20",
@@ -27,9 +31,10 @@ export default async function BlueprintReadinessPage({
   const blueprint = await getEnterpriseBlueprint(blueprintId).catch(() => null);
   if (!blueprint) notFound();
 
-  const [grouped, planDiff] = await Promise.all([
+  const [grouped, planDiff, discoveryGate] = await Promise.all([
     evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
     computeBlueprintPlanDiff(blueprintId).catch(() => null),
+    evaluateDiscoveryBlueprintGate(blueprint.requestId).catch(() => null),
   ]);
   const summary = grouped ? groupedReadinessSummary(grouped.groups) : null;
   const b = routes.blueprint(blueprintId);
@@ -39,6 +44,15 @@ export default async function BlueprintReadinessPage({
 
   return (
     <div className="space-y-8">
+      <OnboardingPipelineContext
+        requestId={blueprint.requestId}
+        status={blueprint.request.status as ImplementationRequestStatus}
+        blueprintId={blueprintId}
+        tenantSlug={blueprint.tenant?.slug ?? null}
+        discoveryAvailable={Boolean(blueprint.request.discoveryProfile)}
+        current="readiness"
+      />
+
       {hasTenant && blueprint.tenant && (
         <section className="rounded-lg border border-teal-500/25 bg-teal-950/20 p-4">
           <p className="text-sm font-medium text-teal-300">Tenant already live</p>
@@ -56,6 +70,18 @@ export default async function BlueprintReadinessPage({
       )}
 
       {planDiff && <BlueprintPlanDiffPanel diff={planDiff} />}
+
+      {discoveryGate && (
+        <div className="space-y-2">
+          <DiscoveryBlueprintGatePanel gate={discoveryGate} />
+          <Link
+            href={routes.discovery(blueprint.requestId).summary}
+            className="text-xs text-cyan-400 hover:text-cyan-300"
+          >
+            Discovery summary & complete →
+          </Link>
+        </div>
+      )}
 
       <header>
         <span className="cc-star-badge">Pre-launch</span>
