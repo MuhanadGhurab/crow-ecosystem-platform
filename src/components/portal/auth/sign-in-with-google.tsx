@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { setOAuthNextCookie } from "@/lib/auth/oauth-next-cookie.client";
-import { azureOAuthOptions } from "@/lib/auth/entra-sso";
+import { googleOAuthOptions } from "@/lib/auth/google-sso";
 import { createClient } from "@/lib/supabase/client";
 
-export function SignInWithEntra({ nextPath }: { nextPath?: string }) {
+export function SignInWithGoogle({ nextPath }: { nextPath?: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleEntraSignIn() {
+  async function handleGoogleSignIn() {
     setPending(true);
     setError(null);
     try {
@@ -17,8 +17,8 @@ export function SignInWithEntra({ nextPath }: { nextPath?: string }) {
       const supabase = createClient();
       const origin = window.location.origin;
       const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
-        provider: "azure",
-        options: azureOAuthOptions(origin),
+        provider: "google",
+        options: googleOAuthOptions(origin),
       });
 
       if (oauthError) {
@@ -32,10 +32,10 @@ export function SignInWithEntra({ nextPath }: { nextPath?: string }) {
         return;
       }
 
-      setError("Could not start Microsoft sign-in.");
+      setError("Could not start Google sign-in.");
       setPending(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Microsoft sign-in failed.");
+      setError(err instanceof Error ? err.message : "Google sign-in failed.");
       setPending(false);
     }
   }
@@ -44,15 +44,18 @@ export function SignInWithEntra({ nextPath }: { nextPath?: string }) {
     <div className="space-y-2">
       <button
         type="button"
-        onClick={handleEntraSignIn}
+        onClick={handleGoogleSignIn}
         disabled={pending}
         className="cc-btn-oauth disabled:opacity-50"
         aria-busy={pending}
       >
-        <span aria-hidden className="text-lg leading-none">
-          ⊞
+        <span
+          aria-hidden
+          className="flex h-5 w-5 items-center justify-center rounded-sm bg-white text-xs font-bold text-slate-800"
+        >
+          G
         </span>
-        {pending ? "Redirecting to Microsoft…" : "Continue with Microsoft"}
+        {pending ? "Redirecting to Google…" : "Continue with Google"}
       </button>
       {error && <p className="cc-alert-error">{error}</p>}
     </div>

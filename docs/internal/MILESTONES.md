@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F18** | Google Sign-In & auth UX polish | Google OAuth, login UX, role safety | Muhanad | **100%** | **Passed** — [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
 | **F17** | Cost-controlled auth & payment readiness | Auth/billing audit, Saudi matrix, cost policy | Muhanad | **100%** | **Passed** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
 | **F16** | Production launch readiness | Env governance, deploy runbook, go/no-go | Muhanad | **100%** | **Passed** — [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
 | **F15.6** | Public surface security regression | Post-F15.5 audit: routes, API, auth, mirror | Muhanad | **100%** | **Passed** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) |
@@ -52,7 +53,22 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** F18 — Google Sign-In integration & auth UX polish (see [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md)).
+**Next:** F19 — Saudi payments architecture (see [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md)).
+
+---
+
+## F18 — Google Sign-In integration & auth UX polish
+
+**Scope:** Google OAuth via Supabase Auth; shared `/auth/callback`; login page UX (Microsoft + Google + email); role safety unchanged; no Apple, no live payments, no auto `platform_admin`.
+
+**Status:** **Passed** (25 May 2026) — code and docs complete; operators enable Google in Supabase + Google Cloud per setup doc.
+
+| Deliverable | Location |
+|-------------|----------|
+| Setup + auth audit | [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
+| Validation checklist | [`F18_AUTH_VALIDATION_CHECKLIST.md`](F18_AUTH_VALIDATION_CHECKLIST.md) |
+
+**Out of scope:** Apple Sign-In, Mada/Tabby/Tamara, Stripe enforcement, SCIM, schema changes, paid auth services.
 
 ---
 

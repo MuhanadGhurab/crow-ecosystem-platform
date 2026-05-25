@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F17 cost-controlled auth & payment readiness)  
+**Last updated:** 25 May 2026 (F18 Google Sign-In & auth UX polish)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,17 +19,20 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F17 — Cost-controlled auth & payment readiness** (25 May 2026).
+**Phase F18 — Google Sign-In integration & auth UX polish** (25 May 2026).
 
-Planning-only phase: auth audit, provider matrix, Google F18 readiness, Apple deferred, billing/Saudi payment matrices, future adapter architecture, cost-control policy, login/pricing UX guidance. **No** live payments, **no** Apple Developer spend, **no** auth behavior changes.
+Google OAuth via Supabase (`provider: google`), shared `/auth/callback`, login UX polish (dark glass card, Microsoft + Google provider section). **No** Apple, **no** live payments, **no** auto `platform_admin`, **no** paid auth services.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Auth + payment readiness | [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
+| Google setup + auth audit | [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
+| Validation checklist | [`F18_AUTH_VALIDATION_CHECKLIST.md`](F18_AUTH_VALIDATION_CHECKLIST.md) |
 
-**Roadmap:** F18 Google + auth UX · F19 Saudi payments architecture · F23 production launch when budget exists.
+**Roadmap:** F19 Saudi payments architecture · F23 production launch when budget exists.
 
-**F17 acceptance:** **PASSED** — audit and matrices complete; validation commands pass.
+**F18 acceptance:** **PASSED** (code + docs) — enable Google in Supabase/Google Cloud per setup doc for live Google login.
+
+**F17 acceptance:** **PASSED** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md).
 
 **Completed prior:** **F16 — Production launch readiness** — F16_* governance docs (**passed**).
 

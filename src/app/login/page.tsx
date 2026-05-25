@@ -5,6 +5,7 @@ import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
 import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
+import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { routes } from "@/lib/routes";
@@ -23,13 +24,17 @@ const ERROR_MESSAGES: Record<string, string> = {
   forbidden: "You do not have permission to access that area.",
   config: "Supabase Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and anon key to .env.",
   auth_callback:
-    "Sign-in could not be completed. For Microsoft: Azure redirect URI must be your Supabase callback (https://<ref>.supabase.co/auth/v1/callback), Supabase allow list must include http://localhost:3000/auth/callback exactly — see docs/internal/ENTRA_SSO.md.",
+    "Sign-in could not be completed. Check Supabase redirect URLs (must include your app /auth/callback) and provider settings — see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md and docs/internal/ENTRA_SSO.md.",
   entra_start_failed:
-    "Could not start Microsoft sign-in. Check NEXT_PUBLIC_SUPABASE_URL, enable the Azure provider in Supabase Dashboard, and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
+    "Could not start Microsoft sign-in. Check Azure provider in Supabase Dashboard and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
   entra_not_configured:
-    "Microsoft SSO is not enabled. Set AZURE_SSO_ENABLED=true, NEXT_PUBLIC_AZURE_TENANT_ID, and configure Azure in Supabase (see docs/internal/ENTRA_SSO.md).",
+    "Microsoft SSO is not enabled. Set AZURE_SSO_ENABLED=true, NEXT_PUBLIC_AZURE_TENANT_ID, and configure Azure in Supabase.",
+  google_start_failed:
+    "Could not start Google sign-in. Enable the Google provider in Supabase Dashboard and set GOOGLE_SSO_ENABLED=true in .env.",
+  google_not_configured:
+    "Google sign-in is not enabled. Set GOOGLE_SSO_ENABLED=true and configure Google in Supabase (see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md).",
   no_role:
-    "Your Microsoft account signed in, but no Crow access is assigned yet. Use the same email as your implementation request to track it, or ask an administrator.",
+    "Your account signed in successfully, but no Crow access is assigned yet. Use the same email as your implementation request to track it, or ask a platform administrator.",
 };
 
 export default async function LoginPage({
@@ -49,18 +54,19 @@ export default async function LoginPage({
   const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;
   const configured = isSupabaseAuthConfigured();
   const entraEnabled = isEntraSsoEnabled();
+  const googleEnabled = isGoogleSsoEnabled();
 
   return (
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
         <CrowMark href="/" size="sm" showTagline={false} />
-        <h1 className="cc-page-title mt-6">Sign in</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          One Microsoft (Entra) identity for customers tracking requests, tenant employees, and Crow
-          staff. Email and password remain available for issued credentials.
+        <h1 className="cc-page-title mt-6">Sign in to Crow Ecosystem</h1>
+        <p className="mt-2 text-sm leading-relaxed text-slate-400">
+          Secure access for customers, tenant teams, and platform operators. Use your
+          organization identity or issued credentials.
         </p>
 
-        {errorMessage && <p className="cc-alert-warning mt-4">{errorMessage}</p>}
+        {errorMessage && <p className="cc-alert-warning mt-5">{errorMessage}</p>}
 
         {!configured ? (
           <p className="mt-6 text-sm text-slate-500">
@@ -71,7 +77,18 @@ export default async function LoginPage({
           </p>
         ) : (
           <div className="mt-6">
-            <SignInForm nextPath={nextPath} entraEnabled={entraEnabled} />
+            <SignInForm
+              nextPath={nextPath}
+              entraEnabled={entraEnabled}
+              googleEnabled={googleEnabled}
+            />
+          </div>
+        )}
+
+        {configured && (
+          <div className="mt-6 space-y-1 border-t border-cyan-500/10 pt-5 text-center text-xs text-slate-500">
+            <p>Platform access is role-based.</p>
+            <p>RBAC controls access. SAREA controls experience.</p>
           </div>
         )}
 

@@ -172,7 +172,11 @@ body {
   }
 
   .cc-btn-microsoft {
-    @apply inline-flex w-full items-center justify-center gap-2 rounded-cc border border-slate-500/30 bg-slate-900/80 px-6 py-3 text-sm font-medium text-white transition hover:border-slate-400/50 hover:bg-slate-800/90 disabled:opacity-50;
+    @apply cc-btn-oauth;
+  }
+
+  .cc-btn-oauth {
+    @apply inline-flex min-h-[44px] w-full items-center justify-center gap-2.5 rounded-cc border border-slate-500/30 bg-slate-900/80 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:border-cyan-500/25 hover:bg-slate-800/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:opacity-50;
   }
 
   .cc-nav-link {

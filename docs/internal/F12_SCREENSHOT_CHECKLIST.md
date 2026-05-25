@@ -41,6 +41,7 @@
 | 13 | `rimal-dashboard.png` | `/rimal-construction/dashboard` | Second tenant, construction | **Yes** | **Not captured** (Entra on staging) |
 | 14 | `admin-notifications.png` | `/admin/notifications` | Operator notification inbox | **Yes** | **Captured** → public |
 | 15 | `najm-request-detail.png` | `/admin/requests/{requestId}` for `CROW-2026-ARAX9K` | Organic aviation pipeline (optional) | Staging only | **Not captured** (optional) |
+| 16 | `login-sign-in.png` | `/login` | F18 auth UX: Microsoft + Google + email, RBAC footer | **Yes** | **Recapture recommended** after F18 login polish |
 
 ---
 
