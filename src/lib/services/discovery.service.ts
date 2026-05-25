@@ -20,7 +20,7 @@ export const discoveryContextInclude = {
       orgIntelligence: true,
     },
   },
-  enterpriseBlueprint: true,
+  enterpriseBlueprint: { include: { tenant: { select: { slug: true } } } },
 } as const;
 
 export type DiscoveryContext = Prisma.ImplementationRequestGetPayload<{
