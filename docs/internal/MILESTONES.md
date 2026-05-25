@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F17** | Cost-controlled auth & payment readiness | Auth/billing audit, Saudi matrix, cost policy | Muhanad | **100%** | **Passed** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
 | **F16** | Production launch readiness | Env governance, deploy runbook, go/no-go | Muhanad | **100%** | **Passed** — [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
 | **F15.6** | Public surface security regression | Post-F15.5 audit: routes, API, auth, mirror | Muhanad | **100%** | **Passed** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) |
 | **F15.5** | Homepage usability & public story | Hero, how-it-works, engines, trust, IA | Muhanad | **100%** | **Passed** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) |
@@ -51,7 +52,21 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Execute production go/no-go on live Vercel Production — [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md).
+**Next:** F18 — Google Sign-In integration & auth UX polish (see [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md)).
+
+---
+
+## F17 — Cost-controlled auth & payment readiness
+
+**Scope:** Plan authentication and Saudi payment paths without activating paid services. Audit email/Entra flows, document Google (F18) and Apple (deferred), audit Stripe scaffold as advisory-only, Saudi PSP matrix, future payment adapter architecture, cost-control policy, login/pricing UX rules.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
+
+**Out of scope:** Live payments, Mada/Tabby/Tamara integration, Apple Sign-In activation, Stripe enforcement, SCIM, schema changes, public redesign.
 
 ---
 

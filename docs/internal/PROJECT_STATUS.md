@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F16 production launch readiness)  
+**Last updated:** 25 May 2026 (F17 cost-controlled auth & payment readiness)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,20 +19,19 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F16 — Production launch readiness & environment governance** (25 May 2026).
+**Phase F17 — Cost-controlled auth & payment readiness** (25 May 2026).
 
-Documentation-only phase: environment matrix, Vercel deploy runbook, Supabase/Auth governance, health/smoke checklist, backup posture, go/no-go matrix, secret boundary cross-check. No product features, schema changes, or Stripe enforcement.
+Planning-only phase: auth audit, provider matrix, Google F18 readiness, Apple deferred, billing/Saudi payment matrices, future adapter architecture, cost-control policy, login/pricing UX guidance. **No** live payments, **no** Apple Developer spend, **no** auth behavior changes.
 
-| F16 deliverable | Doc |
-|-----------------|-----|
-| Environment governance | [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
-| Deployment runbook | [`F16_DEPLOYMENT_RUNBOOK.md`](F16_DEPLOYMENT_RUNBOOK.md) |
-| Auth / Supabase | [`F16_AUTH_SUPABASE_GOVERNANCE.md`](F16_AUTH_SUPABASE_GOVERNANCE.md) |
-| Health / smoke | [`F16_HEALTH_SMOKE_CHECKLIST.md`](F16_HEALTH_SMOKE_CHECKLIST.md) |
-| Backup / restore | [`F16_BACKUP_RESTORE_POSTURE.md`](F16_BACKUP_RESTORE_POSTURE.md) |
-| Go / no-go | [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
+| Deliverable | Doc |
+|-------------|-----|
+| Auth + payment readiness | [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
 
-**F16 acceptance:** **PASSED** — governance docs complete; validation commands pass (see F16 report in session).
+**Roadmap:** F18 Google + auth UX · F19 Saudi payments architecture · F23 production launch when budget exists.
+
+**F17 acceptance:** **PASSED** — audit and matrices complete; validation commands pass.
+
+**Completed prior:** **F16 — Production launch readiness** — F16_* governance docs (**passed**).
 
 **Completed prior:** **F15.6 — Public surface security regression audit** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) (**passed**).
 
