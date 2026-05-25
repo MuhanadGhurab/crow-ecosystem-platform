@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
 import type { ImplementationRequestInput } from "@/lib/types/platform";
+import { generateImplementationReferenceCode } from "@/lib/pipeline/reference-code";
 
 const activeDiscoveryRequestArgs = {
   include: {
@@ -24,19 +25,13 @@ export type ActiveDiscoveryRequestListItem = Prisma.ImplementationRequestGetPayl
   typeof activeDiscoveryRequestArgs
 >;
 
-function generateReferenceCode(): string {
-  const year = new Date().getFullYear();
-  const seq = Math.random().toString(36).slice(2, 8).toUpperCase();
-  return `CROW-${year}-${seq}`;
-}
-
 export async function createImplementationRequest(
   input: ImplementationRequestInput,
   options?: { submittedByUserId?: string }
 ) {
   const created = await prisma.implementationRequest.create({
     data: {
-      referenceCode: generateReferenceCode(),
+      referenceCode: generateImplementationReferenceCode(),
       submittedByUserId: options?.submittedByUserId,
       organizationName: input.organizationName,
       organizationNameAr: input.organizationNameAr,

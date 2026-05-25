@@ -61,7 +61,8 @@ export function resolveSectorTemplateKey(input: {
     if (hint) return hint;
   }
 
-  return "logistics";
+  /** Neutral default when industry and modules are ambiguous — avoids MEEM logistics bias. */
+  return "retail";
 }
 
 /** Scale recommended headcounts by employee band (advisory only). */

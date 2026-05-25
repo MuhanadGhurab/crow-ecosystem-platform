@@ -8,6 +8,10 @@ import { DISCOVERY_INDUSTRY_OPTIONS } from "@/lib/constants/industry-templates";
 import { SECURITY_PACKAGES, type SecurityPackageKey } from "@/lib/constants/security-packages";
 import { SUBSCRIPTION_TIERS, type SubscriptionTierKey } from "@/lib/constants/subscriptions";
 import type { ImplementationRequestInput } from "@/lib/types/platform";
+import {
+  intakeHttpErrorMessage,
+  validatePublicIntakeClient,
+} from "@/lib/security/public-intake-schema";
 import { RequestLiveSummary } from "@/components/public/request-live-summary";
 import { RequestWizardStepper } from "@/components/public/request-wizard-stepper";
 import { TurnstileField } from "@/components/public/turnstile-field";
@@ -88,6 +92,7 @@ function computeProgress(fields: {
 export function ImplementationRequestForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [reference, setReference] = useState<string | null>(null);
   const [activeStep, setActiveStep] = useState<(typeof STEPS)[number]>("01");
 
@@ -130,6 +135,7 @@ export function ImplementationRequestForm() {
     if (!form) return;
 
     setStatus("loading");
+    setErrorMessage(null);
     const fd = new FormData(form);
 
     const honeypot = String(fd.get("companyWebsite") || "");
@@ -152,6 +158,13 @@ export function ImplementationRequestForm() {
       },
     };
 
+    const clientCheck = validatePublicIntakeClient(payload);
+    if (!clientCheck.ok) {
+      setErrorMessage(clientCheck.message);
+      setStatus("error");
+      return;
+    }
+
     const apiBody = { ...payload, ...intakeMeta };
 
     try {
@@ -166,10 +179,15 @@ export function ImplementationRequestForm() {
         setStatus("success");
         return;
       }
-      if (res.status === 429) {
-        setStatus("error");
-        return;
+      let errBody: unknown = null;
+      try {
+        errBody = await res.json();
+      } catch {
+        /* non-json */
       }
+      setErrorMessage(intakeHttpErrorMessage(res.status, errBody));
+      setStatus("error");
+      return;
     } catch {
       /* server action fallback */
     }
@@ -178,7 +196,10 @@ export function ImplementationRequestForm() {
       const result = await submitImplementationRequest(payload, intakeMeta);
       setReference(result.referenceCode);
       setStatus("success");
-    } catch {
+    } catch (e) {
+      setErrorMessage(
+        e instanceof Error ? e.message : "We could not submit your request. Please try again."
+      );
       setStatus("error");
     }
   }
@@ -504,8 +525,9 @@ export function ImplementationRequestForm() {
               </button>
             </div>
             {status === "error" && (
-              <p className="cc-alert-error mt-4 animate-cc-fade-up">
-                Submission failed — ensure the database is available and try again.
+              <p className="cc-alert-error mt-4 animate-cc-fade-up" role="alert">
+                {errorMessage ??
+                  "We could not submit your request. Check required fields and try again."}
               </p>
             )}
           </div>

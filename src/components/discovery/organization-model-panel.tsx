@@ -277,7 +277,7 @@ function PlanAdvisoryBanner({
       : planKey === "growth"
         ? {
             headline: "Crow Growth — expands operational structure and workflows",
-            body: "Recommendations add multi-branch patterns, richer approval chains, and operational blueprint depth suited to scaling logistics and holding groups.",
+            body: "Recommendations add multi-branch patterns, richer approval chains, and operational blueprint depth suited to scaling multi-site and holding-group operations.",
             upgrade:
               "Upgrade to Crow Enterprise when you need Entra ID SSO, SCIM, full organizational intelligence, and executive command center experiences.",
           }

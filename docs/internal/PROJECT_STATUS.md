@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F6 second-tenant hardening)  
+**Last updated:** 25 May 2026 (F7 public→discovery pipeline)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,13 +19,15 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F6 — second tenant onboarding hardening** (validation passed 25 May 2026).
+**Phase F7 — public request → Discovery pipeline hardening** (25 May 2026).
 
-Synthetic tenant **Rimal Construction** (`rimal-construction`, construction sector) exercises the full pipeline without MEEM logistics coupling. Detail: [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+Hardens reusable intake → admin review → discovery bootstrap and sector templates (construction + logistics paths) without public redesign. Detail: [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) · checkpoint [`F7_DEPLOYMENT_CHECKPOINT.md`](F7_DEPLOYMENT_CHECKPOINT.md).
 
-**Scripts:** `npm run tenant:seed:rimal` · `npm run tenant:verify:rimal` · MEEM regression `npm run sarea:meem-verify`
+**Scripts:** `npm run request:pipeline:verify` · `npm run discovery:verify:meem` · `npm run discovery:verify:rimal` · F6 `npm run tenant:verify:rimal` · MEEM `npm run meem:ids:staging`
 
-RC1 remains the staging health baseline; F6 does not replace production-readiness planning.
+**Completed prior:** F6 Rimal second tenant — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md).
+
+RC1 remains the staging health baseline; F7 does not replace production-readiness planning.
 
 ---
 
@@ -37,7 +39,7 @@ Pick **one primary track** after planning; others can run in parallel only if re
 |---|--------|---------|
 | 1 | **Production readiness** | Azure or Vercel prod, domain, Entra prod redirects, migrate deploy in release, health smoke |
 | 2 | **Public portfolio polish** | README/screenshots, sanitized public docs, contributor onboarding |
-| 3 | **Tenant onboarding hardening** | **F6 active** — `tenant:seed:rimal`, construction sector, [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
+| 3 | **Tenant onboarding hardening** | **F6 passed** — Rimal; **F7 passed** — pipeline verify scripts |
 | 4 | **Package UX** | Startup / Growth / Enterprise surfaces — still advisory unless billing chosen |
 | 5 | **Security hardening** | Rate limiting, Turnstile on public request API, extended audit |
 | 6 | **Stripe live alignment** | Live checkout, webhook reconciliation, enforcement policy decision |

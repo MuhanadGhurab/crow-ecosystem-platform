@@ -6,8 +6,10 @@ import type { DiscoveryTemplatePack } from "@/lib/types/discovery-template";
 export const DISCOVERY_INDUSTRY_OPTIONS = [
   { value: "", label: "General / other" },
   { value: "logistics", label: "Logistics & supply chain" },
+  { value: "construction", label: "Construction & engineering" },
   { value: "retail", label: "Retail" },
   { value: "healthcare", label: "Healthcare" },
+  { value: "aviation", label: "Aviation & aerospace" },
 ] as const;
 
 export type DiscoveryIndustryKey = "logistics" | "retail" | "healthcare";

@@ -69,3 +69,49 @@ export function publicIntakeValidationErrorBody(err: z.ZodError): { error: unkno
 export function publicIntakeServiceUnavailableBody(): { error: string } {
   return { error: "Service temporarily unavailable. Please try again later." };
 }
+
+/** Client-side mirror of server validation (wizard submit). */
+export function validatePublicIntakeClient(
+  payload: unknown
+): { ok: true; data: PublicIntakePayload } | { ok: false; message: string } {
+  const parsed = createPublicIntakeSchema.safeParse(payload);
+  if (!parsed.success) {
+    const body = publicIntakeValidationErrorBody(parsed.error);
+    const message =
+      typeof body.error === "string"
+        ? body.error
+        : "Check required fields: organization name, contact name, and a valid email.";
+    return { ok: false, message };
+  }
+  return { ok: true, data: parsed.data };
+}
+
+export function intakeHttpErrorMessage(status: number, body: unknown): string {
+  if (status === 429) {
+    return "Too many requests. Please wait a few minutes and try again.";
+  }
+  if (status === 413) {
+    return "Submission is too large. Shorten notes and try again.";
+  }
+  if (body && typeof body === "object" && "error" in body) {
+    const err = (body as { error: unknown }).error;
+    if (typeof err === "string") return err;
+    if (err && typeof err === "object") {
+      const flat = err as {
+        fieldErrors?: Record<string, string[]>;
+        formErrors?: string[];
+      };
+      const parts = [
+        ...(flat.formErrors ?? []),
+        ...Object.entries(flat.fieldErrors ?? {}).flatMap(([field, msgs]) =>
+          msgs.map((m) => `${field}: ${m}`)
+        ),
+      ];
+      if (parts.length > 0) return parts.slice(0, 3).join(" ");
+    }
+  }
+  if (status === 503) {
+    return publicIntakeServiceUnavailableBody().error;
+  }
+  return "We could not submit your request. Check required fields and try again.";
+}

@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F7** | Public → Discovery pipeline | Intake, admin, sector templates | Muhanad | **100%** | **Passed** — [`F7_PUBLIC_DISCOVERY_PIPELINE.md`](F7_PUBLIC_DISCOVERY_PIPELINE.md) |
 | **F6** | Second tenant onboarding (Rimal) | Construction sector, isolation | Muhanad | **100%** | **Passed** — [`F6_SECOND_TENANT_ONBOARDING.md`](F6_SECOND_TENANT_ONBOARDING.md) |
 | **RC1** | Staging deploy & health validation | Staging sign-off | Muhanad | **100%** | **Passed** — [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) |
 | **M1** | Platform foundation | 0, 1, 2, 7b | Muhanad | **100%** | Done |
@@ -39,7 +40,21 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Complete F6 validation gate (section 15 in F6 doc) — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+**Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F7 — Public request → Discovery pipeline
+
+**Scope:** Audit and harden public `/request` intake, admin approve/reject, discovery bootstrap, multi-sector org intelligence (not logistics-only default).
+
+| Done | Open |
+|------|------|
+| Audit + fixes in F7 doc | `NEEDS_INFO` admin state (schema) |
+| `request:pipeline:verify` scripts | Construction discovery JSON template pack |
+| Reference code + sector bootstrap | Live browser E2E for new organic requests |
+
+**Verification:** `npm run request:pipeline:verify` + MEEM/Rimal tenant scripts.
 
 ---
 

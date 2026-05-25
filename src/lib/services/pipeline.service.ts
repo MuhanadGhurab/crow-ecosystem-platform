@@ -11,7 +11,11 @@ import {
   seedCybercrowEvidenceIfMissing,
 } from "@/lib/services/cybercrow-seed.service";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
-import { seedSareaProfileDefaults, PERSONA_DISPLAY_NAMES } from "@/lib/services/sarea-seed.service";
+import {
+  seedSareaProfileDefaults,
+  PERSONA_DISPLAY_NAMES,
+  SAREA_DEFAULT_PERSONA_KEYS,
+} from "@/lib/services/sarea-seed.service";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { seedTenantCemFromDiscovery } from "@/lib/services/tenant-cem-seed.service";
 import { seedLogisticsAuditSamples } from "@/lib/services/cybercrow-logistics-audit.service";
@@ -19,6 +23,7 @@ import { syncBlueprintOrgModelFromDiscovery } from "@/lib/services/org-intellige
 import { enrichTenantFromBlueprint } from "@/lib/services/tenant-ops-seed.service";
 import { ensureTenantSubscriptionForPlan } from "@/lib/services/billing-subscription.service";
 import { normalizePlanKey } from "@/lib/subscription/plan-capabilities";
+import { resolveSectorTemplateKey } from "@/lib/org-intelligence/resolve-sector";
 
 const LOGISTICS_OPS_MODULE_KEYS = new Set([
   "logistics",
@@ -31,6 +36,11 @@ const LOGISTICS_OPS_MODULE_KEYS = new Set([
 /** Start discovery for an approved request — creates discovery_profile */
 export async function startDiscovery(requestId: string) {
   return prismaTransaction(async (tx: Prisma.TransactionClient) => {
+    const before = await tx.implementationRequest.findUniqueOrThrow({
+      where: { id: requestId },
+      include: { requestedModules: true },
+    });
+
     const request = await tx.implementationRequest.update({
       where: { id: requestId },
       data: { status: "UNDER_DISCOVERY" },
@@ -40,6 +50,27 @@ export async function startDiscovery(requestId: string) {
       where: { requestId },
       create: { requestId, status: "IN_PROGRESS" },
       update: { status: "IN_PROGRESS" },
+    });
+
+    const sectorKey = resolveSectorTemplateKey({
+      industry: before.industry,
+      moduleKeys: before.requestedModules.map((m) => m.moduleKey),
+    });
+    await tx.discoveryAnswer.upsert({
+      where: {
+        profileId_sectionKey_questionKey: {
+          profileId: profile.id,
+          sectionKey: "org_intelligence",
+          questionKey: "sectorTemplateKey",
+        },
+      },
+      create: {
+        profileId: profile.id,
+        sectionKey: "org_intelligence",
+        questionKey: "sectorTemplateKey",
+        valueJson: sectorKey,
+      },
+      update: { valueJson: sectorKey },
     });
 
     const contact = await tx.requestContact.findFirst({
@@ -183,7 +214,7 @@ export async function provisionAndInitializeTenant(
   tenantSlug: string,
   organizationName: string,
   planKey: string,
-  personaKeys: string[] = ["executive", "manager", "frontline"]
+  personaKeys: string[] = [...SAREA_DEFAULT_PERSONA_KEYS]
 ) {
   const resolvedPlanKey = normalizePlanKey(planKey);
 
