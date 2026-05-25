@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F15 CyberCrow SOC workflow depth)  
+**Last updated:** 25 May 2026 (F15.5 homepage usability)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F15 — CyberCrow SOC workflow depth** (25 May 2026).
+**Phase F15.5 — Homepage usability & public story clarity** (25 May 2026).
 
-Tenant CyberCrow surfaces now emphasize the operational chain: security event review → escalation → incident status → evidence readiness → rule-based risk → audit linkage. Honest advisory language; no fake AI/SIEM; no schema changes; permissions unchanged. Detail: [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md).
+Public homepage (`/`) reordered for first-time visitors: clearer hero, six-step “how it works,” plain CEM/CyberCrow/SAREA section with RBAC vs SAREA line, “built for” audiences, lifecycle strip, and public-safe trust proof. No backend/schema changes; no fake compliance or AI claims. Detail: [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md).
 
-**F15 acceptance:** **PASSED** — SOC workflow depth; MEEM/Rimal/pipeline verify green; typecheck/lint/build/mirror pass.
+**F15.5 acceptance:** **PASSED** — typecheck/lint/build/mirror pass; `homepage-hero.png` recapture recommended.
+
+**Completed prior:** **F15 — CyberCrow SOC workflow depth** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) (**passed**).
 
 **Completed prior:** **F14 — SAREA Studio visibility & safe controls** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) (**passed**).
 

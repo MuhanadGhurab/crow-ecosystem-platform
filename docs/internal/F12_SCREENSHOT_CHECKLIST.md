@@ -12,33 +12,35 @@
 
 ## Pre-capture
 
-- [ ] Staging or local with `AUTH_DISABLED` + `USE_MOCK_DATA` chosen intentionally
-- [ ] Platform Admin session for admin/blueprint shots
-- [ ] Window 1440×900 or 1920×1080, browser zoom 100%
-- [ ] Hide bookmarks bar; close unrelated tabs
-- [ ] Confirm no `.env` values visible on screen
+- [x] Staging or local with `AUTH_DISABLED` + `USE_MOCK_DATA` chosen intentionally (F13 local mock)
+- [ ] Platform Admin session for admin/blueprint shots (staging live demo — still pending)
+- [x] Window 1440×900, browser zoom 100%
+- [x] Hide bookmarks bar; close unrelated tabs
+- [x] Confirm no `.env` values visible on screen
+
+**F13 capture:** [`scripts/capture-f13-screenshots.mjs`](../../scripts/capture-f13-screenshots.mjs) · Notes: [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md)
 
 ---
 
 ## Shots
 
-| # | Suggested filename | Route | What it proves | Public-safe |
-|---|-------------------|-------|----------------|-------------|
-| 1 | `homepage-hero.png` | `/` | Public positioning, three engines | **Yes** |
-| 2 | `public-request.png` | `/request` | Governed intake | **Yes** |
-| 3 | `architecture.png` | `/architecture` | Lifecycle + surfaces (if `/` is light) | **Yes** |
-| 4 | `admin-operator-console.png` | `/admin/overview` | Pipeline buckets, operator command center | **Yes** (no internal IDs in crop) |
-| 5 | `admin-request-detail.png` | `/admin/requests/{requestId}` | Reference, next action, pipeline links | **Yes** — blur/crop if internal id in URL |
-| 6 | `discovery-summary.png` | `/discovery/{requestId}/summary` | Sector discovery, handoff | **Yes** |
-| 7 | `blueprint-overview.png` | `/blueprints/{blueprintId}/overview` | Blueprint contract | **Yes** |
-| 8 | `blueprint-readiness.png` | `/blueprints/{blueprintId}/readiness` | Readiness gates | **Yes** |
-| 9 | `blueprint-go-live.png` | `/blueprints/{blueprintId}/go-live` | Go-live bridge (no provision clicked) | **Yes** |
-| 10 | `meem-dashboard.png` | `/meem-global/dashboard` | Lighthouse CEM runtime | **Yes** (slug is public-safe) |
-| 11 | `cybercrow-dashboard.png` | `/meem-global/cybercrow/dashboard` | Trust orchestration on tenant | **Yes** |
-| 12 | `sarea-preview.png` | `/sarea/preview` | Persona / adaptive UX | **Yes** |
-| 13 | `rimal-dashboard.png` | `/rimal-construction/dashboard` | Second tenant, construction | **Yes** |
-| 14 | `admin-notifications.png` | `/admin/notifications` | Operator notification inbox | **Yes** |
-| 15 | `najm-request-detail.png` | `/admin/requests/{requestId}` for `CROW-2026-ARAX9K` | Organic aviation pipeline (optional) | **Yes** — caption as “staging validation”, not customer endorsement |
+| # | Suggested filename | Route | What it proves | Public-safe | F13 status |
+|---|-------------------|-------|----------------|-------------|------------|
+| 1 | `homepage-hero.png` | `/` | Public positioning, hero + story clarity (F15.5) | **Yes** | **Recapture recommended** after F15.5 hero/IA change |
+| 2 | `public-request.png` | `/request` | Governed intake | **Yes** | **Captured** → public |
+| 3 | `architecture.png` | `/architecture` | Lifecycle + surfaces | **Yes** | **Captured** → public |
+| 4 | `admin-operator-console.png` | `/admin/overview` | Pipeline buckets, operator command center | **Yes** | **Captured** → public |
+| 5 | `admin-request-detail.png` | `/admin/requests/mock-req-meem` | Reference, next action, pipeline links | **No** (internal doc paths in UI) | **Captured** → **internal only** |
+| 6 | `discovery-summary.png` | `/discovery/mock-req-meem-discovery/summary` | Sector discovery, handoff | **Yes** | **Captured** → public |
+| 7 | `blueprint-overview.png` | `/blueprints/mock-bp-meem/overview` | Blueprint contract | **Yes** | **Captured** → public |
+| 8 | `blueprint-readiness.png` | `/blueprints/mock-bp-meem/readiness` | Readiness gates | **Yes** | **Captured** → public |
+| 9 | `blueprint-go-live.png` | `/blueprints/mock-bp-meem/go-live` | Go-live bridge (no provision clicked) | **Yes** | **Captured** → public |
+| 10 | `meem-dashboard.png` | `/meem-global/dashboard` | Lighthouse CEM runtime | **Yes** | **Captured** → public |
+| 11 | `cybercrow-dashboard.png` | `/meem-global/cybercrow/dashboard` | Trust orchestration on tenant | **Yes** | **Captured** → public |
+| 12 | `sarea-preview.png` | `/sarea/preview` | Persona / adaptive UX | **Yes** | **Captured** → public |
+| 13 | `rimal-dashboard.png` | `/rimal-construction/dashboard` | Second tenant, construction | **Yes** | **Not captured** (Entra on staging) |
+| 14 | `admin-notifications.png` | `/admin/notifications` | Operator notification inbox | **Yes** | **Captured** → public |
+| 15 | `najm-request-detail.png` | `/admin/requests/{requestId}` for `CROW-2026-ARAX9K` | Organic aviation pipeline (optional) | Staging only | **Not captured** (optional) |
 
 ---
 
@@ -69,10 +71,10 @@
 
 ## After capture
 
-- [ ] Optimize PNG/WebP (reasonable file size)
-- [ ] Embed in root [`README.md`](../../README.md) per screenshots README
+- [ ] Optimize PNG/WebP (reasonable file size) — `homepage-hero.png` still large
+- [x] Embed in root [`README.md`](../../README.md) per screenshots README (subset linked)
 - [ ] Update [`F12_DEMO_STORYBOARD.md`](F12_DEMO_STORYBOARD.md) if routes changed
-- [ ] Check [`npm run public:mirror-manifest`](../../package.json) still excludes `docs/internal`
+- [x] Check [`npm run public:mirror-manifest`](../../package.json) still excludes `docs/internal`
 
 ---
 

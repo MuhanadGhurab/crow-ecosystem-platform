@@ -7,10 +7,10 @@ export function PublicLifecycleStrip() {
     <section className="cc-safe-x mx-auto max-w-6xl py-12 sm:py-16">
       <div className="text-center">
         <span className="cc-star-badge">North-star journey</span>
-        <h2 className="cc-section-title mt-4">Request → Go-live</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-400">
-          One governed path from implementation intake through discovery, blueprint pricing, and
-          tenant provisioning.
+        <h2 className="cc-section-title mt-4">Platform lifecycle</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
+          Eight milestones on one path — from your first implementation request through discovery,
+          blueprint, pricing, provisioning, security and experience initialization, and go-live.
         </p>
       </div>
       <div className="cc-scroll-chips mt-8 justify-center lg:flex-wrap lg:overflow-visible lg:pb-0">
@@ -29,7 +29,7 @@ export function PublicLifecycleStrip() {
       </div>
       <div className="mt-8 flex justify-center">
         <Link href="/request" className="cc-btn-primary min-w-[14rem]">
-          Start implementation request →
+          Start an Enterprise Request →
         </Link>
       </div>
     </section>

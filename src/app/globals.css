@@ -550,7 +550,7 @@ body {
   }
 
   .cc-entity-badge--blueprint {
-    @apply border-violet-500/35 bg-gradient-to-r from-violet-500/12 to-cyan-500/10 text-violet-100;
+    @apply border-violet-500/35 bg-gradient-to-r from-violet-500/10 to-cyan-500/10 text-violet-100;
   }
 
   .cc-public-band {

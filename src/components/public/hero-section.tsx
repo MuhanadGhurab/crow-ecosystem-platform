@@ -3,11 +3,10 @@ import Link from "next/link";
 
 import { CrowMotif } from "@/components/public/crow-motif";
 import {
-  FULL_PLATFORM_LIFECYCLE,
-  PLATFORM_BRAND_TAGLINE,
-  PLATFORM_HERO_STATEMENT,
-  PLATFORM_IDENTITIES,
-} from "@/lib/constants/platform";
+  HOMEPAGE_HERO_EXPLAINER,
+  HOMEPAGE_HERO_HEADLINE,
+  HOMEPAGE_HERO_SUBHEADLINE,
+} from "@/lib/constants/homepage";
 
 /** Homepage hero wordmark — not used in nav, favicon, or app chrome. */
 export const CYBERCROW_HERO_IMAGE = "/images/cybercrow-hero.png";
@@ -15,43 +14,10 @@ export const CYBERCROW_HERO_IMAGE = "/images/cybercrow-hero.png";
 const HERO_IMAGE_WIDTH = 1024;
 const HERO_IMAGE_HEIGHT = 682;
 
-const HERO_IDENTITIES = [
-  PLATFORM_IDENTITIES.cem,
-  PLATFORM_IDENTITIES.cybercrow,
-  PLATFORM_IDENTITIES.sarea,
-] as const;
-
-const IDENTITY_STYLES: Record<
-  string,
-  { ring: string; label: string; glow: string; border: string; badge: string }
-> = {
-  cem: {
-    ring: "from-cyan-600/25 to-teal-500/10",
-    label: "text-cyan-400",
-    glow: "shadow-cc-glow-cem",
-    border: "hover:border-cyan-400/35",
-    badge: "cc-entity-badge--cem",
-  },
-  cybercrow: {
-    ring: "from-violet-600/30 to-indigo-500/12",
-    label: "text-violet-400",
-    glow: "shadow-cc-glow-cybercrow",
-    border: "hover:border-violet-400/35",
-    badge: "cc-entity-badge--cybercrow",
-  },
-  sarea: {
-    ring: "from-rose-600/25 to-amber-500/10",
-    label: "text-rose-300",
-    glow: "shadow-cc-glow-sarea",
-    border: "hover:border-rose-400/35",
-    badge: "cc-entity-badge--sarea",
-  },
-};
-
 export function HeroSection() {
   return (
     <section
-      className="relative min-h-[90vh] overflow-hidden px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-12 lg:min-h-[92vh] lg:px-8"
+      className="relative min-h-[78vh] overflow-hidden px-4 pb-14 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:min-h-[82vh] lg:px-8"
       aria-labelledby="hero-heading"
     >
       <div
@@ -84,32 +50,32 @@ export function HeroSection() {
       <div className="relative mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
           <div className="order-1 flex min-w-0 flex-col items-center text-center lg:items-start lg:text-start">
-            <span className="cc-star-badge">NCA-aligned · Enterprise-grade</span>
-            <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.35em] text-slate-500 sm:text-xs">
-              Kingdom of Saudi Arabia · GCC
-            </p>
+            <span className="cc-star-badge">Crow Ecosystem · Enterprise orchestration</span>
             <h1
               id="hero-heading"
-              className="mt-6 max-w-4xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+              className="mt-6 max-w-4xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl"
             >
-              Crow Ecosystem
-              <span className="mt-2 block bg-gradient-to-r from-violet-400 via-cyan-300 to-rose-300 bg-clip-text text-transparent">
-                Platform
-              </span>
+              {HOMEPAGE_HERO_HEADLINE}
             </h1>
-            <p className="mt-5 max-w-2xl text-lg font-medium text-slate-200 sm:text-xl">
-              {PLATFORM_BRAND_TAGLINE}
+            <p className="mt-4 max-w-2xl text-lg font-medium text-slate-300 sm:text-xl">
+              {HOMEPAGE_HERO_SUBHEADLINE}
             </p>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-400 sm:text-lg">
-              {PLATFORM_HERO_STATEMENT}
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
+              {HOMEPAGE_HERO_EXPLAINER}
             </p>
 
-            <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center lg:justify-start">
+            <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link href="/request" className="cc-btn-primary w-full px-8 sm:w-auto">
-                Start your ecosystem →
+                Start an Enterprise Request →
               </Link>
               <Link href="/architecture" className="cc-btn-secondary w-full sm:w-auto">
-                See the architecture
+                Explore the Architecture
+              </Link>
+              <Link
+                href="/security"
+                className="w-full text-center text-sm font-medium text-violet-400 transition hover:text-violet-300 sm:w-auto sm:px-4"
+              >
+                View Security Layer →
               </Link>
             </div>
           </div>
@@ -127,7 +93,7 @@ export function HeroSection() {
               <div className="relative overflow-hidden rounded-2xl ring-1 ring-cyan-500/20 shadow-[0_12px_48px_rgba(34,211,238,0.14)] transition-transform duration-500 ease-out group-hover:scale-[1.02] lg:rounded-3xl">
                 <Image
                   src={CYBERCROW_HERO_IMAGE}
-                  alt="CyberCrow — intelligent security and operations"
+                  alt="CyberCrow — security and trust layer in the Crow Ecosystem"
                   width={HERO_IMAGE_WIDTH}
                   height={HERO_IMAGE_HEIGHT}
                   priority
@@ -136,47 +102,6 @@ export function HeroSection() {
                 />
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="mt-14 grid gap-4 sm:mt-16 sm:grid-cols-3 sm:gap-5">
-          {HERO_IDENTITIES.map((identity, index) => {
-            const style = IDENTITY_STYLES[identity.id] ?? IDENTITY_STYLES.cem;
-            const featured = index === 1;
-            return (
-              <article
-                key={identity.id}
-                className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${style.ring} p-6 backdrop-blur-xl transition duration-300 ${style.border} ${style.glow} ${featured ? "sm:-mt-4 sm:pb-8" : ""}`}
-              >
-                <div className="absolute right-4 top-4 font-mono text-[10px] text-slate-600">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-                <span className={`cc-entity-badge ${style.badge} mb-3`}>{identity.name}</span>
-                <h2 className="font-display text-xl font-bold text-white">{identity.fullName}</h2>
-                <p className="mt-2 text-sm italic text-slate-300">{identity.tagline}</p>
-                <p className="mt-4 text-sm leading-relaxed text-slate-400">{identity.description}</p>
-              </article>
-            );
-          })}
-        </div>
-
-        <div className="mt-16 sm:mt-20">
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
-            One path · Eight milestones
-          </p>
-          <div className="cc-scroll-chips mt-6 justify-center lg:flex-wrap lg:overflow-visible lg:pb-0">
-            <ol className="flex gap-2 lg:flex-wrap lg:justify-center">
-              {FULL_PLATFORM_LIFECYCLE.map((label, index) => (
-                <li key={label}>
-                  <span className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-slate-200 backdrop-blur-md transition hover:border-cyan-400/30 hover:text-white">
-                    <span className="font-mono text-xs font-bold text-cc-star">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
       </div>

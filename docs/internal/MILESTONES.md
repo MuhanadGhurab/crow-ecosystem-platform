@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F15.5** | Homepage usability & public story | Hero, how-it-works, engines, trust, IA | Muhanad | **100%** | **Passed** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) |
 | **F15** | CyberCrow SOC workflow depth | Event→incident chain, evidence, risk explainability, dashboard SOC | Muhanad | **100%** | **Passed** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
 | **F14** | SAREA Studio visibility & safe controls | Studio audit, overview, safe edits, admin tab | Muhanad | **100%** | **Passed** — [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
 | **F13** | Demo rehearsal & screenshot capture | Mock walkthrough, 12 public PNGs, README embeds | Muhanad | **100%** | **Passed** — [`F13_DEMO_REHEARSAL_NOTES.md`](F13_DEMO_REHEARSAL_NOTES.md) |
@@ -48,7 +49,23 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Phase F production readiness or public portfolio polish — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+**Next:** Phase F16 production launch readiness — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
+---
+
+## F15.5 — Homepage usability & public story clarity
+
+**Scope:** Improve public homepage (`/`) for first-time visitors — hero clarity, how-it-works, plain CEM/CyberCrow/SAREA, audiences, trust proof, IA reorder. No full public redesign, backend, schema, or overclaims.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Audit + acceptance | [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) |
+| Homepage copy | [`src/lib/constants/homepage.ts`](../../src/lib/constants/homepage.ts) |
+| Homepage UI | [`src/app/(public)/page.tsx`](../../src/app/(public)/page.tsx) · [`src/components/public/hero-section.tsx`](../../src/components/public/hero-section.tsx) |
+
+**Deferred:** Full public site copy pass; homepage hero screenshot recapture (`homepage-hero.png`).
 
 ---
 
