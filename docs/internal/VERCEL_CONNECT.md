@@ -66,6 +66,7 @@ USER_EMAIL=you@example.com CROW_ROLE=platform_admin npm run auth:bootstrap
 | Build error | Fix |
 |-------------|-----|
 | **`Can't reach database server at localhost:5432`** | **Vercel `DATABASE_URL` is your local PC URL.** Replace with Supabase pooler URLs from `.env.staging` — not `crow_ecosystem@localhost`. |
+| **`Can't reach database server at db.<ref>.supabase.co:5432` (P1001)** | **Wrong connection string on Vercel.** Use **Session pooler** for `DIRECT_URL` and **Transaction pooler** for `DATABASE_URL` (`aws-*-*.pooler.supabase.com`), not the “Direct connection” `db.<ref>.supabase.co` host. Copy from `.env.staging`. |
 | Build runs `npm run db:generate && ...` without `vercel-build-guard` | Vercel **Project Settings → Build** may override `vercel.json`. Clear override or use latest `main` with guard in `buildCommand`. |
 | `DATABASE_URL points at localhost` | Replace with Supabase pooler URLs in Vercel env |
 | `DATABASE_URL is not set` | Add env vars; redeploy |

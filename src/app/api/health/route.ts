@@ -46,8 +46,23 @@ export async function GET() {
     !isAuthDisabled() &&
     Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim());
 
+  const ok = db === "ok" && !productionBlocked;
+
+  // RC1 SEC-005: full detail for staging/dev smoke; reduced surface in production.
+  const verboseHealth =
+    process.env.HEALTH_DETAIL === "verbose" ||
+    (process.env.HEALTH_DETAIL !== "minimal" && process.env.NODE_ENV !== "production");
+
+  if (!verboseHealth) {
+    return NextResponse.json({
+      ok,
+      db,
+      deployReady,
+    });
+  }
+
   return NextResponse.json({
-    ok: db === "ok" && !productionBlocked,
+    ok,
     db,
     auth,
     mockData: isUseMockData(),

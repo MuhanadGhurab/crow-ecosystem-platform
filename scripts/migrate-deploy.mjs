@@ -19,6 +19,16 @@ if (result.stderr) process.stderr.write(result.stderr);
 
 const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
 
+if (result.status !== 0 && /P1001/i.test(output)) {
+  console.error(
+    "\n✗ Cannot reach database server (P1001) during migrate deploy.\n" +
+      "  If the host is db.<ref>.supabase.co, replace Vercel DIRECT_URL with the Session pooler (port 5432).\n" +
+      "  Copy fresh URIs from Supabase → Database → Connect (same project as auth).\n" +
+      "  Local check: npm run db:test\n"
+  );
+  process.exit(1);
+}
+
 if (result.status !== 0 && /P1000/i.test(output)) {
   console.error(
     "\n✗ Database authentication failed (P1000). Vercel cannot finish migrate deploy.\n" +

@@ -9,6 +9,7 @@ import { canAccessTenant, getCrowAuth, isClient } from "@/lib/auth/roles";
 import {
   getTenantSlugFromPath,
   isAuthApiPath,
+  isHandlerAuthorizedApiPath,
   isPlatformPath,
   isPortalPath,
   isPublicApiPath,
@@ -125,6 +126,9 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (pathname.startsWith("/api/")) {
+    if (isHandlerAuthorizedApiPath(pathname, request.method)) {
+      return response;
+    }
     if (!canAccessPlatformPath(role, "/admin/overview")) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }

@@ -58,6 +58,14 @@ check(
 );
 
 check(
+  "pooler hosts (not db.<ref>.supabase.co)",
+  !/db\.[a-z0-9]+\.supabase\.co/i.test(databaseUrl) &&
+    !/db\.[a-z0-9]+\.supabase\.co/i.test(directUrl),
+  "use aws-*-*.pooler.supabase.com — direct db host causes P1001 on Vercel",
+  "Supabase Connect → Session (5432) + Transaction (6543) pooler URIs"
+);
+
+check(
   "AUTH_DISABLED",
   process.env.AUTH_DISABLED !== "true",
   "must not be true in production",

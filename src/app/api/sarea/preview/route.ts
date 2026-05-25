@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { safeRedirectPath } from "@/lib/http/safe-redirect-path";
 import { SAREA_PREVIEW_COOKIE } from "@/lib/sarea/preview-cookie";
 
 const VALID = new Set(["executive", "manager", "frontline"]);
@@ -7,7 +8,7 @@ const VALID = new Set(["executive", "manager", "frontline"]);
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const persona = url.searchParams.get("persona");
-  const redirectTo = url.searchParams.get("redirect") ?? "/meem-global/dashboard";
+  const redirectTo = safeRedirectPath(url.searchParams.get("redirect"));
 
   const res = NextResponse.redirect(new URL(redirectTo, url.origin));
 

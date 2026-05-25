@@ -80,12 +80,26 @@ export function isAuthApiPath(pathname: string): boolean {
   return pathname.startsWith("/auth/");
 }
 
-/** Public API routes for intake and baseline health smoke. */
+/** Public API routes for intake, health smoke, and Stripe webhooks (handler verifies signature). */
 export function isPublicApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/health" && method === "GET") {
     return true;
   }
   if (pathname === "/api/implementation-requests" && method === "POST") {
+    return true;
+  }
+  if (pathname === "/api/billing/webhook" && method === "POST") {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Authenticated API routes that enforce authorization in the route handler.
+ * Middleware requires a session but does not require platform staff (RC1 SEC-003).
+ */
+export function isHandlerAuthorizedApiPath(pathname: string, method: string): boolean {
+  if (pathname === "/api/billing/checkout" && method === "POST") {
     return true;
   }
   return false;

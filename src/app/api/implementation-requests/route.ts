@@ -16,6 +16,9 @@ const securityPackageKeySchema = z.enum(
   SECURITY_PACKAGES.map((p) => p.key) as [SecurityPackageKey, ...SecurityPackageKey[]]
 );
 
+/** Conservative JSON cap for public intake (RC1 SEC-004/006). */
+const MAX_IMPLEMENTATION_REQUEST_BYTES = 256 * 1024;
+
 const createSchema = z.object({
   organizationName: z.string().min(2),
   organizationNameAr: z.string().optional(),
@@ -36,6 +39,14 @@ const createSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const contentLength = request.headers.get("content-length");
+    if (contentLength) {
+      const bytes = Number.parseInt(contentLength, 10);
+      if (!Number.isNaN(bytes) && bytes > MAX_IMPLEMENTATION_REQUEST_BYTES) {
+        return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+      }
+    }
+
     const body = await request.json();
     const parsed = createSchema.parse(body);
 

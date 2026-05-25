@@ -21,4 +21,18 @@ if (onCloud) {
     console.error("  See docs/internal/VERCEL_CONNECT.md\n");
     process.exit(1);
   }
+
+  const direct = process.env.DIRECT_URL ?? "";
+  const usesLegacyDirectHost =
+    /db\.[a-z0-9]+\.supabase\.co/i.test(url) ||
+    /db\.[a-z0-9]+\.supabase\.co/i.test(direct);
+  if (usesLegacyDirectHost) {
+    console.error("\n✗ Cloud build: database URL uses db.<ref>.supabase.co (direct host).");
+    console.error("  Vercel builds often cannot reach that host (P1001). Use pooler URLs instead:");
+    console.error("    Supabase → Database → Connect → URI");
+    console.error("    DATABASE_URL → Transaction pooler, port 6543, append ?pgbouncer=true");
+    console.error("    DIRECT_URL     → Session pooler, port 5432 (not the “Direct connection” tab)");
+    console.error("  Match .env.staging / docs/internal/VERCEL_CONNECT.md\n");
+    process.exit(1);
+  }
 }
