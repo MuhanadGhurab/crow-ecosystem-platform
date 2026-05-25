@@ -22,3 +22,21 @@ If `.env`, `.env.staging`, or any credential file was exposed (commit, screen sh
 After rotation, run `npm run notifications:check` and `npm run meem:ids:staging` on staging to confirm connectivity.
 
 No automated rotation is implemented in-repo; treat exposure as incident response.
+
+---
+
+## F16 — Public / repo boundary (launch governance)
+
+Confirm before production go-live (see [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md)):
+
+| Check | Expected |
+|-------|----------|
+| Root `.gitignore` | `.env`, `.env.staging`, `.env.production` ignored |
+| Git index | No `.env*` staged (`git diff --cached`) |
+| `.env.example` / `.env.production.example` | Placeholders only — no live keys |
+| `docs/public` + public mirror | No `docs/internal`; no service role or DB URLs |
+| `npm run public:mirror-manifest` | `docs/internal` in exclude list |
+| Client bundles | No `SUPABASE_SERVICE_ROLE_KEY` under `NEXT_PUBLIC_*` |
+| Screenshots (`docs/public/screenshots`) | No credentials, tenant IDs, or internal URLs |
+
+Full env matrix: [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md).

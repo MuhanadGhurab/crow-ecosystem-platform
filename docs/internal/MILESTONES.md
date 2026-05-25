@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F16** | Production launch readiness | Env governance, deploy runbook, go/no-go | Muhanad | **100%** | **Passed** — [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
 | **F15.6** | Public surface security regression | Post-F15.5 audit: routes, API, auth, mirror | Muhanad | **100%** | **Passed** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) |
 | **F15.5** | Homepage usability & public story | Hero, how-it-works, engines, trust, IA | Muhanad | **100%** | **Passed** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) |
 | **F15** | CyberCrow SOC workflow depth | Event→incident chain, evidence, risk explainability, dashboard SOC | Muhanad | **100%** | **Passed** — [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
@@ -50,7 +51,27 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Phase F16 production launch readiness — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+**Next:** Execute production go/no-go on live Vercel Production — [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md).
+
+---
+
+## F16 — Production launch readiness & environment governance
+
+**Scope:** Operate Crow Ecosystem beyond local/staging — environment vars, Vercel deploy/rollback, Supabase/Entra URLs, health smoke, backup assumptions, secret/public boundary, launch gates. No new features, schema, Stripe enforcement, or backup automation.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Environment audit + var matrix | [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
+| Deployment runbook | [`F16_DEPLOYMENT_RUNBOOK.md`](F16_DEPLOYMENT_RUNBOOK.md) |
+| Auth / Supabase governance | [`F16_AUTH_SUPABASE_GOVERNANCE.md`](F16_AUTH_SUPABASE_GOVERNANCE.md) |
+| Health / smoke checklist | [`F16_HEALTH_SMOKE_CHECKLIST.md`](F16_HEALTH_SMOKE_CHECKLIST.md) |
+| Backup / restore posture | [`F16_BACKUP_RESTORE_POSTURE.md`](F16_BACKUP_RESTORE_POSTURE.md) |
+| Go / no-go matrix | [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
+| Secret boundary | [`SECRET_ROTATION.md`](SECRET_ROTATION.md) (F16 section) |
+
+**Out of scope:** Stripe live enforcement, SCIM, automatic tenant provisioning, destructive prod resets.
 
 ---
 

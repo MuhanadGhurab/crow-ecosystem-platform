@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F15.6 public security regression audit)  
+**Last updated:** 25 May 2026 (F16 production launch readiness)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,11 +19,22 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F15.6 — Public surface security regression audit** (25 May 2026).
+**Phase F16 — Production launch readiness & environment governance** (25 May 2026).
 
-Post–F15.5 audit: public routes, intake API, billing webhook/checkout, SAREA preview redirect, middleware auth, and public mirror boundary — no new exposure; prior RC1/F1 API controls unchanged. Detail: [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md).
+Documentation-only phase: environment matrix, Vercel deploy runbook, Supabase/Auth governance, health/smoke checklist, backup posture, go/no-go matrix, secret boundary cross-check. No product features, schema changes, or Stripe enforcement.
 
-**F15.6 acceptance:** **PASSED** — manual security regression + typecheck/lint/build/mirror pass; no code fixes required.
+| F16 deliverable | Doc |
+|-----------------|-----|
+| Environment governance | [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) |
+| Deployment runbook | [`F16_DEPLOYMENT_RUNBOOK.md`](F16_DEPLOYMENT_RUNBOOK.md) |
+| Auth / Supabase | [`F16_AUTH_SUPABASE_GOVERNANCE.md`](F16_AUTH_SUPABASE_GOVERNANCE.md) |
+| Health / smoke | [`F16_HEALTH_SMOKE_CHECKLIST.md`](F16_HEALTH_SMOKE_CHECKLIST.md) |
+| Backup / restore | [`F16_BACKUP_RESTORE_POSTURE.md`](F16_BACKUP_RESTORE_POSTURE.md) |
+| Go / no-go | [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
+
+**F16 acceptance:** **PASSED** — governance docs complete; validation commands pass (see F16 report in session).
+
+**Completed prior:** **F15.6 — Public surface security regression audit** — [`F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md`](F15_6_PUBLIC_SECURITY_REGRESSION_AUDIT.md) (**passed**).
 
 **Completed prior:** **F15.5 — Homepage usability & public story clarity** — [`F15_5_HOMEPAGE_USABILITY.md`](F15_5_HOMEPAGE_USABILITY.md) (**passed**).
 
