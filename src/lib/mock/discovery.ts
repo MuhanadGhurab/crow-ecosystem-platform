@@ -218,7 +218,7 @@ export function getMockDiscoveryContext(
           version: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
-          tenant: row.tenantSlug ? { slug: row.tenantSlug } : null,
+          tenant: null,
         }
       : null,
   };
