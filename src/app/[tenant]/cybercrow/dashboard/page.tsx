@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { routes } from "@/lib/routes";
 import {

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MEEM_TENANT_SLUG, resolveMeemLiveIds } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
+import { resolveMeemLiveIds } from "@/lib/server/meem-live";
 import { routes } from "@/lib/routes";
 
 const PERSONAS = ["executive", "manager", "frontline"] as const;

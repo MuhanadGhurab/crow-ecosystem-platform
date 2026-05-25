@@ -7,7 +7,7 @@ import {
   type ErpModuleKey,
 } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_AI_EXTRA_KEYS } from "@/lib/erp/industry-packs/logistics";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import type { MeemHubModuleKey } from "@/lib/meem/meem-hub-config";
 import { getMeemHubConfig } from "@/lib/meem/meem-hub-config";
 

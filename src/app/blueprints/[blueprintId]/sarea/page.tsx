@@ -6,7 +6,7 @@ import { SAREA_PACKAGES } from "@/lib/constants/sarea-packages";
 import { getSareaPackageKey } from "@/lib/discovery-answers";
 import { MOCK_SAREA_MONTHLY_SAR } from "@/lib/mock/pipeline";
 import { isUseMockData } from "@/lib/mock/env";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import { listSareaProfilesForTenant } from "@/lib/services/sarea.service";

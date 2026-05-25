@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
 
 type TwinEngineStripProps = {

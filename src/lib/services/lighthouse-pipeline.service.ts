@@ -1,4 +1,4 @@
-import { MEEM_REFERENCE_CODE } from "@/lib/mock/meem-global";
+import { MEEM_REFERENCE_CODE } from "@/lib/constants/meem";
 import {
   lifecycleIndexFromRequestStatus,
   PIPELINE_LIFECYCLE_LABELS,

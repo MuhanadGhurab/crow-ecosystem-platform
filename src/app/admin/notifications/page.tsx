@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/ui/page-header";
 
 import { StatCard } from "@/components/ui/stat-card";
 
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 
 import { routes } from "@/lib/routes";
 

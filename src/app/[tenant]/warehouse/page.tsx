@@ -9,7 +9,7 @@ import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_WAREHOUSE_SAMPLES } from "@/lib/erp/industry-packs/logistics";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { isUseMockData } from "@/lib/mock/env";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { getWarehouseSummary, listWarehouseLocations } from "@/lib/services/warehouse.service";

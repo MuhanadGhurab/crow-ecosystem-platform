@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { isUseMockData } from "@/lib/mock/env";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { MEEM_TASK_SAMPLES } from "@/lib/meem/meem-ops-catalog";
 import { routes } from "@/lib/routes";
 import { listTenantTasks } from "@/lib/services/tenant-identity.service";

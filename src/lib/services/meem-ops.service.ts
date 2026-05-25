@@ -18,7 +18,7 @@ import {
   MEEM_MODULE_KEYS,
   MEEM_REFERENCE_CODE,
   MEEM_TENANT_SLUG,
-} from "@/lib/mock/meem-global";
+} from "@/lib/constants/meem";
 
 import { upsertDiscoveryAnswer } from "@/lib/services/discovery.service";
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isUseMockData } from "@/lib/mock/env";
-import { MEEM_TENANT_SLUG } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import {
   MEEM_OCR_AI_WORKFLOW_NAMES,
   MEEM_TENANT_WORKFLOWS,
