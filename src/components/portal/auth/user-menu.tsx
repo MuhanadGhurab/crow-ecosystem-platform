@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { getCrowAuth, roleLabel } from "@/lib/auth/roles";
+import { isPlatformConsoleRole, getCrowAuth, roleLabel } from "@/lib/auth/roles";
 import { getSessionUser } from "@/lib/auth/session";
 import { isAuthDisabled } from "@/lib/supabase/env";
+import { routes } from "@/lib/routes";
 
 export async function UserMenu() {
   if (isAuthDisabled()) {
@@ -35,6 +36,14 @@ export async function UserMenu() {
       <span className="shrink-0 rounded-cc-sm bg-cyan-500/10 px-2 py-0.5 text-[10px] text-cyan-300 sm:text-xs">
         {roleLabel(role)}
       </span>
+      {isPlatformConsoleRole(role) && (
+        <Link
+          href={routes.admin.overview}
+          className="shrink-0 text-xs font-medium text-teal-400 hover:text-teal-300 sm:text-sm"
+        >
+          Admin console →
+        </Link>
+      )}
       <form action="/auth/signout" method="post">
         <button
           type="submit"

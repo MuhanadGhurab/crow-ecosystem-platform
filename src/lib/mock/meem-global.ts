@@ -1,21 +1,80 @@
 import { Prisma, type ProposalStatus } from "@prisma/client";
 
+import { prisma } from "@/lib/db";
+import { MEEM_REFERENCE_CODE, MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { calculateMonthlyEstimate, type PricingEstimate } from "@/lib/services/pricing.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 import type { EnterpriseBlueprintDetail } from "@/lib/services/blueprint.service";
 
 /** Lighthouse customer — MEEM Holding Logistics / MEEM Global (50–250 users, logistics + AI). */
 
-export const MEEM_TENANT_SLUG = "meem-global";
-export const MEEM_REQUEST_ID = "mock-req-meem";
-export const MEEM_DISCOVERY_REQUEST_ID = "mock-req-meem-discovery";
-export const MEEM_BLUEPRINT_ID = "mock-bp-meem";
-/** Live Postgres seed IDs — stable after `npm run db:seed:meem` unless DB reset */
-export const MEEM_LIVE_REQUEST_ID = "cmpge193x0000vhws8nclouoi";
-export const MEEM_LIVE_BLUEPRINT_ID = "cmpge196o0015vhws2r7akekx";
-export const MEEM_PROPOSAL_TOKEN = "mock-proposal-meem";
-export const MEEM_REFERENCE_CODE = "CROW-2026-MEEM";
+export { MEEM_REFERENCE_CODE, MEEM_TENANT_SLUG };
 
+/** MOCK ONLY — offline/demo pipeline cards when DB is unavailable. Use `resolveMeemLiveIds()`. */
+export const MEEM_REQUEST_ID = "mock-req-meem";
+/** MOCK ONLY */
+export const MEEM_DISCOVERY_REQUEST_ID = "mock-req-meem-discovery";
+/** MOCK ONLY */
+export const MEEM_BLUEPRINT_ID = "mock-bp-meem";
+
+/**
+ * Last known live IDs from `npm run meem:ids` — may be stale after DB reset.
+ * Prefer `resolveMeemLiveIds()` for staff links and E2E paths.
+ */
+export const MEEM_LIVE_REQUEST_ID = "cmpi2uum60000vhqs9bfmblh2";
+export const MEEM_LIVE_BLUEPRINT_ID = "cmpi2w41q001pvhqs02qtao22";
+
+export type MeemLiveIds = {
+  tenantSlug: string;
+  tenantId: string | null;
+  requestId: string | null;
+  blueprintId: string | null;
+  referenceCode: string | null;
+  source: "live" | "mock_fallback";
+};
+
+/** Resolve MEEM request/blueprint IDs from Postgres by tenant slug (source of truth: `npm run meem:ids`). */
+export async function resolveMeemLiveIds(): Promise<MeemLiveIds> {
+  const fallback: MeemLiveIds = {
+    tenantSlug: MEEM_TENANT_SLUG,
+    tenantId: null,
+    requestId: MEEM_LIVE_REQUEST_ID,
+    blueprintId: MEEM_LIVE_BLUEPRINT_ID,
+    referenceCode: MEEM_REFERENCE_CODE,
+    source: "mock_fallback",
+  };
+
+  try {
+    const tenant = await prisma.tenant.findUnique({
+      where: { slug: MEEM_TENANT_SLUG },
+      select: {
+        id: true,
+        slug: true,
+        blueprint: {
+          select: {
+            id: true,
+            requestId: true,
+            request: { select: { id: true, referenceCode: true } },
+          },
+        },
+      },
+    });
+
+    if (!tenant?.blueprint) return fallback;
+
+    return {
+      tenantSlug: tenant.slug,
+      tenantId: tenant.id,
+      requestId: tenant.blueprint.request.id,
+      blueprintId: tenant.blueprint.id,
+      referenceCode: tenant.blueprint.request.referenceCode,
+      source: "live",
+    };
+  } catch {
+    return fallback;
+  }
+}
+export const MEEM_PROPOSAL_TOKEN = "mock-proposal-meem";
 /** Blueprint + tenant modules for MEEM lighthouse (ERP chain + people). */
 export const MEEM_MODULE_KEYS = [
   "sales",
@@ -268,14 +327,18 @@ export function getMeemMockBlueprint(blueprintId: string): EnterpriseBlueprintDe
   };
 }
 
-export function getMeemDemoPaths(baseUrl = "http://localhost:3000") {
+export async function getMeemDemoPaths(baseUrl = "http://localhost:3000") {
+  const live = await resolveMeemLiveIds();
+  const requestId = live.requestId ?? MEEM_REQUEST_ID;
+  const blueprintId = live.blueprintId ?? MEEM_BLUEPRINT_ID;
+
   return {
-    queue: `${baseUrl}/admin/requests/${MEEM_REQUEST_ID}`,
+    queue: `${baseUrl}/admin/requests/${requestId}`,
     discovery: `${baseUrl}/discovery/${MEEM_DISCOVERY_REQUEST_ID}/organization`,
-    blueprintOverview: `${baseUrl}/blueprints/${MEEM_BLUEPRINT_ID}/overview`,
-    blueprintPricing: `${baseUrl}/blueprints/${MEEM_BLUEPRINT_ID}/pricing`,
-    blueprintReadiness: `${baseUrl}/blueprints/${MEEM_BLUEPRINT_ID}/readiness`,
-    goLive: `${baseUrl}/blueprints/${MEEM_BLUEPRINT_ID}/go-live`,
+    blueprintOverview: `${baseUrl}/blueprints/${blueprintId}/overview`,
+    blueprintPricing: `${baseUrl}/blueprints/${blueprintId}/pricing`,
+    blueprintReadiness: `${baseUrl}/blueprints/${blueprintId}/readiness`,
+    goLive: `${baseUrl}/blueprints/${blueprintId}/go-live`,
     proposal: `${baseUrl}/proposal/${MEEM_PROPOSAL_TOKEN}`,
     tenantDashboard: `${baseUrl}/${MEEM_TENANT_SLUG}/dashboard`,
     tenantLogistics: `${baseUrl}/${MEEM_TENANT_SLUG}/logistics`,
@@ -283,6 +346,7 @@ export function getMeemDemoPaths(baseUrl = "http://localhost:3000") {
     tenantTasks: `${baseUrl}/${MEEM_TENANT_SLUG}/tasks`,
     cybercrowDashboard: `${baseUrl}/${MEEM_TENANT_SLUG}/cybercrow/dashboard`,
     adminAudit: `${baseUrl}/admin/audit`,
-    portal: `${baseUrl}/portal/requests/${MEEM_REQUEST_ID}`,
+    portal: `${baseUrl}/portal/requests/${requestId}`,
+    idSource: live.source,
   };
 }

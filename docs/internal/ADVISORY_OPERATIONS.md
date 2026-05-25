@@ -177,8 +177,32 @@ Run dry-run first; compare MEEM block (`meem-global` slug) with `npm run meem:id
 - Severity is computed in app code, not indexed in DB — severity filter fetches extra rows then filters in memory.
 - Date filters use `createdAt` only (no `updatedAt` on model).
 
+## Notification digest (Phase D+8 / D+9)
+
+Manual read-only summary and optional email. See **`docs/internal/NOTIFICATION_DIGEST.md`** for full runbook.
+
+| Command | Effect |
+|---------|--------|
+| `npm run notifications:digest:dry` | Daily advisory digest to console (no email, no inbox mutation) |
+| `npm run notifications:digest:send` | Optional Resend send + `advisory_digest` log row |
+| `npm run notifications:digest:weekly:dry` | 7-day window, console only |
+| `npm run notifications:digest:meem:dry` | Weekly MEEM-scoped dry-run (`--tenant=meem-global`) |
+| `npm run notifications:digest:high:dry` | Daily high-severity dry-run |
+
+**CLI filters:** `--tenant=`, `--severity=`, `--category=`, `--from=`, `--to=`, `--days=`, `--weekly`. No scheduling — run manually in PowerShell:
+
+```powershell
+Set-Location D:\CYBERCROW
+npm run notifications:digest:meem:dry
+npm run notifications:digest:dry -- --tenant=meem-global --category=usage
+```
+
+Admin preview: `/admin/notifications` → **Digest preview** respects URL `tenant`, `category`, `severity`, and `from`/`to` (read-only, no send button).
+
+Run `notifications:backfill:dry` first when link metadata may be sparse.
+
 ## Recommended next phase
 
 - Optional `lastEmittedAt` per tenant/event in Redis or tenant settings for cross-instance dedupe
-- Notification digest email (after backfill applied in each environment)
 - Separate `deliveryStatus` vs `inboxStatus` columns if triage and email states need to coexist on one row
+- Digest delivery row separate from advisory inbox status if `advisory_digest` logs clutter triage filters

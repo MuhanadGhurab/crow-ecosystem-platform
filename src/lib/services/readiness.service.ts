@@ -100,7 +100,7 @@ function mockGroupedReadiness(blueprintId: string): GroupedReadinessSummary {
             {
               key: `${key}_ready`,
               label: meta.title,
-              required: key !== "integrations",
+              required: key !== "integrations" && key !== "subscription",
               passed: allPass,
               detail: allPass ? "Mock blueprint — demo ready" : "Connect Postgres for live checks",
             },
@@ -315,6 +315,26 @@ export async function evaluateGroupedBlueprintReadiness(
       detail: `${discIntegrations} discovery · ${bpIntegrations} blueprint slot(s)`,
     },
   ]);
+
+  const { getBlueprintSubscriptionReadinessItems } = await import(
+    "@/lib/services/subscription-readiness.service"
+  );
+  const subscriptionItems = await getBlueprintSubscriptionReadinessItems(blueprintId).catch(
+    () => [] as ReadinessGroupItem[]
+  );
+  if (subscriptionItems.length > 0) {
+    pushGroup("subscription", subscriptionItems);
+  } else {
+    pushGroup("subscription", [
+      {
+        key: "subscription_context",
+        label: "Plan scope reviewed",
+        required: false,
+        passed: true,
+        detail: "No subscription advisories — plan scope aligns with blueprint footprint.",
+      },
+    ]);
+  }
 
   const opsItems = await evaluateBlueprintReadiness(blueprintId).catch(() =>
     GO_LIVE_CHECKLIST_ITEMS.map((item) => ({

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { planLabel } from "@/lib/catalog-labels";
 import { isStripeConfigured } from "@/lib/billing/env";
+import { BILLING_MODE_LABELS, resolveBillingMode } from "@/lib/services/subscription-billing-alignment.service";
 import { routes } from "@/lib/routes";
 import {
   listSubscriptionPlansWithUsage,
@@ -58,29 +59,49 @@ export default async function AdminSubscriptionsPage() {
           </p>
         ) : (
           <ul className="mt-3 space-y-2">
-            {subscriptions.map((s) => (
-              <li
-                key={s.id}
-                className="flex flex-wrap justify-between gap-2 rounded-cc border border-cyan-500/10 bg-white/5 px-4 py-3 text-sm"
-              >
-                <div className="min-w-0">
-                  <Link
-                    href={routes.tenant(s.tenant.slug).dashboard}
-                    className="text-cyan-400 hover:text-cyan-300"
-                  >
-                    {s.tenant.organization.displayName}
-                  </Link>
-                  {s.stripeCustomerId && (
-                    <p className="mt-1 font-mono text-xs text-slate-500">
-                      Stripe customer: {s.stripeCustomerId}
+            {subscriptions.map((s) => {
+              const billingMode = resolveBillingMode({
+                stripeConfigured,
+                stripeCustomerId: s.stripeCustomerId,
+                stripeSubscriptionId: s.stripeSubscriptionId,
+              });
+              return (
+                <li
+                  key={s.id}
+                  className="flex flex-wrap justify-between gap-2 rounded-cc border border-cyan-500/10 bg-white/5 px-4 py-3 text-sm"
+                >
+                  <div className="min-w-0">
+                    <Link
+                      href={`${routes.admin.tenant(s.tenant.id)}?tab=plan`}
+                      className="text-cyan-400 hover:text-cyan-300"
+                    >
+                      {s.tenant.organization.displayName}
+                    </Link>
+                    <p className="mt-1 font-mono text-xs text-slate-500">/{s.tenant.slug}</p>
+                    {s.stripeCustomerId && (
+                      <p className="mt-1 font-mono text-xs text-slate-500">
+                        Stripe customer: {s.stripeCustomerId}
+                      </p>
+                    )}
+                    {s.stripeSubscriptionId && (
+                      <p className="font-mono text-xs text-slate-600">
+                        Stripe sub: {s.stripeSubscriptionId}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right text-slate-500">
+                    <p>
+                      {s.plan.nameEn} · {s.status}
                     </p>
-                  )}
-                </div>
-                <span className="text-slate-500">
-                  {s.plan.nameEn} · {s.status}
-                </span>
-              </li>
-            ))}
+                    <p className="text-xs text-cyan-400/80">{BILLING_MODE_LABELS[billingMode]}</p>
+                    <p className="text-xs text-slate-600">
+                      Started {s.startedAt.toLocaleDateString()}
+                      {s.endsAt ? ` · ends ${s.endsAt.toLocaleDateString()}` : ""}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

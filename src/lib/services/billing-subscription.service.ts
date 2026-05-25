@@ -2,6 +2,40 @@ import type Stripe from "stripe";
 
 import { prisma } from "@/lib/db";
 import { stripeAmountToSar } from "@/lib/billing/money";
+import { normalizePlanKey } from "@/lib/subscription/plan-capabilities";
+
+/** Idempotent TenantSubscription link during provisioning (no Stripe). */
+export async function ensureTenantSubscriptionForPlan(input: {
+  tenantId: string;
+  planKey: string;
+  status?: string;
+}) {
+  const planKey = normalizePlanKey(input.planKey);
+  const plan = await prisma.subscriptionPlan.findUnique({
+    where: { key: planKey },
+  });
+  if (!plan) {
+    throw new Error(`Unknown subscription plan: ${planKey}`);
+  }
+
+  await prisma.tenant.update({
+    where: { id: input.tenantId },
+    data: { planKey },
+  });
+
+  return prisma.tenantSubscription.upsert({
+    where: { tenantId: input.tenantId },
+    create: {
+      tenantId: input.tenantId,
+      planId: plan.id,
+      status: input.status ?? "active",
+    },
+    update: {
+      planId: plan.id,
+      status: input.status ?? "active",
+    },
+  });
+}
 
 export async function upsertTenantSubscriptionFromStripe(input: {
   tenantId: string;

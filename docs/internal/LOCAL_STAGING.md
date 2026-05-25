@@ -80,7 +80,9 @@ Omar checklist: [`customers/OMAR_SIGNOFF_DISCOVERY_BLUEPRINT_SAREA.md`](customer
 | `npm run staging:host` | Start only (after build) |
 | `npm run staging:ready` | DB + env preflight |
 | `npm run staging:runbook` | Print localhost MEEM/Omar URLs |
+| `npm run staging:prune:meem` | Remove all tenants except `meem-global` (clean admin for screen share) |
 | `npm run meem:ids` | Request/blueprint IDs (use `--env-file=.env.staging`) |
+| `npm run db:seed:sectors` | Sector org-intelligence templates into DB (after migrate) |
 
 ---
 

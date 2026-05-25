@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { DeptChips } from "@/components/pipeline/dept-chips";
 import { requireClientAccess } from "@/lib/auth/session";
-import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
+import { getCrowAuth, isPlatformConsoleRole, isPlatformStaff } from "@/lib/auth/roles";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_CLIENT_REQUESTS } from "@/lib/mock/portal";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
@@ -44,10 +45,19 @@ function mockDeptForRequest(id: string, status: ImplementationRequestStatus) {
   });
 }
 
-export default async function PortalRequestsPage() {
+export default async function PortalRequestsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ preview?: string }>;
+}) {
   const user = await requireClientAccess();
   const { role } = getCrowAuth(user);
   const staffPreview = isPlatformStaff(role);
+  const { preview } = await searchParams;
+
+  if (isPlatformConsoleRole(role) && preview !== "client") {
+    redirect(routes.admin.overview);
+  }
 
   let rows: PortalRequestRow[] = [];
 

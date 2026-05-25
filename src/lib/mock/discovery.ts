@@ -141,6 +141,7 @@ function baseProfile(requestId: string) {
         requirement: "KPI dashboard, mobile-first",
       },
     ],
+    orgIntelligence: null,
   };
 }
 

@@ -15,7 +15,10 @@ import { seedSareaProfileDefaults, PERSONA_DISPLAY_NAMES } from "@/lib/services/
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { seedTenantCemFromDiscovery } from "@/lib/services/tenant-cem-seed.service";
 import { seedLogisticsAuditSamples } from "@/lib/services/cybercrow-logistics-audit.service";
+import { syncBlueprintOrgModelFromDiscovery } from "@/lib/services/org-intelligence.service";
 import { enrichTenantFromBlueprint } from "@/lib/services/tenant-ops-seed.service";
+import { ensureTenantSubscriptionForPlan } from "@/lib/services/billing-subscription.service";
+import { normalizePlanKey } from "@/lib/subscription/plan-capabilities";
 
 const LOGISTICS_OPS_MODULE_KEYS = new Set([
   "logistics",
@@ -44,6 +47,7 @@ export async function startDiscovery(requestId: string) {
     });
     if (contact?.email) {
       void notifyPipelineEvent("discovery_started", contact.email, {
+        requestId: request.id,
         referenceCode: request.referenceCode,
         organizationName: request.organizationName,
         contactName: contact.fullName,
@@ -113,6 +117,8 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
     const contact = blueprintFull.request.contacts[0];
     if (contact?.email) {
       void notifyPipelineEvent("blueprint_ready", contact.email, {
+        requestId: request.id,
+        blueprintId: blueprint.id,
         organizationName: request.organizationName,
         referenceCode: request.referenceCode,
         contactName: contact.fullName,
@@ -122,6 +128,7 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
     return blueprintFull;
   });
 
+  await syncBlueprintOrgModelFromDiscovery(blueprint.id, blueprint.discoveryProfileId);
   await refreshRequestPricingEstimate(requestId);
   return blueprint;
 }
@@ -133,6 +140,8 @@ export async function provisionTenantFromBlueprint(
   organizationName: string,
   planKey: string
 ) {
+  const resolvedPlanKey = normalizePlanKey(planKey);
+
   return prismaTransaction(async (tx: Prisma.TransactionClient) => {
     const blueprint = await tx.enterpriseBlueprint.update({
       where: { id: blueprintId },
@@ -149,7 +158,7 @@ export async function provisionTenantFromBlueprint(
         slug: tenantSlug,
         organizationId: org.id,
         blueprintId: blueprint.id,
-        planKey,
+        planKey: resolvedPlanKey,
         modules: {
           create: blueprint.modules.map((m: { moduleKey: string; enabled: boolean }) => ({
             moduleKey: m.moduleKey,
@@ -176,12 +185,20 @@ export async function provisionAndInitializeTenant(
   planKey: string,
   personaKeys: string[] = ["executive", "manager", "frontline"]
 ) {
+  const resolvedPlanKey = normalizePlanKey(planKey);
+
   const tenant = await provisionTenantFromBlueprint(
     blueprintId,
     tenantSlug,
     organizationName,
-    planKey
+    resolvedPlanKey
   );
+
+  await ensureTenantSubscriptionForPlan({
+    tenantId: tenant.id,
+    planKey: resolvedPlanKey,
+    status: "active",
+  });
 
   const blueprint = await prisma.enterpriseBlueprint.findUnique({
     where: { id: blueprintId },
@@ -230,8 +247,11 @@ export async function provisionAndInitializeTenant(
   });
   if (contact?.email) {
     void notifyPipelineEvent("tenant_provisioned", contact.email, {
-      organizationName,
+      tenantId: tenant.id,
       tenantSlug,
+      displayName: organizationName,
+      organizationName,
+      blueprintId,
       contactName: contact.fullName,
     });
   }

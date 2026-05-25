@@ -1,5 +1,14 @@
 import type { Prisma } from "@prisma/client";
+import { CYBERCROW_AUDIT_ACTIONS } from "@/lib/constants/cybercrow-audit-events";
 import { prisma } from "@/lib/db";
+
+async function getTenantsWithCybercrowBaseline(): Promise<Set<string>> {
+  const rows = await prisma.cybercrowAuditLog.groupBy({
+    by: ["tenantId"],
+    where: { action: CYBERCROW_AUDIT_ACTIONS.CYBERCROW_INITIALIZED },
+  });
+  return new Set(rows.map((r) => r.tenantId));
+}
 
 export type TenantHealthSummary = {
   membershipCount: number;
@@ -9,6 +18,12 @@ export type TenantHealthSummary = {
   securityEventCount: number;
   healthScore: "good" | "watch" | "attention";
   healthLabel: string;
+};
+
+export type TenantPostureSummary = {
+  cybercrowInitialized: boolean;
+  enabledModuleCount: number;
+  sareaProfileCount: number;
 };
 
 export async function getTenantHealthSummary(tenantId: string): Promise<TenantHealthSummary> {
@@ -58,24 +73,40 @@ const tenantWithHealthArgs = {
         request: { select: { referenceCode: true, status: true } },
       },
     },
-    _count: { select: { modules: true, cybercrowAuditLogs: true, profiles: true } },
+    _count: {
+      select: {
+        modules: { where: { enabled: true } },
+        cybercrowAuditLogs: true,
+        profiles: true,
+        sareaProfiles: true,
+      },
+    },
   },
 } satisfies Prisma.TenantFindManyArgs;
 
 export type TenantWithHealth = Prisma.TenantGetPayload<typeof tenantWithHealthArgs> & {
   health: TenantHealthSummary;
+  posture: TenantPostureSummary;
 };
 
 export async function listTenantsWithHealth(): Promise<TenantWithHealth[]> {
-  const tenants = await prisma.tenant.findMany({
-    orderBy: { createdAt: "desc" },
-    ...tenantWithHealthArgs,
-  });
+  const [tenants, baselineTenants] = await Promise.all([
+    prisma.tenant.findMany({
+      orderBy: { createdAt: "desc" },
+      ...tenantWithHealthArgs,
+    }),
+    getTenantsWithCybercrowBaseline(),
+  ]);
 
   return Promise.all(
     tenants.map(async (t): Promise<TenantWithHealth> => ({
       ...t,
       health: await getTenantHealthSummary(t.id),
+      posture: {
+        cybercrowInitialized: baselineTenants.has(t.id),
+        enabledModuleCount: t._count.modules,
+        sareaProfileCount: t._count.sareaProfiles,
+      },
     }))
   );
 }

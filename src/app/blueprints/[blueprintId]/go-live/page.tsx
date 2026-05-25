@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlueprintProvisionForm } from "@/components/blueprint/blueprint-provision-form";
+import { BlueprintPlanDiffPanel } from "@/components/blueprint/blueprint-plan-diff-panel";
+import { GoLiveSubscriptionSection } from "@/components/blueprint/go-live-subscription-section";
 import { BlueprintStatusBadge } from "@/components/admin/blueprint-status-badge";
 import { EngineBadges } from "@/components/pipeline/engine-badges";
 import { routes } from "@/lib/routes";
 import { slugifyOrganization } from "@/lib/slugify";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
+import { evaluateBlueprintSubscriptionReadiness } from "@/lib/services/subscription-readiness.service";
+import { computeBlueprintPlanDiff } from "@/lib/services/blueprint-plan-diff.service";
+import { resolveBlueprintPlanContext } from "@/lib/services/subscription-capability.service";
 import {
   evaluateGroupedBlueprintReadiness,
   evaluatePreProvisionReadiness,
@@ -23,12 +28,13 @@ export default async function BlueprintGoLivePage({
 
   const suggestedSlug = slugifyOrganization(blueprint.request.organizationName);
   const hasTenant = Boolean(blueprint.tenant);
-  const grouped = hasTenant
-    ? null
-    : await evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null);
-  const preProvision = hasTenant
-    ? null
-    : await evaluatePreProvisionReadiness(blueprintId).catch(() => null);
+  const [grouped, preProvision, subscriptionReadiness, planContext, planDiff] = await Promise.all([
+    hasTenant ? null : evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
+    hasTenant ? null : evaluatePreProvisionReadiness(blueprintId).catch(() => null),
+    evaluateBlueprintSubscriptionReadiness(blueprintId).catch(() => null),
+    resolveBlueprintPlanContext(blueprintId).catch(() => null),
+    computeBlueprintPlanDiff(blueprintId).catch(() => null),
+  ]);
   const gateEnabled = isReadinessGateEnabled();
   const uiBlockers = preProvision?.blockers ?? [];
   const b = routes.blueprint(blueprintId);
@@ -74,6 +80,13 @@ export default async function BlueprintGoLivePage({
         </section>
       ) : (
         <>
+          {subscriptionReadiness && planContext && (
+            <GoLiveSubscriptionSection
+              readiness={subscriptionReadiness}
+              planContext={planContext}
+            />
+          )}
+          {planDiff && <BlueprintPlanDiffPanel diff={planDiff} />}
           <Link
             href={b.readiness}
             className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300"

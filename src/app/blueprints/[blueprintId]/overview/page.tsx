@@ -22,7 +22,9 @@ import { routes } from "@/lib/routes";
 
 import { slugifyOrganization } from "@/lib/slugify";
 
+import { BlueprintSubscriptionPanel } from "@/components/blueprint/blueprint-subscription-panel";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
+import { resolveBlueprintPlanContext } from "@/lib/services/subscription-capability.service";
 
 import { resolveBlueprintPricingEstimate } from "@/lib/blueprint-pricing";
 
@@ -70,7 +72,10 @@ export default async function BlueprintOverviewPage({
 
     : null;
 
-  const preProvision = hasTenant ? null : await evaluatePreProvisionReadiness(blueprintId).catch(() => null);
+  const [preProvision, planContext] = await Promise.all([
+    hasTenant ? Promise.resolve(null) : evaluatePreProvisionReadiness(blueprintId).catch(() => null),
+    resolveBlueprintPlanContext(blueprintId).catch(() => null),
+  ]);
 
   const b = routes.blueprint(blueprintId);
 
@@ -83,6 +88,8 @@ export default async function BlueprintOverviewPage({
       <div className="grid gap-8 xl:grid-cols-[1fr_min(22rem,40%)] xl:items-start">
 
         <div className="space-y-6">
+
+          {planContext && <BlueprintSubscriptionPanel context={planContext} />}
 
           <section className="cc-glass-card grid gap-4 sm:grid-cols-2">
 

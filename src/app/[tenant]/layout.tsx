@@ -10,6 +10,7 @@ import { getEnabledErpNavItems } from "@/lib/constants/erp-module-registry";
 import { buildTenantNavItems } from "@/lib/constants/sarea-runtime";
 import { requireTenantAccess } from "@/lib/auth/session";
 import { getSareaRuntimeContext } from "@/lib/services/sarea-runtime.service";
+import { buildPlatformEngineHubLinks } from "@/lib/constants/platform-engine-hub";
 import { routes } from "@/lib/routes";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
@@ -61,11 +62,13 @@ export default async function TenantLayout({
               { href: routes.admin.audit, entity: "cem", label: "Platform audit" },
               { href: r.cybercrow.dashboard, entity: "cybercrow" },
             ]
-          : [
-              { href: r.dashboard, entity: "cem", label: "CEM" },
-              { href: r.cybercrow.dashboard, entity: "cybercrow" },
-              { href: routes.sarea.overview, entity: "sarea" },
-            ]
+          : isPlatformStaff(role)
+            ? buildPlatformEngineHubLinks({ tenantSlug: slug })
+            : [
+                { href: r.dashboard, entity: "cem", label: "CEM" },
+                { href: r.cybercrow.dashboard, entity: "cybercrow" },
+                { href: routes.sarea.overview, entity: "sarea" },
+              ]
       }
       nav={nav}
       headerActions={

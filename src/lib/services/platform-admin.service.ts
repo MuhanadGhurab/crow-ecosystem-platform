@@ -81,6 +81,7 @@ export async function listTenantSubscriptions() {
       plan: true,
       tenant: {
         select: {
+          id: true,
           slug: true,
           organization: { select: { displayName: true } },
         },

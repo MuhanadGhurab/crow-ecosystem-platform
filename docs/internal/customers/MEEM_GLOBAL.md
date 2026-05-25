@@ -4,7 +4,7 @@
 **Narrative:** Blueprint → provision → live **CEM tenant** with **CyberCrow** (NCA-aligned) and **SAREA** (role-adaptive UI).  
 **Identity:** Microsoft Entra ID SSO (discovery + tenant settings + `/meem-global/cybercrow/identity` + `/help/entra-sso`).
 
-> **Phase 4 E2E rehearsal deferred:** The live walkthrough in [`PHASE4_MEEM_E2E.md`](../PHASE4_MEEM_E2E.md) is **postponed** until M4/M6/M7 platform work is perfected. MEEM demo URLs, seeds, and RBAC below remain the rehearsal target.
+> **Phase 4 E2E (local):** Passed May 2026 — real login + Postgres (P1). Staging repeat: [`P2_STAGING_PREP.md`](../P2_STAGING_PREP.md).
 
 ### SAREA — Crow ships, MEEM validates
 
@@ -200,7 +200,7 @@ Re-seed does not re-send notifications when tenant already exists; trigger new e
 | 11 | Tenant workflows | `/meem-global/workflows` | ≥4 workflows, step count, module tags, logistics link for OCR/AI | [x] | Muhanad |
 | — | Tenant tasks | `/meem-global/tasks` | DB task list linked to workflows (ops seed) | [x] | Muhanad |
 | 10 | Client portal (optional) | `/portal/requests/cmpge193x0000vhws8nclouoi` | `AUTH_DEV_ROLE=client` tracks request | [x] | Muhanad |
-| 12 | Admin audit & notifications | `/admin/audit?category=logistics&tenant=meem-global` | ≥4 pipeline events; `CYBERCROW_INITIALIZED`; skipped Resend reason | [~] rehearse — [`PHASE4_MEEM_E2E.md`](../PHASE4_MEEM_E2E.md) §3 | Muhanad |
+| 12 | Admin audit & notifications | `/admin/audit?category=logistics&tenant=meem-global` | ≥4 pipeline events; `CYBERCROW_INITIALIZED`; skipped Resend reason | [x] local P1 | Muhanad |
 
 **Code [x]** = UI/routes implemented; **rehearse** = run once on live Postgres with seeded IDs.
 

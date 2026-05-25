@@ -7,7 +7,7 @@ import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import { planLabel } from "@/lib/catalog-labels";
 import { getAiExtraKeys } from "@/lib/discovery-answers";
-import { MEEM_TENANT_SLUG, MEEM_LIVE_REQUEST_ID } from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG, resolveMeemLiveIds } from "@/lib/mock/meem-global";
 import { routes } from "@/lib/routes";
 import { requireTenantAccess } from "@/lib/auth/session";
 import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard.service";
@@ -50,6 +50,7 @@ export default async function TenantDashboardPage({
   const request = tenant.blueprint?.request;
   const r = routes.tenant(slug);
   const isMeem = slug === MEEM_TENANT_SLUG;
+  const meemIds = isMeem ? await resolveMeemLiveIds() : null;
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = isMeem
     ? getAiExtraKeys(answers).length > 0
@@ -95,9 +96,14 @@ export default async function TenantDashboardPage({
             Open preview hub
           </Link>
           {" · "}
-          <Link href={routes.discovery(MEEM_LIVE_REQUEST_ID).experience} className="text-rose-300 underline">
-            Discovery experience
-          </Link>
+          {meemIds?.requestId && (
+            <Link
+              href={routes.discovery(meemIds.requestId).experience}
+              className="text-rose-300 underline"
+            >
+              Discovery experience
+            </Link>
+          )}
         </p>
       )}
 

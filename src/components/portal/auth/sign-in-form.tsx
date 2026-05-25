@@ -5,7 +5,7 @@ import { SignInWithEntra } from "@/components/portal/auth/sign-in-with-entra";
 import { signIn, type SignInState } from "@/lib/actions/auth";
 
 interface SignInFormProps {
-  nextPath: string;
+  nextPath?: string;
   entraEnabled?: boolean;
 }
 
@@ -24,7 +24,7 @@ export function SignInForm({ nextPath, entraEnabled = false }: SignInFormProps) 
         </>
       )}
     <form action={action} className="space-y-4">
-      <input type="hidden" name="next" value={nextPath} />
+      {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
       <div>
         <label htmlFor="email" className="mb-1 block text-sm text-slate-400">
           Email

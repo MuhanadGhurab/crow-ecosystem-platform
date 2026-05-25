@@ -33,6 +33,7 @@ const INCLUDE = [
   "scripts/free-port.mjs",
 ];
 
+/** docs/internal is private strategy — never copy to public mirror. */
 const EXCLUDE_ALWAYS = [
   ".env",
   ".env.local",

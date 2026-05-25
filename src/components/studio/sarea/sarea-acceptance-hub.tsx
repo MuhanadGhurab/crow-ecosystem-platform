@@ -1,9 +1,5 @@
 import Link from "next/link";
-import {
-  MEEM_LIVE_BLUEPRINT_ID,
-  MEEM_LIVE_REQUEST_ID,
-  MEEM_TENANT_SLUG,
-} from "@/lib/mock/meem-global";
+import { MEEM_TENANT_SLUG, resolveMeemLiveIds } from "@/lib/mock/meem-global";
 import { routes } from "@/lib/routes";
 
 const PERSONAS = ["executive", "manager", "frontline"] as const;
@@ -16,12 +12,16 @@ type SareaAcceptanceHubProps = {
 };
 
 /** MEEM lighthouse — Omar SAREA acceptance path (discovery → blueprint → preview). */
-export function SareaAcceptanceHub({
-  requestId = MEEM_LIVE_REQUEST_ID,
-  blueprintId = MEEM_LIVE_BLUEPRINT_ID,
+export async function SareaAcceptanceHub({
+  requestId: requestIdProp,
+  blueprintId: blueprintIdProp,
   tenantSlug = MEEM_TENANT_SLUG,
   compact = false,
 }: SareaAcceptanceHubProps) {
+  const live = await resolveMeemLiveIds();
+  const requestId = requestIdProp ?? live.requestId;
+  const blueprintId = blueprintIdProp ?? live.blueprintId;
+
   if (!requestId || !blueprintId || !tenantSlug) return null;
 
   const d = routes.discovery(requestId);

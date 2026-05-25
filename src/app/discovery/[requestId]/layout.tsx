@@ -30,6 +30,7 @@ export default async function DiscoveryLayout({
   const d = routes.discovery(requestId);
   const nav = [
     { href: d.organization, label: "1. Organization" },
+    { href: d.organizationModel, label: "Org intelligence" },
     { href: d.modules, label: "2. Modules" },
     { href: d.security, label: "3. Security" },
     { href: d.departments, label: "4. Structure" },

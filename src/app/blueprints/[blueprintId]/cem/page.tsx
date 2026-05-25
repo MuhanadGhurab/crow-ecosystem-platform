@@ -4,6 +4,9 @@ import { ENTITY_THEME } from "@/lib/entity-theme";
 import { moduleLabel } from "@/lib/catalog-labels";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
+import { BlueprintSubscriptionPanel } from "@/components/blueprint/blueprint-subscription-panel";
+import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.service";
+import { resolveBlueprintPlanContext } from "@/lib/services/subscription-capability.service";
 import { getTenantIdentityCounts } from "@/lib/services/tenant-identity.service";
 
 export default async function BlueprintCemPage({
@@ -16,7 +19,11 @@ export default async function BlueprintCemPage({
   if (!blueprint) notFound();
 
   const tenant = blueprint.tenant;
-  const identity = tenant ? await getTenantIdentityCounts(tenant.id) : null;
+  const [identity, orgIntel, planContext] = await Promise.all([
+    tenant ? getTenantIdentityCounts(tenant.id) : Promise.resolve(null),
+    getOrgIntelligenceForRequest(blueprint.requestId).catch(() => null),
+    resolveBlueprintPlanContext(blueprintId).catch(() => null),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -34,6 +41,27 @@ export default async function BlueprintCemPage({
           </p>
         )}
       </header>
+
+      {planContext && <BlueprintSubscriptionPanel context={planContext} />}
+
+      {orgIntel && (
+        <section className="cc-glass-card space-y-3 !p-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+            Organization model
+          </p>
+          <p className="text-sm text-slate-400">
+            Sector <span className="font-mono text-cyan-300">{orgIntel.record.sectorTemplateKey}</span> ·{" "}
+            {orgIntel.record.status} · {orgIntel.model.departments.length} departments ·{" "}
+            {orgIntel.model.positions.length} positions
+          </p>
+          <Link
+            href={routes.discovery(blueprint.requestId).organizationModel}
+            className="text-sm text-cyan-400 hover:text-cyan-300"
+          >
+            View discovery organization model →
+          </Link>
+        </section>
+      )}
 
       {tenant && identity ? (
         <section className="cc-glass-card grid gap-4 sm:grid-cols-2">

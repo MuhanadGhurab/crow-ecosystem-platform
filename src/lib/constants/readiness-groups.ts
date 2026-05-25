@@ -8,6 +8,7 @@ export type ReadinessGroupKey =
   | "sarea"
   | "integrations"
   | "org_structure"
+  | "subscription"
   | "operations";
 
 export const READINESS_GROUP_META: Record<
@@ -49,6 +50,12 @@ export const READINESS_GROUP_META: Record<
     description: "Departments and branches from discovery feed CEM seed.",
     entity: "cem",
   },
+  subscription: {
+    title: "Subscription & plan scope",
+    description:
+      "Advisory checks for plan alignment, capability depth, and recommended usage bands before go-live.",
+    entity: "cem",
+  },
   operations: {
     title: "Platform operations",
     description: "Infrastructure, smoke test, and support sign-offs.",
@@ -63,5 +70,6 @@ export const READINESS_GROUP_ORDER: ReadinessGroupKey[] = [
   "cybercrow",
   "sarea",
   "integrations",
+  "subscription",
   "operations",
 ];

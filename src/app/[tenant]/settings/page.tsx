@@ -77,10 +77,13 @@ export default async function TenantSettingsPage({
         </section>
       )}
 
-      <section className="cc-glass-card">
-        <h3 className="text-sm font-medium text-cyan-400">Organization</h3>
-        <p className="mt-2 text-sm text-slate-300">Plan: {tenant.planKey}</p>
-        <p className="mt-1 font-mono text-xs text-slate-500">/{tenant.slug}</p>
+      <section className="cc-glass-card space-y-3">
+        <h3 className="text-sm font-medium text-cyan-400">Organization & plan</h3>
+        <p className="text-sm text-slate-300">Plan: {tenant.planKey}</p>
+        <p className="font-mono text-xs text-slate-500">/{tenant.slug}</p>
+        <Link href={routes.tenant(slug).settingsPlan} className="text-sm text-cyan-400 hover:text-cyan-300">
+          View subscription plan (read-only) →
+        </Link>
       </section>
     </div>
   );

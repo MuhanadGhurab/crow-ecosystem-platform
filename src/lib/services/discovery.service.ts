@@ -17,6 +17,7 @@ export const discoveryContextInclude = {
       securityRequirements: true,
       integrations: true,
       experienceRequirements: true,
+      orgIntelligence: true,
     },
   },
   enterpriseBlueprint: true,

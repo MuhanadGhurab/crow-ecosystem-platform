@@ -70,6 +70,7 @@ export async function createImplementationRequest(
   const primary = created.contacts.find((c) => c.isPrimary) ?? created.contacts[0];
   if (primary?.email) {
     void notifyPipelineEvent("request_received", primary.email, {
+      requestId: created.id,
       referenceCode: created.referenceCode,
       organizationName: created.organizationName,
       contactName: primary.fullName,
@@ -79,6 +80,7 @@ export async function createImplementationRequest(
   const platformEmail = process.env.PLATFORM_NOTIFY_EMAIL;
   if (platformEmail) {
     void notifyPipelineEvent("request_received", platformEmail, {
+      requestId: created.id,
       referenceCode: created.referenceCode,
       organizationName: created.organizationName,
       contactName: primary?.fullName ?? "Team",

@@ -128,6 +128,7 @@ model DiscoveryProfile {
   integrations         DiscoveryIntegration[]
   experienceRequirements DiscoveryExperienceRequirement[]
   enterpriseBlueprint  EnterpriseBlueprint?
+  orgIntelligence      DiscoveryOrgIntelligence?
 
   @@map("discovery_profiles")
 }
@@ -222,6 +223,48 @@ model DiscoveryExperienceRequirement {
   profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@map("discovery_experience_requirements")
+}
+
+// ─── Organizational Intelligence (Phase D) ─────────────────────────────────────
+
+enum OrgIntelligenceStatus {
+  RECOMMENDED
+  CUSTOMIZED
+  ACCEPTED
+}
+
+/// Sector starting points — templates recommend; discovery/blueprint decide.
+model SectorTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  name          String
+  description   String?
+  industry      String?
+  maturityLevel String?  @default("growth")
+  isActive      Boolean  @default(true)
+  configJson    Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("sector_templates")
+}
+
+/// Crow Intelligence recommendations for a discovery profile (advisory, editable).
+model DiscoveryOrgIntelligence {
+  id                  String                @id @default(cuid())
+  profileId           String                @unique
+  sectorTemplateKey   String
+  status              OrgIntelligenceStatus @default(RECOMMENDED)
+  recommendationsJson Json
+  customizationsJson  Json?
+  acceptedAt          DateTime?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([sectorTemplateKey])
+  @@map("discovery_org_intelligence")
 }
 
 // ─── 3. Blueprint tables ───────────────────────────────────────────────────────

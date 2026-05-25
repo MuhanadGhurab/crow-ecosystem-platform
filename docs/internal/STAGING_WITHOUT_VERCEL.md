@@ -9,4 +9,4 @@ npm run staging:local    # terminal 1
 npm run staging:tunnel   # terminal 2 (optional)
 ```
 
-See [`LOCAL_STAGING.md`](LOCAL_STAGING.md) for Supabase Auth allowlist and MEEM URLs.
+See [`LOCAL_STAGING.md`](LOCAL_STAGING.md) for Supabase Auth allowlist and MEEM URLs. Run `npm run db:seed:sectors` once after migrate if sector templates are empty.

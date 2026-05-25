@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlueprintPlanDiffPanel } from "@/components/blueprint/blueprint-plan-diff-panel";
 import { ReadinessManualToggle } from "@/components/blueprint/readiness-manual-toggle";
 import { EngineBadges } from "@/components/pipeline/engine-badges";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
+import { computeBlueprintPlanDiff } from "@/lib/services/blueprint-plan-diff.service";
 import {
   evaluateGroupedBlueprintReadiness,
   groupedReadinessSummary,
@@ -25,7 +27,10 @@ export default async function BlueprintReadinessPage({
   const blueprint = await getEnterpriseBlueprint(blueprintId).catch(() => null);
   if (!blueprint) notFound();
 
-  const grouped = await evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null);
+  const [grouped, planDiff] = await Promise.all([
+    evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
+    computeBlueprintPlanDiff(blueprintId).catch(() => null),
+  ]);
   const summary = grouped ? groupedReadinessSummary(grouped.groups) : null;
   const b = routes.blueprint(blueprintId);
   const hasTenant = Boolean(blueprint.tenant);
@@ -49,6 +54,8 @@ export default async function BlueprintReadinessPage({
           </Link>
         </section>
       )}
+
+      {planDiff && <BlueprintPlanDiffPanel diff={planDiff} />}
 
       <header>
         <span className="cc-star-badge">Pre-launch</span>

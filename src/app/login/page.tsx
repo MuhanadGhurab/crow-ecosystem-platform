@@ -35,9 +35,8 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string; error?: string }>;
 }) {
   const { next, error } = await searchParams;
-  const trackNext = routes.portal.requests;
   const nextPath =
-    next?.startsWith("/") && !next.startsWith("//") ? next : trackNext;
+    next?.startsWith("/") && !next.startsWith("//") ? next : undefined;
   const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;
   const configured = isSupabaseAuthConfigured();
   const entraEnabled = isEntraSsoEnabled();
@@ -77,7 +76,7 @@ export default async function LoginPage({
 
         <p className="mt-6 text-center text-sm text-slate-500">
           <Link
-            href={`${routes.auth.login}?next=${encodeURIComponent(trackNext)}`}
+            href={`${routes.auth.login}?next=${encodeURIComponent(routes.portal.requests)}`}
             className="font-medium text-teal-400 hover:text-teal-300"
           >
             Track my request

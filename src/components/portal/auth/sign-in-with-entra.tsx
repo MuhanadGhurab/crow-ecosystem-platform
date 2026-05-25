@@ -5,7 +5,8 @@ import { OAUTH_NEXT_COOKIE } from "@/lib/auth/msal-config";
 import { azureOAuthOptions } from "@/lib/auth/entra-sso";
 import { createClient } from "@/lib/supabase/client";
 
-function setOAuthNextCookie(nextPath: string) {
+function setOAuthNextCookie(nextPath?: string) {
+  if (!nextPath) return;
   const value = encodeURIComponent(
     nextPath.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/admin/overview"
   );
@@ -13,7 +14,7 @@ function setOAuthNextCookie(nextPath: string) {
   document.cookie = `${OAUTH_NEXT_COOKIE}=${value}; path=/; max-age=600; SameSite=Lax${secure ? "; Secure" : ""}`;
 }
 
-export function SignInWithEntra({ nextPath }: { nextPath: string }) {
+export function SignInWithEntra({ nextPath }: { nextPath?: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -6,9 +6,9 @@ export const SUBSCRIPTION_TIERS = [
 
     key: "startup",
 
-    nameEn: "Startup",
+    nameEn: "Crow Start",
 
-    nameAr: "البداية",
+    nameAr: "Crow Start",
 
     icon: "🌱",
 
@@ -26,9 +26,9 @@ export const SUBSCRIPTION_TIERS = [
 
     key: "growth",
 
-    nameEn: "Growth",
+    nameEn: "Crow Growth",
 
-    nameAr: "النمو",
+    nameAr: "Crow Growth",
 
     icon: "🚀",
 
@@ -46,9 +46,9 @@ export const SUBSCRIPTION_TIERS = [
 
     key: "enterprise",
 
-    nameEn: "Enterprise",
+    nameEn: "Crow Enterprise",
 
-    nameAr: "المؤسسات",
+    nameAr: "Crow Enterprise",
 
     icon: "🏢",
 
