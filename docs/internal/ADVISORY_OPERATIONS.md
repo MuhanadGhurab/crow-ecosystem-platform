@@ -124,7 +124,15 @@ Tenant self-serve plan (demo): `/[tenantSlug]/settings/plan` — not used in adm
 | Plan tab | `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1?tab=plan` |
 | Tenant plan settings | `/meem-global/settings/plan` |
 
-Resolve live IDs: `resolveMeemLiveIds()` in `src/lib/mock/meem-global.ts` — returns `source: live` or `unavailable` with **null** IDs (never stale hardcoded CUIDs). Offline mock IDs (`MEEM_MOCK_ONLY_FALLBACK_*`) are for demo cards only. Staff UI shows a clear message when unavailable; run `npm run meem:ids:staging`.
+**MEEM module layout:**
+
+| Module | Role |
+|--------|------|
+| `src/lib/constants/meem.ts` | Shared constants (slug, reference code, mock-only IDs) |
+| `src/lib/mock/meem-global.ts` | Mock-only data and helpers — no DB |
+| `src/lib/server/meem-live.ts` | Server-only live DB resolver |
+
+Resolve live IDs: `resolveMeemLiveIds()` in `src/lib/server/meem-live.ts` — returns `source: live` or `unavailable` with **null** IDs (never stale hardcoded CUIDs). Offline mock IDs (`MEEM_MOCK_ONLY_FALLBACK_*`) in `constants/meem` are for demo cards only. Staff UI shows a clear message when unavailable; run `npm run meem:ids:staging`.
 
 ## Code map
 
@@ -154,7 +162,7 @@ Both use `--env-file=.env.staging` (same as `meem:ids:staging`, `db:test`).
 - `requestId` from `referenceCode` or blueprint reverse lookup
 - `blueprintId` from `requestId` or tenant `blueprintId`
 - `tenantId` / `tenantSlug` from blueprint → tenant when provisioned
-- MEEM hints (`organizationName` / `meem-global`) via **dynamic** `resolveMeemLiveIds()` — never hardcoded live IDs in the script
+- MEEM hints (`organizationName` / `meem-global`) via **dynamic** `resolveMeemLiveIds()` in `src/lib/server/meem-live.ts` — never hardcoded live IDs in the script
 
 ### What it does not repair
 
