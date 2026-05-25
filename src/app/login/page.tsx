@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
+import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
+import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { routes } from "@/lib/routes";
 import type { TenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
@@ -37,6 +40,12 @@ export default async function LoginPage({
   const { next, error } = await searchParams;
   const nextPath =
     next?.startsWith("/") && !next.startsWith("//") ? next : undefined;
+
+  const existingUser = await getSessionUser();
+  if (existingUser) {
+    redirect(resolvePostLoginDestination(existingUser, nextPath));
+  }
+
   const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;
   const configured = isSupabaseAuthConfigured();
   const entraEnabled = isEntraSsoEnabled();

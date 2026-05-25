@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { UserMenu } from "@/components/portal/auth/user-menu";
+import { StaffPreviewNav } from "@/components/portal/staff-preview-nav";
+import { getCrowAuth, isPlatformConsoleRole } from "@/lib/auth/roles";
 import { requireClientAccess } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
-  await requireClientAccess();
+  const user = await requireClientAccess();
+  const { role, tenantSlugs } = getCrowAuth(user);
+  const staffConsolePreview = isPlatformConsoleRole(role);
 
   return (
     <div className="cc-starfield cc-noise min-h-[100dvh]">
@@ -20,12 +24,23 @@ export default async function PortalLayout({ children }: { children: React.React
               >
                 My requests
               </Link>
+              {staffConsolePreview && (
+                <Link
+                  href={routes.admin.overview}
+                  className="font-medium text-teal-400 hover:text-teal-300"
+                >
+                  CEM Command Center
+                </Link>
+              )}
             </nav>
           </div>
           <UserMenu />
         </div>
       </header>
-      <main className="cc-safe-x mx-auto max-w-5xl py-8 sm:py-12">{children}</main>
+      <main className="cc-safe-x mx-auto max-w-5xl py-8 sm:py-12">
+        <StaffPreviewNav role={role} tenantSlugs={tenantSlugs} />
+        {children}
+      </main>
     </div>
   );
 }

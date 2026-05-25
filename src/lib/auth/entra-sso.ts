@@ -28,19 +28,29 @@ export function oauthNextCookieOptions(maxAgeSeconds = 600) {
   };
 }
 
+function normalizeOAuthNextPath(raw: string | null | undefined): string | undefined {
+  if (!raw) return undefined;
+  let path = raw.trim();
+  try {
+    if (path.includes("%")) {
+      path = decodeURIComponent(path);
+    }
+  } catch {
+    return undefined;
+  }
+  if (path.startsWith("/") && !path.startsWith("//")) {
+    return path;
+  }
+  return undefined;
+}
+
 export function resolveOAuthNextPath(
   explicitNext: string | null | undefined,
   cookieNext: string | undefined
 ): string | undefined {
-  const fromQuery = explicitNext?.trim();
-  if (fromQuery?.startsWith("/") && !fromQuery.startsWith("//")) {
-    return fromQuery;
-  }
-  const fromCookie = cookieNext?.trim();
-  if (fromCookie?.startsWith("/") && !fromCookie.startsWith("//")) {
-    return fromCookie;
-  }
-  return undefined;
+  return (
+    normalizeOAuthNextPath(explicitNext) ?? normalizeOAuthNextPath(cookieNext)
+  );
 }
 
 /**

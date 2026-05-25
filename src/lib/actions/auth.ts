@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { resolvePostLoginPath } from "@/lib/auth/post-login-redirect";
+import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
   countRequestsForEmail,
@@ -90,7 +90,7 @@ export async function signIn(
       const count = await countRequestsForEmail(refreshed.email);
       if (count > 0) {
         redirect(
-          resolvePostLoginPath(
+          resolvePostLoginDestination(
             {
               ...refreshed,
               app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
@@ -109,7 +109,7 @@ export async function signIn(
     return { error: "No Crow role assigned. Contact your administrator." };
   }
 
-  redirect(resolvePostLoginPath(refreshed!, next));
+  redirect(resolvePostLoginDestination(refreshed!, next));
 }
 
 export async function signOut() {

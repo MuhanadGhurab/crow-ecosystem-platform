@@ -5,7 +5,13 @@ import {
   canAccessPlatformPath,
   canAccessTenantPath,
 } from "@/lib/auth/permissions";
-import { canAccessTenant, getCrowAuth, isClient } from "@/lib/auth/roles";
+import {
+  canAccessTenant,
+  getCrowAuth,
+  isClient,
+  isPlatformConsoleRole,
+} from "@/lib/auth/roles";
+import { routes } from "@/lib/routes";
 import {
   getTenantSlugFromPath,
   isAuthApiPath,
@@ -111,6 +117,15 @@ export async function updateSession(request: NextRequest) {
   if (isPortalPath(pathname)) {
     if (role && !canAccessPortalPath(role) && !isClient(role)) {
       return redirectToLogin(request, "forbidden");
+    }
+    if (
+      isPlatformConsoleRole(role) &&
+      request.nextUrl.searchParams.get("preview") !== "client"
+    ) {
+      const adminUrl = request.nextUrl.clone();
+      adminUrl.pathname = routes.admin.overview;
+      adminUrl.search = "";
+      return NextResponse.redirect(adminUrl);
     }
     return response;
   }

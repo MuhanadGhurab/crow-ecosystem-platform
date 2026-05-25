@@ -4,7 +4,7 @@ import {
   oauthNextCookieOptions,
   resolveOAuthNextPath,
 } from "@/lib/auth/entra-sso";
-import { resolvePostLoginPath } from "@/lib/auth/post-login-redirect";
+import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
   countRequestsForEmail,
@@ -67,7 +67,7 @@ export async function GET(request: Request) {
         try {
           const count = await countRequestsForEmail(refreshed.email);
           if (count > 0) {
-            const destination = resolvePostLoginPath(
+            const destination = resolvePostLoginDestination(
               {
                 ...refreshed,
                 app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
@@ -94,7 +94,7 @@ export async function GET(request: Request) {
         );
       }
 
-      const destination = resolvePostLoginPath(refreshed!, explicitNext);
+      const destination = resolvePostLoginDestination(refreshed!, explicitNext);
       return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
     }
   }
