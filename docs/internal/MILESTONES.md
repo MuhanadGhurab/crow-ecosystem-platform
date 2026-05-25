@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **RC1** | Staging deploy & health validation | Staging sign-off | Muhanad | **100%** | **Passed** — [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) |
 | **M1** | Platform foundation | 0, 1, 2, 7b | Muhanad | **100%** | Done |
 | **M2** | MEEM lighthouse pipeline | MEEM, 3, 4 (+ RBAC) | Muhanad · MEEM (Omar) SAREA | **~95%** | Live E2E passed (P1); staging URL pending |
 | **M3** | Modular ERP chain | 5, E1–E9 | Muhanad | **~92%** | Done for MEEM demo |
@@ -18,6 +19,26 @@
 | **M6** | Auth hardening & SaaS prep | 8, 9 | Muhanad | **~90%** | Prod auth gate + CI; dept chips DB-driven; MEEM CI path |
 | **M7** | Cloud & production | Cloud, Resend | Muhanad | **~75%** | Code-complete; live Azure/Vercel + Entra prod pending |
 | **M8** | Paid customer / SaaS | 10, billing | Muhanad | **~70%** | Stripe scaffold + checkout when keys set |
+
+---
+
+## RC1 — Staging deploy & health validation
+
+**Scope:** Deployed **Vercel staging** build with **Supabase** pooler + Auth; confirm core pages and auth routing before Phase F planning.
+
+| Passed | Evidence |
+|--------|----------|
+| Vercel deployment + pooler DB | User-confirmed staging URL |
+| Auth / platform admin landing | `/admin/overview` after login |
+| CEM Command Center + admin pages | Overview, notifications, tenants |
+| MEEM tenant runtime | Dashboard, plan settings |
+| Blueprint / go-live | Lighthouse blueprint surfaces |
+| Client portal | Clients on portal; staff preview controlled |
+| API security patch | [`API_SECURITY.md`](API_SECURITY.md) |
+
+**Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
+
+**Next:** Planning required before Phase F — see [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
 
 ---
 
@@ -153,6 +174,8 @@ Notification **logging** works; **send** requires `RESEND_API_KEY`.
 
 | Topic | Document |
 |-------|----------|
+| RC1 staging checkpoint | [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) |
+| Current status | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
 | Phase checkboxes | [`PHASES.md`](PHASES.md) |
 | ERP backlog E1–E14 | [`ERP_ROADMAP.md`](ERP_ROADMAP.md) |
 | MEEM demo | [`customers/MEEM_GLOBAL.md`](customers/MEEM_GLOBAL.md) |

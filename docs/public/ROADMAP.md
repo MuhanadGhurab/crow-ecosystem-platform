@@ -14,6 +14,12 @@ Request → Discovery → Blueprint → Provision → Go-Live → Operations
 
 ---
 
+## Milestone note
+
+**RC1 staging milestone reached** — a deployed staging build validating authentication, multi-tenant operations, advisory security workflows, and role-aware experiences. Details remain internal until a public production narrative is agreed.
+
+---
+
 ## In flight
 
 | Theme | Direction |
