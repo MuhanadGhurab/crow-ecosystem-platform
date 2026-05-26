@@ -11,11 +11,20 @@ type ProfileOption = { id: string; label: string };
 type Props = {
   mapId: string;
   currentProfileId: string;
+  currentProfileLabel: string;
   roleSlug: string;
+  recommendedProfileName?: string | null;
   profileOptions: ProfileOption[];
 };
 
-export function SareaRoleMapAssign({ mapId, currentProfileId, roleSlug, profileOptions }: Props) {
+export function SareaRoleMapAssign({
+  mapId,
+  currentProfileId,
+  currentProfileLabel,
+  roleSlug,
+  recommendedProfileName,
+  profileOptions,
+}: Props) {
   const [state, action, pending] = useActionState<SareaActionState, FormData>(
     updateRoleMapProfileAction,
     undefined
@@ -25,7 +34,14 @@ export function SareaRoleMapAssign({ mapId, currentProfileId, roleSlug, profileO
     <form action={action} className="mt-3 space-y-2 rounded-lg border border-amber-500/15 bg-amber-950/10 p-3">
       <p className="text-[11px] text-amber-200/90">
         Reassign <span className="font-mono text-slate-300">{roleSlug}</span> to another SAREA
-        profile on the same tenant. Does not change RBAC permissions.
+        profile on the same tenant. Current: <span className="text-slate-300">{currentProfileLabel}</span>
+        {recommendedProfileName ? (
+          <>
+            {" "}
+            · Recommended: <span className="text-cyan-300/90">{recommendedProfileName}</span>
+          </>
+        ) : null}
+        . Does not change RBAC permissions.
       </p>
       <label className="block text-xs text-slate-500">
         SAREA profile

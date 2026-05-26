@@ -4,6 +4,7 @@ import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { updateWidgetVisibilityAction } from "@/lib/actions/sarea";
 import { routes } from "@/lib/routes";
+import { widgetLabel, widgetSourceArea } from "@/lib/sarea/studio-helpers";
 import { listWidgetRules } from "@/lib/services/sarea.service";
 
 const VISIBILITY = ["visible", "hidden", "optional"];
@@ -17,52 +18,76 @@ export default async function SareaWidgetsPage() {
       description="Widget visibility per experience profile — does not change RBAC or module access."
     >
       <SareaRbacBanner compact />
-      <p className="text-xs text-slate-500">
-        Widgets adapt dashboard density and focus (CEM ops, CyberCrow, SAREA chrome). Route guards and
-        permissions still apply at runtime.
-      </p>
+      <section className="rounded-lg border border-rose-500/10 bg-rose-950/10 px-4 py-3 text-xs text-slate-400">
+        <p>
+          Toggle visibility for dashboard blocks (CEM, CyberCrow, operations). Display order is not
+          stored in the current schema — future work if product needs drag-and-drop ordering.
+        </p>
+      </section>
 
       {rules.length === 0 ? (
         <p className="text-sm text-slate-500">No widget rules yet — provision a tenant to seed defaults.</p>
       ) : (
         <ul className="space-y-4">
-          {rules.map((w) => (
-            <li key={w.id} className="cc-list-item !border-rose-500/15 !bg-rose-500/[0.04]">
-              <div className="flex flex-wrap justify-between gap-2">
-                <div>
-                  <p className="text-sm font-medium text-white">{w.widgetKey}</p>
-                  <p className="text-xs text-slate-500">
-                    {w.profile.tenant?.slug ? `/${w.profile.tenant.slug}` : "—"} ·{" "}
-                    {w.profile.personaKey} · {w.profile.name}
-                  </p>
+          {rules.map((w) => {
+            const area = widgetSourceArea(w.widgetKey);
+            const label = widgetLabel(w.widgetKey);
+            const previewSlug = w.profile.tenant?.slug;
+            return (
+              <li key={w.id} className="cc-list-item !border-rose-500/15 !bg-rose-500/[0.04]">
+                <div className="flex flex-wrap justify-between gap-2">
+                  <div>
+                    <p className="text-sm font-medium text-white">{label}</p>
+                    <p className="font-mono text-[10px] text-slate-600">{w.widgetKey}</p>
+                    <p className="mt-1 text-xs text-slate-500">
+                      {previewSlug ? `/${previewSlug}` : "—"} · {w.profile.personaKey} ·{" "}
+                      {w.profile.name}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="rounded-full border border-cyan-500/20 bg-cyan-950/20 px-2 py-0.5 text-[10px] text-cyan-300">
+                      {area}
+                    </span>
+                    <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-slate-400">
+                      {w.visibility}
+                    </span>
+                  </div>
                 </div>
-                <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-slate-400">
-                  {w.visibility}
-                </span>
-              </div>
-              <p className="mt-1 text-[11px] text-slate-600">
-                Persona relevance: {w.profile.personaKey} experience — safe edit: visibility only.
-              </p>
-              <div className="mt-3">
-                <SareaEditRow
-                  id={w.id}
-                  action={updateWidgetVisibilityAction}
-                  fields={[
-                    {
-                      name: "visibility",
-                      label: "Visibility",
-                      defaultValue: w.visibility,
-                      type: "select",
-                      options: VISIBILITY,
-                    },
-                  ]}
-                />
-              </div>
-              <Link href={routes.sarea.profiles} className="mt-2 inline-block text-xs text-rose-300">
-                Profile →
-              </Link>
-            </li>
-          ))}
+                <p className="mt-2 text-[11px] text-slate-600">
+                  Persona {w.profile.personaKey} · Safe edit: visibility only · Hidden widgets do not
+                  grant module access.
+                </p>
+                <div className="mt-3">
+                  <SareaEditRow
+                    id={w.id}
+                    action={updateWidgetVisibilityAction}
+                    fields={[
+                      {
+                        name: "visibility",
+                        label: "Visibility",
+                        defaultValue: w.visibility,
+                        type: "select",
+                        options: VISIBILITY,
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="mt-2 flex flex-wrap gap-3">
+                  {previewSlug ? (
+                    <Link
+                      href={`/api/sarea/preview?persona=${w.profile.personaKey}&redirect=${routes.tenant(previewSlug).dashboard}`}
+                      className="text-xs text-cyan-300"
+                    >
+                      Preview →
+                    </Link>
+                  ) : null}
+                  <Link href={routes.sarea.profiles} className="text-xs text-rose-300">
+                    Profile →
+                  </Link>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </SareaStudioPage>

@@ -2,6 +2,10 @@ import type { User } from "@supabase/supabase-js";
 import type { CrowRole } from "@/lib/auth/roles";
 import { isPlatformStaff } from "@/lib/auth/roles";
 import {
+  SAREA_PREVIEW_FALLBACK,
+  type SareaPreviewPersonaKey,
+} from "@/lib/constants/sarea-personas";
+import {
   SAREA_DASHBOARD_WIDGETS,
   type SareaDashboardWidgetKey,
 } from "@/lib/constants/sarea-runtime";
@@ -15,6 +19,8 @@ export type SareaRuntimeContext = {
   widgets: { key: string; visibility: "visible" | "hidden" | "optional" }[];
   density: "spacious" | "comfortable" | "compact";
   compact: boolean;
+  /** True when analyst/tenant_admin preview uses built-in fallback (no studio profile). */
+  previewRecommended?: boolean;
 };
 
 const DEFAULT_NAV = ["dashboard", "tasks", "users", "modules", "cybercrow"];
@@ -68,11 +74,19 @@ export async function getSareaRuntimeContext(
       >
     | undefined;
 
+  const previewKeys: SareaPreviewPersonaKey[] = [
+    "executive",
+    "manager",
+    "frontline",
+    "analyst",
+    "tenant_admin",
+  ];
+
   if (
     previewPersonaKey &&
     crowRole &&
     isPlatformStaff(crowRole) &&
-    ["executive", "manager", "frontline"].includes(previewPersonaKey)
+    previewKeys.includes(previewPersonaKey as SareaPreviewPersonaKey)
   ) {
     profile =
       (await prisma.sareaExperienceProfile.findFirst({
@@ -84,6 +98,28 @@ export async function getSareaRuntimeContext(
           adaptiveRules: true,
         },
       })) ?? undefined;
+
+    if (
+      !profile &&
+      (previewPersonaKey === "analyst" || previewPersonaKey === "tenant_admin")
+    ) {
+      const fallback = SAREA_PREVIEW_FALLBACK[previewPersonaKey];
+      return {
+        personaKey: previewPersonaKey,
+        profileName: `Recommended ${previewPersonaKey.replace(/_/g, " ")} preview`,
+        roleSlug,
+        navKeys: fallback.navKeys,
+        widgets: SAREA_DASHBOARD_WIDGETS.map((w) => ({
+          key: w.key,
+          visibility: fallback.visibleWidgets.includes(w.key)
+            ? ("visible" as const)
+            : ("hidden" as const),
+        })),
+        density: fallback.density,
+        compact: fallback.density === "compact",
+        previewRecommended: true,
+      };
+    }
   }
 
   if (!profile) {

@@ -5,10 +5,19 @@ import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { updateNavigationKeysAction } from "@/lib/actions/sarea";
 import { SAREA_NAV_KEYS } from "@/lib/constants/sarea-runtime";
 import { routes } from "@/lib/routes";
-import { listNavigationProfiles } from "@/lib/services/sarea.service";
+import { listNavigationProfiles, listRoleExperienceMaps } from "@/lib/services/sarea.service";
 
 export default async function SareaNavigationPage() {
-  const profiles = await listNavigationProfiles();
+  const [profiles, roleMaps] = await Promise.all([
+    listNavigationProfiles(),
+    listRoleExperienceMaps(),
+  ]);
+  const rolesByProfileId = new Map<string, string[]>();
+  for (const m of roleMaps) {
+    const list = rolesByProfileId.get(m.profileId) ?? [];
+    if (!list.includes(m.roleSlug)) list.push(m.roleSlug);
+    rolesByProfileId.set(m.profileId, list);
+  }
 
   return (
     <SareaStudioPage
@@ -41,14 +50,27 @@ export default async function SareaNavigationPage() {
                   {n.profile.tenant?.slug ? `/${n.profile.tenant.slug}` : "—"} ·{" "}
                   {n.profile.personaKey}
                 </p>
-                <dl className="mt-2 grid gap-1 text-xs">
+                <dl className="mt-2 grid gap-2 text-xs sm:grid-cols-2">
                   <div>
-                    <dt className="text-slate-600">Primary nav keys</dt>
+                    <dt className="text-slate-600">Primary nav keys (route targets)</dt>
                     <dd className="font-mono text-slate-400">{primary || "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-600">Mapped RBAC roles</dt>
+                    <dd className="text-slate-400">
+                      {(rolesByProfileId.get(n.profileId) ?? []).join(", ") || "None — assign in role mapping"}
+                    </dd>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <dt className="text-slate-600">Visibility purpose</dt>
+                    <dd className="text-slate-400">
+                      Shell emphasis for {n.profile.personaKey} — users still need RBAC permission
+                      for each module.
+                    </dd>
                   </div>
                   {deviceNote ? (
                     <div>
-                      <dt className="text-slate-600">Device note</dt>
+                      <dt className="text-slate-600">Device relevance</dt>
                       <dd className="text-slate-400">{String(deviceNote)}</dd>
                     </div>
                   ) : null}

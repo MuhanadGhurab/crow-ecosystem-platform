@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { SAREA_PREVIEW_PERSONA_KEYS } from "@/lib/constants/sarea-personas";
 import { safeRedirectPath } from "@/lib/http/safe-redirect-path";
 import { SAREA_PREVIEW_COOKIE } from "@/lib/sarea/preview-cookie";
 
-const VALID = new Set(["executive", "manager", "frontline"]);
+const VALID = new Set<string>(SAREA_PREVIEW_PERSONA_KEYS);
 
 /** Set or clear SAREA persona preview cookie (platform staff demo). */
 export async function GET(req: Request) {

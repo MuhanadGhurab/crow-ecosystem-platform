@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { SareaPersonaMaterializationPanel } from "@/components/studio/sarea/sarea-persona-materialization-panel";
+import { SareaPreviewImpactPanel } from "@/components/studio/sarea/sarea-preview-impact-panel";
 import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
@@ -51,6 +52,7 @@ export default async function SareaPreviewPage() {
           <section key={slug} className="space-y-3">
             <h3 className="text-sm font-medium text-rose-300">{label}</h3>
             <SareaPersonaMaterializationPanel rows={rows} tenantSlug={slug} compact />
+            <SareaPreviewImpactPanel slug={slug} label={label} rows={rows} />
             <div className="flex flex-wrap gap-2">
               {SAREA_PERSONA_DEFINITIONS.map((p) => {
                 const mat = byKey.get(p.key);

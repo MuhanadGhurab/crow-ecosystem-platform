@@ -3,6 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { requireActionPlatformStaff } from "@/lib/auth/action-guard";
 import { routes } from "@/lib/routes";
+import { filterValidNavKeys } from "@/lib/sarea/studio-helpers";
+import { logSareaStudioMutation } from "@/lib/services/sarea-studio-audit.service";
+import { prisma } from "@/lib/db";
 import {
   updateAdaptiveUiRule,
   updateAdaptiveRuleDensity,
@@ -56,12 +59,26 @@ export async function updateWidgetVisibilityAction(
   const visibility = String(formData.get("visibility") ?? "");
   if (!id || !visibility) return { error: "Widget id and visibility required." };
   try {
+    const before = await prisma.widgetRule.findUnique({
+      where: { id },
+      include: { profile: { include: { tenant: { select: { slug: true } } } } },
+    });
     await updateWidgetRuleVisibility(id, visibility);
+    const slug = before?.profile.tenant?.slug;
+    await logSareaStudioMutation({
+      kind: "widget_visibility",
+      tenantSlug: slug ?? undefined,
+      summary: `Widget ${before?.widgetKey ?? id}: visibility ${before?.visibility ?? "?"} → ${visibility}.`,
+      metadata: {
+        widgetKey: before?.widgetKey ?? id,
+        personaKey: before?.profile.personaKey ?? "",
+      },
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Update failed." };
   }
   revalidateSarea(routes.sarea.widgets);
-  return { success: "Widget rule updated." };
+  return { success: "Widget visibility updated — RBAC and route access unchanged." };
 }
 
 export async function updateRoleMapAction(
@@ -123,17 +140,48 @@ export async function updateNavigationKeysAction(
   const id = String(formData.get("id") ?? "");
   const primaryRaw = String(formData.get("primaryKeys") ?? "").trim();
   if (!id || !primaryRaw) return { error: "Navigation id and keys required." };
-  const primary = primaryRaw
+  const parsed = primaryRaw
     .split(",")
     .map((k) => k.trim())
     .filter(Boolean);
+  const { valid, rejected } = filterValidNavKeys(parsed);
+  if (valid.length === 0) {
+    return {
+      error:
+        rejected.length > 0
+          ? `No valid nav keys. Rejected: ${rejected.join(", ")}. Use SAREA shell keys only.`
+          : "At least one valid navigation key required.",
+    };
+  }
   try {
-    await updateNavigationPrimaryKeys(id, primary);
+    const before = await prisma.navigationProfile.findUnique({
+      where: { id },
+      include: { profile: { include: { tenant: { select: { slug: true } } } } },
+    });
+    await updateNavigationPrimaryKeys(id, valid);
+    const slug = before?.profile.tenant?.slug;
+    const prev =
+      ((before?.configJson as { primary?: string[] } | null)?.primary ?? []).join(", ") || "—";
+    await logSareaStudioMutation({
+      kind: "navigation_keys",
+      tenantSlug: slug ?? undefined,
+      summary: `Navigation ${before?.profile.personaKey ?? ""}: ${prev} → ${valid.join(", ")}.`,
+      metadata: {
+        personaKey: before?.profile.personaKey ?? "",
+        ...(rejected.length > 0 ? { rejectedKeys: rejected.join(",") } : {}),
+      },
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Update failed." };
   }
   revalidateSarea(routes.sarea.navigation);
-  return { success: "Navigation updated." };
+  const warn =
+    rejected.length > 0
+      ? ` Saved ${valid.length} keys; ignored unknown: ${rejected.join(", ")}.`
+      : "";
+  return {
+    success: `Navigation updated — shell links only; RBAC still gates routes.${warn}`,
+  };
 }
 
 export async function updateDensityLevelAction(
@@ -179,7 +227,17 @@ export async function updateProfileNameAction(
   const name = String(formData.get("name") ?? "").trim();
   if (!id || !name) return { error: "Profile id and name required." };
   try {
+    const before = await prisma.sareaExperienceProfile.findUnique({
+      where: { id },
+      include: { tenant: { select: { slug: true } } },
+    });
     await updateExperienceProfileName(id, name);
+    await logSareaStudioMutation({
+      kind: "profile_update",
+      tenantSlug: before?.tenant?.slug ?? undefined,
+      summary: `Profile ${before?.personaKey ?? id} renamed: ${before?.name ?? "?"} → ${name}.`,
+      metadata: { personaKey: before?.personaKey ?? "" },
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Update failed." };
   }
@@ -196,7 +254,17 @@ export async function updateProfileConfigAction(
   const complexity = String(formData.get("complexity") ?? "").trim();
   if (!id) return { error: "Profile id required." };
   try {
+    const before = await prisma.sareaExperienceProfile.findUnique({
+      where: { id },
+      include: { tenant: { select: { slug: true } } },
+    });
     await updateExperienceProfileConfig(id, { complexity: complexity || undefined });
+    await logSareaStudioMutation({
+      kind: "profile_update",
+      tenantSlug: before?.tenant?.slug ?? undefined,
+      summary: `Profile ${before?.personaKey ?? id} config updated (complexity: ${complexity || "unchanged"}).`,
+      metadata: { personaKey: before?.personaKey ?? "" },
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Update failed." };
   }
@@ -215,10 +283,32 @@ export async function updateRoleMapProfileAction(
   if (!id || !profileId) return { error: "Map id and profile required." };
   if (confirm !== "yes") return { error: "Type confirmation to apply mapping change." };
   try {
+    const map = await prisma.roleExperienceMap.findUnique({
+      where: { id },
+      include: {
+        profile: { include: { tenant: { select: { slug: true } } } },
+      },
+    });
+    if (!map) return { error: "Role map not found." };
+    const target = await prisma.sareaExperienceProfile.findUnique({ where: { id: profileId } });
+    if (!target) return { error: "Target profile not found." };
     await updateRoleMapProfile(id, profileId);
+    const slug = map.profile.tenant?.slug;
+    await logSareaStudioMutation({
+      kind: "role_map_reassign",
+      tenantSlug: slug ?? undefined,
+      summary: `Role ${map.roleSlug}: profile ${map.profile.name} (${map.profile.personaKey}) → ${target.name} (${target.personaKey}).`,
+      metadata: {
+        roleSlug: map.roleSlug,
+        fromPersona: map.profile.personaKey,
+        toPersona: target.personaKey,
+      },
+    });
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Update failed." };
   }
   revalidateSarea(routes.sarea.roleMapping);
-  return { success: "Role mapped to profile." };
+  return {
+    success: `Role now maps to the selected profile. Preview and dashboard presentation will follow the new persona — RBAC permissions unchanged.`,
+  };
 }

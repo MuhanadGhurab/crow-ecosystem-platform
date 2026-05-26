@@ -85,7 +85,39 @@ export default async function SareaRoleMappingPage() {
                 <p className="text-xs text-slate-500">
                   {previewSlug ? `/${previewSlug}` : "—"} · persona {m.profile.personaKey}
                 </p>
-                <dl className="mt-3 grid gap-2 text-xs sm:grid-cols-2">
+                <dl className="mt-3 grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-3">
+                  <div>
+                    <dt className="text-slate-600">Tenant</dt>
+                    <dd className="text-slate-400">{previewSlug ? `/${previewSlug}` : "Global"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-600">Recommended profile</dt>
+                    <dd className="text-slate-400">
+                      {m.recommendedProfileName
+                        ? `${m.recommendedProfileName} (${m.recommendedPersonaKey})`
+                        : m.recommendedPersonaKey
+                          ? `Persona ${m.recommendedPersonaKey} (not materialized)`
+                          : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-600">Mapping alignment</dt>
+                    <dd
+                      className={
+                        m.mappingAlignment === "aligned"
+                          ? "text-teal-400"
+                          : m.mappingAlignment === "review"
+                            ? "text-amber-300"
+                            : "text-slate-400"
+                      }
+                    >
+                      {m.mappingAlignment === "aligned"
+                        ? "Aligned with recommended persona"
+                        : m.mappingAlignment === "review"
+                          ? "Review — role slug suggests different persona"
+                          : "No recommended alias for this slug"}
+                    </dd>
+                  </div>
                   <div>
                     <dt className="text-slate-600">Layouts · widgets · nav</dt>
                     <dd className="text-slate-400">
@@ -97,6 +129,12 @@ export default async function SareaRoleMappingPage() {
                   <div>
                     <dt className="text-slate-600">Materialization</dt>
                     <dd className="text-slate-400">{materializationStateHint(m.materialization)}</dd>
+                  </div>
+                  <div className="sm:col-span-2 lg:col-span-3">
+                    <dt className="text-slate-600">RBAC · experience impact</dt>
+                    <dd className="text-slate-400">
+                      {m.rbacSummary} {m.experienceImpact}
+                    </dd>
                   </div>
                 </dl>
                 {previewSlug ? (
@@ -111,7 +149,9 @@ export default async function SareaRoleMappingPage() {
                   <SareaRoleMapAssign
                     mapId={m.id}
                     currentProfileId={m.profileId}
+                    currentProfileLabel={`${m.profile.name} (${m.profile.personaKey})`}
                     roleSlug={m.roleSlug}
+                    recommendedProfileName={m.recommendedProfileName}
                     profileOptions={tenantProfiles}
                   />
                 ) : (

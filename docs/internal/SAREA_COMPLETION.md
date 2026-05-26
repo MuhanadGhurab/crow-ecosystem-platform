@@ -1,63 +1,74 @@
-# SAREA operational completion (Phase F3)
+# SAREA operational completion (Phase F4 + F5)
 
 Last updated: 2026-05-25
 
 ## Scope
 
-Experience studio under `/sarea/*`, runtime on `/{tenant}/dashboard`, and admin tenant control room **SAREA** tab. No schema changes in this phase.
+Experience studio under `/sarea/*`, five-persona preview catalog, runtime on `/{tenant}/dashboard`, and admin tenant **SAREA** tab. No schema changes in F4/F5.
+
+## Phase F5 (materialization + validation)
+
+- **Services:** `sarea-seed.service.ts` (`ensureTenantSareaPersonas`, all five `SAREA_DEFAULT_PERSONA_KEYS`), `sarea-materialization.service.ts` (`getTenantPersonaMaterialization`)
+- **Provisioning:** `provisionAndInitializeTenant` seeds all five personas by default
+- **MEEM:** `seed-meem.ts` idempotent re-run ensures analyst + tenant_admin; discovery requirements added for analyst/admin
+- **UI:** `/sarea/role-mapping`, `/sarea/preview`, admin tenant **SAREA** tab — materialization panel (tenant-backed / partial / not materialized / recommended fallback)
+- **Dashboard preview banner:** Shows tenant-backed vs recommended fallback
+- **Matrix:** `docs/internal/F5_CYBERCROW_SAREA_VALIDATION.md`
+- **CLI:** `npm run sarea:meem-upgrade`
+
+### F5 non-goals
+
+Same as F4: no RBAC changes from SAREA, no destructive remapping, no preview granting access.
+
+## Personas (F4)
+
+| Persona | Preview cookie | Studio `personaKey` | Notes |
+| --- | --- | --- | --- |
+| Executive | Yes | `executive` | Trust-oriented widgets |
+| Manager / Operations Manager | Yes | `manager` | Workflow / ops emphasis |
+| Frontline | Yes | `frontline` | Compact task-first |
+| CyberCrow Analyst | Yes (platform staff) | `analyst` | Security widgets; fallback if no profile |
+| Tenant Admin | Yes (platform staff) | `tenant_admin` | CEM density; recommended mapping label |
+
+Definitions: `src/lib/constants/sarea-personas.ts`  
+API/cookie keys: `SAREA_PREVIEW_PERSONA_KEYS`
 
 ## Studio routes
 
-| Route | Data source | Mode |
-| --- | --- | --- |
-| `/sarea/overview` | `getSareaStudioSummary`, profiles, role map count | DB-backed |
-| `/sarea/profiles` | `listSareaExperienceProfiles` | DB-backed, name edit |
-| `/sarea/role-mapping` | `listRoleExperienceMaps` | DB-backed, role slug edit; layout/nav/widgets read-only chain notes |
-| `/sarea/layouts` | Layout list | DB-backed |
-| `/sarea/navigation` | Navigation profiles | DB-backed |
-| `/sarea/widgets` | Widget rules | DB-backed |
-| `/sarea/rules` | Adaptive UI rules | DB-backed |
-| `/sarea/device-rules` | Device rules | DB-backed, advisory breakpoints |
-| `/sarea/preview` | Summary + MEEM preview links | DB-backed + cookie preview (platform staff) |
+| Route | Mode |
+| --- | --- |
+| `/sarea/preview` | Five persona cards + MEEM live preview links + RBAC vs SAREA callout |
+| `/sarea/role-mapping` | Suggested slugs include `analyst`, `tenant_admin` |
+| `/sarea/overview` | Unchanged DB-backed studio summary |
 
 ## Runtime (tenant dashboard)
 
-- `getSareaRuntimeContext` drives nav keys, widgets, compact flag
-- Persona indicator in dashboard hero (`profileName`, `personaKey`)
-- Preview cookie: `sarea_preview_persona` — values `executive` | `manager` | `frontline` (platform staff only)
-- API: `/api/sarea/preview?persona=…&redirect=/{tenant}/dashboard`
+- `getSareaRuntimeContext` — `previewRecommended: true` when analyst/tenant_admin use fallback profile
+- MEEM dashboard: quick-switch links for all five persona keys (platform staff)
+- Preview: `/api/sarea/preview?persona=…&redirect=/{tenant}/dashboard`
 
-## MEEM lighthouse
+## Admin tenant tab
 
-- Preview hub: `/sarea/preview` with links to `/meem-global/dashboard`
-- `SareaAcceptanceHub` on overview/preview (Discovery → Blueprint → Preview)
-- IDs: `npm run meem:ids:staging` — never hardcode tenant/request/blueprint IDs in docs or tests
-- Admin tab: `/admin/tenants/{tenantId}?tab=sarea`
+- **SAREA** tab copy references all five personas and analyst/admin as recommended mappings
 
-## RBAC vs SAREA (copy)
+## RBAC vs SAREA
 
-- RBAC: who can access modules and actions (CEM roles / permissions)
-- SAREA: how the console is presented (layouts, navigation density, widgets)
-- Documented on overview, preview, role-mapping, admin SAREA tab, and `CybercrowConnectionPanel`
-
-## Personas
-
-| Persona | Live preview cookie | Notes |
-| --- | --- | --- |
-| Executive | Yes | Trust-oriented widgets |
-| Manager | Yes | Workflow / ops emphasis |
-| Frontline | Yes | Compact task-first |
-| Analyst | Studio mapping only | Map via `personaKey` on profile |
-| Tenant admin | Studio mapping only | Map `tenant_admin` role slug |
+- RBAC: permissions and module access (CEM)
+- SAREA: presentation only (layouts, nav, widgets)
+- Documented on preview hub, role-mapping, admin tab, connection panels
 
 ## Connection to CyberCrow
 
-- Tenant dashboard: `CybercrowConnectionPanel`, `cybercrow_posture` widget when visible
-- Analysts: CyberCrow console for posture; executives: SAREA-adapted trust summary widgets
+- Analysts: CyberCrow console for posture and workflows
+- Tenant admins: users/roles/plan in CEM + CyberCrow monitoring
+- Executives/managers: SAREA-adapted trust summaries
+
+## Explicit non-goals (F4)
+
+- Preview does not grant permissions
+- No Entra group sync or live IdP-driven persona assignment
 
 ## Future work
 
-- Preview cookie support for analyst / tenant_admin personas
-- Full responsive enforcement for device rules (not only compact JSON)
-- Unmapped-role detection vs CEM role catalog (automated gap report)
-- In-studio editors for layout ↔ navigation ↔ widget linkage
+- Role map automation from CEM provisioning (still manual studio today)
+- Non-MEEM tenants: run `sarea:backfill-seed` or pipeline provision for all five personas
