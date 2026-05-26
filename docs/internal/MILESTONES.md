@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
 | **F34** | Construction operating model depth & Rimal hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Rimal verify, construction:verify | Muhanad | **100%** | **Passed** — [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md) |
@@ -71,7 +72,27 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+
+---
+
+## F37 — Industry catalog UX & sector selection polish (no paid infra)
+
+**Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
+| Sector catalog | `src/lib/constants/sector-catalog.ts` |
+| Public industries | `src/app/(public)/industries/page.tsx` · `IndustryCatalogCard` |
+| Request preview | `RequestIndustryPreviewPanel` · `implementation-request-form.tsx` |
+| Discovery UX | `discovery-sector-guidance-panel.tsx` · advisory caps |
+| Blueprint UX | `BlueprintSectorReadinessPanel` on readiness page |
+| Verification | `npm run sector:verify` |
+
+**Acceptance:** Audit documented · `/industries` + `/request` polished · discovery/blueprint clarity · hero stays 4 chips · public wording safe · validation green.
 
 ---
 

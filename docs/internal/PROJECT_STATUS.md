@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F36 healthcare operating model depth)  
+**Last updated:** 26 May 2026 (F37 industry catalog UX)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Industry catalog UX (F37) | [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | Healthcare operating model depth (F36) | [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | Aviation operating model depth (F35) | [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
 | Construction operating model depth (F34) | [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md) |
@@ -43,6 +44,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**F37 acceptance:** **PASSED** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md).  
+Five modeled sectors on `/industries`; request selector with preview; discovery/blueprint sector clarity; `npm run sector:verify`; hero remains 4 chips (no healthcare chip).
 
 **F36 acceptance:** **PASSED** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md).  
 Healthcare is a first-class sector template; verify with `npm run healthcare:verify`; privacy/safety and evidence posture are advisory only (no HIPAA/certification claims); public hero chip not added.

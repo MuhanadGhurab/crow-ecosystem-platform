@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { submitImplementationRequest } from "@/lib/actions/implementation-request";
 import { CEM_MODULES, type CemModuleKey } from "@/lib/constants/modules";
-import { DISCOVERY_INDUSTRY_OPTIONS } from "@/lib/constants/industry-templates";
+import {
+  DISCOVERY_INDUSTRY_OPTIONS,
+  getRequestIndustryPreview,
+} from "@/lib/constants/industry-templates";
+import { RequestIndustryPreviewPanel } from "@/components/public/request-industry-preview";
 import { SECURITY_PACKAGES, type SecurityPackageKey } from "@/lib/constants/security-packages";
 import { SUBSCRIPTION_TIERS, type SubscriptionTierKey } from "@/lib/constants/subscriptions";
 import type { ImplementationRequestInput } from "@/lib/types/platform";
@@ -103,6 +107,12 @@ export function ImplementationRequestForm() {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState("");
+
+  const industryPreview = useMemo(
+    () => getRequestIndustryPreview(selectedIndustry),
+    [selectedIndustry]
+  );
 
   const progressPct = useMemo(
     () =>
@@ -300,14 +310,16 @@ export function ImplementationRequestForm() {
               <div className="sm:col-span-2">
                 <FieldLabel htmlFor="industry">Industry</FieldLabel>
                 <p className="mb-2 text-xs text-slate-500">
-                  Construction and aviation use sector-specific discovery templates (projects, HSE,
-                  ops control, compliance). General / other still maps to a neutral retail baseline.
+                  Choose the operating model closest to your organization. Discovery uses sector templates
+                  for logistics, retail, construction, aviation, and healthcare. Other / Not sure starts
+                  general — an operator confirms sector later.
                 </p>
                 <select
                   id="industry"
                   name="industry"
                   className="input-cc transition focus:ring-2 focus:ring-cyan-400/30"
-                  defaultValue=""
+                  value={selectedIndustry}
+                  onChange={(e) => setSelectedIndustry(e.target.value)}
                   onFocus={() => focusStep("01")}
                 >
                   {DISCOVERY_INDUSTRY_OPTIONS.map((o) => (
@@ -316,6 +328,7 @@ export function ImplementationRequestForm() {
                     </option>
                   ))}
                 </select>
+                <RequestIndustryPreviewPanel preview={industryPreview} />
               </div>
               <div className="sm:col-span-2">
                 <FieldLabel htmlFor="employeeBand">Employee band</FieldLabel>

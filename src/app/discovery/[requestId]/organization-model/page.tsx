@@ -46,7 +46,12 @@ export default async function DiscoveryOrganizationModelPage({
       />
       {intelligence ? (
         <>
-          <DiscoverySectorGuidancePanel guidance={intelligence.guidance} />
+          <DiscoverySectorGuidancePanel
+            guidance={intelligence.guidance}
+            sectorTemplateKey={intelligence.sectorTemplateKey}
+            sectorConfidenceLevel={intelligence.completeness.sectorConfidence.level}
+            missingInputs={intelligence.completeness.missingInputs}
+          />
           <DiscoveryAdvisoryRecommendationsPanel recommendations={intelligence.recommendations} />
           <DiscoveryBlueprintBridgePanel
             requestId={requestId}

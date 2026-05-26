@@ -12,7 +12,9 @@ import {
   isReadinessGateEnabled,
 } from "@/lib/services/readiness.service";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
+import { BlueprintSectorReadinessPanel } from "@/components/blueprint/blueprint-sector-readiness-panel";
 import { DiscoveryBlueprintGatePanel } from "@/components/discovery/discovery-blueprint-gate-panel";
+import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 import { evaluateDiscoveryBlueprintGate } from "@/lib/services/discovery-completion-gate.service";
 
@@ -31,10 +33,11 @@ export default async function BlueprintReadinessPage({
   const blueprint = await getEnterpriseBlueprint(blueprintId).catch(() => null);
   if (!blueprint) notFound();
 
-  const [grouped, planDiff, discoveryGate] = await Promise.all([
+  const [grouped, planDiff, discoveryGate, orgIntel] = await Promise.all([
     evaluateGroupedBlueprintReadiness(blueprintId).catch(() => null),
     computeBlueprintPlanDiff(blueprintId).catch(() => null),
     evaluateDiscoveryBlueprintGate(blueprint.requestId).catch(() => null),
+    getOrgIntelligenceForRequest(blueprint.requestId).catch(() => null),
   ]);
   const summary = grouped ? groupedReadinessSummary(grouped.groups) : null;
   const b = routes.blueprint(blueprintId);
@@ -70,6 +73,14 @@ export default async function BlueprintReadinessPage({
       )}
 
       {planDiff && <BlueprintPlanDiffPanel diff={planDiff} />}
+
+      {orgIntel?.record.sectorTemplateKey ? (
+        <BlueprintSectorReadinessPanel
+          requestId={blueprint.requestId}
+          sectorTemplateKey={orgIntel.record.sectorTemplateKey}
+          orgIntelligenceStatus={orgIntel.record.status}
+        />
+      ) : null}
 
       {discoveryGate && (
         <div className="space-y-2">

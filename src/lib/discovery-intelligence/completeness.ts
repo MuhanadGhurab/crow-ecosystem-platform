@@ -259,7 +259,9 @@ export function readinessLabelStyles(label: DiscoveryReadinessLabel): {
   }
 }
 
-export function confidenceBadgeClass(level: "high" | "medium" | "low"): string {
+export type ConfidenceLevel = "high" | "medium" | "low";
+
+export function confidenceBadgeClass(level: ConfidenceLevel): string {
   switch (level) {
     case "high":
       return "border-teal-500/30 bg-teal-500/10 text-teal-200";

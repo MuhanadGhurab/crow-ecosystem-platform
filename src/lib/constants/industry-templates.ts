@@ -5,21 +5,14 @@ import logisticsTemplate from "@/lib/discovery-templates/logistics.json";
 import retailTemplate from "@/lib/discovery-templates/retail.json";
 import type { DiscoveryTemplatePack } from "@/lib/types/discovery-template";
 
-export const DISCOVERY_INDUSTRY_OPTIONS = [
-  { value: "", label: "General / other" },
-  { value: "logistics", label: "Logistics & supply chain" },
-  { value: "construction", label: "Construction & engineering" },
-  { value: "retail", label: "Retail" },
-  { value: "healthcare", label: "Healthcare" },
-  { value: "aviation", label: "Aviation & aerospace" },
-] as const;
+export {
+  REQUEST_INDUSTRY_OPTIONS as DISCOVERY_INDUSTRY_OPTIONS,
+  getRequestIndustryPreview,
+} from "@/lib/constants/sector-catalog";
 
-export type DiscoveryIndustryKey =
-  | "logistics"
-  | "retail"
-  | "healthcare"
-  | "construction"
-  | "aviation";
+import type { ModeledSectorKey } from "@/lib/constants/sector-catalog";
+
+export type DiscoveryIndustryKey = ModeledSectorKey;
 
 const TEMPLATES: Record<DiscoveryIndustryKey, DiscoveryTemplatePack> = {
   logistics: logisticsTemplate as DiscoveryTemplatePack,

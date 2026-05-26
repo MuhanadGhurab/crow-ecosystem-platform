@@ -27,44 +27,4 @@ export const MARKETING_CLIENTS = [
   },
 ] as const;
 
-export const MARKETING_INDUSTRIES = [
-  {
-    key: "logistics",
-    title: "Logistics & supply chain",
-    summary:
-      "Multi-branch CEM with warehouse and logistics modules, CyberCrow Sentinel posture, and SAREA frontline density.",
-    entity: "cem" as const,
-  },
-  {
-    key: "retail",
-    title: "Retail & franchise",
-    summary: "Growth-tier blueprints with CRM, inventory, franchise workflows, and NCA-aligned audit trails.",
-    entity: "cem" as const,
-  },
-  {
-    key: "healthcare",
-    title: "Healthcare & regulated",
-    summary:
-      "Enterprise tier with Entra ID SSO, Fortress security package, executive SAREA personas, and governed go-live.",
-    entity: "cybercrow" as const,
-  },
-  {
-    key: "holding",
-    title: "Holding & conglomerate",
-    summary:
-      "Implementation intake through discovery, blueprint pricing, and phased tenant provisioning across subsidiaries.",
-    entity: "sarea" as const,
-  },
-  {
-    key: "public",
-    title: "Public sector & semi-government",
-    summary: "NCA ECC alignment, auditor-ready CyberCrow exports, and role-appropriate adaptive dashboards.",
-    entity: "cybercrow" as const,
-  },
-  {
-    key: "energy",
-    title: "Energy & industrial",
-    summary: "Operational risk context on tenant dashboards with CyberCrow GRC and compliance baselines.",
-    entity: "cem" as const,
-  },
-] as const;
+export { MARKETING_INDUSTRIES_LEGACY as MARKETING_INDUSTRIES } from "@/lib/constants/sector-catalog";
