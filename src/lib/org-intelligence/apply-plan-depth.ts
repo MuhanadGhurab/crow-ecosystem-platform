@@ -8,42 +8,44 @@ import type { OrgIntelligenceModel } from "@/lib/org-intelligence/types";
 
 /** Logistics positions retained at Crow Start depth (4–6 core roles). */
 const LOGISTICS_STARTUP_POSITION_KEYS = [
-  "ceo",
-  "coo",
-  "ops-mgr",
-  "logistics-mgr",
-  "dispatcher",
+  "exec-owner",
+  "logistics-ops-mgr",
+  "dispatch-coord",
   "driver",
+  "wh-sup",
+  "finance-coord",
 ] as const;
 
 const LOGISTICS_STARTUP_DEPARTMENT_KEYS = [
   "exec",
-  "ops",
-  "logistics",
+  "logistics-ops",
+  "dispatch",
   "fleet",
   "warehouse",
   "finance",
 ] as const;
 
 const LOGISTICS_STARTUP_WORKFLOW_KEYS = [
-  "delivery-assign",
-  "shipment-track",
-  "incident-report",
-  "vehicle-inspect",
-  "employee-onboard",
+  "delivery-intake",
+  "dispatch-assign",
+  "shipment-status",
+  "delivery-exception",
+  "driver-task-update",
 ] as const;
 
 const LOGISTICS_GROWTH_EXTRA_WORKFLOW_KEYS = [
   "route-approval",
-  "inv-transfer",
+  "inv-movement",
   "wh-dispatch",
-  "cust-escalation",
+  "cust-issue-esc",
+  "pod-review",
+  "stock-adjust-review",
 ] as const;
 
-const CYBERCROW_BASIC_KEYS = ["mobile-workforce", "driver-trust", "logistics-audit"];
-const CYBERCROW_STANDARD_EXTRA = ["branch-boundary", "privileged-monitor"];
-const SAREA_BASIC_KEYS = ["exec-dash", "ops-dash", "driver-dash"];
-const SAREA_STANDARD_EXTRA = ["dispatcher-dash", "warehouse-dash"];
+const CYBERCROW_BASIC_KEYS = ["mobile-workforce", "driver-misuse", "logistics-audit", "dispatch-change"];
+const CYBERCROW_STANDARD_EXTRA = ["branch-boundary", "privileged-monitor", "pod-dispute", "inv-movement-abuse"];
+const SAREA_BASIC_KEYS = ["exec-dash", "logistics-ops-dash", "driver-dash"];
+const SAREA_STANDARD_EXTRA = ["dispatcher-dash", "warehouse-dash", "acct-dash"];
 
 function takeByKeys<T extends { key: string }>(items: T[], keys: readonly string[], max: number): T[] {
   const keySet = new Set(keys);

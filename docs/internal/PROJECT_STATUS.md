@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F32 retail operating model pack)  
+**Last updated:** 26 May 2026 (F33 logistics operating model depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Logistics operating model depth (F33) | [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
 | Retail operating model pack (F32) | [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md) |
 | v0.30 portfolio wrap-up (pause) | [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
 | Workspace hygiene & release cleanliness | [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
@@ -39,6 +40,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**F33 acceptance:** **PASSED** — [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md).  
+Logistics is the deepest sector template; verify with `npm run logistics:verify`; MEEM lighthouse alignment checked in verify + `sarea:meem-verify` (staging DB).
 
 **F32 acceptance:** **PASSED** — [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md).  
 Retail is a first-class sector template; verify with `npm run retail:verify`; optional DB sync via `npm run db:seed:sectors`.

@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F33** | Logistics operating model depth & MEEM lighthouse hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, MEEM verify, logistics:verify | Muhanad | **100%** | **Passed** — [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
 | **F32** | Retail operating model pack & tenant readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, verify, hero chip | Muhanad | **100%** | **Passed** — [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md) |
 | **F31** | Workspace hygiene & release cleanliness (no paid infra) | Git audit, forbidden-file check, straggler commits, clean tree | Muhanad | **100%** | **Passed** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
 | **F30** | Final portfolio release tag (no paid infra) | Validation suite, public release notes, tag `v0.30.0-portfolio` | Muhanad | **100%** | **Passed** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) · wrap-up [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
@@ -67,7 +68,27 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+
+---
+
+## F33 — Logistics operating model depth & MEEM lighthouse hardening (no paid infra)
+
+**Scope:** Deepen **Logistics** as the primary Crow operating model and validate **MEEM** staging lighthouse alignment — without paid infra, live payments, schema changes, or public customer claims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
+| Sector template | `src/lib/org-intelligence/sector-template-data.ts` (`LOGISTICS`) |
+| Discovery guidance | `sector-guidance.ts` · `discovery-templates/logistics.json` |
+| Plan-depth trim keys | `apply-plan-depth.ts` |
+| Verification | `npm run logistics:verify` → `scripts/verify-logistics-sector-template.ts` |
+| MEEM checks | `npm run sarea:meem-verify` · `discovery:verify:meem` (staging DB) |
+| DB seed (optional) | `npm run db:seed:sectors` (idempotent; operator-approved) |
+
+**Acceptance:** Audit documented · template with 12 depts / 15 roles / 15 workflows · live CEM modules only · SAREA + CyberCrow models · MEEM module ⊆ logistics recommendations · validation green.
 
 ---
 
