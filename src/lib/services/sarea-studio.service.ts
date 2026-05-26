@@ -1,6 +1,12 @@
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { RIMAL_TENANT_SLUG } from "@/lib/constants/rimal";
 import { SAREA_PERSONA_DEFINITIONS } from "@/lib/constants/sarea-personas";
+import {
+  experienceImpactForPersona,
+  mappingAlignment,
+  rbacSummaryForPersona,
+  recommendedPersonaKeyForRole,
+} from "@/lib/sarea/studio-helpers";
 import { prisma } from "@/lib/db";
 import {
   getTenantPersonaMaterialization,
@@ -11,6 +17,7 @@ import {
   listDashboardLayouts,
   listRoleExperienceMaps,
   listSareaExperienceProfiles,
+  listSareaProfilesForTenant,
   type SareaExperienceProfileListItem,
 } from "@/lib/services/sarea.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -169,18 +176,132 @@ export async function listRoleMapsForStudio() {
   const maps = await listRoleExperienceMaps();
   const profiles = await listSareaExperienceProfiles();
   const byProfileId = new Map(profiles.map((p) => [p.id, p]));
+  const profilesByTenant = new Map<string, typeof profiles>();
+  for (const p of profiles) {
+    if (!p.tenantId) continue;
+    const list = profilesByTenant.get(p.tenantId) ?? [];
+    list.push(p);
+    profilesByTenant.set(p.tenantId, list);
+  }
 
   return maps.map((m) => {
     const full = profiles.find((p) => p.id === m.profileId);
     const profile = full ?? byProfileId.get(m.profileId) ?? m.profile;
+    const personaKey = profile.personaKey;
+    const recommendedPersonaKey = recommendedPersonaKeyForRole(m.roleSlug);
+    const tenantProfiles = full?.tenantId ? profilesByTenant.get(full.tenantId) ?? [] : [];
+    const recommendedProfile =
+      recommendedPersonaKey && full?.tenantId
+        ? tenantProfiles.find((p) => p.personaKey === recommendedPersonaKey)
+        : undefined;
     return {
       ...m,
       profile,
       tenantId: full?.tenantId ?? null,
       profileCounts: full?._count,
       materialization: full ? profileMaterializationLabel(full) : ("not_materialized" as const),
+      recommendedPersonaKey,
+      recommendedProfileName: recommendedProfile?.name ?? null,
+      recommendedProfileId: recommendedProfile?.id ?? null,
+      mappingAlignment: mappingAlignment(m.roleSlug, personaKey),
+      rbacSummary: rbacSummaryForPersona(personaKey),
+      experienceImpact: experienceImpactForPersona(personaKey),
     };
   });
+}
+
+export type TenantSareaHealthAdvisory =
+  | "healthy"
+  | "needs_review"
+  | "missing_mapping"
+  | "fallback_only";
+
+export type TenantSareaHealthDetail = {
+  backedPersonas: number;
+  totalPersonas: number;
+  advisory: TenantSareaHealthAdvisory;
+  unmappedRoleSlugs: string[];
+  profilesWithoutWidgets: { personaKey: string; name: string }[];
+  profilesWithoutNavigation: { personaKey: string; name: string }[];
+  fallbackPersonaCount: number;
+  partialPersonaCount: number;
+  nextActions: string[];
+};
+
+// Used by admin tenant control room to render tenant-backed vs fallback-only posture.
+export async function getTenantSareaHealthDetail(tenantId: string): Promise<TenantSareaHealthDetail> {
+  const [materialization, profiles] = await Promise.all([
+    getTenantPersonaMaterialization(tenantId),
+    listSareaProfilesForTenant(tenantId),
+  ]);
+
+  const backedPersonas = materialization.filter((r) => r.state === "tenant_backed").length;
+  const fallbackPersonaCount = materialization.filter((r) => r.state === "recommended_fallback").length;
+  const partialPersonaCount = materialization.filter((r) => r.state === "partial").length;
+  const totalPersonas = materialization.length;
+
+  const allMapped = new Set(
+    materialization.flatMap((r) => r.mappedRoleSlugs.map((s) => s.toLowerCase()))
+  );
+  const unmappedRoleSlugs = [
+    ...new Set(
+      materialization.flatMap((r) =>
+        r.recommendedRoleSlugs.filter((slug) => !allMapped.has(slug.toLowerCase()))
+      )
+    ),
+  ];
+
+  const profilesWithoutWidgets = profiles
+    .filter((p) => p._count.widgetRules === 0)
+    .map((p) => ({ personaKey: p.personaKey, name: p.name }));
+  const profilesWithoutNavigation = profiles
+    .filter((p) => p._count.navigationProfiles === 0)
+    .map((p) => ({ personaKey: p.personaKey, name: p.name }));
+
+  const nextActions: string[] = [];
+  if (backedPersonas < totalPersonas) {
+    nextActions.push("Review persona materialization in SAREA studio (layouts, widgets, navigation).");
+  }
+  if (unmappedRoleSlugs.length > 0) {
+    nextActions.push(
+      `Map RBAC slugs in role mapping: ${unmappedRoleSlugs.slice(0, 4).join(", ")}${unmappedRoleSlugs.length > 4 ? "…" : ""}.`
+    );
+  }
+  if (profilesWithoutWidgets.length > 0) {
+    nextActions.push("Add or seed widget rules for profiles missing dashboard widgets.");
+  }
+  if (profilesWithoutNavigation.length > 0) {
+    nextActions.push("Configure navigation profiles for personas without primary nav keys.");
+  }
+  if (nextActions.length === 0) {
+    nextActions.push("Tenant SAREA posture is healthy — use preview to validate experience changes.");
+  }
+
+  let advisory: TenantSareaHealthAdvisory = "healthy";
+  if (backedPersonas === 0 && fallbackPersonaCount > 0) {
+    advisory = "fallback_only";
+  } else if (unmappedRoleSlugs.length > 0) {
+    advisory = "missing_mapping";
+  } else if (
+    backedPersonas < totalPersonas ||
+    partialPersonaCount > 0 ||
+    profilesWithoutWidgets.length > 0 ||
+    profilesWithoutNavigation.length > 0
+  ) {
+    advisory = "needs_review";
+  }
+
+  return {
+    backedPersonas,
+    totalPersonas,
+    advisory,
+    unmappedRoleSlugs,
+    profilesWithoutWidgets,
+    profilesWithoutNavigation,
+    fallbackPersonaCount,
+    partialPersonaCount,
+    nextActions,
+  };
 }
 
 export async function getLighthouseMaterialization(): Promise<

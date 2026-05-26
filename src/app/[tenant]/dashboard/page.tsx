@@ -75,7 +75,9 @@ export default async function TenantDashboardPage({
         <p className="rounded-cc border border-rose-500/20 bg-rose-950/20 px-4 py-2 text-xs text-rose-200">
           SAREA preview · <span className="font-mono">{previewPersona}</span> ·{" "}
           {runtime.profileName}
-          {runtime.previewRecommended ? " (recommended fallback — not tenant-backed)" : " (tenant-backed)"}{" "}
+          {runtime.profileName.startsWith("Recommended ")
+            ? " (recommended fallback — not tenant-backed)"
+            : " (tenant-backed)"}{" "}
           · platform staff only. RBAC unchanged.{" "}
           {isMeem && (
             <>
