@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **G1** | ERP module architecture & integration blueprint (no paid infra) | Module catalog, integration map, maturity/UX standards, erp:verify | Muhanad | **100%** | **Passed** — [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -72,7 +73,26 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** module depth (G2–G10) after **G1 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+
+---
+
+## G1 — ERP module architecture & integration blueprint (no paid infra)
+
+**Scope:** Architecture baseline for the ERP/CEM engine room — self-describing module catalog, cross-module integration map, maturity model, UX standard, sector-module matrix, CyberCrow/SAREA integration rules, and `erp:verify`.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
+| Module catalog | `src/lib/constants/erp-module-catalog.ts` |
+| Integration map | `src/lib/constants/erp-module-integration-map.ts` |
+| Sector matrix | `src/lib/constants/erp-sector-module-matrix.ts` |
+| Maturity + UX | `erp-module-maturity.ts` · `erp-module-ux-standard.ts` |
+| Verification | `npm run erp:verify` |
+
+**Recommended next:** G2 HR depth · G3 Finance · G4 CRM+Sales · G5 Procurement · G6 Inventory+Warehouse · G7 Logistics runtime · G8 Tasks/Approvals · G9 Reports/BI · G10 cross-module cohesion.
 
 ---
 

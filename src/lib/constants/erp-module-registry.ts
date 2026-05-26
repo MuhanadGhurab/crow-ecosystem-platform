@@ -36,6 +36,20 @@ type ErpModuleDef = {
   chainNext?: ErpModuleKey;
 };
 
+/** Live ERP runtime keys (G1 verifier). */
+export const ERP_MODULE_KEYS = [
+  "sales",
+  "inventory",
+  "warehouse",
+  "logistics",
+  "finance",
+  "procurement",
+  "hr",
+  "crm",
+  "tasks",
+  "reports",
+] as const satisfies readonly ErpModuleKey[];
+
 /** Canonical ERP modules — chain: sales → inventory → warehouse → logistics → finance */
 const ERP_MODULE_DEFS: ErpModuleDef[] = [
   { key: "sales", cemModuleKey: "sales", routeSegment: "sales", label: "Sales", chainNext: "inventory" },

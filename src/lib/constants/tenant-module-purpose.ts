@@ -1,5 +1,7 @@
 /** Short operational copy for tenant module cards — no schema dependency. */
 
+import { getCatalogShortPurpose } from "@/lib/constants/erp-module-catalog";
+
 export const TENANT_MODULE_PURPOSE: Record<string, string> = {
   iam: "Identity alignment with CyberCrow sessions and RBAC.",
   hr: "People records linked to departments and roles.",
@@ -18,6 +20,7 @@ export const TENANT_MODULE_PURPOSE: Record<string, string> = {
 
 export function tenantModulePurpose(moduleKey: string): string {
   return (
+    getCatalogShortPurpose(moduleKey) ??
     TENANT_MODULE_PURPOSE[moduleKey] ??
     "Operational surface enabled on this tenant blueprint — depth varies by module."
   );

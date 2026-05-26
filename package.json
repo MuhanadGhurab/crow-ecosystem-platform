@@ -84,6 +84,7 @@
     "aviation:verify": "npx tsx scripts/verify-aviation-sector-template.ts",
     "healthcare:verify": "npx tsx scripts/verify-healthcare-sector-template.ts",
     "sector:verify": "npx tsx scripts/verify-sector-catalog.ts",
+    "erp:verify": "npx tsx scripts/verify-erp-module-catalog.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
