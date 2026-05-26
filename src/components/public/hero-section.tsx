@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { EnterpriseScenarioProofCard } from "@/components/public/enterprise-scenario-proof-card";
 import { CrowMotif } from "@/components/public/crow-motif";
 import {
   HOMEPAGE_HERO_EXPLAINER,
@@ -45,34 +46,40 @@ export function HeroSection() {
       />
 
       <div className="relative mx-auto max-w-6xl">
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center lg:mx-0 lg:max-w-4xl lg:items-start lg:text-start">
-          <span className="cc-star-badge">Crow Ecosystem · Enterprise orchestration</span>
-          <h1
-            id="hero-heading"
-            className="mt-6 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[3.5rem] lg:leading-[1.06]"
-          >
-            {HOMEPAGE_HERO_HEADLINE}
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg font-medium leading-snug text-slate-300 sm:text-xl lg:max-w-3xl">
-            {HOMEPAGE_HERO_SUBHEADLINE}
-          </p>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg lg:max-w-3xl">
-            {HOMEPAGE_HERO_EXPLAINER}
-          </p>
-
-          <div className="mt-12 flex w-full max-w-lg flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
-            <Link href="/request" className="cc-btn-primary w-full px-8 sm:w-auto">
-              Start an Enterprise Request →
-            </Link>
-            <Link href="/architecture" className="cc-btn-secondary w-full sm:w-auto">
-              Explore the Architecture
-            </Link>
-            <Link
-              href="/security"
-              className="w-full text-center text-sm font-medium text-violet-400 transition hover:text-violet-300 sm:w-auto sm:px-4"
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-14">
+          <div className="order-1 flex min-w-0 flex-col items-center text-center lg:items-start lg:text-start">
+            <span className="cc-star-badge">Crow Ecosystem · Enterprise orchestration</span>
+            <h1
+              id="hero-heading"
+              className="mt-6 max-w-2xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:max-w-none lg:text-[3.25rem] lg:leading-[1.06]"
             >
-              View Security Layer →
-            </Link>
+              {HOMEPAGE_HERO_HEADLINE}
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg font-medium leading-snug text-slate-300 sm:text-xl">
+              {HOMEPAGE_HERO_SUBHEADLINE}
+            </p>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
+              {HOMEPAGE_HERO_EXPLAINER}
+            </p>
+
+            <div className="mt-12 flex w-full max-w-lg flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <Link href="/request" className="cc-btn-primary w-full px-8 sm:w-auto">
+                Start an Enterprise Request →
+              </Link>
+              <Link href="/architecture" className="cc-btn-secondary w-full sm:w-auto">
+                Explore the Architecture
+              </Link>
+              <Link
+                href="/security"
+                className="w-full text-center text-sm font-medium text-violet-400 transition hover:text-violet-300 sm:w-auto sm:px-4"
+              >
+                View Security Layer →
+              </Link>
+            </div>
+          </div>
+
+          <div className="order-2 flex min-w-0 justify-center pt-2 lg:order-2 lg:justify-end lg:pt-0">
+            <EnterpriseScenarioProofCard />
           </div>
         </div>
       </div>
