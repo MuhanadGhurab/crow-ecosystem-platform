@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { EnterpriseScenarioProofCard } from "@/components/public/enterprise-scenario-proof-card";
+import { EnterpriseOperatingModelCard } from "@/components/public/enterprise-operating-model-card";
 import { CrowMotif } from "@/components/public/crow-motif";
 import {
   HOMEPAGE_HERO_EXPLAINER,
@@ -79,7 +79,7 @@ export function HeroSection() {
           </div>
 
           <div className="order-2 flex min-w-0 justify-center pt-2 lg:order-2 lg:justify-end lg:pt-0">
-            <EnterpriseScenarioProofCard />
+            <EnterpriseOperatingModelCard />
           </div>
         </div>
       </div>
