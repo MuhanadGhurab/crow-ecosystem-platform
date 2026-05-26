@@ -5,77 +5,129 @@
     "operatingModel": "multi_station",
     "employeeBand": "251-1000",
     "goLiveTarget": "180_days",
-    "discoveryNotes": "Aviation template: ops control, ground handling, MRO, safety/compliance, and shift-aware SAREA dashboards."
+    "discoveryNotes": "Aviation operating model: station/service operations, passenger service, maintenance coordination, safety, procurement, and shift-aware SAREA dashboards. Staging/demo validated — not a production customer claim."
   },
   "moduleKeys": [
-    "hr",
-    "finance",
-    "approvals",
     "crm",
+    "sales",
+    "procurement",
+    "finance",
+    "hr",
+    "approvals",
     "bi"
   ],
   "securityPackageKeys": ["crow_sentinel", "crow_fortress"],
   "departments": [
-    { "name": "Operations control", "nameAr": "مركز العمليات", "headcount": 40 },
-    { "name": "Ground operations", "nameAr": "العمليات الأرضية", "headcount": 55 },
-    { "name": "Maintenance (MRO)", "nameAr": "الصيانة", "headcount": 45 },
-    { "name": "Safety & compliance", "nameAr": "السلامة والامتثال", "headcount": 18 },
-    { "name": "Finance", "nameAr": "المالية", "headcount": 12 }
+    { "name": "Executive Office", "nameAr": "المكتب التنفيذي", "headcount": 8 },
+    { "name": "Aviation Operations", "nameAr": "عمليات الطيران", "headcount": 35 },
+    { "name": "Ground Operations", "nameAr": "العمليات الأرضية", "headcount": 55 },
+    { "name": "Passenger / Customer Service", "nameAr": "خدمة الركاب", "headcount": 45 },
+    { "name": "Maintenance Coordination", "nameAr": "تنسيق الصيانة", "headcount": 30 },
+    { "name": "Safety / Compliance", "nameAr": "السلامة والامتثال", "headcount": 15 },
+    { "name": "Procurement / Supplier Management", "nameAr": "المشتريات", "headcount": 12 },
+    { "name": "Finance / Billing Coordination", "nameAr": "المالية", "headcount": 12 },
+    { "name": "HR / Workforce Scheduling", "nameAr": "الموارد البشرية", "headcount": 10 },
+    { "name": "Quality / Service Assurance", "nameAr": "الجودة", "headcount": 10 },
+    { "name": "IT / CyberCrow Security", "nameAr": "تقنية المعلومات", "headcount": 6 },
+    { "name": "Reporting / Analytics", "nameAr": "التقارير", "headcount": 6 }
   ],
   "branches": [
     { "name": "Operations center", "city": "Riyadh", "region": "Central" },
     { "name": "Station / airport", "city": "Jeddah", "region": "Western" },
-    { "name": "MRO facility", "city": "Dammam", "region": "Eastern" }
+    { "name": "Service center", "city": "Dammam", "region": "Eastern" }
   ],
   "roles": [
-    { "name": "Operations control manager", "level": "manager" },
-    { "name": "Duty manager", "level": "manager" },
-    { "name": "Ramp supervisor", "level": "supervisor" },
-    { "name": "MRO lead", "level": "manager" },
-    { "name": "Safety officer", "level": "specialist" }
+    { "name": "Executive Viewer / Owner", "level": "executive" },
+    { "name": "Aviation Operations Manager", "level": "manager" },
+    { "name": "Ground Operations Coordinator", "level": "manager" },
+    { "name": "Customer Service Supervisor", "level": "manager" },
+    { "name": "Passenger Service Agent", "level": "frontline" },
+    { "name": "Maintenance Coordinator", "level": "specialist" },
+    { "name": "Safety / Compliance Officer", "level": "specialist" },
+    { "name": "Procurement Specialist", "level": "specialist" },
+    { "name": "Finance Coordinator", "level": "specialist" },
+    { "name": "HR / Workforce Coordinator", "level": "specialist" },
+    { "name": "Quality Reviewer", "level": "specialist" },
+    { "name": "IT / Security Administrator", "level": "specialist" },
+    { "name": "Analyst", "level": "specialist" },
+    { "name": "Tenant Admin", "level": "manager" }
   ],
   "workflows": [
     {
-      "name": "Disruption management",
-      "description": "Irregular ops events coordinated between OCC and station leads."
+      "name": "Service request intake",
+      "description": "Passenger or customer service request logged and routed to the right team."
     },
     {
-      "name": "Maintenance work order",
-      "description": "MRO release workflow with safety sign-off and evidence retention."
+      "name": "Passenger / customer issue escalation",
+      "description": "Escalation from frontline agent to supervisor and operations when needed."
     },
     {
-      "name": "Safety report",
-      "description": "Mandatory safety reporting with compliance review and closure tracking."
+      "name": "Ground operation task assignment",
+      "description": "Ground tasks assigned to stations with shift handover notes."
     },
     {
-      "name": "Shift handover",
-      "description": "Ground and OCC shift logs with open items passed to next crew."
+      "name": "Maintenance request review",
+      "description": "Maintenance coordination request reviewed with safety awareness."
+    },
+    {
+      "name": "Supplier request",
+      "description": "Procurement request with finance and operations approval paths."
+    },
+    {
+      "name": "Safety incident report",
+      "description": "Safety incident captured with evidence readiness and closure tracking."
+    },
+    {
+      "name": "Quality / service review",
+      "description": "Service quality review with corrective action follow-up."
+    },
+    {
+      "name": "Workforce / shift request",
+      "description": "Shift or staffing change request coordinated through HR."
+    },
+    {
+      "name": "Access / role review",
+      "description": "Periodic review of station-scoped roles and privileged access."
+    },
+    {
+      "name": "Finance / billing review",
+      "description": "Billing and cost coordination review for aviation services."
+    },
+    {
+      "name": "Monthly aviation operations report",
+      "description": "Monthly operations summary for executive and analyst review."
+    },
+    {
+      "name": "CyberCrow incident review",
+      "description": "Security incident review with evidence trail for operator posture."
     }
   ],
   "securityRequirements": [
-    { "requirement": "Privileged monitoring for OCC and maintenance release roles", "priority": "high" },
-    { "requirement": "Immutable audit on disruption and work-order sign-offs", "priority": "high" },
-    { "requirement": "Station-scoped RBAC for ground and MRO staff", "priority": "high" },
-    { "requirement": "NCA ECC alignment for safety-critical systems", "priority": "high" }
+    { "requirement": "Station-scoped RBAC for ground, passenger service, and maintenance roles", "priority": "high" },
+    { "requirement": "Audit trail on service escalations and supplier approvals", "priority": "high" },
+    { "requirement": "Privileged access monitoring for operations and tenant admin (advisory)", "priority": "high" },
+    { "requirement": "Evidence readiness for safety incidents — not regulatory certification", "priority": "high" }
   ],
   "integrations": [
-    { "providerKey": "entra_id", "notes": "Corporate SSO for OCC, stations, and MRO" },
-    { "providerKey": "sap", "notes": "Optional finance and maintenance planning" },
-    { "providerKey": "amos", "notes": "Optional MRO system interface for work orders" }
+    { "providerKey": "entra_id", "notes": "Corporate SSO for stations and service centers" },
+    { "providerKey": "sap", "notes": "Optional finance interface (future readiness)" },
+    { "providerKey": "amos", "notes": "Optional maintenance system interface (future readiness)" }
   ],
   "experienceRequirements": [
-    { "personaKey": "executive", "requirement": "Network KPIs: OTP, disruptions, safety open items" },
-    { "personaKey": "manager", "requirement": "OCC control board with fleet status and escalation paths" },
-    { "personaKey": "specialist", "requirement": "Ramp and MRO task boards tuned for shift handover" },
-    { "personaKey": "security", "requirement": "CyberCrow console for OCC audit and maintenance evidence" }
+    { "personaKey": "executive", "requirement": "Operations health, safety open items, service risk posture" },
+    { "personaKey": "manager", "requirement": "Operations control board with service tasks and exceptions" },
+    { "personaKey": "frontline", "requirement": "Passenger service agent intake and follow-up workspace" },
+    { "personaKey": "specialist", "requirement": "Maintenance and safety evidence-oriented views" },
+    { "personaKey": "analyst", "requirement": "Reporting readiness and monthly operations summary" },
+    { "personaKey": "security", "requirement": "CyberCrow console for access review and incident evidence" }
   ],
   "identity": {
     "idpPreference": "entra_id",
     "mfaRequired": "yes",
-    "ssoNotes": "Aviation template: MFA mandatory for OCC, MRO release, and safety compliance roles."
+    "ssoNotes": "Aviation template: MFA recommended for operations, procurement, finance, and tenant admin roles."
   },
   "security": {
-    "complianceNotes": "Safety-critical workflows require evidence retention; segment station vs MRO access.",
-    "ncaAlignment": "aligned"
+    "complianceNotes": "Safety and service workflows require evidence retention; segment station vs service-center access. Readiness notes only.",
+    "ncaAlignment": "readiness_notes_only"
   }
 }
