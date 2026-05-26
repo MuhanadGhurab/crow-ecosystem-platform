@@ -16,6 +16,7 @@ export type TenantRuntimeSection =
   | "procurement"
   | "inventory"
   | "warehouse"
+  | "logistics"
   | "reports"
   | "settings"
   | "settingsPlan";
@@ -55,6 +56,7 @@ export function TenantRuntimeCrossLinks({
     { id: "procurement", href: r.procurement, label: "Procurement" },
     { id: "inventory", href: r.inventory, label: "Inventory" },
     { id: "warehouse", href: r.warehouse, label: "Warehouse" },
+    { id: "logistics", href: r.logistics, label: "Logistics" },
     { id: "reports", href: r.reports, label: "Reports" },
     { id: "settings", href: r.settings, label: "Settings" },
   ];

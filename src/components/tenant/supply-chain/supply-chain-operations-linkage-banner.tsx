@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
 
-type SupplyChainLinkageVariant = "inventory" | "warehouse";
+type SupplyChainLinkageVariant = "inventory" | "warehouse" | "logistics";
 
 type SupplyChainOperationsLinkageBannerProps = {
   slug: string;
@@ -17,6 +17,10 @@ const COPY: Record<SupplyChainLinkageVariant, { title: string; body: string }> =
   warehouse: {
     title: "Warehouse operations coordination",
     body: "Warehouse coordinates receiving, putaway, picking, and movement readiness — not a full WMS, RFID, or IoT platform.",
+  },
+  logistics: {
+    title: "Logistics operations coordination",
+    body: "Logistics coordinates dispatch, delivery lifecycle, exceptions, and handoffs from warehouse and inventory — not live GPS, carrier APIs, or automated dispatch.",
   },
 };
 
@@ -50,11 +54,16 @@ export function SupplyChainOperationsLinkageBanner({
             Warehouse →
           </Link>
         )}
+        {variant !== "logistics" && (
+          <Link href={r.logistics} className="text-cyan-400 hover:text-cyan-300">
+            Logistics →
+          </Link>
+        )}
         <Link href={r.procurement} className="text-cyan-400 hover:text-cyan-300">
           Procurement →
         </Link>
-        <Link href={r.logistics} className="text-cyan-400 hover:text-cyan-300">
-          Logistics →
+        <Link href={r.crm} className="text-cyan-400 hover:text-cyan-300">
+          CRM →
         </Link>
         <Link href={r.finance} className="text-cyan-400 hover:text-cyan-300">
           Finance →

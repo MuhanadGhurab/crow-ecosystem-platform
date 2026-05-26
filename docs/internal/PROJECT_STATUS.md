@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G6 Inventory + Warehouse module depth)  
+**Last updated:** 26 May 2026 (G7 Logistics module runtime depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Logistics module runtime depth (G7) | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
 | Inventory + Warehouse module depth (G6) | [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
 | Procurement module depth (G5) | [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
 | CRM + Sales module depth (G4) | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
@@ -50,6 +51,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G7 acceptance:** **PASSED** — [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md).  
+Logistics operations readiness hub, warehouse/inventory/procurement/CRM/finance linkage, CyberCrow/SAREA guidance, sector notes, `npm run logistics-module:verify`; no GPS/carrier/live POD/automated dispatch/TMS claims; no schema changes.
 
 **G6 acceptance:** **PASSED** — [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md).  
 Inventory and Warehouse operations readiness hubs, procurement/logistics/finance linkage, CyberCrow/SAREA guidance, sector notes, `npm run inventory-warehouse:verify`; no barcode/RFID/IoT/live stock accuracy/WMS claims; no schema changes.

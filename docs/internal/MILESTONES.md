@@ -92,7 +92,26 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G7 Logistics runtime depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G8 Tasks / Approvals engine depth · remaining G-track modules per G1 roadmap.
+
+---
+
+## G7 — Logistics module runtime depth (no paid infra)
+
+**Scope:** Deepen Logistics as dispatch/delivery operations readiness — warehouse/inventory/procurement handoffs, CRM/finance linkage, tasks/workflows, reports, CyberCrow, and SAREA — without live GPS, carrier APIs, POD capture, or automated dispatch.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
+| Depth constants | `src/lib/constants/logistics-module-depth.ts` |
+| Readiness service | `src/lib/services/logistics-readiness.service.ts` |
+| Logistics hub UI | `src/app/[tenant]/logistics/page.tsx` · `logistics-operations-readiness-panel.tsx` |
+| Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` (logistics variant) · `tenant-runtime-cross-links` (logistics) |
+| Verification | `npm run logistics-module:verify` |
+
+**Recommended next:** G8 Tasks / Approvals engine depth · remaining G-track modules per G1 roadmap.
 
 ---
 
@@ -112,7 +131,7 @@
 | Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` · `tenant-runtime-cross-links` (inventory, warehouse) |
 | Verification | `npm run inventory-warehouse:verify` |
 
-**Recommended next:** G7 Logistics module runtime depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G7 Logistics module runtime depth · G8 Tasks / Approvals · remaining G-track modules per G1 roadmap.
 
 ---
 
