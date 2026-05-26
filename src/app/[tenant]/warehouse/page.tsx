@@ -1,33 +1,23 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemWarehouseHub } from "@/components/tenant/meem-warehouse-hub";
+import { SupplyChainOperationsLinkageBanner } from "@/components/tenant/supply-chain/supply-chain-operations-linkage-banner";
+import { WarehouseOperationsReadinessPanel } from "@/components/tenant/warehouse/warehouse-operations-readiness-panel";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
-import { StatCard } from "@/components/ui/stat-card";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
-import { LOGISTICS_WAREHOUSE_SAMPLES } from "@/lib/erp/industry-packs/logistics";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
-import { isUseMockData } from "@/lib/mock/env";
-import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
+import { getWarehouseOperationsReadinessSnapshot } from "@/lib/services/inventory-warehouse-readiness.service";
+import {
+  getWarehouseSummary,
+  listWarehouseLocations,
+} from "@/lib/services/warehouse.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
-import { getWarehouseSummary, listWarehouseLocations } from "@/lib/services/warehouse.service";
 
-const STATUS_CLASS: Record<string, string> = {
-  active: "bg-teal-500/15 text-teal-300",
-  maintenance: "bg-amber-500/15 text-amber-300",
-  closed: "bg-slate-600/30 text-slate-300",
-};
-
-const MOVEMENT_LABEL: Record<string, string> = {
-  inbound: "Inbound",
-  outbound: "Outbound",
-  staging: "Staging",
-  cold_storage: "Cold storage",
-};
-
-export default async function WarehousePage({
+export default async function TenantWarehousePage({
   params,
 }: {
   params: Promise<{ tenant: string }>;
@@ -37,181 +27,139 @@ export default async function WarehousePage({
   if (!tenant) notFound();
 
   const tenantModules = tenant.modules ?? [];
+  const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
+  if (!hasErpModule(tenantModules, "warehouse")) notFound();
+
   const showMeemHub = showMeemErpHub(
     slug,
     tenant.organization.industry,
     tenantModules,
     "warehouse"
   );
-  const useMockWarehouse = isUseMockData() && slug === MEEM_TENANT_SLUG;
-  const hasWarehouseModule = hasErpModule(tenantModules, "warehouse");
-  const hasInventoryModule = hasErpModule(tenantModules, "inventory");
-  const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "warehouse") : [];
 
-  const [locations, summary] = useMockWarehouse
-    ? [
-        LOGISTICS_WAREHOUSE_SAMPLES.map((s, i) => ({
-          id: `mock-wh-${i}`,
-          tenantId: tenant.id,
-          referenceCode: s.referenceCode,
-          name: s.name,
-          site: s.site,
-          zone: s.zone,
-          bin: s.bin,
-          movementKind: s.movementKind,
-          status: s.status,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        })),
-        {
-          totalLocations: LOGISTICS_WAREHOUSE_SAMPLES.length,
-          sites: new Set(LOGISTICS_WAREHOUSE_SAMPLES.map((s) => s.site)).size,
-          inbound: LOGISTICS_WAREHOUSE_SAMPLES.filter((s) => s.movementKind === "inbound").length,
-          outbound: LOGISTICS_WAREHOUSE_SAMPLES.filter((s) => s.movementKind === "outbound").length,
-          coldStorage: LOGISTICS_WAREHOUSE_SAMPLES.filter((s) => s.movementKind === "cold_storage")
-            .length,
-        },
-      ]
-    : await Promise.all([listWarehouseLocations(tenant.id), getWarehouseSummary(tenant.id)]);
+  const [locations, summary, readiness] = await Promise.all([
+    listWarehouseLocations(tenant.id),
+    getWarehouseSummary(tenant.id),
+    getWarehouseOperationsReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry
+    ),
+  ]);
 
+  const linkageWarnings: string[] = [];
+  if (!readiness.procurementEnabled) {
+    linkageWarnings.push("Procurement module off — enable for inbound receiving handoff.");
+  }
+  if (!readiness.inventoryEnabled) {
+    linkageWarnings.push("Inventory module off — enable for SKU / movement context.");
+  }
+  if (!readiness.logisticsEnabled) {
+    linkageWarnings.push("Logistics module off — enable for dispatch handoff from outbound lanes.");
+  }
+
+  const cybercrowLive = readiness.cybercrowInitialized;
   const r = routes.tenant(slug);
 
   return (
     <TenantModulePage
       engine="CEM"
       title="Warehouse"
-      description={
-        showMeemHub
-          ? `Zones, bins, and inbound/outbound lanes for ${tenant.organization.displayName}.`
-          : `Warehouse locations and movement lanes for ${tenant.organization.displayName}.`
-      }
+      description={`Warehouse operations readiness for ${tenant.organization.displayName} — receiving, putaway, picking, and logistics handoffs without a full WMS or warehouse automation platform.`}
       route="/[tenant]/warehouse"
       tenantSlug={slug}
     >
-      {showMeemHub ? (
-        <div className="space-y-8">
-          <ErpModuleHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            moduleKey="warehouse"
-          />
-          <MeemWarehouseHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            aiExtraKeys={aiExtraKeys}
-          />
+      <div className="space-y-8">
+        <SupplyChainOperationsLinkageBanner
+          slug={slug}
+          variant="warehouse"
+          warnings={linkageWarnings}
+        />
 
-          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              label="Locations"
-              value={summary.totalLocations}
-              entity="cem"
-              accent="cyan"
-              hint={`${summary.sites} hub sites`}
-            />
-            <StatCard
-              label="Inbound lanes"
-              value={summary.inbound}
-              entity="cem"
-              accent="teal"
-            />
-            <StatCard
-              label="Outbound lanes"
-              value={summary.outbound}
-              entity="cem"
-              accent="cyan"
-            />
-            <StatCard
-              label="Cold storage"
-              value={summary.coldStorage}
-              entity="cem"
-              accent="amber"
-            />
-          </section>
+        <TenantRuntimeCrossLinks
+          slug={slug}
+          current="warehouse"
+          cybercrowLive={cybercrowLive}
+        />
 
-          <section className="cc-glass-card">
-            <h3 className="font-display text-sm font-semibold text-cyan-400">
-              Zones & bins ({locations.length})
-            </h3>
-            {locations.length === 0 ? (
-              <p className="mt-4 text-sm text-slate-500">
-                No warehouse locations yet.
-                {hasWarehouseModule && (
-                  <>
-                    {" "}
-                    Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
-                    data when the warehouse module is enabled.
-                  </>
-                )}
+        <TenantRuntimeStatStrip
+          items={[
+            { label: "Readiness", value: readiness.readinessLabel, accent: "cyan" },
+            { label: "Locations", value: String(summary.totalLocations) },
+            { label: "Inbound lanes", value: String(summary.inbound), accent: "teal" },
+            { label: "Outbound lanes", value: String(summary.outbound), accent: "amber" },
+            { label: "Warehouse open tasks", value: readiness.warehouseRelatedOpenTasks },
+          ]}
+        />
+
+        <WarehouseOperationsReadinessPanel
+          slug={slug}
+          snapshot={readiness}
+          cybercrowLive={cybercrowLive}
+        />
+
+        {locations.length > 0 && (
+          <section className="cc-glass-card space-y-3">
+            <h2 className="text-sm font-medium text-cyan-400">
+              Warehouse locations (coordination view)
+            </h2>
+            <p className="text-xs text-slate-500">
+              Lane and zone records support receiving and dispatch readiness — not live automation,
+              RFID, or IoT sensor events.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 text-xs text-slate-500">
+                    <th className="py-2 pr-4">Site</th>
+                    <th className="py-2 pr-4">Name</th>
+                    <th className="py-2 pr-4">Zone</th>
+                    <th className="py-2 pr-4">Bin</th>
+                    <th className="py-2 pr-4">Movement</th>
+                    <th className="py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {locations.slice(0, 12).map((row) => (
+                    <tr key={row.id} className="border-b border-white/5 text-slate-300">
+                      <td className="py-2 pr-4">{row.site}</td>
+                      <td className="py-2 pr-4">{row.name}</td>
+                      <td className="py-2 pr-4">{row.zone ?? "—"}</td>
+                      <td className="py-2 pr-4 font-mono text-xs">{row.bin ?? "—"}</td>
+                      <td className="py-2 pr-4 text-xs">{row.movementKind}</td>
+                      <td className="py-2 text-xs">{row.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {readiness.logisticsEnabled && (
+              <p className="text-xs text-slate-500">
+                <Link href={r.logistics} className="text-cyan-400 hover:text-cyan-300">
+                  Logistics dispatch handoff →
+                </Link>
               </p>
-            ) : (
-              <ul className="mt-4 space-y-3">
-                {locations.map((row) => (
-                  <li
-                    key={row.id}
-                    className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="font-medium text-white">{row.name}</p>
-                        {row.referenceCode && (
-                          <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-xs text-slate-500">
-                        {row.site}
-                        {row.zone ? ` · ${row.zone}` : ""}
-                        {row.bin ? ` · ${row.bin}` : ""}
-                      </p>
-                      {(hasInventoryModule || hasLogisticsModule) && (
-                        <p className="mt-1 text-xs text-slate-500">
-                          {hasInventoryModule && (
-                            <Link href={r.inventory} className="text-cyan-400 hover:text-cyan-300">
-                              Inventory
-                            </Link>
-                          )}
-                          {hasInventoryModule && hasLogisticsModule && " · "}
-                          {hasLogisticsModule && (
-                            <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
-                              Logistics
-                            </Link>
-                          )}
-                          {" · "}
-                          <Link href={r.workflows} className="text-teal-400 hover:text-teal-300">
-                            Workflows
-                          </Link>
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <span className="rounded-full bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium text-cyan-300">
-                        {MOVEMENT_LABEL[row.movementKind] ?? row.movementKind}
-                      </span>
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                          STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
-                        }`}
-                      >
-                        {row.status.replace("_", " ")}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
             )}
           </section>
+        )}
 
-          <ErpChainLinks tenantSlug={slug} currentModule="warehouse" tenantModules={tenantModules} />
-
-          <div className="flex flex-wrap gap-3">
-            <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-              ← Dashboard
-            </Link>
-          </div>
-        </div>
-      ) : undefined}
+        {showMeemHub && (
+          <>
+            <ErpModuleHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              moduleKey="warehouse"
+            />
+            <MeemWarehouseHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              aiExtraKeys={aiExtraKeys}
+            />
+          </>
+        )}
+      </div>
     </TenantModulePage>
   );
 }

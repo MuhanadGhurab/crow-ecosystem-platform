@@ -89,6 +89,7 @@
     "finance:verify": "npx tsx scripts/verify-finance-module-depth.ts",
     "crm-sales:verify": "npx tsx scripts/verify-crm-sales-module-depth.ts",
     "procurement:verify": "npx tsx scripts/verify-procurement-module-depth.ts",
+    "inventory-warehouse:verify": "npx tsx scripts/verify-inventory-warehouse-module-depth.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

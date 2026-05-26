@@ -1,39 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
+import { InventoryOperationsReadinessPanel } from "@/components/tenant/inventory/inventory-operations-readiness-panel";
 import { MeemInventoryHub } from "@/components/tenant/meem-inventory-hub";
+import { SupplyChainOperationsLinkageBanner } from "@/components/tenant/supply-chain/supply-chain-operations-linkage-banner";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
-import { StatCard } from "@/components/ui/stat-card";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_INVENTORY_SAMPLES } from "@/lib/erp/industry-packs/logistics";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
-import { getInventorySummary, listInventoryItems } from "@/lib/services/inventory.service";
+import { getInventoryOperationsReadinessSnapshot } from "@/lib/services/inventory-warehouse-readiness.service";
+import {
+  getInventorySummary,
+  listInventoryItems,
+} from "@/lib/services/inventory.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
-const STATUS_CLASS: Record<string, string> = {
-  active: "bg-teal-500/15 text-teal-300",
-  low_stock: "bg-amber-500/15 text-amber-300",
-  reserved: "bg-cyan-500/15 text-cyan-300",
-  discontinued: "bg-slate-600/30 text-slate-300",
-};
-
-const CATEGORY_LABEL: Record<string, string> = {
-  pallet: "Pallets",
-  cold_chain: "Cold-chain",
-  fleet_spare: "Fleet spare parts",
-  packaging: "Packaging",
-  general: "General",
-};
-
-function formatQty(n: number) {
-  return new Intl.NumberFormat("en-SA", { maximumFractionDigits: 0 }).format(n);
-}
-
-export default async function InventoryPage({
+export default async function TenantInventoryPage({
   params,
 }: {
   params: Promise<{ tenant: string }>;
@@ -43,6 +30,9 @@ export default async function InventoryPage({
   if (!tenant) notFound();
 
   const tenantModules = tenant.modules ?? [];
+  const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
+  if (!hasErpModule(tenantModules, "inventory")) notFound();
+
   const showMeemHub = showMeemErpHub(
     slug,
     tenant.organization.industry,
@@ -50,187 +40,154 @@ export default async function InventoryPage({
     "inventory"
   );
   const useMockInventory = isUseMockData() && slug === MEEM_TENANT_SLUG;
-  const hasInventoryModule = hasErpModule(tenantModules, "inventory");
-  const hasWarehouseModule = hasErpModule(tenantModules, "warehouse");
-  const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
-  const hasSalesModule = hasErpModule(tenantModules, "sales");
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "inventory") : [];
 
-  const [items, summary] = useMockInventory
-    ? [
-        LOGISTICS_INVENTORY_SAMPLES.map((s, i) => ({
-          id: `mock-inv-${i}`,
-          tenantId: tenant.id,
-          referenceCode: s.referenceCode,
-          sku: s.sku,
-          name: s.name,
-          category: s.category,
-          qtyOnHand: s.qtyOnHand,
-          reorderLevel: s.reorderLevel,
-          location: s.location,
-          status: s.status,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        })),
-        {
+  const [items, summary, readiness] = await Promise.all([
+    useMockInventory
+      ? Promise.resolve(
+          LOGISTICS_INVENTORY_SAMPLES.map((s, i) => ({
+            id: `mock-inv-${i}`,
+            tenantId: tenant.id,
+            referenceCode: s.referenceCode,
+            sku: s.sku,
+            name: s.name,
+            category: s.category,
+            qtyOnHand: s.qtyOnHand,
+            reorderLevel: s.reorderLevel,
+            location: s.location,
+            status: s.status,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }))
+        )
+      : listInventoryItems(tenant.id),
+    useMockInventory
+      ? Promise.resolve({
           totalSkus: LOGISTICS_INVENTORY_SAMPLES.length,
-          lowStock: LOGISTICS_INVENTORY_SAMPLES.filter(
-            (s) =>
-              s.status === "low_stock" ||
-              (s.reorderLevel > 0 && s.qtyOnHand <= s.reorderLevel)
-          ).length,
+          lowStock: LOGISTICS_INVENTORY_SAMPLES.filter((s) => s.status === "low_stock").length,
           locations: new Set(LOGISTICS_INVENTORY_SAMPLES.map((s) => s.location)).size,
           qtyOnHand: LOGISTICS_INVENTORY_SAMPLES.reduce((n, s) => n + s.qtyOnHand, 0),
-        },
-      ]
-    : await Promise.all([listInventoryItems(tenant.id), getInventorySummary(tenant.id)]);
+        })
+      : getInventorySummary(tenant.id),
+    getInventoryOperationsReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry
+    ),
+  ]);
 
+  const linkageWarnings: string[] = [];
+  if (readiness.procurementEnabled && readiness.prsWithoutInventoryRef > 0) {
+    linkageWarnings.push(
+      `${readiness.prsWithoutInventoryRef} purchase request(s) without inventory SKU reference — link on Procurement hub.`
+    );
+  }
+  if (!readiness.warehouseEnabled) {
+    linkageWarnings.push("Warehouse module off — enable for receiving and movement coordination.");
+  }
+  if (!readiness.logisticsEnabled) {
+    linkageWarnings.push("Logistics module off — enable for dispatch / delivery handoff when needed.");
+  }
+
+  const cybercrowLive = readiness.cybercrowInitialized;
   const r = routes.tenant(slug);
 
   return (
     <TenantModulePage
       engine="CEM"
       title="Inventory"
-      description={
-        showMeemHub
-          ? `Stock levels, hub locations, and reorder signals for ${tenant.organization.displayName}.`
-          : `SKUs, warehouses, and stock for ${tenant.organization.displayName}.`
-      }
+      description={`Stock and material operations readiness for ${tenant.organization.displayName} — SKU visibility, adjustments, and supply-chain handoffs without real-time stock accuracy guarantees.`}
       route="/[tenant]/inventory"
       tenantSlug={slug}
     >
-      {showMeemHub ? (
-        <div className="space-y-8">
-          <ErpModuleHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            moduleKey="inventory"
-          />
-          <MeemInventoryHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            aiExtraKeys={aiExtraKeys}
-          />
+      <div className="space-y-8">
+        <SupplyChainOperationsLinkageBanner
+          slug={slug}
+          variant="inventory"
+          warnings={linkageWarnings}
+        />
 
-          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              label="SKUs on hand"
-              value={summary.totalSkus}
-              entity="cem"
-              accent="cyan"
-              hint={`${formatQty(summary.qtyOnHand)} units total`}
-            />
-            <StatCard
-              label="Low stock"
-              value={summary.lowStock}
-              entity="cem"
-              accent="amber"
-              hint="At or below reorder level"
-            />
-            <StatCard
-              label="Locations"
-              value={summary.locations}
-              entity="cem"
-              accent="cyan"
-            />
-            <StatCard
-              label="Units on hand"
-              value={formatQty(summary.qtyOnHand)}
-              entity="cem"
-              accent="teal"
-            />
-          </section>
+        <TenantRuntimeCrossLinks
+          slug={slug}
+          current="inventory"
+          cybercrowLive={cybercrowLive}
+        />
 
-          <section className="cc-glass-card">
-            <h3 className="font-display text-sm font-semibold text-cyan-400">
-              Stock items ({items.length})
-            </h3>
-            {items.length === 0 ? (
-              <p className="mt-4 text-sm text-slate-500">
-                No inventory records yet.
-                {hasInventoryModule && (
-                  <>
-                    {" "}
-                    Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
-                    data when the inventory module is enabled.
-                  </>
-                )}
+        <TenantRuntimeStatStrip
+          items={[
+            { label: "Readiness", value: readiness.readinessLabel, accent: "cyan" },
+            { label: "SKUs", value: String(summary.totalSkus) },
+            { label: "Low-stock signals", value: String(summary.lowStock), accent: "amber" },
+            { label: "Qty on hand", value: String(summary.qtyOnHand) },
+            { label: "Inventory open tasks", value: readiness.inventoryRelatedOpenTasks },
+          ]}
+        />
+
+        <InventoryOperationsReadinessPanel
+          slug={slug}
+          snapshot={readiness}
+          cybercrowLive={cybercrowLive}
+        />
+
+        {items.length > 0 && (
+          <section className="cc-glass-card space-y-3">
+            <h2 className="text-sm font-medium text-cyan-400">
+              {useMockInventory ? "Sample SKUs (MEEM reference)" : "Inventory items (coordination view)"}
+            </h2>
+            <p className="text-xs text-slate-500">
+              Quantities are coordination signals for readiness — not certified stock accuracy,
+              valuation, or barcode-scanner events.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 text-xs text-slate-500">
+                    <th className="py-2 pr-4">SKU</th>
+                    <th className="py-2 pr-4">Name</th>
+                    <th className="py-2 pr-4">Qty</th>
+                    <th className="py-2 pr-4">Location</th>
+                    <th className="py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.slice(0, 12).map((row) => (
+                    <tr key={row.id} className="border-b border-white/5 text-slate-300">
+                      <td className="py-2 pr-4 font-mono text-xs">{row.sku}</td>
+                      <td className="py-2 pr-4">{row.name}</td>
+                      <td className="py-2 pr-4">{row.qtyOnHand}</td>
+                      <td className="py-2 pr-4 text-xs">{row.location ?? "—"}</td>
+                      <td className="py-2 text-xs">{row.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {readiness.procurementEnabled && (
+              <p className="text-xs text-slate-500">
+                <Link href={r.procurement} className="text-cyan-400 hover:text-cyan-300">
+                  Procurement receiving handoff →
+                </Link>
               </p>
-            ) : (
-              <ul className="mt-4 space-y-3">
-                {items.map((row) => (
-                  <li
-                    key={row.id}
-                    className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="font-medium text-white">{row.name}</p>
-                        <span className="font-mono text-xs text-cyan-400/80">{row.sku}</span>
-                        {row.referenceCode && (
-                          <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-xs text-slate-500">
-                        {CATEGORY_LABEL[row.category] ?? row.category}
-                        {row.location ? ` · ${row.location}` : ""}
-                      </p>
-                      <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
-                        {formatQty(row.qtyOnHand)} on hand
-                        {row.reorderLevel > 0 && (
-                          <span className="ml-2 text-sm font-normal text-slate-500">
-                            (reorder at {formatQty(row.reorderLevel)})
-                          </span>
-                        )}
-                      </p>
-                      {(hasWarehouseModule || hasLogisticsModule || hasSalesModule) && (
-                        <p className="mt-1 text-xs text-slate-500">
-                          {hasWarehouseModule && (
-                            <Link href={r.warehouse} className="text-cyan-400 hover:text-cyan-300">
-                              Warehouse
-                            </Link>
-                          )}
-                          {hasWarehouseModule && (hasLogisticsModule || hasSalesModule) && " · "}
-                          {hasLogisticsModule && (
-                            <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
-                              Logistics
-                            </Link>
-                          )}
-                          {hasLogisticsModule && hasSalesModule && " · "}
-                          {hasSalesModule && (
-                            <Link href={r.sales} className="text-teal-400 hover:text-teal-300">
-                              Sales
-                            </Link>
-                          )}
-                        </p>
-                      )}
-                    </div>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                        STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
-                      }`}
-                    >
-                      {row.status.replace("_", " ")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
             )}
           </section>
+        )}
 
-          <ErpChainLinks tenantSlug={slug} currentModule="inventory" tenantModules={tenantModules} />
-
-          <div className="flex flex-wrap gap-3">
-            <Link href={r.sales} className="text-sm text-slate-400 hover:text-white">
-              Sales →
-            </Link>
-            <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-              ← Dashboard
-            </Link>
-          </div>
-        </div>
-      ) : undefined}
+        {showMeemHub && (
+          <>
+            <ErpModuleHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              moduleKey="inventory"
+            />
+            <MeemInventoryHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              aiExtraKeys={aiExtraKeys}
+            />
+          </>
+        )}
+      </div>
     </TenantModulePage>
   );
 }

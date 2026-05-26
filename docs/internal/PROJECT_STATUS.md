@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G5 Procurement module depth)  
+**Last updated:** 26 May 2026 (G6 Inventory + Warehouse module depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Inventory + Warehouse module depth (G6) | [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
 | Procurement module depth (G5) | [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
 | CRM + Sales module depth (G4) | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
 | Finance module depth (G3) | [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
@@ -49,6 +50,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G6 acceptance:** **PASSED** — [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md).  
+Inventory and Warehouse operations readiness hubs, procurement/logistics/finance linkage, CyberCrow/SAREA guidance, sector notes, `npm run inventory-warehouse:verify`; no barcode/RFID/IoT/live stock accuracy/WMS claims; no schema changes.
 
 **G5 acceptance:** **PASSED** — [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md).  
 Procurement operations readiness hub, finance/inventory/warehouse linkage, CyberCrow/SAREA guidance, sector notes, `npm run procurement:verify`; no live supplier payments/vendor marketplace/supplier-risk scoring claims; no schema changes.
