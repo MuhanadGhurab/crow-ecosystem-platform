@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F27** | Admin quality & reliability pass (no paid infra) | Admin UX consistency, link reliability, placeholder honesty | Muhanad | **100%** | _Pending validation + commit_ — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
 | **F26** | CEM workflow operations depth (no paid infra) | Workflows, tasks, dept/role ops, dashboard signals | Muhanad | **100%** | **Passed** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
 | **F25** | Discovery intelligence refinement (no paid infra) | Discovery UX, sector guidance, readiness bridge | Muhanad | **100%** | **Passed** — [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | **F24** | Tenant runtime UX depth | Dashboard, modules, ops pages, cross-links | Muhanad | **100%** | **Passed** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |

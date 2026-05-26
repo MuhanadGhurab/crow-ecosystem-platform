@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F26 CEM workflow operations depth)  
+**Last updated:** 26 May 2026 (F27 admin quality & reliability pass)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,18 +19,21 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F26 — CEM workflow operations depth** (25 May 2026).
+**Phase F27 — Admin quality & reliability pass** (26 May 2026).
 
-**Cost-controlled product depth** — deepen CEM workflow/task/department/role operational visibility and readiness guidance without paid infra, schema changes, or automation-engine claims.
+**Admin console hardening** — improve operator clarity, empty/error states, link reliability, and placeholder honesty without paid infra, schema changes, or new feature expansion.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Admin quality & reliability pass | [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
 | CEM workflow operations depth | [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
 | Discovery intelligence refinement | [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+
+**F27 acceptance:** _Pending validation + commit_ — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md).
 
 **F26 acceptance:** **PASSED** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md).
 

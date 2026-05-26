@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageHeader } from "@/components/ui/page-header";
 import { planLabel } from "@/lib/catalog-labels";
 import { isStripeConfigured } from "@/lib/billing/env";
 import { BILLING_MODE_LABELS, resolveBillingMode } from "@/lib/services/subscription-billing-alignment.service";
@@ -17,24 +18,40 @@ export default async function AdminSubscriptionsPage() {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-lg font-semibold text-white">Subscriptions</h2>
-      <p className="text-sm text-slate-400">
-        Catalog plans from seed data and active tenant subscriptions.
-      </p>
+      <PageHeader
+        badge="Commercial"
+        title="Subscriptions"
+        description="Plan catalog and tenant subscription records. Advisory view only — production billing activation is deferred until budget/client exists."
+      />
 
       {stripeConfigured ? (
         <p className="rounded-cc-sm border border-teal-500/20 bg-teal-500/10 px-4 py-2 text-sm text-teal-100">
-          Stripe keys detected —{" "}
+          Stripe keys detected — billing endpoints are available, but activation is not required for ongoing development.{" "}
           <Link href="/api/billing/status" className="text-cyan-300 hover:text-cyan-200">
             billing status →
           </Link>
         </p>
       ) : (
         <p className="rounded-cc-sm border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm text-amber-100">
-          Stripe not configured — set <code className="text-amber-50">STRIPE_*</code> env vars for
-          live checkout (see docs/internal/STRIPE_BILLING.md).
+          Stripe not configured — expected for cost-control. Subscriptions remain advisory until activation.
         </p>
       )}
+
+      <section className="cc-glass-card space-y-3">
+        <h3 className="text-sm font-medium text-cyan-400">Operator next actions</h3>
+        <ul className="space-y-2 text-sm text-slate-500">
+          <li>- Use tenant control rooms to review plan readiness and advisories.</li>
+          <li>- Keep billing unactivated for demos unless a client/budget exists.</li>
+        </ul>
+        <div className="flex flex-wrap gap-2 pt-2">
+          <Link href={routes.admin.tenants} className="cc-btn-secondary text-sm">
+            Open tenants →
+          </Link>
+          <Link href={routes.admin.requests} className="cc-btn-secondary text-sm">
+            Review pipeline requests →
+          </Link>
+        </div>
+      </section>
 
       <section>
         <h3 className="text-sm font-medium text-cyan-400">Plans</h3>

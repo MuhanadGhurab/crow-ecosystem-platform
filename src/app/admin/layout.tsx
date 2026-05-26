@@ -16,7 +16,7 @@ const ADMIN_NAV: { href: string; label: string; permission: (typeof Permission)[
   { href: routes.admin.domains, label: "Domains", permission: Permission["platform.admin.view"] },
   { href: routes.admin.integrations, label: "Integrations", permission: Permission["platform.admin.view"] },
   { href: routes.admin.subscriptions, label: "Subscriptions", permission: Permission["platform.requests.view"] },
-  { href: routes.admin.securityBaselines, label: "Security baselines", permission: Permission["platform.admin.view"] },
+  { href: routes.admin.securityBaselines, label: "Security Baselines", permission: Permission["platform.admin.view"] },
   { href: routes.admin.notifications, label: "Notifications", permission: Permission["platform.audit.view"] },
   { href: routes.admin.audit, label: "Audit", permission: Permission["platform.audit.view"] },
 ];
