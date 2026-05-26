@@ -6,7 +6,7 @@ const RUNTIME_ENGINES = [
   { id: "sarea", label: "SAREA", role: "Experience", accent: "teal" as const },
 ] as const;
 
-const SCENARIO_CHIPS = ["Logistics", "Construction", "Aviation-style intake"] as const;
+const SCENARIO_CHIPS = ["Logistics", "Construction", "Retail", "Aviation intake"] as const;
 
 const ACCENT_STYLES = {
   cyan: {

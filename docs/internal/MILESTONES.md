@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F32** | Retail operating model pack & tenant readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, verify, hero chip | Muhanad | **100%** | **Passed** — [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md) |
 | **F31** | Workspace hygiene & release cleanliness (no paid infra) | Git audit, forbidden-file check, straggler commits, clean tree | Muhanad | **100%** | **Passed** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
 | **F30** | Final portfolio release tag (no paid infra) | Validation suite, public release notes, tag `v0.30.0-portfolio` | Muhanad | **100%** | **Passed** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) · wrap-up [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
 | **F29** | Documentation & developer experience pass (no paid infra) | Quickstart, validation, git safety, Cursor workflow, troubleshooting, structure, scripts index | Muhanad | **100%** | **Passed** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
@@ -66,7 +67,26 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or F32/M5 tracks are approved. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+
+---
+
+## F32 — Retail operating model pack & tenant readiness (no paid infra)
+
+**Scope:** First-class **Retail** operating model for discovery, org intelligence, blueprint readiness, SAREA personas, and CyberCrow advisory posture — without paid infra, live payments, schema changes, or synthetic retail tenant provisioning.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md) |
+| Sector template | `src/lib/org-intelligence/sector-template-data.ts` (`RETAIL`) |
+| Discovery guidance | `sector-guidance.ts` · `discovery-templates/retail.json` |
+| Verification | `npm run retail:verify` → `scripts/verify-retail-sector-template.ts` |
+| Homepage hero chip | `enterprise-operating-model-card.tsx` |
+| DB seed (optional) | `npm run db:seed:sectors` (idempotent; operator-approved) |
+
+**Acceptance:** Study documented · template with 12 depts / 15 roles / 14 workflows · live CEM modules only · SAREA + CyberCrow models · hero Retail chip after model · validation green.
 
 ---
 
