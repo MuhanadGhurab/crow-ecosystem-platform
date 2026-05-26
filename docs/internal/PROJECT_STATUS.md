@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F30 final portfolio release tag)  
+**Last updated:** 26 May 2026 (F31 workspace hygiene & release cleanliness)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,12 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F30 — Final portfolio release tag** (26 May 2026).
+**Phase F31 — Workspace hygiene & release cleanliness** (26 May 2026).
 
-**Release checkpoint** — full validation suite, public release notes, internal F30 record, status closure. No product features, paid infra, migrations, or git tag.
+**Hygiene checkpoint** — git workspace audit, forbidden-file check, straggler classification, validation baseline, tag readiness. No product features, paid infra, migrations, commits, or git tag execution.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Workspace hygiene & release cleanliness | [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
 | Final portfolio release tag | [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
 | Public release notes | [`docs/public/RELEASE_NOTES.md`](../public/RELEASE_NOTES.md) |
 | Documentation & developer experience pass | [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
@@ -36,7 +37,10 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
-**Next recommended after F30:** Reliability automation pass (lightweight CI-safe checks + doc drift control, still no paid infra) or production launch prep when F23 triggers fire.
+**Next recommended after F31:** Scoped straggler commits (F20/F21/portfolio screenshots) **or** F32 reliability automation (CI-safe validation scripts); production launch prep only when F23 triggers fire.
+
+**F31 acceptance:** **PASSED WITH WARNINGS** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md).  
+`main` at `f6fcc40` (F30); validation green; working tree has uncommitted F20/F21/screenshot stragglers; tag `v0.30.0-portfolio` ready on committed `main` when approved.
 
 **F30 acceptance:** **PASSED** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md).  
 Portfolio/demo/staging checkpoint validated; git tag documented but **not** created.
