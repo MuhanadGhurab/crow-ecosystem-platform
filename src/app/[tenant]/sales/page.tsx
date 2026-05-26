@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FinanceLinkageBanner } from "@/components/tenant/finance/finance-linkage-banner";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemSalesHub } from "@/components/tenant/meem-sales-hub";
@@ -46,6 +47,7 @@ export default async function SalesPage({
   const showMeemHub = showMeemErpHub(slug, tenant.organization.industry, tenantModules, "sales");
   const useMockSales = isUseMockData() && slug === MEEM_TENANT_SLUG;
   const hasSalesModule = hasErpModule(tenantModules, "sales");
+  const hasFinanceModule = hasErpModule(tenantModules, "finance");
   const hasLogisticsModule = hasErpModule(tenantModules, "logistics");
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "sales") : [];
@@ -98,6 +100,7 @@ export default async function SalesPage({
       route="/[tenant]/sales"
       tenantSlug={slug}
     >
+      {hasFinanceModule && <FinanceLinkageBanner slug={slug} variant="sales" />}
       {showMeemHub ? (
         <div className="space-y-8">
           <ErpModuleHub

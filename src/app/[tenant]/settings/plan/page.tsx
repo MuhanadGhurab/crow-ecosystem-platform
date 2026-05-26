@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { FinanceLinkageBanner } from "@/components/tenant/finance/finance-linkage-banner";
 import { TenantPlanSelfServicePanel } from "@/components/tenant/tenant-plan-self-service-panel";
 import { PageHeader } from "@/components/ui/page-header";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
@@ -58,6 +59,15 @@ export default async function TenantSettingsPlanPage({
         entity="cem"
         title="Subscription plan"
         description={`Read-only plan view for ${tenant.organization.displayName} — advisory reference only.`}
+      />
+      <FinanceLinkageBanner
+        slug={slug}
+        variant="plan"
+        warnings={
+          snapshot.planKeyMismatch
+            ? ["Plan key mismatch between tenant and subscription — review alignment (advisory)."]
+            : []
+        }
       />
       <TenantPlanSelfServicePanel slug={slug} snapshot={snapshot} usageSignals={usageSignals} />
       <p className="text-xs text-slate-500">

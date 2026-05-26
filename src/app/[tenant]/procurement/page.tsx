@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FinanceLinkageBanner } from "@/components/tenant/finance/finance-linkage-banner";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemProcurementHub } from "@/components/tenant/meem-procurement-hub";
@@ -92,6 +93,15 @@ export default async function ProcurementPage({
     : await Promise.all([listPurchaseRequests(tenant.id), getProcurementSummary(tenant.id)]);
 
   const r = routes.tenant(slug);
+  const unlinkedFinanceCount = hasFinanceModule
+    ? requests.filter((row) => !row.linkedFinanceRef).length
+    : 0;
+  const financeWarnings =
+    unlinkedFinanceCount > 0
+      ? [
+          `${unlinkedFinanceCount} purchase request(s) without finance reference — coordinate on the Finance hub.`,
+        ]
+      : [];
 
   return (
     <TenantModulePage
@@ -105,6 +115,9 @@ export default async function ProcurementPage({
       route="/[tenant]/procurement"
       tenantSlug={slug}
     >
+      {hasFinanceModule && (
+        <FinanceLinkageBanner slug={slug} variant="procurement" warnings={financeWarnings} />
+      )}
       {showMeemHub ? (
         <div className="space-y-8">
           <ErpModuleHub

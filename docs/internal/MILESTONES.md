@@ -73,7 +73,7 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **G-series** module depth (G2–G10) after **G1 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** module depth (G4–G10) after **G3 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
@@ -92,7 +92,26 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G3 Finance depth · G4 CRM+Sales · remaining G-track modules per G1 roadmap.
+**Recommended next:** G4 CRM+Sales depth · remaining G-track modules per G1 roadmap.
+
+---
+
+## G3 — Finance module depth (no paid infra)
+
+**Scope:** Deepen Finance as financial operations readiness — sales/procurement/plan linkage, approvals, reports, CyberCrow, and SAREA — without live payments, tax engines, or accounting overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/finance-module-depth.ts` |
+| Readiness service | `src/lib/services/finance-readiness.service.ts` |
+| Finance hub UI | `src/app/[tenant]/finance/page.tsx` · `finance-operations-readiness-panel.tsx` |
+| Cross-module linkage | `finance-linkage-banner.tsx` on sales / procurement / settings/plan |
+| Verification | `npm run finance:verify` |
+
+**Recommended next:** G4 CRM+Sales depth · G5 Procurement · remaining G-track modules per G1 roadmap.
 
 ---
 
