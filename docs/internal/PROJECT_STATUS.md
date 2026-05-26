@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F28 demo/mock mode excellence in progress)  
+**Last updated:** 26 May 2026 (F29 documentation & developer experience pass)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,12 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F28 — Demo data / mock mode excellence** (26 May 2026).
+**Phase F29 — Documentation & developer experience pass** (26 May 2026).
 
-**Mock/build safety hardening** — tighten mock relation typing, validate required support files/imports, and prevent Vercel-style missing-file regressions without paid infra or schema changes.
+**DX hardening** — consolidate quickstart, validation, git safety, Cursor workflow, troubleshooting, mock mode operations, project structure, and scripts index for safer collaboration and deployment confidence.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Documentation & developer experience pass | [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
 | Demo data / mock mode excellence | [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | Admin quality & reliability pass | [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
 | CEM workflow operations depth | [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
@@ -33,6 +34,10 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+**Next recommended phase after F29:** F30 reliability automation pass (lightweight CI-safe checks + doc drift control, still no paid infra).
+
+**F29 acceptance:** **PASSED** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md).  
+Current safe operating mode: **staging/demo/portfolio** (F23 production deferred gate remains active).
 
 **F28 acceptance:** **PASSED** — [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md).  
 Preflight guard: `npm run mock:verify`.

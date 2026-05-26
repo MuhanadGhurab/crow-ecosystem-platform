@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F29** | Documentation & developer experience pass (no paid infra) | Quickstart, validation, git safety, Cursor workflow, troubleshooting, structure, scripts index | Muhanad | **100%** | **Passed** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
 | **F28** | Demo data / mock mode excellence (no paid infra) | Mock shape alignment, import/file integrity, preflight verification | Muhanad | **100%** | **Passed** — [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | **F27** | Admin quality & reliability pass (no paid infra) | Admin UX consistency, link reliability, placeholder honesty | Muhanad | **100%** | **Passed** — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
 | **F26** | CEM workflow operations depth (no paid infra) | Workflows, tasks, dept/role ops, dashboard signals | Muhanad | **100%** | **Passed** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
