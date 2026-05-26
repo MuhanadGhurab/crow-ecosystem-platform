@@ -92,7 +92,27 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G4 CRM+Sales depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G5 Procurement depth · remaining G-track modules per G1 roadmap.
+
+---
+
+## G4 — CRM + Sales module depth (no paid infra)
+
+**Scope:** Deepen CRM and Sales as commercial operations readiness modules — request linkage, finance handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, AI lead scoring, or CRM/SFA overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/crm-sales-module-depth.ts` |
+| Readiness service | `src/lib/services/crm-sales-readiness.service.ts` |
+| CRM hub UI | `src/app/[tenant]/crm/page.tsx` · `crm-operations-readiness-panel.tsx` |
+| Sales hub UI | `src/app/[tenant]/sales/page.tsx` · `sales-commercial-readiness-panel.tsx` |
+| Cross-module linkage | `commercial-linkage-banner.tsx` · `tenant-runtime-cross-links` (crm/sales) |
+| Verification | `npm run crm-sales:verify` |
+
+**Recommended next:** G5 Procurement · remaining G-track modules per G1 roadmap.
 
 ---
 
@@ -111,7 +131,7 @@
 | Cross-module linkage | `finance-linkage-banner.tsx` on sales / procurement / settings/plan |
 | Verification | `npm run finance:verify` |
 
-**Recommended next:** G4 CRM+Sales depth · G5 Procurement · remaining G-track modules per G1 roadmap.
+**Recommended next:** G5 Procurement · G6 Inventory+Warehouse · remaining G-track modules per G1 roadmap.
 
 ---
 

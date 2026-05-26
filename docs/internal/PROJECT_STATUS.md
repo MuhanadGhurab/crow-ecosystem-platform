@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G3 Finance module depth)  
+**Last updated:** 26 May 2026 (G4 CRM + Sales module depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| CRM + Sales module depth (G4) | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
 | Finance module depth (G3) | [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
 | HR module depth (G2) | [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md) |
 | ERP module architecture (G1) | [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
@@ -47,6 +48,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G4 acceptance:** **PASSED** — [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md).  
+CRM/Sales commercial readiness hubs, request/finance linkage, CyberCrow/SAREA guidance, sector notes, `npm run crm-sales:verify`; no AI lead scoring/live payment/external CRM claims; no schema changes.
 
 **G3 acceptance:** **PASSED** — [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md).  
 Finance operations readiness hub, sales/procurement/plan linkage banners, CyberCrow/SAREA guidance, sector notes, `npm run finance:verify`; no live payment/tax/accounting claims; no schema changes.

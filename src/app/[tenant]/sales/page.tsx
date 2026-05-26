@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CommercialLinkageBanner } from "@/components/tenant/crm-sales/commercial-linkage-banner";
 import { FinanceLinkageBanner } from "@/components/tenant/finance/finance-linkage-banner";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemSalesHub } from "@/components/tenant/meem-sales-hub";
+import { SalesCommercialReadinessPanel } from "@/components/tenant/sales/sales-commercial-readiness-panel";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { LOGISTICS_SALES_SAMPLES } from "@/lib/erp/industry-packs/logistics";
@@ -12,6 +16,7 @@ import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils"
 import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { routes } from "@/lib/routes";
+import { getSalesCommercialReadinessSnapshot } from "@/lib/services/crm-sales-readiness.service";
 import { getSalesSummary, listSalesOpportunities } from "@/lib/services/sales.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
@@ -44,6 +49,7 @@ export default async function SalesPage({
   if (!tenant) notFound();
 
   const tenantModules = tenant.modules ?? [];
+  const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
   const showMeemHub = showMeemErpHub(slug, tenant.organization.industry, tenantModules, "sales");
   const useMockSales = isUseMockData() && slug === MEEM_TENANT_SLUG;
   const hasSalesModule = hasErpModule(tenantModules, "sales");
@@ -52,24 +58,36 @@ export default async function SalesPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "sales") : [];
 
-  const [opportunities, summary] = useMockSales
-    ? [
-        LOGISTICS_SALES_SAMPLES.map((s, i) => ({
-          id: `mock-sales-${i}`,
-          tenantId: tenant.id,
-          crmAccountId: null,
-          referenceCode: s.referenceCode,
-          title: s.title,
-          kind: s.kind,
-          status: s.status,
-          customerName: s.customerName,
-          amountSar: s.amountSar,
-          workflowName: s.workflowName,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          crmAccount: null,
-        })),
-        {
+  const request = tenant.blueprint?.request;
+  const requestContext = {
+    requestReferenceCode: request?.referenceCode ?? null,
+    requestStatus: request?.status ?? null,
+  };
+
+  const [opportunities, summary, readiness] = await Promise.all([
+    useMockSales
+      ? Promise.resolve(
+          LOGISTICS_SALES_SAMPLES.map((s, i) => ({
+            id: `mock-sales-${i}`,
+            tenantId: tenant.id,
+            crmAccountId: null,
+            referenceCode: s.referenceCode,
+            title: s.title,
+            kind: s.kind,
+            status: s.status,
+            customerName: s.customerName,
+            amountSar: s.amountSar,
+            workflowName: s.workflowName,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            crmAccount: null,
+          }))
+        )
+      : hasSalesModule
+        ? listSalesOpportunities(tenant.id)
+        : Promise.resolve([]),
+    useMockSales
+      ? Promise.resolve({
           total: LOGISTICS_SALES_SAMPLES.length,
           quotes: LOGISTICS_SALES_SAMPLES.filter((s) => s.kind === "quote").length,
           orders: LOGISTICS_SALES_SAMPLES.filter((s) => s.kind === "order").length,
@@ -79,152 +97,204 @@ export default async function SalesPage({
           wonSar: LOGISTICS_SALES_SAMPLES.filter(
             (s) => s.status === "won" || s.status === "fulfilled"
           ).reduce((n, s) => n + s.amountSar, 0),
-        },
-      ]
-    : await Promise.all([
-        listSalesOpportunities(tenant.id),
-        getSalesSummary(tenant.id),
-      ]);
+        })
+      : hasSalesModule
+        ? getSalesSummary(tenant.id)
+        : Promise.resolve({
+            total: 0,
+            quotes: 0,
+            orders: 0,
+            pipelineSar: 0,
+            wonSar: 0,
+          }),
+    getSalesCommercialReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry,
+      requestContext
+    ),
+  ]);
 
   const r = routes.tenant(slug);
+  const cybercrowLive = readiness.cybercrowInitialized;
+  const salesWarnings: string[] = [];
+  if (readiness.opportunitiesWithoutAccount > 0) {
+    salesWarnings.push(
+      `${readiness.opportunitiesWithoutAccount} opportunity line(s) without CRM account link.`
+    );
+  }
+
+  const pipelineContent = (
+    <section className="cc-glass-card">
+      <h3 className="font-display text-sm font-semibold text-cyan-400">
+        Pipeline lines ({opportunities.length})
+      </h3>
+      <p className="mt-1 text-xs text-slate-600">
+        Amounts are advisory coordination signals — not recognized revenue or issued invoices.
+      </p>
+      {opportunities.length === 0 ? (
+        <p className="mt-4 text-sm text-slate-500">
+          No sales records yet.
+          {hasSalesModule && !useMockSales && (
+            <>
+              {" "}
+              Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample data
+              on MEEM when the sales module is enabled.
+            </>
+          )}
+        </p>
+      ) : (
+        <ul className="mt-4 space-y-3">
+          {opportunities.map((row) => (
+            <li
+              key={row.id}
+              className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-medium text-white">{row.title}</p>
+                  {row.referenceCode && (
+                    <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
+                  )}
+                </div>
+                <p className="mt-1 text-xs text-slate-500">
+                  {KIND_LABEL[row.kind] ?? row.kind}
+                  {row.customerName ? ` · ${row.customerName}` : ""}
+                  {row.crmAccount ? ` · ${row.crmAccount.name}` : ""}
+                </p>
+                {row.workflowName && (
+                  <p className="mt-1 text-xs text-slate-500">
+                    Workflow:{" "}
+                    <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
+                      {row.workflowName}
+                    </Link>
+                    {hasLogisticsModule && (
+                      <>
+                        {" "}
+                        ·{" "}
+                        <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
+                          Logistics
+                        </Link>
+                      </>
+                    )}
+                  </p>
+                )}
+                {row.amountSar != null && (
+                  <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
+                    {formatSar(row.amountSar)} SAR
+                  </p>
+                )}
+              </div>
+              <span
+                className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
+                  STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
+                }`}
+              >
+                {row.status.replace("_", " ")}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 
   return (
     <TenantModulePage
       engine="CEM"
       title="Sales"
-      description={
-        showMeemHub
-          ? `Freight quotes, B2B deals, and shipment sales for ${tenant.organization.displayName}.`
-          : `Pipeline, quotes, and orders for ${tenant.organization.displayName}.`
-      }
+      description={`Commercial and sales readiness for ${tenant.organization.displayName}. Pipeline coordination with CRM and Finance — not live invoicing, payment capture, AI lead scoring, or contract signing.`}
       route="/[tenant]/sales"
       tenantSlug={slug}
     >
-      {hasFinanceModule && <FinanceLinkageBanner slug={slug} variant="sales" />}
-      {showMeemHub ? (
-        <div className="space-y-8">
-          <ErpModuleHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            moduleKey="sales"
-          />
-          <MeemSalesHub
-            slug={slug}
-            organizationName={tenant.organization.displayName}
-            aiExtraKeys={aiExtraKeys}
-          />
+      <div className="space-y-8">
+        <TenantRuntimeStatStrip
+          items={[
+            { label: "Readiness", value: readiness.readinessLabel, accent: "cyan" },
+            { label: "Pipeline lines", value: readiness.opportunityCount },
+            {
+              label: "Pipeline SAR",
+              value: hasSalesModule || useMockSales ? formatSar(summary.pipelineSar) : "—",
+              accent: "cyan",
+            },
+            {
+              label: "Won SAR",
+              value: hasSalesModule || useMockSales ? formatSar(summary.wonSar) : "—",
+              accent: "teal",
+            },
+            { label: "Sales open tasks", value: readiness.salesRelatedOpenTasks },
+          ]}
+        />
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          label="Open pipeline"
-          value={`${formatSar(summary.pipelineSar)} SAR`}
-          entity="cem"
-          accent="cyan"
-          hint="Quoted & in negotiation"
+        <CommercialLinkageBanner
+          slug={slug}
+          variant="sales"
+          requestReferenceCode={requestContext.requestReferenceCode}
+          requestStatus={requestContext.requestStatus}
+          warnings={salesWarnings}
         />
-        <StatCard
-          label="Won / fulfilled"
-          value={`${formatSar(summary.wonSar)} SAR`}
-          entity="cem"
-          accent="teal"
-        />
-        <StatCard
-          label="Freight quotes"
-          value={summary.quotes}
-          entity="cem"
-          accent="cyan"
-        />
-        <StatCard
-          label="Orders & contracts"
-          value={summary.orders}
-          entity="cem"
-          accent="teal"
-          hint={`${summary.total} total lines`}
-        />
-      </section>
 
-      <section className="cc-glass-card">
-        <h3 className="font-display text-sm font-semibold text-cyan-400">
-          Quotes & orders ({opportunities.length})
-        </h3>
-        {opportunities.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">
-            No sales records yet.
-            {hasSalesModule && (
-              <>
-                {" "}
-                Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for sample
-                data when the sales module is enabled.
-              </>
-            )}
-          </p>
-        ) : (
-          <ul className="mt-4 space-y-3">
-            {opportunities.map((row) => (
-              <li
-                key={row.id}
-                className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-medium text-white">{row.title}</p>
-                    {row.referenceCode && (
-                      <span className="font-mono text-xs text-slate-500">{row.referenceCode}</span>
-                    )}
-                  </div>
-                  <p className="mt-1 text-xs text-slate-500">
-                    {KIND_LABEL[row.kind] ?? row.kind}
-                    {row.customerName ? ` · ${row.customerName}` : ""}
-                    {row.crmAccount ? ` · ${row.crmAccount.name}` : ""}
-                  </p>
-                  {row.workflowName && (
-                    <p className="mt-1 text-xs text-slate-500">
-                      Workflow:{" "}
-                      <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
-                        {row.workflowName}
-                      </Link>
-                      {hasLogisticsModule && (
-                        <>
-                          {" "}
-                          ·{" "}
-                          <Link href={r.logistics} className="text-teal-400 hover:text-teal-300">
-                            Logistics
-                          </Link>
-                        </>
-                      )}
-                    </p>
-                  )}
-                  {row.amountSar != null && (
-                    <p className="mt-2 font-display text-lg font-semibold tabular-nums text-cyan-300">
-                      {formatSar(row.amountSar)} SAR
-                    </p>
-                  )}
-                </div>
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                    STATUS_CLASS[row.status] ?? "bg-slate-700/50 text-slate-400"
-                  }`}
-                >
-                  {row.status.replace("_", " ")}
-                </span>
-              </li>
-            ))}
-          </ul>
+        {hasFinanceModule && <FinanceLinkageBanner slug={slug} variant="sales" />}
+
+        <SalesCommercialReadinessPanel
+          slug={slug}
+          snapshot={readiness}
+          cybercrowLive={cybercrowLive}
+        />
+
+        <TenantRuntimeCrossLinks slug={slug} current="sales" cybercrowLive={cybercrowLive} />
+
+        {showMeemHub && (
+          <>
+            <ErpModuleHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              moduleKey="sales"
+            />
+            <MeemSalesHub
+              slug={slug}
+              organizationName={tenant.organization.displayName}
+              aiExtraKeys={aiExtraKeys}
+            />
+            <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <StatCard
+                label="Open pipeline"
+                value={`${formatSar(summary.pipelineSar)} SAR`}
+                entity="cem"
+                accent="cyan"
+                hint="Quoted & in negotiation"
+              />
+              <StatCard
+                label="Won / fulfilled"
+                value={`${formatSar(summary.wonSar)} SAR`}
+                entity="cem"
+                accent="teal"
+              />
+              <StatCard label="Freight quotes" value={summary.quotes} entity="cem" accent="cyan" />
+              <StatCard
+                label="Orders & contracts"
+                value={summary.orders}
+                entity="cem"
+                accent="teal"
+                hint={`${summary.total} total lines`}
+              />
+            </section>
+          </>
         )}
-      </section>
 
-      <ErpChainLinks tenantSlug={slug} currentModule="sales" tenantModules={tenantModules} />
+        {(hasSalesModule || useMockSales) && pipelineContent}
 
-      <div className="flex flex-wrap gap-3">
-        <Link href={r.crm} className="text-sm text-slate-400 hover:text-white">
-          CRM →
-        </Link>
-        <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-          ← Dashboard
-        </Link>
-      </div>
+        <ErpChainLinks tenantSlug={slug} currentModule="sales" tenantModules={tenantModules} />
+
+        <div className="flex flex-wrap gap-3">
+          <Link href={r.crm} className="text-sm text-slate-400 hover:text-white">
+            CRM →
+          </Link>
+          <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
+            ← Dashboard
+          </Link>
         </div>
-      ) : undefined}
+      </div>
     </TenantModulePage>
   );
 }
