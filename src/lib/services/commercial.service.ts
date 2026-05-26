@@ -1,4 +1,4 @@
-import "server-only";
+import "@/lib/server-only-guard";
 
 import { randomBytes } from "crypto";
 import type { ProposalStatus } from "@prisma/client";

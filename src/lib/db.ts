@@ -1,4 +1,4 @@
-import "server-only";
+import "@/lib/server-only-guard";
 
 import type { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
