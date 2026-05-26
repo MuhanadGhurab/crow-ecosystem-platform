@@ -77,6 +77,7 @@
     "tenant:verify:rimal": "npx tsx --env-file=.env.staging scripts/verify-rimal-tenant.ts",
     "request:pipeline:verify": "npx tsx --env-file=.env.staging scripts/verify-discovery-pipeline.ts",
     "request:e2e:dry": "npx tsx scripts/verify-organic-request-e2e.ts --dry",
+    "mock:verify": "npx tsx scripts/verify-mock-mode-integrity.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

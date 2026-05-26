@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F27 admin quality & reliability pass)  
+**Last updated:** 26 May 2026 (F28 demo/mock mode excellence in progress)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,12 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F27 — Admin quality & reliability pass** (26 May 2026).
+**Phase F28 — Demo data / mock mode excellence** (26 May 2026).
 
-**Admin console hardening** — improve operator clarity, empty/error states, link reliability, and placeholder honesty without paid infra, schema changes, or new feature expansion.
+**Mock/build safety hardening** — tighten mock relation typing, validate required support files/imports, and prevent Vercel-style missing-file regressions without paid infra or schema changes.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Demo data / mock mode excellence | [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | Admin quality & reliability pass | [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
 | CEM workflow operations depth | [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
 | Discovery intelligence refinement | [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
@@ -32,6 +33,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+
+**F28 acceptance:** **PASSED** — [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md).  
+Preflight guard: `npm run mock:verify`.
 
 **F27 acceptance:** **PASSED** — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md).
 

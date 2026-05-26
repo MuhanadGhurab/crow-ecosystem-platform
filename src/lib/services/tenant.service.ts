@@ -47,7 +47,7 @@ export type TenantBySlug = Prisma.TenantGetPayload<{ include: typeof tenantBySlu
 export async function getTenantBySlug(slug: string): Promise<TenantBySlug | null> {
   if (isUseMockData()) {
     const mock = getMeemMockTenant(slug);
-    if (mock) return mock as TenantBySlug;
+    if (mock) return mock;
   }
   return prisma.tenant.findUnique({
     where: { slug },

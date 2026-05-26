@@ -27,6 +27,32 @@ export {
 
 const now = new Date("2026-05-15T09:00:00.000Z");
 
+const meemTenantInclude = {
+  organization: true,
+  modules: { where: { enabled: true }, orderBy: { moduleKey: "asc" as const } },
+  blueprint: {
+    include: {
+      request: {
+        select: {
+          id: true,
+          referenceCode: true,
+          status: true,
+          organizationName: true,
+          discoveryProfile: {
+            select: {
+              answers: {
+                select: { sectionKey: true, questionKey: true, valueJson: true },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+} satisfies Prisma.TenantInclude;
+
+export type MeemMockTenant = Prisma.TenantGetPayload<{ include: typeof meemTenantInclude }>;
+
 export const MEEM_PRICING_ESTIMATE: PricingEstimate = calculateMonthlyEstimate({
   planKey: "enterprise",
   moduleKeys: [...MEEM_MODULE_KEYS],
@@ -53,6 +79,8 @@ export const MEEM_PIPELINE_REQUESTS = [
     hasModules: true,
     discoveryAvailable: true,
     blueprintId: MEEM_BLUEPRINT_ID,
+    proposalStatus: "CLIENT_APPROVED" as ProposalStatus,
+    tenantSlug: MEEM_TENANT_SLUG,
   },
   {
     id: MEEM_DISCOVERY_REQUEST_ID,
@@ -70,6 +98,8 @@ export const MEEM_PIPELINE_REQUESTS = [
     hasModules: true,
     discoveryAvailable: true,
     blueprintId: null as string | null,
+    proposalStatus: "DRAFT" as ProposalStatus,
+    tenantSlug: null as string | null,
   },
 ] as const;
 
@@ -77,7 +107,7 @@ export function isMeemMockId(id: string): boolean {
   return id.includes("meem");
 }
 
-export function getMeemMockTenant(slug: string) {
+export function getMeemMockTenant(slug: string): MeemMockTenant | null {
   if (slug !== MEEM_TENANT_SLUG) return null;
 
   return {
@@ -123,6 +153,25 @@ export function getMeemMockTenant(slug: string) {
         referenceCode: MEEM_REFERENCE_CODE,
         status: "GO_LIVE" as ImplementationRequestStatus,
         organizationName: "MEEM Holding Logistics",
+        discoveryProfile: {
+          answers: [
+            {
+              sectionKey: "identity",
+              questionKey: "idpPreference",
+              valueJson: "entra_id",
+            },
+            {
+              sectionKey: "experience",
+              questionKey: "aiExtras",
+              valueJson: [
+                "route_optimization",
+                "demand_forecast",
+                "anomaly_detection",
+                "doc_intelligence",
+              ],
+            },
+          ],
+        },
       },
     },
   };
