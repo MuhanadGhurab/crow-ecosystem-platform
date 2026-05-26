@@ -11,7 +11,16 @@
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
 | **G1** | ERP module architecture & integration blueprint (no paid infra) | Module catalog, integration map, maturity/UX standards, erp:verify | Muhanad | **100%** | **Passed** — [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
-| **G10** | Cross-module intelligence & runtime cohesion (no paid infra) | Cohesion model, runtime service, dashboard/modules/admin panels, `runtime:verify` | Muhanad | **100%** | **Passed** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
+| **G2** | HR module depth (no paid infra) | Workforce readiness hub, org linkage, hr:verify | Muhanad | **100%** | **Passed** — [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md) |
+| **G3** | Finance module depth (no paid infra) | Finance readiness hub, cross-links, finance:verify | Muhanad | **100%** | **Passed** — [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
+| **G4** | CRM + Sales module depth (no paid infra) | Commercial hubs, crm-sales:verify | Muhanad | **100%** | **Passed** — [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
+| **G5** | Procurement module depth (no paid infra) | Supplier/purchase readiness, procurement:verify | Muhanad | **100%** | **Passed** — [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
+| **G6** | Inventory + Warehouse module depth (no paid infra) | Stock/hub readiness, inventory-warehouse:verify | Muhanad | **100%** | **Passed** — [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
+| **G7** | Logistics module runtime depth (no paid infra) | Dispatch readiness, logistics-module:verify | Muhanad | **100%** | **Passed** — [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
+| **G8** | Tasks / Approvals engine depth (no paid infra) | Coordination engine, tasks-approvals:verify | Muhanad | **100%** | **Passed** — [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
+| **G9** | Reports / BI readiness layer (no paid infra) | Executive roll-ups, reports:verify | Muhanad | **100%** | **Passed** — [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
+| **G10** | Cross-module intelligence & runtime cohesion (no paid infra) | Cohesion model, runtime service, panels, `runtime:verify` | Muhanad | **100%** | **Passed** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
+| **H1** | Product polish & demo rehearsal (no paid infra) | Journey audit, UI rhythm, playbook, G-index order, validation | Muhanad | **100%** | **Passed** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -74,10 +83,33 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **G-series** closed through **G10** (cross-module runtime cohesion). **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G10 passed** — cross-module intelligence & runtime cohesion. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** closed **G1→G10**; **H1 passed** — product polish & demo rehearsal (playbook + UI/doc rhythm). **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume **F23** when client + budget approve. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
+## G-series (ERP depth arc)
+
+Documentation below is **G1 through G10** in order, then **H1** (demo polish).
+
+---
+## G1 — ERP module architecture & integration blueprint (no paid infra)
+
+**Scope:** Architecture baseline for the ERP/CEM engine room — self-describing module catalog, cross-module integration map, maturity model, UX standard, sector-module matrix, CyberCrow/SAREA integration rules, and `erp:verify`.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
+| Module catalog | `src/lib/constants/erp-module-catalog.ts` |
+| Integration map | `src/lib/constants/erp-module-integration-map.ts` |
+| Sector matrix | `src/lib/constants/erp-sector-module-matrix.ts` |
+| Maturity + UX | `erp-module-maturity.ts` · `erp-module-ux-standard.ts` |
+| Verification | `npm run erp:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog (G2–G10 depth arc **complete**).
+
+---
 ## G2 — HR module depth (no paid infra)
 
 **Scope:** Deepen HR as workforce operational readiness — linkage to users, roles, departments, tasks, CyberCrow, and SAREA — without payroll, HRMS, or compliance overclaims.
@@ -96,7 +128,116 @@
 **Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
+## G3 — Finance module depth (no paid infra)
 
+**Scope:** Deepen Finance as financial operations readiness — sales/procurement/plan linkage, approvals, reports, CyberCrow, and SAREA — without live payments, tax engines, or accounting overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/finance-module-depth.ts` |
+| Readiness service | `src/lib/services/finance-readiness.service.ts` |
+| Finance hub UI | `src/app/[tenant]/finance/page.tsx` · `finance-operations-readiness-panel.tsx` |
+| Cross-module linkage | `finance-linkage-banner.tsx` on sales / procurement / settings/plan |
+| Verification | `npm run finance:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+## G4 — CRM + Sales module depth (no paid infra)
+
+**Scope:** Deepen CRM and Sales as commercial operations readiness modules — request linkage, finance handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, AI lead scoring, or CRM/SFA overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/crm-sales-module-depth.ts` |
+| Readiness service | `src/lib/services/crm-sales-readiness.service.ts` |
+| CRM hub UI | `src/app/[tenant]/crm/page.tsx` · `crm-operations-readiness-panel.tsx` |
+| Sales hub UI | `src/app/[tenant]/sales/page.tsx` · `sales-commercial-readiness-panel.tsx` |
+| Cross-module linkage | `commercial-linkage-banner.tsx` · `tenant-runtime-cross-links` (crm/sales) |
+| Verification | `npm run crm-sales:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+## G5 — Procurement module depth (no paid infra)
+
+**Scope:** Deepen Procurement as supplier and purchase operations readiness — finance/inventory/warehouse handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, vendor marketplace, or supplier-risk overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/procurement-module-depth.ts` |
+| Readiness service | `src/lib/services/procurement-readiness.service.ts` |
+| Procurement hub UI | `src/app/[tenant]/procurement/page.tsx` · `procurement-operations-readiness-panel.tsx` |
+| Cross-module linkage | `procurement-supply-linkage-banner.tsx` · `finance-linkage-banner` (procurement) · `tenant-runtime-cross-links` (procurement) |
+| Verification | `npm run procurement:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+## G6 — Inventory + Warehouse module depth (no paid infra)
+
+**Scope:** Deepen Inventory and Warehouse as stock/material and hub operations readiness modules — procurement receiving, logistics handoff, tasks/workflows, reports, CyberCrow, and SAREA — without barcode/RFID/IoT, live stock accuracy, or WMS overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/inventory-warehouse-module-depth.ts` |
+| Readiness service | `src/lib/services/inventory-warehouse-readiness.service.ts` |
+| Inventory hub UI | `src/app/[tenant]/inventory/page.tsx` · `inventory-operations-readiness-panel.tsx` |
+| Warehouse hub UI | `src/app/[tenant]/warehouse/page.tsx` · `warehouse-operations-readiness-panel.tsx` |
+| Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` · `tenant-runtime-cross-links` (inventory, warehouse) |
+| Verification | `npm run inventory-warehouse:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+## G7 — Logistics module runtime depth (no paid infra)
+
+**Scope:** Deepen Logistics as dispatch/delivery operations readiness — warehouse/inventory/procurement handoffs, CRM/finance linkage, tasks/workflows, reports, CyberCrow, and SAREA — without live GPS, carrier APIs, POD capture, or automated dispatch.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
+| Depth constants | `src/lib/constants/logistics-module-depth.ts` |
+| Readiness service | `src/lib/services/logistics-readiness.service.ts` |
+| Logistics hub UI | `src/app/[tenant]/logistics/page.tsx` · `logistics-operations-readiness-panel.tsx` |
+| Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` (logistics variant) · `tenant-runtime-cross-links` (logistics) |
+| Verification | `npm run logistics-module:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+## G8 — Tasks / Approvals engine depth (no paid infra)
+
+**Scope:** Deepen Tasks and Workflows as the cross-module coordination engine — module approval map, workflow-to-task linkage, CyberCrow/SAREA guidance, and reporting readiness — without BPMN, RPA, autonomous approvals, or AI task assignment.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
+| Depth constants | `src/lib/constants/task-approval-engine-depth.ts` |
+| Readiness service | `src/lib/services/task-approval-readiness.service.ts` |
+| Tasks / Workflows UI | `task-approval-operations-readiness-panel.tsx` · `tasks/page.tsx` · `workflows/page.tsx` |
+| Catalog | `erp-module-catalog.ts` (tasks + workflows entries) |
+| Verification | `npm run tasks-approvals:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
 ## G9 — Reports / BI readiness layer (no paid infra)
 
 **Scope:** Deepen Reports / BI as executive and operational visibility — cross-module roll-ups, CyberCrow/SAREA posture, sector notes, and advisory KPI signals — without data warehouse, external BI, AI forecasting, or certified reporting.
@@ -115,7 +256,6 @@
 **Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
-
 ## G10 — Cross-module intelligence & runtime cohesion (no paid infra)
 
 **Scope:** Rule-based **runtime cohesion** across enabled CEM modules — dependency chains, handoff gaps, CyberCrow/SAREA posture hints, Reports/BI and Tasks/Workflows as shared hubs — **without** autonomous AI, predictive analytics, live automation, paid analytics, or certified compliance claims.
@@ -136,138 +276,19 @@
 
 ---
 
-## G8 — Tasks / Approvals engine depth (no paid infra)
+## H1 — Product polish & demo rehearsal (no paid infra)
 
-**Scope:** Deepen Tasks and Workflows as the cross-module coordination engine — module approval map, workflow-to-task linkage, CyberCrow/SAREA guidance, and reporting readiness — without BPMN, RPA, autonomous approvals, or AI task assignment.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
-| Depth constants | `src/lib/constants/task-approval-engine-depth.ts` |
-| Readiness service | `src/lib/services/task-approval-readiness.service.ts` |
-| Tasks / Workflows UI | `task-approval-operations-readiness-panel.tsx` · `tasks/page.tsx` · `workflows/page.tsx` |
-| Catalog | `erp-module-catalog.ts` (tasks + workflows entries) |
-| Verification | `npm run tasks-approvals:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G7 — Logistics module runtime depth (no paid infra)
-
-**Scope:** Deepen Logistics as dispatch/delivery operations readiness — warehouse/inventory/procurement handoffs, CRM/finance linkage, tasks/workflows, reports, CyberCrow, and SAREA — without live GPS, carrier APIs, POD capture, or automated dispatch.
+**Scope:** Coherent public and tenant story, premium dark UI rhythm, operator clarity, demo playbook, G-index cleanup — **without** paid infra, production launch, live payments, new modules, schema writes, external APIs, or AI/compliance/customer overclaims.
 
 **Status:** **Passed** (26 May 2026).
 
 | Deliverable | Location |
 |-------------|----------|
-| Master plan | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
-| Depth constants | `src/lib/constants/logistics-module-depth.ts` |
-| Readiness service | `src/lib/services/logistics-readiness.service.ts` |
-| Logistics hub UI | `src/app/[tenant]/logistics/page.tsx` · `logistics-operations-readiness-panel.tsx` |
-| Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` (logistics variant) · `tenant-runtime-cross-links` (logistics) |
-| Verification | `npm run logistics-module:verify` |
+| Master record | [H1_PRODUCT_POLISH_DEMO_REHEARSAL.md](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
+| Demo playbook | [H1_DEMO_REHEARSAL_PLAYBOOK.md](H1_DEMO_REHEARSAL_PLAYBOOK.md) |
+| Operator index | [OPERATOR_DEMO_INDEX.md](OPERATOR_DEMO_INDEX.md) |
 
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G6 — Inventory + Warehouse module depth (no paid infra)
-
-**Scope:** Deepen Inventory and Warehouse as stock/material and hub operations readiness modules — procurement receiving, logistics handoff, tasks/workflows, reports, CyberCrow, and SAREA — without barcode/RFID/IoT, live stock accuracy, or WMS overclaims.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
-| Depth constants | `src/lib/constants/inventory-warehouse-module-depth.ts` |
-| Readiness service | `src/lib/services/inventory-warehouse-readiness.service.ts` |
-| Inventory hub UI | `src/app/[tenant]/inventory/page.tsx` · `inventory-operations-readiness-panel.tsx` |
-| Warehouse hub UI | `src/app/[tenant]/warehouse/page.tsx` · `warehouse-operations-readiness-panel.tsx` |
-| Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` · `tenant-runtime-cross-links` (inventory, warehouse) |
-| Verification | `npm run inventory-warehouse:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G5 — Procurement module depth (no paid infra)
-
-**Scope:** Deepen Procurement as supplier and purchase operations readiness — finance/inventory/warehouse handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, vendor marketplace, or supplier-risk overclaims.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
-| Depth constants | `src/lib/constants/procurement-module-depth.ts` |
-| Readiness service | `src/lib/services/procurement-readiness.service.ts` |
-| Procurement hub UI | `src/app/[tenant]/procurement/page.tsx` · `procurement-operations-readiness-panel.tsx` |
-| Cross-module linkage | `procurement-supply-linkage-banner.tsx` · `finance-linkage-banner` (procurement) · `tenant-runtime-cross-links` (procurement) |
-| Verification | `npm run procurement:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G4 — CRM + Sales module depth (no paid infra)
-
-**Scope:** Deepen CRM and Sales as commercial operations readiness modules — request linkage, finance handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, AI lead scoring, or CRM/SFA overclaims.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G4_CRM_SALES_MODULE_DEPTH.md`](G4_CRM_SALES_MODULE_DEPTH.md) |
-| Depth constants | `src/lib/constants/crm-sales-module-depth.ts` |
-| Readiness service | `src/lib/services/crm-sales-readiness.service.ts` |
-| CRM hub UI | `src/app/[tenant]/crm/page.tsx` · `crm-operations-readiness-panel.tsx` |
-| Sales hub UI | `src/app/[tenant]/sales/page.tsx` · `sales-commercial-readiness-panel.tsx` |
-| Cross-module linkage | `commercial-linkage-banner.tsx` · `tenant-runtime-cross-links` (crm/sales) |
-| Verification | `npm run crm-sales:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G3 — Finance module depth (no paid infra)
-
-**Scope:** Deepen Finance as financial operations readiness — sales/procurement/plan linkage, approvals, reports, CyberCrow, and SAREA — without live payments, tax engines, or accounting overclaims.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |
-| Depth constants | `src/lib/constants/finance-module-depth.ts` |
-| Readiness service | `src/lib/services/finance-readiness.service.ts` |
-| Finance hub UI | `src/app/[tenant]/finance/page.tsx` · `finance-operations-readiness-panel.tsx` |
-| Cross-module linkage | `finance-linkage-banner.tsx` on sales / procurement / settings/plan |
-| Verification | `npm run finance:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
-
----
-
-## G1 — ERP module architecture & integration blueprint (no paid infra)
-
-**Scope:** Architecture baseline for the ERP/CEM engine room — self-describing module catalog, cross-module integration map, maturity model, UX standard, sector-module matrix, CyberCrow/SAREA integration rules, and `erp:verify`.
-
-**Status:** **Passed** (26 May 2026).
-
-| Deliverable | Location |
-|-------------|----------|
-| Master plan | [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
-| Module catalog | `src/lib/constants/erp-module-catalog.ts` |
-| Integration map | `src/lib/constants/erp-module-integration-map.ts` |
-| Sector matrix | `src/lib/constants/erp-sector-module-matrix.ts` |
-| Maturity + UX | `erp-module-maturity.ts` · `erp-module-ux-standard.ts` |
-| Verification | `npm run erp:verify` |
-
-**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog (G2–G10 depth arc **complete**).
+**Recommended next:** **H2** / selective refinement, **or** **F23** when client + budget approve — portfolio pause remains default.
 
 ---
 

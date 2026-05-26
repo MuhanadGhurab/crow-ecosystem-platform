@@ -1,9 +1,9 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G10 Cross-module intelligence & runtime cohesion)  
+**Last updated:** 26 May 2026 (H1 Product polish & demo rehearsal)  
 **Audience:** Internal delivery / engineering
 
-**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
+**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
 
 ---
 
@@ -21,10 +21,11 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 **v0.30 portfolio baseline — safe to pause** (26 May 2026).
 
-**Wrap-up:** F30 tag `v0.30.0-portfolio` at `f6fcc40`; F31 hygiene complete; post-F30 straggler commits on `main` (`a47af1b`); working tree clean; production launch **deferred** (F23). See [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
+**Wrap-up:** F30 tag `v0.30.0-portfolio` at `f6fcc40`; F31 hygiene complete; post-F30 straggler commits on `main` (`a47af1b`); **H1** demo polish + playbook landed; production launch **deferred** (F23). See [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
 
 | Deliverable | Doc |
 |-------------|-----|
+| Product polish & demo rehearsal (H1) | [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · playbook [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md) · index [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md) |
 | Cross-module runtime cohesion (G10) | [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | Reports / BI readiness layer (G9) | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
 | Tasks / Approvals engine depth (G8) | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
@@ -53,7 +54,10 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1 complete** — demo journey documented, playbook added, validations green. Resume only with explicit plan — **F23** production launch when client + budget approve, **optional H2** selective UI/screenshot pass, **or** customer tracks (M5). **No paid infra** in the default path.
+
+**H1 acceptance:** **PASSED** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md).  
+Demo journey audit; public + admin micro-copy for staging/F23 honesty; tenant/CyberCrow/SAREA assessed **sufficient** with prior G/F depth; [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md); G-series **G1→G10** order in [`MILESTONES.md`](MILESTONES.md); `npm run mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `erp:verify`, `sector:verify`, `reports:verify`, `tasks-approvals:verify`, `runtime:verify`; optional `request:pipeline:verify`, `sarea:meem-verify`, `tenant:verify:rimal` green on staging env.
 
 **G10 acceptance:** **PASSED** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md).  
 Cohesion model + `getRuntimeCohesionSnapshot`, dashboard/modules/admin panels, `npm run runtime:verify`; rule-based operator guidance only; no autonomous AI/predictive/live automation/paid infra/schema writes; forbidden overclaim phrases guarded in verify.

@@ -68,6 +68,11 @@ export default async function AdminOverviewPage() {
         description="Multi-tenant operating layer — CEM runtime, CyberCrow trust, SAREA role experiences, blueprint-driven go-live."
       />
 
+      <p className="-mt-4 text-xs leading-relaxed text-slate-500">
+        Staging / portfolio mode — advisory signals and mock-backed counts where noted. No paid infra
+        auto-provisioning; production remains F23-gated.
+      </p>
+
       <section>
         <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">
           Platform health

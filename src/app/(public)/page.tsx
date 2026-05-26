@@ -31,7 +31,7 @@ export default function HomePage() {
           <PublicSectionIntro
             badge="Intelligence layer"
             title="Discovery and Blueprint"
-            description="Before CEM, CyberCrow, and SAREA run in production, Discovery and Blueprint shape your digital DNA."
+            description="Discovery and Blueprint shape your operating model before go-live. This site is a staging-first portfolio — production deployment stays F23-gated."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             <article className="cc-engine-card cc-engine-card--discovery p-6 sm:p-7">
