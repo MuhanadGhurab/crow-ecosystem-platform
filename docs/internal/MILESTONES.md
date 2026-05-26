@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F23** | Production launch gate (budget/client) | Requirements, cost matrix, defer decision | Muhanad | **100%** | **Passed (decision gate)** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) — launch **deferred** |
 | **F22** | Portfolio / public demo polish | README, public docs, demo guide, blurb, screenshot discipline | Muhanad | **100%** | **Passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
 | **F21** | CyberCrow evidence/GRC depth | Catalog, gaps, control mapping, incident/event hints | Muhanad | **100%** | **Passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
 | **F20** | SAREA advanced controls | Role map, widgets, nav, preview impact, health | Muhanad | **100%** | **Passed** — [`F20_SAREA_ADVANCED_CONTROLS.md`](F20_SAREA_ADVANCED_CONTROLS.md) |
@@ -57,7 +58,23 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** F23 — production launch when budget and client exist. **F22 passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md).
+**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+
+---
+
+## F23 — Production launch deferred gate (no paid infra)
+
+**Scope:** Audit F16–F22 readiness; document production requirements, cost approval matrix, safe operating mode, go/no-go outcome (**deferred by strategy**), and future launch triggers. **Not** activating production, payments, or paid infrastructure.
+
+**Status:** **Passed as decision gate** (25 May 2026). Commercial production launch **deferred** until budget/client approval.
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
+| F16 go/no-go | [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
+| Cost policy | [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
+
+**Out of scope:** Production deploy, new Supabase project, live PSP, production marketing launch claim.
 
 ---
 

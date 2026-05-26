@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F22 portfolio/public demo polish)  
+**Last updated:** 25 May 2026 (F23 production launch deferred gate)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,18 +19,20 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F22 — Portfolio / public demo polish** (25 May 2026).
+**Phase F23 — Production launch only when budget/client exists** (25 May 2026).
 
-Public portfolio audit, README and `docs/public` copy polish, [`DEMO_GUIDE.md`](../public/DEMO_GUIDE.md), [`PORTFOLIO_BLURB.md`](../public/PORTFOLIO_BLURB.md), F22 screenshot targets in capture script (recapture documented when Playwright not installed). **No** paid infra, **no** production launch claim.
+**Decision gate only** — not a production launch. Documents requirements, cost approval matrix, safe operating mode (demo/staging/portfolio), and **deferred by strategy** until client budget and production infra approval exist. **No** paid services activated.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Portfolio polish | [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
-| Evidence / GRC (F21) | [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
+| Launch deferred gate | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
+| F16 governance pack | [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) · [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
 
-**Roadmap:** F23 production launch when budget and client exist.
+**Roadmap:** Next product phases remain **cost-controlled** on staging/local until F23 triggers fire.
 
-**F22 acceptance:** **PASSED** — public docs and boundary clean; typecheck/lint/build/mirror green.
+**F23 acceptance:** **PASSED AS A DECISION GATE** — production launch **deferred**; engineering not blocked.
+
+**F22 acceptance:** **PASSED** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md).
 
 **F21 acceptance:** **PASSED** — evidence/GRC surfaces deepened; MEEM/Rimal verify scripts green.
 
