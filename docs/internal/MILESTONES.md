@@ -92,7 +92,26 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G8 Tasks / Approvals engine depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
+
+---
+
+## G8 — Tasks / Approvals engine depth (no paid infra)
+
+**Scope:** Deepen Tasks and Workflows as the cross-module coordination engine — module approval map, workflow-to-task linkage, CyberCrow/SAREA guidance, and reporting readiness — without BPMN, RPA, autonomous approvals, or AI task assignment.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
+| Depth constants | `src/lib/constants/task-approval-engine-depth.ts` |
+| Readiness service | `src/lib/services/task-approval-readiness.service.ts` |
+| Tasks / Workflows UI | `task-approval-operations-readiness-panel.tsx` · `tasks/page.tsx` · `workflows/page.tsx` |
+| Catalog | `erp-module-catalog.ts` (tasks + workflows entries) |
+| Verification | `npm run tasks-approvals:verify` |
+
+**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
 
 ---
 
@@ -111,7 +130,7 @@
 | Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` (logistics variant) · `tenant-runtime-cross-links` (logistics) |
 | Verification | `npm run logistics-module:verify` |
 
-**Recommended next:** G8 Tasks / Approvals engine depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
 
 ---
 

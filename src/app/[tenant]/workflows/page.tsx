@@ -14,7 +14,9 @@ import {
 import { moduleLabel } from "@/lib/catalog-labels";
 import { routes } from "@/lib/routes";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
+import { getTaskApprovalEngineReadinessSnapshot } from "@/lib/services/task-approval-readiness.service";
 import { listTenantWorkflows } from "@/lib/services/tenant-identity.service";
+import { TaskApprovalOperationsReadinessPanel } from "@/components/tenant/tasks/task-approval-operations-readiness-panel";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
@@ -28,7 +30,10 @@ export default async function TenantWorkflowsPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [workflows, summary, ops] = await Promise.all([
+  const tenantModules = tenant.modules ?? [];
+  const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
+
+  const [workflows, summary, ops, taskApprovalSnapshot] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TENANT_WORKFLOWS.map((w, i) => ({
           id: `mock-workflow-${i}`,
@@ -46,6 +51,11 @@ export default async function TenantWorkflowsPage({
       : listTenantWorkflows(tenant.id),
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
+    getTaskApprovalEngineReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry
+    ),
   ]);
 
   const intelById = new Map(ops.workflows.map((w) => [w.id, w]));
@@ -63,9 +73,16 @@ export default async function TenantWorkflowsPage({
         title="Workflows"
         description={
           isMeem
-            ? "Discovery-derived workflow definitions for MEEM — OCR/AI flows link to the logistics hub. Operational visibility only; no workflow builder or automation engine."
-            : `Workflow definitions seeded from discovery for ${tenant.organization.displayName}. Read-only coordination view — review recommended actions are advisory.`
+            ? "Discovery-derived workflow definitions for MEEM — OCR/AI demo flows link to the logistics hub. Operator-guided templates and approval readiness; not a drag-and-drop BPM engine or live automation."
+            : `Workflow definitions for ${tenant.organization.displayName} — coordination templates that link to tasks and evidence. Recommended approval paths are advisory, not enforced automation.`
         }
+      />
+
+      <TaskApprovalOperationsReadinessPanel
+        slug={slug}
+        snapshot={taskApprovalSnapshot}
+        cybercrowLive={summary.cybercrowInitialized}
+        focus="workflows"
       />
 
       <TenantRuntimeStatStrip

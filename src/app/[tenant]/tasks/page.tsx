@@ -9,7 +9,9 @@ import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { MEEM_TASK_SAMPLES } from "@/lib/meem/meem-ops-catalog";
 import { routes } from "@/lib/routes";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
+import { getTaskApprovalEngineReadinessSnapshot } from "@/lib/services/task-approval-readiness.service";
 import { listTenantTasks } from "@/lib/services/tenant-identity.service";
+import { TaskApprovalOperationsReadinessPanel } from "@/components/tenant/tasks/task-approval-operations-readiness-panel";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
@@ -24,7 +26,10 @@ export default async function TasksPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [tasks, summary, ops] = await Promise.all([
+  const tenantModules = tenant.modules ?? [];
+  const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
+
+  const [tasks, summary, ops, taskApprovalSnapshot] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TASK_SAMPLES.map((s, i) => ({
           id: `mock-task-${i}`,
@@ -40,6 +45,11 @@ export default async function TasksPage({
       : listTenantTasks(tenant.id),
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
+    getTaskApprovalEngineReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry
+    ),
   ]);
   const r = routes.tenant(slug);
   const openCount = tasks.filter((t) => t.status === "open" || t.status === "in_progress").length;
@@ -50,7 +60,14 @@ export default async function TasksPage({
         badge="CEM · Tasks"
         entity="cem"
         title="Tasks"
-        description="Work items linked to tenant workflows — task coordination and status visibility. No workflow automation engine in this phase."
+        description="Cross-module task coordination and approval readiness — operator-guided review queues linked to workflows and module hubs. Not BPMN, RPA, or autonomous workflow automation."
+      />
+
+      <TaskApprovalOperationsReadinessPanel
+        slug={slug}
+        snapshot={taskApprovalSnapshot}
+        cybercrowLive={summary.cybercrowInitialized}
+        focus="tasks"
       />
 
       <TenantRuntimeStatStrip
