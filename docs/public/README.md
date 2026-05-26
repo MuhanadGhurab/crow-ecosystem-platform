@@ -37,6 +37,13 @@ These docs explain **concepts and architecture** — not internal operations, li
 
 ---
 
+## Portfolio & demos
+
+| Document | Topic |
+|----------|--------|
+| [`DEMO_GUIDE.md`](DEMO_GUIDE.md) | What to open first · mock walkthrough · what not to assume |
+| [`PORTFOLIO_BLURB.md`](PORTFOLIO_BLURB.md) | CV · GitHub · interview copy (public-safe) |
+
 ## Roadmap & visuals
 
 | Document | Topic |

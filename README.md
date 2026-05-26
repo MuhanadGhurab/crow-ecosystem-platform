@@ -19,9 +19,9 @@
 Validated across multiple tenant scenarios on staging, including **logistics**, **construction**, and **aviation-style** onboarding paths (public-safe summary — see [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md)).
 
 **Portfolio / CV one-liner:**  
-*Crow Ecosystem Platform — adaptive enterprise orchestration platform with multi-tenant onboarding, CyberCrow security operations, and SAREA role-based experience orchestration.*
+*Crow Ecosystem Platform — adaptive enterprise orchestration combining CEM operations, CyberCrow trust and evidence readiness, and SAREA role-based experience across a governed Discovery → Blueprint → tenant lifecycle.*
 
-**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/)
+**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/) · **Demo guide:** [`docs/public/DEMO_GUIDE.md`](docs/public/DEMO_GUIDE.md) · **CV blurb:** [`docs/public/PORTFOLIO_BLURB.md`](docs/public/PORTFOLIO_BLURB.md)
 
 ---
 
@@ -30,7 +30,7 @@ Validated across multiple tenant scenarios on staging, including **logistics**, 
 | Engine | Name | Role |
 |--------|------|------|
 | **CEM** | Crow Enterprise Manager | Operations — modules, workflows, tenant workspace |
-| **CyberCrow** | Security & Trust Orchestration | Identity posture, audit, compliance narrative, NCA-aware framing |
+| **CyberCrow** | Security & Trust Orchestration | Identity posture, audit, evidence readiness, advisory GRC mapping |
 | **SAREA** | Smart Adaptive Role Experience Architecture | Persona-aware layouts, navigation, and widgets |
 
 | Guide | Link |
@@ -76,15 +76,19 @@ Conceptual architecture: [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTUR
 
 | Surface | Preview |
 |---------|---------|
-| Homepage | `docs/public/assets/screenshots/` |
-| Architecture & pipeline | [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTURE.md) |
-| Dashboard examples | Add PNG captures per [`screenshots README`](docs/public/assets/screenshots/README.md) |
+| Homepage | [`homepage-hero.png`](docs/public/assets/screenshots/homepage-hero.png) |
+| Architecture & pipeline | [`architecture.png`](docs/public/assets/screenshots/architecture.png) · [`ARCHITECTURE.md`](docs/public/ARCHITECTURE.md) |
+| Sign-in · pricing · engines | [`screenshots README`](docs/public/assets/screenshots/README.md) (F13 gallery + F22 refresh targets) |
 
 **Visual identity:** dark enterprise UI · cyan CEM · violet CyberCrow · rose SAREA · north-star motif.
 
-<!-- When screenshots exist, embed e.g.:
-![Crow Ecosystem homepage](docs/public/assets/screenshots/homepage.png)
--->
+![Crow Ecosystem homepage](docs/public/assets/screenshots/homepage-hero.png)
+
+![Platform architecture](docs/public/assets/screenshots/architecture.png)
+
+![CEM operator console](docs/public/assets/screenshots/admin-operator-console.png)
+
+![Blueprint readiness](docs/public/assets/screenshots/blueprint-readiness.png)
 
 ---
 
@@ -106,9 +110,10 @@ Conceptual architecture: [`docs/public/ARCHITECTURE.md`](docs/public/ARCHITECTUR
 
 | | |
 |--|--|
-| **Stage** | Active development · architecture showcase · local-first MVP |
-| **Focus** | Governed pipeline UI, multi-tenant shells, CyberCrow trust narrative, SAREA runtime hooks |
-| **Cloud** | Production path documented internally; public demo uses mock or local stack |
+| **Stage** | Active development · portfolio-ready showcase · staging-validated reference |
+| **Focus** | Public docs, demo guide, screenshot discipline — no production launch claim |
+| **Cost** | No paid infrastructure activated; development continues without new cloud spend |
+| **Cloud** | Production launch (F23) only when budget and client exist; public demo uses mock or local stack |
 
 Public roadmap: [`docs/public/ROADMAP.md`](docs/public/ROADMAP.md)
 

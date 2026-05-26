@@ -16,7 +16,21 @@ Request → Discovery → Blueprint → Provision → Go-Live → Operations
 
 ## Milestone note
 
-**RC1 staging milestone reached** — a deployed staging build validating authentication, multi-tenant operations, advisory security workflows, and role-aware experiences. **F12 demo readiness** (internal) packages storyboard, routes, and operator playbook for external showcase. Details remain internal until a public production narrative is agreed.
+**Staging-validated reference implementation** — authentication paths, multi-tenant operations, advisory CyberCrow workflows, SAREA studio controls, and cost-controlled development. **Not** a public production launch claim. Portfolio polish (F22) packages README, public docs, demo guide, and screenshot gallery for GitHub and interviews.
+
+---
+
+## Recently delivered (public-safe summary)
+
+| Theme | Outcome |
+|-------|---------|
+| **Auth & payments readiness** | Cost-controlled auth; Saudi payment architecture documented; no live payment activation |
+| **Sign-in UX** | Microsoft, Google, and email paths on `/login` |
+| **SAREA studio** | Advanced layout, navigation, role-mapping, and preview controls |
+| **CyberCrow depth** | Evidence catalog, GRC mapping, report readiness — **advisory**, not certification |
+| **Portfolio** | Public demo guide, CV blurb, screenshot refresh discipline |
+
+Internal phase numbers (F17–F22) stay in `docs/internal/` — not mirrored publicly.
 
 ---
 
@@ -24,36 +38,33 @@ Request → Discovery → Blueprint → Provision → Go-Live → Operations
 
 | Theme | Direction |
 |-------|-----------|
-| **Discovery Engine** | Deeper industry templates, cleaner handoff to Blueprint |
-| **Blueprint provisioning** | Readiness gates, commercial workspace, proposal flow |
-| **CyberCrow trust** | Audit visibility, Entra identity story, compliance narrative |
-| **SAREA adaptive UX** | Persona packs, studio polish, runtime on tenant dashboard |
-| **Production readiness** | Azure path, CI hardening, local-first sign-off discipline |
+| **Production launch** | Only when budget and client exist (F23 gate) |
+| **Screenshot gallery** | Refresh hero, login, pricing, CyberCrow evidence, SAREA studio as UI evolves |
+| **Contributor onboarding** | Clear mock quick start and public mirror boundaries |
+| **Second lighthouse narrative** | Construction / aviation-style stories without customer PII |
 
 ---
 
 ## Near term
 
-- [ ] Public screenshot gallery on README
-- [ ] Contributor onboarding polish
+- [x] Public screenshot gallery on README (F13 baseline; F22 refresh ongoing)
+- [x] [`DEMO_GUIDE.md`](DEMO_GUIDE.md) and [`PORTFOLIO_BLURB.md`](PORTFOLIO_BLURB.md)
 - [ ] Discovery → Blueprint UX refinement
-- [ ] CyberCrow console depth for enterprise demos
-- [ ] SAREA persona templates (logistics first)
+- [ ] Optional Azure production environment (when product earned it)
 
 ---
 
 ## Medium term
 
-- [ ] Azure production environment (when product earned it)
 - [ ] Production notification domain
 - [ ] Additional industry discovery templates (retail, healthcare)
-- [ ] Optional SaaS billing integration
+- [ ] Optional SaaS billing integration (when budget allows)
 
 ---
 
 ## Long term
 
-- [ ] Second lighthouse customer narrative
+- [ ] Second lighthouse customer narrative (sanitized)
 - [ ] Self-serve tenant onboarding (governed)
 - [ ] Partner / integrator documentation (sanitized)
 - [ ] Expanded industry module packs
@@ -64,8 +75,9 @@ Request → Discovery → Blueprint → Provision → Go-Live → Operations
 
 - Module sprawl before a second customer proof
 - “AI everywhere” marketing — AI stays **scoped extras** in Blueprint
+- Fake compliance or certified GRC claims from UI alone
 - Exposing provisioning internals or customer data in public docs
-- Cloud spend before local pipeline truth
+- Paid cloud spend before local pipeline truth
 
 ---
 
@@ -86,3 +98,4 @@ SAREA adapts.
 - [`PHILOSOPHY.md`](PHILOSOPHY.md)
 - [`LIFECYCLE.md`](LIFECYCLE.md)
 - [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- [`DEMO_GUIDE.md`](DEMO_GUIDE.md)

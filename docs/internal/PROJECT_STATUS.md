@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F21 CyberCrow evidence/GRC depth)  
+**Last updated:** 25 May 2026 (F22 portfolio/public demo polish)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,16 +19,18 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F21 — CyberCrow evidence/GRC depth** (25 May 2026).
+**Phase F22 — Portfolio / public demo polish** (25 May 2026).
 
-Evidence catalog, advisory gaps, GRC domain readiness, control-to-evidence mapping, incident/event evidence hints, risk/GRC signals, report readiness notes. **No** paid GRC tools, **no** schema changes, **no** certification claims.
+Public portfolio audit, README and `docs/public` copy polish, [`DEMO_GUIDE.md`](../public/DEMO_GUIDE.md), [`PORTFOLIO_BLURB.md`](../public/PORTFOLIO_BLURB.md), F22 screenshot targets in capture script (recapture documented when Playwright not installed). **No** paid infra, **no** production launch claim.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Evidence / GRC depth | [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
-| SOC baseline (F15) | [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
+| Portfolio polish | [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
+| Evidence / GRC (F21) | [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
 
-**Roadmap:** F22 portfolio/public demo polish · F23 production launch when budget exists.
+**Roadmap:** F23 production launch when budget and client exist.
+
+**F22 acceptance:** **PASSED** — public docs and boundary clean; typecheck/lint/build/mirror green.
 
 **F21 acceptance:** **PASSED** — evidence/GRC surfaces deepened; MEEM/Rimal verify scripts green.
 

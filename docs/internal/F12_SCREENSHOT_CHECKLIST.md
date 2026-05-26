@@ -41,7 +41,13 @@
 | 13 | `rimal-dashboard.png` | `/rimal-construction/dashboard` | Second tenant, construction | **Yes** | **Not captured** (Entra on staging) |
 | 14 | `admin-notifications.png` | `/admin/notifications` | Operator notification inbox | **Yes** | **Captured** → public |
 | 15 | `najm-request-detail.png` | `/admin/requests/{requestId}` for `CROW-2026-ARAX9K` | Organic aviation pipeline (optional) | Staging only | **Not captured** (optional) |
-| 16 | `login-sign-in.png` | `/login` | F18 auth UX: Microsoft + Google + email, RBAC footer | **Yes** | **Recapture recommended** after F18 login polish |
+| 16 | `login-sign-in.png` | `/login` | F18 auth UX: Microsoft + Google + email, RBAC footer | **Yes** | **F22 target** — run capture script |
+| 17 | `pricing-advisory.png` | `/pricing` | F19 advisory tiers; no live checkout | **Yes** | **F22 target** |
+| 18 | `cybercrow-evidence.png` | `/meem-global/cybercrow/evidence` | F21 evidence readiness catalog | **Yes** | **F22 target** |
+| 19 | `cybercrow-grc.png` | `/meem-global/cybercrow/grc` | F21 GRC control mapping | **Yes** | **F22 target** |
+| 20 | `sarea-studio-overview.png` | `/sarea/overview` | F20 SAREA studio home | **Yes** | **F22 target** |
+
+**F22 master:** [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md)
 
 ---
 

@@ -34,7 +34,7 @@ Collapsing these produces either insecure UI hacks or unusable one-size-fits-all
 |-------|-------|
 | **Discovery** | Experience step — persona scope, AI extras positioning |
 | **Blueprint** | SAREA tab — commercial line for persona density |
-| **Studio** | `/sarea/*` — layouts, navigation, profiles, rules (platform) |
+| **Studio** | `/sarea/*` — layouts, navigation, profiles, role mapping, preview impact (platform) |
 | **Runtime** | Tenant dashboard — applied persona for logged-in user |
 
 ---
@@ -76,6 +76,10 @@ Module keys remain stable in Discovery (`CEM_MODULES`) — SAREA adapts presenta
 | `/{slug}/dashboard` | Runtime application |
 
 ---
+
+## Studio controls (portfolio)
+
+Advanced studio surfaces include role-mapping recommendations, widget source labels, validated navigation keys, and preview panels that explain experience source — without overriding RBAC. Public demos use mock data; see [`DEMO_GUIDE.md`](DEMO_GUIDE.md).
 
 ## Status
 

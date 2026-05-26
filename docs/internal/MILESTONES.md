@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F22** | Portfolio / public demo polish | README, public docs, demo guide, blurb, screenshot discipline | Muhanad | **100%** | **Passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
 | **F21** | CyberCrow evidence/GRC depth | Catalog, gaps, control mapping, incident/event hints | Muhanad | **100%** | **Passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
 | **F20** | SAREA advanced controls | Role map, widgets, nav, preview impact, health | Muhanad | **100%** | **Passed** — [`F20_SAREA_ADVANCED_CONTROLS.md`](F20_SAREA_ADVANCED_CONTROLS.md) |
 | **F19** | Saudi payment architecture readiness | Provider matrix, adapter design, safety model | Muhanad | **100%** | **Passed** — [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
@@ -56,7 +57,23 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** F22 — portfolio/public demo polish. **F21 passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md).
+**Next:** F23 — production launch when budget and client exist. **F22 passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md).
+
+---
+
+## F22 — Portfolio / public demo polish (no paid infra)
+
+**Scope:** Public portfolio audit; README and `docs/public` polish; `DEMO_GUIDE.md` and `PORTFOLIO_BLURB.md`; F22 screenshot targets in capture script; public/internal boundary check. No paid services, no schema changes, no production launch claim.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
+| Demo guide | [`docs/public/DEMO_GUIDE.md`](../public/DEMO_GUIDE.md) |
+| Portfolio blurb | [`docs/public/PORTFOLIO_BLURB.md`](../public/PORTFOLIO_BLURB.md) |
+
+**Screenshot note:** F22 PNGs documented as **skipped** until operator installs Playwright and runs mock dev capture; F13 baseline gallery retained.
 
 ---
 
