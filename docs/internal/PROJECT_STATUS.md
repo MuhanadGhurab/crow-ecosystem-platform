@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F35 aviation operating model depth)  
+**Last updated:** 26 May 2026 (F36 healthcare operating model depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Healthcare operating model depth (F36) | [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | Aviation operating model depth (F35) | [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
 | Construction operating model depth (F34) | [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md) |
 | Logistics operating model depth (F33) | [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
@@ -42,6 +43,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**F36 acceptance:** **PASSED** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md).  
+Healthcare is a first-class sector template; verify with `npm run healthcare:verify`; privacy/safety and evidence posture are advisory only (no HIPAA/certification claims); public hero chip not added.
 
 **F35 acceptance:** **PASSED** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md).  
 Aviation is a first-class sector template; verify with `npm run aviation:verify`; Najm organic intake aligned via F11 payload + read-only checks (no Najm tenant provision).

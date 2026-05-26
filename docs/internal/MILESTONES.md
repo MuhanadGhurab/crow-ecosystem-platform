@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
 | **F34** | Construction operating model depth & Rimal hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Rimal verify, construction:verify | Muhanad | **100%** | **Passed** — [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md) |
 | **F33** | Logistics operating model depth & MEEM lighthouse hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, MEEM verify, logistics:verify | Muhanad | **100%** | **Passed** — [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
@@ -70,7 +71,25 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or M5 customer tracks are approved. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+
+---
+
+## F36 — Healthcare operating model depth & privacy/safety readiness (no paid infra)
+
+**Scope:** Deepen **Healthcare** as a first-class Crow operating model with **privacy/safety** advisory posture — without paid infra, live payments, schema changes, real patient data, medical advice features, or public compliance/certification claims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
+| Sector template | `src/lib/org-intelligence/sector-template-data.ts` (`HEALTHCARE`) |
+| Discovery guidance | `sector-guidance.ts` · `discovery-templates/healthcare.json` |
+| Verification | `npm run healthcare:verify` → `scripts/verify-healthcare-sector-template.ts` |
+| DB seed (optional) | `npm run db:seed:sectors` (idempotent; operator-approved) |
+
+**Acceptance:** Audit documented · template with 14 depts / 17 roles / 13 workflows · live CEM modules only · SAREA + CyberCrow privacy/evidence models · no logistics/retail/construction/aviation leakage · no HIPAA/certification overclaims · validation green · **no public hero chip** (deferred).
 
 ---
 
