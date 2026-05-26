@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F33 logistics operating model depth)  
+**Last updated:** 26 May 2026 (F34 construction operating model depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Construction operating model depth (F34) | [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md) |
 | Logistics operating model depth (F33) | [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md) |
 | Retail operating model pack (F32) | [`F32_RETAIL_OPERATING_MODEL_PACK.md`](F32_RETAIL_OPERATING_MODEL_PACK.md) |
 | v0.30 portfolio wrap-up (pause) | [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
@@ -40,6 +41,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**F34 acceptance:** **PASSED** — [`F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md`](F34_CONSTRUCTION_OPERATING_MODEL_DEPTH.md).  
+Construction is a first-class sector template; verify with `npm run construction:verify`; Rimal staging alignment via `tenant:verify:rimal` (staging DB).
 
 **F33 acceptance:** **PASSED** — [`F33_LOGISTICS_OPERATING_MODEL_DEPTH.md`](F33_LOGISTICS_OPERATING_MODEL_DEPTH.md).  
 Logistics is the deepest sector template; verify with `npm run logistics:verify`; MEEM lighthouse alignment checked in verify + `sarea:meem-verify` (staging DB).

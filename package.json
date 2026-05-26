@@ -80,6 +80,7 @@
     "mock:verify": "npx tsx scripts/verify-mock-mode-integrity.ts",
     "retail:verify": "npx tsx scripts/verify-retail-sector-template.ts",
     "logistics:verify": "npx tsx scripts/verify-logistics-sector-template.ts",
+    "construction:verify": "npx tsx scripts/verify-construction-sector-template.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
