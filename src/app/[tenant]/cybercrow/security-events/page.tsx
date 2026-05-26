@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
+import { CybercrowEventEvidenceHints } from "@/components/tenant/cybercrow/cybercrow-event-evidence-hints";
 import { SecurityEventReviewActions } from "@/components/tenant/cybercrow/security-event-review-actions";
 import { canManageCybercrowIncidents } from "@/lib/auth/cybercrow-access";
 import { routes } from "@/lib/routes";
 import { tenantHasLogisticsModule } from "@/lib/services/cybercrow-logistics-audit.service";
 import type { SecurityEventReviewStatus } from "@/lib/services/cybercrow-mutations.service";
+import { getEventEvidenceContext } from "@/lib/services/cybercrow-evidence-grc.service";
 import { listSecurityEventsEnriched } from "@/lib/services/cybercrow-soc-workflow.service";
 import { isLogisticsSecurityEvent } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -181,6 +183,14 @@ export default async function CybercrowSecurityEventsPage({
                     timeStyle: "short",
                   })}
                 </p>
+                <CybercrowEventEvidenceHints
+                  tenantSlug={slug}
+                  context={getEventEvidenceContext(
+                    row.reviewStatus,
+                    e.severity,
+                    Boolean(row.escalatedIncidentId)
+                  )}
+                />
                 {canManage ? (
                   <SecurityEventReviewActions
                     tenantSlug={slug}

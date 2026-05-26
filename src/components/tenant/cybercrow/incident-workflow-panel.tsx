@@ -74,16 +74,31 @@ export function IncidentWorkflowPanel({ tenantSlug, row, canManage }: Props) {
         {relatedAuditCount} related audit log entries (incident + linked event).
       </p>
 
-      <div>
-        <p className="text-xs font-medium text-slate-400">Evidence readiness (advisory)</p>
-        <ul className="mt-1 list-inside list-disc text-xs text-slate-500">
-          {evidenceHints.slice(0, 3).map((hint) => (
+      <div className="rounded-cc-sm border border-indigo-500/15 bg-indigo-950/10 px-3 py-2">
+        <p className="text-xs font-medium text-indigo-300">Evidence-ready checklist (advisory)</p>
+        <ul className="mt-2 list-inside list-disc text-xs text-slate-500">
+          {evidenceHints.map((hint) => (
             <li key={hint}>{hint}</li>
           ))}
+          <li>Status changes recorded in CyberCrow audit logs</li>
+          {linkedEvent ? (
+            <li>Linked security event review state captured</li>
+          ) : (
+            <li>Consider linking or escalating from a security event</li>
+          )}
         </ul>
-        <Link href={r.evidence} className="mt-1 inline-block text-xs text-indigo-400">
-          Evidence repository →
-        </Link>
+        <p className="mt-2 text-[10px] text-slate-600">
+          Incident is evidence-ready when status is resolved, audit trail exists, and review notes
+          are operator-managed — file upload not enabled.
+        </p>
+        <div className="mt-2 flex flex-wrap gap-3">
+          <Link href={r.evidence} className="text-xs text-indigo-400 hover:text-indigo-300">
+            Evidence catalog →
+          </Link>
+          <Link href={r.auditLogs} className="text-xs text-cyan-400 hover:text-cyan-300">
+            Audit logs →
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-3 text-xs">

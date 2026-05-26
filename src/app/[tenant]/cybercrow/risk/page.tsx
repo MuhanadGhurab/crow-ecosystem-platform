@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
+import { getRiskGrcSignals } from "@/lib/services/cybercrow-evidence-grc.service";
 import { getRiskPostureDetail } from "@/lib/services/cybercrow-soc-workflow.service";
 import { listTenantRiskScores } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -16,9 +17,10 @@ export default async function CybercrowRiskPage({
   const { tenant: slug } = await params;
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
-  const [scores, posture] = await Promise.all([
+  const [scores, posture, grcSignals] = await Promise.all([
     listTenantRiskScores(tenant.id),
     getRiskPostureDetail(tenant.id),
+    getRiskGrcSignals(tenant.id, slug),
   ]);
   const r = routes.tenant(slug).cybercrow;
 
@@ -49,6 +51,53 @@ export default async function CybercrowRiskPage({
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="cc-glass-card border-indigo-500/15">
+        <h3 className="text-sm font-medium text-indigo-300">Evidence & GRC signals</h3>
+        <p className="mt-1 text-xs text-slate-500">
+          Rule-based linkage to evidence gaps, incidents, events, and compliance — not AI scoring.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-cc-sm border border-white/5 px-3 py-2">
+            <p className="text-[10px] text-slate-600">Evidence gaps</p>
+            <p className="text-lg font-semibold tabular-nums text-amber-300">{grcSignals.gapCount}</p>
+          </div>
+          <div className="rounded-cc-sm border border-white/5 px-3 py-2">
+            <p className="text-[10px] text-slate-600">Open incidents</p>
+            <p className="text-lg font-semibold tabular-nums text-rose-300">
+              {grcSignals.openIncidents}
+            </p>
+          </div>
+          <div className="rounded-cc-sm border border-white/5 px-3 py-2">
+            <p className="text-[10px] text-slate-600">Events pending review</p>
+            <p className="text-lg font-semibold tabular-nums text-violet-300">
+              {grcSignals.pendingReviewEvents}
+            </p>
+          </div>
+          <div className="rounded-cc-sm border border-white/5 px-3 py-2">
+            <p className="text-[10px] text-slate-600">Controls w/o evidence</p>
+            <p className="text-lg font-semibold tabular-nums text-slate-300">
+              {grcSignals.controlsWithoutEvidence}
+            </p>
+          </div>
+        </div>
+        <ul className="mt-4 list-inside list-disc space-y-1 text-sm text-slate-400">
+          {grcSignals.summaryLines.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+        <div className="mt-4 flex flex-wrap gap-3 text-xs">
+          <Link href={r.evidence} className="text-indigo-400">
+            Evidence gaps →
+          </Link>
+          <Link href={r.grc} className="text-violet-400">
+            GRC readiness →
+          </Link>
+          <Link href={r.compliance} className="text-cyan-400">
+            Compliance →
+          </Link>
+        </div>
       </section>
 
       <section className="cc-glass-card">

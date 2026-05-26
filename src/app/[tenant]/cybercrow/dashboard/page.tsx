@@ -15,6 +15,7 @@ import {
   tenantHasLogisticsModule,
 } from "@/lib/services/cybercrow-logistics-audit.service";
 import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard.service";
+import { getEvidenceGaps } from "@/lib/services/cybercrow-evidence-grc.service";
 import { getSocWorkflowSummary } from "@/lib/services/cybercrow-soc-workflow.service";
 import { getCybercrowIdentityTelemetrySummary } from "@/lib/services/cybercrow-identity-telemetry.service";
 import { canManageCybercrowIncidents } from "@/lib/auth/cybercrow-access";
@@ -42,13 +43,15 @@ export default async function CybercrowDashboardPage({
     notFound();
   }
 
-  const [summary, metrics, identityTelemetry, canManageIncidents, soc] = await Promise.all([
-    safeWorkspaceSummary(tenant.id),
-    getCybercrowDashboardMetrics(tenant.id),
-    getCybercrowIdentityTelemetrySummary(tenant.id),
-    canManageCybercrowIncidents(slug),
-    getSocWorkflowSummary(tenant.id),
-  ]);
+  const [summary, metrics, identityTelemetry, canManageIncidents, soc, evidenceGaps] =
+    await Promise.all([
+      safeWorkspaceSummary(tenant.id),
+      getCybercrowDashboardMetrics(tenant.id),
+      getCybercrowIdentityTelemetrySummary(tenant.id),
+      canManageCybercrowIncidents(slug),
+      getSocWorkflowSummary(tenant.id),
+      getEvidenceGaps(tenant.id, slug),
+    ]);
   const moduleKeys = (tenant.modules ?? []).map((m) => m.moduleKey);
   const logisticsOpsEnabled = tenantHasLogisticsModule(moduleKeys);
   const logisticsAuditCount = logisticsOpsEnabled
@@ -166,9 +169,11 @@ export default async function CybercrowDashboardPage({
           entity="cybercrow"
           accent="violet"
           hint={
-            soc.controlsWithoutEvidence > 0
-              ? `${soc.controlsWithoutEvidence} controls without evidence`
-              : "Readiness catalog"
+            evidenceGaps.length > 0
+              ? `${evidenceGaps.length} advisory gap(s) · ${soc.controlsWithoutEvidence} bare controls`
+              : soc.controlsWithoutEvidence > 0
+                ? `${soc.controlsWithoutEvidence} controls without evidence`
+                : "Readiness catalog"
           }
         />
         <StatCard

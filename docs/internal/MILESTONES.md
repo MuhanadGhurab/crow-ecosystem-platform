@@ -10,6 +10,8 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F21** | CyberCrow evidence/GRC depth | Catalog, gaps, control mapping, incident/event hints | Muhanad | **100%** | **Passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
+| **F20** | SAREA advanced controls | Role map, widgets, nav, preview impact, health | Muhanad | **100%** | **Passed** — [`F20_SAREA_ADVANCED_CONTROLS.md`](F20_SAREA_ADVANCED_CONTROLS.md) |
 | **F19** | Saudi payment architecture readiness | Provider matrix, adapter design, safety model | Muhanad | **100%** | **Passed** — [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
 | **F18** | Google Sign-In & auth UX polish | Google OAuth, login UX, role safety | Muhanad | **100%** | **Passed** — [`F18_GOOGLE_SIGNIN_SETUP.md`](F18_GOOGLE_SIGNIN_SETUP.md) |
 | **F17** | Cost-controlled auth & payment readiness | Auth/billing audit, Saudi matrix, cost policy | Muhanad | **100%** | **Passed** — [`F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md`](F17_COST_CONTROLLED_AUTH_PAYMENT_READINESS.md) |
@@ -54,7 +56,37 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** F20 — SAREA advanced controls (no paid infra). **F19 passed** — [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md).
+**Next:** F22 — portfolio/public demo polish. **F21 passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md).
+
+---
+
+## F21 — CyberCrow evidence/GRC depth (no paid infra)
+
+**Scope:** Evidence catalog structure, advisory evidence gaps, GRC control readiness by domain, control-to-evidence mapping, incident/event evidence linkage, risk/GRC signals, report readiness notes. No paid GRC, no schema changes, no certification claims.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
+| F15 SOC baseline | [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
+
+**Out of scope:** File upload vault, PDF export, paid GRC integrations, AI compliance scoring, NCA/ISO certification UI.
+
+---
+
+## F20 — SAREA advanced controls (no paid infra)
+
+**Scope:** Deepen SAREA Studio: role mapping recommendations, widget source labels, validated navigation keys, preview experience-source panel, tenant SAREA health on admin tab, mutation audit via `platform_notifications`. No paid services, no schema changes, no RBAC override.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F20_SAREA_ADVANCED_CONTROLS.md`](F20_SAREA_ADVANCED_CONTROLS.md) |
+| F14 baseline | [`F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md`](F14_SAREA_STUDIO_VISIBILITY_SAFE_CONTROLS.md) |
+
+**Out of scope:** Layout builder, raw JSON editor, widget order schema, cross-tenant mapping, live external APIs.
 
 ---
 

@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F19 Saudi payment architecture readiness)  
+**Last updated:** 25 May 2026 (F21 CyberCrow evidence/GRC depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,16 +19,20 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F19 — Saudi payment architecture: Mada / Apple Pay / Tabby readiness** (25 May 2026).
+**Phase F21 — CyberCrow evidence/GRC depth** (25 May 2026).
 
-Provider matrix, provider-agnostic adapter architecture, payment safety model, pricing UX policy, Saudi operational notes, F17 cost-control extension. **No** live Mada/Apple Pay/Tabby/Tamara, **no** merchant accounts, **no** checkout that can charge users, **no** Stripe live keys.
+Evidence catalog, advisory gaps, GRC domain readiness, control-to-evidence mapping, incident/event evidence hints, risk/GRC signals, report readiness notes. **No** paid GRC tools, **no** schema changes, **no** certification claims.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Saudi payment architecture | [`F19_SAUDI_PAYMENT_ARCHITECTURE.md`](F19_SAUDI_PAYMENT_ARCHITECTURE.md) |
-| Stripe billing (advisory) | [`STRIPE_BILLING.md`](STRIPE_BILLING.md) |
+| Evidence / GRC depth | [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
+| SOC baseline (F15) | [`F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md`](F15_CYBERCROW_SOC_WORKFLOW_DEPTH.md) |
 
-**Roadmap:** F20 SAREA advanced controls (no paid infra) · F23 production launch when budget exists.
+**Roadmap:** F22 portfolio/public demo polish · F23 production launch when budget exists.
+
+**F21 acceptance:** **PASSED** — evidence/GRC surfaces deepened; MEEM/Rimal verify scripts green.
+
+**F20 acceptance:** **PASSED** — [`F20_SAREA_ADVANCED_CONTROLS.md`](F20_SAREA_ADVANCED_CONTROLS.md).
 
 **F19 acceptance:** **PASSED** (docs + advisory pricing line) — billing remains internal/advisory until budget approval.
 
