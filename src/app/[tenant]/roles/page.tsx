@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { HrOrgLinkageBanner } from "@/components/tenant/hr/hr-org-linkage-banner";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 import { routes } from "@/lib/routes";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
@@ -28,6 +29,13 @@ export default async function TenantRolesPage({
 
   const r = routes.tenant(slug);
   const assignedUsers = roles.reduce((n, role) => n + role._count.userRoles, 0);
+  const unassignedRoles = Math.max(0, roles.length - ops.rolesWithAssignments);
+  const hrWarnings: string[] = [];
+  if (roles.length > 0 && ops.rolesWithAssignments === 0) {
+    hrWarnings.push("Roles exist but none are assigned — map users before workforce go-live.");
+  } else if (unassignedRoles > 0) {
+    hrWarnings.push(`${unassignedRoles} role(s) have no user assignment.`);
+  }
 
   return (
     <div className="space-y-8">
@@ -37,6 +45,8 @@ export default async function TenantRolesPage({
         title="Roles"
         description={`RBAC role definitions for ${tenant.organization.displayName}. Permissions are enforced server-side — SAREA preview does not elevate access.`}
       />
+
+      <HrOrgLinkageBanner slug={slug} warnings={hrWarnings} />
 
       <TenantRuntimeStatStrip
         items={[

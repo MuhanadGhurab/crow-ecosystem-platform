@@ -9,6 +9,7 @@ export type TenantRuntimeSection =
   | "users"
   | "roles"
   | "departments"
+  | "hr"
   | "reports"
   | "settings"
   | "settingsPlan";
@@ -41,6 +42,7 @@ export function TenantRuntimeCrossLinks({
     { id: "users", href: r.users, label: "Users" },
     { id: "roles", href: r.roles, label: "Roles" },
     { id: "departments", href: r.departments, label: "Structure" },
+    { id: "hr", href: r.hr, label: "HR" },
     { id: "reports", href: r.reports, label: "Reports" },
     { id: "settings", href: r.settings, label: "Settings" },
   ];

@@ -4,9 +4,13 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { HrEmployeeEditRow } from "@/components/tenant/hr/hr-employee-edit-row";
 import { HrEmployeeForm } from "@/components/tenant/hr/hr-employee-form";
+import { HrWorkforceReadinessPanel } from "@/components/tenant/hr/hr-workforce-readiness-panel";
 import { MeemHrHub } from "@/components/tenant/meem-hr-hub";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { routes } from "@/lib/routes";
+import { getHrWorkforceReadinessSnapshot } from "@/lib/services/hr-readiness.service";
 import { listHrEmployees } from "@/lib/services/hr.service";
 import { listTenantDepartments } from "@/lib/services/tenant-identity.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -25,19 +29,44 @@ export default async function TenantHrPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "hr") : [];
 
-  const [employees, departments] = await Promise.all([
+  const [employees, departments, readiness] = await Promise.all([
     listHrEmployees(tenant.id),
     listTenantDepartments(tenant.id),
+    getHrWorkforceReadinessSnapshot(tenant.id, tenant.organization.industry),
   ]);
 
   const deptOptions = departments.map((d) => ({ id: d.id, name: d.name }));
+  const cybercrowLive = readiness.cybercrowInitialized;
 
   return (
     <div className="space-y-8">
       <PageHeader
         badge="CEM · HR"
+        entity="cem"
         title="Human Resources"
-        description={`Employee records for ${tenant.organization.displayName}. Scoped to this tenant only.`}
+        description={`Workforce operational readiness for ${tenant.organization.displayName}. Operator-managed employee records, org linkage, and advisory onboarding/offboarding — not payroll or enterprise HRMS scope.`}
+      />
+
+      <TenantRuntimeStatStrip
+        items={[
+          { label: "Readiness", value: readiness.readinessLabel, accent: "teal" },
+          { label: "Profiles", value: readiness.profileCount },
+          { label: "HR employees", value: readiness.employeeCount },
+          { label: "Roles", value: readiness.roleCount, accent: "violet" },
+          { label: "Departments", value: readiness.departmentCount },
+          {
+            label: "SAREA mappings",
+            value: readiness.sareaProfileCount,
+            accent: "rose",
+            hint: "Experience profiles",
+          },
+        ]}
+      />
+
+      <HrWorkforceReadinessPanel
+        slug={slug}
+        snapshot={readiness}
+        cybercrowLive={cybercrowLive}
       />
 
       {showMeemHub && (
@@ -48,15 +77,26 @@ export default async function TenantHrPage({
         />
       )}
 
-      <HrEmployeeForm tenantSlug={slug} departments={deptOptions} />
-
-      <section className="cc-glass-card">
-        <h3 className="font-display text-sm font-semibold text-cyan-400">
-          Employees ({employees.length})
-        </h3>
+      <section className="cc-glass-card border-cyan-500/10 p-5">
+        <h3 className="font-display text-sm font-semibold text-cyan-400">Employee records</h3>
+        <p className="mt-1 text-xs text-slate-500">
+          Tenant-scoped HR records. Link emails to workspace profiles for onboarding/offboarding
+          traceability.
+        </p>
+        <div className="mt-4">
+          <HrEmployeeForm tenantSlug={slug} departments={deptOptions} />
+        </div>
         {employees.length === 0 ? (
           <div className="mt-4">
-            <EmptyState title="No employees yet" description="Add your first employee using the form above." />
+            <EmptyState
+              title="No employee records yet"
+              description="Add records when you need workforce documentation beyond login profiles. Profiles and RBAC live under Users."
+              action={
+                <Link href={routes.tenant(slug).users} className="cc-btn-secondary text-sm">
+                  Go to users
+                </Link>
+              }
+            />
           </div>
         ) : (
           <ul className="mt-4 space-y-6">
@@ -84,9 +124,7 @@ export default async function TenantHrPage({
         )}
       </section>
 
-      <Link href={routes.tenant(slug).dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
-        ← Dashboard
-      </Link>
+      <TenantRuntimeCrossLinks slug={slug} current="hr" cybercrowLive={cybercrowLive} />
     </div>
   );
 }

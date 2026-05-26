@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { HrOrgLinkageBanner } from "@/components/tenant/hr/hr-org-linkage-banner";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 import { routes } from "@/lib/routes";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
@@ -32,6 +33,11 @@ export default async function TenantDepartmentsPage({
 
   const r = routes.tenant(slug);
   const peopleOnDepts = departments.reduce((n, d) => n + d._count.profiles, 0);
+  const emptyDepts = departments.filter((d) => d._count.profiles === 0).length;
+  const hrWarnings: string[] = [];
+  if (departments.length > 0 && emptyDepts > 0) {
+    hrWarnings.push(`${emptyDepts} department(s) have no assigned profiles yet.`);
+  }
 
   return (
     <div className="space-y-8">
@@ -41,6 +47,8 @@ export default async function TenantDepartmentsPage({
         title="Organization structure"
         description={`Departments and branches seeded from discovery for ${tenant.organization.displayName}. SAREA navigation density can reflect department groupings — RBAC remains on roles.`}
       />
+
+      <HrOrgLinkageBanner slug={slug} warnings={hrWarnings} />
 
       <TenantRuntimeStatStrip
         items={[

@@ -77,6 +77,25 @@
 
 ---
 
+## G2 — HR module depth (no paid infra)
+
+**Scope:** Deepen HR as workforce operational readiness — linkage to users, roles, departments, tasks, CyberCrow, and SAREA — without payroll, HRMS, or compliance overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/hr-module-depth.ts` |
+| Readiness service | `src/lib/services/hr-readiness.service.ts` |
+| HR hub UI | `src/app/[tenant]/hr/page.tsx` · `hr-workforce-readiness-panel.tsx` |
+| Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
+| Verification | `npm run hr:verify` |
+
+**Recommended next:** G3 Finance depth · G4 CRM+Sales · remaining G-track modules per G1 roadmap.
+
+---
+
 ## G1 — ERP module architecture & integration blueprint (no paid infra)
 
 **Scope:** Architecture baseline for the ERP/CEM engine room — self-describing module catalog, cross-module integration map, maturity model, UX standard, sector-module matrix, CyberCrow/SAREA integration rules, and `erp:verify`.
@@ -92,7 +111,7 @@
 | Maturity + UX | `erp-module-maturity.ts` · `erp-module-ux-standard.ts` |
 | Verification | `npm run erp:verify` |
 
-**Recommended next:** G2 HR depth · G3 Finance · G4 CRM+Sales · G5 Procurement · G6 Inventory+Warehouse · G7 Logistics runtime · G8 Tasks/Approvals · G9 Reports/BI · G10 cross-module cohesion.
+**Recommended next:** G3 Finance · G4 CRM+Sales · G5 Procurement · G6 Inventory+Warehouse · G7 Logistics runtime · G8 Tasks/Approvals · G9 Reports/BI · G10 cross-module cohesion.
 
 ---
 

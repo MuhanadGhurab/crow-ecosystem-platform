@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { HrOrgLinkageBanner } from "@/components/tenant/hr/hr-org-linkage-banner";
 import { InviteTenantUserForm } from "@/components/tenant/invite-tenant-user-form";
 import {
   ProfileRoleAssignForm,
@@ -48,6 +49,11 @@ export default async function TenantUsersPage({
   }));
 
   const roleOptions = roles.map((r) => ({ id: r.id, name: r.name, slug: r.slug }));
+  const profilesWithoutRoles = profiles.filter((p) => p.userRoles.length === 0).length;
+  const hrWarnings: string[] = [];
+  if (profilesWithoutRoles > 0) {
+    hrWarnings.push(`${profilesWithoutRoles} profile(s) need RBAC role assignment for access.`);
+  }
 
   return (
     <div className="space-y-8">
@@ -57,6 +63,8 @@ export default async function TenantUsersPage({
         title="Users & roles"
         description={`Profiles and role assignments for ${tenant.organization.displayName}. Identity provider behavior is unchanged — this page manages workspace RBAC only.`}
       />
+
+      <HrOrgLinkageBanner slug={slug} warnings={hrWarnings} />
 
       <TenantRuntimeStatStrip
         items={[

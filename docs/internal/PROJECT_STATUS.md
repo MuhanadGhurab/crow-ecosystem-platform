@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G1 ERP module architecture)  
+**Last updated:** 26 May 2026 (G2 HR module depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| HR module depth (G2) | [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md) |
 | ERP module architecture (G1) | [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
 | Industry catalog UX (F37) | [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | Healthcare operating model depth (F36) | [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
@@ -45,6 +46,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G2 acceptance:** **PASSED** — [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md).  
+HR workforce readiness hub, org linkage on users/roles/departments, CyberCrow/SAREA guidance, sector notes, `npm run hr:verify`; no payroll/HRMS claims; no schema changes.
 
 **G1 acceptance:** **PASSED** — [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md).  
 Self-describing ERP module catalog, integration map, maturity/UX standards, sector-module matrix, CyberCrow/SAREA rules, `npm run erp:verify`; no paid infra or schema changes.
