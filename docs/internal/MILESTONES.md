@@ -10,8 +10,8 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
-| **F31** | Workspace hygiene & release cleanliness (no paid infra) | Git audit, forbidden-file check, straggler plan, validation baseline, tag readiness | Muhanad | **100%** | **Passed (warnings)** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
-| **F30** | Final portfolio release tag (no paid infra) | Validation suite, public release notes, F30 checkpoint doc, status closure | Muhanad | **100%** | **Passed** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
+| **F31** | Workspace hygiene & release cleanliness (no paid infra) | Git audit, forbidden-file check, straggler commits, clean tree | Muhanad | **100%** | **Passed** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
+| **F30** | Final portfolio release tag (no paid infra) | Validation suite, public release notes, tag `v0.30.0-portfolio` | Muhanad | **100%** | **Passed** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) · wrap-up [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
 | **F29** | Documentation & developer experience pass (no paid infra) | Quickstart, validation, git safety, Cursor workflow, troubleshooting, structure, scripts index | Muhanad | **100%** | **Passed** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
 | **F28** | Demo data / mock mode excellence (no paid infra) | Mock shape alignment, import/file integrity, preflight verification | Muhanad | **100%** | **Passed** — [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | **F27** | Admin quality & reliability pass (no paid infra) | Admin UX consistency, link reliability, placeholder honesty | Muhanad | **100%** | **Passed** — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
@@ -66,7 +66,7 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F31 passed (warnings)** — workspace hygiene. **F30 passed** — final portfolio release tag. **F26 passed** — CEM workflow operations depth. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+**Next:** **Paused** at v0.30 portfolio baseline — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume when F23 triggers (client + budget) or F32/M5 tracks are approved. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
@@ -82,17 +82,17 @@
 
 **Validation:** `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `simulate:vercel-build:staging` — all green.
 
-**Warnings:** 21 modified + 57 untracked paths; F20/F21/F13 code and screenshots not on `main`; `tsconfig.tsbuildinfo` still tracked in git history.
+**Post-F31:** Straggler commits landed (`6c318fe` SAREA, `97a1ccf` CyberCrow, `3d2d785` screenshots, etc.); `main` at `a47af1b`; working tree clean.
 
-**Out of scope:** Scoped straggler commits, `git rm --cached` for buildinfo, `.gitignore` patch (proposed only), git tag execution.
+**Out of scope at pause:** Production launch (F23), new paid infra, live payments.
 
 ---
 
 ## F30 — Final portfolio release tag (no paid infra)
 
-**Scope:** Portfolio release checkpoint — full validation suite, public `RELEASE_NOTES.md`, internal F30 record, README link. No features, paid infra, migrations, or git tag.
+**Scope:** Portfolio release checkpoint — full validation suite, public `RELEASE_NOTES.md`, internal F30 record, README link. Tag **`v0.30.0-portfolio`** at `f6fcc40`.
 
-**Status:** **Passed** (26 May 2026).
+**Status:** **Passed** (26 May 2026). Wrap-up pause record: [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
 
 | Deliverable | Location |
 |-------------|----------|
@@ -101,7 +101,7 @@
 
 **Validation:** `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `meem:ids:staging`, `tenant:verify:rimal`, `request:pipeline:verify`, `request:e2e:dry`, `simulate:vercel-build:staging` (optional) — all green.
 
-**Out of scope:** Production launch, git tag execution, live payments, schema migrations.
+**Out of scope:** Production launch, live payments, schema migrations.
 
 ---
 

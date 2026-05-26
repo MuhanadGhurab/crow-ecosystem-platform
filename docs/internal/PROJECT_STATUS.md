@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F31 workspace hygiene & release cleanliness)  
+**Last updated:** 26 May 2026 (v0.30 portfolio baseline — safe to pause)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,12 +19,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F31 — Workspace hygiene & release cleanliness** (26 May 2026).
+**v0.30 portfolio baseline — safe to pause** (26 May 2026).
 
-**Hygiene checkpoint** — git workspace audit, forbidden-file check, straggler classification, validation baseline, tag readiness. No product features, paid infra, migrations, commits, or git tag execution.
+**Wrap-up:** F30 tag `v0.30.0-portfolio` at `f6fcc40`; F31 hygiene complete; post-F30 straggler commits on `main` (`a47af1b`); working tree clean; production launch **deferred** (F23). See [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
 
 | Deliverable | Doc |
 |-------------|-----|
+| v0.30 portfolio wrap-up (pause) | [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md) |
 | Workspace hygiene & release cleanliness | [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md) |
 | Final portfolio release tag | [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
 | Public release notes | [`docs/public/RELEASE_NOTES.md`](../public/RELEASE_NOTES.md) |
@@ -36,14 +37,13 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
-**Next recommended after F31:** Scoped straggler commits (F20/F21/portfolio screenshots) **or** F32 reliability automation (CI-safe validation scripts); production launch prep only when F23 triggers fire.
+**Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** F32 reliability automation, **or** customer tracks (M5).
 
-**F31 acceptance:** **PASSED WITH WARNINGS** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md).  
-`main` at `f6fcc40` (F30); validation green; working tree has uncommitted F20/F21/screenshot stragglers; tag `v0.30.0-portfolio` ready on committed `main` when approved.
+**F31 acceptance:** **PASSED** — [`F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md`](F31_WORKSPACE_HYGIENE_RELEASE_CLEANLINESS.md).  
+Straggler commits landed on `main`; working tree **clean**; `main` at `a47af1b`.
 
 **F30 acceptance:** **PASSED** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md).  
-Portfolio/demo/staging checkpoint validated; git tag documented but **not** created.
+Portfolio/demo/staging checkpoint validated; git tag **`v0.30.0-portfolio`** at `f6fcc40`.
 
 **F29 acceptance:** **PASSED** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md).  
 Current safe operating mode: **staging/demo/portfolio** (F23 production deferred gate remains active).
