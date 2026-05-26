@@ -8,7 +8,9 @@ import {
 } from "@/components/tenant/tenant-modules-operational-grid";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { TenantModulesRuntimeCohesionSection } from "@/components/tenant/tenant-modules-runtime-cohesion-section";
 import { routes } from "@/lib/routes";
+import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
@@ -25,7 +27,13 @@ export default async function TenantModulesPage({
   }
 
   const summary = await safeWorkspaceSummary(tenant.id);
-  const moduleKeys = tenant.modules.map((m) => m.moduleKey);
+  const moduleKeys = tenant.modules.filter((m) => m.enabled !== false).map((m) => m.moduleKey);
+  const cohesion = await getRuntimeCohesionSnapshot(
+    tenant.id,
+    moduleKeys,
+    tenant.organization.industry,
+    slug
+  );
   const r = routes.tenant(slug);
 
   return (
@@ -39,7 +47,7 @@ export default async function TenantModulesPage({
 
       <TenantRuntimeStatStrip
         items={[
-          { label: "Enabled", value: tenant.modules.length, accent: "teal" },
+          { label: "Enabled", value: moduleKeys.length, accent: "teal" },
           {
             label: "Workflows",
             value: summary.workflowCount ?? 0,
@@ -59,7 +67,13 @@ export default async function TenantModulesPage({
         ]}
       />
 
-      <TenantModulesAdvisoryNote slug={slug} moduleKeys={moduleKeys} />
+      <TenantModulesAdvisoryNote slug={slug} moduleKeys={tenant.modules.map((m) => m.moduleKey)} />
+
+      <TenantModulesRuntimeCohesionSection
+        slug={slug}
+        snapshot={cohesion}
+        enabledModuleKeys={moduleKeys}
+      />
 
       {tenant.modules.length === 0 ? (
         <EmptyState

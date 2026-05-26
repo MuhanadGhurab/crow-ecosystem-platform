@@ -5,6 +5,7 @@ import { GrantTenantAccessForm } from "@/components/admin/grant-tenant-access-fo
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { TenantPosturePills } from "@/components/admin/tenant-posture-pills";
 import { TenantPlanPanel } from "@/components/admin/tenant-plan-panel";
+import { AdminRuntimeCohesionSummary } from "@/components/admin/admin-runtime-cohesion-summary";
 import { TenantAdvisoryNotifications } from "@/components/admin/tenant-advisory-notifications";
 import { listTenantAdvisoryNotifications } from "@/lib/services/platform-notification.service";
 import {
@@ -31,6 +32,7 @@ import { getTenantIdentityCounts } from "@/lib/services/tenant-identity.service"
 import { getTenantHealthSummary } from "@/lib/services/tenant-health.service";
 import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.service";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
+import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { getTenantById, getTenantWorkspaceSummary } from "@/lib/services/tenant.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
@@ -67,6 +69,7 @@ export default async function AdminTenantDetailPage({
     usageSignals,
     billingAlignment,
     cemOps,
+    runtimeCohesion,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -84,6 +87,12 @@ export default async function AdminTenantDetailPage({
     getTenantUsageSignals(tenant.id),
     getTenantBillingAlignment(tenant.id),
     getCemOperationsSnapshot(tenant.id),
+    getRuntimeCohesionSnapshot(
+      tenant.id,
+      tenant.modules.filter((m) => m.enabled !== false).map((m) => m.moduleKey),
+      tenant.organization.industry,
+      tenant.slug
+    ),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -150,6 +159,7 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "overview" && (
         <div className="space-y-6">
+          <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">
             <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

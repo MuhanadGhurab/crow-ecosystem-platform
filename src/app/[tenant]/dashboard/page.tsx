@@ -23,6 +23,8 @@ import {
 } from "@/lib/services/sarea-runtime.service";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
+import { RuntimeCohesionPanel } from "@/components/tenant/runtime-cohesion-panel";
+import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { readSareaPreviewPersona } from "@/lib/sarea/preview-cookie";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -49,9 +51,11 @@ export default async function TenantDashboardPage({
     role,
     previewPersona
   );
-  const [summary, cemOps] = await Promise.all([
+  const moduleKeys = tenant.modules.filter((m) => m.enabled !== false).map((m) => m.moduleKey);
+  const [summary, cemOps, cohesion] = await Promise.all([
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
+    getRuntimeCohesionSnapshot(tenant.id, moduleKeys, tenant.organization.industry, slug),
   ]);
   const cybercrowMetrics = summary.cybercrowInitialized
     ? await getCybercrowDashboardMetrics(tenant.id).catch(() => null)
@@ -182,6 +186,8 @@ export default async function TenantDashboardPage({
       <CybercrowConnectionPanel tenantSlug={slug} variant="tenant" />
 
       <TenantCemOperationsPanel slug={slug} snapshot={cemOps} />
+
+      <RuntimeCohesionPanel slug={slug} snapshot={cohesion} />
 
       <TenantRuntimeNextActions
         slug={slug}

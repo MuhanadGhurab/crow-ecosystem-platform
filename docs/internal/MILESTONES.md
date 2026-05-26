@@ -11,6 +11,7 @@
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
 | **G1** | ERP module architecture & integration blueprint (no paid infra) | Module catalog, integration map, maturity/UX standards, erp:verify | Muhanad | **100%** | **Passed** — [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
+| **G10** | Cross-module intelligence & runtime cohesion (no paid infra) | Cohesion model, runtime service, dashboard/modules/admin panels, `runtime:verify` | Muhanad | **100%** | **Passed** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -73,7 +74,7 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **G-series** module depth (G7–G10) after **G6 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** closed through **G10** (cross-module runtime cohesion). **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G10 passed** — cross-module intelligence & runtime cohesion. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
@@ -92,7 +93,7 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G10 Cross-module intelligence & runtime cohesion · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -111,7 +112,27 @@
 | Catalog | `erp-module-catalog.ts` (Reports / BI entry) |
 | Verification | `npm run reports:verify` |
 
-**Recommended next:** G10 Cross-module intelligence & runtime cohesion · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
+
+---
+
+## G10 — Cross-module intelligence & runtime cohesion (no paid infra)
+
+**Scope:** Rule-based **runtime cohesion** across enabled CEM modules — dependency chains, handoff gaps, CyberCrow/SAREA posture hints, Reports/BI and Tasks/Workflows as shared hubs — **without** autonomous AI, predictive analytics, live automation, paid analytics, or certified compliance claims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
+| Cohesion model | `src/lib/constants/cross-module-cohesion.ts` |
+| Runtime service | `src/lib/services/runtime-cohesion.service.ts` |
+| Tenant dashboard panel | `runtime-cohesion-panel.tsx` · `dashboard/page.tsx` |
+| Modules cohesion section | `tenant-modules-runtime-cohesion-section.tsx` · `modules/page.tsx` |
+| Admin tenant summary | `admin-runtime-cohesion-summary.tsx` · `admin/tenants/[tenantId]/page.tsx` |
+| Verification | `npm run runtime:verify` |
+
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -130,7 +151,7 @@
 | Catalog | `erp-module-catalog.ts` (tasks + workflows entries) |
 | Verification | `npm run tasks-approvals:verify` |
 
-**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -149,7 +170,7 @@
 | Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` (logistics variant) · `tenant-runtime-cross-links` (logistics) |
 | Verification | `npm run logistics-module:verify` |
 
-**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -169,7 +190,7 @@
 | Cross-module linkage | `supply-chain-operations-linkage-banner.tsx` · `tenant-runtime-cross-links` (inventory, warehouse) |
 | Verification | `npm run inventory-warehouse:verify` |
 
-**Recommended next:** G7 Logistics module runtime depth · G8 Tasks / Approvals · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -188,7 +209,7 @@
 | Cross-module linkage | `procurement-supply-linkage-banner.tsx` · `finance-linkage-banner` (procurement) · `tenant-runtime-cross-links` (procurement) |
 | Verification | `npm run procurement:verify` |
 
-**Recommended next:** G6 Inventory + Warehouse · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -208,7 +229,7 @@
 | Cross-module linkage | `commercial-linkage-banner.tsx` · `tenant-runtime-cross-links` (crm/sales) |
 | Verification | `npm run crm-sales:verify` |
 
-**Recommended next:** G5 Procurement · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -227,7 +248,7 @@
 | Cross-module linkage | `finance-linkage-banner.tsx` on sales / procurement / settings/plan |
 | Verification | `npm run finance:verify` |
 
-**Recommended next:** G5 Procurement · G6 Inventory+Warehouse · remaining G-track modules per G1 roadmap.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog.
 
 ---
 
@@ -246,7 +267,7 @@
 | Maturity + UX | `erp-module-maturity.ts` · `erp-module-ux-standard.ts` |
 | Verification | `npm run erp:verify` |
 
-**Recommended next:** G3 Finance · G4 CRM+Sales · G5 Procurement · G6 Inventory+Warehouse · G7 Logistics runtime · G8 Tasks/Approvals · G9 Reports/BI · G10 cross-module cohesion.
+**Recommended next:** **H1** — product polish & demo rehearsal after G-series closure, **or** **G11** — module runtime refinement backlog (G2–G10 depth arc **complete**).
 
 ---
 

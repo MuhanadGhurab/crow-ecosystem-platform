@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G9 Reports / BI readiness layer)  
+**Last updated:** 26 May 2026 (G10 Cross-module intelligence & runtime cohesion)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Cross-module runtime cohesion (G10) | [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | Reports / BI readiness layer (G9) | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
 | Tasks / Approvals engine depth (G8) | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
 | Logistics module runtime depth (G7) | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
@@ -53,6 +54,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G10 acceptance:** **PASSED** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md).  
+Cohesion model + `getRuntimeCohesionSnapshot`, dashboard/modules/admin panels, `npm run runtime:verify`; rule-based operator guidance only; no autonomous AI/predictive/live automation/paid infra/schema writes; forbidden overclaim phrases guarded in verify.
 
 **G9 acceptance:** **PASSED** — [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md).  
 Reports hub with executive roll-up, cross-module readiness aggregation, CyberCrow/SAREA reporting posture, sector notes, `npm run reports:verify`; no data warehouse/external BI/AI forecasting/certified reporting claims; no schema changes.
