@@ -42,8 +42,9 @@ export function CybercrowConnectionPanel({
       <p className="mt-2 text-xs text-slate-500">
         RBAC controls <span className="text-slate-300">who can access</span> data and actions. SAREA
         controls <span className="text-slate-300">how the console is presented</span> (navigation,
-        widgets, density). Security analysts should validate posture in CyberCrow; executives and
-        managers see trust summaries via SAREA-adapted dashboards.
+        widgets, density).         CyberCrow analysts work in this console (incidents, events, identity signals). Tenant
+        admins govern users, roles, and plan in CEM while monitoring CyberCrow posture. Executives
+        and managers see trust summaries via SAREA-adapted dashboards — not permission grants.
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <Link href={r.cybercrow.dashboard} className="cc-btn-secondary text-xs">
