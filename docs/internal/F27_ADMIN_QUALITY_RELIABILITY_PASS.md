@@ -1,7 +1,7 @@
 # F27 — Admin quality & reliability pass (no paid infra)
 
 **Date:** 26 May 2026  
-**Status:** **PASSED** (validated 26 May 2026; commit pending)  
+**Status:** **PASSED** (validated + committed 26 May 2026)  
 **Constraint:** No paid infrastructure, no external APIs/AI services, no schema changes, no destructive admin tooling.
 
 **Context:** F26 passed. A Vercel build incident surfaced missing tracked files and type alignment drift; deployment is now healthy. F27 tightens the admin console as a calm operator control room.

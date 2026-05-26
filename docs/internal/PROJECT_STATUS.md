@@ -33,7 +33,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
 
-**F27 acceptance:** _Pending validation + commit_ — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md).
+**F27 acceptance:** **PASSED** — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md).
 
 **F26 acceptance:** **PASSED** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md).
 
