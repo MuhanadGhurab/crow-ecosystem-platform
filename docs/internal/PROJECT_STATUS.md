@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (F29 documentation & developer experience pass)  
+**Last updated:** 26 May 2026 (F30 final portfolio release tag)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,12 +19,14 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F29 — Documentation & developer experience pass** (26 May 2026).
+**Phase F30 — Final portfolio release tag** (26 May 2026).
 
-**DX hardening** — consolidate quickstart, validation, git safety, Cursor workflow, troubleshooting, mock mode operations, project structure, and scripts index for safer collaboration and deployment confidence.
+**Release checkpoint** — full validation suite, public release notes, internal F30 record, status closure. No product features, paid infra, migrations, or git tag.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Final portfolio release tag | [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
+| Public release notes | [`docs/public/RELEASE_NOTES.md`](../public/RELEASE_NOTES.md) |
 | Documentation & developer experience pass | [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
 | Demo data / mock mode excellence | [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | Admin quality & reliability pass | [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
@@ -34,7 +36,10 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
-**Next recommended phase after F29:** F30 reliability automation pass (lightweight CI-safe checks + doc drift control, still no paid infra).
+**Next recommended after F30:** Reliability automation pass (lightweight CI-safe checks + doc drift control, still no paid infra) or production launch prep when F23 triggers fire.
+
+**F30 acceptance:** **PASSED** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md).  
+Portfolio/demo/staging checkpoint validated; git tag documented but **not** created.
 
 **F29 acceptance:** **PASSED** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md).  
 Current safe operating mode: **staging/demo/portfolio** (F23 production deferred gate remains active).

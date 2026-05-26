@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F30** | Final portfolio release tag (no paid infra) | Validation suite, public release notes, F30 checkpoint doc, status closure | Muhanad | **100%** | **Passed** — [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
 | **F29** | Documentation & developer experience pass (no paid infra) | Quickstart, validation, git safety, Cursor workflow, troubleshooting, structure, scripts index | Muhanad | **100%** | **Passed** — [`F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md`](F29_DOCUMENTATION_DEVELOPER_EXPERIENCE_PASS.md) |
 | **F28** | Demo data / mock mode excellence (no paid infra) | Mock shape alignment, import/file integrity, preflight verification | Muhanad | **100%** | **Passed** — [`F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md`](F28_DEMO_DATA_MOCK_MODE_EXCELLENCE.md) |
 | **F27** | Admin quality & reliability pass (no paid infra) | Admin UX consistency, link reliability, placeholder honesty | Muhanad | **100%** | **Passed** — [`F27_ADMIN_QUALITY_RELIABILITY_PASS.md`](F27_ADMIN_QUALITY_RELIABILITY_PASS.md) |
@@ -64,7 +65,24 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F26 passed** — CEM workflow operations depth. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F30 passed** — final portfolio release tag. **F26 passed** — CEM workflow operations depth. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+
+---
+
+## F30 — Final portfolio release tag (no paid infra)
+
+**Scope:** Portfolio release checkpoint — full validation suite, public `RELEASE_NOTES.md`, internal F30 record, README link. No features, paid infra, migrations, or git tag.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F30_FINAL_PORTFOLIO_RELEASE_TAG.md`](F30_FINAL_PORTFOLIO_RELEASE_TAG.md) |
+| Public release notes | [`docs/public/RELEASE_NOTES.md`](../public/RELEASE_NOTES.md) |
+
+**Validation:** `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `meem:ids:staging`, `tenant:verify:rimal`, `request:pipeline:verify`, `request:e2e:dry`, `simulate:vercel-build:staging` (optional) — all green.
+
+**Out of scope:** Production launch, git tag execution, live payments, schema migrations.
 
 ---
 

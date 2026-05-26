@@ -21,7 +21,7 @@ Validated across multiple tenant scenarios on staging, including **logistics**, 
 **Portfolio / CV one-liner:**  
 *Crow Ecosystem Platform — adaptive enterprise orchestration combining CEM operations, CyberCrow trust and evidence readiness, and SAREA role-based experience across a governed Discovery → Blueprint → tenant lifecycle.*
 
-**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/) · **Demo guide:** [`docs/public/DEMO_GUIDE.md`](docs/public/DEMO_GUIDE.md) · **CV blurb:** [`docs/public/PORTFOLIO_BLURB.md`](docs/public/PORTFOLIO_BLURB.md)
+**Repository:** [`MuhanadGhurab/crow-ecosystem-platform`](https://github.com/MuhanadGhurab/crow-ecosystem-platform) · **Documentation:** [`docs/public/`](docs/public/) · **Release notes:** [`docs/public/RELEASE_NOTES.md`](docs/public/RELEASE_NOTES.md) · **Demo guide:** [`docs/public/DEMO_GUIDE.md`](docs/public/DEMO_GUIDE.md) · **CV blurb:** [`docs/public/PORTFOLIO_BLURB.md`](docs/public/PORTFOLIO_BLURB.md)
 
 ---
 
@@ -164,6 +164,7 @@ Full setup: [`docs/public/SETUP.md`](docs/public/SETUP.md) · [`.env.example`](.
 | Audience | Path |
 |----------|------|
 | **Public** | [`docs/public/`](docs/public/) |
+| **Release notes** | [`docs/public/RELEASE_NOTES.md`](docs/public/RELEASE_NOTES.md) |
 | **Contributing** | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | **Security** | [`SECURITY.md`](SECURITY.md) |
 
