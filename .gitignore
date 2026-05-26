@@ -41,3 +41,10 @@ credentials.json
 # Vercel CLI
 .vercel/
 .env.vercel.local
+
+# TypeScript incremental build cache (local only)
+tsconfig.tsbuildinfo
+
+# Cursor / agent local state (repo policy: do not commit)
+.agents/
+skills-lock.json
