@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F25** | Discovery intelligence refinement (no paid infra) | Discovery UX, sector guidance, readiness bridge | Muhanad | **100%** | **Passed** — [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | **F24** | Tenant runtime UX depth | Dashboard, modules, ops pages, cross-links | Muhanad | **100%** | **Passed** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | **F23** | Production launch gate (budget/client) | Requirements, cost matrix, defer decision | Muhanad | **100%** | **Passed (decision gate)** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) — launch **deferred** |
 | **F22** | Portfolio / public demo polish | README, public docs, demo guide, blurb, screenshot discipline | Muhanad | **100%** | **Passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
@@ -59,7 +60,21 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+
+---
+
+## F25 — Discovery intelligence refinement (no paid infra)
+
+**Scope:** Improve discovery flow quality without paid AI/services: discovery audit, sector-guided recommendations, completeness/readiness scoring, question-copy clarity, organization model review context, blueprint bridge clarity, admin discovery context, and low-risk verification checks.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
+
+**Validation:** `typecheck`, `lint`, `build`, `public:mirror-manifest`, `meem:ids:staging`, `tenant:verify:rimal`, `request:pipeline:verify`, `request:e2e:dry` — green in staging-safe mode.
 
 ---
 

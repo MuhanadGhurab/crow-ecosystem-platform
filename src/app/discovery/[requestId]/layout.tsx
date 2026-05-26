@@ -9,6 +9,7 @@ import { DiscoveryMockBanner } from "@/components/discovery/discovery-mock-banne
 import { DiscoveryReadonlyBanner } from "@/components/discovery/discovery-readonly-banner";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { DiscoveryProgressNav } from "@/components/discovery/discovery-progress-nav";
+import { DiscoveryIntelligenceRail } from "@/components/discovery/discovery-intelligence-rail";
 import { routes } from "@/lib/routes";
 import { getDiscoveryContext } from "@/lib/services/discovery.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -90,6 +91,8 @@ export default async function DiscoveryLayout({
           securityRequirements: profile.securityRequirements,
         }}
       />
+
+      <DiscoveryIntelligenceRail requestId={requestId} />
 
       {children}
     </AreaShell>

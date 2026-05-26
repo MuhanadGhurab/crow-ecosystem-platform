@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
+import { DiscoveryAdvisoryRecommendationsPanel } from "@/components/discovery/discovery-advisory-recommendations";
+import { DiscoveryBlueprintBridgePanel } from "@/components/discovery/discovery-blueprint-bridge-panel";
+import { DiscoverySectorGuidancePanel } from "@/components/discovery/discovery-sector-guidance-panel";
 import { OrganizationModelPanel } from "@/components/discovery/organization-model-panel";
 import { PageHeader } from "@/components/ui/page-header";
+import { getDiscoveryIntelligenceSnapshot } from "@/lib/services/discovery-intelligence.service";
 import { canEditDiscovery } from "@/lib/discovery-editability";
 import {
   generateOrgIntelligenceRecommendations,
@@ -31,14 +35,27 @@ export default async function DiscoveryOrganizationModelPage({
     getOrgIntelligenceTrimStatsForRequest(requestId).catch(() => null),
   ]);
   const canEdit = canEditDiscovery(request.status as ImplementationRequestStatus);
+  const intelligence = await getDiscoveryIntelligenceSnapshot(requestId);
 
   return (
     <div className="space-y-6">
       <PageHeader
-        badge="Organizational Intelligence"
-        title="Organization model"
-        description="Crow Intelligence recommends industry-aware structure — accept, edit, or customize before blueprint."
+        badge="Organization model review"
+        title="Sector-based org structure"
+        description="Suggested departments, roles, and workflows from your industry and modules — review, trim, and accept before blueprint."
       />
+      {intelligence ? (
+        <>
+          <DiscoverySectorGuidancePanel guidance={intelligence.guidance} />
+          <DiscoveryAdvisoryRecommendationsPanel recommendations={intelligence.recommendations} />
+          <DiscoveryBlueprintBridgePanel
+            requestId={requestId}
+            gate={intelligence.gate}
+            blueprintId={intelligence.blueprintId}
+            essentialsPercent={intelligence.completeness.essentialsPercent}
+          />
+        </>
+      ) : null}
       <OrganizationModelPanel
         requestId={requestId}
         model={model}

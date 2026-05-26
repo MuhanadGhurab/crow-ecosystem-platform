@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 
 import { PromoteClientForm } from "@/components/admin/promote-client-form";
 import { RequestAdminActions } from "@/components/admin/request-admin-actions";
+import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
 import { OperatorNextActionPanel } from "@/components/admin/operator-next-action-panel";
 import { RequestPipelineLinks } from "@/components/admin/request-pipeline-links";
@@ -197,6 +198,9 @@ export default async function AdminRequestDetailPage({
           discoveryAvailable={Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable)}
         />
         <OperatorE2eChecklistPanel referenceCode={refCode} />
+        {request?.discoveryProfile ? (
+          <AdminDiscoveryIntelligencePanel requestId={requestId} />
+        ) : null}
       </>
 
       <PipelineProcessGuide

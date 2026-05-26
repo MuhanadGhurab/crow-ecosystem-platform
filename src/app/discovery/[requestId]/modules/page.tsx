@@ -30,7 +30,8 @@ export default async function DiscoveryModulesPage({
       <header className="cc-entity-block cc-entity-block--cem mb-6 !p-4">
         <p className="text-xs font-semibold uppercase tracking-wider text-cyan-400">Step 2 · Modules</p>
         <p className="mt-1 text-sm text-slate-400">
-          Confirm CEM module keys — must match catalog keys used in blueprint pricing.
+          Select modules that match the client scope. Sector suggestions on Org intelligence use
+          this list — confirm keys align with blueprint pricing catalog.
         </p>
       </header>
       <DiscoveryModulesForm requestId={requestId} initialSelected={initialSelected as CemModuleKey[]} />

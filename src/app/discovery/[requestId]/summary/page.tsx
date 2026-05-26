@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
+import { DiscoveryBlueprintBridgePanel } from "@/components/discovery/discovery-blueprint-bridge-panel";
 import { DiscoveryBlueprintGatePanel } from "@/components/discovery/discovery-blueprint-gate-panel";
+import { getDiscoveryIntelligenceSnapshot } from "@/lib/services/discovery-intelligence.service";
 import { DiscoveryCompleteButton } from "@/components/discovery/discovery-complete-button";
 import { DiscoveryStepFooter } from "@/components/discovery/discovery-step-footer";
 import { moduleLabel, planLabel, securityPackageLabel } from "@/lib/catalog-labels";
@@ -50,6 +52,7 @@ export default async function DiscoverySummaryPage({
   const gate = canComplete
     ? await evaluateDiscoveryBlueprintGate(requestId).catch(() => null)
     : null;
+  const intelligence = await getDiscoveryIntelligenceSnapshot(requestId).catch(() => null);
 
   return (
     <div className="space-y-8">
@@ -138,6 +141,15 @@ export default async function DiscoverySummaryPage({
           </p>
         )}
       </section>
+
+      {intelligence ? (
+        <DiscoveryBlueprintBridgePanel
+          requestId={requestId}
+          gate={intelligence.gate}
+          blueprintId={intelligence.blueprintId ?? blueprintId}
+          essentialsPercent={intelligence.completeness.essentialsPercent}
+        />
+      ) : null}
 
       {gate && <DiscoveryBlueprintGatePanel gate={gate} />}
 

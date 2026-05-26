@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F24 tenant runtime UX depth)  
+**Last updated:** 25 May 2026 (F25 discovery intelligence refinement)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,16 +19,19 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F24 — Tenant runtime UX depth** (25 May 2026).
+**Phase F25 — Discovery intelligence refinement** (25 May 2026).
 
-**Cost-controlled product depth** — polish tenant runtime pages (dashboard → modules → ops → identity → reports/settings) with shared cross-links to CyberCrow and SAREA. **No** paid services, **no** schema changes, **no** production launch.
+**Cost-controlled product depth** — refine discovery advisory intelligence (sector guidance, completeness/readiness, recommendation quality, org-model review clarity, and blueprint bridge) without paid infra or external AI services.
 
 | Deliverable | Doc |
 |-------------|-----|
+| Discovery intelligence refinement | [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+
+**F25 acceptance:** **PASSED** — [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md).
 
 **F24 acceptance:** **PASSED** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md).
 

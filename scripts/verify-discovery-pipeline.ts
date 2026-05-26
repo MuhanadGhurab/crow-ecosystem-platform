@@ -13,6 +13,8 @@ import {
   RIMAL_REFERENCE_CODE,
   RIMAL_TENANT_SLUG,
 } from "../src/lib/constants/rimal";
+import { computeDiscoveryCompleteness } from "../src/lib/discovery-intelligence/completeness";
+import { resolveSectorGuidance } from "../src/lib/discovery-intelligence/sector-guidance";
 import { resolveSectorTemplateKey } from "../src/lib/org-intelligence/resolve-sector";
 import { createScriptPrisma } from "../src/lib/prisma-script";
 
@@ -111,6 +113,56 @@ async function verifyRequestChain(opts: {
     if (typeof answerSector === "string" && answerSector !== opts.expectedSector) {
       fail(`Discovery answer sector ${answerSector} !== ${opts.expectedSector}`);
     }
+
+    const moduleKeys = request.requestedModules.map((m) => m.moduleKey);
+    const guidance = resolveSectorGuidance({
+      industry: request.industry,
+      moduleKeys,
+      sectorTemplateKey: orgSector ?? undefined,
+    });
+    if (guidance.sectorKey !== opts.expectedSector) {
+      fail(`Sector guidance key ${guidance.sectorKey} !== ${opts.expectedSector}`);
+    } else {
+      ok(`Sector guidance loaded (${guidance.headline})`);
+    }
+
+    const profile = request.discoveryProfile;
+    const answers = await prisma.discoveryAnswer.findMany({
+      where: { profileId: profile.id },
+      select: { sectionKey: true, questionKey: true, valueJson: true },
+    });
+    const [deptN, branchN, roleN, wfN, secN] = await Promise.all([
+      prisma.discoveryDepartment.count({ where: { profileId: profile.id } }),
+      prisma.discoveryBranch.count({ where: { profileId: profile.id } }),
+      prisma.discoveryRole.count({ where: { profileId: profile.id } }),
+      prisma.discoveryWorkflow.count({ where: { profileId: profile.id } }),
+      prisma.discoverySecurityRequirement.count({ where: { profileId: profile.id } }),
+    ]);
+    const stubIds = (n: number) => Array.from({ length: n }, (_, i) => ({ id: String(i) }));
+    const completeness = computeDiscoveryCompleteness({
+      answers,
+      departments: stubIds(deptN),
+      branches: stubIds(branchN),
+      roles: stubIds(roleN),
+      workflows: stubIds(wfN),
+      securityRequirements: stubIds(secN),
+      orgIntelligence: profile.orgIntelligence
+        ? {
+            status: profile.orgIntelligence.status,
+            sectorTemplateKey: profile.orgIntelligence.sectorTemplateKey,
+          }
+        : null,
+      industry: request.industry,
+      requestedModuleKeys: moduleKeys,
+      requestedSecurityCount: await prisma.requestedSecurityPackage.count({
+        where: { requestId: request.id },
+      }),
+      hasExperienceAnswer: answers.some((a) => a.sectionKey === "experience"),
+      hasIdentityAnswer: answers.some((a) => a.sectionKey === "identity"),
+    });
+    ok(
+      `Completeness ${completeness.essentialsPercent}% · ${completeness.readinessTitle} · missing ${completeness.missingInputs.length}`
+    );
   }
 
   const tenantSlug = request.enterpriseBlueprint?.tenant?.slug;

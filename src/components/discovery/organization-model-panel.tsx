@@ -15,7 +15,7 @@ import {
 } from "@/lib/subscription/plan-capabilities";
 
 const STATUS_LABEL: Record<OrgIntelligenceStatus, string> = {
-  RECOMMENDED: "Recommended by Crow Intelligence",
+  RECOMMENDED: "Sector template suggested",
   CUSTOMIZED: "Customized — pending accept",
   ACCEPTED: "Accepted into Discovery",
 };
@@ -61,7 +61,7 @@ export function OrganizationModelPanel({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-cyan-400">
-              Recommended by Crow Intelligence
+              Advisory sector template
             </p>
             <h2 className="mt-1 font-display text-xl font-semibold text-white">
               {model.sectorName}

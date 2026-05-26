@@ -29,7 +29,8 @@ export default async function DiscoveryOrganizationPage({
       <header className="cc-entity-block cc-entity-block--cem mb-6 !p-4">
         <p className="text-xs font-semibold uppercase tracking-wider text-cyan-400">Step 1 · Organization</p>
         <p className="mt-1 text-sm text-slate-400">
-          CEM foundation — org profile feeds blueprint pricing and tenant slug at go-live.
+          Tell us how the enterprise operates (HQ vs branches, scale band). This shapes sector
+          suggestions on Org intelligence and blueprint pricing — not automated AI design.
         </p>
       </header>
       <DiscoveryTemplateApply
