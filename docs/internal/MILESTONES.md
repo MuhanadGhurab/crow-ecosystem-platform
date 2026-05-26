@@ -73,7 +73,7 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **G-series** module depth (G4–G10) after **G3 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** module depth (G6–G10) after **G5 passed** — ERP architecture baseline. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume F23 when client + budget approve. **G3 passed** — Finance module depth. **G2 passed** — HR module depth. **G1 passed** — ERP module catalog + integration blueprint. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
@@ -92,7 +92,26 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G5 Procurement depth · remaining G-track modules per G1 roadmap.
+**Recommended next:** G6 Inventory + Warehouse depth · remaining G-track modules per G1 roadmap.
+
+---
+
+## G5 — Procurement module depth (no paid infra)
+
+**Scope:** Deepen Procurement as supplier and purchase operations readiness — finance/inventory/warehouse handoff, tasks/workflows, reports, CyberCrow, and SAREA — without live payments, vendor marketplace, or supplier-risk overclaims.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G5_PROCUREMENT_MODULE_DEPTH.md`](G5_PROCUREMENT_MODULE_DEPTH.md) |
+| Depth constants | `src/lib/constants/procurement-module-depth.ts` |
+| Readiness service | `src/lib/services/procurement-readiness.service.ts` |
+| Procurement hub UI | `src/app/[tenant]/procurement/page.tsx` · `procurement-operations-readiness-panel.tsx` |
+| Cross-module linkage | `procurement-supply-linkage-banner.tsx` · `finance-linkage-banner` (procurement) · `tenant-runtime-cross-links` (procurement) |
+| Verification | `npm run procurement:verify` |
+
+**Recommended next:** G6 Inventory + Warehouse · remaining G-track modules per G1 roadmap.
 
 ---
 
