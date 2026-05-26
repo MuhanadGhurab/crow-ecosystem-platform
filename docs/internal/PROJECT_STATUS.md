@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 26 May 2026 (G8 Tasks / Approvals engine depth)  
+**Last updated:** 26 May 2026 (G9 Reports / BI readiness layer)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -25,6 +25,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 | Deliverable | Doc |
 |-------------|-----|
+| Reports / BI readiness layer (G9) | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
 | Tasks / Approvals engine depth (G8) | [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md) |
 | Logistics module runtime depth (G7) | [`G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md`](G7_LOGISTICS_MODULE_RUNTIME_DEPTH.md) |
 | Inventory + Warehouse module depth (G6) | [`G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md`](G6_INVENTORY_WAREHOUSE_MODULE_DEPTH.md) |
@@ -52,6 +53,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. Resume only with explicit plan — F23 production launch when client + budget approve, **or** customer tracks (M5).
+
+**G9 acceptance:** **PASSED** — [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md).  
+Reports hub with executive roll-up, cross-module readiness aggregation, CyberCrow/SAREA reporting posture, sector notes, `npm run reports:verify`; no data warehouse/external BI/AI forecasting/certified reporting claims; no schema changes.
 
 **G8 acceptance:** **PASSED** — [`G8_TASKS_APPROVALS_ENGINE_DEPTH.md`](G8_TASKS_APPROVALS_ENGINE_DEPTH.md).  
 Tasks/Workflows readiness hubs, cross-module approval map, workflow-to-task linkage, CyberCrow/SAREA guidance, `npm run tasks-approvals:verify`; no BPMN/RPA/autonomous workflow/AI assignment/compliance automation claims; no schema changes.

@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemReportsHub } from "@/components/tenant/meem-reports-hub";
-import { TenantReportsReadinessPanel } from "@/components/tenant/tenant-reports-readiness-panel";
+import { ReportsBiOperationsReadinessPanel } from "@/components/tenant/reports/reports-bi-operations-readiness-panel";
+import { getReportsBiReadinessSnapshot } from "@/lib/services/reports-bi-readiness.service";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
@@ -40,10 +41,11 @@ export default async function ReportsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "reports") : [];
 
-  const [kpis, summary, cemOps] = await Promise.all([
+  const [kpis, summary, cemOps, biSnapshot] = await Promise.all([
     getReportsKpiSummary(tenant.id, moduleKeys),
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
+    getReportsBiReadinessSnapshot(tenant.id, moduleKeys, tenant.organization.industry),
   ]);
   const r = routes.tenant(slug);
 
@@ -59,7 +61,7 @@ export default async function ReportsPage({
       description={
         showMeemHub
           ? `Cross-module KPIs, executive narratives, and AI roll-ups for ${tenant.organization.displayName}.`
-          : `Cross-module KPIs and executive snapshots for ${tenant.organization.displayName}.`
+          : `Cross-module reporting readiness, executive roll-ups, and advisory KPI signals for ${tenant.organization.displayName}.`
       }
       route="/[tenant]/reports"
       tenantSlug={slug}
@@ -164,6 +166,15 @@ export default async function ReportsPage({
             </p>
           )}
 
+          <ReportsBiOperationsReadinessPanel
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            tenantModules={tenantModules}
+            snapshot={biSnapshot}
+            cemOps={cemOps}
+            cybercrowLive={summary.cybercrowInitialized}
+          />
+
           <ErpChainLinks tenantSlug={slug} currentModule="reports" tenantModules={tenantModules} />
 
           <div className="flex flex-wrap gap-3">
@@ -177,13 +188,13 @@ export default async function ReportsPage({
         </div>
       ) : (
         <div className="space-y-8">
-          <TenantReportsReadinessPanel
+          <ReportsBiOperationsReadinessPanel
             slug={slug}
             organizationName={tenant.organization.displayName}
             tenantModules={tenantModules}
-            kpis={kpis}
-            cybercrowInitialized={summary.cybercrowInitialized}
+            snapshot={biSnapshot}
             cemOps={cemOps}
+            cybercrowLive={summary.cybercrowInitialized}
           />
           <TenantRuntimeCrossLinks
             slug={slug}

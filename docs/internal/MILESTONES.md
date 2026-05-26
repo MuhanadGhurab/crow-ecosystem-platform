@@ -92,7 +92,26 @@
 | Org linkage | `hr-org-linkage-banner.tsx` on users / roles / departments |
 | Verification | `npm run hr:verify` |
 
-**Recommended next:** G9 Reports / BI readiness layer · remaining G-track modules per G1 roadmap.
+**Recommended next:** G10 Cross-module intelligence & runtime cohesion · remaining G-track modules per G1 roadmap.
+
+---
+
+## G9 — Reports / BI readiness layer (no paid infra)
+
+**Scope:** Deepen Reports / BI as executive and operational visibility — cross-module roll-ups, CyberCrow/SAREA posture, sector notes, and advisory KPI signals — without data warehouse, external BI, AI forecasting, or certified reporting.
+
+**Status:** **Passed** (26 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
+| Depth constants | `src/lib/constants/reports-bi-readiness-depth.ts` |
+| Readiness service | `src/lib/services/reports-bi-readiness.service.ts` |
+| Reports hub UI | `reports-bi-operations-readiness-panel.tsx` · `reports/page.tsx` |
+| Catalog | `erp-module-catalog.ts` (Reports / BI entry) |
+| Verification | `npm run reports:verify` |
+
+**Recommended next:** G10 Cross-module intelligence & runtime cohesion · remaining G-track modules per G1 roadmap.
 
 ---
 

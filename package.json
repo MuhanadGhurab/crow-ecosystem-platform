@@ -92,6 +92,7 @@
     "inventory-warehouse:verify": "npx tsx scripts/verify-inventory-warehouse-module-depth.ts",
     "logistics-module:verify": "npx tsx scripts/verify-logistics-module-depth.ts",
     "tasks-approvals:verify": "npx tsx scripts/verify-task-approval-engine-depth.ts",
+    "reports:verify": "npx tsx scripts/verify-reports-bi-readiness.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
