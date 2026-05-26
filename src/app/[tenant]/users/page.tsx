@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { InviteTenantUserForm } from "@/components/tenant/invite-tenant-user-form";
 import {
   ProfileRoleAssignForm,
@@ -11,6 +13,7 @@ import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import { canPerformAction } from "@/lib/services/cybercrow-policy.service";
 import { routes } from "@/lib/routes";
 import { listTenantProfiles, listTenantRoles } from "@/lib/services/tenant-identity.service";
+import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export default async function TenantUsersPage({
@@ -22,10 +25,11 @@ export default async function TenantUsersPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [profiles, roles, user] = await Promise.all([
+  const [profiles, roles, user, summary] = await Promise.all([
     listTenantProfiles(tenant.id),
     listTenantRoles(tenant.id),
     getSessionUser(),
+    safeWorkspaceSummary(tenant.id),
   ]);
 
   const { role } = getCrowAuth(user);
@@ -48,9 +52,24 @@ export default async function TenantUsersPage({
   return (
     <div className="space-y-8">
       <PageHeader
-        badge="CEM"
+        badge="CEM · Identity"
+        entity="cem"
         title="Users & roles"
-        description={`Profiles and role assignments for ${tenant.organization.displayName}.`}
+        description={`Profiles and role assignments for ${tenant.organization.displayName}. Identity provider behavior is unchanged — this page manages workspace RBAC only.`}
+      />
+
+      <TenantRuntimeStatStrip
+        items={[
+          { label: "Profiles", value: profiles.length, accent: "teal" },
+          { label: "Roles", value: roles.length, accent: "violet" },
+          { label: "Departments", value: summary.departmentCount ?? 0 },
+          {
+            label: "SAREA mappings",
+            value: summary.sareaProfileCount ?? 0,
+            accent: "rose",
+            hint: "Experience profiles",
+          },
+        ]}
       />
 
       <InviteTenantUserForm tenantSlug={slug} />
@@ -69,19 +88,21 @@ export default async function TenantUsersPage({
         canManageRoles={canManageRoles}
       />
 
-      <div className="flex flex-wrap gap-4 text-sm">
-        <Link href={routes.tenant(slug).roles} className="text-cyan-400 hover:text-cyan-300">
-          View role definitions →
+      <section className="cc-glass-card border-rose-500/15">
+        <p className="text-sm text-slate-400">
+          SAREA maps roles to navigation widgets in the studio. Persona preview on the dashboard does
+          not change who can access tenant data.
+        </p>
+        <Link href={routes.sarea.roleMapping} className="mt-2 inline-block text-sm text-rose-400">
+          SAREA role mapping →
         </Link>
-        {canManageRoles && (
-          <Link
-            href={routes.tenant(slug).cybercrow.auditLogs}
-            className="text-slate-400 hover:text-white"
-          >
-            CyberCrow audit logs →
-          </Link>
-        )}
-      </div>
+      </section>
+
+      <TenantRuntimeCrossLinks
+        slug={slug}
+        current="users"
+        cybercrowLive={summary.cybercrowInitialized}
+      />
     </div>
   );
 }

@@ -4,10 +4,13 @@ import {
   EntraOpsPanel,
   shouldShowEntraOpsNarrative,
 } from "@/components/tenant/entra-ops-panel";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { PageHeader } from "@/components/ui/page-header";
 import { routes } from "@/lib/routes";
 import { getTenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
+import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { planLabel } from "@/lib/catalog-labels";
 
 const WORKSPACE_LINKS = (slug: string) => [
   { href: routes.tenant(slug).users, label: "Users" },
@@ -27,7 +30,10 @@ export default async function TenantSettingsPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const security = await getTenantSecuritySettings(tenant.id);
+  const [security, summary] = await Promise.all([
+    getTenantSecuritySettings(tenant.id),
+    safeWorkspaceSummary(tenant.id),
+  ]);
   const showEntra = shouldShowEntraOpsNarrative(tenant.planKey, security);
 
   return (
@@ -79,12 +85,21 @@ export default async function TenantSettingsPage({
 
       <section className="cc-glass-card space-y-3">
         <h3 className="text-sm font-medium text-cyan-400">Organization & plan</h3>
-        <p className="text-sm text-slate-300">Plan: {tenant.planKey}</p>
+        <p className="text-sm text-slate-300">Plan: {planLabel(tenant.planKey)}</p>
         <p className="font-mono text-xs text-slate-500">/{tenant.slug}</p>
+        <p className="text-xs text-slate-500">
+          Advisory scope only — payments and checkout remain deferred per F23 gate.
+        </p>
         <Link href={routes.tenant(slug).settingsPlan} className="text-sm text-cyan-400 hover:text-cyan-300">
           View subscription plan (read-only) →
         </Link>
       </section>
+
+      <TenantRuntimeCrossLinks
+        slug={slug}
+        current="settings"
+        cybercrowLive={summary.cybercrowInitialized}
+      />
     </div>
   );
 }

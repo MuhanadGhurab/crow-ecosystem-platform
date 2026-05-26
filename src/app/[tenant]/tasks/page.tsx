@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { MEEM_TASK_SAMPLES } from "@/lib/meem/meem-ops-catalog";
 import { routes } from "@/lib/routes";
 import { listTenantTasks } from "@/lib/services/tenant-identity.service";
+import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 const STATUS_CLASS: Record<string, string> = {
@@ -24,7 +28,7 @@ export default async function TasksPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const tasks =
+  const [tasks, summary] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TASK_SAMPLES.map((s, i) => ({
           id: `mock-task-${i}`,
@@ -37,35 +41,54 @@ export default async function TasksPage({
           updatedAt: new Date(),
           workflow: { id: `mock-wf-${i}`, name: s.workflowName },
         }))
-      : await listTenantTasks(tenant.id);
+      : listTenantTasks(tenant.id),
+    safeWorkspaceSummary(tenant.id),
+  ]);
   const r = routes.tenant(slug);
   const openCount = tasks.filter((t) => t.status === "open" || t.status === "in_progress").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <PageHeader
-        badge="CEM"
+        badge="CEM · Tasks"
         entity="cem"
         title="Tasks"
-        description="Work items linked to tenant workflows — seeded from discovery and ops enrichment."
+        description="Work items linked to tenant workflows — seeded from discovery and ops enrichment. No workflow automation engine in this phase."
       />
 
-      <section className="cc-glass-card flex flex-wrap gap-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Open</p>
-          <p className="font-display text-3xl font-bold tabular-nums text-cyan-300">{openCount}</p>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Total</p>
-          <p className="font-display text-3xl font-bold tabular-nums text-slate-300">{tasks.length}</p>
-        </div>
-      </section>
+      <TenantRuntimeStatStrip
+        items={[
+          { label: "Open / in progress", value: openCount, accent: "amber" },
+          { label: "Total tasks", value: tasks.length },
+          {
+            label: "Workflows",
+            value: summary.workflowCount ?? 0,
+            accent: "teal",
+            hint: "Definitions",
+          },
+          {
+            label: "Audit trail",
+            value: summary.auditLogCount,
+            accent: "violet",
+            hint: summary.cybercrowInitialized ? "CyberCrow events" : "Initialize CyberCrow",
+          },
+        ]}
+      />
 
       {tasks.length === 0 ? (
-        <p className="text-sm text-slate-500">
-          No tasks yet. Run <code className="text-cyan-400">npm run db:seed:meem:ops</code> for MEEM
-          sample tasks.
-        </p>
+        <EmptyState
+          title="No tasks yet"
+          description={
+            slug === MEEM_TENANT_SLUG
+              ? "Run npm run db:seed:meem:ops for sample tasks, or complete discovery seeding."
+              : "Tasks appear after blueprint go-live and tenant ops seeding."
+          }
+          action={
+            <Link href={r.workflows} className="cc-btn-secondary text-sm">
+              View workflows
+            </Link>
+          }
+        />
       ) : (
         <ul className="space-y-3">
           {tasks.map((task) => (
@@ -96,14 +119,21 @@ export default async function TasksPage({
         </ul>
       )}
 
-      <div className="flex flex-wrap gap-3">
-        <Link href={r.workflows} className="cc-btn-secondary text-sm">
-          Workflows
-        </Link>
-        <Link href={r.dashboard} className="text-sm text-slate-400 hover:text-white">
-          ← Dashboard
-        </Link>
-      </div>
+      {summary.cybercrowInitialized && (
+        <p className="text-xs text-slate-500">
+          Security-sensitive task changes may appear in{" "}
+          <Link href={r.cybercrow.auditLogs} className="text-violet-400 hover:text-violet-300">
+            CyberCrow audit logs
+          </Link>
+          .
+        </p>
+      )}
+
+      <TenantRuntimeCrossLinks
+        slug={slug}
+        current="tasks"
+        cybercrowLive={summary.cybercrowInitialized}
+      />
     </div>
   );
 }

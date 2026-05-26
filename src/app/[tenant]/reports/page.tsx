@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { ErpChainLinks } from "@/components/tenant/erp-chain-links";
 import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemReportsHub } from "@/components/tenant/meem-reports-hub";
+import { TenantReportsReadinessPanel } from "@/components/tenant/tenant-reports-readiness-panel";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { routes } from "@/lib/routes";
 import { getReportsKpiSummary } from "@/lib/services/reports.service";
+import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 function formatSar(amount: number) {
@@ -36,7 +39,10 @@ export default async function ReportsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "reports") : [];
 
-  const kpis = await getReportsKpiSummary(tenant.id, moduleKeys);
+  const [kpis, summary] = await Promise.all([
+    getReportsKpiSummary(tenant.id, moduleKeys),
+    safeWorkspaceSummary(tenant.id),
+  ]);
   const r = routes.tenant(slug);
 
   const hasAnyErpData =
@@ -167,7 +173,22 @@ export default async function ReportsPage({
             </Link>
           </div>
         </div>
-      ) : undefined}
+      ) : (
+        <div className="space-y-8">
+          <TenantReportsReadinessPanel
+            slug={slug}
+            organizationName={tenant.organization.displayName}
+            tenantModules={tenantModules}
+            kpis={kpis}
+            cybercrowInitialized={summary.cybercrowInitialized}
+          />
+          <TenantRuntimeCrossLinks
+            slug={slug}
+            current="reports"
+            cybercrowLive={summary.cybercrowInitialized}
+          />
+        </div>
+      )}
     </TenantModulePage>
   );
 }

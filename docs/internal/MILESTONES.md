@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F24** | Tenant runtime UX depth | Dashboard, modules, ops pages, cross-links | Muhanad | **100%** | **Passed** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | **F23** | Production launch gate (budget/client) | Requirements, cost matrix, defer decision | Muhanad | **100%** | **Passed (decision gate)** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) — launch **deferred** |
 | **F22** | Portfolio / public demo polish | README, public docs, demo guide, blurb, screenshot discipline | Muhanad | **100%** | **Passed** — [`F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md`](F22_PORTFOLIO_PUBLIC_DEMO_POLISH.md) |
 | **F21** | CyberCrow evidence/GRC depth | Catalog, gaps, control mapping, incident/event hints | Muhanad | **100%** | **Passed** — [`F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md`](F21_CYBERCROW_EVIDENCE_GRC_DEPTH.md) |
@@ -58,7 +59,23 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+
+---
+
+## F24 — Tenant runtime UX depth (no paid infra)
+
+**Scope:** Audit and improve tenant runtime routes after login — dashboard, modules, workflows, tasks, users, roles, departments, reports, settings — with clearer CEM/CyberCrow/SAREA navigation. No paid infra, no fake analytics, no workflow builder.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
+
+**Validation:** `typecheck`, `lint`, `build`, `public:mirror-manifest`, `meem:ids:staging`, `tenant:verify:rimal`, `request:pipeline:verify` — all green.
+
+**Out of scope:** Production launch, PSP activation, schema migrations, public redesign.
 
 ---
 

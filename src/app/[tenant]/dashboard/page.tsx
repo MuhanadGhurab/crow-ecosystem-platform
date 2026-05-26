@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { MeemDashboardHints } from "@/components/tenant/meem-dashboard-hints";
 import { SareaDashboardWidgets } from "@/components/tenant/sarea-dashboard-widgets";
 import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeNextActions } from "@/components/tenant/tenant-runtime-next-actions";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import { planLabel } from "@/lib/catalog-labels";
 import { getAiExtraKeys } from "@/lib/discovery-answers";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
+import { SAREA_PREVIEW_PERSONA_KEYS } from "@/lib/constants/sarea-personas";
 import { resolveMeemLiveIds } from "@/lib/server/meem-live";
 import { routes } from "@/lib/routes";
 import { requireTenantAccess } from "@/lib/auth/session";
@@ -65,21 +68,21 @@ export default async function TenantDashboardPage({
     <div className="space-y-8">
       {previewPersona && (
         <p className="rounded-cc border border-rose-500/20 bg-rose-950/20 px-4 py-2 text-xs text-rose-200">
-          SAREA preview · <span className="font-mono">{previewPersona}</span> persona (platform
-          staff).{" "}
+          SAREA preview · <span className="font-mono">{previewPersona}</span> ·{" "}
+          {runtime.profileName}
+          {runtime.previewRecommended ? " (recommended fallback — not tenant-backed)" : " (tenant-backed)"}{" "}
+          · platform staff only. RBAC unchanged.{" "}
           {isMeem && (
             <>
-              {(["executive", "manager", "frontline"] as const)
-                .filter((p) => p !== previewPersona)
-                .map((persona) => (
-                  <Link
-                    key={persona}
-                    href={`/api/sarea/preview?persona=${persona}&redirect=/${slug}/dashboard`}
-                    className="ml-2 text-rose-300 underline capitalize"
-                  >
-                    {persona}
-                  </Link>
-                ))}{" "}
+              {SAREA_PREVIEW_PERSONA_KEYS.filter((p) => p !== previewPersona).map((persona) => (
+                <Link
+                  key={persona}
+                  href={`/api/sarea/preview?persona=${persona}&redirect=/${slug}/dashboard`}
+                  className="ml-2 text-rose-300 underline"
+                >
+                  {persona.replace("_", " ")}
+                </Link>
+              ))}{" "}
             </>
           )}
           <Link
@@ -171,7 +174,27 @@ export default async function TenantDashboardPage({
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="tenant" />
 
+      <TenantRuntimeNextActions
+        slug={slug}
+        planKey={tenant.planKey}
+        summary={{
+          openTaskCount: openTasks,
+          workflowCount: summary.workflowCount ?? 0,
+          profileCount: summary.profileCount,
+          departmentCount: summary.departmentCount,
+          moduleCount: tenant.modules.length,
+          cybercrowInitialized: summary.cybercrowInitialized,
+        }}
+        sareaProfileName={runtime.profileName}
+      />
+
       {isMeem && <TwinEngineStrip tenantSlug={slug} variant="sarea" />}
+
+      <TenantRuntimeCrossLinks
+        slug={slug}
+        current="dashboard"
+        cybercrowLive={summary.cybercrowInitialized}
+      />
 
       <section className="flex flex-wrap gap-3">
         {isWidgetVisible(runtime, "structure") && (

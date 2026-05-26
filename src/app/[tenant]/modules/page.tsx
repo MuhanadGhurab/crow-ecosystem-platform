@@ -1,6 +1,15 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
-import { moduleLabel } from "@/lib/catalog-labels";
+import { EmptyState } from "@/components/ui/empty-state";
+import {
+  TenantModulesAdvisoryNote,
+  TenantModulesOperationalGrid,
+} from "@/components/tenant/tenant-modules-operational-grid";
+import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
+import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { routes } from "@/lib/routes";
+import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export default async function TenantModulesPage({
@@ -15,31 +24,81 @@ export default async function TenantModulesPage({
     notFound();
   }
 
+  const summary = await safeWorkspaceSummary(tenant.id);
+  const moduleKeys = tenant.modules.map((m) => m.moduleKey);
+  const r = routes.tenant(slug);
+
   return (
     <div className="space-y-8">
       <PageHeader
-        badge="CEM"
+        badge="CEM · Modules"
+        entity="cem"
         title="Organization modules"
-        description={`Modules enabled for ${tenant.organization.displayName} from the enterprise blueprint.`}
+        description={`Enabled blueprint modules for ${tenant.organization.displayName} — operational depth varies by surface; not every module is a full ERP product yet.`}
       />
 
+      <TenantRuntimeStatStrip
+        items={[
+          { label: "Enabled", value: tenant.modules.length, accent: "teal" },
+          {
+            label: "Workflows",
+            value: summary.workflowCount ?? 0,
+            hint: "Tenant-wide definitions",
+          },
+          {
+            label: "Open tasks",
+            value: summary.openTaskCount ?? 0,
+            accent: "amber",
+          },
+          {
+            label: "CyberCrow",
+            value: summary.cybercrowInitialized ? "Live" : "Pending",
+            accent: "violet",
+            hint: summary.cybercrowInitialized ? "Posture metrics" : "Run initialize",
+          },
+        ]}
+      />
+
+      <TenantModulesAdvisoryNote slug={slug} moduleKeys={moduleKeys} />
+
       {tenant.modules.length === 0 ? (
-        <p className="text-sm text-slate-500">No modules enabled on this tenant.</p>
+        <EmptyState
+          title="No modules enabled"
+          description="Enable modules on the blueprint or contact your platform administrator. SAREA navigation adapts once modules are assigned."
+          action={
+            <Link href={r.dashboard} className="cc-btn-primary text-sm">
+              Back to dashboard
+            </Link>
+          }
+        />
       ) : (
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {tenant.modules.map((m) => (
-            <li
-              key={m.id}
-              className="cc-glass-card flex items-center justify-between gap-4"
-            >
-              <span className="font-medium text-white">{moduleLabel(m.moduleKey)}</span>
-              <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-xs text-green-300">
-                Enabled
-              </span>
-            </li>
-          ))}
-        </ul>
+        <TenantModulesOperationalGrid
+          slug={slug}
+          modules={tenant.modules}
+          workflowCount={summary.workflowCount ?? 0}
+          openTaskCount={summary.openTaskCount ?? 0}
+        />
       )}
+
+      <section className="cc-glass-card border-rose-500/15">
+        <h3 className="text-sm font-medium text-rose-300">SAREA & experience</h3>
+        <p className="mt-2 text-sm text-slate-400">
+          Module visibility also drives SAREA widgets and navigation density on the tenant dashboard.
+          Tune mappings in the studio — persona preview does not change RBAC.
+        </p>
+        <Link
+          href={routes.sarea.roleMapping}
+          className="mt-3 inline-block text-sm text-rose-400 hover:text-rose-300"
+        >
+          SAREA role mapping →
+        </Link>
+      </section>
+
+      <TenantRuntimeCrossLinks
+        slug={slug}
+        current="modules"
+        cybercrowLive={summary.cybercrowInitialized}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F23 production launch deferred gate)  
+**Last updated:** 25 May 2026 (F24 tenant runtime UX depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,16 +19,18 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F23 — Production launch only when budget/client exists** (25 May 2026).
+**Phase F24 — Tenant runtime UX depth** (25 May 2026).
 
-**Decision gate only** — not a production launch. Documents requirements, cost approval matrix, safe operating mode (demo/staging/portfolio), and **deferred by strategy** until client budget and production infra approval exist. **No** paid services activated.
+**Cost-controlled product depth** — polish tenant runtime pages (dashboard → modules → ops → identity → reports/settings) with shared cross-links to CyberCrow and SAREA. **No** paid services, **no** schema changes, **no** production launch.
 
 | Deliverable | Doc |
 |-------------|-----|
-| Launch deferred gate | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
-| F16 governance pack | [`F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md`](F16_PRODUCTION_ENVIRONMENT_GOVERNANCE.md) · [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
+| Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
+| Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** Next product phases remain **cost-controlled** on staging/local until F23 triggers fire.
+**Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+
+**F24 acceptance:** **PASSED** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md).
 
 **F23 acceptance:** **PASSED AS A DECISION GATE** — production launch **deferred**; engineering not blocked.
 
