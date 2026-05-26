@@ -1,10 +1,17 @@
 /**
- * F8 — Organic request E2E verification (read-only).
+ * F8/F9 — Organic request E2E verification (read-only).
  *
  *   npm run request:e2e:dry
  *   npm run request:e2e:verify
  *   npm run request:e2e:verify -- --reference=CROW-2026-XXXXXX
  *   npm run request:e2e:organic -- --reference=CROW-2026-XXXXXX
+ *   npm run onboarding:verify -- --reference=CROW-2026-XXXXXX
+ *
+ * Optional expectations (F9):
+ *   --expect-blueprint
+ *   --expect-tenant
+ *   --expect-sector=construction
+ *   --expect-plan=startup
  *
  * Env: .env.staging (DATABASE_URL). No writes, no resets.
  */
@@ -34,6 +41,15 @@ function parseReference(): string | undefined {
 
 function isDryOnly(): boolean {
   return process.argv.includes("--dry") || process.env.REQUEST_E2E_DRY === "1";
+}
+
+function flagEnabled(name: string): boolean {
+  return process.argv.includes(`--expect-${name}`);
+}
+
+function flagValue(name: string): string | undefined {
+  const arg = process.argv.find((a) => a.startsWith(`--expect-${name}=`));
+  return arg?.split("=")[1]?.trim();
 }
 
 function verifyTemplatePacks(): boolean {
@@ -129,6 +145,7 @@ async function verifyRequestByReference(referenceCode: string): Promise<boolean>
     where: { referenceCode },
     include: {
       requestedModules: true,
+      requestedPlans: true,
       discoveryProfile: {
         include: {
           orgIntelligence: true,
@@ -190,7 +207,37 @@ async function verifyRequestByReference(referenceCode: string): Promise<boolean>
   const mods = request.requestedModules.map((m) => m.moduleKey);
   ok(`Modules: ${mods.join(", ") || "(none)"}`);
 
-  const bpSlug = request.enterpriseBlueprint?.tenant?.slug;
+  const blueprint = request.enterpriseBlueprint;
+  if (flagEnabled("blueprint") && !blueprint) {
+    fail("--expect-blueprint set but no enterpriseBlueprint on request");
+  }
+  if (blueprint) {
+    ok(`Blueprint ${blueprint.id} status ${blueprint.status}`);
+    const orgSector = request.discoveryProfile?.orgIntelligence?.sectorTemplateKey;
+    if (orgSector && orgSector !== expectedSector) {
+      fail(`Blueprint org sector ${orgSector} !== resolved ${expectedSector}`);
+    }
+  }
+
+  const expectSector = flagValue("sector");
+  if (expectSector && expectedSector !== expectSector) {
+    fail(`--expect-sector=${expectSector} but resolved ${expectedSector}`);
+  } else if (expectSector) {
+    ok(`Sector matches --expect-sector=${expectSector}`);
+  }
+
+  const planKey = request.requestedPlans[0]?.planKey;
+  const expectPlan = flagValue("plan");
+  if (expectPlan && planKey !== expectPlan) {
+    fail(`--expect-plan=${expectPlan} but request plan is ${planKey ?? "(none)"}`);
+  } else if (expectPlan && planKey) {
+    ok(`Plan matches --expect-plan=${expectPlan}`);
+  }
+
+  const bpSlug = blueprint?.tenant?.slug;
+  if (flagEnabled("tenant") && !bpSlug) {
+    fail("--expect-tenant set but blueprint has no tenant");
+  }
   if (bpSlug) {
     ok(`Blueprint tenant ${bpSlug}`);
     if (bpSlug === MEEM_TENANT_SLUG && referenceCode !== MEEM_REFERENCE_CODE) {
@@ -199,6 +246,20 @@ async function verifyRequestByReference(referenceCode: string): Promise<boolean>
     if (bpSlug === RIMAL_TENANT_SLUG && referenceCode !== RIMAL_REFERENCE_CODE) {
       console.log("  NOTE: Blueprint on Rimal tenant (expected for Rimal seed only)");
     }
+    const dupCount = await prisma.tenant.count({ where: { slug: bpSlug } });
+    if (dupCount > 1) {
+      fail(`Duplicate tenant rows for slug ${bpSlug} (${dupCount})`);
+    } else {
+      ok(`Tenant slug ${bpSlug} unique in DB`);
+    }
+  }
+
+  if (blueprint) {
+    if (blueprint.requestId !== request.id) {
+      fail("Blueprint requestId mismatch");
+    } else {
+      ok("Blueprint requestId matches request");
+    }
   }
 
   const lighthouseSlugs = [MEEM_TENANT_SLUG, RIMAL_TENANT_SLUG];
@@ -206,7 +267,7 @@ async function verifyRequestByReference(referenceCode: string): Promise<boolean>
     bpSlug &&
     !lighthouseSlugs.includes(bpSlug) &&
     request.discoveryProfile &&
-    request.enterpriseBlueprint
+    blueprint
   ) {
     ok("Organic path reached blueprint on non-lighthouse tenant");
   }
@@ -218,7 +279,17 @@ async function main() {
   const dry = isDryOnly();
   const reference = parseReference();
 
-  console.log(`F8 organic E2E verify (dry=${dry}, reference=${reference ?? "(none)"})`);
+  const flags = [
+    flagEnabled("blueprint") ? "blueprint" : null,
+    flagEnabled("tenant") ? "tenant" : null,
+    flagValue("sector") ? `sector=${flagValue("sector")}` : null,
+    flagValue("plan") ? `plan=${flagValue("plan")}` : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  console.log(
+    `F8/F9 organic E2E verify (dry=${dry}, reference=${reference ?? "(none)"}${flags ? `, expect: ${flags}` : ""})`
+  );
 
   const packsFailed = verifyTemplatePacks();
   let chainFailed = false;

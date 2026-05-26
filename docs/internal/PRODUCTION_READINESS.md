@@ -151,6 +151,21 @@ After promoting a Preview or Production deployment:
 
 ---
 
+## Windows: Prisma generate EPERM (F4)
+
+On Windows, repeated `npm run simulate:vercel-build:staging` (or `db:generate`) can fail with **EPERM** when `query_engine-windows.dll.node` is locked by a running `node` process (e.g. `npm run dev`, Prisma Studio, or a stuck Next.js server).
+
+**Workaround (do not skip generate in CI):**
+
+1. Stop local dev servers (`Ctrl+C` in terminals running `next dev` or `prisma studio`).
+2. Optional check: `npm run warn:prisma-lock` — warns if Node processes are still running.
+3. If needed: `Get-Process node | Stop-Process -Force` in PowerShell (closes all Node processes).
+4. Re-run `npm run simulate:vercel-build:staging`.
+
+Vercel/Linux builds are unaffected. If `npm run build` succeeds but simulate fails only on `prisma generate` with EPERM, treat it as a **local environment** issue, not a code defect.
+
+---
+
 ## Related internal docs
 
 - `VERCEL_CONNECT.md` — pooler URLs and env wiring

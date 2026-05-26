@@ -1,4 +1,6 @@
 import { calculateMonthlyEstimate, type PricingEstimate } from "@/lib/services/pricing.service";
+import type { ProposalStatus } from "@prisma/client";
+
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 import { MEEM_PIPELINE_REQUESTS, MEEM_PRICING_ESTIMATE } from "@/lib/mock/meem-global";
 import { SAREA_DEFAULT_MONTHLY_SAR } from "@/lib/constants/sarea-packages";
@@ -38,6 +40,8 @@ export const MOCK_PIPELINE_REQUESTS = [
     hasModules: true,
     discoveryAvailable: false,
     blueprintId: null as string | null,
+    proposalStatus: "DRAFT" as ProposalStatus,
+    tenantSlug: null as string | null,
   },
   {
     id: "mock-req-002",
@@ -50,6 +54,8 @@ export const MOCK_PIPELINE_REQUESTS = [
     hasModules: true,
     discoveryAvailable: true,
     blueprintId: null as string | null,
+    proposalStatus: "DRAFT" as ProposalStatus,
+    tenantSlug: null as string | null,
   },
   {
     id: "mock-req-003",
@@ -62,6 +68,8 @@ export const MOCK_PIPELINE_REQUESTS = [
     hasModules: true,
     discoveryAvailable: true,
     blueprintId: "mock-bp-001",
+    proposalStatus: "DRAFT" as ProposalStatus,
+    tenantSlug: null as string | null,
   },
   ...MEEM_PIPELINE_REQUESTS,
 ] as const;

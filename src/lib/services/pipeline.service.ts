@@ -89,7 +89,7 @@ export async function startDiscovery(requestId: string) {
   });
 }
 
-/** Complete discovery and create draft enterprise blueprint */
+/** Complete discovery and create draft enterprise blueprint (idempotent upsert by requestId). */
 export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
   const blueprint = await prismaTransaction(async (tx: Prisma.TransactionClient) => {
     const request = await tx.implementationRequest.findUniqueOrThrow({
@@ -97,6 +97,7 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
       include: {
         requestedModules: true,
         discoveryProfile: { include: { answers: true } },
+        enterpriseBlueprint: true,
       },
     });
 
@@ -104,15 +105,33 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
       throw new Error("Discovery profile not found");
     }
 
+    const priorBlueprint = request.enterpriseBlueprint;
     const profile = await tx.discoveryProfile.update({
       where: { requestId },
-      data: { status: "COMPLETED", completedAt: new Date() },
+      data: {
+        status: "COMPLETED",
+        completedAt: request.discoveryProfile.completedAt ?? new Date(),
+      },
     });
 
-    await tx.implementationRequest.update({
-      where: { id: requestId },
-      data: { status: "BLUEPRINT_BUILD" },
-    });
+    const postDiscoveryStatuses = new Set([
+      "BLUEPRINT_BUILD",
+      "TENANT_PROVISIONING",
+      "SECURITY_INIT",
+      "SAREA_INIT",
+      "GO_LIVE",
+      "APPROVED",
+    ]);
+    if (!postDiscoveryStatuses.has(request.status)) {
+      await tx.implementationRequest.update({
+        where: { id: requestId },
+        data: { status: "BLUEPRINT_BUILD" },
+      });
+    }
+
+    const preserveBlueprintStatus =
+      priorBlueprint &&
+      (priorBlueprint.status !== "DRAFT" || priorBlueprint.approvedAt != null);
 
     const blueprint = await tx.enterpriseBlueprint.upsert({
       where: { requestId },
@@ -121,7 +140,10 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
         discoveryProfileId: profile.id,
         status: "DRAFT",
       },
-      update: { status: "DRAFT" },
+      update: {
+        discoveryProfileId: profile.id,
+        ...(preserveBlueprintStatus ? {} : { status: "DRAFT" }),
+      },
     });
 
     const moduleKeys = getConfirmedModuleKeys(
@@ -146,7 +168,7 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
     });
 
     const contact = blueprintFull.request.contacts[0];
-    if (contact?.email) {
+    if (contact?.email && !priorBlueprint) {
       void notifyPipelineEvent("blueprint_ready", contact.email, {
         requestId: request.id,
         blueprintId: blueprint.id,
@@ -174,6 +196,23 @@ export async function provisionTenantFromBlueprint(
   const resolvedPlanKey = normalizePlanKey(planKey);
 
   return prismaTransaction(async (tx: Prisma.TransactionClient) => {
+    const linkedTenant = await tx.tenant.findFirst({
+      where: { blueprintId },
+      select: { id: true, slug: true },
+    });
+    if (linkedTenant) {
+      throw new Error(
+        `Blueprint already linked to tenant /${linkedTenant.slug} — open tenant workspace instead of re-provisioning`
+      );
+    }
+
+    const slugTaken = await tx.tenant.findUnique({ where: { slug: tenantSlug } });
+    if (slugTaken) {
+      throw new Error(
+        `Tenant slug "${tenantSlug}" is already in use — choose a different slug or link the existing tenant`
+      );
+    }
+
     const blueprint = await tx.enterpriseBlueprint.update({
       where: { id: blueprintId },
       data: { status: "APPROVED", approvedAt: new Date() },
