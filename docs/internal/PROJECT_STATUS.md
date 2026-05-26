@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 25 May 2026 (F25 discovery intelligence refinement)  
+**Last updated:** 25 May 2026 (F26 CEM workflow operations depth)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md)
@@ -19,17 +19,20 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 ## Current delivery track
 
-**Phase F25 — Discovery intelligence refinement** (25 May 2026).
+**Phase F26 — CEM workflow operations depth** (25 May 2026).
 
-**Cost-controlled product depth** — refine discovery advisory intelligence (sector guidance, completeness/readiness, recommendation quality, org-model review clarity, and blueprint bridge) without paid infra or external AI services.
+**Cost-controlled product depth** — deepen CEM workflow/task/department/role operational visibility and readiness guidance without paid infra, schema changes, or automation-engine claims.
 
 | Deliverable | Doc |
 |-------------|-----|
+| CEM workflow operations depth | [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
 | Discovery intelligence refinement | [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** Continue cost-controlled depth on staging/local until F23 **trigger conditions** (client + budget) fire.
+
+**F26 acceptance:** **PASSED** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md).
 
 **F25 acceptance:** **PASSED** — [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md).
 

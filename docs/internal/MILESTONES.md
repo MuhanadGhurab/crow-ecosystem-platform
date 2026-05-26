@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **F26** | CEM workflow operations depth (no paid infra) | Workflows, tasks, dept/role ops, dashboard signals | Muhanad | **100%** | **Passed** — [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
 | **F25** | Discovery intelligence refinement (no paid infra) | Discovery UX, sector guidance, readiness bridge | Muhanad | **100%** | **Passed** — [`F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md`](F25_DISCOVERY_INTELLIGENCE_REFINEMENT.md) |
 | **F24** | Tenant runtime UX depth | Dashboard, modules, ops pages, cross-links | Muhanad | **100%** | **Passed** — [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | **F23** | Production launch gate (budget/client) | Requirements, cost matrix, defer decision | Muhanad | **100%** | **Passed (decision gate)** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) — launch **deferred** |
@@ -60,7 +61,21 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+**Next:** Cost-controlled product phases on staging/local until F23 **trigger conditions** (client + budget) are met. **F26 passed** — CEM workflow operations depth. **F25 passed** — discovery intelligence refinement. **F24 passed** — tenant runtime UX depth. **F23 passed as decision gate** — [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md).
+
+---
+
+## F26 — CEM workflow operations depth (no paid infra)
+
+**Scope:** Deepen CEM operational visibility — workflow intelligence service, workflows/tasks/departments/roles pages, dashboard ops panel, reports readiness, admin CEM tab, CyberCrow/SAREA linkage — without schema changes, paid infra, or automation-engine claims.
+
+**Status:** **Passed** (25 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master plan | [`F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md`](F26_CEM_WORKFLOW_OPERATIONS_DEPTH.md) |
+
+**Validation:** `typecheck`, `lint`, `build`, `public:mirror-manifest`, `meem:ids:staging`, `tenant:verify:rimal`, `request:pipeline:verify`.
 
 ---
 

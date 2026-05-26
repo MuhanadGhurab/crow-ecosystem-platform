@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { MeemDashboardHints } from "@/components/tenant/meem-dashboard-hints";
 import { SareaDashboardWidgets } from "@/components/tenant/sarea-dashboard-widgets";
 import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
+import { TenantCemOperationsPanel } from "@/components/tenant/tenant-cem-operations-panel";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeNextActions } from "@/components/tenant/tenant-runtime-next-actions";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
@@ -20,6 +21,7 @@ import {
   getSareaRuntimeContext,
   isWidgetVisible,
 } from "@/lib/services/sarea-runtime.service";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { readSareaPreviewPersona } from "@/lib/sarea/preview-cookie";
@@ -47,7 +49,10 @@ export default async function TenantDashboardPage({
     role,
     previewPersona
   );
-  const summary = await safeWorkspaceSummary(tenant.id);
+  const [summary, cemOps] = await Promise.all([
+    safeWorkspaceSummary(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
+  ]);
   const cybercrowMetrics = summary.cybercrowInitialized
     ? await getCybercrowDashboardMetrics(tenant.id).catch(() => null)
     : null;
@@ -173,6 +178,8 @@ export default async function TenantDashboardPage({
       />
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="tenant" />
+
+      <TenantCemOperationsPanel slug={slug} snapshot={cemOps} />
 
       <TenantRuntimeNextActions
         slug={slug}

@@ -8,16 +8,12 @@ import { isUseMockData } from "@/lib/mock/env";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { MEEM_TASK_SAMPLES } from "@/lib/meem/meem-ops-catalog";
 import { routes } from "@/lib/routes";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { listTenantTasks } from "@/lib/services/tenant-identity.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
-
-const STATUS_CLASS: Record<string, string> = {
-  open: "bg-cyan-500/15 text-cyan-300",
-  in_progress: "bg-amber-500/15 text-amber-300",
-  done: "bg-teal-500/15 text-teal-300",
-  closed: "bg-slate-600/30 text-slate-400",
-};
+import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
+import { TenantTaskStatusGroups } from "@/components/tenant/tenant-task-status-groups";
 
 export default async function TasksPage({
   params,
@@ -28,7 +24,7 @@ export default async function TasksPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [tasks, summary] = await Promise.all([
+  const [tasks, summary, ops] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TASK_SAMPLES.map((s, i) => ({
           id: `mock-task-${i}`,
@@ -43,6 +39,7 @@ export default async function TasksPage({
         }))
       : listTenantTasks(tenant.id),
     safeWorkspaceSummary(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
   ]);
   const r = routes.tenant(slug);
   const openCount = tasks.filter((t) => t.status === "open" || t.status === "in_progress").length;
@@ -53,7 +50,7 @@ export default async function TasksPage({
         badge="CEM · Tasks"
         entity="cem"
         title="Tasks"
-        description="Work items linked to tenant workflows — seeded from discovery and ops enrichment. No workflow automation engine in this phase."
+        description="Work items linked to tenant workflows — task coordination and status visibility. No workflow automation engine in this phase."
       />
 
       <TenantRuntimeStatStrip
@@ -61,16 +58,24 @@ export default async function TasksPage({
           { label: "Open / in progress", value: openCount, accent: "amber" },
           { label: "Total tasks", value: tasks.length },
           {
-            label: "Workflows",
-            value: summary.workflowCount ?? 0,
-            accent: "teal",
-            hint: "Definitions",
+            label: "Unassigned",
+            value: ops.unassignedTaskCount,
+            hint: ops.unassignedTaskCount > 0 ? "Assign on users page" : "All assigned",
           },
           {
-            label: "Audit trail",
-            value: summary.auditLogCount,
-            accent: "violet",
-            hint: summary.cybercrowInitialized ? "CyberCrow events" : "Initialize CyberCrow",
+            label: "No workflow link",
+            value: ops.tasksWithoutWorkflow,
+            accent: ops.tasksWithoutWorkflow > 0 ? "amber" : undefined,
+          },
+          {
+            label: "Workflows",
+            value: ops.workflowCount,
+            accent: "teal",
+          },
+          {
+            label: "Readiness",
+            value: ops.readinessLabel,
+            accent: ops.readinessLevel === "strong" ? "teal" : "amber",
           },
         ]}
       />
@@ -90,44 +95,18 @@ export default async function TasksPage({
           }
         />
       ) : (
-        <ul className="space-y-3">
-          {tasks.map((task) => (
-            <li
-              key={task.id}
-              className="flex flex-wrap items-start justify-between gap-4 rounded-cc border border-cyan-500/10 bg-white/5 p-4"
-            >
-              <div>
-                <p className="font-medium text-white">{task.title}</p>
-                {task.workflow && (
-                  <p className="mt-1 text-xs text-slate-500">
-                    Workflow:{" "}
-                    <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
-                      {task.workflow.name}
-                    </Link>
-                  </p>
-                )}
-              </div>
-              <span
-                className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                  STATUS_CLASS[task.status] ?? "bg-slate-700/50 text-slate-400"
-                }`}
-              >
-                {task.status.replace("_", " ")}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <TenantTaskStatusGroups
+          slug={slug}
+          tasks={tasks}
+          cybercrowInitialized={summary.cybercrowInitialized}
+        />
       )}
 
-      {summary.cybercrowInitialized && (
-        <p className="text-xs text-slate-500">
-          Security-sensitive task changes may appear in{" "}
-          <Link href={r.cybercrow.auditLogs} className="text-violet-400 hover:text-violet-300">
-            CyberCrow audit logs
-          </Link>
-          .
-        </p>
-      )}
+      <TenantCemLinkageNote
+        slug={slug}
+        cybercrowInitialized={summary.cybercrowInitialized}
+        compact
+      />
 
       <TenantRuntimeCrossLinks
         slug={slug}

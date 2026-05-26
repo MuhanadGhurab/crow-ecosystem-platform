@@ -2,6 +2,7 @@ import Link from "next/link";
 import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { routes } from "@/lib/routes";
+import type { CemOperationsSnapshot } from "@/lib/cem-operations/types";
 import type { ReportsKpiSummary } from "@/lib/services/reports.service";
 
 function formatSar(amount: number) {
@@ -14,6 +15,7 @@ type TenantReportsReadinessPanelProps = {
   tenantModules: { moduleKey: string; enabled?: boolean }[];
   kpis: ReportsKpiSummary;
   cybercrowInitialized: boolean;
+  cemOps?: CemOperationsSnapshot;
 };
 
 export function TenantReportsReadinessPanel({
@@ -22,6 +24,7 @@ export function TenantReportsReadinessPanel({
   tenantModules,
   kpis,
   cybercrowInitialized,
+  cemOps,
 }: TenantReportsReadinessPanelProps) {
   const r = routes.tenant(slug);
   const moduleKeys = tenantModules.filter((m) => m.enabled !== false).map((m) => m.moduleKey);
@@ -141,6 +144,58 @@ export function TenantReportsReadinessPanel({
           ))}
         </ul>
       </section>
+
+      {cemOps && (
+        <section className="cc-glass-card border-cyan-500/10">
+          <h3 className="font-display text-sm font-semibold text-cyan-400">
+            CEM operations readiness
+          </h3>
+          <p className="mt-2 text-sm text-slate-400">
+            Coverage from live tenant data — {cemOps.readinessDetail}
+          </p>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+            <li className="rounded-cc border border-white/5 px-3 py-2">
+              <span className="text-slate-500">Workflow coverage</span>
+              <p className="text-white">
+                {cemOps.workflowsWithTasks}/{cemOps.workflowCount} with tasks
+                {cemOps.workflowsWithoutTasks > 0 && (
+                  <span className="text-amber-400"> · {cemOps.workflowsWithoutTasks} need tasks</span>
+                )}
+              </p>
+            </li>
+            <li className="rounded-cc border border-white/5 px-3 py-2">
+              <span className="text-slate-500">Task distribution</span>
+              <p className="text-white">
+                {cemOps.openTaskCount} open · {cemOps.unassignedTaskCount} unassigned ·{" "}
+                {cemOps.tasksWithoutWorkflow} without workflow
+              </p>
+            </li>
+            <li className="rounded-cc border border-white/5 px-3 py-2">
+              <span className="text-slate-500">Department coverage</span>
+              <p className="text-white">
+                {cemOps.departmentsWithProfiles}/{cemOps.departmentCount} with profiles
+              </p>
+            </li>
+            <li className="rounded-cc border border-white/5 px-3 py-2">
+              <span className="text-slate-500">Role mapping</span>
+              <p className="text-white">
+                {cemOps.rolesWithAssignments}/{cemOps.roleCount} with user assignments
+              </p>
+            </li>
+          </ul>
+          <div className="mt-4 flex flex-wrap gap-3 text-xs">
+            <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
+              Workflows →
+            </Link>
+            <Link href={r.departments} className="text-cyan-400 hover:text-cyan-300">
+              Structure →
+            </Link>
+            <Link href={routes.sarea.profiles} className="text-rose-400 hover:text-rose-300">
+              SAREA profiles →
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="cc-glass-card border-violet-500/15">
         <h3 className="text-sm font-medium text-violet-300">Security & GRC reporting</h3>

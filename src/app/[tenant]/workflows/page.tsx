@@ -13,9 +13,11 @@ import {
 } from "@/lib/meem/meem-ops-catalog";
 import { moduleLabel } from "@/lib/catalog-labels";
 import { routes } from "@/lib/routes";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { listTenantWorkflows } from "@/lib/services/tenant-identity.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 
 export default async function TenantWorkflowsPage({
   params,
@@ -26,7 +28,7 @@ export default async function TenantWorkflowsPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [workflows, summary] = await Promise.all([
+  const [workflows, summary, ops] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TENANT_WORKFLOWS.map((w, i) => ({
           id: `mock-workflow-${i}`,
@@ -43,7 +45,11 @@ export default async function TenantWorkflowsPage({
         }))
       : listTenantWorkflows(tenant.id),
     safeWorkspaceSummary(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
   ]);
+
+  const intelById = new Map(ops.workflows.map((w) => [w.id, w]));
+  const intelByName = new Map(ops.workflows.map((w) => [w.name, w]));
 
   const r = routes.tenant(slug);
   const isMeem = slug === MEEM_TENANT_SLUG;
@@ -57,8 +63,8 @@ export default async function TenantWorkflowsPage({
         title="Workflows"
         description={
           isMeem
-            ? "Discovery-derived workflow definitions for MEEM — OCR/AI flows link to the logistics hub. No visual workflow builder in this phase."
-            : `Workflow definitions seeded from discovery for ${tenant.organization.displayName}. Read-only operational view — no automation engine.`
+            ? "Discovery-derived workflow definitions for MEEM — OCR/AI flows link to the logistics hub. Operational visibility only; no workflow builder or automation engine."
+            : `Workflow definitions seeded from discovery for ${tenant.organization.displayName}. Read-only coordination view — review recommended actions are advisory.`
         }
       />
 
@@ -67,27 +73,40 @@ export default async function TenantWorkflowsPage({
           { label: "Definitions", value: workflows.length },
           { label: "Active", value: activeCount, accent: "teal" },
           {
-            label: "Open tasks",
-            value: summary.openTaskCount ?? 0,
-            accent: "amber",
-            hint: "Linked work items",
+            label: "With tasks",
+            value: ops.workflowsWithTasks,
+            hint: `${ops.workflowsWithoutTasks} without tasks`,
           },
           {
-            label: "Audit context",
-            value: summary.auditLogCount,
-            accent: "violet",
-            hint: "CyberCrow events",
+            label: "Open tasks",
+            value: ops.openTaskCount,
+            accent: "amber",
+          },
+          {
+            label: "Departments",
+            value: ops.departmentCount,
+            accent: "cyan",
+            hint: "Org coverage",
+          },
+          {
+            label: "Readiness",
+            value: ops.readinessLabel,
+            accent: ops.readinessLevel === "strong" ? "teal" : "amber",
           },
         ]}
       />
+
+      <section className="cc-glass-card border-cyan-500/10 !py-4">
+        <p className="text-sm text-slate-400">{ops.readinessDetail}</p>
+      </section>
 
       {workflows.length === 0 ? (
         <EmptyState
           title="No workflows yet"
           description={
             isMeem
-              ? "Run npm run db:seed:meem:ops or complete discovery seeding for sample workflows."
-              : "Workflows appear after blueprint go-live and tenant ops seeding."
+              ? "Run npm run db:seed:meem:ops or complete discovery seeding for sample workflows. Definitions are created through discovery, blueprint provisioning, or ops seeding — not a drag-and-drop builder."
+              : "Workflows appear after blueprint go-live and tenant ops seeding. Use discovery and blueprint flows to add definitions."
           }
           action={
             <Link href={r.tasks} className="cc-btn-secondary text-sm">
@@ -99,6 +118,7 @@ export default async function TenantWorkflowsPage({
         <ul className="space-y-3">
           {workflows.map((w) => {
             const meta = isMeem ? MEEM_WORKFLOW_META[w.name] : undefined;
+            const intel = intelById.get(w.id) ?? intelByName.get(w.name);
             const showLogistics =
               isMeem && (meta?.logisticsOcrAi || MEEM_OCR_AI_WORKFLOW_NAMES.has(w.name));
 
@@ -120,6 +140,11 @@ export default async function TenantWorkflowsPage({
                       >
                         {w.status}
                       </span>
+                      {intel && (
+                        <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-xs text-cyan-200">
+                          {intel.readinessLabel}
+                        </span>
+                      )}
                     </div>
                     {meta?.moduleTags && meta.moduleTags.length > 0 && (
                       <ul className="mt-2 flex flex-wrap gap-1.5">
@@ -139,7 +164,8 @@ export default async function TenantWorkflowsPage({
                       </p>
                     )}
                     <p className="mt-2 text-xs text-slate-600">
-                      Next action: open tasks filtered by workflow name on the tasks board.
+                      {intel?.nextAction ??
+                        "Next action: review linked tasks on the tasks board."}
                     </p>
                   </div>
                   <div className="text-right text-xs text-slate-500">
@@ -147,7 +173,8 @@ export default async function TenantWorkflowsPage({
                       {w._count.steps} step{w._count.steps === 1 ? "" : "s"}
                     </p>
                     <p className="mt-0.5">
-                      {w._count.tasks} linked task{w._count.tasks === 1 ? "" : "s"}
+                      {intel?.openTaskCount ?? 0} open · {w._count.tasks} total task
+                      {w._count.tasks === 1 ? "" : "s"}
                     </p>
                   </div>
                 </div>
@@ -165,9 +192,12 @@ export default async function TenantWorkflowsPage({
                       href={r.cybercrow.auditLogs}
                       className="text-xs text-violet-400 hover:text-violet-300"
                     >
-                      CyberCrow audit →
+                      Workflow trust (CyberCrow) →
                     </Link>
                   )}
+                  <Link href={routes.sarea.profiles} className="text-xs text-rose-400 hover:text-rose-300">
+                    SAREA role preview →
+                  </Link>
                 </div>
               </li>
             );
@@ -185,6 +215,12 @@ export default async function TenantWorkflowsPage({
           Tasks board
         </Link>
       </div>
+
+      <TenantCemLinkageNote
+        slug={slug}
+        cybercrowInitialized={summary.cybercrowInitialized}
+        compact
+      />
 
       <TenantRuntimeCrossLinks
         slug={slug}

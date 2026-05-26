@@ -10,6 +10,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils";
 import { routes } from "@/lib/routes";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { getReportsKpiSummary } from "@/lib/services/reports.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
@@ -39,9 +40,10 @@ export default async function ReportsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "reports") : [];
 
-  const [kpis, summary] = await Promise.all([
+  const [kpis, summary, cemOps] = await Promise.all([
     getReportsKpiSummary(tenant.id, moduleKeys),
     safeWorkspaceSummary(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
   ]);
   const r = routes.tenant(slug);
 
@@ -181,6 +183,7 @@ export default async function ReportsPage({
             tenantModules={tenantModules}
             kpis={kpis}
             cybercrowInitialized={summary.cybercrowInitialized}
+            cemOps={cemOps}
           />
           <TenantRuntimeCrossLinks
             slug={slug}

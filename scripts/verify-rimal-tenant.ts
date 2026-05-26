@@ -108,8 +108,17 @@ async function main() {
 
   const cemDepts = await prisma.department.count({ where: { tenantId: rimal.id } });
   const cemRoles = await prisma.role.count({ where: { tenantId: rimal.id } });
+  const cemWorkflows = await prisma.workflow.count({ where: { tenantId: rimal.id } });
+  const cemTasks = await prisma.task.count({ where: { tenantId: rimal.id } });
+  const openTasks = await prisma.task.count({
+    where: { tenantId: rimal.id, status: { in: ["open", "in_progress", "pending"] } },
+  });
   if (cemDepts < 1) fail("No CEM departments seeded");
   else ok(`CEM departments: ${cemDepts}, roles: ${cemRoles}`);
+  ok(`CEM workflows: ${cemWorkflows}, tasks: ${cemTasks} (${openTasks} open)`);
+  if (cemWorkflows > 0 && cemTasks === 0) {
+    console.log("WARN: Workflows exist but no tasks — acceptable if ops seed pending");
+  }
 
   if (meem) {
     console.log(`\n=== Isolation vs ${meemSlug} ===`);

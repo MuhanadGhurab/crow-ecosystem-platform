@@ -25,9 +25,12 @@ import { listTenantMemberships } from "@/lib/services/membership.service";
 import { listSareaProfilesForTenant } from "@/lib/services/sarea.service";
 import { getTenantPersonaMaterialization } from "@/lib/services/sarea-materialization.service";
 import { SareaPersonaMaterializationPanel } from "@/components/studio/sarea/sarea-persona-materialization-panel";
+import { SareaTenantHealthPanel } from "@/components/studio/sarea/sarea-tenant-health-panel";
+import { getTenantSareaHealthDetail } from "@/lib/services/sarea-studio.service";
 import { getTenantIdentityCounts } from "@/lib/services/tenant-identity.service";
 import { getTenantHealthSummary } from "@/lib/services/tenant-health.service";
 import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.service";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { getTenantById, getTenantWorkspaceSummary } from "@/lib/services/tenant.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
@@ -57,11 +60,13 @@ export default async function AdminTenantDetailPage({
     socSummary,
     sareaProfiles,
     sareaPersonaMaterialization,
+    sareaHealthDetail,
     orgIntel,
     capabilitySnapshot,
     capabilityReadiness,
     usageSignals,
     billingAlignment,
+    cemOps,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -72,11 +77,13 @@ export default async function AdminTenantDetailPage({
     getSocWorkflowSummary(tenant.id),
     listSareaProfilesForTenant(tenant.id),
     getTenantPersonaMaterialization(tenant.id),
+    getTenantSareaHealthDetail(tenant.id),
     request?.id ? getOrgIntelligenceForRequest(request.id) : Promise.resolve(null),
     getTenantCapabilitySnapshot(tenant.id),
     checkTenantCapabilityReadiness(tenant.id),
     getTenantUsageSignals(tenant.id),
     getTenantBillingAlignment(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -237,22 +244,37 @@ export default async function AdminTenantDetailPage({
       {activeTab === "cem" && (
         <section className="cc-glass-card cc-entity-block--cem space-y-4 !p-6">
           <h3 className="text-sm font-medium text-cyan-400">CEM modules & operations</h3>
+          <p className="text-xs text-slate-500">
+            Operational readiness: {cemOps.readinessLabel} — {cemOps.readinessDetail}
+          </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <p className="text-xs text-slate-500">Departments</p>
               <p className="text-lg font-semibold text-white">{identity.departments}</p>
+              <p className="text-xs text-slate-600">
+                {cemOps.departmentsWithProfiles} with profiles
+              </p>
             </div>
             <div>
               <p className="text-xs text-slate-500">Roles</p>
               <p className="text-lg font-semibold text-white">{identity.roles}</p>
+              <p className="text-xs text-slate-600">
+                {cemOps.rolesWithAssignments} with assignments
+              </p>
             </div>
             <div>
               <p className="text-xs text-slate-500">Workflows</p>
               <p className="text-lg font-semibold text-white">{summary.workflowCount}</p>
+              <p className="text-xs text-slate-600">
+                {cemOps.workflowsWithoutTasks} without tasks
+              </p>
             </div>
             <div>
               <p className="text-xs text-slate-500">Open tasks</p>
               <p className="text-lg font-semibold text-white">{summary.openTaskCount}</p>
+              <p className="text-xs text-slate-600">
+                {cemOps.unassignedTaskCount} unassigned
+              </p>
             </div>
           </div>
           <div>
@@ -269,6 +291,42 @@ export default async function AdminTenantDetailPage({
                 </li>
               ))}
             </ul>
+          </div>
+          {cemOps.recommendedActions.length > 0 && (
+            <div className="border-t border-cyan-500/10 pt-4">
+              <p className="text-xs font-medium text-slate-500">Recommended next actions</p>
+              <ul className="mt-2 space-y-1 text-sm text-slate-400">
+                {cemOps.recommendedActions.map((a) => (
+                  <li key={a.label}>
+                    {a.label}
+                    {a.hint ? ` — ${a.hint}` : ""}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-3 border-t border-cyan-500/10 pt-4 text-sm">
+            <Link
+              href={routes.tenant(tenant.slug).dashboard}
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              Open CEM runtime →
+            </Link>
+            <Link
+              href={routes.tenant(tenant.slug).workflows}
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              Workflows →
+            </Link>
+            <Link
+              href={routes.tenant(tenant.slug).cybercrow.dashboard}
+              className="text-violet-400 hover:text-violet-300"
+            >
+              CyberCrow →
+            </Link>
+            <Link href={routes.sarea.profiles} className="text-rose-400 hover:text-rose-300">
+              SAREA profiles →
+            </Link>
           </div>
         </section>
       )}
@@ -330,28 +388,8 @@ export default async function AdminTenantDetailPage({
               with layouts, navigation, and widgets. Partial or fallback states need studio review.
             </p>
           </div>
-          {(() => {
-            const backed = sareaPersonaMaterialization.filter((r) => r.state === "tenant_backed").length;
-            const needsReview = sareaPersonaMaterialization.filter(
-              (r) => r.state !== "tenant_backed"
-            ).length;
-            return (
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-cc border border-teal-500/15 bg-teal-950/15 px-3 py-2 text-center">
-                  <p className="text-lg font-semibold text-teal-300">{backed}/5</p>
-                  <p className="text-[10px] text-slate-500">Tenant-backed personas</p>
-                </div>
-                <div className="rounded-cc border border-amber-500/15 bg-amber-950/15 px-3 py-2 text-center">
-                  <p className="text-lg font-semibold text-amber-300">{needsReview}</p>
-                  <p className="text-[10px] text-slate-500">Needs review</p>
-                </div>
-                <div className="rounded-cc border border-rose-500/15 bg-rose-950/10 px-3 py-2 text-center">
-                  <p className="text-lg font-semibold text-rose-300">{sareaProfiles.length}</p>
-                  <p className="text-[10px] text-slate-500">Profile rows</p>
-                </div>
-              </div>
-            );
-          })()}
+          <h3 className="text-sm font-medium text-rose-300">SAREA health (advisory)</h3>
+          <SareaTenantHealthPanel health={sareaHealthDetail} tenantSlug={tenant.slug} />
           <h3 className="text-sm font-medium text-rose-300">Persona materialization</h3>
           <SareaPersonaMaterializationPanel
             rows={sareaPersonaMaterialization}

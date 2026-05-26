@@ -4,7 +4,9 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
+import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 import { routes } from "@/lib/routes";
+import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import {
   listTenantBranches,
   listTenantDepartments,
@@ -21,10 +23,11 @@ export default async function TenantDepartmentsPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [departments, branches, summary] = await Promise.all([
+  const [departments, branches, summary, ops] = await Promise.all([
     listTenantDepartments(tenant.id),
     listTenantBranches(tenant.id),
     safeWorkspaceSummary(tenant.id),
+    getCemOperationsSnapshot(tenant.id),
   ]);
 
   const r = routes.tenant(slug);
@@ -43,10 +46,22 @@ export default async function TenantDepartmentsPage({
         items={[
           { label: "Departments", value: departments.length, accent: "teal" },
           { label: "Branches", value: branches.length },
-          { label: "Profiles", value: summary.profileCount ?? 0, hint: "Workspace users" },
+          { label: "Workflows", value: ops.workflowCount, hint: "Operational coverage" },
+          { label: "Open tasks", value: ops.openTaskCount, accent: "amber" },
           { label: "Roles", value: summary.roleCount ?? 0, accent: "violet" },
         ]}
       />
+
+      {departments.length > 0 && ops.workflowCount === 0 && (
+        <p className="rounded-cc border border-amber-500/20 bg-amber-950/20 px-4 py-3 text-sm text-amber-200">
+          Structure exists but no workflows are defined yet — add workflows via discovery go-live or
+          ops seeding, then link tasks on the{" "}
+          <Link href={r.workflows} className="text-cyan-300 underline">
+            workflows
+          </Link>{" "}
+          page.
+        </p>
+      )}
 
       <section>
         <h3 className="text-sm font-medium text-cyan-400">Departments</h3>
@@ -112,16 +127,30 @@ export default async function TenantDepartmentsPage({
         )}
       </section>
 
-      <section className="cc-glass-card border-rose-500/15">
-        <h3 className="text-sm font-medium text-rose-300">SAREA relevance</h3>
+      <section className="cc-glass-card border-cyan-500/10">
+        <h3 className="text-sm font-medium text-cyan-400">Operational coverage</h3>
         <p className="mt-2 text-sm text-slate-400">
-          Department labels inform SAREA widget grouping and persona previews. They do not grant
-          permissions — assign roles on the users page.
+          {ops.departmentsWithProfiles} of {ops.departmentCount} departments have profiles ·{" "}
+          {ops.workflowsWithTasks} workflows have tasks · readiness: {ops.readinessLabel}
         </p>
-        <Link href={routes.sarea.roleMapping} className="mt-3 inline-block text-sm text-rose-400">
-          SAREA role mapping →
-        </Link>
+        <div className="mt-3 flex flex-wrap gap-3 text-sm">
+          <Link href={r.workflows} className="text-cyan-400 hover:text-cyan-300">
+            Workflows →
+          </Link>
+          <Link href={r.tasks} className="text-cyan-400 hover:text-cyan-300">
+            Tasks →
+          </Link>
+          <Link href={r.roles} className="text-violet-400 hover:text-violet-300">
+            Roles →
+          </Link>
+        </div>
       </section>
+
+      <TenantCemLinkageNote
+        slug={slug}
+        cybercrowInitialized={summary.cybercrowInitialized}
+        compact
+      />
 
       <TenantRuntimeCrossLinks
         slug={slug}
