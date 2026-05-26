@@ -72,17 +72,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="cc-public-band">
-        <div className="cc-safe-x relative mx-auto max-w-6xl">
-          <PublicSectionIntro
-            badge="AI & extras"
-            title="Optional intelligence"
-            description="AI-assisted discovery and blueprint insights are optional layers — core governance stays human-reviewed."
-          />
-          <ComingSoonCards />
-        </div>
-      </section>
-
       <section className="cc-safe-x mx-auto max-w-6xl py-10 sm:py-14">
         <div className="cc-glass-card border-violet-500/20 p-6 text-center sm:p-8">
           <p className="text-sm text-slate-400">
@@ -97,9 +86,9 @@ export default function HomePage() {
       <section className="cc-public-band">
         <div className="cc-safe-x relative mx-auto max-w-6xl">
           <PublicSectionIntro
-            badge="Proof"
-            title="Case studies"
-            description="Sector narratives and outcomes — published when ready."
+            badge="Roadmap"
+            title="Sector stories & optional intelligence"
+            description="Case studies and AI-assisted discovery insights are in progress — optional layers on top of human-reviewed discovery and blueprint. Core governance is not autonomous."
           />
           <ComingSoonCards />
         </div>

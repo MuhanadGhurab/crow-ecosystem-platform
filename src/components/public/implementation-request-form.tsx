@@ -219,12 +219,12 @@ export function ImplementationRequestForm() {
         </p>
         <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-500/25 bg-cyan-500/10 px-4 py-1.5 text-sm text-cyan-200">
           <span className="h-2 w-2 rounded-full bg-amber-400" />
-          PENDING_REVIEW
+          Submitted for review
         </p>
         <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/40 px-4 py-3 text-left text-sm text-slate-400">
           <p className="font-medium text-slate-300">What happens next</p>
           <ol className="mt-2 list-decimal space-y-1 pl-5">
-            <li>Our team reviews your request in the admin queue (status PENDING_REVIEW).</li>
+            <li>Our team reviews your request in the admin queue (submitted for review).</li>
             <li>We may contact you on the email you provided to clarify scope.</li>
             <li>After approval, discovery opens with sector templates for your industry.</li>
             <li>Blueprint and tenant provisioning follow discovery completion.</li>
@@ -524,7 +524,7 @@ export function ImplementationRequestForm() {
           <div className="cc-submit-panel hidden lg:block">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-slate-400">
-                Status after submit: <span className="font-mono text-cc-star">PENDING_REVIEW</span>
+                After submit: <span className="font-medium text-cc-star">Submitted for review</span>
               </p>
               <button type="submit" disabled={status === "loading"} className="cc-btn-primary min-w-[14rem] px-8">
                 {status === "loading" ? (

@@ -10,6 +10,15 @@ export const EMPLOYEE_BANDS = [
   { key: "500+", labelEn: "500+ employees", monthlyBandSar: 7_200 },
 ] as const;
 
+/** Non-overlapping bands for public pricing catalog display */
+export const PRICING_EMPLOYEE_BANDS = [
+  { key: "1-49", labelEn: "1–49 employees", monthlyBandSar: 0 },
+  { key: "50-99", labelEn: "50–99 employees", monthlyBandSar: 1_200 },
+  { key: "100-249", labelEn: "100–249 employees", monthlyBandSar: 2_400 },
+  { key: "250-499", labelEn: "250–499 employees", monthlyBandSar: 4_800 },
+  { key: "500+", labelEn: "500+ employees", monthlyBandSar: 7_200 },
+] as const;
+
 export function employeeBandMonthlySar(band?: string | null): number {
   if (!band) return 0;
   const row = EMPLOYEE_BANDS.find((b) => b.key === band);

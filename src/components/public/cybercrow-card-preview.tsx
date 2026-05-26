@@ -1,7 +1,12 @@
 import { CYBERCROW_AUDIT_ACTIONS } from "@/lib/constants/cybercrow-audit-events";
 import { MOCK_CYBERCROW_DASHBOARD } from "@/lib/mock/workspace-summary";
 
-const NAV_ITEMS = ["Dashboard", "Audit", "Events", "GRC"] as const;
+const NAV_ITEMS = [
+  { label: "Dashboard", short: "Dash" },
+  { label: "Audit", short: "Audit" },
+  { label: "Events", short: "Events" },
+  { label: "GRC", short: "GRC" },
+] as const;
 
 const LOGISTICS_AUDIT_LINES = [
   {
@@ -48,16 +53,17 @@ export function CyberCrowCardPreview() {
       />
       <div className="relative flex gap-2 sm:gap-2.5">
         <div className="flex w-9 shrink-0 flex-col gap-1 rounded-lg border border-violet-500/15 bg-black/25 py-2 px-1 sm:w-10">
-          {NAV_ITEMS.map((label, i) => (
+          {NAV_ITEMS.map((item, i) => (
             <div
-              key={label}
-              className={`rounded px-1 py-0.5 text-[7px] font-medium leading-tight sm:text-[8px] ${
+              key={item.label}
+              title={item.label}
+              className={`rounded px-0.5 py-0.5 text-center text-[7px] font-medium leading-tight sm:text-[8px] ${
                 i === 0
                   ? "bg-violet-500/25 text-violet-200"
                   : "text-slate-600"
               }`}
             >
-              {label.slice(0, 3)}
+              {item.short}
             </div>
           ))}
         </div>
@@ -81,7 +87,7 @@ export function CyberCrowCardPreview() {
                 />
               </div>
               <p className="mt-0.5 text-right text-[7px] text-slate-500 sm:text-[8px]">
-                {mock.compliancePct}% NCA
+                NCA-aligned readiness
               </p>
             </div>
           </div>

@@ -32,7 +32,10 @@ export function RequestPageHero() {
               Tell us about your organization. We review your submission, then guide you through structured
               discovery, blueprint design, and commercial alignment.
             </p>
-            <p className="mt-3 text-sm text-slate-500">Initial status after submit: PENDING_REVIEW.</p>
+            <p className="mt-3 text-sm text-slate-500">
+              After you submit, your request is marked <strong className="font-medium text-slate-400">Submitted for review</strong>{" "}
+              while our delivery team validates scope.
+            </p>
           </div>
 
           <aside className="cc-glass-card !p-5 lg:sticky lg:top-24 lg:!p-6">

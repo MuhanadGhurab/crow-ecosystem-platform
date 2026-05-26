@@ -4,7 +4,7 @@ import { PricingTierCard } from "@/components/public/pricing-tier-card";
 import { PublicPageHeader } from "@/components/public/public-page-header";
 import { PublicSectionIntro } from "@/components/public/public-section-intro";
 import { AI_EXTRAS } from "@/lib/constants/ai-extras";
-import { EMPLOYEE_BANDS, typicalMarketMonthlySar } from "@/lib/constants/employee-bands";
+import { PRICING_EMPLOYEE_BANDS, typicalMarketMonthlySar } from "@/lib/constants/employee-bands";
 import { CEM_MODULES } from "@/lib/constants/modules";
 import { SECURITY_PACKAGES } from "@/lib/constants/security-packages";
 import { SAREA_PACKAGES } from "@/lib/constants/sarea-packages";
@@ -86,10 +86,10 @@ export default function PricingPage() {
           <PublicSectionIntro
             badge="Scale"
             title="Employee band fees"
-            description="Monthly band fee on top of tier base — aligns MEEM-scale logistics (50–250) without per-user ERP math."
+            description="Monthly band fee on top of tier base — one scale ladder from startup to enterprise headcount."
           />
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {EMPLOYEE_BANDS.map((b) => (
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {PRICING_EMPLOYEE_BANDS.map((b) => (
               <li
                 key={b.key}
                 className="cc-bento-stat flex items-center justify-between gap-3 rounded-xl border border-cyan-500/10 bg-white/[0.03] px-4 py-3"
@@ -115,7 +115,12 @@ export default function PricingPage() {
                 key={m.key}
                 className="cc-list-item cc-engine-card--cem flex items-center gap-3 transition hover:border-cyan-500/25"
               >
-                <span className="text-lg">{m.icon}</span>
+                <span
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-500/25 bg-cyan-500/10 font-mono text-[10px] font-bold uppercase tracking-wide text-cyan-300"
+                  aria-hidden
+                >
+                  {m.key.slice(0, 2)}
+                </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-medium text-white">{m.nameEn}</span>
                   <span className="text-xs text-cyan-400">+{m.monthlyAddonSar.toLocaleString()} SAR/mo</span>
@@ -266,14 +271,18 @@ export default function PricingPage() {
 
         <section className="relative overflow-hidden rounded-2xl border border-cc-star/25 bg-gradient-to-br from-cyan-500/10 via-violet-500/5 to-transparent p-8 text-center sm:p-10">
           <CrowMotif variant="constellation" className="pointer-events-none absolute start-6 top-6 opacity-20" />
-          <p className="text-sm text-slate-400">
-            Final commercial terms follow discovery and blueprint — totals recalc via pricing.service.
+          <p className="mx-auto max-w-2xl text-sm text-slate-400">
+            Final commercial terms follow discovery and blueprint — illustrative totals on this page are
+            not a binding quote.
           </p>
           <p className="mt-2 text-xs text-slate-500">15% VAT applied at invoice.</p>
-          <p className="mt-3 max-w-xl text-xs leading-relaxed text-slate-500">
-            Live card checkout (Mada, Apple Pay, BNPL) is not enabled in this environment — enterprise
-            billing follows proposal and platform administrator coordination.
-          </p>
+          <div className="mx-auto mt-4 max-w-lg rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3 text-left text-xs leading-relaxed text-slate-400">
+            <p className="font-medium text-amber-200/90">Checkout not live</p>
+            <p className="mt-1">
+              Card checkout (Mada, Apple Pay, BNPL) is not enabled in this environment. Enterprise billing
+              follows proposal review and platform administrator coordination after your request is accepted.
+            </p>
+          </div>
           <Link href="/request" className="cc-btn-primary mt-6 inline-block">
             Start implementation request
           </Link>
