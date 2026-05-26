@@ -28,7 +28,11 @@ import {
   addDiscoveryWorkflow,
 } from "../src/lib/services/discovery.service";
 import { enrichMeemGlobalOps } from "../src/lib/services/meem-ops.service";
-import { upgradeLogisticsSareaForTenant } from "../src/lib/services/sarea-seed.service";
+import {
+  ensureTenantSareaPersonas,
+  SAREA_DEFAULT_PERSONA_KEYS,
+  upgradeLogisticsSareaForTenant,
+} from "../src/lib/services/sarea-seed.service";
 
 const prisma = new PrismaClient();
 
@@ -91,7 +95,12 @@ async function main() {
       `MEEM modules aligned: ${MEEM_MODULE_KEYS.join(", ")}, ${MEEM_PROCUREMENT_MODULE}`
     );
     const ops = await enrichMeemGlobalOps();
+    const sareaEnsure = await ensureTenantSareaPersonas(t.id, SAREA_DEFAULT_PERSONA_KEYS);
+    const sareaUpgrade = await upgradeLogisticsSareaForTenant(t.id);
     console.log(`MEEM ops enriched: ${ops.workflowNames.length} workflows, AI: ${ops.aiExtraKeys.join(", ")}`);
+    console.log(
+      `MEEM SAREA ensured: created ${sareaEnsure.created}, backfilled ${sareaEnsure.backfilled}; upgrade ${sareaUpgrade.updates} change(s)`
+    );
     return;
   }
 
@@ -184,6 +193,14 @@ async function main() {
     personaKey: "frontline",
     requirement: "Mobile-first shipment scan and POD",
   });
+  await addDiscoveryExperienceRequirement(request.id, {
+    personaKey: "analyst",
+    requirement: "CyberCrow incidents, security events, identity telemetry — triage-first",
+  });
+  await addDiscoveryExperienceRequirement(request.id, {
+    personaKey: "tenant_admin",
+    requirement: "Users, roles, modules, plan, and CyberCrow governance visibility",
+  });
 
   const blueprint = await completeDiscoveryAndCreateBlueprint(request.id);
 
@@ -192,10 +209,14 @@ async function main() {
     MEEM_TENANT_SLUG,
     "MEEM Holding Logistics",
     "enterprise",
-    ["executive", "manager", "frontline"]
+    [...SAREA_DEFAULT_PERSONA_KEYS]
   );
 
-  await upgradeLogisticsSareaForTenant(tenant.id);
+  const sareaEnsure = await ensureTenantSareaPersonas(tenant.id, SAREA_DEFAULT_PERSONA_KEYS);
+  const sareaUpgrade = await upgradeLogisticsSareaForTenant(tenant.id);
+  console.log(
+    `MEEM SAREA personas: created ${sareaEnsure.created}, backfilled ${sareaEnsure.backfilled}; upgrade ${sareaUpgrade.updates} change(s)`
+  );
 
   await prisma.enterpriseBlueprint.update({
     where: { id: blueprint.id },
