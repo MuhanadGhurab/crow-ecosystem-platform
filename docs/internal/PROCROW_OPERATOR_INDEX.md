@@ -1,7 +1,7 @@
 # ProCrow operator index
 
 **Audience:** Platform operators, delivery leads  
-**Last updated:** 27 May 2026 (J6)
+**Last updated:** 27 May 2026 (J7)
 
 ProCrow is the internal control tower for Crow Ecosystem — platform administration, customer-to-tenant flow, trust governance, experience studio, runtime cohesion, and deployment discipline. CyberCrow and SAREA remain distinct capabilities under ProCrow.
 
@@ -14,6 +14,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 | ProCrow Control Tower | `/admin/overview` | Primary entry — map, pipeline, tenant grid, embedded operator queue |
 | Operator queue (derived) | `/admin/queue` | Request-to-tenant stages — read-only, no task engine |
 | Deployment go/no-go center | `/admin/go-no-go` | J6 — advisory readiness, validation index, F23/migration/payment guardrails (no auto-deploy) |
+| Operator docs & validation console | `/admin/operator-console` | J7 — runbook index + npm verifier catalog (manual execution only) |
 | Platform Admin shell | `/admin/*` | `requirePlatformConsole` — not public |
 
 ---
@@ -100,6 +101,10 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 | J1 UX unification | [`J1_PROCROW_PORTAL_UX_UNIFICATION.md`](J1_PROCROW_PORTAL_UX_UNIFICATION.md) |
 | J2 Control tower depth | [`J2_PROCROW_CONTROL_TOWER_DASHBOARD_DEPTH.md`](J2_PROCROW_CONTROL_TOWER_DASHBOARD_DEPTH.md) |
 | J3 Operator queue | [`J3_PROCROW_REQUEST_TO_TENANT_OPERATOR_QUEUE.md`](J3_PROCROW_REQUEST_TO_TENANT_OPERATOR_QUEUE.md) |
+| J4 CyberCrow UX depth | [`J4_CYBERCROW_EVIDENCE_GRC_UX_DEPTH.md`](J4_CYBERCROW_EVIDENCE_GRC_UX_DEPTH.md) |
+| J5 SAREA studio UX | [`J5_SAREA_STUDIO_UX_DEPTH.md`](J5_SAREA_STUDIO_UX_DEPTH.md) |
+| J6 Deployment go/no-go | [`J6_DEPLOYMENT_GO_NO_GO_CENTER.md`](J6_DEPLOYMENT_GO_NO_GO_CENTER.md) |
+| J7 Operator console | [`J7_OPERATOR_DOCS_VALIDATION_CONSOLE.md`](J7_OPERATOR_DOCS_VALIDATION_CONSOLE.md) |
 
 ---
 
@@ -107,6 +112,8 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 
 ```bash
 npm run procrow:verify
+npm run procrow-operator:verify
+npm run procrow-go-no-go:verify
 npm run procrow-queue:verify
 npm run mock:verify
 npm run typecheck

@@ -29,7 +29,12 @@ export default async function AdminOperatorQueuePage() {
         <Link href={routes.admin.goNoGo} className="text-cyan-400 hover:text-cyan-300">
           deployment go/no-go center
         </Link>{" "}
-        for advisory validation baseline and F23 release gate copy — read-only; no queue mutation.
+        for advisory validation baseline and F23 release gate copy — read-only; no queue mutation. For runbooks and
+        verifier catalog, see the{" "}
+        <Link href={routes.admin.operatorConsole} className="text-cyan-400 hover:text-cyan-300">
+          operator console
+        </Link>
+        .
       </p>
 
       <ProCrowQueueSummaryStrip summary={snapshot.summary} />

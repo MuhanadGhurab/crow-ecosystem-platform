@@ -72,6 +72,11 @@ export function ProCrowGoNoGoCenter({ snapshot }: ProCrowGoNoGoCenterProps) {
         </ul>
         <p className="mt-4 text-xs text-slate-600">
           Queue context: <Link href={routes.admin.queue} className="text-cyan-400 hover:text-cyan-300">operator queue →</Link>
+          {" · "}
+          Docs & commands:{" "}
+          <Link href={routes.admin.operatorConsole} className="text-cyan-400 hover:text-cyan-300">
+            operator console →
+          </Link>
         </p>
       </section>
 
@@ -96,7 +101,12 @@ export function ProCrowGoNoGoCenter({ snapshot }: ProCrowGoNoGoCenterProps) {
           Validation command index
         </h2>
         <p className="text-xs text-slate-500">
-          Grouped for operators — run locally or in CI. Marked read-only vs DB-write vs deployment-sensitive.
+          Grouped for operators — run locally or in CI. Marked read-only vs DB-write vs deployment-sensitive. For
+          extended proves, doc links, and category tabs, see the{" "}
+          <Link href={routes.admin.operatorConsole} className="text-cyan-400 hover:text-cyan-300">
+            operator docs & validation console
+          </Link>
+          .
         </p>
         <div className="cc-glass-card !p-5">
           <ProCrowValidationCommandList commands={snapshot.validationCommands} />

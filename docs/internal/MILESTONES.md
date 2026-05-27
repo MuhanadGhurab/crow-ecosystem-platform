@@ -687,9 +687,36 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Route | `src/app/admin/go-no-go/page.tsx` |
 | Verifier | `scripts/verify-procrow-go-no-go.ts` |
 
-**Verification:** `procrow-go-no-go:verify` + `procrow:verify` (J1–J6) + standard project gate + client guardrails as needed.
+**Verification:** `procrow-go-no-go:verify` + `procrow:verify` (J1–J7) + standard project gate + client guardrails as needed.
 
-**Recommended next:** **J7 — Operator Docs & Validation Console** · **Alternative — J7 ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+**Recommended next:** **J8 — ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+
+---
+
+## J7 — Operator Docs & Validation Console (no paid infra)
+
+**Scope:** ProCrow **operator discipline** — read-only documentation index and npm validation command catalog (J6 index + J7 overlays). Manual terminal execution only; no script runner, no compliance certification.
+
+- Typed contract (`procrow-operator-console-contract.ts`) + `PROCROW_OPERATOR_DOC_INDEX`
+- `buildProCrowOperatorValidationCommands()` maps shared J6 `buildProCrowValidationCommandIndex()`
+- Read-only snapshot service (`procrow-operator-console.service.ts`)
+- UI components + `/admin/operator-console` (admin nav, overview + queue + go/no-go linkage)
+- `npm run procrow-operator:verify` · `procrow:verify` includes J7
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J7_OPERATOR_DOCS_VALIDATION_CONSOLE.md` |
+| Contract | `src/lib/procrow/procrow-operator-console-contract.ts` |
+| Service | `src/lib/services/procrow-operator-console.service.ts` |
+| UI | `src/components/procrow/procrow-operator-console*.tsx` · panels · overview link |
+| Route | `src/app/admin/operator-console/page.tsx` |
+| Verifier | `scripts/verify-procrow-operator-console.ts` |
+
+**Verification:** `procrow-operator:verify` + `procrow:verify` (J1–J7) + standard project gate + client guardrails as needed.
+
+**Recommended next:** **J8 — ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
 
 ---
 

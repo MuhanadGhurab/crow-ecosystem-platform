@@ -40,6 +40,8 @@ export const routes = {
     queue: "/admin/queue",
     /** J6 — deployment go/no-go readiness center (advisory, admin-protected). */
     goNoGo: "/admin/go-no-go",
+    /** J7 — operator docs & validation console (read-only metadata, admin-protected). */
+    operatorConsole: "/admin/operator-console",
     requests: "/admin/requests",
     request: (id: string) => `/admin/requests/${id}`,
     discovery: "/admin/discovery",
