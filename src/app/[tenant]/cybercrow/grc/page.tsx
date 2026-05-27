@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CybercrowControlReadinessPanel } from "@/components/tenant/cybercrow/cybercrow-control-readiness-panel";
 import { CybercrowEvidenceGapPanel } from "@/components/tenant/cybercrow/cybercrow-evidence-gap-panel";
-import { PageHeader } from "@/components/ui/page-header";
+import { CybercrowOperatorNextActions } from "@/components/tenant/cybercrow/cybercrow-operator-next-actions";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { routes } from "@/lib/routes";
 import {
@@ -36,17 +37,7 @@ export default async function CybercrowGrcPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        badge="CyberCrow"
-        entity="cybercrow"
-        title="GRC overview"
-        description="Governance readiness — control domains, evidence mapping, and advisory findings."
-      />
-
-      <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-xs text-slate-400">
-        Advisory GRC workspace — supports audit readiness and evidence gap review. Not a
-        certification attestation, legal guarantee, or automated NCA/ISO compliance engine.
-      </section>
+      <CybercrowPageHeader tenantSlug={slug} area="grc" title="GRC overview" />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-cc-sm border border-violet-500/20 bg-violet-500/5 p-4">
@@ -108,6 +99,30 @@ export default async function CybercrowGrcPage({
         Live counts: {summary.openFindings} open finding(s) · {summary.compliantCount} compliant of{" "}
         {summary.controlCount} controls. Review recommended before external assessor packs.
       </p>
+
+      <CybercrowOperatorNextActions
+        items={[
+          ...(gaps.length > 0
+            ? [
+                {
+                  action: "map_control" as const,
+                  href: r.evidence,
+                  detail: `${gaps.length} evidence mapping gap(s)`,
+                },
+              ]
+            : []),
+          {
+            action: "collect_evidence",
+            href: r.evidence,
+            detail: "Attach artifacts to control domains",
+          },
+          {
+            action: "review_risk",
+            href: r.risk,
+            detail: "Review posture contributors",
+          },
+        ]}
+      />
 
       <div className="flex flex-wrap gap-4 text-sm">
         <Link href={r.compliance} className="text-cyan-400 hover:text-cyan-300">

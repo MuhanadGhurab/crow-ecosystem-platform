@@ -613,6 +613,33 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## J4 — CyberCrow Evidence/GRC/Risk UX depth (no paid infra)
+
+**Scope:** Deepen tenant CyberCrow trust cockpit — evidence readiness, GRC advisory mapping, risk review, security events, audit logs — under **ProCrow Trust & Security**. UX and copy only; existing services/mock data; no SIEM, certified compliance, autonomous detection, or legal audit claims.
+
+- UX model (`cybercrow-ux-depth.ts`)
+- Shared CyberCrow components (header, scope note, summaries, operator next actions, cockpit strip)
+- Page updates on all six CyberCrow routes
+- ProCrow control tower deep links to evidence/GRC/risk/events/audit logs
+- `npm run cybercrow:verify` · `procrow:verify` includes J4
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J4_CYBERCROW_EVIDENCE_GRC_UX_DEPTH.md` |
+| UX model | `src/lib/constants/cybercrow-ux-depth.ts` |
+| Components | `src/components/tenant/cybercrow/cybercrow-*.tsx` (J4 shared set) |
+| Pages | `src/app/[tenant]/cybercrow/*/page.tsx` |
+| ProCrow linkage | `src/components/procrow/procrow-control-tower-dashboard.tsx` |
+| Verifier | `scripts/verify-cybercrow-ux-depth.ts` |
+
+**Verification:** `cybercrow:verify` + `procrow:verify` (J1–J4) + standard project gate.
+
+**Recommended next:** **J5 — SAREA Studio UX Depth** · **Alternative — J5 Deployment Go/No-Go Center** · **Pause** if no internal demo pressure.
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

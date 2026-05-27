@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CybercrowEvidenceGapPanel } from "@/components/tenant/cybercrow/cybercrow-evidence-gap-panel";
 import { CybercrowReportReadinessPanel } from "@/components/tenant/cybercrow/cybercrow-report-readiness-panel";
-import { PageHeader } from "@/components/ui/page-header";
+import { CybercrowOperatorNextActions } from "@/components/tenant/cybercrow/cybercrow-operator-next-actions";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { routes } from "@/lib/routes";
 import {
@@ -47,11 +48,11 @@ export default async function CybercrowEvidencePage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        badge="CyberCrow"
-        entity="cybercrow"
+      <CybercrowPageHeader
+        tenantSlug={slug}
+        area="evidence"
         title="Evidence repository"
-        description="Evidence readiness catalog — control mapping and advisory gaps. Operator-managed."
+        emphasizeLegal
       />
 
       <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-sm text-indigo-100/90">
@@ -161,6 +162,35 @@ export default async function CybercrowEvidencePage({
           </ul>
         </section>
       )}
+
+      <CybercrowOperatorNextActions
+        items={[
+          ...(gaps.length > 0
+            ? [
+                {
+                  action: "collect_evidence" as const,
+                  href: r.evidence,
+                  detail: `${gaps.length} advisory gap(s) in catalog`,
+                },
+              ]
+            : []),
+          {
+            action: "map_control",
+            href: r.grc,
+            detail: "Align controls to evidence domains",
+          },
+          {
+            action: "review_event",
+            href: r.securityEvents,
+            detail: "Correlate events with evidence trails",
+          },
+          {
+            action: "document_exception",
+            href: r.auditLogs,
+            detail: "Audit log trace for operator sign-off",
+          },
+        ]}
+      />
 
       <div className="flex flex-wrap gap-4 text-sm">
         <Link href={r.incidents} className="text-amber-400 hover:text-amber-300">

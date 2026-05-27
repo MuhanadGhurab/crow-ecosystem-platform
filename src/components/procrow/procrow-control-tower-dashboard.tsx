@@ -259,11 +259,23 @@ export function ProCrowControlTowerDashboard({ snapshot: s }: ProCrowControlTowe
             </span>
           </div>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            <Link href={routes.tenant(cyberSlug).cybercrow.dashboard} className="text-violet-300 hover:text-violet-200">
+              Trust cockpit →
+            </Link>
             <Link href={routes.tenant(cyberSlug).cybercrow.evidence} className="text-violet-300 hover:text-violet-200">
               Evidence →
             </Link>
+            <Link href={routes.tenant(cyberSlug).cybercrow.grc} className="text-violet-300 hover:text-violet-200">
+              GRC →
+            </Link>
             <Link href={routes.tenant(cyberSlug).cybercrow.risk} className="text-violet-300 hover:text-violet-200">
               Risk →
+            </Link>
+            <Link href={routes.tenant(cyberSlug).cybercrow.securityEvents} className="text-violet-300 hover:text-violet-200">
+              Security events →
+            </Link>
+            <Link href={routes.tenant(cyberSlug).cybercrow.auditLogs} className="text-violet-300 hover:text-violet-200">
+              Audit logs →
             </Link>
             <Link href={routes.tenant(cyberSlug).cybercrow.incidents} className="text-violet-300 hover:text-violet-200">
               Incidents →

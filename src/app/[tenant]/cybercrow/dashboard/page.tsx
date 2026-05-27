@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
-import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
+import { CybercrowEvidenceSummary } from "@/components/tenant/cybercrow/cybercrow-evidence-summary";
+import { CybercrowGrcSummary } from "@/components/tenant/cybercrow/cybercrow-grc-summary";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { CybercrowRecommendedActions } from "@/components/tenant/cybercrow/cybercrow-recommended-actions";
+import { CybercrowRiskSummary } from "@/components/tenant/cybercrow/cybercrow-risk-summary";
 import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
 import { CybercrowSocWorkflowStrip } from "@/components/tenant/cybercrow/cybercrow-soc-workflow-strip";
+import { CybercrowTrustCockpitStrip } from "@/components/tenant/cybercrow/cybercrow-trust-cockpit-strip";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
@@ -16,11 +20,17 @@ import {
   tenantHasLogisticsModule,
 } from "@/lib/services/cybercrow-logistics-audit.service";
 import { getCybercrowDashboardMetrics } from "@/lib/services/cybercrow-dashboard.service";
-import { getEvidenceGaps } from "@/lib/services/cybercrow-evidence-grc.service";
+import {
+  getEvidenceCatalog,
+  getEvidenceGaps,
+} from "@/lib/services/cybercrow-evidence-grc.service";
 import { getSocWorkflowSummary } from "@/lib/services/cybercrow-soc-workflow.service";
 import { getCybercrowIdentityTelemetrySummary } from "@/lib/services/cybercrow-identity-telemetry.service";
 import { canManageCybercrowIncidents } from "@/lib/auth/cybercrow-access";
-import { listTenantAuditLogs } from "@/lib/services/cybercrow-tenant.service";
+import {
+  getCybercrowGrcSummary,
+  listTenantAuditLogs,
+} from "@/lib/services/cybercrow-tenant.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
@@ -44,7 +54,7 @@ export default async function CybercrowDashboardPage({
     notFound();
   }
 
-  const [summary, metrics, identityTelemetry, canManageIncidents, soc, evidenceGaps] =
+  const [summary, metrics, identityTelemetry, canManageIncidents, soc, evidenceGaps, catalog, grcSummary] =
     await Promise.all([
       safeWorkspaceSummary(tenant.id),
       getCybercrowDashboardMetrics(tenant.id),
@@ -52,7 +62,10 @@ export default async function CybercrowDashboardPage({
       canManageCybercrowIncidents(slug),
       getSocWorkflowSummary(tenant.id),
       getEvidenceGaps(tenant.id, slug),
+      getEvidenceCatalog(tenant.id),
+      getCybercrowGrcSummary(tenant.id),
     ]);
+  const evidenceReadyCount = catalog.filter((c) => c.status === "available").length;
   const moduleKeys = (tenant.modules ?? []).map((m) => m.moduleKey);
   const logisticsOpsEnabled = tenantHasLogisticsModule(moduleKeys);
   const logisticsAuditCount = logisticsOpsEnabled
@@ -96,17 +109,19 @@ export default async function CybercrowDashboardPage({
         </section>
       )}
 
-      <PageHeader
-        badge="CyberCrow · ProCrow capability"
-        entity="cybercrow"
+      <CybercrowPageHeader
+        tenantSlug={slug}
+        area="dashboard"
         title="Security operations center"
-        description="Advisory trust posture, evidence readiness, and operator review — human-governed signals, not automated certification claims."
+        showScopeNote={false}
+        showProcrowLink
       />
 
       <ProCrowCapabilityFraming capability="cybercrow" />
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="cybercrow" />
       <CybercrowSocPhilosophyBanner compact showSareaNote />
+      <CybercrowTrustCockpitStrip tenantSlug={slug} />
       <CybercrowSocWorkflowStrip
         steps={[
           { label: "Security events", href: r.securityEvents, count: soc.pendingReviewEvents },
@@ -213,6 +228,28 @@ export default async function CybercrowDashboardPage({
           accent="teal"
         />
       </section>
+
+      <div className="grid gap-4 lg:grid-cols-1">
+        <CybercrowEvidenceSummary
+          tenantSlug={slug}
+          total={catalog.length}
+          readyCount={evidenceReadyCount}
+          gapCount={evidenceGaps.length}
+        />
+        <CybercrowGrcSummary
+          tenantSlug={slug}
+          controlCount={grcSummary.controlCount}
+          mappedCount={grcSummary.evidenceCount}
+          gapCount={evidenceGaps.length}
+        />
+        <CybercrowRiskSummary
+          tenantSlug={slug}
+          postureScore={metrics.riskScore}
+          openIncidents={soc.openIncidents + soc.reopenedIncidents}
+          openEvents={soc.pendingReviewEvents}
+          highSeveritySignals={metrics.highSeverityEventCount}
+        />
+      </div>
 
       {logisticsOpsEnabled && logisticsAuditCount > 0 && (
         <section className="cc-glass-card border-teal-500/15">

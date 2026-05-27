@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { CybercrowOperatorNextActions } from "@/components/tenant/cybercrow/cybercrow-operator-next-actions";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
 import { CybercrowEventEvidenceHints } from "@/components/tenant/cybercrow/cybercrow-event-evidence-hints";
@@ -64,15 +65,16 @@ export default async function CybercrowSecurityEventsPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        badge="CyberCrow"
-        entity="cybercrow"
+      <CybercrowPageHeader
+        tenantSlug={slug}
+        area="security_events"
         title="Security events"
         description={
           logisticsOnly
             ? "Logistics-linked observed activity (route anomaly, dispatch SLA breach)."
             : "Observed security activity with review, dismiss (informational), and escalation to incidents."
         }
+        showScopeNote={false}
       />
 
       <CybercrowSocPhilosophyBanner compact showSareaNote />
@@ -209,6 +211,26 @@ export default async function CybercrowSecurityEventsPage({
           })}
         </ul>
       )}
+
+      <CybercrowOperatorNextActions
+        items={[
+          {
+            action: "review_event",
+            href: r.securityEvents,
+            detail: rows.length > 0 ? `${rows.length} event(s) in view` : "Awaiting observed activity",
+          },
+          {
+            action: "collect_evidence",
+            href: r.evidence,
+            detail: "Link reviewed events to evidence catalog",
+          },
+          {
+            action: "review_risk",
+            href: r.risk,
+            detail: "Posture impact from open events",
+          },
+        ]}
+      />
 
       <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
         ← CyberCrow dashboard

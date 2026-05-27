@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CybercrowAuditLogList } from "@/components/tenant/cybercrow/cybercrow-audit-log-list";
-import { PageHeader } from "@/components/ui/page-header";
+import { CybercrowOperatorNextActions } from "@/components/tenant/cybercrow/cybercrow-operator-next-actions";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { LogisticsAuditFilter } from "@/lib/constants/cybercrow-audit-events";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
@@ -45,16 +46,7 @@ export default async function CybercrowAuditLogsPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        badge="CyberCrow"
-        entity="cybercrow"
-        title="Audit logs"
-        description={
-          showLogisticsFilter
-            ? "Platform, policy, and logistics workflow events (OCR, dispatch, route anomaly)."
-            : "Platform and policy events for this tenant."
-        }
-      />
+      <CybercrowPageHeader tenantSlug={slug} area="audit_logs" title="Audit logs" showScopeNote={false} />
 
       {filterTabs.length > 1 && (
         <nav className="flex flex-wrap gap-2" aria-label="Audit log filters">
@@ -92,6 +84,26 @@ export default async function CybercrowAuditLogsPage({
           Logistics events link to workflows and shipment reference codes from the ERP chain.
         </p>
       )}
+
+      <CybercrowOperatorNextActions
+        items={[
+          {
+            action: "document_exception",
+            href: r.auditLogs,
+            detail: logs.length > 0 ? `${logs.length} entries in view` : "Trace platform actions",
+          },
+          {
+            action: "collect_evidence",
+            href: r.evidence,
+            detail: "Correlate audit rows with evidence catalog",
+          },
+          {
+            action: "review_event",
+            href: r.securityEvents,
+            detail: "Pair with security event review",
+          },
+        ]}
+      />
 
       <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
         ← CyberCrow dashboard

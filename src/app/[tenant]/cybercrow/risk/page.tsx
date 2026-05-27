@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { CybercrowOperatorNextActions } from "@/components/tenant/cybercrow/cybercrow-operator-next-actions";
+import { CybercrowPageHeader } from "@/components/tenant/cybercrow/cybercrow-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
@@ -26,12 +27,7 @@ export default async function CybercrowRiskPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        badge="CyberCrow"
-        entity="cybercrow"
-        title="Risk posture"
-        description="Rule-based advisory score from incidents, events, controls, and evidence — transparent, not AI-generated."
-      />
+      <CybercrowPageHeader tenantSlug={slug} area="risk" title="Risk posture" />
 
       <section className="cc-glass-card">
         <h3 className="text-sm font-medium text-violet-300">
@@ -144,6 +140,34 @@ export default async function CybercrowRiskPage({
           </div>
         </div>
       )}
+
+      <CybercrowOperatorNextActions
+        items={[
+          ...(grcSignals.pendingReviewEvents > 0
+            ? [
+                {
+                  action: "review_event" as const,
+                  href: r.securityEvents,
+                  detail: `${grcSignals.pendingReviewEvents} event(s) pending review`,
+                },
+              ]
+            : []),
+          ...(grcSignals.gapCount > 0
+            ? [
+                {
+                  action: "collect_evidence" as const,
+                  href: r.evidence,
+                  detail: `${grcSignals.gapCount} evidence gap(s)`,
+                },
+              ]
+            : []),
+          {
+            action: "map_control",
+            href: r.grc,
+            detail: "GRC control mapping",
+          },
+        ]}
+      />
 
       <Link href={r.dashboard} className="text-sm text-cyan-400 hover:text-cyan-300">
         ← CyberCrow dashboard
