@@ -96,6 +96,7 @@
     "runtime:verify": "npx tsx scripts/verify-runtime-cohesion.ts",
     "client-portal:verify": "npx tsx scripts/verify-client-portal-skeleton.ts",
     "client-profile:verify": "npx tsx scripts/verify-client-profile-company-mvp.ts",
+    "client-review:verify": "npx tsx scripts/verify-client-proposal-review.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

@@ -2,14 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
+import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
+import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
-import { prisma } from "@/lib/db";
-import { isUseMockData } from "@/lib/mock/env";
-import { getMockProposalByToken, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
-import { routes } from "@/lib/routes";
-import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
-import type { ProposalStatus } from "@prisma/client";
 import { proposalStatusLabel } from "@/lib/services/commercial.service";
+import { getClientProposalReviewModel } from "@/lib/services/client-review.service";
+import { routes } from "@/lib/routes";
 
 export default async function ClientProposalDetailPage({
   params,
@@ -19,82 +17,90 @@ export default async function ClientProposalDetailPage({
   const { proposalId } = await params;
   const user = await requireClientAccess(routes.client.proposal(proposalId));
 
-  if (isUseMockData() && proposalId === "mock-bp-001") {
-    const mock = getMockProposalByToken(MOCK_PROPOSAL_TOKEN);
-    if (!mock) notFound();
-    return (
-      <ProposalDetail
-        title={`Commercial proposal — ${mock.blueprint.request.organizationName}`}
-        status={mock.blueprint.proposalStatus}
-        referenceCode={mock.blueprint.request.referenceCode}
-        requestId="mock-req-001"
-        procrowNote="ProCrow prepared this proposal. Approval is not enabled in this phase."
-      />
-    );
+  const { access, model } = await getClientProposalReviewModel(user, proposalId);
+
+  if (access === "not_found" || !model) {
+    if (access === "not_linked" || access === "ownership_unverified") notFound();
+    if (access === "login_required") notFound();
+    notFound();
   }
 
-  if (!user.email) notFound();
-
-  const blueprint = await prisma.enterpriseBlueprint
-    .findUnique({
-      where: { id: proposalId },
-      include: { request: { select: { id: true, referenceCode: true, organizationName: true } } },
-    })
-    .catch(() => null);
-
-  if (!blueprint) notFound();
-
-  const allowed = await clientCanAccessRequest(user.id, user.email, blueprint.requestId).catch(
-    () => false
-  );
-  if (!allowed) notFound();
-
-  return (
-    <ProposalDetail
-      title={`Commercial proposal — ${blueprint.request.organizationName}`}
-      status={blueprint.proposalStatus}
-      referenceCode={blueprint.request.referenceCode}
-      requestId={blueprint.requestId}
-      procrowNote="ProCrow manages proposal status and internal review. Client approval requires verified ownership (future phase)."
-    />
-  );
-}
-
-function ProposalDetail({
-  title,
-  status,
-  referenceCode,
-  requestId,
-  procrowNote,
-}: {
-  title: string;
-  status: ProposalStatus;
-  referenceCode: string;
-  requestId: string;
-  procrowNote: string;
-}) {
   return (
     <div className="space-y-8">
       <div>
         <Link href={routes.client.proposals} className="text-sm text-teal-400 hover:text-teal-300">
           ← All proposals
         </Link>
-        <h1 className="cc-page-title mt-4">{title}</h1>
-        <p className="mt-1 font-mono text-sm text-slate-500">{referenceCode}</p>
-        <p className="mt-2 text-sm text-cyan-300">{proposalStatusLabel(status)}</p>
+        <h1 className="cc-page-title mt-4">{model.title}</h1>
+        <p className="mt-1 font-mono text-sm text-slate-500">{model.referenceCode}</p>
+        <p className="mt-2 text-sm text-cyan-300">{proposalStatusLabel(model.status)}</p>
+        {access === "platform_staff_preview" && (
+          <p className="cc-alert-warning mt-3 text-sm">Staff preview — client linkage rules apply.</p>
+        )}
       </div>
 
-      <ClientPortalStatusCard title="ProCrow status" badge="Read-only" badgeTone="info">
-        <p className="text-sm text-slate-400">{procrowNote}</p>
-        <Link
-          href={routes.client.request(requestId)}
-          className="cc-btn-secondary mt-4 inline-flex text-sm"
-        >
-          View request
-        </Link>
+      <ClientPortalStatusCard title="Scope summary" badge="Read-only" badgeTone="info">
+        <p className="text-sm text-slate-400">{model.summary}</p>
+        <p className="mt-3 text-sm text-slate-300">
+          <span className="text-slate-500">Plan: </span>
+          {model.planLabel}
+        </p>
+        {model.estimatedRange && (
+          <p className="mt-2 text-sm text-teal-300/90">
+            <span className="text-slate-500">Advisory estimate: </span>
+            {model.estimatedRange}
+          </p>
+        )}
       </ClientPortalStatusCard>
 
+      {model.modules.length > 0 && (
+        <ClientPortalStatusCard title="Recommended modules" badge={`${model.modules.length}`} badgeTone="info">
+          <ul className="mt-3 list-inside list-disc text-sm text-slate-300">
+            {model.modules.map((m) => (
+              <li key={m.key}>{m.label}</li>
+            ))}
+          </ul>
+        </ClientPortalStatusCard>
+      )}
+
+      {model.securityLayer.length > 0 && (
+        <ClientPortalStatusCard title="Security layer" badge="Add-ons" badgeTone="info">
+          <ul className="mt-3 list-inside list-disc text-sm text-slate-300">
+            {model.securityLayer.map((s) => (
+              <li key={s.key}>{s.label}</li>
+            ))}
+          </ul>
+        </ClientPortalStatusCard>
+      )}
+
+      <ClientPortalStatusCard title="ProCrow review status" badge="ProCrow" badgeTone="info">
+        <p className="text-sm text-slate-400">{model.procrowStatus}</p>
+        <p className="mt-2 text-sm text-slate-500">{model.procrowNote}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href={routes.client.request(model.requestId)} className="cc-btn-secondary text-sm">
+            View request
+          </Link>
+          <Link href={routes.client.blueprint(model.blueprintId)} className="cc-btn-secondary text-sm">
+            View blueprint
+          </Link>
+        </div>
+      </ClientPortalStatusCard>
+
+      <ClientReviewProcrowCounterpart counterpart={model.procrowCounterpart} />
+
       <ClientPortalApprovalBlocked context="proposal" />
+
+      {model.nextActions.length > 0 && (
+        <ClientPortalStatusCard title="Next steps" badge="Client" badgeTone="neutral">
+          <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-slate-400">
+            {model.nextActions.map((a) => (
+              <li key={a}>{a}</li>
+            ))}
+          </ul>
+        </ClientPortalStatusCard>
+      )}
+
+      <ClientReviewSecurityNotes notes={model.securityNotes} />
     </div>
   );
 }

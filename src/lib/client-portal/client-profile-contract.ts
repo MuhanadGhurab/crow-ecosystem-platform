@@ -88,7 +88,7 @@ export const CLIENT_PROFILE_EDIT_BLOCKED_DEV =
   "Profile editing is disabled in local auth bypass mode.";
 
 export const CLIENT_COMPANY_EDIT_BLOCKED_REASON =
-  "Company details are managed through your implementation request and ProCrow discovery. Client-side company editing requires a future data contract (I5+).";
+  "Company details are managed through your implementation request and ProCrow discovery. Client-side company editing requires a future data contract (I6+).";
 
 export const CLIENT_PROFILE_METADATA_KEYS = [
   "full_name",

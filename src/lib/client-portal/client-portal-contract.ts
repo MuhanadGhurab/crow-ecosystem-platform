@@ -108,7 +108,7 @@ export type ClientPortalSecurityNote = {
 
 /** Shown when approval is not yet safe — I3 does not enable mutations. */
 export const CLIENT_PORTAL_APPROVAL_BLOCKED_REASON =
-  "Scope approval will be enabled after verified client ownership is connected.";
+  "Scope approval will be enabled after verified client ownership and approval audit are implemented.";
 
 export const CLIENT_PORTAL_TOKEN_LINK_NOTICE =
   "This link helps you locate your proposal. Official review or approval requires signing in to the Client Portal.";
