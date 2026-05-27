@@ -22,6 +22,7 @@
 | **G10** | Cross-module intelligence & runtime cohesion (no paid infra) | Cohesion model, runtime service, panels, `runtime:verify` | Muhanad | **100%** | **Passed** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | **H1** | Product polish & demo rehearsal (no paid infra) | Journey audit, UI rhythm, playbook, G-index order, validation | Muhanad | **100%** | **Passed** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
 | **I1** | Crow portal architecture & ProCrow responsibility model (no paid infra) | Four-portal model, ProCrow control-tower definition, client portal requirements, RACI, maturity model | Muhanad | **100%** | **Passed** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
+| **I2** | Client / Proposal Portal requirements & auth-flow design (no paid infra) | Auth boundaries, client user types, route model, approval flow security/trust gap analysis, future schema gap documentation | Muhanad | **100%** | **Passed** — [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -306,6 +307,22 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Milestone alignment | [`MILESTONES.md`](MILESTONES.md) |
 
 **Recommended next:** **I2 — Client / Proposal Portal requirements & auth-flow design**, or **I2 — ProCrow portal UX unification**.
+
+---
+
+## I2 — Client / Proposal Portal requirements & auth-flow design (no paid infra)
+
+**Scope:** Define Client / Proposal Portal requirements and authentication / authorization boundaries (public intake vs authenticated client surfaces), define client user types and target route model, document proposal/blueprint approval flow + current token-based trust gap, document ProCrow/Admin counterparts, and document future schema/data gaps — without code implementation, migrations, payments, or production scope changes.
+
+**Status:** **In progress (design draft)**  
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) |
+| Status alignment | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
+| Milestone alignment | [`MILESTONES.md`](MILESTONES.md) |
+
+**Recommended next:** **I3 — Client Portal Data Contract & Route Skeleton** (authenticated proposal/blueprint review + ownership enforcement).
 
 ---
 
