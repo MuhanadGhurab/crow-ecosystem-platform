@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { CrowMark } from "@/components/public/brand/crow-mark";
 
-import { ProposalClientActions } from "@/components/blueprint/commercial/proposal-client-actions";
+import { ProposalTokenApprovalNotice } from "@/components/blueprint/commercial/proposal-token-approval-notice";
 
 import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
 
@@ -198,7 +198,7 @@ export default async function ProposalPage({
 
 
 
-        {canAct && <ProposalClientActions token={token} />}
+        {canAct && <ProposalTokenApprovalNotice />}
 
       </div>
 

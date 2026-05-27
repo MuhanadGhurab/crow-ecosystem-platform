@@ -142,8 +142,8 @@ export async function requireTenantAccess(slug: string): Promise<User> {
 }
 
 /** Client portal — client role, staff preview, or email-matched requests. */
-export async function requireClientAccess(): Promise<User> {
-  const user = await requireAuth("/portal/requests");
+export async function requireClientAccess(nextPath = "/portal/requests"): Promise<User> {
+  const user = await requireAuth(nextPath);
   if (isAuthDisabled()) {
     return user;
   }

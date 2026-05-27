@@ -7,6 +7,7 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "blueprints",
   "sarea",
   "portal",
+  "client",
   "modules",
   "loyalty-programs",
   "security",
@@ -47,10 +48,11 @@ const PUBLIC_PREFIXES = [
 
 const PLATFORM_PREFIXES = ["/admin", "/discovery", "/blueprints", "/sarea"] as const;
 
-const PORTAL_PREFIXES = ["/portal"] as const;
+/** Authenticated client surfaces — legacy /portal and I3 /client skeleton. */
+const CLIENT_AREA_PREFIXES = ["/portal", "/client"] as const;
 
 export function isPortalPath(pathname: string): boolean {
-  return PORTAL_PREFIXES.some(
+  return CLIENT_AREA_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
   );
 }

@@ -23,6 +23,7 @@
 | **H1** | Product polish & demo rehearsal (no paid infra) | Journey audit, UI rhythm, playbook, G-index order, validation | Muhanad | **100%** | **Passed** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
 | **I1** | Crow portal architecture & ProCrow responsibility model (no paid infra) | Four-portal model, ProCrow control-tower definition, client portal requirements, RACI, maturity model | Muhanad | **100%** | **Passed** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
 | **I2** | Client / Proposal Portal requirements & auth-flow design (no paid infra) | Auth boundaries, client user types, route model, approval flow security/trust gap analysis, future schema gap documentation | Muhanad | **100%** | **Passed** — [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) |
+| **I3** | Client Portal data contract & route skeleton (no paid infra) | Typed contract, read-only service, `/client/*` routes, shell UI, token safety copy, `client-portal:verify` | Muhanad | **100%** | **Passed** — [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -314,7 +315,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Scope:** Define Client / Proposal Portal requirements and authentication / authorization boundaries (public intake vs authenticated client surfaces), define client user types and target route model, document proposal/blueprint approval flow + current token-based trust gap, document ProCrow/Admin counterparts, and document future schema/data gaps — without code implementation, migrations, payments, or production scope changes.
 
-**Status:** **In progress (design draft)**  
+**Status:** **Passed** (27 May 2026)
 
 | Deliverable | Location |
 |-------------|----------|
@@ -322,7 +323,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Status alignment | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
 | Milestone alignment | [`MILESTONES.md`](MILESTONES.md) |
 
-**Recommended next:** **I3 — Client Portal Data Contract & Route Skeleton** (authenticated proposal/blueprint review + ownership enforcement).
+**Recommended next:** **I3 — Client Portal Data Contract & Route Skeleton** (see below).
+
+---
+
+## I3 — Client Portal data contract & route skeleton (no paid infra)
+
+**Scope:** Typed client portal contract, read-only dashboard service, authenticated `/client/*` route skeleton with client shell, proposal/blueprint read-only views with approval blocked, public `/proposal/[token]` token safety copy, ProCrow counterpart documentation, and `client-portal:verify` — without migrations, payments, production launch, or unsafe token-only approval.
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) |
+| Data contract | `src/lib/client-portal/client-portal-contract.ts` |
+| Service | `src/lib/services/client-portal.service.ts` |
+| Routes | `src/app/client/**` |
+| Verification | `npm run client-portal:verify` |
+
+**Recommended next:** **I4 — Client Profile + Company Profile MVP**.
 
 ---
 

@@ -28,6 +28,7 @@ function isClientPortalNext(path: string): boolean {
   return (
     path === DEFAULT_CLIENT_PORTAL ||
     path.startsWith("/portal") ||
+    path.startsWith("/client") ||
     path === "/request"
   );
 }

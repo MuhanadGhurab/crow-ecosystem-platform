@@ -11,6 +11,20 @@ export const routes = {
     requests: "/portal/requests",
     request: (id: string) => `/portal/requests/${id}`,
   },
+  /** I3 — authenticated Client Portal skeleton (parallel to legacy /portal). */
+  client: {
+    home: "/client",
+    profile: "/client/profile",
+    company: "/client/company",
+    requests: "/client/requests",
+    request: (id: string) => `/client/requests/${id}`,
+    proposals: "/client/proposals",
+    proposal: (id: string) => `/client/proposals/${id}`,
+    blueprint: (id: string) => `/client/blueprints/${id}`,
+    blueprintByRequest: (requestId: string) => `/client/blueprints?request=${requestId}`,
+    onboarding: "/client/onboarding",
+    settings: "/client/settings",
+  },
   public: {
     home: "/",
     modules: "/modules",
