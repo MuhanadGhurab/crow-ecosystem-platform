@@ -1,69 +1,73 @@
 import Link from "next/link";
-import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
-import { requireClientAccess } from "@/lib/auth/session";
-import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
+import { redirect } from "next/navigation";
+
+import { PageHeader } from "@/components/ui/page-header";
+import { ClientOnboardingTrackerPanel } from "@/components/client-portal/client-onboarding-tracker-panel";
+import { CLIENT_ONBOARDING_PRODUCTION_GATED_NOTE } from "@/lib/client-portal/client-onboarding-contract";
 import { routes } from "@/lib/routes";
+import { buildClientOnboardingOverview } from "@/lib/services/client-onboarding.service";
+import { createClient } from "@/lib/supabase/server";
+import { isAuthDisabled } from "@/lib/supabase/env";
 
 export default async function ClientOnboardingPage() {
-  const user = await requireClientAccess(routes.client.onboarding);
-  const snapshot = await buildClientPortalDashboardSnapshot(user);
-  const steps = snapshot.onboardingSteps;
+  if (isAuthDisabled()) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-12">
+        <PageHeader
+          title="Onboarding"
+          description="Sign-in is required to view your onboarding tracker."
+        />
+        <p className="mt-6 text-sm text-slate-500">
+          Enable Supabase auth or use demo mode from the login page.
+        </p>
+        <Link href={routes.auth.login} className="mt-4 inline-block text-sm text-teal-400">
+          Sign in →
+        </Link>
+      </div>
+    );
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect(routes.auth.login);
+
+  const { trackers, primary } = await buildClientOnboardingOverview(user);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="cc-page-title">Onboarding</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Track progress from request through discovery, blueprint, proposal, and go-live. ProCrow
-          controls provisioning readiness.
-        </p>
-      </div>
+    <div className="mx-auto max-w-4xl px-4 py-10">
+      <PageHeader
+        title="Onboarding"
+        description="Operational readiness after scope approval — ProCrow controls provisioning and production go-live."
+      />
 
-      {steps.length === 0 ? (
-        <ClientPortalStatusCard
-          title="Onboarding not started"
-          description="Link a request to your account to see onboarding steps."
-        >
-          <Link href={routes.public.request} className="cc-btn-primary mt-4 inline-flex text-sm">
-            Submit a request
+      <p className="mt-4 rounded-lg border border-slate-800/80 bg-slate-950/50 px-4 py-3 text-sm text-slate-500">
+        {CLIENT_ONBOARDING_PRODUCTION_GATED_NOTE}
+      </p>
+
+      {trackers.length === 0 ? (
+        <section className="cc-glass-card mt-8">
+          <p className="text-sm text-slate-400">
+            No linked implementation requests yet. Submit a request or sign in with your primary
+            contact email to see onboarding steps here.
+          </p>
+          <Link href={routes.public.request} className="mt-4 inline-block text-sm text-teal-400">
+            Start a request →
           </Link>
-        </ClientPortalStatusCard>
-      ) : (
-        <ol className="space-y-4">
-          {steps.map((step, index) => (
-            <li key={step.key}>
-              <ClientPortalStatusCard
-                title={`${index + 1}. ${step.label}`}
-                badge={step.status.replace("_", " ")}
-                badgeTone={
-                  step.status === "complete"
-                    ? "success"
-                    : step.status === "in_progress"
-                      ? "info"
-                      : step.status === "blocked"
-                        ? "warning"
-                        : "neutral"
-                }
-                description={step.description}
-              >
-                <p className="text-xs text-slate-500 capitalize">Owner: {step.owner}</p>
-                {step.relatedRoute && (
-                  <Link href={step.relatedRoute} className="mt-3 inline-block text-sm text-teal-400">
-                    Open related page →
-                  </Link>
-                )}
-              </ClientPortalStatusCard>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      <ClientPortalStatusCard title="ProCrow provisioning" badge="Control tower" badgeTone="info">
-        <p className="text-sm text-slate-400">
-          Tenant provisioning, security initialization, and SAREA setup are managed in ProCrow.
-          You will see go-live readiness here when linked — not in this skeleton phase.
-        </p>
-      </ClientPortalStatusCard>
+        </section>
+      ) : primary ? (
+        <div className="mt-8">
+          {trackers.length > 1 && (
+            <p className="mb-6 text-sm text-slate-500">
+              You have {trackers.length} linked requests. Showing onboarding for{" "}
+              <span className="text-slate-300">{primary.referenceCode}</span>. Open a specific
+              request for its onboarding summary.
+            </p>
+          )}
+          <ClientOnboardingTrackerPanel tracker={primary} showRequestPicker />
+        </div>
+      ) : null}
     </div>
   );
 }

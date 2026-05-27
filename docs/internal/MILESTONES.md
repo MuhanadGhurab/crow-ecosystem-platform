@@ -398,7 +398,27 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | UI | `src/components/client-portal/client-proposal-approval-panel.tsx` |
 | Verification | `npm run client-approval:verify` |
 
-**Recommended next:** **I7 — Onboarding Tracker MVP**.
+**Recommended next:** **I7 — Onboarding Tracker MVP** (completed; see below).
+
+---
+
+## I7 — Onboarding tracker MVP (no paid infra)
+
+**Scope:** Derived onboarding visibility from request/proposal/blueprint/approval/tenant data — contract, service, `/client/onboarding`, dashboard + detail integrations, admin readiness panel, 12-step model, trust copy, and `client-onboarding:verify` — without auto tenant provisioning, payments, migrations, or production launch.
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md) |
+| Contract | `src/lib/client-portal/client-onboarding-contract.ts` |
+| Steps model | `src/lib/client-portal/client-onboarding-steps.ts` |
+| Service | `src/lib/services/client-onboarding.service.ts` |
+| Routes / UI | `src/app/client/onboarding/page.tsx` · tracker/dashboard/summary components |
+| Admin | `src/components/admin/admin-onboarding-readiness-panel.tsx` |
+| Verification | `npm run client-onboarding:verify` |
+
+**Recommended next:** **I8 — Client Portal Polish & Demo Rehearsal**.
 
 ---
 

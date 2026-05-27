@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientProposalApprovalPanel } from "@/components/client-portal/client-proposal-approval-panel";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { getClientApprovalEligibility } from "@/lib/services/client-approval.service";
+import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -23,6 +25,11 @@ export default async function ClientProposalDetailPage({
     getClientApprovalEligibility(user, proposalId),
   ]);
 
+  const onboardingTracker =
+    model && access !== "not_found"
+      ? await buildClientOnboardingTracker(user, model.requestId)
+      : null;
+
   if (access === "not_found" || !model) {
     if (access === "not_linked" || access === "ownership_unverified") notFound();
     if (access === "login_required") notFound();
@@ -42,6 +49,8 @@ export default async function ClientProposalDetailPage({
           <p className="cc-alert-warning mt-3 text-sm">Staff preview — client linkage rules apply.</p>
         )}
       </div>
+
+      <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 
       <ClientPortalStatusCard title="Scope summary" badge="Read-only" badgeTone="info">
         <p className="text-sm text-slate-400">{model.summary}</p>

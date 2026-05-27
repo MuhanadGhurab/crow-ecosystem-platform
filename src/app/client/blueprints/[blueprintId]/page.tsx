@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
 import { proposalStatusLabel } from "@/lib/services/commercial.service";
+import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
 import { getClientBlueprintReviewModel } from "@/lib/services/client-review.service";
 import { routes } from "@/lib/routes";
 
@@ -17,6 +19,11 @@ export default async function ClientBlueprintDetailPage({
   const user = await requireClientAccess(routes.client.blueprint(blueprintId));
 
   const { access, model } = await getClientBlueprintReviewModel(user, blueprintId);
+
+  const onboardingTracker =
+    model && access !== "not_found"
+      ? await buildClientOnboardingTracker(user, model.requestId)
+      : null;
 
   if (access === "not_found" || !model) {
     if (access === "not_linked" || access === "ownership_unverified") notFound();
@@ -36,6 +43,8 @@ export default async function ClientBlueprintDetailPage({
           <p className="cc-alert-warning mt-3 text-sm">Staff preview — client linkage rules apply.</p>
         )}
       </div>
+
+      <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 
       <ClientPortalStatusCard title="Operating model" badge="Summary" badgeTone="info">
         <p className="text-sm text-slate-300">{model.operatingModel}</p>

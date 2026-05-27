@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
+import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -9,7 +10,7 @@ import { isUseMockData } from "@/lib/mock/env";
 import { getMockClientRequest, isMockClientRequestId } from "@/lib/mock/portal";
 import { routes } from "@/lib/routes";
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
-import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
+import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
 import { buildClientProfileDashboardHints } from "@/lib/services/client-profile.service";
 import { buildClientRequestReviewLinks } from "@/lib/services/client-review.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
@@ -73,9 +74,10 @@ async function RequestDetail({
   reviewLinks: Awaited<ReturnType<typeof buildClientRequestReviewLinks>>["links"];
 }) {
   const user = await requireClientAccess(routes.client.request(requestId));
-  const snapshot = await buildClientPortalDashboardSnapshot(user);
-  const profileHints = await buildClientProfileDashboardHints(user);
-  const steps = snapshot.onboardingSteps.filter((s) => s.relatedRoute?.includes(requestId));
+  const [profileHints, onboardingTracker] = await Promise.all([
+    buildClientProfileDashboardHints(user),
+    buildClientOnboardingTracker(user, requestId),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -91,6 +93,8 @@ async function RequestDetail({
       </div>
 
       <LifecycleStrip status={status} />
+
+      <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 
       <ClientPortalStatusCard title="Review materials" badge="I6" badgeTone="info">
         <p className="text-sm text-slate-400">
@@ -140,22 +144,6 @@ async function RequestDetail({
           </Link>
         </div>
       </ClientPortalStatusCard>
-
-      {steps.length > 0 && (
-        <ClientPortalStatusCard title="Onboarding progress" badge="Tracker" badgeTone="info">
-          <ol className="mt-4 space-y-3">
-            {steps.map((step) => (
-              <li key={step.key} className="flex gap-3 text-sm">
-                <span className="text-teal-400 capitalize">{step.status.replace("_", " ")}</span>
-                <div>
-                  <p className="text-white">{step.label}</p>
-                  <p className="text-slate-500">{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </ClientPortalStatusCard>
-      )}
 
       <ClientPortalApprovalBlocked context="proposal" />
     </div>

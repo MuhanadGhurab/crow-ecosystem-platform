@@ -98,6 +98,7 @@
     "client-profile:verify": "npx tsx scripts/verify-client-profile-company-mvp.ts",
     "client-review:verify": "npx tsx scripts/verify-client-proposal-review.ts",
     "client-approval:verify": "npx tsx scripts/verify-client-approval-flow.ts",
+    "client-onboarding:verify": "npx tsx scripts/verify-client-onboarding-tracker.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

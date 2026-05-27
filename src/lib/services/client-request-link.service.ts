@@ -114,7 +114,15 @@ export async function listClientRequests(userId: string, email: string) {
       requestedSecurityPkgs: true,
       discoveryProfile: { include: { answers: true } },
       enterpriseBlueprint: {
-        select: { id: true, proposalToken: true, proposalStatus: true, status: true, proposalSentAt: true },
+        select: {
+          id: true,
+          proposalToken: true,
+          proposalStatus: true,
+          status: true,
+          proposalSentAt: true,
+          clientApprovedAt: true,
+          tenant: { select: { id: true, slug: true, isActive: true } },
+        },
       },
     },
   });

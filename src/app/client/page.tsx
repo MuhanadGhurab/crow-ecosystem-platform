@@ -1,18 +1,23 @@
 import Link from "next/link";
+import { ClientOnboardingDashboardTile } from "@/components/client-portal/client-onboarding-dashboard-tile";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalNextActions } from "@/components/client-portal/client-portal-next-actions";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { CLIENT_PORTAL_APPROVAL_BLOCKED_REASON } from "@/lib/client-portal/client-portal-contract";
 import { requireClientAccess } from "@/lib/auth/session";
+import { buildClientOnboardingDashboardTile } from "@/lib/services/client-onboarding.service";
 import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
 import { buildClientProfileDashboardHints } from "@/lib/services/client-profile.service";
 import { routes } from "@/lib/routes";
 
 export default async function ClientPortalHomePage() {
   const user = await requireClientAccess(routes.client.home);
-  const snapshot = await buildClientPortalDashboardSnapshot(user);
-  const profileHints = await buildClientProfileDashboardHints(user);
+  const [snapshot, profileHints, onboardingTile] = await Promise.all([
+    buildClientPortalDashboardSnapshot(user),
+    buildClientProfileDashboardHints(user),
+    buildClientOnboardingDashboardTile(user),
+  ]);
 
   const linked = snapshot.authState === "authenticated_linked";
   const staff = snapshot.authState === "platform_staff";
@@ -36,6 +41,8 @@ export default async function ClientPortalHomePage() {
       </div>
 
       <ClientPortalNextActions snapshot={snapshot} />
+
+      <ClientOnboardingDashboardTile tile={onboardingTile!} />
 
       <section className="grid gap-4 sm:grid-cols-2">
         <Link href={routes.client.profile} className="cc-glass-card block hover:border-teal-500/30">

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { PageHeader } from "@/components/ui/page-header";
 
+import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { PromoteClientForm } from "@/components/admin/promote-client-form";
 import { RequestAdminActions } from "@/components/admin/request-admin-actions";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
@@ -40,6 +41,7 @@ import {
 
 } from "@/lib/services/commercial.service";
 
+import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onboarding.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 
 import { isUseMockData } from "@/lib/mock/env";
@@ -117,6 +119,8 @@ export default async function AdminRequestDetailPage({
     request?.enterpriseBlueprint?.proposalStatus ?? blueprint?.proposalStatus ?? null;
   const clientApprovedAt =
     request?.enterpriseBlueprint?.clientApprovedAt ?? blueprint?.clientApprovedAt ?? null;
+
+  const adminOnboardingTracker = await buildClientOnboardingTrackerForAdmin(requestId);
 
   const dept = request
     ? getRequestDeptContextFromRow({
@@ -206,6 +210,8 @@ export default async function AdminRequestDetailPage({
           </p>
         </section>
       )}
+
+      <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
 
       <>
         <OperatorNextActionPanel
