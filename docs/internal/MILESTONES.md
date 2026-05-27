@@ -418,7 +418,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Admin | `src/components/admin/admin-onboarding-readiness-panel.tsx` |
 | Verification | `npm run client-onboarding:verify` |
 
-**Recommended next:** **I8 — Client Portal Polish & Demo Rehearsal**.
+**Recommended next:** **I8 — Client Portal Polish & Demo Rehearsal** (completed; see below).
+
+---
+
+## I8 — Client portal polish & demo rehearsal (no paid infra)
+
+**Scope:** End-to-end `/client` journey polish (headers, trust strip, empty states, status badges, next actions), preserve I6 server-side scope approval + ownership, keep `/proposal/[token]` non-authoritative, demo playbook, `client-demo:verify`, and docs — without migrations, payments, auto-provision, or overclaims.
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md`](I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md) |
+| Demo playbook | [`I8_CLIENT_PORTAL_DEMO_PLAYBOOK.md`](I8_CLIENT_PORTAL_DEMO_PLAYBOOK.md) |
+| Polish UI | `client-portal-page-header.tsx` · `client-portal-trust-strip.tsx` · `client-portal-approval-blocked.tsx` (guide variant) |
+| Routes | `src/app/client/**` · onboarding alignment |
+| Verification | `npm run client-demo:verify` |
+
+**Recommended next:** **I9 — Client organization membership & linkage** (or ProCrow operator queue polish).
 
 ---
 

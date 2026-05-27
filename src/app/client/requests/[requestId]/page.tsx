@@ -4,6 +4,7 @@ import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
 import { isUseMockData } from "@/lib/mock/env";
@@ -81,22 +82,21 @@ async function RequestDetail({
 
   return (
     <div className="space-y-8">
+      <ClientPortalPageHeader
+        backHref={routes.client.requests}
+        backLabel="← All requests"
+        title={organizationName}
+        description={referenceCode}
+      />
       <div>
-        <Link href={routes.client.requests} className="text-sm text-teal-400 hover:text-teal-300">
-          ← All requests
-        </Link>
-        <h1 className="cc-page-title mt-4">{organizationName}</h1>
-        <p className="mt-1 font-mono text-sm text-slate-500">{referenceCode}</p>
-        <div className="mt-4">
-          <RequestStatusBadge status={status} />
-        </div>
+        <RequestStatusBadge status={status} />
       </div>
 
       <LifecycleStrip status={status} />
 
       <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 
-      <ClientPortalStatusCard title="Review materials" badge="I6" badgeTone="info">
+      <ClientPortalStatusCard title="Review materials" badge="Review" badgeTone="info">
         <p className="text-sm text-slate-400">
           Review proposal and blueprint scope here. Scope approval is available on the proposal
           detail page when your account is the verified request submitter (not email-only linkage).
@@ -145,7 +145,7 @@ async function RequestDetail({
         </div>
       </ClientPortalStatusCard>
 
-      <ClientPortalApprovalBlocked context="proposal" />
+      <ClientPortalApprovalBlocked context="proposal" variant="guide" />
     </div>
   );
 }

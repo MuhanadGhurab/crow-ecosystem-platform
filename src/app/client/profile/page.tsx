@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ClientLinkingStatus } from "@/components/client-portal/client-linking-status";
-import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientProfileCompleteness } from "@/components/client-portal/client-profile-completeness";
 import { ClientProfileEditForm } from "@/components/client-portal/client-profile-edit-form";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientProfilePageModel } from "@/lib/services/client-profile.service";
@@ -15,12 +15,11 @@ export default async function ClientProfilePage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="cc-page-title">Profile</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Your Client Portal identity and readiness. Company details are on the Company page.
-        </p>
-      </div>
+      <ClientPortalPageHeader
+        eyebrow="Account"
+        title="Profile"
+        description="Your Client Portal identity and readiness. Company details live on the Company page."
+      />
 
       <ClientLinkingStatus state={model.accountLinkState} />
 
@@ -70,12 +69,11 @@ export default async function ClientProfilePage() {
 
       <ClientPortalStatusCard title="Security note" badge="Important" badgeTone="info">
         <p className="mt-3 text-sm text-slate-400">
-          Completing your profile does not grant platform admin or ProCrow staff access. Proposal
-          and blueprint approval remain blocked until verified client ownership is implemented.
+          Completing your profile does not grant platform admin or ProCrow staff access. Scope
+          approval is only available on a linked proposal when your account is the verified request
+          submitter — not from email links alone.
         </p>
       </ClientPortalStatusCard>
-
-      <ClientPortalApprovalBlocked context="general" reason={model.approvalBlockedReason} compact />
 
       {profile.readiness.riskNotes.length > 0 && (
         <ClientPortalStatusCard title="Readiness notes" badge="Advisory">

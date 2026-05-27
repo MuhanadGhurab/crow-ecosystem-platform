@@ -3,6 +3,7 @@ import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { ClientLinkingStatus } from "@/components/client-portal/client-linking-status";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientProfileCompleteness } from "@/components/client-portal/client-profile-completeness";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientCompanyPageModel } from "@/lib/services/client-profile.service";
@@ -15,13 +16,11 @@ export default async function ClientCompanyPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="cc-page-title">Company</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Organization profile from your linked implementation request. Editing company fields
-          through the portal will arrive in a later phase.
-        </p>
-      </div>
+      <ClientPortalPageHeader
+        eyebrow="Organization"
+        title="Company"
+        description="Organization profile from your linked implementation request. In-portal company editing arrives in a later phase."
+      />
 
       <ClientLinkingStatus state={model.accountLinkState} />
 
@@ -154,7 +153,7 @@ export default async function ClientCompanyPage() {
         </ClientPortalStatusCard>
       )}
 
-      <ClientPortalApprovalBlocked context="general" reason={model.approvalBlockedReason} compact />
+      <ClientPortalApprovalBlocked context="general" reason={model.approvalBlockedReason} variant="guide" compact />
 
       <section className="cc-glass-card">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">

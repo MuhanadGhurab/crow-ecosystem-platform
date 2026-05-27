@@ -1,3 +1,4 @@
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientProfilePageModel } from "@/lib/services/client-profile.service";
@@ -10,13 +11,10 @@ export default async function ClientSettingsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="cc-page-title">Settings</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Account and security readiness for the Client Portal. Advanced preferences arrive in a
-          later phase.
-        </p>
-      </div>
+      <ClientPortalPageHeader
+        title="Settings"
+        description="Account and security readiness for the Client Portal. Advanced preferences arrive in a later phase."
+      />
 
       <ClientPortalStatusCard title="Account & security" badge="Readiness" badgeTone="info">
         <dl className="mt-4 space-y-3 text-sm">

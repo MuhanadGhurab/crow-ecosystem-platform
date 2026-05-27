@@ -1,6 +1,6 @@
 # Project status
 
-**Last updated:** 27 May 2026 (I7 Onboarding Tracker MVP)  
+**Last updated:** 27 May 2026 (I8 Client Portal Polish & Demo Rehearsal)  
 **Audience:** Internal delivery / engineering
 
 **Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **I1 architecture:** [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) · **I2 portal auth-flow design:** [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) · **I3 client portal skeleton:** [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) · **I4 client profile MVP:** [`I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md`](I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md) · **I5 proposal/blueprint review:** [`I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md`](I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md) · **I6 scope approval:** [`I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md`](I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md) · **I7 onboarding tracker:** [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
@@ -32,6 +32,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Proposal / Blueprint authenticated review (I5) | [`I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md`](I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md) |
 | Scope approval + ProCrow status sync (I6) | [`I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md`](I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md) |
 | Onboarding tracker MVP (I7) | [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md) |
+| Client portal polish & demo (I8) | [`I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md`](I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md) |
 | Product polish & demo rehearsal (H1) | [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · playbook [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md) · index [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md) |
 | Cross-module runtime cohesion (G10) | [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | Reports / BI readiness layer (G9) | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
@@ -61,7 +62,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I7** complete on the client-portal track. **I7** delivered derived onboarding tracker (`/client/onboarding`), dashboard/detail/admin integrations, 12-step model, and `client-onboarding:verify`. Next: **I8 — Client Portal Polish & Demo Rehearsal**. **No paid infra** in the default path.
+**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I8** complete on the client-portal track. **I8** polished `/client` journey end-to-end, preserved I6 approval + non-authoritative `/proposal/[token]`, added demo playbook and `client-demo:verify`. Next: **I9 — Client organization membership & linkage** (or operator queue polish). **No paid infra** in the default path.
 
 **I1 acceptance:** **PASSED** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md).  
 Four-portal model formalized; ProCrow defined as control tower; Platform Admin ownership under ProCrow; Client/Proposal requirements documented; team model + interface ownership map + RACI added; ProCrow certification roadmap added; portal maturity model added; docs updated; validation commands green; no paid infra/schema/production-scope changes.
@@ -82,6 +83,8 @@ Review contract + read-only `client-review.service`; enriched `/client/proposals
 Approval contract + eligibility/approve services; `approveClientProposalScopeAction` with strong ownership (submitter or documented mock demo email); client approval panel on proposal detail; list/request/blueprint/admin status sync; `platformNotification` on approve; public token route unchanged (sign-in notice only); `npm run client-approval:verify`. Request-changes deferred. No migrations, payments, tenant auto-provision, or role escalation.
 
 **I7 acceptance:** **PASSED** — [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md).
+
+**I8 acceptance:** **PASSED** — [`I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md`](I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md).
 Onboarding contract + 12-step model + derived `client-onboarding.service`; `/client/onboarding` tracker UI; dashboard tile; request/proposal/blueprint summary cards; admin onboarding readiness panel; advisory trust copy (production F23-gated, no auto-provision); `npm run client-onboarding:verify`. No migrations, payments, tenant auto-provision, or production launch activation.
 
 **H1 acceptance:** **PASSED** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md).  

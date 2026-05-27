@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
@@ -32,17 +33,15 @@ export default async function ClientBlueprintDetailPage({
 
   return (
     <div className="space-y-8">
-      <div>
-        <Link href={routes.client.requests} className="text-sm text-teal-400 hover:text-teal-300">
-          ← Requests
-        </Link>
-        <h1 className="cc-page-title mt-4">Blueprint — {model.organizationName}</h1>
-        <p className="mt-1 font-mono text-sm text-slate-500">{model.referenceCode}</p>
-        <p className="mt-2 text-sm text-violet-300">{model.readinessLabel}</p>
-        {access === "platform_staff_preview" && (
-          <p className="cc-alert-warning mt-3 text-sm">Staff preview — client linkage rules apply.</p>
-        )}
-      </div>
+      <ClientPortalPageHeader
+        backHref={routes.client.requests}
+        backLabel="← Requests"
+        title={`Blueprint — ${model.organizationName}`}
+        description={`${model.referenceCode} · ${model.readinessLabel}`}
+      />
+      {access === "platform_staff_preview" && (
+        <p className="cc-alert-warning text-sm">Staff preview — client linkage rules apply.</p>
+      )}
 
       <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 

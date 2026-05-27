@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { getCrowAuth, isPlatformConsoleRole } from "@/lib/auth/roles";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -24,12 +25,11 @@ export default async function ClientRequestsPage({
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="cc-page-title">Requests</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Implementation requests linked to your account. ProCrow owns review and pipeline status.
-        </p>
-      </div>
+      <ClientPortalPageHeader
+        eyebrow="Pipeline"
+        title="Requests"
+        description="Implementation requests linked to your account. ProCrow owns review, discovery, and pipeline status."
+      />
 
       {snapshot.requests.length === 0 ? (
         <ClientPortalStatusCard

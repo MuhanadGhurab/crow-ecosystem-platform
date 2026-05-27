@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -13,19 +14,13 @@ export default async function ClientProposalsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-teal-400/90">
-          Authenticated review
-        </p>
-        <h1 className="cc-page-title mt-2">Proposals</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Commercial proposals appear here only when your sign-in is safely linked to the
-          implementation request. Email proposal links help you find materials — they do not
-          authorize approval without this portal.
-        </p>
-      </div>
+      <ClientPortalPageHeader
+        eyebrow="Authenticated review"
+        title="Proposals"
+        description="Commercial proposals appear when your sign-in is linked to the implementation request. Open a proposal to review scope and approve when eligible."
+      />
 
-      <ClientPortalApprovalBlocked context="proposal" />
+      <ClientPortalApprovalBlocked context="proposal" variant="guide" />
 
       {list.accessState === "not_linked" && list.proposals.length === 0 ? (
         <ClientPortalStatusCard

@@ -1,72 +1,58 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-
-import { PageHeader } from "@/components/ui/page-header";
 import { ClientOnboardingTrackerPanel } from "@/components/client-portal/client-onboarding-tracker-panel";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
+import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { CLIENT_ONBOARDING_PRODUCTION_GATED_NOTE } from "@/lib/client-portal/client-onboarding-contract";
+import { requireClientAccess } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import { buildClientOnboardingOverview } from "@/lib/services/client-onboarding.service";
-import { createClient } from "@/lib/supabase/server";
-import { isAuthDisabled } from "@/lib/supabase/env";
 
 export default async function ClientOnboardingPage() {
-  if (isAuthDisabled()) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-12">
-        <PageHeader
-          title="Onboarding"
-          description="Sign-in is required to view your onboarding tracker."
-        />
-        <p className="mt-6 text-sm text-slate-500">
-          Enable Supabase auth or use demo mode from the login page.
-        </p>
-        <Link href={routes.auth.login} className="mt-4 inline-block text-sm text-teal-400">
-          Sign in →
-        </Link>
-      </div>
-    );
-  }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect(routes.auth.login);
-
+  const user = await requireClientAccess(routes.client.onboarding);
   const { trackers, primary } = await buildClientOnboardingOverview(user);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <PageHeader
+    <div className="space-y-8">
+      <ClientPortalPageHeader
+        eyebrow="Readiness"
         title="Onboarding"
-        description="Operational readiness after scope approval — ProCrow controls provisioning and production go-live."
+        description="Operational readiness after scope approval. ProCrow controls provisioning and tenant go-live — this tracker is advisory only."
       />
 
-      <p className="mt-4 rounded-lg border border-slate-800/80 bg-slate-950/50 px-4 py-3 text-sm text-slate-500">
+      <section
+        className="rounded-xl border border-slate-700/60 bg-slate-900/40 px-4 py-3 text-sm text-slate-500"
+        aria-label="Onboarding trust notice"
+      >
         {CLIENT_ONBOARDING_PRODUCTION_GATED_NOTE}
-      </p>
+      </section>
 
       {trackers.length === 0 ? (
-        <section className="cc-glass-card mt-8">
-          <p className="text-sm text-slate-400">
-            No linked implementation requests yet. Submit a request or sign in with your primary
-            contact email to see onboarding steps here.
-          </p>
-          <Link href={routes.public.request} className="mt-4 inline-block text-sm text-teal-400">
-            Start a request →
-          </Link>
-        </section>
+        <ClientPortalStatusCard
+          title="No linked requests yet"
+          badge="Get started"
+          badgeTone="warning"
+          description="Submit a request or sign in with the same email as your primary contact to see onboarding steps here."
+        >
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link href={routes.public.request} className="cc-btn-primary text-sm">
+              Submit a request
+            </Link>
+            <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
+              Your requests
+            </Link>
+          </div>
+        </ClientPortalStatusCard>
       ) : primary ? (
-        <div className="mt-8">
+        <>
           {trackers.length > 1 && (
-            <p className="mb-6 text-sm text-slate-500">
+            <p className="text-sm text-slate-500">
               You have {trackers.length} linked requests. Showing onboarding for{" "}
-              <span className="text-slate-300">{primary.referenceCode}</span>. Open a specific
-              request for its onboarding summary.
+              <span className="font-mono text-slate-300">{primary.referenceCode}</span>. Open a
+              request, proposal, or blueprint page for that request&apos;s summary card.
             </p>
           )}
           <ClientOnboardingTrackerPanel tracker={primary} showRequestPicker />
-        </div>
+        </>
       ) : null}
     </div>
   );

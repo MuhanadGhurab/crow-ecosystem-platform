@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientProposalApprovalPanel } from "@/components/client-portal/client-proposal-approval-panel";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { getClientApprovalEligibility } from "@/lib/services/client-approval.service";
 import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
@@ -38,17 +39,15 @@ export default async function ClientProposalDetailPage({
 
   return (
     <div className="space-y-8">
-      <div>
-        <Link href={routes.client.proposals} className="text-sm text-teal-400 hover:text-teal-300">
-          ← All proposals
-        </Link>
-        <h1 className="cc-page-title mt-4">{model.title}</h1>
-        <p className="mt-1 font-mono text-sm text-slate-500">{model.referenceCode}</p>
-        <p className="mt-2 text-sm text-cyan-300">{proposalStatusLabel(model.status)}</p>
-        {access === "platform_staff_preview" && (
-          <p className="cc-alert-warning mt-3 text-sm">Staff preview — client linkage rules apply.</p>
-        )}
-      </div>
+      <ClientPortalPageHeader
+        backHref={routes.client.proposals}
+        backLabel="← All proposals"
+        title={model.title}
+        description={`${model.referenceCode} · ${proposalStatusLabel(model.status)}`}
+      />
+      {access === "platform_staff_preview" && (
+        <p className="cc-alert-warning text-sm">Staff preview — client linkage rules apply.</p>
+      )}
 
       <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 

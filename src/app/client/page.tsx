@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ClientOnboardingDashboardTile } from "@/components/client-portal/client-onboarding-dashboard-tile";
-import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalNextActions } from "@/components/client-portal/client-portal-next-actions";
+import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
+import { ClientPortalTrustStrip } from "@/components/client-portal/client-portal-trust-strip";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
-import { CLIENT_PORTAL_APPROVAL_BLOCKED_REASON } from "@/lib/client-portal/client-portal-contract";
 import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientOnboardingDashboardTile } from "@/lib/services/client-onboarding.service";
 import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
@@ -24,21 +24,19 @@ export default async function ClientPortalHomePage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-teal-400/90">
-          Client Portal
+      <ClientPortalPageHeader
+        eyebrow="Client Portal"
+        title="Your implementation journey"
+        description="Track requests, commercial proposals, blueprint scope, and onboarding readiness. ProCrow owns review and provisioning — this portal shows your side of the pipeline."
+      />
+      {staff && (
+        <p className="cc-alert-warning text-sm">
+          Staff preview — you are viewing the client area as platform staff. Client linkage and
+          approval rules still apply.
         </p>
-        <h1 className="cc-page-title mt-2">Your implementation journey</h1>
-        <p className="mt-2 text-sm text-slate-400">
-          Track requests, proposals, and onboarding with ProCrow. This is a read-only preview of the
-          full Client Portal experience.
-        </p>
-        {staff && (
-          <p className="cc-alert-warning mt-4 text-sm">
-            Staff preview — you are viewing the client area as platform staff.
-          </p>
-        )}
-      </div>
+      )}
+
+      <ClientPortalTrustStrip />
 
       <ClientPortalNextActions snapshot={snapshot} />
 
@@ -70,8 +68,6 @@ export default async function ClientPortalHomePage() {
           </p>
         </Link>
       </section>
-
-      <ClientPortalApprovalBlocked reason={CLIENT_PORTAL_APPROVAL_BLOCKED_REASON} compact />
 
       <ClientPortalStatusCard
         title="Account connection"
