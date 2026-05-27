@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientProposalApprovalPanel } from "@/components/client-portal/client-proposal-approval-panel";
+import { ClientReviewFeedbackPanel } from "@/components/client-portal/client-review-feedback-panel";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { getClientApprovalEligibility } from "@/lib/services/client-approval.service";
@@ -11,6 +12,10 @@ import { ClientReviewSecurityNotes } from "@/components/client-portal/client-rev
 import { requireClientAccess } from "@/lib/auth/session";
 import { proposalStatusLabel } from "@/lib/services/commercial.service";
 import { getClientProposalReviewModel } from "@/lib/services/client-review.service";
+import {
+  getClientRequestChangesEligibility,
+  listClientReviewNotesForRequest,
+} from "@/lib/services/client-review-notes.service";
 import { routes } from "@/lib/routes";
 
 export default async function ClientProposalDetailPage({
@@ -25,6 +30,17 @@ export default async function ClientProposalDetailPage({
     getClientProposalReviewModel(user, proposalId),
     getClientApprovalEligibility(user, proposalId),
   ]);
+
+  const feedbackBundle =
+    model && access !== "not_found"
+      ? await Promise.all([
+          getClientRequestChangesEligibility(user, {
+            requestId: model.requestId,
+            proposalId,
+          }),
+          listClientReviewNotesForRequest(user, model.requestId),
+        ])
+      : null;
 
   const onboardingTracker =
     model && access !== "not_found"
@@ -101,6 +117,15 @@ export default async function ClientProposalDetailPage({
       <ClientReviewProcrowCounterpart counterpart={model.procrowCounterpart} />
 
       <ClientProposalApprovalPanel proposalId={proposalId} eligibility={eligibility} />
+
+      {feedbackBundle && (
+        <ClientReviewFeedbackPanel
+          eligibility={feedbackBundle[0]}
+          notes={feedbackBundle[1]}
+          defaultProposalId={proposalId}
+          defaultBlueprintId={model.blueprintId}
+        />
+      )}
 
       {model.nextActions.length > 0 && (
         <ClientPortalStatusCard title="Next steps" badge="Client" badgeTone="neutral">

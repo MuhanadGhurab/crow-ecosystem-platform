@@ -4,6 +4,7 @@ import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientReviewFeedbackPanel } from "@/components/client-portal/client-review-feedback-panel";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -15,6 +16,10 @@ import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.s
 import { buildClientProfileDashboardHints } from "@/lib/services/client-profile.service";
 import { buildClientRequestReviewLinks } from "@/lib/services/client-review.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
+import {
+  getClientRequestChangesEligibility,
+  listClientReviewNotesForRequest,
+} from "@/lib/services/client-review-notes.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function ClientRequestDetailPage({
@@ -75,10 +80,13 @@ async function RequestDetail({
   reviewLinks: Awaited<ReturnType<typeof buildClientRequestReviewLinks>>["links"];
 }) {
   const user = await requireClientAccess(routes.client.request(requestId));
-  const [profileHints, onboardingTracker] = await Promise.all([
-    buildClientProfileDashboardHints(user),
-    buildClientOnboardingTracker(user, requestId),
-  ]);
+  const [profileHints, onboardingTracker, feedbackEligibility, feedbackNotes] =
+    await Promise.all([
+      buildClientProfileDashboardHints(user),
+      buildClientOnboardingTracker(user, requestId),
+      getClientRequestChangesEligibility(user, { requestId }),
+      listClientReviewNotesForRequest(user, requestId),
+    ]);
 
   return (
     <div className="space-y-8">
@@ -144,6 +152,11 @@ async function RequestDetail({
           </Link>
         </div>
       </ClientPortalStatusCard>
+
+      <ClientReviewFeedbackPanel
+        eligibility={feedbackEligibility}
+        notes={feedbackNotes}
+      />
 
       <ClientPortalApprovalBlocked context="proposal" variant="guide" />
     </div>

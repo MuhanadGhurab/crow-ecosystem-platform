@@ -20,6 +20,9 @@ export const PIPELINE_EVENT_TYPES = [
   "discovery_started",
   "blueprint_ready",
   "tenant_provisioned",
+  "client_scope_approved",
+  "client_review_note",
+  "client_request_changes",
 ] as const;
 
 export type PlatformNotificationCategory =
@@ -187,6 +190,9 @@ export function severityForNotification(
     return "medium";
   }
   if (metadata.advisory) return "medium";
+  if (eventType === "client_request_changes" || eventType === "client_review_note") {
+    return "medium";
+  }
   return "low";
 }
 
@@ -297,6 +303,9 @@ export function displayTitleForNotification(n: {
     discovery_started: "Discovery started",
     blueprint_ready: "Blueprint ready for review",
     tenant_provisioned: "Tenant provisioned — go-live advisory",
+    client_scope_approved: "Client scope approved — ProCrow review",
+    client_review_note: "Client review note — ProCrow inbox",
+    client_request_changes: "Client requested changes — ProCrow review",
   };
   return advisoryTitles[n.eventType] ?? n.subject;
 }

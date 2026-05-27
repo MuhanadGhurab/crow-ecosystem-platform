@@ -3,12 +3,17 @@ import { notFound } from "next/navigation";
 import { ClientOnboardingSummaryCard } from "@/components/client-portal/client-onboarding-summary-card";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
+import { ClientReviewFeedbackPanel } from "@/components/client-portal/client-review-feedback-panel";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
 import { proposalStatusLabel } from "@/lib/services/commercial.service";
 import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
 import { getClientBlueprintReviewModel } from "@/lib/services/client-review.service";
+import {
+  getClientRequestChangesEligibility,
+  listClientReviewNotesForRequest,
+} from "@/lib/services/client-review-notes.service";
 import { routes } from "@/lib/routes";
 
 export default async function ClientBlueprintDetailPage({
@@ -20,6 +25,18 @@ export default async function ClientBlueprintDetailPage({
   const user = await requireClientAccess(routes.client.blueprint(blueprintId));
 
   const { access, model } = await getClientBlueprintReviewModel(user, blueprintId);
+
+  const feedbackBundle =
+    model && access !== "not_found"
+      ? await Promise.all([
+          getClientRequestChangesEligibility(user, {
+            requestId: model.requestId,
+            blueprintId,
+            proposalId: model.proposalId ?? undefined,
+          }),
+          listClientReviewNotesForRequest(user, model.requestId),
+        ])
+      : null;
 
   const onboardingTracker =
     model && access !== "not_found"
@@ -139,6 +156,15 @@ export default async function ClientBlueprintDetailPage({
       </ClientPortalStatusCard>
 
       <ClientReviewProcrowCounterpart counterpart={model.procrowCounterpart} />
+
+      {feedbackBundle && (
+        <ClientReviewFeedbackPanel
+          eligibility={feedbackBundle[0]}
+          notes={feedbackBundle[1]}
+          defaultBlueprintId={blueprintId}
+          defaultProposalId={model.proposalId}
+        />
+      )}
 
       {model.nextActions.length > 0 && (
         <ClientPortalStatusCard title="Next steps" badge="Client" badgeTone="neutral">

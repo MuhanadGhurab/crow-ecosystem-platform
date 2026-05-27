@@ -101,6 +101,7 @@
     "client-onboarding:verify": "npx tsx scripts/verify-client-onboarding-tracker.ts",
     "client-demo:verify": "npx tsx scripts/verify-client-portal-demo-polish.ts",
     "client-org:verify": "npx tsx scripts/verify-client-organization-linkage.ts",
+    "client-notes:verify": "npx tsx scripts/verify-client-review-notes.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

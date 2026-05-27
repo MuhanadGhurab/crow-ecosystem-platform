@@ -467,6 +467,39 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Remaining gaps (deferred):** no membership backfill/seeds, no ProCrow admin verification mutation implementation, and no invitation/company-editing workflows in this phase.
 
+**Recommended next:** **I10 — Request changes + client review notes** (completed; no paid infra).
+
+---
+
+## I10 — Request changes + client review notes (no paid infra)
+
+**Scope:** Client feedback layer — review notes for linked reviewers; official request-changes only when `canApproveScope` and proposal is `SENT`. ProCrow visibility via platform notifications (no new schema).
+
+- Contract + eligibility (`canSubmitReviewNote` vs `canRequestChanges`)
+- Persistence: `PlatformNotification` event types `client_review_note` / `client_request_changes`
+- Client UI on proposal, blueprint, and request detail
+- Admin counterpart on `/admin/requests/[requestId]`
+- Public token route unchanged (non-authoritative)
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Contract | `src/lib/client-portal/client-review-notes-contract.ts` |
+| Service | `src/lib/services/client-review-notes.service.ts` |
+| Actions | `src/lib/actions/client-review-notes.ts` |
+| Client UI | `client-review-feedback-panel.tsx` |
+| Admin UI | `admin-client-review-feedback-panel.tsx` |
+| Notification titles | `platform-notification-links.ts` |
+| Verifier | `scripts/verify-client-review-notes.ts` · `npm run client-notes:verify` |
+| Documentation | `docs/internal/I10_REQUEST_CHANGES_CLIENT_REVIEW_NOTES.md` |
+
+**Verification:** `npm run client-notes:verify` (plus client track verifiers and build/typecheck/lint).
+
+**Remaining gaps (deferred):** no dedicated notes table, no messaging threads, no auto onboarding reversal on request-changes, manual logged-in UI smoke.
+
+**Recommended next:** **I11 — Client portal checkpoint & pause** · **J1 — ProCrow portal UX unification** · **I11 — Client organization admin verification tools**.
+
 ---
 
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)

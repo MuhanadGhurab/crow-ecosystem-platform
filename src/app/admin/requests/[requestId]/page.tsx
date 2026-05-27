@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { PageHeader } from "@/components/ui/page-header";
 
+import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { PromoteClientForm } from "@/components/admin/promote-client-form";
 import { RequestAdminActions } from "@/components/admin/request-admin-actions";
@@ -212,6 +213,8 @@ export default async function AdminRequestDetailPage({
       )}
 
       <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
+
+      <AdminClientReviewFeedbackPanel requestId={requestId} />
 
       <>
         <OperatorNextActionPanel

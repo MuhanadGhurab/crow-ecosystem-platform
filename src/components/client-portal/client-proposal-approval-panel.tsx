@@ -3,11 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { approveClientProposalScopeAction } from "@/lib/actions/client-approval";
-import {
-  CLIENT_APPROVAL_DISCLAIMER,
-  CLIENT_APPROVAL_REQUEST_CHANGES_DEFERRED,
-  type ClientApprovalEligibility,
-} from "@/lib/client-portal/client-approval-contract";
+import { CLIENT_APPROVAL_DISCLAIMER, type ClientApprovalEligibility } from "@/lib/client-portal/client-approval-contract";
 import { routes } from "@/lib/routes";
 
 export function ClientProposalApprovalPanel({
@@ -88,16 +84,12 @@ export function ClientProposalApprovalPanel({
         >
           {pending ? "Submitting…" : "Approve scope for ProCrow review"}
         </button>
-        <span
-          className="cc-btn-secondary pointer-events-none cursor-not-allowed opacity-50"
-          aria-disabled
-          title={CLIENT_APPROVAL_REQUEST_CHANGES_DEFERRED}
-        >
-          Request changes (coming soon)
-        </span>
       </div>
 
-      <p className="mt-3 text-xs text-slate-500">{CLIENT_APPROVAL_REQUEST_CHANGES_DEFERRED}</p>
+      <p className="mt-3 text-xs text-slate-500">
+        To request changes or send clarifications, use the review feedback section below. Request
+        changes requires verified owner or approver access.
+      </p>
     </section>
   );
 }
