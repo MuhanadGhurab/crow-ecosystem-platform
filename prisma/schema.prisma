@@ -49,6 +49,7 @@ model ImplementationRequest {
   requestedPlans        RequestedSubscriptionPlan[]
   discoveryProfile      DiscoveryProfile?
   enterpriseBlueprint   EnterpriseBlueprint?
+  clientOrganizationRequestLinks ClientOrganizationRequestLink[]
 
   @@map("implementation_requests")
 }
@@ -1231,3 +1232,53 @@ model WebhookEvent {
 
   @@map("webhook_events")
 }
+
+// ─── 9. Client organization tables (I9) ───────────────────────────────────────
+
+/// Client-side organization linkage for ImplementationRequests, decoupled from tenant runtime.
+model ClientOrganization {
+  id            String   @id @default(cuid())
+  name          String
+  industry      String?
+  employeeBand  String?
+  region        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  members      ClientOrganizationMember[]
+  requestLinks ClientOrganizationRequestLink[]
+
+  @@map("client_organizations")
+}
+
+/// Membership of Supabase-authenticated users in client organizations.
+model ClientOrganizationMember {
+  id               String   @id @default(cuid())
+  organizationId   String
+  supabaseUserId   String
+  email            String?
+  role             String
+  status           String   @default("pending_verification")
+  linkSource       String   @default("invitation")
+  verifiedByProcrow Boolean @default(false)
+  verifiedAt       DateTime?
+
+  organization ClientOrganization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([supabaseUserId])
+  @@map("client_organization_members")
+}
+
+/// Links implementation requests to client organizations for membership-based access.
+model ClientOrganizationRequestLink {
+  id             String @id @default(cuid())
+  organizationId String
+  requestId      String @unique
+
+  organization ClientOrganization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  request      ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("client_organization_request_links")
+}
+

@@ -436,7 +436,36 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Routes | `src/app/client/**` · onboarding alignment |
 | Verification | `npm run client-demo:verify` |
 
-**Recommended next:** **I9 — Client organization membership & linkage** (or ProCrow operator queue polish).
+**Recommended next:** **I9 — Client organization membership & linkage** (completed; no paid infra).
+
+---
+
+## I9 — Client organization membership & linkage (no paid infra)
+
+**Scope:** Introduce minimal client organization membership linkage with a strict read-only decision model for approvals.
+
+- Contract + decision object: `ClientOrganizationAccessDecision.canApproveScope`
+- Approval hardening: non-mock contact-email matches cannot write `submittedByUserId`
+- UI: read-only membership context on `/client/company` and `/client/settings`
+- Verifier: blocks forbidden claims and forbidden role usage, including drift into approval ownership
+- Migration: create-only Prisma migration file generated; no staging/production deploy in this phase
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Contract | `src/lib/client-portal/client-organization-contract.ts` |
+| Decision service | `src/lib/services/client-organization-link.service.ts` |
+| submittedByUserId hardening | `src/lib/services/client-request-link.service.ts` |
+| Approval hardening | `src/lib/services/client-approval.service.ts` |
+| UI read-only context | `src/app/client/company/page.tsx` · `src/app/client/settings/page.tsx` |
+| Verifier | `scripts/verify-client-organization-linkage.ts` · `npm run client-org:verify` |
+| Migration file (create-only) | `prisma/migrations/20260527120000_client_org_membership/migration.sql` |
+| Documentation | `docs/internal/I9_CLIENT_ORGANIZATION_MEMBERSHIP_LINKAGE.md` |
+
+**Verification:** `npm run client-org:verify` (plus required track verifiers and full build/typecheck/lint).
+
+**Remaining gaps (deferred):** no membership backfill/seeds, no ProCrow admin verification mutation implementation, and no invitation/company-editing workflows in this phase.
 
 ---
 

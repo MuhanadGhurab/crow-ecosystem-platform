@@ -82,7 +82,7 @@ export const CLIENT_APPROVAL_BLOCKED_LABELS: Record<ClientApprovalBlockedReason,
   login_required: "Sign in to approve scope.",
   not_linked: "This proposal is not linked to your account.",
   ownership_unverified:
-    "Approval requires verified client ownership. Your account can review materials only.",
+    "Approval requires verified organization ownership. Your account can review materials only.",
   proposal_not_ready: "This proposal is not ready for client approval yet.",
   already_approved: "Scope was already approved for ProCrow review.",
   expired: "This proposal is no longer available for approval.",

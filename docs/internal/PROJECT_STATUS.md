@@ -1,9 +1,9 @@
 # Project status
 
-**Last updated:** 27 May 2026 (I8 Client Portal Polish & Demo Rehearsal)  
+**Last updated:** 27 May 2026 (I9 Client Organization Membership & Linkage)  
 **Audience:** Internal delivery / engineering
 
-**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **I1 architecture:** [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) · **I2 portal auth-flow design:** [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) · **I3 client portal skeleton:** [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) · **I4 client profile MVP:** [`I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md`](I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md) · **I5 proposal/blueprint review:** [`I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md`](I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md) · **I6 scope approval:** [`I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md`](I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md) · **I7 onboarding tracker:** [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
+**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **I1 architecture:** [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) · **I2 portal auth-flow design:** [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) · **I3 client portal skeleton:** [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) · **I4 client profile MVP:** [`I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md`](I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md) · **I5 proposal/blueprint review:** [`I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md`](I5_PROPOSAL_BLUEPRINT_AUTHENTICATED_REVIEW.md) · **I6 scope approval:** [`I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md`](I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md) · **I7 onboarding tracker:** [`I7_ONBOARDING_TRACKER_MVP.md`](I7_ONBOARDING_TRACKER_MVP.md) · **I8 client portal polish & demo:** [`I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md`](I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md) · **I9 client organization membership & linkage:** [`I9_CLIENT_ORGANIZATION_MEMBERSHIP_LINKAGE.md`](I9_CLIENT_ORGANIZATION_MEMBERSHIP_LINKAGE.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
 
 ---
 
@@ -62,7 +62,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I8** complete on the client-portal track. **I8** polished `/client` journey end-to-end, preserved I6 approval + non-authoritative `/proposal/[token]`, added demo playbook and `client-demo:verify`. Next: **I9 — Client organization membership & linkage** (or operator queue polish). **No paid infra** in the default path.
+**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I9** complete on the client-portal track. **I8** polished `/client` journey end-to-end; **I9** added client organization membership contract + read-only decision model, refactored approval gating on `canApproveScope`, and added `client-org:verify`. **No paid infra** in the default path.
 
 **I1 acceptance:** **PASSED** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md).  
 Four-portal model formalized; ProCrow defined as control tower; Platform Admin ownership under ProCrow; Client/Proposal requirements documented; team model + interface ownership map + RACI added; ProCrow certification roadmap added; portal maturity model added; docs updated; validation commands green; no paid infra/schema/production-scope changes.
@@ -86,6 +86,9 @@ Approval contract + eligibility/approve services; `approveClientProposalScopeAct
 
 **I8 acceptance:** **PASSED** — [`I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md`](I8_CLIENT_PORTAL_POLISH_DEMO_REHEARSAL.md).
 Onboarding contract + 12-step model + derived `client-onboarding.service`; `/client/onboarding` tracker UI; dashboard tile; request/proposal/blueprint summary cards; admin onboarding readiness panel; advisory trust copy (production F23-gated, no auto-provision); `npm run client-onboarding:verify`. No migrations, payments, tenant auto-provision, or production launch activation.
+
+**I9 acceptance:** **PASSED** — [`I9_CLIENT_ORGANIZATION_MEMBERSHIP_LINKAGE.md`](I9_CLIENT_ORGANIZATION_MEMBERSHIP_LINKAGE.md).
+Client organization membership contract + decision service (`canApproveScope`); approval hardening (non-mock contact-email no longer writes `submittedByUserId`); read-only membership context on `/client/company` and `/client/settings`; create-only Prisma migration (`20260527120000_client_org_membership`) approved for remote deploy via Vercel `db:migrate:deploy`; `npm run client-org:verify` and the required track verifiers run green.
 
 **H1 acceptance:** **PASSED** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md).  
 Demo journey audit; public + admin micro-copy for staging/F23 honesty; tenant/CyberCrow/SAREA assessed **sufficient** with prior G/F depth; [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md); G-series **G1→G10** order in [`MILESTONES.md`](MILESTONES.md); `npm run mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `erp:verify`, `sector:verify`, `reports:verify`, `tasks-approvals:verify`, `runtime:verify`; optional `request:pipeline:verify`, `sarea:meem-verify`, `tenant:verify:rimal` green on staging env.

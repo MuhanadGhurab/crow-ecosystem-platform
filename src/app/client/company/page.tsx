@@ -6,6 +6,7 @@ import { ClientProfileCompleteness } from "@/components/client-portal/client-pro
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
+import { getClientOrganizationAccessDecisionForRequest } from "@/lib/services/client-organization-link.service";
 import { buildClientCompanyPageModel } from "@/lib/services/client-profile.service";
 import { routes } from "@/lib/routes";
 
@@ -13,6 +14,11 @@ export default async function ClientCompanyPage() {
   const user = await requireClientAccess(routes.client.company);
   const model = await buildClientCompanyPageModel(user);
   const company = model.company;
+  const decision = model.requestSummaries[0]?.requestId
+    ? await getClientOrganizationAccessDecisionForRequest(user, model.requestSummaries[0].requestId).catch(
+        () => null
+      )
+    : null;
 
   return (
     <div className="space-y-8">
@@ -23,6 +29,57 @@ export default async function ClientCompanyPage() {
       />
 
       <ClientLinkingStatus state={model.accountLinkState} />
+
+      <ClientPortalStatusCard title="Organization access (read-only)" badge="Membership context" badgeTone="info">
+        <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+          <div>
+            <dt className="text-slate-500">Membership status</dt>
+            <dd className="text-white">
+              {decision?.membership?.status
+                ? decision.membership.status.replace(/_/g, " ")
+                : decision?.organization
+                  ? "linked (no membership record)"
+                  : "unlinked"}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Link source</dt>
+            <dd className="text-white">
+              {decision?.linkSource ? decision.linkSource.replace(/_/g, " ") : "—"}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Access level</dt>
+            <dd className="text-white">{decision?.accessLevel ?? "none"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Approval ability</dt>
+            <dd className="text-white">
+              {decision?.canApproveScope ? "Can approve scope" : "Review-only (approval blocked)"}
+            </dd>
+          </div>
+          <div className="sm:col-span-2">
+            <dt className="text-slate-500">ProCrow verification</dt>
+            <dd className="text-white">
+              {decision?.canApproveScope
+                ? "No extra verification required for approval (current decision rules)."
+                : "Approvals require verified organization ownership (ProCrow workflow)."}
+            </dd>
+          </div>
+          <div className="sm:col-span-2">
+            <dt className="text-slate-500">Future team members</dt>
+            <dd className="text-white text-slate-300">
+              Delegating reviews/approvals and inviting additional team members is planned for a later phase.
+            </dd>
+          </div>
+          <div className="sm:col-span-2">
+            <dt className="text-slate-500">Company editing</dt>
+            <dd className="text-white text-slate-300">
+              This page is readiness-only. Company profile editing requires verified organization ownership.
+            </dd>
+          </div>
+        </dl>
+      </ClientPortalStatusCard>
 
       {company ? (
         <>

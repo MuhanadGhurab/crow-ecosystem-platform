@@ -23,6 +23,7 @@ import {
   MOCK_BLUEPRINT_ID,
 } from "@/lib/mock/blueprint";
 import { prisma } from "@/lib/db";
+import { getClientOrganizationAccessDecisionForRequest } from "@/lib/services/client-organization-link.service";
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import {
@@ -180,11 +181,12 @@ export async function getClientApprovalEligibility(
       });
     }
 
-    const strong =
-      mockDemoStrongOwnership(user.email) ||
-      (await clientHasStrongRequestOwnership(user.id, "mock-req-003"));
+    const decision = await getClientOrganizationAccessDecisionForRequest(user, "mock-req-003").catch(
+      () => null
+    );
+    const canApproveScope = decision?.canApproveScope ?? false;
 
-    if (!strong) {
+    if (!canApproveScope) {
       return blocked("ownership_unverified", {
         ...baseDeferred,
         requestId: "mock-req-003",
@@ -289,14 +291,15 @@ export async function getClientApprovalEligibility(
     });
   }
 
-  const strong = await clientHasStrongRequestOwnership(user.id, requestId);
-  if (!strong) {
-    const emailOnly = user.email
-      ? await clientCanAccessRequest(user.id, user.email, requestId).catch(() => false)
-      : false;
+  const decision = await getClientOrganizationAccessDecisionForRequest(user, requestId).catch(
+    () => null
+  );
+  if (!decision?.canApproveScope) {
+    // We already established the user can review this request.
+    // Approval is strictly gated on `ClientOrganizationAccessDecision.canApproveScope`.
     return blocked("ownership_unverified", {
       ...baseDeferred,
-      ownershipState: emailOnly ? "email_only_review" : "unlinked",
+      ownershipState: accessState === "allowed" ? "email_only_review" : "unlinked",
       proposalState,
       accessState,
       proposalStatus,
@@ -415,7 +418,10 @@ export async function approveClientProposalScope(
     };
   }
 
-  if (blueprint.request.submittedByUserId !== user.id) {
+  const decision = await getClientOrganizationAccessDecisionForRequest(user, blueprint.request.id).catch(
+    () => null
+  );
+  if (!decision?.canApproveScope) {
     return {
       ok: false,
       status: "blocked",
@@ -424,7 +430,8 @@ export async function approveClientProposalScope(
       proposalStatus: blueprint.proposalStatus,
       requestStatus: blueprint.request.status,
       nextActions: [],
-      procrowCounterpartRoute: CLIENT_APPROVAL_PROCROW_COUNTERPART.route(blueprint.request.id),
+      procrowCounterpartRoute:
+        CLIENT_APPROVAL_PROCROW_COUNTERPART.route(blueprint.request.id),
     };
   }
 

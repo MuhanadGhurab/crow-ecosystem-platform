@@ -3,6 +3,7 @@ import type { User } from "@supabase/supabase-js";
 import type { CrowAppMetadata } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
 import { getSupabaseUrl } from "@/lib/supabase/env";
+import { isUseMockData } from "@/lib/mock/env";
 
 function getSupabaseAdmin() {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -44,10 +45,14 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
   const requestIds = await findRequestIdsByContactEmail(email);
   if (requestIds.length === 0) return [];
 
-  await prisma.implementationRequest.updateMany({
-    where: { id: { in: requestIds }, submittedByUserId: null },
-    data: { submittedByUserId: user.id },
-  });
+  // I9 hardening: contact-email matches must remain review-only in non-mock mode.
+  // Only mock/demo mode may use contact-email to fill `submittedByUserId`.
+  if (isUseMockData()) {
+    await prisma.implementationRequest.updateMany({
+      where: { id: { in: requestIds }, submittedByUserId: null },
+      data: { submittedByUserId: user.id },
+    });
+  }
 
   const meta = (user.app_metadata ?? {}) as CrowAppMetadata;
   if (!meta.crow_role) {
