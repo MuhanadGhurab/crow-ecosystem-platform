@@ -745,7 +745,29 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** `procrow-demo:verify` + `procrow:verify` (J1–J8) + standard project gate + client guardrails as in runbook.
 
-**Recommended next:** **Pause** (recommended) · **K1 — Tenant Runtime Demo Rehearsal** · **J9 — ProCrow Checkpoint & Pause**
+**Recommended next:** **J9 — ProCrow Checkpoint & Pause** (completed) · **Pause** (recommended) · **K1 — Tenant Runtime Demo Rehearsal** · **J10 — ProCrow Manual Browser Smoke**
+
+---
+
+## J9 — ProCrow Checkpoint & Pause (no paid infra)
+
+**Scope:** Short checkpoint/pause record for the completed ProCrow arc J1–J8. **Documentation only** — no product code, routes, migrations, payments, or production launch.
+
+- Arc summary J1–J8 + capability table
+- Demo path pointer (J8 playbook/runbook)
+- Validation status + known gaps
+- Pause recommendation + resume options (K1, J10, or hold)
+
+**Status:** **Passed** (28 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Checkpoint | `docs/internal/J9_PROCROW_CHECKPOINT_PAUSE.md` |
+| Status | `docs/internal/PROJECT_STATUS.md` (J9 acceptance) |
+
+**Verification:** Standard project gate + `procrow:verify` (J1–J8 unchanged); no J9 verifier required.
+
+**Recommended next:** **Pause** (recommended) · **K1 — Tenant Runtime Demo Rehearsal** · **J10 — ProCrow Manual Browser Smoke**
 
 ---
 
