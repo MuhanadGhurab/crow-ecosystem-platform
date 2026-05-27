@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientProposalApprovalPanel } from "@/components/client-portal/client-proposal-approval-panel";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
+import { getClientApprovalEligibility } from "@/lib/services/client-approval.service";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
 import { requireClientAccess } from "@/lib/auth/session";
@@ -17,7 +18,10 @@ export default async function ClientProposalDetailPage({
   const { proposalId } = await params;
   const user = await requireClientAccess(routes.client.proposal(proposalId));
 
-  const { access, model } = await getClientProposalReviewModel(user, proposalId);
+  const [{ access, model }, eligibility] = await Promise.all([
+    getClientProposalReviewModel(user, proposalId),
+    getClientApprovalEligibility(user, proposalId),
+  ]);
 
   if (access === "not_found" || !model) {
     if (access === "not_linked" || access === "ownership_unverified") notFound();
@@ -88,7 +92,7 @@ export default async function ClientProposalDetailPage({
 
       <ClientReviewProcrowCounterpart counterpart={model.procrowCounterpart} />
 
-      <ClientPortalApprovalBlocked context="proposal" />
+      <ClientProposalApprovalPanel proposalId={proposalId} eligibility={eligibility} />
 
       {model.nextActions.length > 0 && (
         <ClientPortalStatusCard title="Next steps" badge="Client" badgeTone="neutral">

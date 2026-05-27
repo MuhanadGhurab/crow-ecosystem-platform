@@ -61,6 +61,16 @@ export default async function ClientProposalsPage() {
                   <span className="text-xs font-mono text-slate-500">{p.referenceCode}</span>
                 </div>
                 <p className="mt-2 text-sm text-cyan-300">{proposalStatusLabel(p.status)}</p>
+                {p.approvalState === "approved" && (
+                  <p className="mt-1 text-xs font-medium text-teal-300/90">
+                    Scope approved — awaiting ProCrow review
+                  </p>
+                )}
+                {p.approvalState === "eligible" && (
+                  <p className="mt-1 text-xs font-medium text-amber-200/90">
+                    Ready for scope approval on detail page
+                  </p>
+                )}
                 <p className="mt-2 text-sm text-slate-400">{p.summary}</p>
                 {p.estimatedRange && (
                   <p className="mt-2 text-sm text-teal-300/90">{p.estimatedRange}</p>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { ClientReviewProcrowCounterpart } from "@/components/client-portal/client-review-procrow-counterpart";
 import { ClientReviewSecurityNotes } from "@/components/client-portal/client-review-security-notes";
@@ -132,8 +131,6 @@ export default async function ClientBlueprintDetailPage({
       </ClientPortalStatusCard>
 
       <ClientReviewProcrowCounterpart counterpart={model.procrowCounterpart} />
-
-      <ClientPortalApprovalBlocked context="blueprint" />
 
       {model.nextActions.length > 0 && (
         <ClientPortalStatusCard title="Next steps" badge="Client" badgeTone="neutral">

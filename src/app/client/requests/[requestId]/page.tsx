@@ -92,10 +92,10 @@ async function RequestDetail({
 
       <LifecycleStrip status={status} />
 
-      <ClientPortalStatusCard title="Review materials" badge="I5" badgeTone="info">
+      <ClientPortalStatusCard title="Review materials" badge="I6" badgeTone="info">
         <p className="text-sm text-slate-400">
-          Proposal and blueprint views are read-only until verified ownership and approval audit
-          (I6).
+          Review proposal and blueprint scope here. Scope approval is available on the proposal
+          detail page when your account is the verified request submitter (not email-only linkage).
         </p>
         <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
           <div>

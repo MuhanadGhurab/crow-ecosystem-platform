@@ -43,7 +43,7 @@ import {
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 
 import { isUseMockData } from "@/lib/mock/env";
-import { MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
+import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
 import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
 
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -101,15 +101,22 @@ export default async function AdminRequestDetailPage({
   const primaryContact = request?.contacts.find((c) => c.isPrimary) ?? request?.contacts[0];
 
   const mockBlueprintId = mockRow?.blueprintId ?? null;
+  const mockApprovalOverrides = isUseMockData() ? getMockProposalApprovalOverrides() : null;
   const blueprint =
     request?.enterpriseBlueprint ??
     (mockBlueprintId
       ? {
           id: mockBlueprintId,
-          proposalStatus: "SENT" as const,
+          proposalStatus: mockApprovalOverrides?.proposalStatus ?? ("SENT" as const),
           proposalToken: MOCK_PROPOSAL_TOKEN,
+          clientApprovedAt: mockApprovalOverrides?.clientApprovedAt ?? null,
         }
       : null);
+
+  const proposalStatus =
+    request?.enterpriseBlueprint?.proposalStatus ?? blueprint?.proposalStatus ?? null;
+  const clientApprovedAt =
+    request?.enterpriseBlueprint?.clientApprovedAt ?? blueprint?.clientApprovedAt ?? null;
 
   const dept = request
     ? getRequestDeptContextFromRow({
@@ -181,6 +188,24 @@ export default async function AdminRequestDetailPage({
 
 
       <LifecycleStrip status={status} />
+
+      {proposalStatus === "CLIENT_APPROVED" && (
+        <section className="cc-glass-card border-teal-500/25 bg-teal-500/5">
+          <h2 className="text-sm font-semibold text-teal-200">Client approved commercial scope</h2>
+          <p className="mt-2 text-sm text-slate-400">
+            The client recorded scope approval for ProCrow review via the authenticated Client
+            Portal. This is not a legal signature, payment authorization, or production go-live.
+          </p>
+          {clientApprovedAt && (
+            <p className="mt-2 text-xs text-slate-500">
+              Recorded {clientApprovedAt.toLocaleString()}
+            </p>
+          )}
+          <p className="mt-3 text-xs text-slate-500">
+            Next: review onboarding readiness, provisioning checklist, and go/no-go (ProCrow-owned).
+          </p>
+        </section>
+      )}
 
       <>
         <OperatorNextActionPanel

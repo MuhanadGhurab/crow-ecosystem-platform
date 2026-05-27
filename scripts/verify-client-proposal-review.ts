@@ -183,9 +183,16 @@ function main() {
     "Proposal detail must use getClientProposalReviewModel"
   );
   check(
-    proposalDetail.includes("ClientPortalApprovalBlocked"),
-    "Proposal detail shows approval blocked",
-    "Proposal detail must show approval blocked card"
+    proposalDetail.includes("ClientProposalApprovalPanel") ||
+      proposalDetail.includes("getClientApprovalEligibility"),
+    "Proposal detail shows approval UI (I6 panel or eligibility)",
+    "Proposal detail must wire ClientProposalApprovalPanel or getClientApprovalEligibility"
+  );
+  check(
+    !proposalDetail.includes("approveClientProposalScopeAction") ||
+      proposalDetail.includes("ClientProposalApprovalPanel"),
+    "Proposal detail does not call approval action directly from page",
+    "Proposal page must not invoke approve action except via approval panel"
   );
 
   const blueprintDetail = fileText("src/app/client/blueprints/[blueprintId]/page.tsx");

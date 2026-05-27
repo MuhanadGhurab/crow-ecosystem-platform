@@ -1,11 +1,12 @@
 /**
  * Client proposal / blueprint authenticated review models (I5).
- * Read-only review surfaces — no approval mutations until I6.
+ * Authenticated review surfaces; scope approval via client-approval (I6).
  */
 
 import type { BlueprintStatus, ProposalStatus } from "@prisma/client";
 import { CLIENT_PORTAL_APPROVAL_BLOCKED_REASON } from "@/lib/client-portal/client-portal-contract";
 import type { ClientPortalProcrowCounterpart } from "@/lib/client-portal/client-portal-contract";
+import type { ClientApprovalEligibility } from "@/lib/client-portal/client-approval-contract";
 
 export type ClientReviewAccessState =
   | "allowed"
@@ -15,8 +16,9 @@ export type ClientReviewAccessState =
   | "platform_staff_preview"
   | "not_found";
 
-/** I5 — approval remains blocked until verified ownership + audit (I6). */
-export const CLIENT_REVIEW_APPROVAL_BLOCKED_REASON = CLIENT_PORTAL_APPROVAL_BLOCKED_REASON;
+/** Shown when approval is blocked — prefer eligibility.blockedMessage when available (I6). */
+export const CLIENT_REVIEW_APPROVAL_BLOCKED_REASON =
+  "Scope approval requires verified client ownership (request submitter account). Email-only linkage allows review only.";
 
 export const CLIENT_REVIEW_READ_ONLY_NOTICE =
   "This is a read-only review. ProCrow prepares materials and tracks status; your team cannot approve scope here until verified ownership is complete.";
@@ -41,7 +43,7 @@ export type ClientProposalReviewSummary = {
   moduleCount: number;
   blueprintId: string;
   sentAt: string | null;
-  approvalState: "blocked";
+  approvalState: "blocked" | "eligible" | "approved";
   approvalBlockedReason: string;
   procrowStatus: string;
   reviewRoute: string;
@@ -64,13 +66,14 @@ export type ClientProposalReviewModel = {
   blueprintId: string;
   blueprintStatus: BlueprintStatus | null;
   sentAt: string | null;
-  approvalState: "blocked";
+  approvalState: "blocked" | "eligible" | "approved";
   approvalBlockedReason: string;
   procrowStatus: string;
   procrowNote: string;
   securityNotes: ClientReviewSecurityNote[];
   nextActions: string[];
   procrowCounterpart: ClientPortalProcrowCounterpart;
+  approvalEligibility: ClientApprovalEligibility;
 };
 
 export type ClientBlueprintReviewModel = {

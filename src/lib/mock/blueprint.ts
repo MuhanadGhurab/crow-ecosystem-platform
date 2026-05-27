@@ -23,6 +23,25 @@ const MOCK_REQUEST_ID = "mock-req-003";
 
 const now = new Date("2026-05-01T10:00:00.000Z");
 
+let mockClientApprovedAt: Date | null = null;
+let mockProposalStatusOverride: ProposalStatus | null = null;
+
+export function applyMockClientScopeApproval(): Date {
+  mockClientApprovedAt = new Date();
+  mockProposalStatusOverride = "CLIENT_APPROVED";
+  return mockClientApprovedAt;
+}
+
+export function getMockProposalApprovalOverrides(): {
+  clientApprovedAt: Date | null;
+  proposalStatus: ProposalStatus;
+} {
+  return {
+    clientApprovedAt: mockClientApprovedAt,
+    proposalStatus: mockProposalStatusOverride ?? "SENT",
+  };
+}
+
 function mockRequestRow() {
   return MOCK_PIPELINE_REQUESTS.find((r) => r.id === MOCK_REQUEST_ID)!;
 }
@@ -45,16 +64,17 @@ export function getMockEnterpriseBlueprint(
 
   const row = mockRequestRow();
   const planKey = row.planKey;
+  const approvalOverrides = getMockProposalApprovalOverrides();
 
   return {
     id: MOCK_BLUEPRINT_ID,
     requestId: MOCK_REQUEST_ID,
     discoveryProfileId: "mock-discovery-profile-001",
     status: "IN_REVIEW",
-    proposalStatus: "SENT" as ProposalStatus,
+    proposalStatus: approvalOverrides.proposalStatus,
     proposalToken: MOCK_PROPOSAL_TOKEN,
     proposalSentAt: now,
-    clientApprovedAt: null,
+    clientApprovedAt: approvalOverrides.clientApprovedAt,
     version: 1,
     approvedAt: null,
     createdAt: now,

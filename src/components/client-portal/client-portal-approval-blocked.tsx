@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CLIENT_PORTAL_APPROVAL_BLOCKED_REASON } from "@/lib/client-portal/client-portal-contract";
 import { routes } from "@/lib/routes";
 
-/** I3 — approval actions disabled until verified ownership is enforced server-side. */
+/** Shown on list/summary pages when approval happens on proposal detail (I6). */
 export function ClientPortalApprovalBlocked({
   context = "proposal",
   reason,
@@ -39,20 +39,11 @@ export function ClientPortalApprovalBlocked({
         your request contact to prepare for verified review.
       </p>
       <div className="mt-4 flex flex-wrap gap-3">
-        <span
-          className="cc-btn-primary pointer-events-none cursor-not-allowed opacity-50"
-          aria-disabled
-        >
-          Approve (coming soon)
-        </span>
-        <span
-          className="cc-btn-secondary pointer-events-none cursor-not-allowed opacity-50"
-          aria-disabled
-        >
-          Request changes (coming soon)
-        </span>
-        <Link href={routes.auth.login} className="cc-btn-secondary text-sm">
-          Sign in to Client Portal
+        <Link href={routes.client.proposals} className="cc-btn-primary text-sm">
+          Open proposals to approve scope
+        </Link>
+        <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
+          Your requests
         </Link>
       </div>
     </section>

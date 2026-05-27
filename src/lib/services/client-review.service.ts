@@ -19,6 +19,7 @@ import { industryLabel, moduleLabel, planLabel, securityPackageLabel } from "@/l
 import { isUseMockData } from "@/lib/mock/env";
 import {
   getMockEnterpriseBlueprint,
+  getMockProposalApprovalOverrides,
   getMockProposalByToken,
   MOCK_BLUEPRINT_ID,
   MOCK_PROPOSAL_TOKEN,
@@ -34,6 +35,8 @@ import {
 } from "@/lib/services/commercial.service";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import { prisma } from "@/lib/db";
+import { getClientApprovalEligibility } from "@/lib/services/client-approval.service";
+import type { ClientApprovalEligibility } from "@/lib/client-portal/client-approval-contract";
 
 const BLUEPRINT_READINESS: Record<string, string> = {
   DRAFT: "Draft",
@@ -49,7 +52,7 @@ function procrowProposalStatus(status: ProposalStatus): string {
     case "SENT":
       return "ProCrow sent the proposal — review scope here; approval is not enabled yet.";
     case "CLIENT_APPROVED":
-      return "Recorded as approved in ProCrow systems. Client Portal approval actions remain disabled in this phase.";
+      return "Client scope approval is on record. ProCrow is reviewing onboarding and provisioning readiness.";
     case "DECLINED":
       return "This proposal was declined in ProCrow records.";
     default:
@@ -146,6 +149,63 @@ async function resolveAccessForBlueprint(
   return { access, requestId: blueprint.requestId };
 }
 
+function approvalStateFromEligibility(
+  eligibility: ClientApprovalEligibility
+): "blocked" | "eligible" | "approved" {
+  if (eligibility.proposalState === "approved") return "approved";
+  if (eligibility.canApprove) return "eligible";
+  return "blocked";
+}
+
+function procrowNoteForEligibility(eligibility: ClientApprovalEligibility): string {
+  if (eligibility.proposalState === "approved") {
+    return "Your scope approval is on record. ProCrow is reviewing onboarding and provisioning readiness. This is not production go-live or payment authorization.";
+  }
+  if (eligibility.canApprove) {
+    return "You can approve commercial scope for ProCrow review on this page when your team is ready. Approval is not a contract signature or payment commitment.";
+  }
+  return "ProCrow manages proposal status and blueprint readiness. Scope approval requires verified request ownership (submitter account), not email-only linkage.";
+}
+
+function proposalNextActionsForEligibility(
+  eligibility: ClientApprovalEligibility,
+  blueprintId: string
+): string[] {
+  if (eligibility.proposalState === "approved") {
+    const actions = [
+      "Track ProCrow onboarding review on your request page.",
+      `View blueprint: ${routes.client.blueprint(blueprintId)}`,
+      "Tenant runtime is not created automatically.",
+    ];
+    if (eligibility.requestId) {
+      actions.unshift(`View request: ${routes.client.request(eligibility.requestId)}`);
+    }
+    return actions;
+  }
+  if (eligibility.canApprove) {
+    return [
+      "Review modules and advisory estimate with stakeholders.",
+      "Use “Approve scope for ProCrow review” when your team is aligned.",
+      `View blueprint: ${routes.client.blueprint(blueprintId)}`,
+    ];
+  }
+  return [
+    "Align internally on modules and security packages before workshops.",
+    `View blueprint: ${routes.client.blueprint(blueprintId)}`,
+    eligibility.blockedMessage ?? CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
+  ];
+}
+
+function blueprintProcrowNotes(
+  blueprintStatus: BlueprintStatus,
+  proposalStatus: ProposalStatus | null
+): string {
+  if (proposalStatus === "CLIENT_APPROVED") {
+    return "Client scope approval is on record. ProCrow is reviewing onboarding and provisioning readiness.";
+  }
+  return procrowBlueprintStatus(blueprintStatus);
+}
+
 function mapProposalSummary(
   blueprintId: string,
   requestId: string,
@@ -155,7 +215,8 @@ function mapProposalSummary(
   planLabel: string | null,
   estimatedRange: string | null,
   moduleCount: number,
-  sentAt: Date | string | null
+  sentAt: Date | string | null,
+  eligibility: ClientApprovalEligibility
 ): ClientProposalReviewSummary {
   return {
     proposalId: blueprintId,
@@ -173,8 +234,8 @@ function mapProposalSummary(
     moduleCount,
     blueprintId,
     sentAt: sentAt ? (typeof sentAt === "string" ? sentAt : sentAt.toISOString()) : null,
-    approvalState: "blocked",
-    approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
+    approvalState: approvalStateFromEligibility(eligibility),
+    approvalBlockedReason: eligibility.blockedMessage ?? CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
     procrowStatus: procrowProposalStatus(status),
     reviewRoute: routes.client.proposal(blueprintId),
     blueprintRoute: routes.client.blueprint(blueprintId),
@@ -212,17 +273,20 @@ export async function buildClientProposalsListModel(user: User): Promise<ClientP
   if (isUseMockData()) {
     const mockRow = MOCK_PIPELINE_REQUESTS.find((p) => p.blueprintId === MOCK_BLUEPRINT_ID);
     if (mockRow) {
+      const eligibility = await getClientApprovalEligibility(user, MOCK_BLUEPRINT_ID);
+      const mockStatus = eligibility.proposalStatus ?? "SENT";
       proposals.push(
         mapProposalSummary(
           MOCK_BLUEPRINT_ID,
           mockRow.id,
           mockRow.organizationName,
           mockRow.referenceCode,
-          "SENT",
+          mockStatus,
           planLabel(mockRow.planKey),
           formatEstimateRange(MOCK_PRICING_ESTIMATE.totalMonthlySar),
           3,
-          new Date().toISOString()
+          new Date().toISOString(),
+          eligibility
         )
       );
     }
@@ -234,7 +298,7 @@ export async function buildClientProposalsListModel(user: User): Promise<ClientP
         proposals.length > 0
           ? [
               "Open a proposal to review scope and advisory pricing.",
-              "Complete your profile and company details to prepare for verified approval (I6).",
+              "Approve scope on the proposal detail page when your account has verified ownership.",
             ]
           : ["Submit a request or sign in with your primary contact email to link proposals."],
       approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
@@ -256,6 +320,7 @@ export async function buildClientProposalsListModel(user: User): Promise<ClientP
         estimatedRange = est ? formatEstimateRange(est.totalMonthlySar) : null;
       }
 
+      const eligibility = await getClientApprovalEligibility(user, bp.id);
       proposals.push(
         mapProposalSummary(
           bp.id,
@@ -266,7 +331,8 @@ export async function buildClientProposalsListModel(user: User): Promise<ClientP
           plan ? planLabel(plan) : null,
           estimatedRange,
           r.requestedModules.length,
-          bp.proposalSentAt
+          bp.proposalSentAt,
+          eligibility
         )
       );
     }
@@ -310,6 +376,7 @@ export async function getClientProposalReviewModel(
 
     const { blueprint, estimate, planLabel: pl, modules, securityPackages } = mock;
     const org = blueprint.request.organizationName;
+    const eligibility = await getClientApprovalEligibility(user, proposalId);
 
     return {
       access: access.access,
@@ -318,7 +385,7 @@ export async function getClientProposalReviewModel(
         requestId: blueprint.requestId,
         referenceCode: blueprint.request.referenceCode,
         organizationName: org,
-        status: blueprint.proposalStatus,
+        status: eligibility.proposalStatus ?? blueprint.proposalStatus,
         title: `Commercial proposal — ${org}`,
         summary:
           "Scope covers selected CEM modules, security packages, and SAREA experience configuration at go-live.",
@@ -330,18 +397,15 @@ export async function getClientProposalReviewModel(
         blueprintId: proposalId,
         blueprintStatus: blueprint.status,
         sentAt: blueprint.proposalSentAt?.toISOString() ?? null,
-        approvalState: "blocked",
-        approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
-        procrowStatus: procrowProposalStatus(blueprint.proposalStatus),
-        procrowNote:
-          "ProCrow prepared this commercial package. Internal review and client approval audit are not enabled in this phase.",
+        approvalState: approvalStateFromEligibility(eligibility),
+        approvalBlockedReason:
+          eligibility.blockedMessage ?? CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
+        procrowStatus: procrowProposalStatus(eligibility.proposalStatus ?? blueprint.proposalStatus),
+        procrowNote: procrowNoteForEligibility(eligibility),
         securityNotes: CLIENT_REVIEW_SECURITY_NOTES,
-        nextActions: [
-          "Review modules and advisory estimate with your stakeholders.",
-          "Open the blueprint view for operating model and readiness.",
-          "Approval actions will appear after verified ownership (I6).",
-        ],
+        nextActions: proposalNextActionsForEligibility(eligibility, proposalId),
         procrowCounterpart: CLIENT_REVIEW_PROCROW_COUNTERPARTS.proposal,
+        approvalEligibility: eligibility,
       },
     };
   }
@@ -367,6 +431,8 @@ export async function getClientProposalReviewModel(
     label: securityPackageLabel(p.packageKey),
   }));
 
+  const eligibility = await getClientApprovalEligibility(user, proposalId);
+
   return {
     access,
     model: {
@@ -391,18 +457,15 @@ export async function getClientProposalReviewModel(
       blueprintId: proposalId,
       blueprintStatus: blueprint.status,
       sentAt: blueprint.proposalSentAt?.toISOString() ?? null,
-      approvalState: "blocked",
-      approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
+      approvalState: approvalStateFromEligibility(eligibility),
+      approvalBlockedReason:
+        eligibility.blockedMessage ?? CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
       procrowStatus: procrowProposalStatus(blueprint.proposalStatus),
-      procrowNote:
-        "ProCrow manages proposal status, internal review, and blueprint readiness. You can review scope here; approval requires verified ownership (future phase).",
+      procrowNote: procrowNoteForEligibility(eligibility),
       securityNotes: CLIENT_REVIEW_SECURITY_NOTES,
-      nextActions: [
-        "Align internally on modules and security packages before workshops.",
-        `View blueprint: ${routes.client.blueprint(proposalId)}`,
-        "Contact your ProCrow lead for questions — approval buttons are not active yet.",
-      ],
+      nextActions: proposalNextActionsForEligibility(eligibility, proposalId),
       procrowCounterpart: CLIENT_REVIEW_PROCROW_COUNTERPARTS.proposal,
+      approvalEligibility: eligibility,
     },
   };
 }
@@ -444,8 +507,7 @@ export async function getClientBlueprintReviewModel(
         workflows,
         readinessLabel: BLUEPRINT_READINESS[blueprint.status] ?? blueprint.status,
         missingInputs: ["Final discovery sign-off (demo)"],
-        procrowNotes:
-          "ProCrow is aligning blueprint scope with discovery workshops. This view is read-only.",
+        procrowNotes: blueprintProcrowNotes(blueprint.status, blueprint.proposalStatus),
         proposalId: blueprintId,
         proposalStatus: blueprint.proposalStatus,
         approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
@@ -500,7 +562,7 @@ export async function getClientBlueprintReviewModel(
       workflows: discovery?.workflows.map((w) => w.name) ?? [],
       readinessLabel: BLUEPRINT_READINESS[blueprint.status] ?? blueprint.status,
       missingInputs: missing,
-      procrowNotes: procrowBlueprintStatus(blueprint.status),
+      procrowNotes: blueprintProcrowNotes(blueprint.status, blueprint.proposalStatus),
       proposalId: blueprint.proposalStatus !== "DRAFT" ? blueprintId : null,
       proposalStatus: blueprint.proposalStatus,
       approvalBlockedReason: CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
@@ -525,24 +587,20 @@ export async function buildClientRequestReviewLinks(
   if (isUseMockData() && MOCK_CLIENT_REQUESTS.some((r) => r.id === requestId)) {
     const pipeline = MOCK_PIPELINE_REQUESTS.find((p) => p.id === requestId);
     const bpId = pipeline?.blueprintId ?? null;
+    const overrides = getMockProposalApprovalOverrides();
+    const hasProposal =
+      pipeline &&
+      (("proposalToken" in pipeline && pipeline.proposalToken) ||
+        pipeline.blueprintId === MOCK_BLUEPRINT_ID);
+    const proposalStatus = hasProposal ? overrides.proposalStatus : null;
     return {
       access: "allowed",
       links: {
         proposalHref: bpId ? routes.client.proposal(bpId) : null,
         blueprintHref: bpId ? routes.client.blueprint(bpId) : null,
-        proposalStatus:
-          pipeline &&
-          (("proposalToken" in pipeline && pipeline.proposalToken) ||
-            pipeline.blueprintId === MOCK_BLUEPRINT_ID)
-            ? "SENT"
-            : null,
+        proposalStatus,
         blueprintStatus: "IN_REVIEW",
-        proposalLabel:
-          pipeline &&
-          (("proposalToken" in pipeline && pipeline.proposalToken) ||
-            pipeline.blueprintId === MOCK_BLUEPRINT_ID)
-            ? proposalStatusLabel("SENT")
-            : null,
+        proposalLabel: proposalStatus ? proposalStatusLabel(proposalStatus) : null,
         blueprintLabel: "In review",
       },
     };

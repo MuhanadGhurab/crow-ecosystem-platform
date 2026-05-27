@@ -380,7 +380,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Routes | `src/app/client/proposals/**`, `src/app/client/blueprints/[blueprintId]/page.tsx` |
 | Verification | `npm run client-review:verify` |
 
-**Recommended next:** **I6 — Scope Approval + ProCrow Status Sync**.
+**Recommended next:** **I6 — Scope Approval + ProCrow Status Sync** (completed; see below).
+
+---
+
+## I6 — Scope approval + ProCrow status sync (no paid infra)
+
+**Scope:** Authenticated client scope approval with strong ownership, blueprint `CLIENT_APPROVED` persistence, platform notification, client + admin status sync, token route hardening, and `client-approval:verify` — without migrations, payments, tenant auto-provision, or legal/e-signature claims.
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md`](I6_SCOPE_APPROVAL_PROCROW_STATUS_SYNC.md) |
+| Approval contract | `src/lib/client-portal/client-approval-contract.ts` |
+| Service + action | `src/lib/services/client-approval.service.ts` · `src/lib/actions/client-approval.ts` |
+| UI | `src/components/client-portal/client-proposal-approval-panel.tsx` |
+| Verification | `npm run client-approval:verify` |
+
+**Recommended next:** **I7 — Onboarding Tracker MVP**.
 
 ---
 
