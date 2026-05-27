@@ -9,6 +9,7 @@ import { routes } from "@/lib/routes";
 
 const ADMIN_NAV: { href: string; label: string; permission: (typeof Permission)[keyof typeof Permission] }[] = [
   { href: routes.admin.overview, label: "Overview", permission: Permission["platform.admin.view"] },
+  { href: routes.admin.queue, label: "Queue", permission: Permission["platform.admin.view"] },
   { href: routes.admin.requests, label: "Requests", permission: Permission["platform.requests.view"] },
   { href: routes.admin.discovery, label: "Discovery", permission: Permission["platform.discovery.view"] },
   { href: routes.admin.blueprints, label: "Blueprints", permission: Permission["platform.blueprint.view"] },

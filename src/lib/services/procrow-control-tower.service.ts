@@ -10,7 +10,6 @@ import type {
   ProCrowDeploymentReadinessSummary,
   ProCrowExperiencePostureSummary,
   ProCrowNotificationBrief,
-  ProCrowOperatorQueueItem,
   ProCrowReadinessStatus,
   ProCrowTenantRuntimeSignals,
   ProCrowTrustPostureSummary,
@@ -20,264 +19,11 @@ import { getCemCommandCenterSnapshot } from "@/lib/services/cem-command-center.s
 import { getOperatorConsoleSnapshot } from "@/lib/services/operator-console.service";
 import { getPlatformNotificationInboxSummary } from "@/lib/services/platform-notification.service";
 import { PIPELINE_EVENT_TYPES } from "@/lib/services/platform-notification-links";
-import { routes } from "@/lib/routes";
-
-type OperatorQueueBuckets = {
-  pending_review: { requestId: string; referenceCode: string }[];
-  blueprint_pending: { requestId: string; referenceCode: string }[];
-  ready_go_live: { requestId: string; referenceCode: string }[];
-  needs_review: { requestId: string; referenceCode: string }[];
-};
-
-async function loadBlueprintProposalRows() {
-  try {
-    return await prisma.enterpriseBlueprint.findMany({
-      orderBy: { updatedAt: "desc" },
-      take: 60,
-      select: {
-        id: true,
-        requestId: true,
-        proposalStatus: true,
-        clientApprovedAt: true,
-        proposalSentAt: true,
-      },
-    });
-  } catch {
-    return [];
-  }
-}
-
-function buildOperatorQueue(input: {
-  operatorBuckets: OperatorQueueBuckets;
-  blueprints: Awaited<ReturnType<typeof loadBlueprintProposalRows>>;
-  notificationHigh: number;
-  tenantsAttention: { id: string; slug: string; name: string }[];
-  openIncidents: number;
-  mappingGap: boolean;
-  openReviewNotesCount: number;
-  openRequestChangesCount: number;
-}): ProCrowOperatorQueueItem[] {
-  const items: ProCrowOperatorQueueItem[] = [];
-  let seq = 0;
-  const nextId = (prefix: string) => `${prefix}-${++seq}`;
-
-  for (const row of input.operatorBuckets.pending_review.slice(0, 6)) {
-    items.push({
-      id: nextId("req"),
-      type: "new_request_review",
-      label: "New request needs review",
-      priority: "high",
-      status: "pending_review",
-      description: `Intake ${row.referenceCode} is waiting for ProCrow review before discovery.`,
-      relatedRoute: routes.admin.request(row.requestId),
-      owner: "procrow",
-      actionLabel: "Open request",
-      requestId: row.requestId,
-    });
-  }
-
-  for (const row of input.operatorBuckets.blueprint_pending.slice(0, 5)) {
-    items.push({
-      id: nextId("bp"),
-      type: "blueprint_review",
-      label: "Blueprint needs review",
-      priority: "medium",
-      status: "blueprint_pending",
-      description: `Blueprint workstream for ${row.referenceCode} needs operator-guided review.`,
-      relatedRoute: routes.admin.request(row.requestId),
-      owner: "procrow",
-      actionLabel: "Review blueprint",
-      requestId: row.requestId,
-    });
-  }
-
-  const approvedSeen = new Set<string>();
-  for (const bp of input.blueprints) {
-    if (bp.proposalStatus === "DRAFT" && items.filter((i) => i.type === "proposal_send").length < 4) {
-      items.push({
-        id: nextId("prop"),
-        type: "proposal_send",
-        label: "Proposal ready / waiting to send",
-        priority: "medium",
-        status: "draft",
-        description: "Commercial proposal is in draft — confirm readiness before client send.",
-        relatedRoute: routes.admin.request(bp.requestId),
-        owner: "builder",
-        actionLabel: "Open proposal workspace",
-        requestId: bp.requestId,
-        blueprintId: bp.id,
-      });
-    }
-    if (bp.proposalStatus === "SENT" && items.filter((i) => i.type === "proposal_client_wait").length < 4) {
-      items.push({
-        id: nextId("pwait"),
-        type: "proposal_client_wait",
-        label: "Proposal sent — waiting for client",
-        priority: "low",
-        status: "sent",
-        description: "Proposal is with the client for review; monitor for approval or change requests.",
-        relatedRoute: routes.admin.request(bp.requestId),
-        owner: "client",
-        actionLabel: "Monitor client portal",
-        requestId: bp.requestId,
-        blueprintId: bp.id,
-      });
-    }
-    if (
-      bp.clientApprovedAt &&
-      bp.proposalStatus === "CLIENT_APPROVED" &&
-      !approvedSeen.has(bp.requestId) &&
-      items.filter((i) => i.type === "client_scope_approved").length < 6
-    ) {
-      approvedSeen.add(bp.requestId);
-      items.push({
-        id: nextId("cappr"),
-        type: "client_scope_approved",
-        label: "Client approved scope",
-        priority: "medium",
-        status: "client_approved",
-        description: "Scope approval is on record — continue ProCrow-controlled onboarding review.",
-        relatedRoute: routes.admin.request(bp.requestId),
-        owner: "procrow",
-        actionLabel: "Continue onboarding",
-        requestId: bp.requestId,
-        blueprintId: bp.id,
-      });
-    }
-  }
-
-  for (const row of input.operatorBuckets.ready_go_live.slice(0, 5)) {
-    items.push({
-      id: nextId("onb"),
-      type: "onboarding_procrow_action",
-      label: "Onboarding needs ProCrow action",
-      priority: "medium",
-      status: "ready_go_live",
-      description: `${row.referenceCode} is in go-live readiness — operator-guided provisioning only.`,
-      relatedRoute: routes.admin.request(row.requestId),
-      owner: "procrow",
-      actionLabel: "Review go-live checklist",
-      requestId: row.requestId,
-    });
-  }
-
-  for (const row of input.operatorBuckets.needs_review.slice(0, 4)) {
-    items.push({
-      id: nextId("blk"),
-      type: "pipeline_blocked",
-      label: "Pipeline item needs triage",
-      priority: "high",
-      status: "needs_review",
-      description: `${row.referenceCode} is outside the happy path — manual ProCrow triage required.`,
-      relatedRoute: routes.admin.request(row.requestId),
-      owner: "procrow",
-      actionLabel: "Triage request",
-      requestId: row.requestId,
-    });
-  }
-
-  for (const t of input.tenantsAttention) {
-    items.push({
-      id: nextId("tnt"),
-      type: "tenant_runtime_review",
-      label: "Tenant runtime readiness needs review",
-      priority: "medium",
-      status: "attention",
-      description: `${t.name} (${t.slug}) health signals suggest operator review — advisory only.`,
-      relatedRoute: routes.admin.tenant(t.id),
-      owner: "procrow",
-      actionLabel: "Open tenant",
-      tenantSlug: t.slug,
-    });
-  }
-
-  if (input.openIncidents > 0) {
-    items.push({
-      id: nextId("cc"),
-      type: "cybercrow_trust_review",
-      label: "CyberCrow incidents need review",
-      priority: "high",
-      status: "open_incidents",
-      description: `${input.openIncidents} open incident(s) across tenants — operator review, not autonomous triage.`,
-      relatedRoute: routes.tenant(MEEM_TENANT_SLUG).cybercrow.incidents,
-      owner: "procrow",
-      actionLabel: "Review incidents",
-      tenantSlug: MEEM_TENANT_SLUG,
-    });
-  }
-
-  if (input.mappingGap) {
-    items.push({
-      id: nextId("sarea"),
-      type: "sarea_experience_review",
-      label: "SAREA mapping needs review",
-      priority: "medium",
-      status: "mapping_gap",
-      description: "Role experience maps look thin versus profiles — verify persona coverage in SAREA studio.",
-      relatedRoute: routes.sarea.roleMapping,
-      owner: "procrow",
-      actionLabel: "Open role mapping",
-    });
-  }
-
-  if (input.openRequestChangesCount > 0) {
-    items.push({
-      id: nextId("chg"),
-      type: "client_request_changes",
-      label: "Client requested changes",
-      priority: "high",
-      status: "open",
-      description: `${input.openRequestChangesCount} open change request(s) from the client portal — operator-guided triage.`,
-      relatedRoute: routes.admin.notifications,
-      owner: "client",
-      actionLabel: "Review inbox",
-    });
-  }
-
-  if (input.openReviewNotesCount > 0) {
-    items.push({
-      id: nextId("note"),
-      type: "client_review_notes",
-      label: "Client review notes",
-      priority: "medium",
-      status: "open",
-      description: `${input.openReviewNotesCount} open review note(s) — advisory context for scope and delivery.`,
-      relatedRoute: routes.admin.notifications,
-      owner: "client",
-      actionLabel: "Open notifications",
-    });
-  }
-
-  if (input.notificationHigh > 0) {
-    items.push({
-      id: nextId("notif"),
-      type: "notification_high_priority",
-      label: "High-priority notifications",
-      priority: "high",
-      status: "open",
-      description: `${input.notificationHigh} advisory item(s) in the operator inbox need review.`,
-      relatedRoute: routes.admin.notifications,
-      owner: "procrow",
-      actionLabel: "Open inbox",
-    });
-  }
-
-  items.push({
-    id: nextId("val"),
-    type: "validation_go_no_go",
-    label: "Validation / go-no-go discipline",
-    priority: "medium",
-    status: "advisory",
-    description: "Run validation playbook and deployment checks before any production discussion — F23-gated.",
-    relatedRoute: routes.admin.tenants,
-    owner: "procrow",
-    actionLabel: "Review readiness",
-  });
-
-  const pri = { high: 0, medium: 1, low: 2 } as const;
-  items.sort((a, b) => pri[a.priority] - pri[b.priority]);
-  return items.slice(0, 24);
-}
+import {
+  deriveProCrowOperatorQueueSnapshot,
+  emptyProCrowOperatorQueueSnapshot,
+  loadBlueprintProposalRows,
+} from "@/lib/services/procrow-operator-queue.service";
 
 export async function getProCrowControlTowerSnapshot(): Promise<ProCrowControlTowerSnapshot> {
   const empty: ProCrowControlTowerSnapshot = {
@@ -347,7 +93,7 @@ export async function getProCrowControlTowerSnapshot(): Promise<ProCrowControlTo
       noAutoProvisioning: true,
       nextOperatorAction: "Keep staging/demo posture; run deploy-readiness checks before any production conversation.",
     },
-    operatorQueue: [],
+    operatorQueueSnapshot: emptyProCrowOperatorQueueSnapshot(),
     notifications: {
       highPriorityOpen: 0,
       pipelineOpenRecent: 0,
@@ -534,7 +280,12 @@ export async function getProCrowControlTowerSnapshot(): Promise<ProCrowControlTo
       })),
     };
 
-    const operatorQueue = buildOperatorQueue({
+    const requestOrgById = new Map<string, string>();
+    for (const card of operator.lifecycleCards) {
+      requestOrgById.set(card.requestId, card.organizationName);
+    }
+
+    const operatorQueueSnapshot = deriveProCrowOperatorQueueSnapshot({
       operatorBuckets,
       blueprints: blueprintRows,
       notificationHigh: notificationSummary.highPriorityCount,
@@ -543,10 +294,13 @@ export async function getProCrowControlTowerSnapshot(): Promise<ProCrowControlTo
       mappingGap: mappingNeedsReview,
       openReviewNotesCount,
       openRequestChangesCount,
+      requestOrgById,
     });
 
     const nextActions: string[] = [];
-    if (operatorQueue[0]) nextActions.push(operatorQueue[0].actionLabel + ": " + operatorQueue[0].label);
+    for (const rec of operatorQueueSnapshot.nextRecommendedActions.slice(0, 2)) {
+      nextActions.push(rec);
+    }
     if (pendingReview > 0) nextActions.push(`Review ${pendingReview} intake item(s) in the request queue.`);
     if (notificationSummary.highPriorityCount > 0) {
       nextActions.push("Clear high-priority advisories in the notification inbox.");
@@ -604,7 +358,7 @@ export async function getProCrowControlTowerSnapshot(): Promise<ProCrowControlTo
       trustPosture: trust,
       experiencePosture: experience,
       deploymentReadiness: deployment,
-      operatorQueue,
+      operatorQueueSnapshot,
       notifications: notifBrief,
       nextActions: nextActions.slice(0, 5),
     };

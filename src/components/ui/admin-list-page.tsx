@@ -5,6 +5,7 @@ interface AdminListPageProps {
   badge?: string;
   title: string;
   description: string;
+  headerActions?: React.ReactNode;
   isEmpty: boolean;
   emptyTitle: string;
   emptyDescription?: string;
@@ -16,6 +17,7 @@ export function AdminListPage({
   badge = "Platform Admin",
   title,
   description,
+  headerActions,
   isEmpty,
   emptyTitle,
   emptyDescription,
@@ -24,7 +26,7 @@ export function AdminListPage({
 }: AdminListPageProps) {
   return (
     <div className="space-y-8">
-      <PageHeader badge={badge} title={title} description={description} />
+      <PageHeader badge={badge} title={title} description={description} actions={headerActions} />
       {isEmpty ? (
         <EmptyState title={emptyTitle} description={emptyDescription} action={emptyAction} />
       ) : (

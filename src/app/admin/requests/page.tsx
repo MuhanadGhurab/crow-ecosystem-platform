@@ -10,6 +10,8 @@ import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-contex
 import { listImplementationRequests } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
+import { requestStatusToOperatorQueueHint } from "@/lib/procrow/procrow-request-status-queue-hint";
+import { routes } from "@/lib/routes";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 type RequestRow = {
@@ -94,6 +96,11 @@ export default async function AdminRequestsPage({
     <AdminListPage
       title="Implementation requests"
       description="ProCrow customer flow — intake queue from public request through client review, discovery, blueprint, and controlled tenant readiness."
+      headerActions={
+        <Link href={routes.admin.queue} className="cc-btn-secondary text-sm">
+          Operator queue →
+        </Link>
+      }
       isEmpty={requests.length === 0}
       emptyTitle="No requests yet"
       emptyAction={
@@ -133,6 +140,12 @@ export default async function AdminRequestsPage({
           </div>
           <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end">
             <RequestStatusBadge status={r.status as ImplementationRequestStatus} />
+            <p className="text-[11px] text-slate-500">
+              Queue stage:{" "}
+              <span className="text-cyan-300/90">
+                {requestStatusToOperatorQueueHint(r.status as ImplementationRequestStatus)}
+              </span>
+            </p>
             {r.estimatedMonthlySar != null && (
               <p className="font-display text-sm font-semibold tabular-nums text-teal-300">
                 {formatSar(r.estimatedMonthlySar)}

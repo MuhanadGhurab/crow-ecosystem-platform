@@ -31,6 +31,7 @@ import {
   securityPackageLabel,
 } from "@/lib/catalog-labels";
 
+import { requestStatusToOperatorQueueHint } from "@/lib/procrow/procrow-request-status-queue-hint";
 import { routes } from "@/lib/routes";
 
 import {
@@ -157,11 +158,14 @@ export default async function AdminRequestDetailPage({
 
     <div className="space-y-8">
 
-      <Link href={routes.admin.requests} className="text-sm text-cyan-400 hover:text-cyan-300">
-
-        ← All requests
-
-      </Link>
+      <div className="flex flex-wrap items-center gap-4 text-sm">
+        <Link href={routes.admin.requests} className="text-cyan-400 hover:text-cyan-300">
+          ← All requests
+        </Link>
+        <Link href={routes.admin.queue} className="text-slate-500 hover:text-cyan-300">
+          Operator queue →
+        </Link>
+      </div>
 
 
 
@@ -192,6 +196,18 @@ export default async function AdminRequestDetailPage({
       />
 
       <ProCrowCapabilityFraming capability="customerFlow" />
+
+      <section className="cc-glass-card border-cyan-500/20 !p-4">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Operator queue (derived)</h2>
+        <p className="mt-1 text-sm text-white">
+          Current stage:{" "}
+          <span className="text-cyan-300">{requestStatusToOperatorQueueHint(status)}</span>
+        </p>
+        <p className="mt-2 text-xs text-slate-500">
+          Advisory label from request status — tenant provisioning and go-live remain ProCrow-controlled; no
+          automatic provisioning from this view.
+        </p>
+      </section>
 
       <LifecycleStrip status={status} />
 

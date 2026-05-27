@@ -92,12 +92,22 @@ function main() {
   );
 
   const dash = fileText("src/components/procrow/procrow-control-tower-dashboard.tsx");
-  check(dash.includes("Operator queue"), "Dashboard includes operator queue section", "Missing operator queue UI");
+  check(dash.includes("ProCrowOperatorQueuePanel"), "Dashboard embeds operator queue panel", "Missing ProCrowOperatorQueuePanel");
+  check(dash.includes("operatorQueueSnapshot"), "Dashboard reads operatorQueueSnapshot", "Missing operatorQueueSnapshot on dashboard");
   check(dash.includes("F23"), "Dashboard references F23 production gate", "Missing F23 gate wording");
   check(dash.includes("Deployment /"), "Deployment / go-no-go section present", "Missing deployment section");
 
   const service = fileText("src/lib/services/procrow-control-tower.service.ts");
-  check(service.includes("buildOperatorQueue"), "Service builds operator queue", "Missing buildOperatorQueue");
+  check(
+    service.includes("deriveProCrowOperatorQueueSnapshot"),
+    "Service derives J3 operator queue snapshot",
+    "Missing deriveProCrowOperatorQueueSnapshot in control tower service"
+  );
+  check(
+    service.includes("operatorQueueSnapshot"),
+    "Service returns operatorQueueSnapshot",
+    "Missing operatorQueueSnapshot on control tower snapshot"
+  );
   check(!service.includes("service_role"), "Control tower service avoids service_role string", "Remove service_role from service");
 
   let scan = "";

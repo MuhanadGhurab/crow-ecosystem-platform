@@ -1,22 +1,8 @@
 import Link from "next/link";
-import type {
-  ProCrowControlTowerSnapshot,
-  ProCrowQueuePriority,
-  ProCrowReadinessStatus,
-} from "@/lib/procrow/procrow-control-tower-contract";
+import type { ProCrowControlTowerSnapshot, ProCrowReadinessStatus } from "@/lib/procrow/procrow-control-tower-contract";
+import { ProCrowOperatorQueuePanel } from "@/components/procrow/procrow-operator-queue-panel";
 import { routes } from "@/lib/routes";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
-
-function priorityTone(p: ProCrowQueuePriority): string {
-  switch (p) {
-    case "high":
-      return "border-rose-500/40 bg-rose-500/10 text-rose-200";
-    case "medium":
-      return "border-amber-500/30 bg-amber-500/10 text-amber-100";
-    default:
-      return "border-slate-600/50 bg-slate-800/40 text-slate-300";
-  }
-}
 
 function readinessChip(status: ProCrowReadinessStatus): string {
   switch (status) {
@@ -159,43 +145,12 @@ export function ProCrowControlTowerDashboard({ snapshot: s }: ProCrowControlTowe
         </div>
       </section>
 
-      <section>
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">Operator queue</h2>
-          <Link href={routes.admin.requests} className="text-xs text-cyan-400 hover:text-cyan-300">
-            Requests →
-          </Link>
-        </div>
-        <ul className="mt-3 space-y-2">
-          {s.operatorQueue.length === 0 ? (
-            <li className="cc-glass-card !p-4 text-sm text-slate-500">No queued items — triage intake or refresh data.</li>
-          ) : (
-            s.operatorQueue.map((item) => (
-              <li
-                key={item.id}
-                className="cc-glass-card flex flex-col gap-2 !p-4 sm:flex-row sm:items-start sm:justify-between"
-              >
-                <div className="min-w-0 flex-1 space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase ${priorityTone(item.priority)}`}>
-                      {item.priority}
-                    </span>
-                    <span className="text-xs uppercase text-slate-500">{item.owner}</span>
-                    <span className="font-medium text-white">{item.label}</span>
-                  </div>
-                  <p className="text-sm text-slate-400">{item.description}</p>
-                </div>
-                <Link
-                  href={item.relatedRoute}
-                  className="shrink-0 rounded border border-cyan-500/30 px-3 py-1.5 text-center text-sm text-cyan-300 hover:bg-cyan-500/10"
-                >
-                  {item.actionLabel}
-                </Link>
-              </li>
-            ))
-          )}
-        </ul>
-      </section>
+      <ProCrowOperatorQueuePanel
+        snapshot={s.operatorQueueSnapshot}
+        compact
+        fullQueueHref={routes.admin.queue}
+        title="Operator queue"
+      />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <section className="cc-glass-card !p-5">

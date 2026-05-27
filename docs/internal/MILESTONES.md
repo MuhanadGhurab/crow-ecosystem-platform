@@ -581,7 +581,35 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** `procrow:verify` (J1+J2) + `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, full `client-*:verify` batch as per project gate.
 
-**Recommended next:** **J3 — ProCrow request-to-tenant operator queue** · **Pause** if no internal demo pressure.
+**Recommended next:** **J4 — CyberCrow Evidence/GRC UX Depth** · **Alternative — J4 ProCrow request detail actions** · **Pause** if no internal demo pressure.
+
+---
+
+## J3 — ProCrow request-to-tenant operator queue (no paid infra)
+
+**Scope:** Derived **read-only** operator queue across the customer-to-tenant flow — intake, discovery/blueprint, proposal, client review/approval, onboarding, tenant readiness, trust/SAREA checks. No task engine, no status mutations, no auto-provisioning.
+
+- Typed queue contract (`procrow-operator-queue-contract.ts`)
+- Read-only derivation service (`procrow-operator-queue.service.ts`)
+- Queue UI components + `/admin/queue` full browser
+- Control tower embed via `operatorQueueSnapshot` on `/admin/overview`
+- Request list/detail queue hints; notifications cross-link
+- `npm run procrow-queue:verify` · `procrow:verify` includes J3
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J3_PROCROW_REQUEST_TO_TENANT_OPERATOR_QUEUE.md` |
+| Contract | `src/lib/procrow/procrow-operator-queue-contract.ts` |
+| Service | `src/lib/services/procrow-operator-queue.service.ts` |
+| UI | `src/components/procrow/procrow-operator-queue-*.tsx` |
+| Route | `src/app/admin/queue/page.tsx` |
+| Verifier | `scripts/verify-procrow-operator-queue.ts` |
+
+**Verification:** `procrow:verify` (J1+J2+J3) + `procrow-queue:verify` + standard project gate (`mock:verify`, `typecheck`, `lint`, `build`, client verifiers as applicable).
+
+**Recommended next:** **J4 — CyberCrow Evidence/GRC UX Depth** · **Pause** if no internal demo pressure.
 
 ---
 

@@ -1,7 +1,16 @@
 /**
  * J2 — ProCrow Control Tower dashboard contract (typed snapshot, advisory only).
  * No production guarantees, no autonomous operation, no compliance certification semantics.
+ *
+ * J3 — Operator queue item types live in `procrow-operator-queue-contract.ts` (re-exported below).
  */
+
+import type { ProCrowOperatorQueueSnapshot } from "./procrow-operator-queue-contract";
+
+export type {
+  ProCrowOperatorQueueItem,
+  ProCrowOperatorQueueSnapshot,
+} from "./procrow-operator-queue-contract";
 
 export type ProCrowControlTowerMode = "staging_portfolio" | "limited_data";
 
@@ -11,42 +20,6 @@ export type ProCrowReadinessStatus =
   | "limited_data"
   | "blocked"
   | "not_enabled";
-
-export type ProCrowQueuePriority = "high" | "medium" | "low";
-
-export type ProCrowQueueOwner = "procrow" | "delivery" | "builder" | "client";
-
-export type ProCrowOperatorQueueItemType =
-  | "new_request_review"
-  | "blueprint_review"
-  | "proposal_send"
-  | "proposal_client_wait"
-  | "client_scope_approved"
-  | "client_request_changes"
-  | "client_review_notes"
-  | "onboarding_procrow_action"
-  | "tenant_runtime_review"
-  | "cybercrow_trust_review"
-  | "sarea_experience_review"
-  | "validation_go_no_go"
-  | "notification_high_priority"
-  | "pipeline_blocked";
-
-export type ProCrowOperatorQueueItem = {
-  id: string;
-  type: ProCrowOperatorQueueItemType;
-  label: string;
-  priority: ProCrowQueuePriority;
-  status: string;
-  description: string;
-  relatedRoute: string;
-  owner: ProCrowQueueOwner;
-  actionLabel: string;
-  /** Optional context for deep links */
-  requestId?: string;
-  tenantSlug?: string;
-  blueprintId?: string;
-};
 
 export type ProCrowCustomerFlowSummary = {
   totalRequests: number;
@@ -135,7 +108,7 @@ export type ProCrowControlTowerSnapshot = {
   trustPosture: ProCrowTrustPostureSummary;
   experiencePosture: ProCrowExperiencePostureSummary;
   deploymentReadiness: ProCrowDeploymentReadinessSummary;
-  operatorQueue: ProCrowOperatorQueueItem[];
+  operatorQueueSnapshot: ProCrowOperatorQueueSnapshot;
   notifications: ProCrowNotificationBrief;
   nextActions: string[];
 };

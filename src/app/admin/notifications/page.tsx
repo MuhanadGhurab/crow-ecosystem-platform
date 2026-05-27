@@ -288,9 +288,17 @@ export default async function AdminNotificationsPage({
 
         title="Notification center"
 
-        description="Subscription advisories, go-live signals, usage warnings, and pipeline email log. Advisory only — no billing enforcement or tenant blocking."
+        description="Subscription advisories, go-live signals, usage warnings, and pipeline email log. Advisory only — no billing enforcement or tenant blocking. Client review notes and request-changes events also surface in the ProCrow operator queue."
 
       />
+
+      <p className="text-xs text-slate-500">
+        High-priority pipeline events may appear on the{" "}
+        <Link href={routes.admin.queue} className="text-cyan-400 hover:text-cyan-300">
+          operator queue
+        </Link>{" "}
+        when they need ProCrow action — this inbox remains the source of truth for notification records.
+      </p>
 
 
 

@@ -1,7 +1,7 @@
 # ProCrow operator index
 
 **Audience:** Platform operators, delivery leads  
-**Last updated:** 27 May 2026 (J1)
+**Last updated:** 27 May 2026 (J3)
 
 ProCrow is the internal control tower for Crow Ecosystem — platform administration, customer-to-tenant flow, trust governance, experience studio, runtime cohesion, and deployment discipline. CyberCrow and SAREA remain distinct capabilities under ProCrow.
 
@@ -11,7 +11,8 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 
 | Surface | Route | Notes |
 |---------|-------|--------|
-| ProCrow Control Tower | `/admin/overview` | Primary entry — map, pipeline, tenant grid |
+| ProCrow Control Tower | `/admin/overview` | Primary entry — map, pipeline, tenant grid, embedded operator queue |
+| Operator queue (derived) | `/admin/queue` | Request-to-tenant stages — read-only, no task engine |
 | Platform Admin shell | `/admin/*` | `requirePlatformConsole` — not public |
 
 ---
@@ -95,6 +96,8 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 | Phase | Document |
 |-------|----------|
 | J1 UX unification | [`J1_PROCROW_PORTAL_UX_UNIFICATION.md`](J1_PROCROW_PORTAL_UX_UNIFICATION.md) |
+| J2 Control tower depth | [`J2_PROCROW_CONTROL_TOWER_DASHBOARD_DEPTH.md`](J2_PROCROW_CONTROL_TOWER_DASHBOARD_DEPTH.md) |
+| J3 Operator queue | [`J3_PROCROW_REQUEST_TO_TENANT_OPERATOR_QUEUE.md`](J3_PROCROW_REQUEST_TO_TENANT_OPERATOR_QUEUE.md) |
 
 ---
 
@@ -102,6 +105,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 
 ```bash
 npm run procrow:verify
+npm run procrow-queue:verify
 npm run mock:verify
 npm run typecheck
 npm run lint
