@@ -467,7 +467,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Remaining gaps (deferred):** no membership backfill/seeds, no ProCrow admin verification mutation implementation, and no invitation/company-editing workflows in this phase.
 
-**Recommended next:** **I10 — Request changes + client review notes** (completed; no paid infra).
+**Recommended next:** **I10** (completed) · **I11** checkpoint (completed).
 
 ---
 
@@ -498,7 +498,35 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Remaining gaps (deferred):** no dedicated notes table, no messaging threads, no auto onboarding reversal on request-changes, manual logged-in UI smoke.
 
-**Recommended next:** **I11 — Client portal checkpoint & pause** · **J1 — ProCrow portal UX unification** · **I11 — Client organization admin verification tools**.
+**Recommended next:** **I11 — Client portal checkpoint & pause** (completed).
+
+---
+
+## I11 — Client portal checkpoint & pause (no paid infra)
+
+**Scope:** Close the I-series Client / Proposal Portal arc — audit I1–I10, capability summary, security/trust checkpoint, route map, verifier index, manual smoke checklist, operator runbook. **No feature expansion.**
+
+- I-series arc audit (complete vs demo vs future)
+- Capability summary table (routes, safety, ProCrow counterparts)
+- Security/trust confirmation (auth, authorization, approval, feedback, onboarding)
+- Route map for `/client`, public token, admin counterparts
+- Verification script index (all eight `client-*:verify` scripts)
+- Manual smoke checklist (owner, reviewer, admin, public)
+- [`CLIENT_PORTAL_RUNBOOK.md`](CLIENT_PORTAL_RUNBOOK.md) — concise demo + verify guide
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Checkpoint doc | `docs/internal/I11_CLIENT_PORTAL_CHECKPOINT_PAUSE.md` |
+| Operator runbook | `docs/internal/CLIENT_PORTAL_RUNBOOK.md` |
+| Status | `docs/internal/PROJECT_STATUS.md` · `docs/internal/MILESTONES.md` |
+
+**Verification:** Full client verifier batch + `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`.
+
+**Remaining gaps (deferred):** manual logged-in staging smoke; ProCrow org verification UI; optional dead-code cleanup for `approveProposalByToken`.
+
+**Recommended next:** **Primary — J1 — ProCrow portal UX unification** · **Alternative — I12 — Client portal manual smoke closure** · **Pause** — default after I11 unless demo pressure.
 
 ---
 
