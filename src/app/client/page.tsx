@@ -1,14 +1,18 @@
 import Link from "next/link";
+import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
 import { ClientPortalNextActions } from "@/components/client-portal/client-portal-next-actions";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+import { CLIENT_PORTAL_APPROVAL_BLOCKED_REASON } from "@/lib/client-portal/client-portal-contract";
 import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
+import { buildClientProfileDashboardHints } from "@/lib/services/client-profile.service";
 import { routes } from "@/lib/routes";
 
 export default async function ClientPortalHomePage() {
   const user = await requireClientAccess(routes.client.home);
   const snapshot = await buildClientPortalDashboardSnapshot(user);
+  const profileHints = await buildClientProfileDashboardHints(user);
 
   const linked = snapshot.authState === "authenticated_linked";
   const staff = snapshot.authState === "platform_staff";
@@ -32,6 +36,35 @@ export default async function ClientPortalHomePage() {
       </div>
 
       <ClientPortalNextActions snapshot={snapshot} />
+
+      <section className="grid gap-4 sm:grid-cols-2">
+        <Link href={routes.client.profile} className="cc-glass-card block hover:border-teal-500/30">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Profile</p>
+          <p className="mt-2 text-2xl font-semibold text-white">
+            {profileHints.profileCompleteness}%
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {profileHints.profileMissingCount === 0
+              ? "Basics complete"
+              : `${profileHints.profileMissingCount} field(s) missing`}
+          </p>
+        </Link>
+        <Link href={routes.client.company} className="cc-glass-card block hover:border-teal-500/30">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Company</p>
+          <p className="mt-2 text-2xl font-semibold text-white">
+            {profileHints.companyCompleteness != null ? `${profileHints.companyCompleteness}%` : "—"}
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {profileHints.companyCompleteness == null
+              ? "Not linked yet"
+              : profileHints.companyMissingCount === 0
+                ? "Profile populated"
+                : `${profileHints.companyMissingCount} gap(s)`}
+          </p>
+        </Link>
+      </section>
+
+      <ClientPortalApprovalBlocked reason={CLIENT_PORTAL_APPROVAL_BLOCKED_REASON} compact />
 
       <ClientPortalStatusCard
         title="Account connection"

@@ -1,42 +1,123 @@
+import Link from "next/link";
+import { ClientLinkingStatus } from "@/components/client-portal/client-linking-status";
+import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientProfileCompleteness } from "@/components/client-portal/client-profile-completeness";
+import { ClientProfileEditForm } from "@/components/client-portal/client-profile-edit-form";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
-import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
+import { buildClientProfilePageModel } from "@/lib/services/client-profile.service";
 import { routes } from "@/lib/routes";
 
 export default async function ClientProfilePage() {
   const user = await requireClientAccess(routes.client.profile);
-  const snapshot = await buildClientPortalDashboardSnapshot(user);
-  const account = snapshot.account;
+  const model = await buildClientProfilePageModel(user);
+  const { profile } = model;
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="cc-page-title">Profile</h1>
         <p className="mt-2 text-sm text-slate-400">
-          Your sign-in identity for the Client Portal. Company details live under Company.
+          Your Client Portal identity and readiness. Company details are on the Company page.
         </p>
       </div>
 
-      <ClientPortalStatusCard title="Signed-in account" badge="Read-only" badgeTone="info">
-        {account ? (
-          <dl className="mt-4 space-y-3 text-sm">
-            <div>
-              <dt className="text-slate-500">Email</dt>
-              <dd className="text-white">{account.email ?? "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">Display name</dt>
-              <dd className="text-white">{account.displayName ?? "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">Access</dt>
-              <dd className="text-white capitalize">{account.accessLevel}</dd>
-            </div>
-          </dl>
-        ) : (
-          <p className="text-sm text-slate-400">Sign in to view profile details.</p>
-        )}
+      <ClientLinkingStatus state={model.accountLinkState} />
+
+      <ClientProfileCompleteness
+        title="Profile completeness"
+        percent={profile.readiness.completenessPercent}
+        missingFields={profile.readiness.missingFields}
+        completedFields={profile.readiness.completedFields}
+      />
+
+      <ClientPortalStatusCard title="Account identity" badge="Your account" badgeTone="info">
+        <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+          <div>
+            <dt className="text-slate-500">Email</dt>
+            <dd className="text-white">{profile.email ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Display name</dt>
+            <dd className="text-white">{profile.displayName ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Phone</dt>
+            <dd className="text-white">{profile.phone ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Job title</dt>
+            <dd className="text-white">{profile.title ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Preferred language</dt>
+            <dd className="text-white">{profile.preferredLanguage ?? "—"}</dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Sign-in method</dt>
+            <dd className="text-white capitalize">{profile.authProvider ?? "—"}</dd>
+          </div>
+        </dl>
       </ClientPortalStatusCard>
+
+      <ClientPortalStatusCard
+        title={profile.canEdit ? "Update profile" : "Profile editing"}
+        badge={profile.canEdit ? "Editable" : "Readiness only"}
+        badgeTone={profile.canEdit ? "success" : "warning"}
+      >
+        <ClientProfileEditForm profile={profile} />
+      </ClientPortalStatusCard>
+
+      <ClientPortalStatusCard title="Security note" badge="Important" badgeTone="info">
+        <p className="mt-3 text-sm text-slate-400">
+          Completing your profile does not grant platform admin or ProCrow staff access. Proposal
+          and blueprint approval remain blocked until verified client ownership is implemented.
+        </p>
+      </ClientPortalStatusCard>
+
+      <ClientPortalApprovalBlocked context="general" reason={model.approvalBlockedReason} compact />
+
+      {profile.readiness.riskNotes.length > 0 && (
+        <ClientPortalStatusCard title="Readiness notes" badge="Advisory">
+          <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-slate-400">
+            {profile.readiness.riskNotes.map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        </ClientPortalStatusCard>
+      )}
+
+      <section className="cc-glass-card">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Recommended next steps
+        </h2>
+        <ul className="mt-3 space-y-2 text-sm text-slate-300">
+          {profile.readiness.nextActions.map((a) => (
+            <li key={a} className="flex gap-2">
+              <span className="text-teal-400" aria-hidden>
+                →
+              </span>
+              <span>{a}</span>
+            </li>
+          ))}
+          <li className="flex gap-2">
+            <span className="text-teal-400" aria-hidden>
+              →
+            </span>
+            <Link href={routes.client.company} className="text-teal-400 hover:text-teal-300">
+              Review company profile
+            </Link>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-teal-400" aria-hidden>
+              →
+            </span>
+            <Link href={routes.client.requests} className="text-teal-400 hover:text-teal-300">
+              View your requests
+            </Link>
+          </li>
+        </ul>
+      </section>
     </div>
   );
 }

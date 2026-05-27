@@ -24,6 +24,7 @@
 | **I1** | Crow portal architecture & ProCrow responsibility model (no paid infra) | Four-portal model, ProCrow control-tower definition, client portal requirements, RACI, maturity model | Muhanad | **100%** | **Passed** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
 | **I2** | Client / Proposal Portal requirements & auth-flow design (no paid infra) | Auth boundaries, client user types, route model, approval flow security/trust gap analysis, future schema gap documentation | Muhanad | **100%** | **Passed** — [`I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md`](I2_CLIENT_PROPOSAL_PORTAL_AUTH_FLOW_DESIGN.md) |
 | **I3** | Client Portal data contract & route skeleton (no paid infra) | Typed contract, read-only service, `/client/*` routes, shell UI, token safety copy, `client-portal:verify` | Muhanad | **100%** | **Passed** — [`I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md`](I3_CLIENT_PORTAL_DATA_CONTRACT_ROUTE_SKELETON.md) |
+| **I4** | Client Profile + Company Profile MVP (no paid infra) | Profile/company contract, readiness service, `/client/profile` + `/client/company` UX, safe metadata edit, `client-profile:verify` | Muhanad | **100%** | **Passed** — [`I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md`](I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -341,7 +342,26 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Routes | `src/app/client/**` |
 | Verification | `npm run client-portal:verify` |
 
-**Recommended next:** **I4 — Client Profile + Company Profile MVP**.
+**Recommended next:** **I5 — Proposal / Blueprint Authenticated Review**.
+
+---
+
+## I4 — Client Profile + Company Profile MVP (no paid infra)
+
+**Scope:** Profile and company readiness pages with completeness metrics, missing-field lists, account linking states, safe Supabase user-metadata edit (session-only), dashboard integration, and `client-profile:verify` — without schema migrations, company mutations, approval actions, or paid infra.
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Master record | [`I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md`](I4_CLIENT_PROFILE_COMPANY_PROFILE_MVP.md) |
+| Profile contract | `src/lib/client-portal/client-profile-contract.ts` |
+| Service | `src/lib/services/client-profile.service.ts` |
+| Server action | `src/lib/actions/client-profile.ts` |
+| Routes | `src/app/client/profile/page.tsx`, `src/app/client/company/page.tsx` |
+| Verification | `npm run client-profile:verify` |
+
+**Recommended next:** **I5 — Proposal / Blueprint Authenticated Review**.
 
 ---
 
