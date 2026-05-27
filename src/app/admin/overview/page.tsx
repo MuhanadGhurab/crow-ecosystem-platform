@@ -4,6 +4,7 @@ import { CemTenantGridCard } from "@/components/admin/cem-tenant-grid-card";
 import { PlatformCybercrowPostureStrip } from "@/components/admin/platform-cybercrow-posture";
 import { ProCrowControlTowerHeader } from "@/components/procrow/procrow-page-header";
 import { ProCrowControlTowerMap } from "@/components/procrow/procrow-control-tower-map";
+import { ProCrowControlTowerDashboard } from "@/components/procrow/procrow-control-tower-dashboard";
 import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
 import { StatCard } from "@/components/ui/stat-card";
 import { DeptChips } from "@/components/pipeline/dept-chips";
@@ -19,6 +20,7 @@ import { getOrgIntelligencePlatformSummary } from "@/lib/services/org-intelligen
 import { getSubscriptionPlatformSummary } from "@/lib/services/subscription-capability.service";
 import { emitSubscriptionAdvisoriesFromPlatformSummary } from "@/lib/services/subscription-notification.service";
 import { getPlatformNotificationInboxSummary } from "@/lib/services/platform-notification.service";
+import { getProCrowControlTowerSnapshot } from "@/lib/services/procrow-control-tower.service";
 import { NotificationSummarySection } from "@/components/admin/notification-summary-section";
 
 function pipelineCountLabel(live: boolean, value: number, fallback: string) {
@@ -34,10 +36,11 @@ const PIPELINE_LINKS = [
 ] as const;
 
 export default async function AdminOverviewPage() {
-  const [command, operatorConsole, lighthouse, orgIntel, subscriptionIntel, notificationSummary] =
+  const [command, operatorConsole, controlTower, lighthouse, orgIntel, subscriptionIntel, notificationSummary] =
     await Promise.all([
       getCemCommandCenterSnapshot(),
       getOperatorConsoleSnapshot(),
+      getProCrowControlTowerSnapshot(),
       getLighthousePipelineSnapshot().catch(() => null),
       getOrgIntelligencePlatformSummary().catch(() => ({
         templateCount: 5,
@@ -69,6 +72,8 @@ export default async function AdminOverviewPage() {
       <ProCrowSafetyNote className="-mt-4" />
 
       <ProCrowControlTowerMap />
+
+      <ProCrowControlTowerDashboard snapshot={controlTower} />
 
       <section>
         <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">

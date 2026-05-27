@@ -153,9 +153,9 @@ function main() {
   const procrowComponentsDir = join(ROOT, "src/components/procrow");
   const procrowFiles = listFilesRecursive(procrowComponentsDir);
   check(
-    procrowFiles.length >= 5,
+    procrowFiles.length >= 6,
     `ProCrow shared components present (${procrowFiles.length} files)`,
-    "Expected at least 5 ProCrow component files"
+    "Expected at least 6 ProCrow component files"
   );
 
   const operatorIndex = fileText("docs/internal/PROCROW_OPERATOR_INDEX.md");

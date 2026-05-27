@@ -526,7 +526,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Remaining gaps (deferred):** manual logged-in staging smoke; ProCrow org verification UI; optional dead-code cleanup for `approveProposalByToken`.
 
-**Recommended next:** **Primary — J2 — ProCrow control tower dashboard depth** · **Alternative — I12 — Client portal manual smoke closure** · **Pause** — after J1 if no demo pressure.
+**Recommended next:** **Primary — J3 — ProCrow request-to-tenant operator queue** · **Alternative — I12 — Client portal manual smoke closure** · **Pause** — after J2 if no demo pressure.
 
 ---
 
@@ -556,7 +556,32 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** `procrow:verify` + full client verifier batch + `mock:verify`, `typecheck`, `lint`, `build`.
 
-**Recommended next:** **J2 — ProCrow control tower dashboard depth** · **Pause** if no internal demo pressure.
+**Recommended next:** **J3 — ProCrow request-to-tenant operator queue** · **Pause** if no internal demo pressure.
+
+---
+
+## J2 — ProCrow control tower dashboard depth (no paid infra)
+
+**Scope:** Deepen `/admin/overview` as an internal **ProCrow Control Tower** — operator priority queue, customer→tenant flow strip, client portal / tenant runtime / CyberCrow trust / SAREA experience / deployment (F23) summaries. **Read-only aggregation** of existing services; no migrations, payments, auto-provisioning, or auth weakening.
+
+- Typed snapshot contract (`procrow-control-tower-contract.ts`)
+- Read-only service (`procrow-control-tower.service.ts`)
+- Dashboard UI (`procrow-control-tower-dashboard.tsx`) + admin overview integration
+- `npm run procrow-dashboard:verify` · `procrow:verify` includes J2 verifier
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J2_PROCROW_CONTROL_TOWER_DASHBOARD_DEPTH.md` |
+| Contract | `src/lib/procrow/procrow-control-tower-contract.ts` |
+| Service | `src/lib/services/procrow-control-tower.service.ts` |
+| UI | `src/components/procrow/procrow-control-tower-dashboard.tsx` |
+| Verifier | `scripts/verify-procrow-control-tower.ts` |
+
+**Verification:** `procrow:verify` (J1+J2) + `mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, full `client-*:verify` batch as per project gate.
+
+**Recommended next:** **J3 — ProCrow request-to-tenant operator queue** · **Pause** if no internal demo pressure.
 
 ---
 
