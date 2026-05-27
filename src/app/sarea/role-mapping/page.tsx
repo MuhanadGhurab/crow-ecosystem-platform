@@ -1,3 +1,4 @@
+import { SareaExperienceBoundaryNote } from "@/components/sarea/sarea-experience-boundary-note";
 import { SareaPersonaMaterializationPanel } from "@/components/studio/sarea/sarea-persona-materialization-panel";
 import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaRoleMapAssign } from "@/components/studio/sarea/sarea-role-map-assign";
@@ -29,9 +30,28 @@ export default async function SareaRoleMappingPage() {
 
   return (
     <SareaStudioPage
+      area="role_mapping"
       title="Role mapping"
       description="Maps CEM role slugs (RBAC) to SAREA experience profiles — presentation only."
+      operatorActions={[
+        {
+          action: "preview_experience",
+          href: routes.sarea.preview,
+          detail: "After mapping, preview shell for a persona",
+        },
+        {
+          action: "compare_rbac_boundary",
+          href: routes.sarea.overview,
+          detail: "RBAC controls access; SAREA controls experience",
+        },
+        {
+          action: "review_profiles",
+          href: routes.sarea.profiles,
+          detail: `${profiles.length} profile(s) available`,
+        },
+      ]}
     >
+      <SareaExperienceBoundaryNote variant="mapping" />
       <SareaRbacBanner compact />
 
       <section className="rounded-lg border border-cyan-500/15 bg-cyan-950/15 px-4 py-3 text-xs text-slate-400">

@@ -640,6 +640,33 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## J5 — SAREA Studio UX depth (no paid infra)
+
+**Scope:** Deepen **SAREA Experience Studio** under ProCrow — overview, profiles, role mapping, preview, navigation, widgets — with operator-ready clarity on RBAC vs experience boundaries, tenant-backed vs fallback profiles, and next actions. UX and copy only; existing services; no RBAC editor, drag/drop builder, autonomous personalization, or permission console claims.
+
+- UX model (`sarea-ux-depth.ts`)
+- Shared SAREA components (header, scope note, boundary note, profile summary, studio strip, operator next actions)
+- Page updates on all six J5 SAREA routes
+- ProCrow control tower deep links to navigation + widgets
+- `npm run sarea:ux-verify` · `procrow:verify` includes J5
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J5_SAREA_STUDIO_UX_DEPTH.md` |
+| UX model | `src/lib/constants/sarea-ux-depth.ts` |
+| Components | `src/components/sarea/sarea-*.tsx` |
+| Pages | `src/app/sarea/{overview,profiles,role-mapping,preview,navigation,widgets}/page.tsx` |
+| ProCrow linkage | `src/components/procrow/procrow-control-tower-dashboard.tsx` |
+| Verifier | `scripts/verify-sarea-ux-depth.ts` |
+
+**Verification:** `sarea:ux-verify` + `procrow:verify` (J1–J5) + standard project gate.
+
+**Recommended next:** **J6 — Deployment Go/No-Go Center** · **Alternative — J6 ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

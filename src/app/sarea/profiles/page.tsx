@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SareaEditRow } from "@/components/studio/sarea/sarea-edit-row";
+import { SareaExperienceBoundaryNote } from "@/components/sarea/sarea-experience-boundary-note";
 import { SareaMaterializationBadge } from "@/components/studio/sarea/sarea-materialization-badge";
 import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
@@ -14,9 +15,28 @@ export default async function SareaProfilesPage() {
 
   return (
     <SareaStudioPage
+      area="profiles"
       title="Experience profiles"
-      description="Persona-based presentation per tenant — visibility and limited safe edits."
+      description="Persona-based presentation per tenant — visibility and limited safe edits. Each profile shapes dashboard layout, navigation emphasis, and widget visibility for mapped roles."
+      operatorActions={[
+        {
+          action: "map_roles",
+          href: routes.sarea.roleMapping,
+          detail: "Assign RBAC roles to profiles before preview",
+        },
+        {
+          action: "preview_experience",
+          href: routes.sarea.preview,
+          detail: "Validate presentation on lighthouse tenants",
+        },
+        {
+          action: "confirm_tenant_backed_state",
+          href: routes.sarea.overview,
+          detail: "Review materialization health on overview",
+        },
+      ]}
     >
+      <SareaExperienceBoundaryNote variant="default" />
       <SareaRbacBanner compact />
 
       {rows.length === 0 ? (

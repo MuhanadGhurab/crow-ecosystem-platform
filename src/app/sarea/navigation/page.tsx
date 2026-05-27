@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SareaExperienceBoundaryNote } from "@/components/sarea/sarea-experience-boundary-note";
 import { SareaEditRow } from "@/components/studio/sarea/sarea-edit-row";
 import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
@@ -21,9 +22,28 @@ export default async function SareaNavigationPage() {
 
   return (
     <SareaStudioPage
+      area="navigation"
       title="Navigation profiles"
       description="Primary navigation keys per persona — experience-level visibility; RBAC still enforces routes."
+      operatorActions={[
+        {
+          action: "preview_experience",
+          href: routes.sarea.preview,
+          detail: "Validate shell emphasis after nav key edits",
+        },
+        {
+          action: "map_roles",
+          href: routes.sarea.roleMapping,
+          detail: "Unmapped roles keep platform defaults",
+        },
+        {
+          action: "compare_rbac_boundary",
+          href: routes.sarea.overview,
+          detail: "Navigation visibility is not permission control",
+        },
+      ]}
     >
+      <SareaExperienceBoundaryNote variant="navigation" />
       <SareaRbacBanner compact />
       <p className="text-xs text-slate-500">
         Navigation items shown here control which links appear in the shell for a mapped role.

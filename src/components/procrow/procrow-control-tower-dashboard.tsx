@@ -329,6 +329,12 @@ export function ProCrowControlTowerDashboard({ snapshot: s }: ProCrowControlTowe
             <Link href={routes.sarea.preview} className="text-rose-300 hover:text-rose-200">
               Preview →
             </Link>
+            <Link href={routes.sarea.navigation} className="text-rose-300 hover:text-rose-200">
+              Navigation →
+            </Link>
+            <Link href={routes.sarea.widgets} className="text-rose-300 hover:text-rose-200">
+              Widgets →
+            </Link>
           </div>
         </section>
       </div>

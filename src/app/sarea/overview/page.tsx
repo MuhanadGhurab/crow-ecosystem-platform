@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
+import { SareaOperatorNextActions } from "@/components/sarea/sarea-operator-next-actions";
+import { SareaPageHeader } from "@/components/sarea/sarea-page-header";
+import { SareaProfileSummary } from "@/components/sarea/sarea-profile-summary";
+import { SareaScopeNote } from "@/components/sarea/sarea-scope-note";
+import { SareaStudioStrip } from "@/components/sarea/sarea-studio-strip";
 import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { SareaExperienceFlowBanner, SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { StatCard } from "@/components/ui/stat-card";
@@ -41,27 +46,58 @@ export default async function SareaOverviewPage() {
 
   return (
     <div className="space-y-8">
-      <section className="relative overflow-hidden rounded-2xl border border-rose-500/20 bg-gradient-to-br from-rose-950/35 via-cc-elevated/90 to-amber-950/25 p-6 sm:p-8">
-        <div
-          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-rose-500/20 blur-3xl"
-          aria-hidden
-        />
-        <span className="cc-entity-badge cc-entity-badge--sarea relative">
-          SAREA Studio · ProCrow capability
-        </span>
-        <h2 className="cc-section-title relative mt-4">Experience visibility & safe controls</h2>
-        <p className="relative mt-2 max-w-2xl text-sm text-slate-400">
-          Inspect tenant-backed personas, role mappings, layouts, navigation, and widgets.
-          Platform staff can adjust low-risk presentation fields only — no layout builder, no RBAC
-          override, no autonomous personalization.
-        </p>
-      </section>
-
+      <SareaPageHeader
+        area="overview"
+        title="SAREA Experience Studio"
+        description="Inspect tenant-backed personas, role mappings, layouts, navigation, and widgets. Platform staff adjust low-risk presentation fields only — no layout builder, no RBAC override, no self-serve personalization engine."
+      />
+      <SareaStudioStrip />
       <ProCrowCapabilityFraming capability="sarea" />
-
       <SareaRbacBanner />
+      <SareaScopeNote compact />
       <SareaExperienceFlowBanner />
       <SareaAcceptanceHub />
+
+      <SareaProfileSummary
+        tenantBackedPersonas={health.tenantBackedPersonas}
+        fallbackPersonas={health.fallbackPersonas}
+        partialPersonas={health.partialPersonas}
+        notMaterializedPersonas={health.notMaterializedPersonas}
+        roleMapCount={health.roleMapCount}
+        navigationProfileCount={health.navigationProfileCount}
+        widgetRuleCount={health.widgetRuleCount}
+        tenantsNeedingReview={health.tenantsNeedingReview}
+      />
+
+      <SareaOperatorNextActions
+        items={[
+          {
+            action: "review_profiles",
+            href: routes.sarea.profiles,
+            detail: `${health.tenantBackedPersonas} tenant-backed · ${health.fallbackPersonas} fallback`,
+          },
+          {
+            action: "map_roles",
+            href: routes.sarea.roleMapping,
+            detail: `${health.roleMapCount} role map(s) configured`,
+          },
+          {
+            action: "preview_experience",
+            href: routes.sarea.preview,
+            detail: "Preview does not change permissions",
+          },
+          {
+            action: "validate_navigation",
+            href: routes.sarea.navigation,
+            detail: `${health.navigationProfileCount} navigation profile(s)`,
+          },
+          {
+            action: "validate_widgets",
+            href: routes.sarea.widgets,
+            detail: `${health.widgetRuleCount} widget rule(s)`,
+          },
+        ]}
+      />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Experience profiles" value={summary.profileCount} entity="sarea" accent="rose" />
@@ -90,25 +126,11 @@ export default async function SareaOverviewPage() {
       </section>
 
       <section className="cc-glass-card space-y-3">
-        <h3 className="text-sm font-medium text-rose-300">Materialization health</h3>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-cc border border-teal-500/15 bg-teal-950/15 px-3 py-2 text-center">
-            <p className="text-lg font-semibold text-teal-300">{health.tenantBackedPersonas}</p>
-            <p className="text-[10px] text-slate-500">Tenant-backed personas</p>
-          </div>
-          <div className="rounded-cc border border-amber-500/15 bg-amber-950/15 px-3 py-2 text-center">
-            <p className="text-lg font-semibold text-amber-300">{health.partialPersonas}</p>
-            <p className="text-[10px] text-slate-500">Partial (needs backfill)</p>
-          </div>
-          <div className="rounded-cc border border-violet-500/15 bg-violet-950/15 px-3 py-2 text-center">
-            <p className="text-lg font-semibold text-violet-300">{health.fallbackPersonas}</p>
-            <p className="text-[10px] text-slate-500">Recommended fallback only</p>
-          </div>
-          <div className="rounded-cc border border-slate-500/20 bg-white/5 px-3 py-2 text-center">
-            <p className="text-lg font-semibold text-slate-300">{health.tenantsNeedingReview}</p>
-            <p className="text-[10px] text-slate-500">Lighthouse tenants needing review</p>
-          </div>
-        </div>
+        <h3 className="text-sm font-medium text-rose-300">Lighthouse tenants</h3>
+        <p className="text-xs text-slate-500">
+          Operator-reviewed materialization on MEEM and Rimal — confirm tenant-backed state before
+          external demos.
+        </p>
         <ul className="flex flex-wrap gap-2 text-xs">
           {health.lighthouseTenants.map((t) => (
             <li

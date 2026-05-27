@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SareaExperienceBoundaryNote } from "@/components/sarea/sarea-experience-boundary-note";
 import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { SareaPersonaMaterializationPanel } from "@/components/studio/sarea/sarea-persona-materialization-panel";
 import { SareaPreviewImpactPanel } from "@/components/studio/sarea/sarea-preview-impact-panel";
@@ -31,18 +32,29 @@ export default async function SareaPreviewPage() {
 
   return (
     <SareaStudioPage
+      area="preview"
       title="Studio preview"
-      description="Experience adaptation preview — RBAC and route guards unchanged."
+      description="Experience adaptation preview — RBAC and route guards unchanged. Preview shapes navigation, widgets, and layout density for the selected persona."
+      operatorActions={[
+        {
+          action: "map_roles",
+          href: routes.sarea.roleMapping,
+          detail: "Ensure roles map to profiles before external walkthrough",
+        },
+        {
+          action: "validate_navigation",
+          href: routes.sarea.navigation,
+          detail: "Confirm nav keys match preview persona",
+        },
+        {
+          action: "validate_widgets",
+          href: routes.sarea.widgets,
+          detail: "Confirm widget visibility for preview persona",
+        },
+      ]}
     >
+      <SareaExperienceBoundaryNote variant="preview" />
       <SareaRbacBanner />
-      <section className="rounded-lg border border-cyan-500/15 bg-cyan-950/15 px-4 py-3 text-xs text-slate-400">
-        <p className="font-medium text-cyan-200">Preview shows experience adaptation. RBAC still controls access.</p>
-        <p className="mt-1">
-          Platform staff preview sets a cookie on the tenant dashboard. Sources: tenant-backed studio
-          rows when materialized; otherwise recommended fallback definitions (analyst, tenant_admin).
-          No internal tenant IDs are exposed on public routes.
-        </p>
-      </section>
 
       {lighthouse.map(({ slug, rows }) => {
         const label = PREVIEW_TENANTS.find((t) => t.slug === slug)?.label ?? slug;

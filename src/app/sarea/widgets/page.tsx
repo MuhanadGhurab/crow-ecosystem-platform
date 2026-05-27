@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SareaExperienceBoundaryNote } from "@/components/sarea/sarea-experience-boundary-note";
 import { SareaEditRow } from "@/components/studio/sarea/sarea-edit-row";
 import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
@@ -14,14 +15,33 @@ export default async function SareaWidgetsPage() {
 
   return (
     <SareaStudioPage
+      area="widgets"
       title="Widget rules"
       description="Widget visibility per experience profile — does not change RBAC or module access."
+      operatorActions={[
+        {
+          action: "preview_experience",
+          href: routes.sarea.preview,
+          detail: "See dashboard density for a persona",
+        },
+        {
+          action: "review_profiles",
+          href: routes.sarea.profiles,
+          detail: "Widget rules attach to experience profiles",
+        },
+        {
+          action: "compare_rbac_boundary",
+          href: routes.sarea.overview,
+          detail: "Hidden widgets do not remove module authorization",
+        },
+      ]}
     >
+      <SareaExperienceBoundaryNote variant="widgets" />
       <SareaRbacBanner compact />
       <section className="rounded-lg border border-rose-500/10 bg-rose-950/10 px-4 py-3 text-xs text-slate-400">
         <p>
           Toggle visibility for dashboard blocks (CEM, CyberCrow, operations). Display order is not
-          stored in the current schema — future work if product needs drag-and-drop ordering.
+          stored in the current schema — not a drag-and-drop page builder.
         </p>
       </section>
 
