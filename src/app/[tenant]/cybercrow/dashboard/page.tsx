@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { CybercrowConnectionPanel } from "@/components/tenant/cybercrow/cybercrow-connection-panel";
@@ -96,11 +97,13 @@ export default async function CybercrowDashboardPage({
       )}
 
       <PageHeader
-        badge="CyberCrow"
+        badge="CyberCrow · ProCrow capability"
         entity="cybercrow"
         title="Security operations center"
-        description="NCA-aligned baseline · real-time posture · audit, risk, and compliance in one console."
+        description="Advisory trust posture, evidence readiness, and operator review — human-governed signals, not automated certification claims."
       />
+
+      <ProCrowCapabilityFraming capability="cybercrow" />
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="cybercrow" />
       <CybercrowSocPhilosophyBanner compact showSareaNote />

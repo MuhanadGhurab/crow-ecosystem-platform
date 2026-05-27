@@ -526,7 +526,37 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Remaining gaps (deferred):** manual logged-in staging smoke; ProCrow org verification UI; optional dead-code cleanup for `approveProposalByToken`.
 
-**Recommended next:** **Primary — J1 — ProCrow portal UX unification** · **Alternative — I12 — Client portal manual smoke closure** · **Pause** — default after I11 unless demo pressure.
+**Recommended next:** **Primary — J2 — ProCrow control tower dashboard depth** · **Alternative — I12 — Client portal manual smoke closure** · **Pause** — after J1 if no demo pressure.
+
+---
+
+## J1 — ProCrow portal UX unification (no paid infra)
+
+**Scope:** Unify ProCrow as internal control tower — information architecture, shared language, Control Tower entry on `/admin/overview`, lightweight shared components, Platform Admin / CyberCrow / SAREA copy alignment, operator docs index. **No major features, no route moves, no auth redesign.**
+
+- ProCrow surface audit + scattered-area notes
+- Information architecture (`PROCROW_INFORMATION_ARCHITECTURE`)
+- Shared copy constants (`src/lib/constants/procrow-portal.ts`)
+- Control Tower map + headers on admin overview
+- Shared components (`src/components/procrow/*`)
+- Platform Admin request/tenant framing
+- CyberCrow dashboard + SAREA overview ProCrow capability banners
+- [`PROCROW_OPERATOR_INDEX.md`](PROCROW_OPERATOR_INDEX.md)
+- J2–J8 roadmap documented (not implemented)
+- `npm run procrow:verify`
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J1_PROCROW_PORTAL_UX_UNIFICATION.md` |
+| Operator index | `docs/internal/PROCROW_OPERATOR_INDEX.md` |
+| Constants | `src/lib/constants/procrow-portal.ts` |
+| Verifier | `scripts/verify-procrow-portal-ux.ts` |
+
+**Verification:** `procrow:verify` + full client verifier batch + `mock:verify`, `typecheck`, `lint`, `build`.
+
+**Recommended next:** **J2 — ProCrow control tower dashboard depth** · **Pause** if no internal demo pressure.
 
 ---
 

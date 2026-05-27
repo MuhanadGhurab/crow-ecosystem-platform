@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
 import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-hub";
 import { SareaExperienceFlowBanner, SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { StatCard } from "@/components/ui/stat-card";
@@ -45,14 +46,18 @@ export default async function SareaOverviewPage() {
           className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-rose-500/20 blur-3xl"
           aria-hidden
         />
-        <span className="cc-entity-badge cc-entity-badge--sarea relative">SAREA Studio</span>
+        <span className="cc-entity-badge cc-entity-badge--sarea relative">
+          SAREA Studio · ProCrow capability
+        </span>
         <h2 className="cc-section-title relative mt-4">Experience visibility & safe controls</h2>
         <p className="relative mt-2 max-w-2xl text-sm text-slate-400">
           Inspect tenant-backed personas, role mappings, layouts, navigation, and widgets.
           Platform staff can adjust low-risk presentation fields only — no layout builder, no RBAC
-          override.
+          override, no autonomous personalization.
         </p>
       </section>
+
+      <ProCrowCapabilityFraming capability="sarea" />
 
       <SareaRbacBanner />
       <SareaExperienceFlowBanner />

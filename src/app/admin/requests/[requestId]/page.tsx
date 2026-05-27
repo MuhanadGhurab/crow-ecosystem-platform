@@ -2,7 +2,8 @@ import Link from "next/link";
 
 import { notFound } from "next/navigation";
 
-import { PageHeader } from "@/components/ui/page-header";
+import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
+import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
 
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
@@ -164,13 +165,13 @@ export default async function AdminRequestDetailPage({
 
 
 
-      <PageHeader
+      <ProCrowPageHeader
 
-        badge="Implementation request"
+        badge="ProCrow · Customer flow"
 
         title={orgName}
 
-        description={refCode}
+        description={`${refCode} — Platform Admin review; client portal actions feed this queue.`}
 
         actions={
 
@@ -190,7 +191,7 @@ export default async function AdminRequestDetailPage({
 
       />
 
-
+      <ProCrowCapabilityFraming capability="customerFlow" />
 
       <LifecycleStrip status={status} />
 

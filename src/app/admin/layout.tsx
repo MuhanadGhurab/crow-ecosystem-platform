@@ -31,7 +31,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <AreaShell
-      title="CEM Command Center"
+      title="ProCrow"
+      subtitle="Platform administration · control tower"
       badge="Crow Enterprise Manager"
       hubLinks={buildPlatformEngineHubLinks({ includeAdmin: false })}
       nav={nav.length > 0 ? nav : [{ href: routes.admin.requests, label: "Requests" }]}

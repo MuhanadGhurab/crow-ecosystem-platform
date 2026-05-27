@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AdminLighthousePipelineCard } from "@/components/admin/lighthouse-pipeline-card";
 import { GrantTenantAccessForm } from "@/components/admin/grant-tenant-access-form";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
 import { TenantPosturePills } from "@/components/admin/tenant-posture-pills";
 import { TenantPlanPanel } from "@/components/admin/tenant-plan-panel";
 import { AdminRuntimeCohesionSummary } from "@/components/admin/admin-runtime-cohesion-summary";
@@ -128,8 +129,10 @@ export default async function AdminTenantDetailPage({
         </h2>
         <p className="mt-1 font-mono text-sm text-cyan-400">/{tenant.slug}</p>
         <p className="mt-2 text-sm text-slate-500">
-          Tenant control room — CEM runtime, CyberCrow trust, SAREA experiences.
+          ProCrow tenant control room — CEM runtime, CyberCrow trust posture, SAREA experiences.
+          Provisioning remains operator-controlled; no automatic go-live.
         </p>
+        <ProCrowCapabilityFraming capability="runtimeCohesion" className="mt-4" />
         <TenantPosturePills
           posture={posture}
           health={health}
@@ -378,7 +381,7 @@ export default async function AdminTenantDetailPage({
           </div>
           <p className="text-xs text-slate-500">
             SOC chain: security events → incidents → evidence → risk → GRC. Rule-based posture only
-            — not a SIEM replacement.
+            — not a substitute for enterprise SOC tooling.
           </p>
           <Link
             href={routes.tenant(tenant.slug).cybercrow.dashboard}

@@ -93,7 +93,7 @@ export default async function AdminRequestsPage({
   return (
     <AdminListPage
       title="Implementation requests"
-      description="Commercial pipeline queue — review, assign dept ownership, and advance to discovery."
+      description="ProCrow customer flow — intake queue from public request through client review, discovery, blueprint, and controlled tenant readiness."
       isEmpty={requests.length === 0}
       emptyTitle="No requests yet"
       emptyAction={

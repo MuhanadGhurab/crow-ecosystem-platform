@@ -2,7 +2,9 @@ import Link from "next/link";
 import { AdminLighthousePipelineCard } from "@/components/admin/lighthouse-pipeline-card";
 import { CemTenantGridCard } from "@/components/admin/cem-tenant-grid-card";
 import { PlatformCybercrowPostureStrip } from "@/components/admin/platform-cybercrow-posture";
-import { PageHeader } from "@/components/ui/page-header";
+import { ProCrowControlTowerHeader } from "@/components/procrow/procrow-page-header";
+import { ProCrowControlTowerMap } from "@/components/procrow/procrow-control-tower-map";
+import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
 import { StatCard } from "@/components/ui/stat-card";
 import { DeptChips } from "@/components/pipeline/dept-chips";
 import { PLATFORM_ENGINE_HUB } from "@/lib/constants/platform-engine-hub";
@@ -62,16 +64,11 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="space-y-10">
-      <PageHeader
-        badge="CEM Command Center"
-        title="Crow Enterprise Manager"
-        description="Multi-tenant operating layer — CEM runtime, CyberCrow trust, SAREA role experiences, blueprint-driven go-live."
-      />
+      <ProCrowControlTowerHeader />
 
-      <p className="-mt-4 text-xs leading-relaxed text-slate-500">
-        Staging / portfolio mode — advisory signals and mock-backed counts where noted. No paid infra
-        auto-provisioning; production remains F23-gated.
-      </p>
+      <ProCrowSafetyNote className="-mt-4" />
+
+      <ProCrowControlTowerMap />
 
       <section>
         <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">
