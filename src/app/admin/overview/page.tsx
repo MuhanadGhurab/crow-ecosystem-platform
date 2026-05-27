@@ -6,6 +6,7 @@ import { ProCrowControlTowerHeader } from "@/components/procrow/procrow-page-hea
 import { ProCrowControlTowerMap } from "@/components/procrow/procrow-control-tower-map";
 import { ProCrowControlTowerDashboard } from "@/components/procrow/procrow-control-tower-dashboard";
 import { ProCrowGoNoGoOverviewLink } from "@/components/procrow/procrow-go-no-go-overview-link";
+import { ProCrowDemoRehearsalHint } from "@/components/procrow/procrow-demo-rehearsal-hint";
 import { ProCrowOperatorConsoleOverviewLink } from "@/components/procrow/procrow-operator-console-overview-link";
 import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
 import { StatCard } from "@/components/ui/stat-card";
@@ -76,6 +77,8 @@ export default async function AdminOverviewPage() {
       <ProCrowGoNoGoOverviewLink />
 
       <ProCrowOperatorConsoleOverviewLink />
+
+      <ProCrowDemoRehearsalHint />
 
       <ProCrowControlTowerMap />
 

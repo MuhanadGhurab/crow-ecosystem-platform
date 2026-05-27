@@ -1,7 +1,7 @@
 # ProCrow operator index
 
 **Audience:** Platform operators, delivery leads  
-**Last updated:** 27 May 2026 (J7)
+**Last updated:** 28 May 2026 (J8)
 
 ProCrow is the internal control tower for Crow Ecosystem — platform administration, customer-to-tenant flow, trust governance, experience studio, runtime cohesion, and deployment discipline. CyberCrow and SAREA remain distinct capabilities under ProCrow.
 
@@ -88,9 +88,16 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 | Topic | Document |
 |-------|----------|
 | Operator demo index | [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md) |
+| **J8 ProCrow demo rehearsal** | [`J8_PROCROW_DEMO_REHEARSAL.md`](J8_PROCROW_DEMO_REHEARSAL.md) |
+| J8 10-minute playbook | [`J8_PROCROW_DEMO_REHEARSAL_PLAYBOOK.md`](J8_PROCROW_DEMO_REHEARSAL_PLAYBOOK.md) |
+| J8 route audit | [`J8_PROCROW_DEMO_ROUTE_AUDIT.md`](J8_PROCROW_DEMO_ROUTE_AUDIT.md) |
+| J8 screenshot checklist | [`J8_PROCROW_SCREENSHOT_CHECKLIST.md`](J8_PROCROW_SCREENSHOT_CHECKLIST.md) |
+| ProCrow demo runbook | [`PROCROW_DEMO_RUNBOOK.md`](PROCROW_DEMO_RUNBOOK.md) |
 | H1 product polish | [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
-| H1 demo playbook | [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL.md) |
+| H1 demo playbook | [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md) |
 | I8 client demo playbook | [`I8_CLIENT_PORTAL_DEMO_PLAYBOOK.md`](I8_CLIENT_PORTAL_DEMO_PLAYBOOK.md) |
+
+**J8 demo route order:** `/admin/overview` → `/admin/queue` → `/admin/requests/[requestId]` → `/[tenant]/cybercrow/*` → `/sarea/overview` (+ mapping or preview) → `/admin/go-no-go` → `/admin/operator-console`
 
 ---
 
@@ -105,6 +112,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 | J5 SAREA studio UX | [`J5_SAREA_STUDIO_UX_DEPTH.md`](J5_SAREA_STUDIO_UX_DEPTH.md) |
 | J6 Deployment go/no-go | [`J6_DEPLOYMENT_GO_NO_GO_CENTER.md`](J6_DEPLOYMENT_GO_NO_GO_CENTER.md) |
 | J7 Operator console | [`J7_OPERATOR_DOCS_VALIDATION_CONSOLE.md`](J7_OPERATOR_DOCS_VALIDATION_CONSOLE.md) |
+| J8 Demo rehearsal | [`J8_PROCROW_DEMO_REHEARSAL.md`](J8_PROCROW_DEMO_REHEARSAL.md) |
 
 ---
 
@@ -112,6 +120,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 
 ```bash
 npm run procrow:verify
+npm run procrow-demo:verify
 npm run procrow-operator:verify
 npm run procrow-go-no-go:verify
 npm run procrow-queue:verify

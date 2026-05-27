@@ -716,7 +716,36 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** `procrow-operator:verify` + `procrow:verify` (J1–J7) + standard project gate + client guardrails as needed.
 
-**Recommended next:** **J8 — ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+**Recommended next:** **J8 — ProCrow Demo Rehearsal** (completed) · **Pause** if no internal demo pressure.
+
+---
+
+## J8 — ProCrow Demo Rehearsal (no paid infra)
+
+**Scope:** Demo rehearsal and checkpoint only — route audit, 10-minute playbook, screenshot checklist, practical runbook, operator index updates, overview demo-path hint, `procrow-demo:verify`. **No** new features, migrations, payments, production launch, UI command execution, or auto-provisioning.
+
+- Route audit + storyline documented
+- [`J8_PROCROW_DEMO_REHEARSAL_PLAYBOOK.md`](J8_PROCROW_DEMO_REHEARSAL_PLAYBOOK.md) (10-minute script)
+- [`J8_PROCROW_SCREENSHOT_CHECKLIST.md`](J8_PROCROW_SCREENSHOT_CHECKLIST.md)
+- [`PROCROW_DEMO_RUNBOOK.md`](PROCROW_DEMO_RUNBOOK.md)
+- `procrow-demo-rehearsal-hint` on `/admin/overview`
+- `npm run procrow-demo:verify` · `procrow:verify` includes J8
+
+**Status:** **Passed** (28 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J8_PROCROW_DEMO_REHEARSAL.md` |
+| Route audit | `docs/internal/J8_PROCROW_DEMO_ROUTE_AUDIT.md` |
+| Playbook | `docs/internal/J8_PROCROW_DEMO_REHEARSAL_PLAYBOOK.md` |
+| Screenshots | `docs/internal/J8_PROCROW_SCREENSHOT_CHECKLIST.md` |
+| Runbook | `docs/internal/PROCROW_DEMO_RUNBOOK.md` |
+| UI hint | `src/components/procrow/procrow-demo-rehearsal-hint.tsx` |
+| Verifier | `scripts/verify-procrow-demo-rehearsal.ts` |
+
+**Verification:** `procrow-demo:verify` + `procrow:verify` (J1–J8) + standard project gate + client guardrails as in runbook.
+
+**Recommended next:** **Pause** (recommended) · **K1 — Tenant Runtime Demo Rehearsal** · **J9 — ProCrow Checkpoint & Pause**
 
 ---
 
