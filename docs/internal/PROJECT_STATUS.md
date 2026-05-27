@@ -1,9 +1,9 @@
 # Project status
 
-**Last updated:** 26 May 2026 (H1 Product polish & demo rehearsal)  
+**Last updated:** 27 May 2026 (I1 Portal architecture & ProCrow model)  
 **Audience:** Internal delivery / engineering
 
-**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
+**Checkpoint detail:** [`RC1_STAGING_VALIDATION.md`](RC1_STAGING_VALIDATION.md) · **Milestone map:** [`MILESTONES.md`](MILESTONES.md) · **H1 wrap:** [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · **I1 architecture:** [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) · **Demo index:** [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md)
 
 ---
 
@@ -21,10 +21,11 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 **v0.30 portfolio baseline — safe to pause** (26 May 2026).
 
-**Wrap-up:** F30 tag `v0.30.0-portfolio` at `f6fcc40`; F31 hygiene complete; post-F30 straggler commits on `main` (`a47af1b`); **H1** demo polish + playbook landed; production launch **deferred** (F23). See [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
+**Wrap-up:** F30 tag `v0.30.0-portfolio` at `f6fcc40`; F31 hygiene complete; post-F30 straggler commits on `main` (`a47af1b`); **H1** demo polish + playbook landed; **I1** portal architecture + ProCrow responsibility model landed; production launch **deferred** (F23). See [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md).
 
 | Deliverable | Doc |
 |-------------|-----|
+| Portal architecture + ProCrow model (I1) | [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
 | Product polish & demo rehearsal (H1) | [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) · playbook [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md) · index [`OPERATOR_DEMO_INDEX.md`](OPERATOR_DEMO_INDEX.md) |
 | Cross-module runtime cohesion (G10) | [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | Reports / BI readiness layer (G9) | [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
@@ -54,7 +55,10 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1 complete** — demo journey documented, playbook added, validations green. Resume only with explicit plan — **F23** production launch when client + budget approve, **optional H2** selective UI/screenshot pass, **or** customer tracks (M5). **No paid infra** in the default path.
+**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1 complete** and **I1 complete** (four-portal architecture + ProCrow control-tower ownership). Resume only with explicit plan — **I2** (Client / Proposal Portal auth-flow design) or **I2** (ProCrow UX unification), and **F23** production launch only when client + budget approve. **No paid infra** in the default path.
+
+**I1 acceptance:** **PASSED** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md).  
+Four-portal model formalized; ProCrow defined as control tower; Platform Admin ownership under ProCrow; Client/Proposal requirements documented; team model + interface ownership map + RACI added; ProCrow certification roadmap added; portal maturity model added; docs updated; validation commands green; no paid infra/schema/production-scope changes.
 
 **H1 acceptance:** **PASSED** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md).  
 Demo journey audit; public + admin micro-copy for staging/F23 honesty; tenant/CyberCrow/SAREA assessed **sufficient** with prior G/F depth; [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md); G-series **G1→G10** order in [`MILESTONES.md`](MILESTONES.md); `npm run mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `erp:verify`, `sector:verify`, `reports:verify`, `tasks-approvals:verify`, `runtime:verify`; optional `request:pipeline:verify`, `sarea:meem-verify`, `tenant:verify:rimal` green on staging env.

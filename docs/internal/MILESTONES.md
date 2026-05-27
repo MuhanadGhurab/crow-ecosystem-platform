@@ -21,6 +21,7 @@
 | **G9** | Reports / BI readiness layer (no paid infra) | Executive roll-ups, reports:verify | Muhanad | **100%** | **Passed** — [`G9_REPORTS_BI_READINESS_LAYER.md`](G9_REPORTS_BI_READINESS_LAYER.md) |
 | **G10** | Cross-module intelligence & runtime cohesion (no paid infra) | Cohesion model, runtime service, panels, `runtime:verify` | Muhanad | **100%** | **Passed** — [`G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md`](G10_CROSS_MODULE_INTELLIGENCE_RUNTIME_COHESION.md) |
 | **H1** | Product polish & demo rehearsal (no paid infra) | Journey audit, UI rhythm, playbook, G-index order, validation | Muhanad | **100%** | **Passed** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md) |
+| **I1** | Crow portal architecture & ProCrow responsibility model (no paid infra) | Four-portal model, ProCrow control-tower definition, client portal requirements, RACI, maturity model | Muhanad | **100%** | **Passed** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
 | **F37** | Industry catalog UX & sector selection polish (no paid infra) | `/industries`, `/request`, discovery/blueprint UX, sector:verify | Muhanad | **100%** | **Passed** — [`F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md`](F37_INDUSTRY_CATALOG_UX_SECTOR_SELECTION.md) |
 | **F36** | Healthcare operating model depth & privacy/safety readiness (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, healthcare:verify | Muhanad | **100%** | **Passed** — [`F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md`](F36_HEALTHCARE_OPERATING_MODEL_DEPTH.md) |
 | **F35** | Aviation operating model depth & Najm intake hardening (no paid infra) | Sector template, discovery/blueprint, SAREA/CyberCrow, Najm/F11 alignment, aviation:verify | Muhanad | **100%** | **Passed** — [`F35_AVIATION_OPERATING_MODEL_DEPTH.md`](F35_AVIATION_OPERATING_MODEL_DEPTH.md) |
@@ -83,7 +84,7 @@
 
 **Status:** **Passed** (25 May 2026). **Advisory platform stable** — billing enforcement, SCIM, and digest email send remain out of scope.
 
-**Next:** **G-series** closed **G1→G10**; **H1 passed** — product polish & demo rehearsal (playbook + UI/doc rhythm). **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Resume **F23** when client + budget approve. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
+**Next:** **G-series** closed **G1→G10**; **H1 passed** — product polish & demo rehearsal (playbook + UI/doc rhythm); **I1 passed** — four-portal architecture + ProCrow control-tower responsibility model. **Paused** at v0.30 portfolio baseline for production launch — [`PROJECT_WRAP_UP_V0_30.md`](PROJECT_WRAP_UP_V0_30.md). Recommended next path: **I2 Client / Proposal Portal requirements & auth-flow design** or **I2 ProCrow portal UX unification**. Resume **F23** only when client + budget approve. **F37 passed** — industry catalog UX + sector selection polish. **F36 passed** — healthcare depth + privacy/safety readiness. **F35 passed** — aviation depth + Najm intake hardening. **F34 passed** — construction depth + Rimal hardening. **F33 passed** — logistics depth + MEEM lighthouse hardening. **F32 passed** — retail operating model pack. **F31 passed** — hygiene + stragglers on `main`. **F30 passed** — tag `v0.30.0-portfolio` at `f6fcc40`. **F23 passed as decision gate** — production launch **deferred**.
 
 ---
 
@@ -289,6 +290,22 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Operator index | [OPERATOR_DEMO_INDEX.md](OPERATOR_DEMO_INDEX.md) |
 
 **Recommended next:** **H2** / selective refinement, **or** **F23** when client + budget approve — portfolio pause remains default.
+
+---
+
+## I1 — Crow portal architecture, ProCrow vision & responsibility model (no paid infra)
+
+**Scope:** Define and lock the official ecosystem portal architecture and ownership boundaries — four-portal model, ProCrow control-tower definition, client/proposal requirements, team model, interface ownership map, RACI, certification roadmap, maturity model — without feature implementation, schema changes, paid infra, or production claims.
+
+**Status:** **Passed** (27 May 2026).
+
+| Deliverable | Location |
+|-------------|----------|
+| Master architecture record | [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md) |
+| Status alignment | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
+| Milestone alignment | [`MILESTONES.md`](MILESTONES.md) |
+
+**Recommended next:** **I2 — Client / Proposal Portal requirements & auth-flow design**, or **I2 — ProCrow portal UX unification**.
 
 ---
 
