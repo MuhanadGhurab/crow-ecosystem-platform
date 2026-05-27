@@ -1,7 +1,7 @@
 # ProCrow operator index
 
 **Audience:** Platform operators, delivery leads  
-**Last updated:** 27 May 2026 (J3)
+**Last updated:** 27 May 2026 (J6)
 
 ProCrow is the internal control tower for Crow Ecosystem — platform administration, customer-to-tenant flow, trust governance, experience studio, runtime cohesion, and deployment discipline. CyberCrow and SAREA remain distinct capabilities under ProCrow.
 
@@ -13,6 +13,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 |---------|-------|--------|
 | ProCrow Control Tower | `/admin/overview` | Primary entry — map, pipeline, tenant grid, embedded operator queue |
 | Operator queue (derived) | `/admin/queue` | Request-to-tenant stages — read-only, no task engine |
+| Deployment go/no-go center | `/admin/go-no-go` | J6 — advisory readiness, validation index, F23/migration/payment guardrails (no auto-deploy) |
 | Platform Admin shell | `/admin/*` | `requirePlatformConsole` — not public |
 
 ---
@@ -72,6 +73,7 @@ ProCrow is the internal control tower for Crow Ecosystem — platform administra
 
 | Topic | Document |
 |-------|----------|
+| Deployment go/no-go center (J6) | [`J6_DEPLOYMENT_GO_NO_GO_CENTER.md`](J6_DEPLOYMENT_GO_NO_GO_CENTER.md) |
 | Production launch deferred (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 | Go / no-go matrix | [`F16_GO_NO_GO_MATRIX.md`](F16_GO_NO_GO_MATRIX.md) |
 | Deployment runbook | [`F16_DEPLOYMENT_RUNBOOK.md`](F16_DEPLOYMENT_RUNBOOK.md) |

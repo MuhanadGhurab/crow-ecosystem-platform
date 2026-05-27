@@ -24,6 +24,14 @@ export default async function AdminOperatorQueuePage() {
 
       <ProCrowSafetyNote />
 
+      <p className="text-xs text-slate-500">
+        Before prioritizing queue work for a demo or deploy, review the{" "}
+        <Link href={routes.admin.goNoGo} className="text-cyan-400 hover:text-cyan-300">
+          deployment go/no-go center
+        </Link>{" "}
+        for advisory validation baseline and F23 release gate copy — read-only; no queue mutation.
+      </p>
+
       <ProCrowQueueSummaryStrip summary={snapshot.summary} />
 
       <ProCrowOperatorQueuePanel

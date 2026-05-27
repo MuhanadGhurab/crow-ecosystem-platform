@@ -663,7 +663,33 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** `sarea:ux-verify` + `procrow:verify` (J1–J5) + standard project gate.
 
-**Recommended next:** **J6 — Deployment Go/No-Go Center** · **Alternative — J6 ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+**Recommended next:** **J6 — Deployment Go/No-Go Center** (completed) · **J7 — Operator Docs & Validation Console** · **Alternative — J7 ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
+
+---
+
+## J6 — Deployment Go/No-Go Center (no paid infra)
+
+**Scope:** ProCrow **deployment discipline** — advisory go/no-go readiness, validation baseline index, F23 production gate visibility, migration/DB and payment/provisioning safety copy, and operator next actions. Read-only metadata service; no automatic deploy, no migration from UI, no compliance certification claims.
+
+- Typed contract (`procrow-go-no-go-contract.ts`) + validation command index
+- Read-only snapshot service (`procrow-go-no-go.service.ts`)
+- UI components + `/admin/go-no-go` (admin nav, overview + queue linkage)
+- `npm run procrow-go-no-go:verify` · `procrow:verify` includes J6
+
+**Status:** **Passed** (27 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/J6_DEPLOYMENT_GO_NO_GO_CENTER.md` |
+| Contract | `src/lib/procrow/procrow-go-no-go-contract.ts` |
+| Service | `src/lib/services/procrow-go-no-go.service.ts` |
+| UI | `src/components/procrow/procrow-go-no-go-*.tsx` · `procrow-gate-status-card.tsx` · `procrow-validation-command-list.tsx` · etc. |
+| Route | `src/app/admin/go-no-go/page.tsx` |
+| Verifier | `scripts/verify-procrow-go-no-go.ts` |
+
+**Verification:** `procrow-go-no-go:verify` + `procrow:verify` (J1–J6) + standard project gate + client guardrails as needed.
+
+**Recommended next:** **J7 — Operator Docs & Validation Console** · **Alternative — J7 ProCrow Demo Rehearsal** · **Pause** if no internal demo pressure.
 
 ---
 

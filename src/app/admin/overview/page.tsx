@@ -5,6 +5,7 @@ import { PlatformCybercrowPostureStrip } from "@/components/admin/platform-cyber
 import { ProCrowControlTowerHeader } from "@/components/procrow/procrow-page-header";
 import { ProCrowControlTowerMap } from "@/components/procrow/procrow-control-tower-map";
 import { ProCrowControlTowerDashboard } from "@/components/procrow/procrow-control-tower-dashboard";
+import { ProCrowGoNoGoOverviewLink } from "@/components/procrow/procrow-go-no-go-overview-link";
 import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
 import { StatCard } from "@/components/ui/stat-card";
 import { DeptChips } from "@/components/pipeline/dept-chips";
@@ -70,6 +71,8 @@ export default async function AdminOverviewPage() {
       <ProCrowControlTowerHeader />
 
       <ProCrowSafetyNote className="-mt-4" />
+
+      <ProCrowGoNoGoOverviewLink />
 
       <ProCrowControlTowerMap />
 

@@ -38,6 +38,8 @@ export const routes = {
     overview: "/admin/overview",
     /** J3 — full derived operator queue (read-only, admin-protected). */
     queue: "/admin/queue",
+    /** J6 — deployment go/no-go readiness center (advisory, admin-protected). */
+    goNoGo: "/admin/go-no-go",
     requests: "/admin/requests",
     request: (id: string) => `/admin/requests/${id}`,
     discovery: "/admin/discovery",
