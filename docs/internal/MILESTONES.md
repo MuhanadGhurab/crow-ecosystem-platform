@@ -847,7 +847,21 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Runbook | `docs/internal/TENANT_RUNTIME_DEMO_RUNBOOK.md` |
 | Verifier | `scripts/verify-tenant-runtime-demo.ts` |
 
-**Recommended next:** Pause · **L4** usability pass · **K2** browser smoke
+**Recommended next:** Pause · **L4** usability pass · **L5** screenshot pack
+
+---
+
+## K2 — Manual Browser Smoke (no paid infra)
+
+**Scope:** Production HTTP smoke on https://crow-ecosystem-platform.vercel.app at `b09a799` — public routes, signup/login/request gates, redirect sanitization spot-check, verifier batch. **No** feature sprint; human authenticated session recommended to upgrade to full pass.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/K2_MANUAL_BROWSER_SMOKE.md` |
+
+**Status:** **Conditional pass** (29 May 2026) — pending one authenticated browser session
+
+**Recommended next:** Pause · **L4** · **L5** screenshot pack
 
 ---
 
