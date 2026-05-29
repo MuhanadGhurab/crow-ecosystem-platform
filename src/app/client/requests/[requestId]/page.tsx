@@ -102,6 +102,13 @@ async function RequestDetail({
 
       <LifecycleStrip status={status} />
 
+      <ClientPortalStatusCard
+        title="Your status"
+        badge="Pipeline"
+        badgeTone="info"
+        description="ProCrow reviews intake, discovery, and blueprint on their side. Use proposal and blueprint links below when materials are ready — scope approval stays on the proposal page."
+      />
+
       <ClientOnboardingSummaryCard tracker={onboardingTracker} />
 
       <ClientPortalStatusCard title="Review materials" badge="Review" badgeTone="info">

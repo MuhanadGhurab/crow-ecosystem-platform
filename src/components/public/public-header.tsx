@@ -77,7 +77,7 @@ export function PublicHeader() {
             Sign in
           </Link>
           <Link href="/request" className="cc-btn-primary !py-2.5 text-sm">
-            Start request
+            Start Enterprise Request
           </Link>
         </div>
       </div>
@@ -125,7 +125,7 @@ export function PublicHeader() {
             </nav>
             <div className="flex flex-col gap-2 border-t border-cyan-500/10 p-4">
               <Link href="/request" className="cc-btn-primary text-center" onClick={() => setOpen(false)}>
-                Request access
+                Start Enterprise Request
               </Link>
             </div>
           </aside>

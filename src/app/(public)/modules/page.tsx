@@ -10,6 +10,8 @@ import { talentLabelsForModule } from "@/lib/constants/module-talent-profiles";
 import { CEM_MODULES } from "@/lib/constants/modules";
 
 import { PLATFORM_IDENTITIES } from "@/lib/constants/platform";
+import { PUBLIC_MODULES_INTRO } from "@/lib/constants/public-client-ux";
+import { PublicRequestGateNote } from "@/components/public/public-request-gate-note";
 
 
 
@@ -25,11 +27,15 @@ export default function ModulesPage() {
 
         title="Enterprise modules"
 
-        description="Talent-adaptive modules provisioned from your approved blueprint — SAREA adjusts dashboards and density per role."
+        description={PUBLIC_MODULES_INTRO.body}
 
       />
 
       <div className="cc-public-section">
+        <div className="mb-8 space-y-3">
+          <p className="text-sm text-slate-400">{PUBLIC_MODULES_INTRO.runtime}</p>
+          <PublicRequestGateNote compact />
+        </div>
 
         <p className="mb-8 text-sm text-cyan-200/90">
 
@@ -124,9 +130,7 @@ export default function ModulesPage() {
 
 
         <Link href="/request" className="cc-btn-primary mt-10 inline-block">
-
-          Configure modules in request →
-
+          Start Enterprise Request →
         </Link>
 
       </div>

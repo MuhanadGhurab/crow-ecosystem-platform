@@ -53,7 +53,7 @@ export default function SecurityPage() {
       <PublicPageHeader
         badge="CyberCrow · NCA-aligned readiness"
         title="Security packages"
-        description={`${PLATFORM_IDENTITIES.cybercrow.description} Advisory security and governance surfaces for tenant operators — packaged at intake and expanded after provision.`}
+        description="CyberCrow is your trust and security posture layer — evidence readiness, audit visibility, and GRC/risk advisory. Client-friendly visibility, not a SIEM replacement or compliance certificate."
       />
       <div className="cc-public-section space-y-14">
         <div className="grid gap-4 md:grid-cols-3">

@@ -112,6 +112,7 @@
     "procrow-go-no-go:verify": "npx tsx scripts/verify-procrow-go-no-go.ts",
     "procrow-demo:verify": "npx tsx scripts/verify-procrow-demo-rehearsal.ts",
     "product-ux:verify": "npx tsx scripts/verify-product-ux-simplification.ts",
+    "public-client-ux:verify": "npx tsx scripts/verify-public-client-ux-refinement.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

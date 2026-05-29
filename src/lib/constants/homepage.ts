@@ -1,12 +1,12 @@
 /** Public homepage copy — plain language, no overclaims */
 
-export const HOMEPAGE_HERO_HEADLINE = "Where Organizations Become Intelligent." as const;
+export const HOMEPAGE_HERO_HEADLINE = "Map your company before runtime begins." as const;
 
 export const HOMEPAGE_HERO_SUBHEADLINE =
-  "Adaptive enterprise orchestration, secured by design." as const;
+  "Departments, roles, workflows, modules, trust, and experience — prepared with Crow." as const;
 
 export const HOMEPAGE_HERO_EXPLAINER =
-  "Crow helps organizations discover their structure, generate an enterprise blueprint, run day-to-day operations through CEM, protect trust through CyberCrow, and adapt role-based experiences through SAREA." as const;
+  "Crow helps you map your company’s departments, roles, workflows, modules, trust posture, and experience before tenant runtime begins. CEM runs operations, CyberCrow supports trust, SAREA adapts the experience — RBAC controls access." as const;
 
 export const HOMEPAGE_HOW_IT_WORKS = [
   {
@@ -103,7 +103,7 @@ export const HOMEPAGE_BUILT_FOR = [
 
 export const HOMEPAGE_TRUST_PROOF = [
   "Validated across logistics, construction, and aviation-style onboarding scenarios on staging.",
-  "Supports public request, discovery, blueprint, tenant runtime, CyberCrow, and SAREA flows end to end.",
+  "Sign-in request flow, discovery, blueprint, tenant runtime, CyberCrow, and SAREA — end to end on staging.",
   "Built with multi-tenant isolation, advisory security posture, and role-aware experience design.",
   "Honest scope: advisory visibility and workflow trust — not guaranteed compliance or autonomous AI detection.",
 ] as const;

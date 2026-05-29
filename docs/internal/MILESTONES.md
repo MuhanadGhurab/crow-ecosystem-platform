@@ -806,7 +806,26 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Phase doc | `docs/internal/L2_PROCROW_WORKBENCH_UX_REDESIGN.md` |
 | Verifier | `scripts/verify-procrow-workbench-ux.ts` |
 
-**Recommended next:** **L3 — Public + Client Portal UX Refinement** · **K1 — Tenant Runtime Demo Rehearsal**
+**Recommended next:** **L3 — Public + Client Portal UX Refinement** (completed) · **K1 — Tenant Runtime Demo Rehearsal**
+
+---
+
+## L3 — Public + Client Portal UX Refinement (no paid infra)
+
+**Scope:** Public site and Client Portal UX clarity — homepage, nav CTAs, pricing/modules/industries/security/request/login, client dashboard journey, shared gate note and commercial lifecycle copy. **No** payments, migrations, auth weakening, or auto-provisioning.
+
+- `src/lib/constants/public-client-ux.ts` + shared L3 components
+- Public pages refined; client `/client` dashboard next-action driven
+- `npm run public-client-ux:verify`
+
+**Status:** **Passed** (29 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L3_PUBLIC_CLIENT_PORTAL_UX_REFINEMENT.md` |
+| Verifier | `scripts/verify-public-client-ux-refinement.ts` |
+
+**Recommended next:** **K1 — Tenant Runtime Demo Rehearsal** · **L4 — Tenant Runtime / CEM Usability Pass**
 
 ---
 

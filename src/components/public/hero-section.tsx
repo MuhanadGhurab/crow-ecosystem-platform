@@ -66,18 +66,18 @@ export function HeroSection() {
               <Link href="/request" className="cc-btn-primary w-full px-8 sm:w-auto">
                 Start Enterprise Request →
               </Link>
-              <p className="w-full text-center text-xs text-slate-500 sm:text-start">
-                Sign in required to submit — browse the site freely before that.
-              </p>
-              <Link href="/architecture" className="cc-btn-secondary w-full sm:w-auto">
-                Explore the Architecture
+              <Link href="/modules" className="cc-btn-secondary w-full sm:w-auto">
+                Explore modules
               </Link>
               <Link
-                href="/security"
-                className="w-full text-center text-sm font-medium text-violet-400 transition hover:text-violet-300 sm:w-auto sm:px-4"
+                href="/industries"
+                className="w-full text-center text-sm font-medium text-cyan-400 transition hover:text-cyan-300 sm:w-auto sm:px-4"
               >
-                View Security Layer →
+                View industries →
               </Link>
+              <p className="w-full text-center text-xs text-slate-500 sm:text-start">
+                Sign in required to submit — browse pricing, security, and architecture first.
+              </p>
             </div>
           </div>
 

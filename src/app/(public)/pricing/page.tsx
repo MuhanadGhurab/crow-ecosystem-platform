@@ -1,5 +1,8 @@
 ﻿import Link from "next/link";
+import { CommercialLifecycleMini } from "@/components/product/commercial-lifecycle-mini";
 import { CrowMotif } from "@/components/public/crow-motif";
+import { PublicRequestGateNote } from "@/components/public/public-request-gate-note";
+import { PRICING_COMMERCIAL_HONESTY } from "@/lib/constants/public-client-ux";
 import { PricingTierCard } from "@/components/public/pricing-tier-card";
 import { PublicPageHeader } from "@/components/public/public-page-header";
 import { PublicSectionIntro } from "@/components/public/public-section-intro";
@@ -40,10 +43,13 @@ export default function PricingPage() {
             </span>
           </>
         }
-        description="Orchestration pricing for CEM + CyberCrow + SAREA — monthly SAR by tier and employee band, not a per-seat ERP clone. Deal totals finalize on your Enterprise Blueprint."
+        description="Advisory catalog pricing for CEM + CyberCrow + SAREA — final quote follows discovery and blueprint. Checkout is not enabled on this site."
       />
 
       <div className="cc-public-section space-y-16">
+        <CommercialLifecycleMini variant="public" />
+        <PublicRequestGateNote />
+        <p className="text-sm text-slate-500">{PRICING_COMMERCIAL_HONESTY.advisory}</p>
         <section className="cc-public-band relative overflow-hidden rounded-2xl border border-cyan-500/15 p-6 sm:p-8">
           <CrowMotif variant="wing" className="pointer-events-none absolute -end-4 top-4 h-20 w-24 opacity-15" />
           <PublicSectionIntro
@@ -277,10 +283,10 @@ export default function PricingPage() {
           </p>
           <p className="mt-2 text-xs text-slate-500">15% VAT applied at invoice.</p>
           <div className="mx-auto mt-4 max-w-lg rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3 text-left text-xs leading-relaxed text-slate-400">
-            <p className="font-medium text-amber-200/90">Checkout not live</p>
+            <p className="font-medium text-amber-200/90">{PRICING_COMMERCIAL_HONESTY.noCheckout}</p>
             <p className="mt-1">
-              Card checkout (Mada, Apple Pay, BNPL) is not enabled in this environment. Enterprise billing
-              follows proposal review and platform administrator coordination after your request is accepted.
+              Enterprise billing is manual and coordinated after scope approval — not activated from this
+              website.
             </p>
           </div>
           <Link href="/request" className="cc-btn-primary mt-6 inline-block">

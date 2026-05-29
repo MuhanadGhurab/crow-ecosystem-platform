@@ -8,6 +8,7 @@ import { HomepageRuntimeEngines } from "@/components/public/homepage-runtime-eng
 import { HomepageTrustProof } from "@/components/public/homepage-trust-proof";
 import { PublicLifecycleStrip } from "@/components/public/public-lifecycle-strip";
 import { PublicSectionIntro } from "@/components/public/public-section-intro";
+import { PublicRequestGateNote } from "@/components/public/public-request-gate-note";
 import { PLATFORM_IDENTITIES } from "@/lib/constants/platform";
 
 export default function HomePage() {
@@ -103,6 +104,9 @@ export default function HomePage() {
             Understand Crow on the public site, then sign in to submit and track your ERP request in the Client
             Portal.
           </p>
+          <div className="mx-auto mt-6 max-w-lg">
+            <PublicRequestGateNote />
+          </div>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link href="/request" className="cc-btn-primary min-w-[14rem]">
               Start Enterprise Request →

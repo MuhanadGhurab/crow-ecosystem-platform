@@ -17,7 +17,7 @@ export default async function ClientProposalsPage() {
       <ClientPortalPageHeader
         eyebrow="Authenticated review"
         title="Proposals"
-        description="Commercial proposals appear when your sign-in is linked to the implementation request. Open a proposal to review scope and approve when eligible."
+        description="Review commercial scope when ProCrow sends a proposal. Approve or request changes here — not payment activation or e-signature."
       />
 
       <ClientPortalApprovalBlocked context="proposal" variant="guide" />

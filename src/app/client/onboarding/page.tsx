@@ -16,7 +16,7 @@ export default async function ClientOnboardingPage() {
       <ClientPortalPageHeader
         eyebrow="Readiness"
         title="Onboarding"
-        description="Operational readiness after scope approval. ProCrow controls provisioning and tenant go-live — this tracker is advisory only."
+        description="Readiness after scope approval. ProCrow controls provisioning steps — you see status and what to prepare. Tenant runtime remains F23-gated; no auto go-live from this page."
       />
 
       <section

@@ -9,6 +9,10 @@ import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { routes } from "@/lib/routes";
+import {
+  LOGIN_CLIENT_PURPOSE,
+  LOGIN_INTERNAL_NOTE,
+} from "@/lib/constants/public-client-ux";
 import type { TenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
 
 const LOGIN_ENTRA_DEFAULTS: TenantSecuritySettings = {
@@ -60,11 +64,9 @@ export default async function LoginPage({
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
         <CrowMark href="/" size="sm" showTagline={false} />
-        <h1 className="cc-page-title mt-6">Sign in to Crow Ecosystem</h1>
-        <p className="mt-2 text-sm leading-relaxed text-slate-400">
-          Secure access for customers, tenant teams, and platform operators. Use your
-          organization identity or issued credentials.
-        </p>
+        <h1 className="cc-page-title mt-6">Sign in to Crow</h1>
+        <p className="mt-2 text-sm leading-relaxed text-slate-400">{LOGIN_CLIENT_PURPOSE}</p>
+        <p className="mt-2 text-xs text-slate-600">{LOGIN_INTERNAL_NOTE}</p>
 
         {errorMessage && <p className="cc-alert-warning mt-5">{errorMessage}</p>}
 
@@ -108,8 +110,11 @@ export default async function LoginPage({
             Track my request
           </Link>
           {" · "}
-          <Link href={routes.public.request} className="text-cyan-400 hover:text-cyan-300">
-            Submit new request
+          <Link
+            href={routes.auth.loginWithNext(routes.public.request)}
+            className="text-cyan-400 hover:text-cyan-300"
+          >
+            Sign in to submit request
           </Link>
         </p>
       </div>

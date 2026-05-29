@@ -8,8 +8,8 @@ export function HomepageHowItWorks() {
       <div className="cc-safe-x relative mx-auto max-w-6xl">
         <PublicSectionIntro
           badge="How it works"
-          title="From request to intelligent operations"
-          description="Six clear steps — written for business owners, operations leaders, and HR teams, not only architects."
+          title="From signed-in request to tenant runtime"
+          description="Six clear steps — what happens after you sign in and submit, through ProCrow review and governed go-live."
         />
         <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {HOMEPAGE_HOW_IT_WORKS.map((item) => (

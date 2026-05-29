@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ClientOnboardingDashboardTile } from "@/components/client-portal/client-onboarding-dashboard-tile";
-import { ClientPortalNextActions } from "@/components/client-portal/client-portal-next-actions";
+import { ClientJourneySummary } from "@/components/client-portal/client-journey-summary";
+import { ClientNextActionPanel } from "@/components/client-portal/client-next-action-panel";
+import { CommercialLifecycleMini } from "@/components/product/commercial-lifecycle-mini";
+import { CLIENT_PORTAL_PURPOSE } from "@/lib/constants/public-client-ux";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { ClientPortalTrustStrip } from "@/components/client-portal/client-portal-trust-strip";
@@ -27,7 +30,7 @@ export default async function ClientPortalHomePage() {
       <ClientPortalPageHeader
         eyebrow="Client Portal"
         title="Your implementation journey"
-        description="Your signed-in account links ERP requests, proposals, blueprint scope, and onboarding. ProCrow owns review and provisioning — this portal shows your side of the pipeline."
+        description={CLIENT_PORTAL_PURPOSE}
       />
       {staff && (
         <p className="cc-alert-warning text-sm">
@@ -38,7 +41,9 @@ export default async function ClientPortalHomePage() {
 
       <ClientPortalTrustStrip />
 
-      <ClientPortalNextActions snapshot={snapshot} />
+      <ClientNextActionPanel snapshot={snapshot} />
+      <ClientJourneySummary />
+      <CommercialLifecycleMini variant="client" />
 
       <ClientOnboardingDashboardTile tile={onboardingTile!} />
 

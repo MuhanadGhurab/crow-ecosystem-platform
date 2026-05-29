@@ -6,6 +6,8 @@ import {
   getModeledSectorModuleLabels,
   MODELED_SECTOR_CATALOG,
 } from "@/lib/constants/sector-catalog";
+import { PUBLIC_INDUSTRIES_INTRO } from "@/lib/constants/public-client-ux";
+import { PublicRequestGateNote } from "@/components/public/public-request-gate-note";
 
 export default function IndustriesPage() {
   return (
@@ -16,13 +18,10 @@ export default function IndustriesPage() {
         description="Five validated sector operating models on staging — discovery templates, org intelligence, blueprint readiness, and advisory CyberCrow / SAREA posture. Wording is readiness-oriented, not production or compliance claims."
       />
       <div className="cc-public-section space-y-12">
+        <PublicRequestGateNote />
         <section>
           <h2 className="font-display text-xl font-semibold text-white">Validated operating models</h2>
-          <p className="mt-2 max-w-3xl text-sm text-slate-400">
-            Each model includes departments, roles, workflows, and module recommendations drawn from the
-            live CEM catalog. Operators review and trim before blueprint — nothing auto-provisions from this
-            page.
-          </p>
+          <p className="mt-2 max-w-3xl text-sm text-slate-400">{PUBLIC_INDUSTRIES_INTRO}</p>
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             {MODELED_SECTOR_CATALOG.map((sector) => (
               <IndustryCatalogCard
@@ -58,8 +57,8 @@ export default function IndustriesPage() {
             baseline; your operator can switch the sector template on the organization model page after
             review.
           </p>
-          <Link href="/request" className="cc-btn-primary mt-6 inline-block text-sm">
-            Request your ecosystem →
+          <Link href="/request" className="cc-btn-primary mt-6 inline-block text-sm" title="Sign in required">
+            Start Enterprise Request →
           </Link>
         </section>
       </div>
