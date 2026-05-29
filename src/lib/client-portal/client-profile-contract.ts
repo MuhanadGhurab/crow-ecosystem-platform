@@ -52,6 +52,7 @@ export type CompanyProfileReadiness = {
 };
 
 export type CompanyProfileSummary = {
+  primaryRequestId: string;
   companyName: string | null;
   industry: string | null;
   employeeBand: string | null;
@@ -88,7 +89,7 @@ export const CLIENT_PROFILE_EDIT_BLOCKED_DEV =
   "Profile editing is disabled in local auth bypass mode.";
 
 export const CLIENT_COMPANY_EDIT_BLOCKED_REASON =
-  "Company details are managed through your implementation request and ProCrow discovery. Client-side company editing requires a future data contract (I6+).";
+  "Safe company fields can be updated when you own the linked request or have verified organization membership. Email-only reviewers cannot edit company data.";
 
 export const CLIENT_PROFILE_METADATA_KEYS = [
   "full_name",

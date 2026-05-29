@@ -25,6 +25,7 @@ import { MOCK_CLIENT_REQUESTS } from "@/lib/mock/portal";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal.service";
+import { resolveCanClientEditCompanyProfile } from "@/lib/services/client-company-edit.service";
 import { listClientRequests } from "@/lib/services/client-request-link.service";
 import { isAuthDisabled } from "@/lib/supabase/env";
 
@@ -97,6 +98,7 @@ function buildCompanyReadiness(row: {
   selectedModules: string[];
   securityRequirements: string[];
   linkStatus: CompanyLinkStatus;
+  canEditSafeFields: boolean;
 }): CompanyProfileReadiness {
   const fieldChecks = [
     { label: "Company name", ok: Boolean(row.companyName) },
@@ -125,8 +127,13 @@ function buildCompanyReadiness(row: {
   const nextActions: string[] = [];
   if (row.linkStatus === "not_linked") {
     nextActions.push("Submit an implementation request or sign in with your primary contact email.");
+  } else if (
+    missingFields.includes("Employee band") &&
+    row.canEditSafeFields
+  ) {
+    nextActions.push("Complete missing information below (employee band).");
   } else if (missingFields.length > 0) {
-    nextActions.push("Work with ProCrow to complete company details during discovery.");
+    nextActions.push("Work with ProCrow to complete remaining company details during discovery.");
   } else {
     nextActions.push("Company profile is well populated for the linked request.");
   }
@@ -161,6 +168,16 @@ function resolveAccountLinkState(
     return "request_submitted_unlinked";
   }
   return "no_request_submitted";
+}
+
+export function resolveCompanyLinkStatusForRequest(
+  authState: ClientPortalAuthState,
+  submittedByUserId: string | null,
+  userId: string
+): CompanyLinkStatus {
+  if (authState === "platform_staff") return "staff_preview";
+  if (submittedByUserId === userId) return "linked_via_submitted_by_user";
+  return "linked_via_contact_email";
 }
 
 function resolveCompanyLinkStatus(
@@ -244,9 +261,11 @@ async function buildCompanyFromRows(
       selectedModules: modules,
       securityRequirements: ["Standard security baseline"],
       linkStatus: "linked_via_contact_email",
+      canEditSafeFields: false,
     });
 
     const company: CompanyProfileSummary = {
+      primaryRequestId: mockReq.id,
       companyName: mockReq.organizationName,
       industry,
       employeeBand,
@@ -289,6 +308,13 @@ async function buildCompanyFromRows(
       securityPackageLabel(p.packageKey)
     );
 
+    const editDecision = await resolveCanClientEditCompanyProfile(
+      user,
+      primary.id,
+      authState,
+      linkStatus
+    );
+
     const readiness = buildCompanyReadiness({
       companyName: primary.organizationName,
       industry: primary.industry,
@@ -299,9 +325,11 @@ async function buildCompanyFromRows(
       selectedModules,
       securityRequirements,
       linkStatus,
+      canEditSafeFields: editDecision.canEdit,
     });
 
     const company: CompanyProfileSummary = {
+      primaryRequestId: primary.id,
       companyName: primary.organizationName,
       industry: primary.industry,
       employeeBand: primary.employeeBand,
@@ -314,8 +342,8 @@ async function buildCompanyFromRows(
       latestRequestStatus: primary.status as ImplementationRequestStatus,
       latestRequestReference: primary.referenceCode,
       profileStatus: profileStatusFromReadiness(readiness.completenessPercent),
-      canEdit: false,
-      editBlockedReason: CLIENT_COMPANY_EDIT_BLOCKED_REASON,
+      canEdit: editDecision.canEdit,
+      editBlockedReason: editDecision.blockedReason ?? CLIENT_COMPANY_EDIT_BLOCKED_REASON,
       readiness,
     };
 

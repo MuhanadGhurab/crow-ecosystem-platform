@@ -2,8 +2,11 @@ import Link from "next/link";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { ClientLinkingStatus } from "@/components/client-portal/client-linking-status";
 import { ClientPortalApprovalBlocked } from "@/components/client-portal/client-portal-approval-blocked";
+import { ClientCompanyCompleteForm } from "@/components/client-portal/client-company-complete-form";
 import { ClientProfileCompleteness } from "@/components/client-portal/client-profile-completeness";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
+import { formatCompanyLinkStatusLabel } from "@/lib/client-portal/company-link-status-label";
+import { registryFieldForLabel } from "@/lib/client-portal/client-company-profile-fields";
 import { ClientPortalStatusCard } from "@/components/client-portal/client-portal-status-card";
 import { requireClientAccess } from "@/lib/auth/session";
 import { getClientOrganizationAccessDecisionForRequest } from "@/lib/services/client-organization-link.service";
@@ -25,7 +28,7 @@ export default async function ClientCompanyPage() {
       <ClientPortalPageHeader
         eyebrow="Organization"
         title="Company"
-        description="Organization profile from your linked implementation request. In-portal company editing arrives in a later phase."
+        description="Organization profile from your linked implementation request. You can update safe fields (such as employee band) when you own the request or have verified membership."
       />
 
       <ClientLinkingStatus state={model.accountLinkState} />
@@ -75,7 +78,8 @@ export default async function ClientCompanyPage() {
           <div className="sm:col-span-2">
             <dt className="text-slate-500">Company editing</dt>
             <dd className="text-white text-slate-300">
-              This page is readiness-only. Company profile editing requires verified organization ownership.
+              Safe fields (employee band) can be edited by the request submitter or verified organization
+              owners. Email-only reviewers cannot edit company data.
             </dd>
           </div>
         </dl>
@@ -90,11 +94,41 @@ export default async function ClientCompanyPage() {
             completedFields={company.readiness.completedFields}
           />
 
+          {company.readiness.missingFields.length > 0 && (
+            <section className="cc-glass-card text-sm text-slate-400">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                Why some fields are locked
+              </p>
+              <ul className="mt-2 list-inside list-disc space-y-1">
+                {company.readiness.missingFields.map((label) => {
+                  const field = registryFieldForLabel(label);
+                  if (field?.editableByClient) return null;
+                  return (
+                    <li key={label}>
+                      <span className="text-slate-300">{label}:</span>{" "}
+                      {field?.blockedReason ?? "Contact ProCrow to update this field."}
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+
+          {(company.canEdit ||
+            company.readiness.missingFields.includes("Employee band")) && (
+            <ClientCompanyCompleteForm
+              requestId={company.primaryRequestId}
+              employeeBand={company.employeeBand}
+              canEdit={company.canEdit}
+              editBlockedReason={company.editBlockedReason}
+            />
+          )}
+
           <ClientPortalStatusCard
             title={company.companyName ?? "Company"}
             badge={`${company.readiness.completenessPercent}% complete`}
             badgeTone={company.readiness.missingFields.length === 0 ? "success" : "warning"}
-            description={`Linked via ${company.readiness.companyLinkStatus.replace(/_/g, " ")} · ${company.requestCount} request(s)`}
+            description={`${formatCompanyLinkStatusLabel(company.readiness.companyLinkStatus)} · ${company.requestCount} request(s)`}
           >
             <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
               <div>
@@ -185,12 +219,14 @@ export default async function ClientCompanyPage() {
             </section>
           )}
 
-          <ClientPortalStatusCard
-            title="Company editing"
-            badge="Readiness only"
-            badgeTone="warning"
-            description={company.editBlockedReason ?? undefined}
-          />
+          {!company.canEdit && company.editBlockedReason && (
+            <ClientPortalStatusCard
+              title="Company editing"
+              badge="Read-only"
+              badgeTone="warning"
+              description={company.editBlockedReason}
+            />
+          )}
         </>
       ) : (
         <ClientPortalStatusCard
