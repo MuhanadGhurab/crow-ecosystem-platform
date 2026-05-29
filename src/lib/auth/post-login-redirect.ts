@@ -10,6 +10,7 @@ import {
 import {
   canAccessTenant,
   getCrowAuth,
+  isClient,
   isPlatformConsoleRole,
   isPlatformStaff,
   type CrowRole,
@@ -19,43 +20,51 @@ import {
   isPlatformPath,
   isPortalPath,
 } from "@/lib/auth/route-protection";
+import { routes } from "@/lib/routes";
 
-const DEFAULT_STAFF_OVERVIEW = "/admin/overview";
-const DEFAULT_CLIENT_PORTAL = "/portal/requests";
+const DEFAULT_STAFF_OVERVIEW = routes.admin.overview;
+const DEFAULT_CLIENT_HOME = routes.client.home;
+
+export type AuthenticatedPortalCta = {
+  href: string;
+  label: string;
+};
 
 /** Client-only landing paths — must not override platform staff post-login. */
 function isClientPortalNext(path: string): boolean {
   return (
-    path === DEFAULT_CLIENT_PORTAL ||
+    path === DEFAULT_CLIENT_HOME ||
     path.startsWith("/portal") ||
     path.startsWith("/client") ||
-    path === "/request"
+    path === routes.public.request
   );
 }
 
-function defaultLandingForRole(
-  role: CrowRole,
-  tenantSlugs: string[]
-): string {
+function isClientIntentNext(path: string | null | undefined): boolean {
+  if (!path) return false;
+  return isClientPortalNext(path);
+}
+
+function defaultLandingForRole(role: CrowRole, tenantSlugs: string[]): string {
   switch (role) {
     case "platform_admin":
     case "implementer":
       return DEFAULT_STAFF_OVERVIEW;
     case "sales":
-      return "/admin/requests";
+      return routes.admin.requests;
     case "auditor_readonly":
       return hasPermission(role, Permission["platform.audit.view"])
-        ? "/admin/audit"
+        ? routes.admin.audit
         : DEFAULT_STAFF_OVERVIEW;
     case "tenant_admin":
     case "tenant_user": {
       const slug = tenantSlugs[0];
-      return slug ? `/${slug}/dashboard` : DEFAULT_CLIENT_PORTAL;
+      return slug ? routes.tenant(slug).dashboard : DEFAULT_CLIENT_HOME;
     }
     case "client":
-      return DEFAULT_CLIENT_PORTAL;
+      return DEFAULT_CLIENT_HOME;
     default:
-      return "/login?error=no_role";
+      return `${routes.auth.login}?error=no_role`;
   }
 }
 
@@ -69,6 +78,10 @@ export function canUserAccessInternalPath(
 
   if (pathname === "/login" || pathname === "/unauthorized") {
     return true;
+  }
+
+  if (pathname === routes.public.request) {
+    return canAccessPortalPath(role) || isPlatformStaff(role);
   }
 
   if (isPortalPath(pathname)) {
@@ -114,6 +127,13 @@ function resolveExplicitNext(
   return safe;
 }
 
+function landingWithoutRole(explicitNext?: string | null): string {
+  if (isClientIntentNext(explicitNext)) {
+    return safeRedirectPath(explicitNext!, routes.public.request);
+  }
+  return `${routes.auth.login}?error=role_config`;
+}
+
 /**
  * Resolve post-auth landing path from crow_role, tenant_slugs, and optional ?next= / cookie.
  */
@@ -124,7 +144,7 @@ export function resolvePostLoginDestination(
   const { role, tenantSlugs } = getCrowAuth(user);
 
   if (!role) {
-    return "/login?error=no_role";
+    return landingWithoutRole(explicitNext);
   }
 
   const fallback = defaultLandingForRole(role, tenantSlugs);
@@ -143,13 +163,46 @@ export function resolvePostLoginDestination(
   }
 
   if (role === "client") {
-    return next ?? DEFAULT_CLIENT_PORTAL;
+    return next ?? DEFAULT_CLIENT_HOME;
   }
 
-  return "/login?error=no_role";
+  return `${routes.auth.login}?error=no_role`;
+}
+
+/** K2.5 — preferred name for post sign-in / sign-up / OAuth landing. */
+export const resolvePostAuthLanding = resolvePostLoginDestination;
+
+/**
+ * Role-based portal CTA for public header (never exposes ProCrow to clients).
+ */
+export function getAuthenticatedPortalCta(user: User): AuthenticatedPortalCta | null {
+  const { role, tenantSlugs } = getCrowAuth(user);
+  if (!role) return null;
+
+  if (isPlatformConsoleRole(role)) {
+    return { href: DEFAULT_STAFF_OVERVIEW, label: "ProCrow" };
+  }
+
+  if (role === "tenant_admin" || role === "tenant_user") {
+    const slug = tenantSlugs[0];
+    if (slug) {
+      return { href: routes.tenant(slug).dashboard, label: "Tenant Runtime" };
+    }
+    return { href: DEFAULT_CLIENT_HOME, label: "Client Portal" };
+  }
+
+  if (isClient(role)) {
+    return { href: DEFAULT_CLIENT_HOME, label: "Client Portal" };
+  }
+
+  return null;
 }
 
 /** @deprecated Use resolvePostLoginDestination — kept for existing imports. */
 export const resolvePostLoginPath = resolvePostLoginDestination;
 
-export { DEFAULT_CLIENT_PORTAL as DEFAULT_CLIENT_NEXT, DEFAULT_STAFF_OVERVIEW as DEFAULT_STAFF_NEXT };
+export {
+  DEFAULT_CLIENT_HOME as DEFAULT_CLIENT_PORTAL,
+  DEFAULT_CLIENT_HOME as DEFAULT_CLIENT_NEXT,
+  DEFAULT_STAFF_OVERVIEW as DEFAULT_STAFF_NEXT,
+};

@@ -117,6 +117,7 @@
     "tenant-demo:verify": "npx tsx scripts/verify-tenant-runtime-demo.ts",
     "tenant-provisioning-wording:verify": "npx tsx scripts/verify-tenant-provisioning-wording.ts",
     "client-signup:verify": "npx tsx scripts/verify-client-signup-flow.ts",
+    "auth-landing:verify": "npx tsx scripts/verify-auth-landing-redirect.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
-import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
+import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
@@ -54,7 +54,7 @@ export default async function LoginPage({
 
   const existingUser = await getSessionUser();
   if (existingUser) {
-    redirect(resolvePostLoginDestination(existingUser, nextPath));
+    redirect(resolvePostAuthLanding(existingUser, nextPath));
   }
 
   const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;

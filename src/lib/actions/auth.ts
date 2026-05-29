@@ -3,7 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
-import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
+import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
   assignDefaultClientRoleOnSignUp,
@@ -86,15 +87,25 @@ async function finalizeAuthUser(
     /* DB optional */
   }
 
-  const refreshed = (await supabase.auth.getUser()).data.user ?? user;
-  const { role } = getCrowAuth(refreshed);
+  let refreshed = (await refreshSessionUser(supabase)) ?? user;
+  let { role } = getCrowAuth(refreshed);
+
+  if (!role && refreshed?.id) {
+    try {
+      await assignDefaultClientRoleOnSignUp(refreshed.id);
+      refreshed = (await refreshSessionUser(supabase)) ?? refreshed;
+      role = getCrowAuth(refreshed).role;
+    } catch {
+      /* service role optional */
+    }
+  }
 
   if (!role && refreshed?.email) {
     try {
       const count = await countRequestsForEmail(refreshed.email);
       if (count > 0) {
         redirect(
-          resolvePostLoginDestination(
+          resolvePostAuthLanding(
             {
               ...refreshed,
               app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
@@ -116,7 +127,7 @@ async function finalizeAuthUser(
     return { error: "No Crow access assigned. Contact your administrator." };
   }
 
-  redirect(resolvePostLoginDestination(refreshed, next));
+  redirect(resolvePostAuthLanding(refreshed, next));
 }
 
 export async function signIn(
@@ -241,7 +252,7 @@ export async function signUp(
       data: { user: refreshed },
     } = await supabase.auth.getUser();
     if (refreshed) {
-      redirect(resolvePostLoginDestination(refreshed, next));
+      redirect(resolvePostAuthLanding(refreshed, next));
     }
   }
 

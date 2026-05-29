@@ -4,9 +4,9 @@ import {
   oauthNextCookieOptions,
   resolveOAuthNextPath,
 } from "@/lib/auth/entra-sso";
-import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
+import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import { getCrowAuth } from "@/lib/auth/roles";
-import { safeRedirectPath } from "@/lib/http/safe-redirect-path";
 import {
   assignDefaultClientRoleOnSignUp,
   countRequestsForEmail,
@@ -72,7 +72,7 @@ export async function GET(request: Request) {
           // Public OAuth: client role only when none assigned (never overwrites staff roles).
           const assigned = await assignDefaultClientRoleOnSignUp(refreshed.id);
           if (assigned) {
-            refreshed = (await supabase.auth.getUser()).data.user ?? refreshed;
+            refreshed = (await refreshSessionUser(supabase)) ?? refreshed;
             role = getCrowAuth(refreshed).role;
           }
         } catch {
@@ -84,7 +84,7 @@ export async function GET(request: Request) {
         try {
           const count = await countRequestsForEmail(refreshed.email);
           if (count > 0) {
-            const destination = resolvePostLoginDestination(
+            const destination = resolvePostAuthLanding(
               {
                 ...refreshed,
                 app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
@@ -101,36 +101,17 @@ export async function GET(request: Request) {
       }
 
       if (!role && refreshed) {
-        const clientIntent =
-          !explicitNext ||
-          explicitNext === "/request" ||
-          explicitNext.startsWith("/client") ||
-          explicitNext.startsWith("/portal");
-        if (clientIntent) {
-          const destination = safeRedirectPath(explicitNext ?? "/request", "/request");
-          return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
+        const destination = resolvePostAuthLanding(refreshed, explicitNext);
+        if (destination.startsWith("/login")) {
+          if (!isSupabaseServiceRoleConfigured()) {
+            return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
+          }
+          await supabase.auth.signOut();
         }
-        if (!isSupabaseServiceRoleConfigured()) {
-          return clearNextCookie(
-            NextResponse.redirect(
-              `${origin}/login?error=role_config&next=${encodeURIComponent(explicitNext ?? "/request")}`
-            )
-          );
-        }
-        await supabase.auth.signOut();
-        return clearNextCookie(
-          NextResponse.redirect(`${origin}/login?error=no_role`)
-        );
+        return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
       }
 
-      if (!role) {
-        await supabase.auth.signOut();
-        return clearNextCookie(
-          NextResponse.redirect(`${origin}/login?error=no_role`)
-        );
-      }
-
-      const destination = resolvePostLoginDestination(refreshed!, explicitNext);
+      const destination = resolvePostAuthLanding(refreshed!, explicitNext);
       return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
     }
   }
