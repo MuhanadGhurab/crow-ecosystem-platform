@@ -1,6 +1,12 @@
 import type { ProposalStatus } from "@prisma/client";
 import { GO_LIVE_CHECKLIST_ITEMS, type GoLiveChecklistKey } from "@/lib/constants/go-live-checklist";
 import {
+  blueprintApprovalBlocker,
+  blueprintApprovalCheckDetail,
+  CLIENT_DISCOVERY_REVIEW_CHECK_LABEL,
+  evaluateClientDiscoveryRuntimeGate,
+} from "@/lib/constants/runtime-readiness-wording";
+import {
   READINESS_GROUP_META,
   READINESS_GROUP_ORDER,
   type ReadinessGroupKey,
@@ -30,7 +36,21 @@ export type ReadinessGroupItem = {
   required: boolean;
   passed: boolean;
   detail: string;
+  /** When set, used as the top-level blocker line instead of `${group}: ${label}`. */
+  blockerText?: string;
 };
+
+function readinessFailureBlocker(groupTitle: string, item: ReadinessGroupItem): string {
+  if (item.blockerText) return item.blockerText;
+  if (
+    item.detail.includes("must ") ||
+    item.detail.includes("Current status:") ||
+    item.detail.includes("Client discovery")
+  ) {
+    return item.detail;
+  }
+  return `${item.label} — ${item.detail}`;
+}
 
 export type ReadinessGroup = {
   key: ReadinessGroupKey;
@@ -65,6 +85,7 @@ const readinessBlueprintInclude = {
       requestedSecurityPkgs: true,
       discoveryProfile: {
         include: {
+          answers: true,
           departments: true,
           branches: true,
           roles: true,
@@ -210,7 +231,7 @@ export async function evaluateGroupedBlueprintReadiness(
     };
     groups.push(group);
     for (const item of required.filter((i) => !i.passed)) {
-      blockers.push(`${meta.title}: ${item.label}`);
+      blockers.push(readinessFailureBlocker(meta.title, item));
     }
     for (const item of items.filter((i) => !i.required && !i.passed)) {
       warnings.push(`${meta.title}: ${item.label} (recommended)`);
@@ -336,6 +357,11 @@ export async function evaluateGroupedBlueprintReadiness(
     ]);
   }
 
+  const discoveryGate = evaluateClientDiscoveryRuntimeGate({
+    answers: discovery?.answers ?? [],
+    discoveryProfileStatus: discovery?.status,
+  });
+
   const opsItems = await evaluateBlueprintReadiness(blueprintId).catch(() =>
     GO_LIVE_CHECKLIST_ITEMS.map((item) => ({
       key: item.key,
@@ -346,9 +372,16 @@ export async function evaluateGroupedBlueprintReadiness(
     }))
   );
 
-  pushGroup(
-    "operations",
-    opsItems
+  const operationsItems: ReadinessGroupItem[] = [
+    {
+      key: "client_discovery_reviewed",
+      label: CLIENT_DISCOVERY_REVIEW_CHECK_LABEL,
+      required: !tenantId,
+      passed: tenantId ? true : discoveryGate.passed,
+      detail: discoveryGate.detail,
+      blockerText: tenantId ? undefined : discoveryGate.passed ? undefined : discoveryGate.detail,
+    },
+    ...opsItems
       .filter((i) =>
         [
           "blueprint_approved",
@@ -358,28 +391,38 @@ export async function evaluateGroupedBlueprintReadiness(
           "identities_synced",
         ].includes(i.key)
       )
-      .map((i) => ({
-        key: i.key,
-        label: i.label,
-        required: i.required && !tenantId,
-        passed: i.passed,
-        detail: i.detail,
-      }))
-  );
+      .map((i) => {
+        const required = i.key === "blueprint_approved" ? !tenantId : i.required && !tenantId;
+        const blockerText =
+          i.key === "blueprint_approved" && !i.passed
+            ? blueprintApprovalBlocker(blueprint.status)
+            : undefined;
+        return {
+          key: i.key,
+          label: i.key === "blueprint_approved" ? "Blueprint approved" : i.label,
+          required,
+          passed: i.passed,
+          detail: i.detail,
+          blockerText,
+        };
+      }),
+  ];
 
-  if (!discovery || discovery.status !== "COMPLETED") {
-    blockers.push("Discovery must be completed before go-live");
-  }
+  pushGroup("operations", operationsItems);
 
   if (blueprint.request.status !== "BLUEPRINT_BUILD" && !tenantId) {
-    blockers.push(`Request must be in BLUEPRINT_BUILD (current: ${blueprint.request.status})`);
+    blockers.push(
+      `Request must be in BLUEPRINT_BUILD before runtime preparation (current: ${blueprint.request.status})`
+    );
   }
 
   const proposal = blueprint.proposalStatus as ProposalStatus;
   if (proposal === "SENT") {
-    blockers.push("Client must approve the commercial proposal before go-live");
+    blockers.push(
+      "Client must approve the commercial proposal before runtime preparation (scope approval is not production go-live)"
+    );
   } else if (proposal === "DECLINED") {
-    blockers.push("Commercial proposal was declined — resolve before go-live");
+    blockers.push("Commercial proposal was declined — resolve before runtime preparation");
   } else if (proposal === "DRAFT") {
     warnings.push("Commercial proposal has not been sent to the client");
   }
@@ -429,7 +472,7 @@ export async function assertBlueprintReadyForProvision(blueprintId: string): Pro
 
   const pre = await evaluatePreProvisionReadiness(blueprintId);
   if (!pre.canProvision) {
-    throw new Error(`Go-live readiness: ${pre.blockers.join("; ")}`);
+    throw new Error(`Runtime preparation blocked: ${pre.blockers.join("; ")}`);
   }
 }
 
@@ -462,12 +505,10 @@ export async function evaluateBlueprintReadiness(blueprintId: string): Promise<R
   const checks: Record<GoLiveChecklistKey, { passed: boolean; detail: string }> = {
     blueprint_approved: {
       passed: blueprint.status === "APPROVED" || Boolean(blueprint.tenant),
-      detail:
-        blueprint.status === "APPROVED"
-          ? "Blueprint approved"
-          : blueprint.tenant
-            ? "Tenant already provisioned"
-            : `Status: ${blueprint.status}`,
+      detail: blueprintApprovalCheckDetail(
+        blueprint.status,
+        Boolean(blueprint.tenant)
+      ),
     },
     security_initialized: { passed: false, detail: "Not initialized" },
     sarea_configured: { passed: false, detail: "No SAREA profiles" },
@@ -483,7 +524,7 @@ export async function evaluateBlueprintReadiness(blueprintId: string): Promise<R
     },
     performance_validated: {
       passed: false,
-      detail: "Run npm run smoke:phase1 before go-live",
+      detail: "Performance validation recommended before runtime handoff (npm run smoke:phase1)",
     },
     support_ready: {
       passed: false,

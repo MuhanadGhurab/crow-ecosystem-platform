@@ -4,6 +4,14 @@ import { BlueprintPlanDiffPanel } from "@/components/blueprint/blueprint-plan-di
 import { ReadinessManualToggle } from "@/components/blueprint/readiness-manual-toggle";
 import { EngineBadges } from "@/components/pipeline/engine-badges";
 import { BLUEPRINT_RUNTIME_PREP_NAV_LABEL } from "@/lib/constants/tenant-provisioning-wording";
+import {
+  RUNTIME_PREP_F23_NOTE,
+  RUNTIME_PREP_GATE_BLOCKED,
+  RUNTIME_PREP_GATE_READY,
+  RUNTIME_PREP_READINESS_HEADING,
+  RUNTIME_PREP_READINESS_LEAD,
+  RUNTIME_PREP_TENANT_PREPARED_LABEL,
+} from "@/lib/constants/runtime-readiness-wording";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import { computeBlueprintPlanDiff } from "@/lib/services/blueprint-plan-diff.service";
@@ -59,10 +67,10 @@ export default async function BlueprintReadinessPage({
 
       {hasTenant && blueprint.tenant && (
         <section className="rounded-lg border border-teal-500/25 bg-teal-950/20 p-4">
-          <p className="text-sm font-medium text-teal-300">Tenant already live</p>
+          <p className="text-sm font-medium text-teal-300">{RUNTIME_PREP_TENANT_PREPARED_LABEL}</p>
           <p className="mt-1 text-xs text-slate-400">
             <span className="font-mono text-cyan-300">/{blueprint.tenant.slug}</span> — checklist
-            reflects post-provision state (CyberCrow, workflows, SAREA).
+            reflects post-provision state (CyberCrow, workflows, SAREA). {RUNTIME_PREP_F23_NOTE}
           </p>
           <Link
             href={routes.tenant(blueprint.tenant.slug).dashboard}
@@ -96,12 +104,11 @@ export default async function BlueprintReadinessPage({
       )}
 
       <header>
-        <span className="cc-star-badge">Pre-launch</span>
-        <h2 className="mt-3 font-display text-2xl font-bold text-white">Go-live readiness</h2>
-        <p className="mt-2 text-sm text-slate-400">
-          Grouped validation across modules, structure, RBAC, workflows, CyberCrow, SAREA, and
-          integrations before CEM provision.
-        </p>
+        <span className="cc-star-badge">Runtime preparation</span>
+        <h2 className="mt-3 font-display text-2xl font-bold text-white">
+          {RUNTIME_PREP_READINESS_HEADING}
+        </h2>
+        <p className="mt-2 text-sm text-slate-400">{RUNTIME_PREP_READINESS_LEAD}</p>
         <EngineBadges className="mt-4" />
       </header>
 
@@ -131,10 +138,10 @@ export default async function BlueprintReadinessPage({
               className={`text-sm font-medium ${canGoLive ? "text-teal-300" : "text-amber-300"}`}
             >
               {hasTenant
-                ? "Tenant live — re-provision only with new slug"
+                ? "Staging tenant prepared — re-provision only with a new slug"
                 : canGoLive
-                  ? "Ready for go-live"
-                  : "Resolve blockers below"}
+                  ? RUNTIME_PREP_GATE_READY
+                  : RUNTIME_PREP_GATE_BLOCKED}
             </p>
             {gateEnabled && (
               <p className="mt-1 text-xs text-slate-500">

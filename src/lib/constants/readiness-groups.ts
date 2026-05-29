@@ -1,4 +1,4 @@
-/** Pre-provision readiness groups — Phase 4 blueprint → go-live gate. */
+/** Pre-provision readiness groups — staging tenant runtime preparation gate. */
 
 export type ReadinessGroupKey =
   | "modules"
@@ -53,12 +53,13 @@ export const READINESS_GROUP_META: Record<
   subscription: {
     title: "Subscription & plan scope",
     description:
-      "Advisory checks for plan alignment, capability depth, and recommended usage bands before go-live.",
+      "Advisory checks for plan alignment, capability depth, and recommended usage bands before runtime preparation.",
     entity: "cem",
   },
   operations: {
     title: "Platform operations",
-    description: "Infrastructure, smoke test, and support sign-offs.",
+    description:
+      "Blueprint approval, client discovery review, infrastructure, and recommended operator sign-offs.",
   },
 };
 

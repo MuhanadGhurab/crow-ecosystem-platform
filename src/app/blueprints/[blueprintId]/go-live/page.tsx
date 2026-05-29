@@ -26,6 +26,7 @@ import {
   BLUEPRINT_RUNTIME_PREP_TENANT_READY,
   TENANT_PROVISION_SUCCESS_HINT,
 } from "@/lib/constants/tenant-provisioning-wording";
+import { RUNTIME_PREP_BLOCKED_TITLE } from "@/lib/constants/runtime-readiness-wording";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function BlueprintGoLivePage({
@@ -158,9 +159,10 @@ export default async function BlueprintGoLivePage({
           <section className="cc-glass-card space-y-2 text-sm text-slate-300">
             <h3 className="text-sm font-medium text-white">Pre-provision checklist</h3>
             <ul className="list-inside list-disc space-y-1 text-xs text-slate-400">
-              <li>Discovery marked complete and blueprint modules synced</li>
+              <li>Client discovery completed and reviewed by ProCrow</li>
+              <li>Blueprint approved (not draft) for runtime preparation</li>
               <li>Org intelligence accepted (recommended) for CEM structure seed</li>
-              <li>Readiness required checks green or manually waived</li>
+              <li>Required readiness checks green; recommended checks may stay open</li>
               <li>Slug confirmed unique — provision fails if slug already exists</li>
               <li>CyberCrow baseline + SAREA personas seeded on first provision only</li>
             </ul>
@@ -193,7 +195,7 @@ export default async function BlueprintGoLivePage({
           )}
           {grouped && !grouped.canProvision && (
             <section className="rounded-lg border border-amber-500/25 bg-amber-950/15 p-4 text-sm text-amber-100/90">
-              <p className="font-medium text-amber-200">Readiness incomplete</p>
+              <p className="font-medium text-amber-200">{RUNTIME_PREP_BLOCKED_TITLE}</p>
               <p className="mt-1 text-xs text-slate-400">
                 {grouped.requiredPassed}/{grouped.requiredTotal} required checks passed ·{" "}
                 <Link href={b.readiness} className="text-cyan-400 hover:text-cyan-300">
