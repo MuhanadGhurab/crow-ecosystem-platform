@@ -95,6 +95,46 @@ export default async function ClientCompanyPage() {
           />
 
           {company.readiness.missingFields.length > 0 && (
+            <section className="cc-glass-card text-sm">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                Complete in Discovery
+              </p>
+              <ul className="mt-2 space-y-2 text-slate-400">
+                {company.readiness.missingFields.map((label) => {
+                  const field = registryFieldForLabel(label);
+                  if (!field?.editableByClient && label !== "Employee band") return null;
+                  const step =
+                    label === "Employee band"
+                      ? "company_size"
+                      : label === "Industry"
+                        ? "industry_template"
+                        : label === "Selected modules"
+                          ? "modules"
+                          : label === "Security requirements"
+                            ? "security"
+                            : "review_submit";
+                  return (
+                    <li key={label}>
+                      <span className="text-slate-300">{label}</span>
+                      {" — "}
+                      <Link
+                        href={`${routes.client.requestDiscovery(company.primaryRequestId)}?step=${step}`}
+                        className="text-teal-400 hover:text-teal-300"
+                      >
+                        Open discovery step →
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="mt-3 text-xs text-slate-500">
+                Guided discovery is the full path. Quick employee band edit remains below when you have
+                edit access.
+              </p>
+            </section>
+          )}
+
+          {company.readiness.missingFields.length > 0 && (
             <section className="cc-glass-card text-sm text-slate-400">
               <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                 Why some fields are locked

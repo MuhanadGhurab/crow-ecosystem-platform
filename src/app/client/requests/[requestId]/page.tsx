@@ -14,6 +14,10 @@ import { routes } from "@/lib/routes";
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
 import { buildClientOnboardingTracker } from "@/lib/services/client-onboarding.service";
 import { buildClientProfileDashboardHints } from "@/lib/services/client-profile.service";
+import {
+  buildClientDiscoveryPageModel,
+  discoveryStatusLabel,
+} from "@/lib/services/client-discovery.service";
 import { buildClientRequestReviewLinks } from "@/lib/services/client-review.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import {
@@ -54,6 +58,7 @@ export default async function ClientRequestDetailPage({
   if (!request) notFound();
 
   const { links } = await buildClientRequestReviewLinks(user, requestId);
+  const discovery = await buildClientDiscoveryPageModel(user, requestId).catch(() => null);
 
   return (
     <RequestDetail
@@ -62,6 +67,7 @@ export default async function ClientRequestDetailPage({
       status={request.status as ImplementationRequestStatus}
       requestId={requestId}
       reviewLinks={links}
+      discovery={discovery}
     />
   );
 }
@@ -72,12 +78,14 @@ async function RequestDetail({
   status,
   requestId,
   reviewLinks,
+  discovery,
 }: {
   referenceCode: string;
   organizationName: string;
   status: ImplementationRequestStatus;
   requestId: string;
   reviewLinks: Awaited<ReturnType<typeof buildClientRequestReviewLinks>>["links"];
+  discovery?: Awaited<ReturnType<typeof buildClientDiscoveryPageModel>> | null;
 }) {
   const user = await requireClientAccess(routes.client.request(requestId));
   const [profileHints, onboardingTracker, feedbackEligibility, feedbackNotes] =
@@ -110,6 +118,44 @@ async function RequestDetail({
       />
 
       <ClientOnboardingSummaryCard tracker={onboardingTracker} />
+
+      <ClientPortalStatusCard
+        title="Client-led discovery"
+        badge={discovery ? discoveryStatusLabel(discovery.draft.status) : "Discovery"}
+        badgeTone={
+          discovery?.draft.status === "submitted_for_procrow_review" ? "success" : "warning"
+        }
+        description={
+          discovery?.draft.status === "submitted_for_procrow_review"
+            ? "Waiting for ProCrow review. Blueprint and final pricing remain under ProCrow control."
+            : "Complete guided discovery so ProCrow can review and build the official blueprint."
+        }
+      >
+        {discovery && discovery.missingSteps.length > 0 && (
+          <p className="mt-2 text-sm text-amber-200/90">
+            Missing: {discovery.missingSteps.length} section(s) before submit.
+          </p>
+        )}
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            href={
+              discovery?.nextStep
+                ? `${routes.client.requestDiscovery(requestId)}?step=${discovery.nextStep}`
+                : routes.client.requestDiscovery(requestId)
+            }
+            className="cc-btn-primary text-sm"
+          >
+            {discovery?.draft.status === "submitted_for_procrow_review"
+              ? "View discovery"
+              : "Continue discovery"}
+          </Link>
+          {reviewLinks?.proposalHref && (
+            <Link href={reviewLinks.proposalHref} className="cc-btn-secondary text-sm">
+              Open proposal
+            </Link>
+          )}
+        </div>
+      </ClientPortalStatusCard>
 
       <ClientPortalStatusCard title="Review materials" badge="Review" badgeTone="info">
         <p className="text-sm text-slate-400">

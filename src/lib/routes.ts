@@ -23,6 +23,7 @@ export const routes = {
     company: "/client/company",
     requests: "/client/requests",
     request: (id: string) => `/client/requests/${id}`,
+    requestDiscovery: (id: string) => `/client/requests/${id}/discovery`,
     proposals: "/client/proposals",
     proposal: (id: string) => `/client/proposals/${id}`,
     blueprint: (id: string) => `/client/blueprints/${id}`,

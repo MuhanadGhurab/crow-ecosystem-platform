@@ -865,6 +865,36 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## K2.6 — Client company profile completion (no paid infra)
+
+**Scope:** Safe client edit for employee band on `/client/company`; field-action registry; ownership guard; duplicate link copy fix.
+
+| Deliverable | Location |
+|-------------|----------|
+| Commit | `b7ba61c` — `fix(client): allow safe company employee band completion` |
+| Verifier | `npm run client-company-profile:verify` |
+
+**Recommended next:** **L4 — Client-Led Discovery** (below)
+
+---
+
+## L4 — Client-Led Discovery & Blueprint Configuration Foundation (no paid infra)
+
+**Scope:** Guided client discovery on `/client/requests/[id]/discovery`; startup/growth/enterprise stage templates; industry recommendations; ownership-guarded save/submit; ProCrow admin discovery panel; no migration.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L4_CLIENT_LED_DISCOVERY_BLUEPRINT_CONFIGURATION.md` |
+| Contract | `src/lib/client-portal/client-discovery-contract.ts` |
+| Route | `src/app/client/requests/[requestId]/discovery/page.tsx` |
+| Verifier | `npm run client-discovery:verify` |
+
+**Status:** Foundation shipped (29 May 2026)
+
+**Recommended next:** **L5 — Discovery-to-Blueprint ProCrow Review** or **L5 — Pricing package templates (Startup/Growth/Enterprise)**
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.
