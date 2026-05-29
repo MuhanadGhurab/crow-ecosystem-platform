@@ -5,6 +5,7 @@ import {
   getSupabaseAzureRedirectUri,
   OAUTH_NEXT_COOKIE,
 } from "@/lib/auth/msal-config";
+import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { getSupabaseUrl, isSupabaseAuthConfigured } from "@/lib/supabase/env";
 
 /** Microsoft Entra ID via Supabase Auth (Azure OAuth provider). */
@@ -38,10 +39,7 @@ function normalizeOAuthNextPath(raw: string | null | undefined): string | undefi
   } catch {
     return undefined;
   }
-  if (path.startsWith("/") && !path.startsWith("//")) {
-    return path;
-  }
-  return undefined;
+  return sanitizeAuthNextPathOptional(path);
 }
 
 export function resolveOAuthNextPath(

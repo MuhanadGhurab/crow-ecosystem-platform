@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
+import { routes } from "@/lib/routes";
 import { SignInWithEntra } from "@/components/portal/auth/sign-in-with-entra";
 import { SignInWithGoogle } from "@/components/portal/auth/sign-in-with-google";
 import { signIn, type SignInState } from "@/lib/actions/auth";
@@ -77,6 +79,16 @@ export function SignInForm({
           {pending ? "Signing in…" : "Sign in with email"}
         </button>
       </form>
+
+      <p className="text-center text-sm text-slate-500">
+        Don&apos;t have an account?{" "}
+        <Link
+          href={routes.auth.signupWithNext(nextPath ?? routes.public.request)}
+          className="font-medium text-cyan-400 hover:text-cyan-300"
+        >
+          Create account
+        </Link>
+      </p>
     </div>
   );
 }

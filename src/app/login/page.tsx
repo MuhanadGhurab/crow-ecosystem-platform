@@ -8,6 +8,7 @@ import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
+import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { routes } from "@/lib/routes";
 import {
   LOGIN_CLIENT_PURPOSE,
@@ -47,8 +48,7 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string; error?: string }>;
 }) {
   const { next, error } = await searchParams;
-  const nextPath =
-    next?.startsWith("/") && !next.startsWith("//") ? next : undefined;
+  const nextPath = sanitizeAuthNextPathOptional(next);
 
   const existingUser = await getSessionUser();
   if (existingUser) {
@@ -103,6 +103,15 @@ export default async function LoginPage({
         )}
 
         <p className="mt-6 text-center text-sm text-slate-500">
+          Don&apos;t have an account?{" "}
+          <Link
+            href={routes.auth.signupWithNext(nextPath ?? routes.public.request)}
+            className="font-medium text-cyan-400 hover:text-cyan-300"
+          >
+            Create account
+          </Link>
+        </p>
+        <p className="mt-3 text-center text-sm text-slate-500">
           <Link
             href={`${routes.auth.login}?next=${encodeURIComponent(routes.portal.requests)}`}
             className="font-medium text-teal-400 hover:text-teal-300"

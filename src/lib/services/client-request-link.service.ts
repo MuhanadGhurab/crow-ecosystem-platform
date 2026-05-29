@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@supabase/supabase-js";
+import { PUBLIC_SIGNUP_ALLOWED_ROLE } from "@/lib/auth/sanitize-auth-next";
 import type { CrowAppMetadata } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
 import { getSupabaseUrl } from "@/lib/supabase/env";
@@ -64,6 +65,29 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
   return requestIds;
 }
 
+/**
+ * Public sign-up: grant client role only when none is set (never overwrites staff/tenant roles).
+ */
+export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<void> {
+  const admin = getSupabaseAdmin();
+  if (!admin) return;
+
+  const { data, error } = await admin.auth.admin.getUserById(userId);
+  if (error || !data.user) return;
+
+  const meta = (data.user.app_metadata ?? {}) as CrowAppMetadata;
+  if (meta.crow_role) return;
+
+  await admin.auth.admin.updateUserById(userId, {
+    app_metadata: {
+      ...meta,
+      crow_role: PUBLIC_SIGNUP_ALLOWED_ROLE,
+      tenant_slugs: [],
+      linked_request_ids: Array.isArray(meta.linked_request_ids) ? meta.linked_request_ids : [],
+    },
+  });
+}
+
 async function ensureClientRole(userId: string, requestIds: string[]): Promise<void> {
   const admin = getSupabaseAdmin();
   if (!admin) return;
@@ -77,7 +101,7 @@ async function ensureClientRole(userId: string, requestIds: string[]): Promise<v
   await admin.auth.admin.updateUserById(userId, {
     app_metadata: {
       ...meta,
-      crow_role: "client",
+      crow_role: PUBLIC_SIGNUP_ALLOWED_ROLE,
       tenant_slugs: [],
       linked_request_ids: requestIds,
     },

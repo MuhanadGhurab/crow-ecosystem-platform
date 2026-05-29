@@ -5,6 +5,9 @@ export const routes = {
     login: "/login",
     loginWithNext: (nextPath: string) =>
       `/login?next=${encodeURIComponent(nextPath)}`,
+    signup: "/signup",
+    signupWithNext: (nextPath: string) =>
+      `/signup?next=${encodeURIComponent(nextPath)}`,
     signOut: "/auth/signout",
     callback: "/auth/callback",
   },

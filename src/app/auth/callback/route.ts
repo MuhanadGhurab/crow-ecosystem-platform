@@ -7,6 +7,7 @@ import {
 import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
+  assignDefaultClientRoleOnSignUp,
   countRequestsForEmail,
   linkRequestsForUser,
 } from "@/lib/services/client-request-link.service";
@@ -58,11 +59,23 @@ export async function GET(request: Request) {
         }
       }
 
-      const refreshed = user
+      let refreshed = user
         ? (await supabase.auth.getUser()).data.user ?? user
         : null;
 
-      const { role } = getCrowAuth(refreshed);
+      let { role } = getCrowAuth(refreshed);
+
+      if (!role && refreshed) {
+        try {
+          // Public OAuth: client role only when none assigned (never overwrites staff roles).
+          await assignDefaultClientRoleOnSignUp(refreshed.id);
+          refreshed = (await supabase.auth.getUser()).data.user ?? refreshed;
+          role = getCrowAuth(refreshed).role;
+        } catch {
+          /* service role optional */
+        }
+      }
+
       if (!role && refreshed?.email) {
         try {
           const count = await countRequestsForEmail(refreshed.email);

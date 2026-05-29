@@ -6,7 +6,7 @@ export const PUBLIC_HERO_OUTCOME =
   "Crow helps you map departments, roles, workflows, modules, trust posture, and role-based experience before tenant runtime begins." as const;
 
 export const PUBLIC_ACCOUNT_REQUEST_NOTE =
-  "Browse freely. Sign in to submit your ERP/CEM request — it links to your Client Portal for tracking." as const;
+  "Browse freely. Create an account or sign in to submit your ERP/CEM request — tracked in your Client Portal." as const;
 
 export const CLIENT_PORTAL_PURPOSE =
   "Request, review proposals and blueprints, approve scope, and track onboarding. ProCrow operates the pipeline — you see your side here." as const;

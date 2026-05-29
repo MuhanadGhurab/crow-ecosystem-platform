@@ -76,7 +76,7 @@ export function HeroSection() {
                 View industries →
               </Link>
               <p className="w-full text-center text-xs text-slate-500 sm:text-start">
-                Sign in required to submit — browse pricing, security, and architecture first.
+                Account required to submit — create one or sign in. Browse pricing and security first.
               </p>
             </div>
           </div>

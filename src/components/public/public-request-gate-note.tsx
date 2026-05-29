@@ -10,8 +10,12 @@ export function PublicRequestGateNote({ compact }: { compact?: boolean }) {
       }`}
     >
       {PUBLIC_ACCOUNT_REQUEST_NOTE}{" "}
+      <Link href={routes.auth.signupWithNext(routes.public.request)} className="text-cyan-400 hover:text-cyan-300">
+        Create account
+      </Link>
+      {" · "}
       <Link href={routes.auth.loginWithNext(routes.public.request)} className="text-cyan-400 hover:text-cyan-300">
-        Sign in to request →
+        Sign in
       </Link>
     </p>
   );

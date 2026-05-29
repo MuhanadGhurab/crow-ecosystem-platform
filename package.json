@@ -114,6 +114,7 @@
     "product-ux:verify": "npx tsx scripts/verify-product-ux-simplification.ts",
     "public-client-ux:verify": "npx tsx scripts/verify-public-client-ux-refinement.ts",
     "tenant-demo:verify": "npx tsx scripts/verify-tenant-runtime-demo.ts",
+    "client-signup:verify": "npx tsx scripts/verify-client-signup-flow.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
