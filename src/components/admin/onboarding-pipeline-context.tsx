@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BLUEPRINT_RUNTIME_PREP_NAV_LABEL } from "@/lib/constants/tenant-provisioning-wording";
 import { routes } from "@/lib/routes";
 import {
   operatorNextAction,
@@ -44,7 +45,7 @@ function buildNavItems(props: OnboardingPipelineContextProps): NavItem[] {
     },
     { key: "blueprint", label: "Blueprint", href: b?.overview ?? null },
     { key: "readiness", label: "Readiness", href: b?.readiness ?? null },
-    { key: "go_live", label: "Go live", href: b?.goLive ?? null },
+    { key: "go_live", label: BLUEPRINT_RUNTIME_PREP_NAV_LABEL, href: b?.goLive ?? null },
     {
       key: "tenant",
       label: "Tenant",

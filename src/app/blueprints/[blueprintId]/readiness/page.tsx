@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { BlueprintPlanDiffPanel } from "@/components/blueprint/blueprint-plan-diff-panel";
 import { ReadinessManualToggle } from "@/components/blueprint/readiness-manual-toggle";
 import { EngineBadges } from "@/components/pipeline/engine-badges";
+import { BLUEPRINT_RUNTIME_PREP_NAV_LABEL } from "@/lib/constants/tenant-provisioning-wording";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import { computeBlueprintPlanDiff } from "@/lib/services/blueprint-plan-diff.service";
@@ -227,14 +228,14 @@ export default async function BlueprintReadinessPage({
       <div className="flex flex-wrap gap-3">
         {canGoLive || hasTenant ? (
           <Link href={b.goLive} className="cc-btn-primary text-sm">
-            Go live →
+            {BLUEPRINT_RUNTIME_PREP_NAV_LABEL} →
           </Link>
         ) : (
           <span
             className="cc-btn-primary cursor-not-allowed text-sm opacity-50"
             title="Complete required readiness groups first"
           >
-            Go live (blocked)
+            {BLUEPRINT_RUNTIME_PREP_NAV_LABEL} (blocked)
           </span>
         )}
         <Link href={b.overview} className="cc-btn-secondary text-sm">

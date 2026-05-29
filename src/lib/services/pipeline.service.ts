@@ -186,7 +186,7 @@ export async function completeDiscoveryAndCreateBlueprint(requestId: string) {
   return blueprint;
 }
 
-/** Approve blueprint and provision CEM tenant */
+/** Approve blueprint and provision staging CEM tenant runtime (not production go-live). */
 export async function provisionTenantFromBlueprint(
   blueprintId: string,
   tenantSlug: string,
@@ -247,7 +247,7 @@ export async function provisionTenantFromBlueprint(
   });
 }
 
-/** Full go-live: provision tenant, CyberCrow baseline, and SAREA personas */
+/** Staging runtime prep: provision tenant, CyberCrow baseline, and SAREA personas */
 export async function provisionAndInitializeTenant(
   blueprintId: string,
   tenantSlug: string,

@@ -18,6 +18,7 @@ import {
 
 import { moduleLabel, planLabel } from "@/lib/catalog-labels";
 
+import { BLUEPRINT_RUNTIME_PREP_NAV_LABEL } from "@/lib/constants/tenant-provisioning-wording";
 import { routes } from "@/lib/routes";
 
 import { slugifyOrganization } from "@/lib/slugify";
@@ -159,7 +160,7 @@ export default async function BlueprintOverviewPage({
 
             <Link href={b.goLive} className="cc-btn-primary text-sm">
 
-              Go live →
+              {BLUEPRINT_RUNTIME_PREP_NAV_LABEL} →
 
             </Link>
 
@@ -171,7 +172,7 @@ export default async function BlueprintOverviewPage({
 
             <section className="cc-go-live-hero">
 
-              <p className="text-sm font-medium text-teal-300">Tenant provisioned</p>
+              <p className="text-sm font-medium text-teal-300">Staging tenant ready</p>
 
               <p className="mt-2 font-mono text-2xl text-cyan-300">/{blueprint.tenant.slug}</p>
 

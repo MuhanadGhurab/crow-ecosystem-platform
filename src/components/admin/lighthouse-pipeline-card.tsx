@@ -43,13 +43,15 @@ export function AdminLighthousePipelineCard({
         </div>
         <div className="rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3">
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
-            Current step toward go-live
+            Current step toward runtime readiness
           </p>
           <p className="mt-1 text-base font-semibold text-white">
             {pipeline.currentLifecycleStep}
           </p>
           {pipeline.isGoLive ? (
-            <p className="mt-1 text-sm text-green-300">Go-live complete — tenant is live.</p>
+            <p className="mt-1 text-sm text-green-300">
+              Staging tenant prepared — production remains F23 / Go/No-Go gated.
+            </p>
           ) : pipeline.nextLifecycleStep ? (
             <p className="mt-1 text-sm text-slate-400">
               Next: <span className="text-cyan-300">{pipeline.nextLifecycleStep}</span>

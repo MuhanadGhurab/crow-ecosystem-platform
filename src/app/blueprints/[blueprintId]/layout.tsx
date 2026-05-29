@@ -7,6 +7,7 @@ import { getCrowAuth } from "@/lib/auth/roles";
 import { getSessionUser, requirePermission } from "@/lib/auth/session";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
+import { BLUEPRINT_RUNTIME_PREP_NAV_LABEL } from "@/lib/constants/tenant-provisioning-wording";
 import { routes } from "@/lib/routes";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -38,7 +39,11 @@ export default async function BlueprintLayout({
     { href: b.identity, label: "Identity" },
     { href: b.integrations, label: "Integrations" },
     { href: b.readiness, label: "Readiness" },
-    { href: b.goLive, label: "Go live", permission: Permission["platform.blueprint.provision"] },
+    {
+      href: b.goLive,
+      label: BLUEPRINT_RUNTIME_PREP_NAV_LABEL,
+      permission: Permission["platform.blueprint.provision"],
+    },
   ] as const;
   const nav = navItems
     .filter((item) => !("permission" in item) || hasPermission(role, item.permission))

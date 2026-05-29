@@ -104,13 +104,13 @@ export function operatorNextAction(input: OperatorPipelineInput & {
       };
     case "ready_go_live":
       return {
-        label: "Readiness → go live",
-        hint: "Confirm readiness checks, then provision tenant from the go-live workspace.",
+        label: "Readiness → runtime prep",
+        hint: "Confirm readiness checks, then create staging tenant from the runtime prep workspace (F23-gated).",
       };
     case "tenant_live":
       return {
-        label: "Open tenant workspace",
-        hint: "Hand off to tenant dashboard, CyberCrow, and SAREA studio as needed.",
+        label: "Open staging tenant workspace",
+        hint: "Review CEM, CyberCrow baseline, and SAREA — production launch stays Go/No-Go gated.",
       };
     case "needs_review":
     default:

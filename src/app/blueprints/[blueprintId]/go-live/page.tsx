@@ -20,6 +20,12 @@ import { evaluateDiscoveryBlueprintGate } from "@/lib/services/discovery-complet
 import { resolveSectorTemplateKey } from "@/lib/org-intelligence/resolve-sector";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { industryLabel, moduleLabel } from "@/lib/catalog-labels";
+import {
+  BLUEPRINT_RUNTIME_PREP_PAGE_LEAD,
+  BLUEPRINT_RUNTIME_PREP_PAGE_TITLE,
+  BLUEPRINT_RUNTIME_PREP_TENANT_READY,
+  TENANT_PROVISION_SUCCESS_HINT,
+} from "@/lib/constants/tenant-provisioning-wording";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function BlueprintGoLivePage({
@@ -65,11 +71,11 @@ export default async function BlueprintGoLivePage({
       />
 
       <header className="cc-go-live-hero">
-        <span className="cc-star-badge">CEM launch</span>
-        <h2 className="mt-4 font-display text-2xl font-bold text-white">Go live</h2>
-        <p className="mt-2 text-sm text-slate-400">
-          Provision tenant, seed CEM from discovery, initialize CyberCrow and SAREA sibling engines.
-        </p>
+        <span className="cc-star-badge">Runtime preparation</span>
+        <h2 className="mt-4 font-display text-2xl font-bold text-white">
+          {BLUEPRINT_RUNTIME_PREP_PAGE_TITLE}
+        </h2>
+        <p className="mt-2 text-sm text-slate-400">{BLUEPRINT_RUNTIME_PREP_PAGE_LEAD}</p>
         <EngineBadges className="mt-4" />
       </header>
 
@@ -80,10 +86,10 @@ export default async function BlueprintGoLivePage({
 
       {hasTenant && blueprint.tenant ? (
         <section className="cc-go-live-hero">
-          <p className="text-sm font-medium text-teal-300">Already live</p>
-          <p className="mt-2 text-sm text-slate-400">
-            This blueprint was provisioned. Re-running go-live with the same slug is not required;
-            use a new slug only for a separate tenant instance.
+          <p className="text-sm font-medium text-teal-300">{BLUEPRINT_RUNTIME_PREP_TENANT_READY}</p>
+          <p className="mt-2 text-sm text-slate-400">{TENANT_PROVISION_SUCCESS_HINT}</p>
+          <p className="mt-2 text-xs text-slate-500">
+            Production remains F23-gated. Re-provisioning the same blueprint slug is not required.
           </p>
           <p className="mt-3 font-mono text-2xl text-cyan-300">/{blueprint.tenant.slug}</p>
           <div className="mt-4 flex flex-wrap gap-3">
@@ -104,7 +110,7 @@ export default async function BlueprintGoLivePage({
       ) : (
         <>
           <section className="cc-glass-card space-y-3 text-sm text-slate-300">
-            <h3 className="text-sm font-medium text-cyan-400">Provision scope</h3>
+            <h3 className="text-sm font-medium text-cyan-400">Staging runtime scope</h3>
             <p className="text-xs text-slate-500">
               One tenant per blueprint. Slug must be unique; existing tenants are linked, not
               duplicated.
@@ -177,7 +183,7 @@ export default async function BlueprintGoLivePage({
             href={b.readiness}
             className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300"
           >
-            Review go-live readiness checklist →
+            Review runtime readiness checklist →
           </Link>
           {gateEnabled && (
             <p className="text-xs text-slate-500">
