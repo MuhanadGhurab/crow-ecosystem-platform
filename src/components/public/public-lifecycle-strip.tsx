@@ -29,8 +29,9 @@ export function PublicLifecycleStrip() {
       </div>
       <div className="mt-8 flex justify-center">
         <Link href="/request" className="cc-btn-primary min-w-[14rem]">
-          Start an Enterprise Request →
+          Start Enterprise Request →
         </Link>
+        <p className="mt-2 text-center text-xs text-slate-500">Sign in to submit · browse freely until then</p>
       </div>
     </section>
   );

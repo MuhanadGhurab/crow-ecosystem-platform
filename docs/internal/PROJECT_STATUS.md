@@ -62,7 +62,7 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Tenant runtime UX | [`F24_TENANT_RUNTIME_UX_DEPTH.md`](F24_TENANT_RUNTIME_UX_DEPTH.md) |
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
-**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I11** complete on the client-portal track. **J1**–**J8** complete on the ProCrow track (control tower UX through demo rehearsal). **J9** records ProCrow checkpoint & pause ([`J9_PROCROW_CHECKPOINT_PAUSE.md`](J9_PROCROW_CHECKPOINT_PAUSE.md)). **Resume primary:** **Pause** (recommended) · **K1 Tenant Runtime Demo Rehearsal** · **J10 ProCrow Manual Browser Smoke**. **No paid infra** in the default path.
+**Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I11** complete on the client-portal track. **J1**–**J9** complete on the ProCrow arc. **L1** — product UX simplification, auth-gated request flow, and commercial lifecycle clarity ([`L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md`](L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md)). **Resume primary:** **L2 ProCrow Workbench UX Redesign** · **K1 Tenant Runtime Demo Rehearsal**. **No paid infra** in the default path.
 
 **I1 acceptance:** **PASSED** — [`I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md`](I1_CROW_PORTAL_ARCHITECTURE_PROCROW_MODEL.md).  
 Four-portal model formalized; ProCrow defined as control tower; Platform Admin ownership under ProCrow; Client/Proposal requirements documented; team model + interface ownership map + RACI added; ProCrow certification roadmap added; portal maturity model added; docs updated; validation commands green; no paid infra/schema/production-scope changes.
@@ -122,6 +122,9 @@ ProCrow demo route audit; 10-minute playbook + screenshot checklist + demo runbo
 
 **J9 acceptance:** **PASSED** — [`J9_PROCROW_CHECKPOINT_PAUSE.md`](J9_PROCROW_CHECKPOINT_PAUSE.md).
 J1–J8 arc summarized; ProCrow capability and demo path recorded; validation status and gaps documented; pause recommended with resume options K1 / J10 / hold; doc-only phase; no code, migrations, payments, or production launch in J9 scope.
+
+**L1 acceptance:** **PASSED** — [`L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md`](L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md).
+Public site and ProCrow UX simplified; `/request` auth-gated (middleware + page redirect + API 401); grouped ProCrow sidebar; action-based overview with workflow and commercial lifecycle; tenant runtime framing; `product-ux:verify`; client/procrow verifiers unchanged; no migrations, payments, production launch, auth weakening, or auto-provisioning.
 
 **H1 acceptance:** **PASSED** — [`H1_PRODUCT_POLISH_DEMO_REHEARSAL.md`](H1_PRODUCT_POLISH_DEMO_REHEARSAL.md).  
 Demo journey audit; public + admin micro-copy for staging/F23 honesty; tenant/CyberCrow/SAREA assessed **sufficient** with prior G/F depth; [`H1_DEMO_REHEARSAL_PLAYBOOK.md`](H1_DEMO_REHEARSAL_PLAYBOOK.md); G-series **G1→G10** order in [`MILESTONES.md`](MILESTONES.md); `npm run mock:verify`, `typecheck`, `lint`, `build`, `public:mirror-manifest`, `erp:verify`, `sector:verify`, `reports:verify`, `tasks-approvals:verify`, `runtime:verify`; optional `request:pipeline:verify`, `sarea:meem-verify`, `tenant:verify:rimal` green on staging env.

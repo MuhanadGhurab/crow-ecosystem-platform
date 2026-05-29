@@ -13,7 +13,7 @@ export const HOMEPAGE_HOW_IT_WORKS = [
     step: "01",
     title: "Submit a request",
     summary:
-      "Share your organization, sector, and goals through a governed implementation request — no commitment to buy on day one.",
+      "Sign in, then share your organization and goals through a governed implementation request — tracked in your Client Portal.",
   },
   {
     step: "02",

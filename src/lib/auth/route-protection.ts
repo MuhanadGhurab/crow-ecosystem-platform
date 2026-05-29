@@ -32,7 +32,6 @@ const PUBLIC_PREFIXES = [
   "/loyalty-programs",
   "/security",
   "/pricing",
-  "/request",
   "/about",
   "/architecture",
   "/services",
@@ -87,9 +86,7 @@ export function isPublicApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/health" && method === "GET") {
     return true;
   }
-  if (pathname === "/api/implementation-requests" && method === "POST") {
-    return true;
-  }
+  /** L1 — ERP request intake requires an authenticated session (see implementation-requests POST). */
   if (pathname === "/api/billing/webhook" && method === "POST") {
     return true;
   }

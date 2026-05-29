@@ -29,12 +29,13 @@ export function RequestPageHero() {
               </span>
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
-              Tell us about your organization. We review your submission, then guide you through structured
-              discovery, blueprint design, and commercial alignment.
+              Signed-in clients submit here. Your request links to your account so you can track progress in the
+              Client Portal.
             </p>
             <p className="mt-3 text-sm text-slate-500">
-              After you submit, your request is marked <strong className="font-medium text-slate-400">Submitted for review</strong>{" "}
-              while our delivery team validates scope.
+              Create an account to submit and track your ERP request. After submit, status shows as{" "}
+              <strong className="font-medium text-slate-400">Submitted for review</strong> while our team validates
+              scope.
             </p>
           </div>
 

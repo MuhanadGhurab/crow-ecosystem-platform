@@ -45,13 +45,14 @@ export async function submitImplementationRequest(
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (user?.id) {
-      submittedByUserId = user.id;
-      try {
-        await linkRequestsForUser(user);
-      } catch {
-        /* DB optional */
-      }
+    if (!user?.id) {
+      throw new Error("Sign in required to submit an enterprise request.");
+    }
+    submittedByUserId = user.id;
+    try {
+      await linkRequestsForUser(user);
+    } catch {
+      /* DB optional */
     }
   }
 

@@ -241,13 +241,10 @@ export function ImplementationRequestForm() {
           </ol>
         </div>
         <p className="mt-6 text-sm text-slate-400">
-          Sign in with Microsoft using the same work email to track this request in your client portal.
+          Your request is linked to your account. Open the Client Portal to track proposals and onboarding.
         </p>
-        <Link
-          href="/login?next=/portal/requests"
-          className="cc-btn-primary mt-4 inline-flex"
-        >
-          Sign in to track
+        <Link href="/client/requests" className="cc-btn-primary mt-4 inline-flex">
+          Open Client Portal
         </Link>
         <Link href="/" className="mt-4 block text-sm text-slate-500 hover:text-slate-400">
           Back to home
@@ -258,6 +255,9 @@ export function ImplementationRequestForm() {
 
   return (
     <>
+      <p className="mb-6 rounded-lg border border-cyan-500/20 bg-cyan-500/5 px-4 py-3 text-sm text-slate-300">
+        You are signed in — this request will be linked to your account for Client Portal tracking.
+      </p>
       <RequestWizardStepper
         activeStep={activeStep}
         onStepClick={(step) => focusStep(step as (typeof STEPS)[number])}

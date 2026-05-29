@@ -3,6 +3,7 @@ import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
 import { ProCrowOperatorQueuePanel } from "@/components/procrow/procrow-operator-queue-panel";
 import { ProCrowOperatorQueueBrowser } from "@/components/procrow/procrow-operator-queue-browser";
 import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
+import { ProCrowWorkflowStrip } from "@/components/procrow/procrow-workflow-strip";
 import { ProCrowQueueSummaryStrip } from "@/components/procrow/procrow-queue-summary-strip";
 import { routes } from "@/lib/routes";
 import { getProCrowOperatorQueueSnapshot } from "@/lib/services/procrow-operator-queue.service";
@@ -23,6 +24,8 @@ export default async function AdminOperatorQueuePage() {
       />
 
       <ProCrowSafetyNote />
+
+      <ProCrowWorkflowStrip compact />
 
       <p className="text-xs text-slate-500">
         Before prioritizing queue work for a demo or deploy, review the{" "}

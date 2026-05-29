@@ -64,8 +64,11 @@ export function HeroSection() {
 
             <div className="mt-12 flex w-full max-w-lg flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <Link href="/request" className="cc-btn-primary w-full px-8 sm:w-auto">
-                Start an Enterprise Request →
+                Start Enterprise Request →
               </Link>
+              <p className="w-full text-center text-xs text-slate-500 sm:text-start">
+                Sign in required to submit — browse the site freely before that.
+              </p>
               <Link href="/architecture" className="cc-btn-secondary w-full sm:w-auto">
                 Explore the Architecture
               </Link>

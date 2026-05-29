@@ -110,6 +110,7 @@
     "procrow-queue:verify": "npx tsx scripts/verify-procrow-operator-queue.ts",
     "procrow-go-no-go:verify": "npx tsx scripts/verify-procrow-go-no-go.ts",
     "procrow-demo:verify": "npx tsx scripts/verify-procrow-demo-rehearsal.ts",
+    "product-ux:verify": "npx tsx scripts/verify-product-ux-simplification.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "onboarding:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

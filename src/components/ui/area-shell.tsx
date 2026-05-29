@@ -24,6 +24,14 @@ export interface NavItem {
 
 }
 
+export interface NavGroup {
+
+  heading: string;
+
+  items: NavItem[];
+
+}
+
 
 
 interface AreaShellProps {
@@ -41,6 +49,10 @@ interface AreaShellProps {
   hubLinks?: EntityHubLink[];
 
   nav?: NavItem[];
+
+  /** When set, renders grouped sidebar headings (flat `nav` used for mobile chips if omitted). */
+
+  navGroups?: NavGroup[];
 
   headerActions?: React.ReactNode;
 
@@ -68,6 +80,8 @@ export function AreaShell({
 
   nav,
 
+  navGroups,
+
   headerActions,
 
   children,
@@ -80,13 +94,21 @@ export function AreaShell({
 
   const shellClass = `cc-app-shell cc-starfield cc-noise ${theme.shellClass}`;
 
+  const flatNav =
+
+    nav ??
+
+    navGroups?.flatMap((g) => g.items) ??
+
+    [];
+
 
 
   return (
 
     <div className={shellClass}>
 
-      {nav && nav.length > 0 && (
+      {flatNav.length > 0 && (
 
         <aside className="cc-sidebar">
 
@@ -102,13 +124,49 @@ export function AreaShell({
 
           </div>
 
-          <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-3">
+          <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
 
-            {nav.map((item) => (
+            {navGroups && navGroups.length > 0
 
-              <ShellNavLink key={item.href} href={item.href} label={item.label} entity={entity} />
+              ? navGroups.map((group) => (
 
-            ))}
+                  <div key={group.heading} className="mb-2">
+
+                    <p className="px-2 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+                      {group.heading}
+
+                    </p>
+
+                    <div className="flex flex-col gap-0.5">
+
+                      {group.items.map((item) => (
+
+                        <ShellNavLink
+
+                          key={item.href}
+
+                          href={item.href}
+
+                          label={item.label}
+
+                          entity={entity}
+
+                        />
+
+                      ))}
+
+                    </div>
+
+                  </div>
+
+                ))
+
+              : flatNav.map((item) => (
+
+                  <ShellNavLink key={item.href} href={item.href} label={item.label} entity={entity} />
+
+                ))}
 
           </nav>
 
@@ -150,9 +208,9 @@ export function AreaShell({
 
             <div className="flex min-w-0 flex-1 items-start gap-3">
 
-              {nav && nav.length > 0 && (
+              {flatNav.length > 0 && (
 
-                <AreaShellMobileNav nav={nav} title={title} entity={entity} />
+                <AreaShellMobileNav nav={flatNav} title={title} entity={entity} />
 
               )}
 
@@ -216,7 +274,7 @@ export function AreaShell({
 
 
 
-          {nav && nav.length > 0 && (
+          {flatNav.length > 0 && (
 
             <ScrollChipNav
 
@@ -228,7 +286,7 @@ export function AreaShell({
 
             >
 
-              {nav.map((item) => (
+              {flatNav.map((item) => (
 
                 <ShellNavLink key={item.href} href={item.href} label={item.label} entity={entity} />
 

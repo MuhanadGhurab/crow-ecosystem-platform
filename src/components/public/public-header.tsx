@@ -77,7 +77,7 @@ export function PublicHeader() {
             Sign in
           </Link>
           <Link href="/request" className="cc-btn-primary !py-2.5 text-sm">
-            Request access
+            Start request
           </Link>
         </div>
       </div>

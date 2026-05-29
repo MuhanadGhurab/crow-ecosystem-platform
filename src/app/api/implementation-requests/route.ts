@@ -20,18 +20,25 @@ export async function POST(request: Request) {
       return NextResponse.json(guard.body, { status: guard.status, headers });
     }
 
-    let submittedByUserId: string | undefined;
     if (!isAuthDisabled() && isSupabaseAuthConfigured()) {
       const supabase = await createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (user?.id) {
-        submittedByUserId = user.id;
+      if (!user?.id) {
+        return NextResponse.json(
+          { error: "Sign in required to submit an enterprise request." },
+          { status: 401 }
+        );
       }
+      const created = await createImplementationRequest(guard.data, { submittedByUserId: user.id });
+      return NextResponse.json(
+        { id: created.id, referenceCode: created.referenceCode, status: created.status },
+        { status: 201 }
+      );
     }
 
-    const created = await createImplementationRequest(guard.data, { submittedByUserId });
+    const created = await createImplementationRequest(guard.data, { submittedByUserId: undefined });
     return NextResponse.json(
       { id: created.id, referenceCode: created.referenceCode, status: created.status },
       { status: 201 }

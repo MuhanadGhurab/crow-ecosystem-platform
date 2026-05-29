@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
 import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
+import { ProCrowWorkflowStrip } from "@/components/procrow/procrow-workflow-strip";
 
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
@@ -196,6 +197,8 @@ export default async function AdminRequestDetailPage({
       />
 
       <ProCrowCapabilityFraming capability="customerFlow" />
+
+      <ProCrowWorkflowStrip compact />
 
       <section className="cc-glass-card border-cyan-500/20 !p-4">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Operator queue (derived)</h2>

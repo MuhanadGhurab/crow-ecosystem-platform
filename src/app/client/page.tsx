@@ -27,7 +27,7 @@ export default async function ClientPortalHomePage() {
       <ClientPortalPageHeader
         eyebrow="Client Portal"
         title="Your implementation journey"
-        description="Track requests, commercial proposals, blueprint scope, and onboarding readiness. ProCrow owns review and provisioning — this portal shows your side of the pipeline."
+        description="Your signed-in account links ERP requests, proposals, blueprint scope, and onboarding. ProCrow owns review and provisioning — this portal shows your side of the pipeline."
       />
       {staff && (
         <p className="cc-alert-warning text-sm">

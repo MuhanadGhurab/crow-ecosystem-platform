@@ -767,7 +767,27 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Verification:** Standard project gate + `procrow:verify` (J1–J8 unchanged); no J9 verifier required.
 
-**Recommended next:** **Pause** (recommended) · **K1 — Tenant Runtime Demo Rehearsal** · **J10 — ProCrow Manual Browser Smoke**
+**Recommended next:** **L1 — Product UX Simplification** (completed) · **L2 — ProCrow Workbench UX Redesign** · **K1 — Tenant Runtime Demo Rehearsal**
+
+---
+
+## L1 — Product UX Simplification, Auth-Gated Request Flow & Commercial Lifecycle (no paid infra)
+
+**Scope:** UX clarity pass — public site simplification, auth-gated `/request`, grouped ProCrow navigation, action-based overview, workflow + commercial lifecycle copy, ProCrow → tenant runtime framing. **No** live payments, migrations, production launch, or auto-provisioning.
+
+- Shared product UI primitives (`src/components/product/*`)
+- ProCrow grouped sidebar + workflow strip + commercial lifecycle card
+- `/request` requires sign-in; API POST requires authenticated user
+- `npm run product-ux:verify`
+
+**Status:** **Passed** (29 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md` |
+| Verifier | `scripts/verify-product-ux-simplification.ts` |
+
+**Recommended next:** **L2 — ProCrow Workbench UX Redesign** · **K1 — Tenant Runtime Demo Rehearsal**
 
 ---
 

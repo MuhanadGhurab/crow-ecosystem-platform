@@ -100,12 +100,12 @@ export default function HomePage() {
             Ready to start your enterprise request?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm text-slate-400 sm:text-base">
-            Tell us about your organization. Crow delivery teams guide discovery, blueprint, and
-            governed go-live — without exposing internal customer data on this site.
+            Understand Crow on the public site, then sign in to submit and track your ERP request in the Client
+            Portal.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link href="/request" className="cc-btn-primary min-w-[14rem]">
-              Start an Enterprise Request →
+              Start Enterprise Request →
             </Link>
             <Link href="/pricing" className="cc-btn-secondary min-w-[14rem]">
               See plans

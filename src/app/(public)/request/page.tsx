@@ -1,7 +1,18 @@
 import { ImplementationRequestForm } from "@/components/public/implementation-request-form";
 import { RequestPageHero } from "@/components/public/request-page-hero";
+import { getSessionUser } from "@/lib/auth/session";
+import { isAuthDisabled } from "@/lib/supabase/env";
+import { routes } from "@/lib/routes";
+import { redirect } from "next/navigation";
 
-export default function RequestPage() {
+export default async function RequestPage() {
+  if (!isAuthDisabled()) {
+    const user = await getSessionUser();
+    if (!user) {
+      redirect(routes.auth.loginWithNext(routes.public.request));
+    }
+  }
+
   return (
     <>
       <RequestPageHero />
