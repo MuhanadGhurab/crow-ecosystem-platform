@@ -9,8 +9,8 @@ import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { sanitizeAuthNextPathWithDefault } from "@/lib/auth/sanitize-auth-next";
 import { routes } from "@/lib/routes";
 import {
-  LOGIN_CLIENT_PURPOSE,
   LOGIN_INTERNAL_NOTE,
+  SIGNUP_CLIENT_PURPOSE,
 } from "@/lib/constants/public-client-ux";
 
 export default async function SignUpPage({
@@ -34,7 +34,7 @@ export default async function SignUpPage({
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
         <CrowMark href="/" size="sm" showTagline={false} />
         <h1 className="cc-page-title mt-6">Create your Crow account</h1>
-        <p className="mt-2 text-sm leading-relaxed text-slate-400">{LOGIN_CLIENT_PURPOSE}</p>
+        <p className="mt-2 text-sm leading-relaxed text-slate-400">{SIGNUP_CLIENT_PURPOSE}</p>
         <p className="mt-2 text-xs text-slate-600">{LOGIN_INTERNAL_NOTE}</p>
 
         {!configured ? (

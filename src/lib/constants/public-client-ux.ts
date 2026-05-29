@@ -11,6 +11,9 @@ export const PUBLIC_ACCOUNT_REQUEST_NOTE =
 export const CLIENT_PORTAL_PURPOSE =
   "Request, review proposals and blueprints, approve scope, and track onboarding. ProCrow operates the pipeline — you see your side here." as const;
 
+export const SIGNUP_CLIENT_PURPOSE =
+  "Create an account to submit and track your ERP request. Client Portal covers proposals, blueprint review, scope approval, and onboarding." as const;
+
 export const LOGIN_CLIENT_PURPOSE =
   "Sign in to submit and track your ERP request. Client Portal covers proposals, blueprint review, scope approval, and onboarding." as const;
 

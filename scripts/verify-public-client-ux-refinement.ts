@@ -102,9 +102,9 @@ function main() {
 
   const requestPage = fileText("src/app/(public)/request/page.tsx");
   check(
-    requestPage.includes("loginWithNext") && requestPage.includes("redirect"),
-    "/request page redirects unauthenticated users",
-    "/request must redirect to login when unauthenticated"
+    requestPage.includes("signupWithNext") && requestPage.includes("redirect"),
+    "/request page redirects unauthenticated users to signup",
+    "/request must redirect to /signup?next=/request when unauthenticated"
   );
 
   const hero = fileText("src/components/public/hero-section.tsx");

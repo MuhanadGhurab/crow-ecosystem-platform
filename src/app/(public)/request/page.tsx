@@ -9,7 +9,7 @@ export default async function RequestPage() {
   if (!isAuthDisabled()) {
     const user = await getSessionUser();
     if (!user) {
-      redirect(routes.auth.loginWithNext(routes.public.request));
+      redirect(routes.auth.signupWithNext(routes.public.request));
     }
   }
 
