@@ -6,6 +6,7 @@ import {
   runPublicIntakeGuards,
   unexpectedIntakeFailure,
 } from "@/lib/security/public-intake-guard";
+import { ensureClientRoleForAuthenticatedIntake } from "@/lib/services/client-request-link.service";
 import { createImplementationRequest, listImplementationRequests } from "@/lib/services/implementation-request.service";
 
 export async function POST(request: Request) {
@@ -30,6 +31,10 @@ export async function POST(request: Request) {
           { error: "Sign in required to submit an enterprise request." },
           { status: 401 }
         );
+      }
+      const access = await ensureClientRoleForAuthenticatedIntake(user);
+      if (!access.ok) {
+        return NextResponse.json({ error: access.error }, { status: access.status });
       }
       const created = await createImplementationRequest(guard.data, { submittedByUserId: user.id });
       return NextResponse.json(

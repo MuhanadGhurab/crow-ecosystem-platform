@@ -40,6 +40,8 @@ const ERROR_MESSAGES: Record<string, string> = {
     "Google sign-in is not enabled. Set GOOGLE_SSO_ENABLED=true and configure Google in Supabase (see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md).",
   no_role:
     "Your account signed in successfully, but no Crow access is assigned yet. Use the same email as your implementation request to track it, or ask a platform administrator.",
+  role_config:
+    "Your account signed in, but the server cannot assign client access yet. Ask the operator to configure the Supabase service role on the server (never in a public env var), enable email sign-up in Supabase if needed, and add /auth/callback to redirect URLs.",
 };
 
 export default async function LoginPage({

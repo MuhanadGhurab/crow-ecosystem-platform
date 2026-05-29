@@ -6,9 +6,11 @@ import {
 } from "@/lib/auth/entra-sso";
 import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { getCrowAuth } from "@/lib/auth/roles";
+import { safeRedirectPath } from "@/lib/http/safe-redirect-path";
 import {
   assignDefaultClientRoleOnSignUp,
   countRequestsForEmail,
+  isSupabaseServiceRoleConfigured,
   linkRequestsForUser,
 } from "@/lib/services/client-request-link.service";
 import { createClient } from "@/lib/supabase/server";
@@ -68,11 +70,13 @@ export async function GET(request: Request) {
       if (!role && refreshed) {
         try {
           // Public OAuth: client role only when none assigned (never overwrites staff roles).
-          await assignDefaultClientRoleOnSignUp(refreshed.id);
-          refreshed = (await supabase.auth.getUser()).data.user ?? refreshed;
-          role = getCrowAuth(refreshed).role;
+          const assigned = await assignDefaultClientRoleOnSignUp(refreshed.id);
+          if (assigned) {
+            refreshed = (await supabase.auth.getUser()).data.user ?? refreshed;
+            role = getCrowAuth(refreshed).role;
+          }
         } catch {
-          /* service role optional */
+          /* service role optional in dev */
         }
       }
 
@@ -93,6 +97,25 @@ export async function GET(request: Request) {
           }
         } catch {
           /* fall through */
+        }
+      }
+
+      if (!role && refreshed) {
+        const clientIntent =
+          !explicitNext ||
+          explicitNext === "/request" ||
+          explicitNext.startsWith("/client") ||
+          explicitNext.startsWith("/portal");
+        if (clientIntent) {
+          const destination = safeRedirectPath(explicitNext ?? "/request", "/request");
+          return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
+        }
+        if (!isSupabaseServiceRoleConfigured()) {
+          return clearNextCookie(
+            NextResponse.redirect(
+              `${origin}/login?error=role_config&next=${encodeURIComponent(explicitNext ?? "/request")}`
+            )
+          );
         }
         await supabase.auth.signOut();
         return clearNextCookie(

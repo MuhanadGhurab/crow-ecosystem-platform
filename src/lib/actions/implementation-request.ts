@@ -2,7 +2,10 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { linkRequestsForUser } from "@/lib/services/client-request-link.service";
+import {
+  ensureClientRoleForAuthenticatedIntake,
+  linkRequestsForUser,
+} from "@/lib/services/client-request-link.service";
 import { createImplementationRequest } from "@/lib/services/implementation-request.service";
 import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled } from "@/lib/supabase/env";
@@ -47,6 +50,10 @@ export async function submitImplementationRequest(
     } = await supabase.auth.getUser();
     if (!user?.id) {
       throw new Error("Sign in required to submit an enterprise request.");
+    }
+    const access = await ensureClientRoleForAuthenticatedIntake(user);
+    if (!access.ok) {
+      throw new Error(access.error);
     }
     submittedByUserId = user.id;
     try {

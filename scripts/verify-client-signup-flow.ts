@@ -13,8 +13,12 @@ const REQUIRED_FILES = [
   "src/app/signup/page.tsx",
   "src/components/portal/auth/sign-up-form.tsx",
   "src/lib/actions/auth.ts",
+  "src/app/auth/callback/route.ts",
   "src/lib/auth/sanitize-auth-next.ts",
   "src/lib/services/client-request-link.service.ts",
+  "src/app/api/implementation-requests/route.ts",
+  "src/lib/actions/implementation-request.ts",
+  "docs/internal/K2_2_SIGNUP_OAUTH_CLIENT_ROLE_HOTFIX.md",
   "scripts/verify-client-signup-flow.ts",
 ] as const;
 
@@ -138,6 +142,16 @@ function main() {
     "signUp assigns default client role",
     "signUp must call assignDefaultClientRoleOnSignUp"
   );
+  check(
+    authActions.includes("This email may already have an account"),
+    "Sign-up maps duplicate email to helpful message",
+    "mapSupabaseAuthError must handle duplicate email"
+  );
+  check(
+    authActions.includes("Email sign-up is not enabled"),
+    "Sign-up maps disabled email provider message",
+    "mapSupabaseAuthError must handle disabled email sign-up"
+  );
 
   const linkService = fileText("src/lib/services/client-request-link.service.ts");
   check(
@@ -167,24 +181,78 @@ function main() {
     "OAuth callback assigns client only when no role",
     "Callback must gate assignDefaultClientRoleOnSignUp on missing role"
   );
+  check(
+    callback.includes("isSupabaseServiceRoleConfigured") || callback.includes("clientIntent"),
+    "OAuth callback handles missing role / client-intent next",
+    "Callback must allow client-intent redirect when role pending"
+  );
 
   const routeProtection = fileText("src/lib/auth/route-protection.ts");
+  check(
+    routeProtection.includes('"/api/implementation-requests"') &&
+      routeProtection.includes("isHandlerAuthorizedApiPath"),
+    "POST /api/implementation-requests is handler-authorized in middleware",
+    "Add implementation-requests POST to isHandlerAuthorizedApiPath"
+  );
+
+  const linkSvc = fileText("src/lib/services/client-request-link.service.ts");
+  check(
+    linkSvc.includes("ensureClientRoleForAuthenticatedIntake"),
+    "ensureClientRoleForAuthenticatedIntake exported",
+    "Add ensureClientRoleForAuthenticatedIntake for intake"
+  );
+  check(
+    linkSvc.includes("isSupabaseServiceRoleConfigured"),
+    "Service role configuration guard",
+    "Export isSupabaseServiceRoleConfigured"
+  );
+
+  const intakeAction = fileText("src/lib/actions/implementation-request.ts");
+  check(
+    intakeAction.includes("ensureClientRoleForAuthenticatedIntake"),
+    "Server action ensures client role before submit",
+    "implementation-request action must call ensureClientRoleForAuthenticatedIntake"
+  );
+
+  const apiRoute = fileText("src/app/api/implementation-requests/route.ts");
+  check(
+    apiRoute.includes("ensureClientRoleForAuthenticatedIntake"),
+    "API POST ensures client role before create",
+    "implementation-requests POST must call ensureClientRoleForAuthenticatedIntake"
+  );
+  check(
+    apiRoute.includes("Sign in required") && apiRoute.includes("401"),
+    "Anonymous ERP POST blocked with 401",
+    "implementation-requests POST must require auth"
+  );
+  check(
+    !apiRoute.match(/ensureClientRole[\s\S]{0,400}Forbidden/),
+    "API POST does not return raw Forbidden for role-less intake",
+    "Replace raw Forbidden with ensureClientRole error body on POST"
+  );
+
   const publicPrefixes = routeProtection.match(/PUBLIC_PREFIXES = \[([\s\S]*?)\] as const/)?.[1] ?? "";
   check(!publicPrefixes.includes('"/request"'), "/request not public", "/request must stay auth-gated");
   check(publicPrefixes.includes('"/signup"'), "/signup is public", "Add /signup to PUBLIC_PREFIXES");
 
   const requestPage = fileText("src/app/(public)/request/page.tsx");
   check(
-    requestPage.includes("loginWithNext") || requestPage.includes("redirect"),
+    requestPage.includes("signupWithNext") || requestPage.includes("redirect"),
     "/request page auth-gates unauthenticated users",
     "/request must redirect when unauthenticated"
   );
 
-  const apiRoute = fileText("src/app/api/implementation-requests/route.ts");
+  const hotfixDoc = fileText("docs/internal/K2_2_SIGNUP_OAUTH_CLIENT_ROLE_HOTFIX.md");
   check(
-    apiRoute.includes("Sign in required") && apiRoute.includes("401"),
-    "Anonymous ERP POST blocked with 401",
-    "implementation-requests POST must require auth"
+    hotfixDoc.includes("SUPABASE_SERVICE_ROLE_KEY") &&
+      (hotfixDoc.includes("server-only") || hotfixDoc.includes("not NEXT_PUBLIC")),
+    "K2.2 doc documents server-only service role",
+    "K2.2 doc must document SUPABASE_SERVICE_ROLE_KEY (not public)"
+  );
+  check(
+    hotfixDoc.includes("/auth/callback"),
+    "K2.2 doc documents Supabase redirect allow list",
+    "K2.2 doc must mention /auth/callback redirect URL"
   );
 
   const approvalService = fileText("src/lib/services/client-approval.service.ts");

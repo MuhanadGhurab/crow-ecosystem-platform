@@ -45,8 +45,14 @@ function mapSupabaseAuthError(msg: string, mode: "signin" | "signup"): string {
   if (/invalid login credentials/i.test(msg) && mode === "signin") {
     return "Invalid email or password. Create an account if you are new, or use Google sign-in.";
   }
-  if (/user already registered|already been registered/i.test(msg)) {
-    return "An account with this email already exists. Sign in instead.";
+  if (/user already registered|already been registered|already exists/i.test(msg)) {
+    return "This email may already have an account. Try signing in or use Google.";
+  }
+  if (/signup.*disabled|signups.*disabled|email.*disabled/i.test(msg)) {
+    return "Email sign-up is not enabled for this project. Use Google sign-in, or ask the operator to enable email sign-up in Supabase Auth.";
+  }
+  if (/rate limit|too many requests/i.test(msg)) {
+    return "Too many attempts. Wait a few minutes and try again.";
   }
   if (/password/i.test(msg) && /weak|short|least/i.test(msg)) {
     return msg;
@@ -211,10 +217,18 @@ export async function signUp(
     return { error: "Account could not be created. Try again or use Google sign-in." };
   }
 
+  let roleAssigned = false;
   try {
-    await assignDefaultClientRoleOnSignUp(sessionUser.id);
+    roleAssigned = await assignDefaultClientRoleOnSignUp(sessionUser.id);
   } catch {
-    /* service role optional in dev */
+    roleAssigned = false;
+  }
+
+  if (hasSession && !roleAssigned) {
+    return {
+      error:
+        "Account created but client access could not be assigned. Ensure SUPABASE_SERVICE_ROLE_KEY is set on the server (not public), then sign out and sign in again.",
+    };
   }
 
   if (hasSession) {

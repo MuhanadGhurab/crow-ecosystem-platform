@@ -103,5 +103,9 @@ export function isHandlerAuthorizedApiPath(pathname: string, method: string): bo
   if (pathname === "/api/billing/checkout" && method === "POST") {
     return true;
   }
+  /** Authenticated client ERP intake — role checks in route handler (RC1 SEC-003). */
+  if (pathname === "/api/implementation-requests" && method === "POST") {
+    return true;
+  }
   return false;
 }

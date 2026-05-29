@@ -113,5 +113,8 @@ export function intakeHttpErrorMessage(status: number, body: unknown): string {
   if (status === 503) {
     return publicIntakeServiceUnavailableBody().error;
   }
+  if (status === 403) {
+    return "Your account cannot submit requests yet. Sign out, sign in again, or contact support.";
+  }
   return "We could not submit your request. Check required fields and try again.";
 }

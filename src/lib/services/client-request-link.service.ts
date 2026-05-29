@@ -1,10 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@supabase/supabase-js";
 import { PUBLIC_SIGNUP_ALLOWED_ROLE } from "@/lib/auth/sanitize-auth-next";
-import type { CrowAppMetadata } from "@/lib/auth/roles";
+import { getCrowAuth, type CrowAppMetadata } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
 import { getSupabaseUrl } from "@/lib/supabase/env";
 import { isUseMockData } from "@/lib/mock/env";
+
+export function isSupabaseServiceRoleConfigured(): boolean {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
+}
 
 function getSupabaseAdmin() {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -68,17 +72,17 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
 /**
  * Public sign-up: grant client role only when none is set (never overwrites staff/tenant roles).
  */
-export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<void> {
+export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<boolean> {
   const admin = getSupabaseAdmin();
-  if (!admin) return;
+  if (!admin) return false;
 
   const { data, error } = await admin.auth.admin.getUserById(userId);
-  if (error || !data.user) return;
+  if (error || !data.user) return false;
 
   const meta = (data.user.app_metadata ?? {}) as CrowAppMetadata;
-  if (meta.crow_role) return;
+  if (meta.crow_role) return true;
 
-  await admin.auth.admin.updateUserById(userId, {
+  const { error: updateError } = await admin.auth.admin.updateUserById(userId, {
     app_metadata: {
       ...meta,
       crow_role: PUBLIC_SIGNUP_ALLOWED_ROLE,
@@ -86,6 +90,44 @@ export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<v
       linked_request_ids: Array.isArray(meta.linked_request_ids) ? meta.linked_request_ids : [],
     },
   });
+  return !updateError;
+}
+
+export type AuthenticatedIntakeAccessResult =
+  | { ok: true }
+  | { ok: false; status: 401 | 403 | 503; error: string };
+
+/**
+ * ERP request intake: authenticated users without a role receive client only (never overwrites staff).
+ */
+export async function ensureClientRoleForAuthenticatedIntake(
+  user: User
+): Promise<AuthenticatedIntakeAccessResult> {
+  const { role } = getCrowAuth(user);
+  if (role) {
+    return { ok: true };
+  }
+
+  if (!isSupabaseServiceRoleConfigured()) {
+    return {
+      ok: false,
+      status: 503,
+      error:
+        "Your account is signed in but Crow client access is not configured on the server. The operator must set SUPABASE_SERVICE_ROLE_KEY in Vercel (server-only, not NEXT_PUBLIC). Then sign out and sign in again.",
+    };
+  }
+
+  const assigned = await assignDefaultClientRoleOnSignUp(user.id);
+  if (!assigned) {
+    return {
+      ok: false,
+      status: 403,
+      error:
+        "Your account could not be granted client access. Sign out, sign in again, or contact support if this continues.",
+    };
+  }
+
+  return { ok: true };
 }
 
 async function ensureClientRole(userId: string, requestIds: string[]): Promise<void> {
