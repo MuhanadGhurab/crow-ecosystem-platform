@@ -8,7 +8,7 @@ export function ProCrowCommercialLifecycleCard() {
   return (
     <ProductSection
       title="Commercial lifecycle"
-      description="Staging clarity — manual commercial steps; no live checkout."
+      description="Staging clarity — manual commercial steps; no automated checkout."
     >
       <div className="cc-glass-card space-y-4 !p-5">
         <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

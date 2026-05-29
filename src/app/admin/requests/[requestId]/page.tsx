@@ -1,79 +1,65 @@
 import Link from "next/link";
-
 import { notFound } from "next/navigation";
-
-import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
-import { ProCrowCapabilityFraming } from "@/components/procrow/procrow-capability-framing";
-import { ProCrowWorkflowStrip } from "@/components/procrow/procrow-workflow-strip";
-
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
-import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
-import { PromoteClientForm } from "@/components/admin/promote-client-form";
-import { RequestAdminActions } from "@/components/admin/request-admin-actions";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
+import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
 import { OperatorNextActionPanel } from "@/components/admin/operator-next-action-panel";
+import { PromoteClientForm } from "@/components/admin/promote-client-form";
+import { RequestAdminActions } from "@/components/admin/request-admin-actions";
 import { RequestPipelineLinks } from "@/components/admin/request-pipeline-links";
-
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
-
-import { DeptChips } from "@/components/pipeline/dept-chips";
-import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
-
-import { LifecycleStrip } from "@/components/pipeline/lifecycle-strip";
-import { PipelineProcessGuide } from "@/components/pipeline/pipeline-process-guide";
-
 import { PricingHeroPanel } from "@/components/blueprint/commercial/pricing-hero-panel";
-
+import { DeptChips } from "@/components/pipeline/dept-chips";
+import { PipelineProcessGuide } from "@/components/pipeline/pipeline-process-guide";
+import { ProCrowBlockerList } from "@/components/procrow/procrow-blocker-list";
+import { ProCrowCommercialLifecycleCompact } from "@/components/procrow/procrow-commercial-lifecycle-compact";
+import {
+  ProCrowContextLinkGrid,
+  type ProCrowContextLink,
+} from "@/components/procrow/procrow-context-link-grid";
+import { ProCrowRequestLifecyclePanel } from "@/components/procrow/procrow-request-lifecycle-panel";
+import { ProCrowStageSummaryCard } from "@/components/procrow/procrow-stage-summary-card";
+import { ProCrowTenantRuntimeFraming } from "@/components/procrow/procrow-tenant-runtime-framing";
+import { ProCrowWorkbenchPageHeader } from "@/components/procrow/procrow-workbench-page-header";
+import { ProCrowWorkbenchSection } from "@/components/procrow/procrow-workbench-section";
 import {
   industryLabel,
   moduleLabel,
   planLabel,
   securityPackageLabel,
 } from "@/lib/catalog-labels";
-
+import {
+  operatorAdvisoryWarnings,
+  operatorHumanStatusLabel,
+  resolveOperatorLifecycleBucket,
+  type OperatorPipelineInput,
+} from "@/lib/operator-onboarding-lifecycle";
+import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 import { requestStatusToOperatorQueueHint } from "@/lib/procrow/procrow-request-status-queue-hint";
 import { routes } from "@/lib/routes";
-
 import {
-
   formatSar,
-
   getRequestPricingEstimate,
-
   proposalStatusLabel,
-
 } from "@/lib/services/commercial.service";
-
 import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onboarding.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
-
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
 import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
-
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
-
-
 export default async function AdminRequestDetailPage({
-
   params,
-
 }: {
-
   params: Promise<{ requestId: string }>;
-
 }) {
-
   const { requestId } = await params;
-
   const mockRow = MOCK_PIPELINE_REQUESTS.find((m) => m.id === requestId);
-
   let request = isUseMockData()
     ? null
     : await getImplementationRequest(requestId).catch(() => null);
-
   let estimate =
     request && !isUseMockData()
       ? await getRequestPricingEstimate(requestId).catch(() => null)
@@ -86,26 +72,13 @@ export default async function AdminRequestDetailPage({
     estimate = MOCK_PRICING_ESTIMATE;
   }
 
-
-
-  if (!request && !mockRow) {
-
-    notFound();
-
-  }
-
-
+  if (!request && !mockRow) notFound();
 
   const status = (request?.status ?? mockRow!.status) as ImplementationRequestStatus;
-
   const orgName = request?.organizationName ?? mockRow!.organizationName;
-
   const refCode = request?.referenceCode ?? mockRow!.referenceCode;
-
   const planKey = request?.requestedPlans[0]?.planKey ?? mockRow?.planKey;
-
   const primaryContact = request?.contacts.find((c) => c.isPrimary) ?? request?.contacts[0];
-
   const mockBlueprintId = mockRow?.blueprintId ?? null;
   const mockApprovalOverrides = isUseMockData() ? getMockProposalApprovalOverrides() : null;
   const blueprint =
@@ -118,13 +91,15 @@ export default async function AdminRequestDetailPage({
           clientApprovedAt: mockApprovalOverrides?.clientApprovedAt ?? null,
         }
       : null);
-
   const proposalStatus =
     request?.enterpriseBlueprint?.proposalStatus ?? blueprint?.proposalStatus ?? null;
   const clientApprovedAt =
     request?.enterpriseBlueprint?.clientApprovedAt ?? blueprint?.clientApprovedAt ?? null;
-
   const adminOnboardingTracker = await buildClientOnboardingTrackerForAdmin(requestId);
+  const tenantSlug = request?.enterpriseBlueprint?.tenant?.slug ?? null;
+  const blueprintId = request?.enterpriseBlueprint?.id ?? mockBlueprintId;
+  const discoveryAvailable = Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable);
+  const discoveryHref = mockRow?.discoveryAvailable ? routes.discovery(requestId).organization : null;
 
   const dept = request
     ? getRequestDeptContextFromRow({
@@ -150,491 +125,284 @@ export default async function AdminRequestDetailPage({
               }
             : null,
       });
-  const discoveryHref =
-    mockRow?.discoveryAvailable ? routes.discovery(requestId).organization : null;
 
+  const pipelineInput: OperatorPipelineInput = {
+    status,
+    hasDiscoveryProfile: discoveryAvailable,
+    hasBlueprint: Boolean(blueprintId),
+    hasTenant: Boolean(tenantSlug),
+  };
+  const blockers = operatorAdvisoryWarnings(pipelineInput);
+  const humanLabel = operatorHumanStatusLabel(pipelineInput);
+  const bucket = resolveOperatorLifecycleBucket(pipelineInput);
 
+  const contextLinks: ProCrowContextLink[] = [
+    { label: "Operator queue", href: routes.admin.queue },
+    { label: "All requests", href: routes.admin.requests },
+    { label: "Go / No-Go", href: routes.admin.goNoGo },
+  ];
+  if (discoveryHref) {
+    contextLinks.push({ label: "Discovery", href: discoveryHref });
+  }
+  if (blueprintId) {
+    contextLinks.push({
+      label: "Blueprint",
+      href: routes.blueprint(blueprintId).overview,
+    });
+  }
+  const tenantId = request?.enterpriseBlueprint?.tenant?.id;
+  if (tenantId) {
+    contextLinks.push({
+      label: "Tenant control room",
+      href: routes.admin.tenant(tenantId),
+    });
+  }
 
   return (
-
-    <div className="space-y-8">
-
-      <div className="flex flex-wrap items-center gap-4 text-sm">
-        <Link href={routes.admin.requests} className="text-cyan-400 hover:text-cyan-300">
-          ← All requests
-        </Link>
-        <Link href={routes.admin.queue} className="text-slate-500 hover:text-cyan-300">
-          Operator queue →
-        </Link>
-      </div>
-
-
-
-      <ProCrowPageHeader
-
-        badge="ProCrow · Customer flow"
-
+    <div className="space-y-6">
+      <ProCrowWorkbenchPageHeader
+        eyebrow="ProCrow · Request workspace"
         title={orgName}
-
-        description={`${refCode} — Platform Admin review; client portal actions feed this queue.`}
-
+        purpose={`${refCode} — work this company from intake through tenant handoff. Client portal actions feed this workspace.`}
+        statusChip={humanLabel}
         actions={
-
           <div className="flex flex-col items-end gap-2">
-
             <RequestStatusBadge status={status} />
-
             <DeptChips {...dept} />
-
-            <a href="#commercial" className="text-xs text-cyan-400 hover:text-cyan-300">
-              Commercial estimate ↓
-            </a>
-
           </div>
-
         }
-
       />
 
-      <ProCrowCapabilityFraming capability="customerFlow" />
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <ProCrowStageSummaryCard label="Queue stage" value={requestStatusToOperatorQueueHint(status)} />
+        <ProCrowStageSummaryCard
+          label="Operator bucket"
+          value={humanLabel}
+          hint={bucket.replace(/_/g, " ")}
+        />
+        <ProCrowStageSummaryCard
+          label="Proposal"
+          value={proposalStatus ? proposalStatus.replace(/_/g, " ") : "—"}
+          tone={proposalStatus === "CLIENT_APPROVED" ? "success" : "muted"}
+        />
+        <ProCrowStageSummaryCard
+          label="Tenant"
+          value={tenantSlug ? `/${tenantSlug}` : "Not provisioned"}
+          tone={tenantSlug ? "success" : "attention"}
+        />
+      </div>
 
-      <ProCrowWorkflowStrip compact />
+      <ProCrowRequestLifecyclePanel status={status} proposalStatus={proposalStatus} />
 
-      <section className="cc-glass-card border-cyan-500/20 !p-4">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Operator queue (derived)</h2>
-        <p className="mt-1 text-sm text-white">
-          Current stage:{" "}
-          <span className="text-cyan-300">{requestStatusToOperatorQueueHint(status)}</span>
-        </p>
-        <p className="mt-2 text-xs text-slate-500">
-          Advisory label from request status — tenant provisioning and go-live remain ProCrow-controlled; no
-          automatic provisioning from this view.
-        </p>
-      </section>
+      <OperatorNextActionPanel
+        requestId={requestId}
+        status={status}
+        blueprintId={blueprintId}
+        tenantSlug={tenantSlug}
+        discoveryAvailable={discoveryAvailable}
+      />
 
-      <LifecycleStrip status={status} />
+      <ProCrowWorkbenchSection title="Blockers & advisories">
+        <ProCrowBlockerList blockers={blockers} />
+      </ProCrowWorkbenchSection>
+
+      <ProCrowContextLinkGrid links={contextLinks} />
 
       {proposalStatus === "CLIENT_APPROVED" && (
-        <section className="cc-glass-card border-teal-500/25 bg-teal-500/5">
-          <h2 className="text-sm font-semibold text-teal-200">Client approved commercial scope</h2>
-          <p className="mt-2 text-sm text-slate-400">
-            The client recorded scope approval for ProCrow review via the authenticated Client
-            Portal. This is not a legal signature, payment authorization, or production go-live.
-          </p>
-          {clientApprovedAt && (
-            <p className="mt-2 text-xs text-slate-500">
-              Recorded {clientApprovedAt.toLocaleString()}
-            </p>
-          )}
-          <p className="mt-3 text-xs text-slate-500">
-            Next: review onboarding readiness, provisioning checklist, and go/no-go (ProCrow-owned).
+        <section className="cc-glass-card border-teal-500/25 bg-teal-500/5 !p-4">
+          <p className="text-sm font-semibold text-teal-200">Client approved commercial scope</p>
+          <p className="mt-1 text-xs text-slate-500">
+            Authenticated Client Portal — not legal signature, payment, or production go-live.
+            {clientApprovedAt && ` Recorded ${clientApprovedAt.toLocaleString()}.`}
           </p>
         </section>
       )}
 
-      <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
+      <ProCrowWorkbenchSection title="Client interaction" description="Portal linkage, onboarding, feedback.">
+        <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
+        <AdminClientReviewFeedbackPanel requestId={requestId} />
+      </ProCrowWorkbenchSection>
 
-      <AdminClientReviewFeedbackPanel requestId={requestId} />
-
-      <>
-        <OperatorNextActionPanel
-          requestId={requestId}
-          status={status}
-          blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
-          tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
-          discoveryAvailable={Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable)}
-        />
+      <ProCrowWorkbenchSection
+        title="Blueprint & proposal"
+        description="Commercial estimate and pipeline tools."
+      >
         <RequestPipelineLinks
           requestId={requestId}
           status={status}
-          blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
-          tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
-          discoveryAvailable={Boolean(request?.discoveryProfile ?? mockRow?.discoveryAvailable)}
+          blueprintId={blueprintId}
+          tenantSlug={tenantSlug}
+          discoveryAvailable={discoveryAvailable}
         />
-        <OperatorE2eChecklistPanel referenceCode={refCode} />
+        <PipelineProcessGuide
+          status={status}
+          requestId={requestId}
+          blueprintId={blueprintId}
+          tenantSlug={tenantSlug}
+        />
         {request?.discoveryProfile ? (
           <AdminDiscoveryIntelligencePanel requestId={requestId} />
         ) : null}
-      </>
+      </ProCrowWorkbenchSection>
 
-      <PipelineProcessGuide
-        status={status}
-        requestId={requestId}
-        blueprintId={request?.enterpriseBlueprint?.id ?? mockBlueprintId}
-        tenantSlug={request?.enterpriseBlueprint?.tenant?.slug ?? null}
-      />
+      <ProCrowTenantRuntimeFraming />
 
-      {mockRow && !request && (
-        <section className="cc-alert-warning text-sm text-amber-100">
-          Demo request — pipeline actions and live pricing require a database record. Turn off{" "}
-          <code className="rounded bg-black/30 px-1">USE_MOCK_DATA</code> or seed this request in Postgres.
-        </section>
-      )}
+      <ProCrowWorkbenchSection
+        title="Trust & experience"
+        description="Advisory checks before runtime handoff."
+      >
+        <ProCrowContextLinkGrid
+          links={[
+            {
+              label: "Security baselines",
+              href: routes.admin.securityBaselines,
+              description: "Platform trust posture",
+            },
+            {
+              label: "SAREA studio",
+              href: routes.sarea.overview,
+              description: "Experience readiness",
+            },
+            ...(tenantSlug
+              ? [
+                  {
+                    label: "CyberCrow dashboard",
+                    href: routes.tenant(tenantSlug).cybercrow.dashboard,
+                    description: "Tenant trust cockpit",
+                  },
+                ]
+              : []),
+          ]}
+        />
+      </ProCrowWorkbenchSection>
 
-
-
-      <div className="grid gap-8 lg:grid-cols-[1fr_min(22rem,38%)] lg:items-start">
-
+      <div className="grid gap-6 lg:grid-cols-[1fr_min(20rem,36%)] lg:items-start">
         <div className="space-y-6">
-
           {request && (
+            <ProCrowWorkbenchSection title="Pipeline actions">
+              <RequestAdminActions
+                requestId={request.id}
+                status={status}
+                blueprintId={request.enterpriseBlueprint?.id ?? null}
+                tenantSlug={tenantSlug}
+              />
+            </ProCrowWorkbenchSection>
+          )}
 
-            <section className="cc-glass-card">
-
-              <h3 className="text-sm font-medium text-cyan-400">Pipeline actions</h3>
-
-              <div className="mt-4">
-
-                <RequestAdminActions
-
-                  requestId={request.id}
-
-                  status={status}
-
-                  blueprintId={request.enterpriseBlueprint?.id ?? null}
-
-                  tenantSlug={request.enterpriseBlueprint?.tenant?.slug ?? null}
-
-                />
-
+          <ProCrowWorkbenchSection title="Organization & contact" collapsible defaultOpen={false}>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="cc-entity-block cc-entity-block--cem space-y-2 !p-4">
+                <h3 className="text-sm font-medium text-cyan-400">Organization</h3>
+                {request ? (
+                  <dl className="cc-meta-dl !border-0 !bg-transparent !p-0 text-sm">
+                    <div>
+                      <dt>Name</dt>
+                      <dd>{request.organizationName}</dd>
+                    </div>
+                    {request.industry && (
+                      <div>
+                        <dt>Industry</dt>
+                        <dd>{industryLabel(request.industry)}</dd>
+                      </div>
+                    )}
+                    {request.employeeBand && (
+                      <div>
+                        <dt>Employees</dt>
+                        <dd>{request.employeeBand}</dd>
+                      </div>
+                    )}
+                  </dl>
+                ) : (
+                  <p className="text-sm text-slate-500">Demo record — connect database for metadata.</p>
+                )}
               </div>
-
-            </section>
-
-          )}
-
-
-
-          <div className="grid gap-6 md:grid-cols-2">
-
-            <section className="cc-entity-block cc-entity-block--cem space-y-3">
-
-              <h3 className="text-sm font-medium text-cyan-400">Organization</h3>
-
-              {request ? (
-
-                <dl className="cc-meta-dl !border-0 !bg-transparent !p-0">
-
-                  <div>
-
-                    <dt>Name (EN)</dt>
-
-                    <dd>{request.organizationName}</dd>
-
-                  </div>
-
-                  {request.organizationNameAr && (
-
+              <div className="cc-glass-card space-y-2 !p-4">
+                <h3 className="text-sm font-medium text-cyan-400">Contact</h3>
+                {primaryContact ? (
+                  <dl className="cc-meta-dl !border-0 !bg-transparent !p-0 text-sm">
                     <div>
-
-                      <dt>Name (AR)</dt>
-
-                      <dd dir="rtl">{request.organizationNameAr}</dd>
-
+                      <dt>Name</dt>
+                      <dd>{primaryContact.fullName}</dd>
                     </div>
-
-                  )}
-
-                  {request.industry && (
-
                     <div>
-
-                      <dt>Industry</dt>
-
-                      <dd>{industryLabel(request.industry)}</dd>
-
+                      <dt>Email</dt>
+                      <dd className="text-cyan-300">{primaryContact.email}</dd>
                     </div>
-
-                  )}
-
-                  {request.employeeBand && (
-
-                    <div>
-
-                      <dt>Employees</dt>
-
-                      <dd>{request.employeeBand}</dd>
-
-                    </div>
-
-                  )}
-
-                  <div>
-
-                    <dt>Country</dt>
-
-                    <dd>{request.countryCode}</dd>
-
-                  </div>
-
-                </dl>
-
-              ) : (
-
-                <p className="text-sm text-slate-400">Demo record — connect database for full org metadata.</p>
-
-              )}
-
-            </section>
-
-
-
-            <section className="cc-glass-card space-y-3">
-
-              <h3 className="text-sm font-medium text-cyan-400">Contact</h3>
-
-              {primaryContact ? (
-
-                <dl className="cc-meta-dl !border-0 !bg-transparent !p-0">
-
-                  <div>
-
-                    <dt>Name</dt>
-
-                    <dd>{primaryContact.fullName}</dd>
-
-                  </div>
-
-                  <div>
-
-                    <dt>Email</dt>
-
-                    <dd className="text-cyan-300">{primaryContact.email}</dd>
-
-                  </div>
-
-                  {primaryContact.phone && (
-
-                    <div>
-
-                      <dt>Phone</dt>
-
-                      <dd>{primaryContact.phone}</dd>
-
-                    </div>
-
-                  )}
-
-                </dl>
-
-              ) : (
-
-                <p className="text-sm text-slate-500">No contact on file.</p>
-
-              )}
-
-            </section>
-
+                  </dl>
+                ) : (
+                  <p className="text-sm text-slate-500">No contact on file.</p>
+                )}
+              </div>
+            </div>
             {request?.enterpriseBlueprint?.tenant && primaryContact?.email && (
-              <section className="cc-glass-card">
-                <h3 className="text-sm font-medium text-teal-400">Client → tenant</h3>
-                <div className="mt-4">
-                  <PromoteClientForm
-                    tenantId={request.enterpriseBlueprint.tenant.id}
-                    tenantSlug={request.enterpriseBlueprint.tenant.slug}
-                    contactEmail={primaryContact.email}
-                  />
-                </div>
-              </section>
+              <PromoteClientForm
+                tenantId={request.enterpriseBlueprint.tenant.id}
+                tenantSlug={request.enterpriseBlueprint.tenant.slug}
+                contactEmail={primaryContact.email}
+              />
             )}
+          </ProCrowWorkbenchSection>
 
-          </div>
-
-
-
-          <section className="cc-entity-block cc-entity-block--cem space-y-3">
-
-            <h3 className="text-sm font-medium text-cyan-400">CEM · Plan & modules</h3>
-
+          <ProCrowWorkbenchSection title="Plan, modules & security" collapsible defaultOpen={false}>
             <p className="text-sm text-white">
-
               Plan: <span className="text-cyan-300">{planKey ? planLabel(planKey) : "—"}</span>
-
             </p>
-
             {request && (
-
-              <ul className="mt-2 space-y-1 text-sm text-slate-300">
-
-                {request.requestedModules.length === 0 ? (
-
-                  <li className="text-slate-500">None selected</li>
-
-                ) : (
-
-                  request.requestedModules.map((m) => (
-
+              <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <ul className="space-y-1 text-sm text-slate-300">
+                  {request.requestedModules.map((m) => (
                     <li key={m.id}>{moduleLabel(m.moduleKey)}</li>
-
-                  ))
-
-                )}
-
-              </ul>
-
-            )}
-
-          </section>
-
-
-
-          <section className="cc-entity-block cc-entity-block--cybercrow space-y-3">
-
-            <h3 className="text-sm font-medium text-violet-300">CyberCrow · Security</h3>
-
-            {request ? (
-
-              <ul className="space-y-1 text-sm text-slate-300">
-
-                {request.requestedSecurityPkgs.length === 0 ? (
-
-                  <li className="text-slate-500">None selected</li>
-
-                ) : (
-
-                  request.requestedSecurityPkgs.map((p) => (
-
+                  ))}
+                </ul>
+                <ul className="space-y-1 text-sm text-slate-300">
+                  {request.requestedSecurityPkgs.map((p) => (
                     <li key={p.id}>{securityPackageLabel(p.packageKey)}</li>
-
-                  ))
-
-                )}
-
-              </ul>
-
-            ) : (
-
-              <p className="text-sm text-violet-200/80">Shield + Sentinel (demo)</p>
-
+                  ))}
+                </ul>
+              </div>
             )}
+          </ProCrowWorkbenchSection>
 
-          </section>
+          <ProCrowWorkbenchSection title="Operator tools" collapsible defaultOpen={false}>
+            <OperatorE2eChecklistPanel referenceCode={refCode} />
+            {request?.notes && (
+              <p className="text-sm text-slate-400">
+                <span className="text-slate-500">Notes: </span>
+                {request.notes}
+              </p>
+            )}
+          </ProCrowWorkbenchSection>
 
-
-
-          {request?.notes && (
-
-            <section className="cc-glass-card">
-
-              <h3 className="text-sm font-medium text-cyan-400">Notes</h3>
-
-              <p className="mt-2 text-sm text-slate-300">{request.notes}</p>
-
-            </section>
-
+          {mockRow && !request && (
+            <p className="cc-alert-warning text-sm text-amber-100">
+              Demo request — pipeline actions require a database record.
+            </p>
           )}
-
-
-
-          {(request || mockRow) && (
-            <section className="cc-glass-card space-y-2 text-sm text-slate-500">
-              {request && <p>Submitted {request.createdAt.toLocaleString()}</p>}
-              {discoveryHref && (
-                <p>
-                  <Link href={discoveryHref} className="text-cyan-400 hover:text-cyan-300">
-                    Open discovery workspace →
-                  </Link>
-                </p>
-              )}
-              {mockBlueprintId && (
-                <p>
-                  <Link
-                    href={routes.blueprint(mockBlueprintId).overview}
-                    className="text-cyan-400 hover:text-cyan-300"
-                  >
-                    Open blueprint overview →
-                  </Link>
-                  {" · "}
-                  <Link
-                    href={routes.blueprint(mockBlueprintId).pricing}
-                    className="text-violet-300/90 hover:text-violet-200"
-                  >
-                    Pricing tab
-                  </Link>
-                </p>
-              )}
-            </section>
-          )}
-
         </div>
 
-
-
-        <div id="commercial" className="space-y-4 scroll-mt-24">
-
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Commercial estimate</p>
-
+        <aside id="commercial" className="space-y-4 scroll-mt-24">
+          <ProCrowCommercialLifecycleCompact />
           {estimate ? (
-
             <PricingHeroPanel
-
               breakdown={estimate}
-
               storedTotal={
-
                 request?.estimatedMonthlySar ? Number(request.estimatedMonthlySar) : mockRow?.estimatedMonthlySar
-
               }
-
-              proposalStatusLabel={
-
-                blueprint ? proposalStatusLabel(blueprint.proposalStatus) : undefined
-
-              }
-
+              proposalStatusLabel={blueprint ? proposalStatusLabel(blueprint.proposalStatus) : undefined}
             />
-
           ) : (
-
-            <section className="cc-pricing-panel">
-
-              <p className="text-sm text-slate-400">Pricing estimate unavailable.</p>
-
-            </section>
-
+            <p className="cc-glass-card text-sm text-slate-500">Pricing estimate unavailable.</p>
           )}
-
-
-
           {blueprint?.proposalToken && (
-
-            <p className="text-center text-xs text-slate-500">
-
-              <a
-
-                href={`/proposal/${blueprint.proposalToken}`}
-
-                className="text-cyan-400 hover:text-cyan-300"
-
-              >
-
-                Open client proposal →
-
-              </a>
-
-            </p>
-
+            <Link
+              href={`/proposal/${blueprint.proposalToken}`}
+              className="block text-center text-xs text-cyan-400 hover:text-cyan-300"
+            >
+              Open client proposal →
+            </Link>
           )}
-
-
-
-          {estimate && !blueprint && (
-
-            <p className="text-center text-xs text-slate-500">
-
-              Estimated {formatSar(estimate.totalMonthlySar)}/mo from request selections
-
-            </p>
-
-          )}
-
-        </div>
-
+        </aside>
       </div>
-
     </div>
-
   );
-
 }
-

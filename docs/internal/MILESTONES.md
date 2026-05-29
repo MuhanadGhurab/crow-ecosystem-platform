@@ -787,7 +787,26 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Phase doc | `docs/internal/L1_PRODUCT_UX_SIMPLIFICATION_AUTH_REQUEST.md` |
 | Verifier | `scripts/verify-product-ux-simplification.ts` |
 
-**Recommended next:** **L2 — ProCrow Workbench UX Redesign** · **K1 — Tenant Runtime Demo Rehearsal**
+**Recommended next:** **L2 — ProCrow Workbench UX Redesign** (completed) · **L3 — Public + Client Portal UX Refinement** · **K1 — Tenant Runtime Demo Rehearsal**
+
+---
+
+## L2 — ProCrow Workbench UX Redesign (no paid infra)
+
+**Scope:** Deepen ProCrow operator workbench UX on queue, requests list, request workspace, and tenant detail — workflow clarity, next actions, blockers, commercial lifecycle, ProCrow/CEM relationship. **No** new capabilities, mutations, payments, or auto-provision.
+
+- Shared workbench components (`procrow-workbench-*`, request list card, lifecycle panel)
+- `/admin/queue`, `/admin/requests`, `/admin/requests/[requestId]`, `/admin/tenants/[tenantId]` redesigned
+- `npm run procrow-workbench:verify` (in `procrow:verify`)
+
+**Status:** **Passed** (29 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L2_PROCROW_WORKBENCH_UX_REDESIGN.md` |
+| Verifier | `scripts/verify-procrow-workbench-ux.ts` |
+
+**Recommended next:** **L3 — Public + Client Portal UX Refinement** · **K1 — Tenant Runtime Demo Rehearsal**
 
 ---
 

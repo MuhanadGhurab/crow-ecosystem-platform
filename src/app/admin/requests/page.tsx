@@ -1,31 +1,15 @@
 import Link from "next/link";
 import { RequestStatusFilters } from "@/components/admin/request-status-filters";
-import { RequestStatusBadge } from "@/components/admin/request-status-badge";
-import { DeptChips } from "@/components/pipeline/dept-chips";
-import { AdminListPage } from "@/components/ui/admin-list-page";
-import { ListCard } from "@/components/ui/list-card";
-import { industryLabel, planLabel } from "@/lib/catalog-labels";
+import { ProCrowRequestListCard, type ProCrowRequestListRow } from "@/components/procrow/procrow-request-list-card";
+import { ProCrowWorkbenchPageHeader } from "@/components/procrow/procrow-workbench-page-header";
+import { ProCrowContextLinkGrid } from "@/components/procrow/procrow-context-link-grid";
 import { formatSar } from "@/lib/services/commercial.service";
 import { getRequestDeptContextFromRow } from "@/lib/pipeline/request-dept-context";
 import { listImplementationRequests } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { MOCK_PIPELINE_REQUESTS } from "@/lib/mock/pipeline";
-import { requestStatusToOperatorQueueHint } from "@/lib/procrow/procrow-request-status-queue-hint";
 import { routes } from "@/lib/routes";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
-
-type RequestRow = {
-  id: string;
-  organizationName: string;
-  referenceCode: string;
-  status: string;
-  planKey?: string;
-  industry?: string | null;
-  estimatedMonthlySar?: number | null;
-  hasSecurity: boolean;
-  hasModules: boolean;
-  showSarea: boolean;
-};
 
 const FILTER_STATUSES = ["PENDING_REVIEW", "UNDER_DISCOVERY", "BLUEPRINT_BUILD"] as const;
 
@@ -35,12 +19,18 @@ export default async function AdminRequestsPage({
   searchParams: Promise<{ status?: string }>;
 }) {
   const { status: statusFilter } = await searchParams;
-  let requests: RequestRow[] = [];
+  let requests: ProCrowRequestListRow[] = [];
   let usingMock = isUseMockData();
 
   if (usingMock) {
     requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
-      ...m,
+      id: m.id,
+      organizationName: m.organizationName,
+      referenceCode: m.referenceCode,
+      status: m.status as ImplementationRequestStatus,
+      planKey: m.planKey,
+      industry: "industry" in m ? (m as { industry?: string | null }).industry : null,
+      estimatedMonthlySar: m.estimatedMonthlySar,
       ...getRequestDeptContextFromRow({
         status: m.status,
         requestedSecurityPkgs: m.hasSecurity ? [1] : [],
@@ -72,7 +62,13 @@ export default async function AdminRequestsPage({
   } catch {
     usingMock = true;
     requests = MOCK_PIPELINE_REQUESTS.map((m) => ({
-      ...m,
+      id: m.id,
+      organizationName: m.organizationName,
+      referenceCode: m.referenceCode,
+      status: m.status as ImplementationRequestStatus,
+      planKey: m.planKey,
+      industry: "industry" in m ? (m as { industry?: string | null }).industry : null,
+      estimatedMonthlySar: m.estimatedMonthlySar,
       ...getRequestDeptContextFromRow({
         status: m.status,
         requestedSecurityPkgs: m.hasSecurity ? [1] : [],
@@ -92,75 +88,58 @@ export default async function AdminRequestsPage({
     requests = requests.filter((r) => r.status === statusFilter);
   }
 
+  const pipelineValue = requests.reduce((sum, r) => sum + (r.estimatedMonthlySar ?? 0), 0);
+
   return (
-    <AdminListPage
-      title="Implementation requests"
-      description="ProCrow customer flow — intake queue from public request through client review, discovery, blueprint, and controlled tenant readiness."
-      headerActions={
-        <Link href={routes.admin.queue} className="cc-btn-secondary text-sm">
-          Operator queue →
-        </Link>
-      }
-      isEmpty={requests.length === 0}
-      emptyTitle="No requests yet"
-      emptyAction={
-        <Link href="/request" className="cc-btn-secondary text-sm">
-          Open public request form →
-        </Link>
-      }
-    >
+    <div className="space-y-6">
+      <ProCrowWorkbenchPageHeader
+        eyebrow="ProCrow · Request workspace"
+        title="Implementation requests"
+        purpose="One row per company — stage, client posture, and next ProCrow action. Open a workspace for full context."
+        statusChip={`${requests.length} in list`}
+        backHref={routes.admin.queue}
+        backLabel="← Operator queue"
+      />
+
+      <ProCrowContextLinkGrid
+        links={[
+          { label: "Operator queue", href: routes.admin.queue, description: "Daily priorities" },
+          { label: "Control tower", href: routes.admin.overview, description: "Platform snapshot" },
+          { label: "Go / No-Go", href: routes.admin.goNoGo, description: "Release discipline" },
+        ]}
+      />
+
       {usingMock && (
-        <p className="mb-4 rounded-cc-sm border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-sm text-amber-100">
-          Demo queue — database unavailable. Connect DATABASE_URL to load live requests.
+        <p className="rounded-cc-sm border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-sm text-amber-100">
+          Demo list — connect DATABASE_URL for live requests.
+        </p>
+      )}
+
+      {requests.length > 0 && pipelineValue > 0 && (
+        <p className="text-xs text-slate-500">
+          Combined monthly estimate (visible rows):{" "}
+          <span className="font-mono text-teal-300">{formatSar(pipelineValue)}</span>
         </p>
       )}
 
       <RequestStatusFilters active={statusFilter} />
 
-      {requests.map((r) => (
-        <ListCard key={r.id} className="cc-pipeline-card">
-          <div className="min-w-0 flex-1 space-y-2">
-            <p className="font-medium text-white">{r.organizationName}</p>
-            <p className="font-mono text-xs text-slate-500">{r.referenceCode}</p>
-            {r.industry != null && (
-              <p className="text-xs text-slate-500">
-                Industry: <span className="text-violet-300">{industryLabel(r.industry)}</span>
-              </p>
-            )}
-            <DeptChips
-              hasSecurity={r.hasSecurity}
-              hasModules={r.hasModules}
-              showSarea={r.showSarea}
-            />
-            {r.planKey && (
-              <p className="text-xs text-slate-500">
-                Plan: <span className="text-cyan-300">{planLabel(r.planKey)}</span>
-              </p>
-            )}
-          </div>
-          <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end">
-            <RequestStatusBadge status={r.status as ImplementationRequestStatus} />
-            <p className="text-[11px] text-slate-500">
-              Queue stage:{" "}
-              <span className="text-cyan-300/90">
-                {requestStatusToOperatorQueueHint(r.status as ImplementationRequestStatus)}
-              </span>
-            </p>
-            {r.estimatedMonthlySar != null && (
-              <p className="font-display text-sm font-semibold tabular-nums text-teal-300">
-                {formatSar(r.estimatedMonthlySar)}
-                <span className="text-xs font-normal text-slate-500"> /mo</span>
-              </p>
-            )}
-            <Link
-              href={`/admin/requests/${r.id}`}
-              className="cc-btn-secondary !px-3 !py-1.5 text-sm"
-            >
-              Review →
-            </Link>
-          </div>
-        </ListCard>
-      ))}
-    </AdminListPage>
+      {requests.length === 0 ? (
+        <div className="cc-glass-card py-12 text-center">
+          <p className="text-slate-400">No requests yet</p>
+          <Link href={routes.public.request} className="cc-btn-secondary mt-4 inline-block text-sm">
+            Public request entry →
+          </Link>
+        </div>
+      ) : (
+        <ul className="space-y-3">
+          {requests.map((r) => (
+            <li key={r.id}>
+              <ProCrowRequestListCard row={r} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

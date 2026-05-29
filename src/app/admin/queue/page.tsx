@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
-import { ProCrowOperatorQueuePanel } from "@/components/procrow/procrow-operator-queue-panel";
 import { ProCrowOperatorQueueBrowser } from "@/components/procrow/procrow-operator-queue-browser";
-import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
-import { ProCrowWorkflowStrip } from "@/components/procrow/procrow-workflow-strip";
+import { ProCrowOperatorQueuePanel } from "@/components/procrow/procrow-operator-queue-panel";
 import { ProCrowQueueSummaryStrip } from "@/components/procrow/procrow-queue-summary-strip";
+import { ProCrowSafetyNote } from "@/components/procrow/procrow-safety-note";
+import { ProCrowContextLinkGrid } from "@/components/procrow/procrow-context-link-grid";
+import { ProCrowWorkbenchPageHeader } from "@/components/procrow/procrow-workbench-page-header";
 import { routes } from "@/lib/routes";
 import { getProCrowOperatorQueueSnapshot } from "@/lib/services/procrow-operator-queue.service";
 
@@ -12,35 +12,27 @@ export default async function AdminOperatorQueuePage() {
   const snapshot = await getProCrowOperatorQueueSnapshot();
 
   return (
-    <div className="space-y-8">
-      <Link href={routes.admin.overview} className="text-sm text-cyan-400 hover:text-cyan-300">
-        ← Control tower overview
-      </Link>
-
-      <ProCrowPageHeader
-        badge="ProCrow · Operator queue"
-        title="Request-to-tenant operator queue"
-        description="Derived readiness from requests, blueprints, client review signals, onboarding, tenant runtime, and trust checks — read-only. Not a task engine; production remains F23-gated."
+    <div className="space-y-6">
+      <ProCrowWorkbenchPageHeader
+        eyebrow="ProCrow · Operator queue"
+        title="What needs attention now"
+        purpose="Derived request-to-tenant readiness — read-only. Pick a lane, open the workspace, act. Not a task engine."
+        backHref={routes.admin.overview}
+        backLabel="← Control tower"
       />
 
-      <ProCrowSafetyNote />
-
-      <ProCrowWorkflowStrip compact />
-
-      <p className="text-xs text-slate-500">
-        Before prioritizing queue work for a demo or deploy, review the{" "}
-        <Link href={routes.admin.goNoGo} className="text-cyan-400 hover:text-cyan-300">
-          deployment go/no-go center
-        </Link>{" "}
-        for advisory validation baseline and F23 release gate copy — read-only; no queue mutation. For runbooks and
-        verifier catalog, see the{" "}
-        <Link href={routes.admin.operatorConsole} className="text-cyan-400 hover:text-cyan-300">
-          operator console
-        </Link>
-        .
-      </p>
-
       <ProCrowQueueSummaryStrip summary={snapshot.summary} />
+
+      {snapshot.nextRecommendedActions.length > 0 && (
+        <section className="cc-glass-card !p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-cyan-300">Suggested next</p>
+          <ul className="mt-2 space-y-1 text-sm text-slate-300">
+            {snapshot.nextRecommendedActions.slice(0, 4).map((action) => (
+              <li key={action}>• {action}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <ProCrowOperatorQueuePanel
         snapshot={snapshot}
@@ -50,28 +42,39 @@ export default async function AdminOperatorQueuePage() {
         title="Priority highlights"
       />
 
-      <section className="space-y-3">
-        <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">
-          Browse by stage
-        </h2>
-        <p className="text-xs text-slate-500">
-          Stage filters group derived items only — statuses are not mutated from this view.
-        </p>
+      <ProCrowWorkbenchSectionInline title="Browse by stage" hint="Filter derived items — no status mutations.">
         <ProCrowOperatorQueueBrowser snapshot={snapshot} />
-      </section>
+      </ProCrowWorkbenchSectionInline>
 
-      {snapshot.nextRecommendedActions.length > 0 && (
-        <section className="cc-glass-card !p-5">
-          <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-cyan-300">
-            Suggested next actions
-          </h2>
-          <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-slate-400">
-            {snapshot.nextRecommendedActions.map((action) => (
-              <li key={action}>{action}</li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <ProCrowContextLinkGrid
+        links={[
+          { label: "All requests", href: routes.admin.requests, description: "Request list" },
+          { label: "Go / No-Go", href: routes.admin.goNoGo, description: "Deployment discipline" },
+          { label: "Operator console", href: routes.admin.operatorConsole, description: "Runbooks & verifiers" },
+        ]}
+      />
+
+      <ProCrowSafetyNote />
     </div>
+  );
+}
+
+function ProCrowWorkbenchSectionInline({
+  title,
+  hint,
+  children,
+}: {
+  title: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="space-y-3">
+      <div>
+        <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">{title}</h2>
+        {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
+      </div>
+      {children}
+    </section>
   );
 }

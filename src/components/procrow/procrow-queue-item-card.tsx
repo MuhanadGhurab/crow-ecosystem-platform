@@ -9,29 +9,46 @@ export function ProCrowQueueItemCard({
   item: ProCrowOperatorQueueItem;
   compact?: boolean;
 }) {
+  const stageLabel = item.stage.replace(/_/g, " ");
+  const statusLabel = item.status.replace(/_/g, " ");
+
   return (
-    <li className="cc-glass-card flex flex-col gap-2 !p-4 sm:flex-row sm:items-start sm:justify-between">
-      <div className="min-w-0 flex-1 space-y-1">
+    <li className="cc-glass-card flex flex-col gap-3 !p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0 flex-1 space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <ProCrowQueuePriorityBadge priority={item.priority} />
-          <span className="text-[10px] uppercase tracking-wide text-slate-500">{item.owner}</span>
-          <span className="text-[10px] uppercase tracking-wide text-slate-500">{item.stage.replace(/_/g, " ")}</span>
-          <span className="text-[10px] uppercase tracking-wide text-slate-600">{item.status.replace(/_/g, " ")}</span>
+          <span className="rounded border border-slate-700/60 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-slate-400">
+            {stageLabel}
+          </span>
+          <span className="text-[10px] uppercase tracking-wide text-slate-600">{statusLabel}</span>
+          <span className="text-[10px] text-slate-600">· {item.owner}</span>
         </div>
         <p className="font-medium text-white">{item.title}</p>
-        {!compact && <p className="text-sm text-slate-400">{item.description}</p>}
-        <p className="text-xs text-slate-500">{item.reason}</p>
         {item.organizationName && (
-          <p className="text-xs text-slate-600">
-            Org: <span className="text-slate-400">{item.organizationName}</span>
+          <p className="text-xs text-slate-500">
+            {item.organizationName}
+            {item.referenceCode && (
+              <span className="ml-2 font-mono text-slate-600">{item.referenceCode}</span>
+            )}
           </p>
         )}
+        {!compact && item.description && (
+          <p className="line-clamp-2 text-sm text-slate-500">{item.description}</p>
+        )}
+        <p className="text-xs text-amber-200/80">
+          <span className="font-medium text-slate-500">Blocker: </span>
+          {item.reason}
+        </p>
+        <p className="text-xs text-cyan-200/90">
+          <span className="font-medium text-slate-500">Next: </span>
+          {item.actionLabel}
+        </p>
       </div>
       <Link
         href={item.relatedRoute}
-        className="shrink-0 rounded border border-cyan-500/30 px-3 py-1.5 text-center text-sm text-cyan-300 hover:bg-cyan-500/10"
+        className="cc-btn-secondary shrink-0 text-center text-sm !px-4"
       >
-        {item.actionLabel}
+        Open →
       </Link>
     </li>
   );
