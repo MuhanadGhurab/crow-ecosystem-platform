@@ -5,6 +5,7 @@ import { ErpModuleHub } from "@/components/tenant/erp-module-hub";
 import { MeemReportsHub } from "@/components/tenant/meem-reports-hub";
 import { ReportsBiOperationsReadinessPanel } from "@/components/tenant/reports/reports-bi-operations-readiness-panel";
 import { getReportsBiReadinessSnapshot } from "@/lib/services/reports-bi-readiness.service";
+import { TenantRuntimeDemoHint } from "@/components/tenant/tenant-runtime-demo-hint";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
@@ -60,12 +61,14 @@ export default async function ReportsPage({
       title="Reports"
       description={
         showMeemHub
-          ? `Cross-module KPIs, executive narratives, and AI roll-ups for ${tenant.organization.displayName}.`
-          : `Cross-module reporting readiness, executive roll-ups, and advisory KPI signals for ${tenant.organization.displayName}.`
+          ? `Visibility layer — KPI roll-ups and executive narratives for ${tenant.organization.displayName}. Advisory signals, not predictive analytics.`
+          : `Visibility layer — reporting readiness and executive roll-ups for ${tenant.organization.displayName}. Advisory BI, not a data warehouse.`
       }
       route="/[tenant]/reports"
       tenantSlug={slug}
     >
+      <TenantRuntimeDemoHint beat="visibility" compact />
+
       {showMeemHub ? (
         <div className="space-y-8">
           <ErpModuleHub

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { TenantRuntimePageHeader } from "@/components/tenant/tenant-runtime-page-header";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { HrOrgLinkageBanner } from "@/components/tenant/hr/hr-org-linkage-banner";
@@ -57,11 +57,12 @@ export default async function TenantUsersPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
+      <TenantRuntimePageHeader
+        beat="structure"
         badge="CEM · Identity"
         entity="cem"
         title="Users & roles"
-        description={`Profiles and role assignments for ${tenant.organization.displayName}. Identity provider behavior is unchanged — this page manages workspace RBAC only.`}
+        description={`Profiles and role assignments for ${tenant.organization.displayName}. RBAC controls access; SAREA adapts experience per role.`}
       />
 
       <HrOrgLinkageBanner slug={slug} warnings={hrWarnings} />

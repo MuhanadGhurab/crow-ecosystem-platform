@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { TenantRuntimePageHeader } from "@/components/tenant/tenant-runtime-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
@@ -56,11 +56,12 @@ export default async function TasksPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
+      <TenantRuntimePageHeader
+        beat="coordination"
         badge="CEM · Tasks"
         entity="cem"
         title="Tasks"
-        description="Cross-module task coordination and approval readiness — operator-guided review queues linked to workflows and module hubs. Not BPMN, RPA, or autonomous workflow automation."
+        description="Coordination layer across modules — linked to workflows, approvals, and reports. Operator-guided; not BPMN, RPA, or autonomous automation."
       />
 
       <TaskApprovalOperationsReadinessPanel

@@ -23,7 +23,9 @@ import {
 } from "@/lib/services/sarea-runtime.service";
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
+import { TenantRuntimeDemoHint } from "@/components/tenant/tenant-runtime-demo-hint";
 import { RuntimeCohesionPanel } from "@/components/tenant/runtime-cohesion-panel";
+import { TENANT_RUNTIME_PROCROW_NOTE } from "@/lib/constants/tenant-runtime-demo";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { readSareaPreviewPersona } from "@/lib/sarea/preview-cookie";
@@ -105,6 +107,8 @@ export default async function TenantDashboardPage({
         </p>
       )}
 
+      <TenantRuntimeDemoHint beat="dashboard" />
+
       {isMeem && isPlatformStaff(role) && !previewPersona && (
         <p className="rounded-cc border border-rose-500/15 bg-rose-950/10 px-4 py-2 text-xs text-slate-400">
           SAREA acceptance:{" "}
@@ -128,8 +132,9 @@ export default async function TenantDashboardPage({
           className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-cyan-500/20 blur-3xl"
           aria-hidden
         />
-        <span className="cc-entity-badge cc-entity-badge--cem relative">Tenant operations</span>
+        <span className="cc-entity-badge cc-entity-badge--cem relative">Tenant Runtime / CEM</span>
         <h2 className="cc-section-title relative mt-4">{tenant.organization.displayName}</h2>
+        <p className="relative mt-2 text-sm text-slate-500">{TENANT_RUNTIME_PROCROW_NOTE}</p>
         <p className="relative mt-2 text-sm text-slate-400">
           Plan: <span className="font-medium text-cyan-300">{planLabel(tenant.planKey)}</span>
           {request && (

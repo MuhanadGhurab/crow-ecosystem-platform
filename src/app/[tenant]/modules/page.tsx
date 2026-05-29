@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { TenantRuntimeCohesionNote } from "@/components/tenant/tenant-runtime-cohesion-note";
+import { TenantRuntimePageHeader } from "@/components/tenant/tenant-runtime-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import {
   TenantModulesAdvisoryNote,
@@ -38,12 +39,14 @@ export default async function TenantModulesPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
+      <TenantRuntimePageHeader
+        beat="modules"
         badge="CEM · Modules"
         entity="cem"
         title="Organization modules"
-        description={`Enabled blueprint modules for ${tenant.organization.displayName} — operational depth varies by surface; not every module is a full ERP product yet.`}
+        description={`Enabled blueprint modules for ${tenant.organization.displayName}. ProCrow prepared the runtime; CEM operates these areas — depth varies by module.`}
       />
+      <TenantRuntimeCohesionNote />
 
       <TenantRuntimeStatStrip
         items={[

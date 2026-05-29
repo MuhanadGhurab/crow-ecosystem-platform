@@ -825,7 +825,29 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Phase doc | `docs/internal/L3_PUBLIC_CLIENT_PORTAL_UX_REFINEMENT.md` |
 | Verifier | `scripts/verify-public-client-ux-refinement.ts` |
 
-**Recommended next:** **K1 — Tenant Runtime Demo Rehearsal** · **L4 — Tenant Runtime / CEM Usability Pass**
+**Recommended next:** **K1 — Tenant Runtime Demo Rehearsal** (completed) · **L4 — Tenant Runtime / CEM Usability Pass** · **K2 — Manual browser smoke**
+
+---
+
+## K1 — Tenant Runtime / CEM Demo Rehearsal (no paid infra)
+
+**Scope:** Demo rehearsal for Tenant Runtime / CEM — route audit, 10-minute playbook, screenshot checklist, runbook, light UX polish on dashboard/modules/org/coordination/reports. **No** module feature sprint, migrations, payments, or auto-provisioning.
+
+- `src/lib/constants/tenant-runtime-demo.ts` + runtime demo components
+- Light polish: dashboard, modules, departments, roles, users, tasks, workflows, reports
+- `npm run tenant-demo:verify`
+
+**Status:** **Passed** (29 May 2026)
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/K1_TENANT_RUNTIME_DEMO_REHEARSAL.md` |
+| Playbook | `docs/internal/K1_TENANT_RUNTIME_DEMO_REHEARSAL_PLAYBOOK.md` |
+| Screenshots | `docs/internal/K1_TENANT_RUNTIME_SCREENSHOT_CHECKLIST.md` |
+| Runbook | `docs/internal/TENANT_RUNTIME_DEMO_RUNBOOK.md` |
+| Verifier | `scripts/verify-tenant-runtime-demo.ts` |
+
+**Recommended next:** Pause · **L4** usability pass · **K2** browser smoke
 
 ---
 

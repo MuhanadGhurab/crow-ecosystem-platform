@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/ui/page-header";
+import { TenantRuntimePageHeader } from "@/components/tenant/tenant-runtime-page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
@@ -39,7 +39,8 @@ export default async function TenantRolesPage({
 
   return (
     <div className="space-y-8">
-      <PageHeader
+      <TenantRuntimePageHeader
+        beat="structure"
         badge="CEM · RBAC"
         entity="cem"
         title="Roles"
