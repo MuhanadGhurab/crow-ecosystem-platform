@@ -97,6 +97,7 @@
     "client-portal:verify": "npx tsx scripts/verify-client-portal-skeleton.ts",
     "client-profile:verify": "npx tsx scripts/verify-client-profile-company-mvp.ts",
     "client-review:verify": "npx tsx scripts/verify-client-proposal-review.ts",
+    "client-proposal-route:verify": "npx tsx scripts/verify-client-proposal-approval-route.ts",
     "client-approval:verify": "npx tsx scripts/verify-client-approval-flow.ts",
     "client-onboarding:verify": "npx tsx scripts/verify-client-onboarding-tracker.ts",
     "client-demo:verify": "npx tsx scripts/verify-client-portal-demo-polish.ts",

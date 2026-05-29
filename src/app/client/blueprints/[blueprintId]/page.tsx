@@ -146,11 +146,16 @@ export default async function ClientBlueprintDetailPage({
           <Link href={routes.client.request(model.requestId)} className="cc-btn-secondary text-sm">
             View request
           </Link>
-          {model.proposalId && (
+          {model.proposalId && model.proposalStatus && model.proposalStatus !== "DRAFT" ? (
             <Link href={routes.client.proposal(model.proposalId)} className="cc-btn-secondary text-sm">
-              View proposal
+              Open proposal for review
               {model.proposalStatus ? ` (${proposalStatusLabel(model.proposalStatus)})` : ""}
             </Link>
+          ) : (
+            <p className="text-sm text-amber-200/90">
+              Proposal not ready for approval yet — continue blueprint review or wait for ProCrow to
+              send commercial scope.
+            </p>
           )}
         </div>
       </ClientPortalStatusCard>

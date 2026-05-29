@@ -4,6 +4,7 @@ import type { User } from "@supabase/supabase-js";
 import type { BlueprintStatus, ProposalStatus } from "@prisma/client";
 import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import {
+  CLIENT_PROPOSAL_NOT_READY_MESSAGE,
   CLIENT_REVIEW_APPROVAL_BLOCKED_REASON,
   CLIENT_REVIEW_PROCROW_COUNTERPARTS,
   CLIENT_REVIEW_READ_ONLY_NOTICE,
@@ -50,7 +51,7 @@ function procrowProposalStatus(status: ProposalStatus): string {
     case "DRAFT":
       return "ProCrow is preparing your commercial proposal.";
     case "SENT":
-      return "ProCrow sent the proposal — review scope here; approval is not enabled yet.";
+      return "ProCrow sent the proposal — review scope and approve in the Client Portal when your account is verified.";
     case "CLIENT_APPROVED":
       return "Client scope approval is on record. ProCrow is reviewing onboarding and provisioning readiness.";
     case "DECLINED":
@@ -580,6 +581,84 @@ export async function getClientBlueprintReviewModel(
   };
 }
 
+/** Resolve blueprint id for a public proposal token when the proposal was sent to the client. */
+export async function resolveClientProposalFromToken(
+  token: string
+): Promise<{ proposalId: string; requestId: string; proposalStatus: ProposalStatus } | null> {
+  if (isUseMockData() && token === MOCK_PROPOSAL_TOKEN) {
+    return {
+      proposalId: MOCK_BLUEPRINT_ID,
+      requestId: "mock-req-003",
+      proposalStatus: "SENT",
+    };
+  }
+
+  const row = await prisma.enterpriseBlueprint
+    .findFirst({
+      where: { proposalToken: token },
+      select: { id: true, requestId: true, proposalStatus: true },
+    })
+    .catch(() => null);
+
+  if (!row || row.proposalStatus === "DRAFT") return null;
+
+  return {
+    proposalId: row.id,
+    requestId: row.requestId,
+    proposalStatus: row.proposalStatus,
+  };
+}
+
+function buildRequestReviewLinksFromBlueprint(bp: {
+  id: string;
+  status: BlueprintStatus;
+  proposalStatus: ProposalStatus;
+  proposalToken: string | null;
+} | null): ClientRequestReviewLinks {
+  if (!bp) {
+    return {
+      proposalId: null,
+      proposalHref: null,
+      proposalPublicHref: null,
+      proposalNotReadyMessage: CLIENT_PROPOSAL_NOT_READY_MESSAGE,
+      blueprintHref: null,
+      proposalStatus: null,
+      blueprintStatus: null,
+      proposalLabel: null,
+      blueprintLabel: null,
+    };
+  }
+
+  const blueprintHref = routes.client.blueprint(bp.id);
+  const blueprintLabel = BLUEPRINT_READINESS[bp.status] ?? bp.status;
+
+  if (bp.proposalStatus === "DRAFT") {
+    return {
+      proposalId: bp.id,
+      proposalHref: null,
+      proposalPublicHref: null,
+      proposalNotReadyMessage: CLIENT_PROPOSAL_NOT_READY_MESSAGE,
+      blueprintHref,
+      proposalStatus: bp.proposalStatus,
+      blueprintStatus: bp.status,
+      proposalLabel: proposalStatusLabel(bp.proposalStatus),
+      blueprintLabel,
+    };
+  }
+
+  return {
+    proposalId: bp.id,
+    proposalHref: routes.client.proposal(bp.id),
+    proposalPublicHref: bp.proposalToken ? routes.public.proposal(bp.proposalToken) : null,
+    proposalNotReadyMessage: null,
+    blueprintHref,
+    proposalStatus: bp.proposalStatus,
+    blueprintStatus: bp.status,
+    proposalLabel: proposalStatusLabel(bp.proposalStatus),
+    blueprintLabel,
+  };
+}
+
 export async function buildClientRequestReviewLinks(
   user: User,
   requestId: string
@@ -593,16 +672,19 @@ export async function buildClientRequestReviewLinks(
       (("proposalToken" in pipeline && pipeline.proposalToken) ||
         pipeline.blueprintId === MOCK_BLUEPRINT_ID);
     const proposalStatus = hasProposal ? overrides.proposalStatus : null;
+    const mockLinks = buildRequestReviewLinksFromBlueprint(
+      bpId && proposalStatus
+        ? {
+            id: bpId,
+            status: "IN_REVIEW",
+            proposalStatus,
+            proposalToken: MOCK_PROPOSAL_TOKEN,
+          }
+        : null
+    );
     return {
       access: "allowed",
-      links: {
-        proposalHref: bpId ? routes.client.proposal(bpId) : null,
-        blueprintHref: bpId ? routes.client.blueprint(bpId) : null,
-        proposalStatus,
-        blueprintStatus: "IN_REVIEW",
-        proposalLabel: proposalStatus ? proposalStatusLabel(proposalStatus) : null,
-        blueprintLabel: "In review",
-      },
+      links: mockLinks,
     };
   }
 
@@ -616,7 +698,12 @@ export async function buildClientRequestReviewLinks(
       where: { id: requestId },
       include: {
         enterpriseBlueprint: {
-          select: { id: true, status: true, proposalStatus: true },
+          select: {
+            id: true,
+            status: true,
+            proposalStatus: true,
+            proposalToken: true,
+          },
         },
       },
     })
@@ -624,20 +711,8 @@ export async function buildClientRequestReviewLinks(
 
   if (!row) return { access: "not_found", links: null };
 
-  const bp = row.enterpriseBlueprint;
-  const proposalHref =
-    bp && bp.proposalStatus !== "DRAFT" ? routes.client.proposal(bp.id) : null;
-  const blueprintHref = bp ? routes.client.blueprint(bp.id) : null;
-
   return {
     access,
-    links: {
-      proposalHref,
-      blueprintHref,
-      proposalStatus: bp?.proposalStatus ?? null,
-      blueprintStatus: bp?.status ?? null,
-      proposalLabel: bp?.proposalStatus ? proposalStatusLabel(bp.proposalStatus) : null,
-      blueprintLabel: bp?.status ? (BLUEPRINT_READINESS[bp.status] ?? bp.status) : null,
-    },
+    links: buildRequestReviewLinksFromBlueprint(row.enterpriseBlueprint),
   };
 }

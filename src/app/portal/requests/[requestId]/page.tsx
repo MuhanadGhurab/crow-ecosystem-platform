@@ -8,6 +8,7 @@ import { isUseMockData } from "@/lib/mock/env";
 import { getMockClientRequest, isMockClientRequestId } from "@/lib/mock/portal";
 import { routes } from "@/lib/routes";
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
+import { buildClientRequestReviewLinks } from "@/lib/services/client-review.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { formatSar } from "@/lib/services/commercial.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -23,6 +24,7 @@ export default async function PortalRequestDetailPage({
   if (isUseMockData() && isMockClientRequestId(requestId)) {
     const mock = getMockClientRequest(requestId);
     if (!mock) notFound();
+    const { links } = await buildClientRequestReviewLinks(user, requestId);
     return (
       <PortalRequestDetail
         referenceCode={mock.referenceCode}
@@ -30,7 +32,7 @@ export default async function PortalRequestDetailPage({
         status={mock.status}
         planKey={mock.planKey}
         estimatedMonthlySar={mock.estimatedMonthlySar}
-        proposalToken={mock.proposalToken}
+        reviewLinks={links}
         contactName="Demo sponsor"
         contactEmail={user.email ?? "client.demo@alnoor.test"}
       />
@@ -54,6 +56,8 @@ export default async function PortalRequestDetailPage({
   const primary = request.contacts.find((c) => c.isPrimary) ?? request.contacts[0];
   const planKey = request.requestedPlans[0]?.planKey;
 
+  const { links } = await buildClientRequestReviewLinks(user, requestId);
+
   return (
     <PortalRequestDetail
       referenceCode={request.referenceCode}
@@ -63,7 +67,7 @@ export default async function PortalRequestDetailPage({
       estimatedMonthlySar={
         request.estimatedMonthlySar ? Number(request.estimatedMonthlySar) : null
       }
-      proposalToken={request.enterpriseBlueprint?.proposalToken ?? null}
+      reviewLinks={links}
       contactName={primary?.fullName}
       contactEmail={primary?.email}
     />
@@ -76,7 +80,7 @@ function PortalRequestDetail({
   status,
   planKey,
   estimatedMonthlySar,
-  proposalToken,
+  reviewLinks,
   contactName,
   contactEmail,
 }: {
@@ -85,7 +89,7 @@ function PortalRequestDetail({
   status: ImplementationRequestStatus;
   planKey?: string;
   estimatedMonthlySar: number | null;
-  proposalToken: string | null;
+  reviewLinks: Awaited<ReturnType<typeof buildClientRequestReviewLinks>>["links"];
   contactName?: string;
   contactEmail?: string;
 }) {
@@ -127,18 +131,29 @@ function PortalRequestDetail({
         </section>
       </div>
 
-      {proposalToken && (
+      {(reviewLinks?.proposalHref ||
+        reviewLinks?.proposalNotReadyMessage ||
+        reviewLinks?.blueprintHref) && (
         <section className="cc-glass-card">
-          <h2 className="text-sm font-medium text-violet-300">Proposal</h2>
-          <p className="mt-2 text-sm text-slate-400">
-            Your commercial proposal is ready for review.
-          </p>
-          <Link
-            href={routes.public.proposal(proposalToken)}
-            className="cc-btn-primary mt-4 inline-flex"
-          >
-            Open proposal
-          </Link>
+          <h2 className="text-sm font-medium text-violet-300">Proposal & blueprint</h2>
+          {reviewLinks.proposalNotReadyMessage && !reviewLinks.proposalHref && (
+            <p className="mt-2 text-sm text-amber-200/90">{reviewLinks.proposalNotReadyMessage}</p>
+          )}
+          {reviewLinks.proposalHref && (
+            <>
+              <p className="mt-2 text-sm text-slate-400">
+                Review scope, request changes, and approve in the Client Portal.
+              </p>
+              <Link href={reviewLinks.proposalHref} className="cc-btn-primary mt-4 inline-flex">
+                Open proposal
+              </Link>
+            </>
+          )}
+          {reviewLinks.blueprintHref && (
+            <Link href={reviewLinks.blueprintHref} className="cc-btn-secondary mt-3 inline-flex text-sm">
+              Review blueprint
+            </Link>
+          )}
         </section>
       )}
 

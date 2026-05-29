@@ -107,8 +107,16 @@ export type ClientProposalsListModel = {
   approvalBlockedReason: string;
 };
 
+export const CLIENT_PROPOSAL_NOT_READY_MESSAGE =
+  "Proposal not ready for approval yet — ProCrow is still preparing or reviewing your commercial scope." as const;
+
 export type ClientRequestReviewLinks = {
+  /** Authenticated Client Portal proposal review (approval-capable). */
   proposalHref: string | null;
+  proposalId: string | null;
+  /** Optional public token summary — not an approval route. */
+  proposalPublicHref: string | null;
+  proposalNotReadyMessage: string | null;
   blueprintHref: string | null;
   proposalStatus: ProposalStatus | null;
   blueprintStatus: BlueprintStatus | null;

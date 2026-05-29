@@ -140,12 +140,15 @@ async function RequestDetail({
             </dd>
           </div>
         </dl>
+        {reviewLinks?.proposalNotReadyMessage && !reviewLinks.proposalHref && (
+          <p className="mt-4 text-sm text-amber-200/90">{reviewLinks.proposalNotReadyMessage}</p>
+        )}
         <div className="mt-4 flex flex-wrap gap-3">
-          {reviewLinks?.proposalHref && (
-            <Link href={reviewLinks.proposalHref} className="cc-btn-secondary text-sm">
-              Review proposal
+          {reviewLinks?.proposalHref ? (
+            <Link href={reviewLinks.proposalHref} className="cc-btn-primary text-sm">
+              Open proposal
             </Link>
-          )}
+          ) : null}
           {reviewLinks?.blueprintHref && (
             <Link href={reviewLinks.blueprintHref} className="cc-btn-secondary text-sm">
               Review blueprint
@@ -158,6 +161,20 @@ async function RequestDetail({
             Company
           </Link>
         </div>
+        {reviewLinks?.proposalPublicHref && reviewLinks.proposalHref && (
+          <p className="mt-3 text-xs text-slate-500">
+            Public reference copy (informational only):{" "}
+            <Link
+              href={reviewLinks.proposalPublicHref}
+              className="text-cyan-400/80 hover:text-cyan-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              open summary link
+            </Link>
+            . Approve scope in Client Portal above.
+          </p>
+        )}
       </ClientPortalStatusCard>
 
       <ClientReviewFeedbackPanel

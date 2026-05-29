@@ -83,7 +83,7 @@ export const CLIENT_APPROVAL_BLOCKED_LABELS: Record<ClientApprovalBlockedReason,
   not_linked: "This proposal is not linked to your account.",
   ownership_unverified:
     "Approval requires verified organization ownership. Your account can review materials only.",
-  proposal_not_ready: "This proposal is not ready for client approval yet.",
+  proposal_not_ready: "Proposal not ready for approval yet.",
   already_approved: "Scope was already approved for ProCrow review.",
   expired: "This proposal is no longer available for approval.",
   missing_audit_path: "Approval audit path is unavailable.",
