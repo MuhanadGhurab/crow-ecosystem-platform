@@ -31,6 +31,7 @@ export const routes = {
     onboarding: "/client/onboarding",
     settings: "/client/settings",
   },
+  access: "/access",
   public: {
     home: "/",
     modules: "/modules",

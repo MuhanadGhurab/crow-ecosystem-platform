@@ -21,6 +21,11 @@ import {
   isPortalPath,
 } from "@/lib/auth/route-protection";
 import { routes } from "@/lib/routes";
+import {
+  buildCrowAccessGatewaySnapshot,
+  shouldRouteToAccessGateway,
+  singlePortalRoute,
+} from "@/lib/services/portal-access.service";
 
 const DEFAULT_STAFF_OVERVIEW = routes.admin.overview;
 const DEFAULT_CLIENT_HOME = routes.client.home;
@@ -46,10 +51,9 @@ function isClientIntentNext(path: string | null | undefined): boolean {
 }
 
 function defaultLandingForRole(role: CrowRole, tenantSlugs: string[]): string {
+  if (isPlatformStaff(role)) return DEFAULT_STAFF_OVERVIEW;
+
   switch (role) {
-    case "platform_admin":
-    case "implementer":
-      return DEFAULT_STAFF_OVERVIEW;
     case "sales":
       return routes.admin.requests;
     case "auditor_readonly":
@@ -151,22 +155,34 @@ export function resolvePostLoginDestination(
   const next = resolveExplicitNext(explicitNext, role, tenantSlugs, fallback);
 
   if (isPlatformStaff(role)) {
-    return next ?? DEFAULT_STAFF_OVERVIEW;
+    return landingWithAccessGateway(user, next, DEFAULT_STAFF_OVERVIEW);
   }
 
   if (role === "sales" || role === "auditor_readonly") {
-    return next ?? fallback;
+    return landingWithAccessGateway(user, next, fallback);
   }
 
   if (role === "tenant_admin" || role === "tenant_user") {
-    return next ?? fallback;
+    return landingWithAccessGateway(user, next, fallback);
   }
 
   if (role === "client") {
-    return next ?? DEFAULT_CLIENT_HOME;
+    if (next) return next;
+    if (shouldRouteToAccessGateway(user)) return routes.access;
+    return DEFAULT_CLIENT_HOME;
   }
 
   return `${routes.auth.login}?error=no_role`;
+}
+
+function landingWithAccessGateway(
+  user: User,
+  next: string | null,
+  fallback: string
+): string {
+  if (next) return next;
+  if (shouldRouteToAccessGateway(user)) return routes.access;
+  return fallback;
 }
 
 /** K2.5 — preferred name for post sign-in / sign-up / OAuth landing. */
@@ -176,19 +192,22 @@ export const resolvePostAuthLanding = resolvePostLoginDestination;
  * Role-based portal CTA for public header (never exposes ProCrow to clients).
  */
 export function getAuthenticatedPortalCta(user: User): AuthenticatedPortalCta | null {
-  const { role, tenantSlugs } = getCrowAuth(user);
+  const { role } = getCrowAuth(user);
   if (!role) return null;
+
+  if (shouldRouteToAccessGateway(user)) {
+    return { href: routes.access, label: "Open workspace" };
+  }
+
+  const single = singlePortalRoute(user);
+  if (single) {
+    const snapshot = buildCrowAccessGatewaySnapshot(user);
+    const label = snapshot.availablePortals[0]?.label ?? "Your portal";
+    return { href: single, label };
+  }
 
   if (isPlatformConsoleRole(role)) {
     return { href: DEFAULT_STAFF_OVERVIEW, label: "ProCrow" };
-  }
-
-  if (role === "tenant_admin" || role === "tenant_user") {
-    const slug = tenantSlugs[0];
-    if (slug) {
-      return { href: routes.tenant(slug).dashboard, label: "Tenant Runtime" };
-    }
-    return { href: DEFAULT_CLIENT_HOME, label: "Client Portal" };
   }
 
   if (isClient(role)) {

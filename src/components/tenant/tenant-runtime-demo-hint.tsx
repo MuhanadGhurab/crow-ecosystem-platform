@@ -1,4 +1,5 @@
 import {
+  BUSINESS_PORTAL_RUNTIME_NOTE,
   TENANT_RUNTIME_DEFINITION,
   TENANT_RUNTIME_DEMO_BEATS,
   TENANT_RUNTIME_PROCROW_NOTE,
@@ -22,13 +23,16 @@ export function TenantRuntimeDemoHint({ beat, compact }: TenantRuntimeDemoHintPr
       aria-label="Tenant runtime context"
     >
       <p>
-        <span className="font-semibold text-cyan-300/90">Tenant Runtime / CEM</span>
+        <span className="font-semibold text-cyan-300/90">Business Portal · CEM</span>
         {" — "}
         {TENANT_RUNTIME_DEFINITION}
       </p>
       {beatLine && <p className="mt-1 text-slate-500">{beatLine}</p>}
       {!compact && (
-        <p className="mt-2 text-[10px] text-slate-600">{TENANT_RUNTIME_PROCROW_NOTE}</p>
+        <>
+          <p className="mt-2 text-[10px] text-slate-600">{BUSINESS_PORTAL_RUNTIME_NOTE}</p>
+          <p className="mt-1 text-[10px] text-slate-600">{TENANT_RUNTIME_PROCROW_NOTE}</p>
+        </>
       )}
     </aside>
   );

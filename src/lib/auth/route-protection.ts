@@ -23,6 +23,7 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "clients",
   "industries",
   "case-studies",
+  "access",
   "_next",
   "favicon.ico",
 ]);
@@ -45,6 +46,7 @@ const PUBLIC_PREFIXES = [
   "/auth/entra",
   "/proposal",
   "/unauthorized",
+  "/access",
 ] as const;
 
 const PLATFORM_PREFIXES = ["/admin", "/discovery", "/blueprints", "/sarea"] as const;

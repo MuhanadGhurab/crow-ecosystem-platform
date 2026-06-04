@@ -891,7 +891,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** Foundation shipped (29 May 2026)
 
-**Recommended next:** **L5 — Discovery-to-Blueprint ProCrow Review** or **L5 — Pricing package templates (Startup/Growth/Enterprise)**
+**Recommended next:** **L5 — Access Gateway** (below)
+
+---
+
+## L5 — Access Gateway & Portal Role Model (no paid infra)
+
+**Scope:** Role-aware `/access` gateway; portal access contract + service; multi-portal post-login routing; public header **Open workspace** CTA; Business Portal framing on tenant runtime.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L5_ACCESS_GATEWAY_PORTAL_ROLE_MODEL.md` |
+| Gateway | `src/app/access/page.tsx` |
+| Verifier | `npm run access-gateway:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** **L6 — Discovery-to-Blueprint ProCrow Review** or **tenant membership hardening**
 
 ---
 

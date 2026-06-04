@@ -10,7 +10,10 @@ export const K1_RECOMMENDED_TENANT_SLUG = MEEM_TENANT_SLUG;
 export const K1_ALT_TENANT_SLUG = RIMAL_TENANT_SLUG;
 
 export const TENANT_RUNTIME_DEFINITION =
-  "Tenant Runtime / CEM is where the company operates day to day — after ProCrow prepares and governs the tenant." as const;
+  "Business Portal powered by CEM — where tenant employees run day-to-day operations after ProCrow prepares the workspace." as const;
+
+export const BUSINESS_PORTAL_RUNTIME_NOTE =
+  "This is not the Client Portal (requests and onboarding). Access requires tenant employee role and workspace membership." as const;
 
 export const TENANT_RUNTIME_PROCROW_NOTE =
   "ProCrow prepared this workspace. CEM runs operations here — production go-live stays operator-disciplined (F23)." as const;

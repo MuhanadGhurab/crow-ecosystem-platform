@@ -49,6 +49,16 @@ export function isPlatformConsoleRole(role: CrowRole | null): boolean {
   );
 }
 
+const platformAdminRole = "platform_admin" satisfies CrowRole;
+
+/** Roles that may open ProCrow (platform console). */
+export const PROCROW_PORTAL_ALLOWED_ROLES: readonly CrowRole[] = [
+  platformAdminRole,
+  "implementer",
+  "sales",
+  "auditor_readonly",
+];
+
 export function isClient(role: CrowRole | null): boolean {
   return role === "client";
 }
