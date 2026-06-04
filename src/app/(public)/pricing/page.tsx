@@ -3,6 +3,10 @@ import { CommercialLifecycleMini } from "@/components/product/commercial-lifecyc
 import { CrowMotif } from "@/components/public/crow-motif";
 import { PublicRequestGateNote } from "@/components/public/public-request-gate-note";
 import { PRICING_COMMERCIAL_HONESTY } from "@/lib/constants/public-client-ux";
+import {
+  PRICING_PACKAGE_TEMPLATES,
+  PUBLIC_PRICING_PACKAGE_SUMMARY,
+} from "@/lib/constants/pricing-package-templates";
 import { PricingTierCard } from "@/components/public/pricing-tier-card";
 import { PublicPageHeader } from "@/components/public/public-page-header";
 import { PublicSectionIntro } from "@/components/public/public-section-intro";
@@ -50,6 +54,34 @@ export default function PricingPage() {
         <CommercialLifecycleMini variant="public" />
         <PublicRequestGateNote />
         <p className="text-sm text-slate-500">{PRICING_COMMERCIAL_HONESTY.advisory}</p>
+
+        <section className="cc-public-band rounded-2xl border border-violet-500/15 p-6 sm:p-8">
+          <PublicSectionIntro
+            badge="Packages"
+            title="Startup · Growth · Enterprise"
+            description={PUBLIC_PRICING_PACKAGE_SUMMARY}
+          />
+          <p className="mt-4 text-sm text-slate-500">
+            {PRICING_COMMERCIAL_HONESTY.setupFee} {PRICING_COMMERCIAL_HONESTY.subscription}{" "}
+            {PRICING_COMMERCIAL_HONESTY.noCheckout}
+          </p>
+          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+            {(["startup", "growth", "enterprise"] as const).map((key) => {
+              const pkg = PRICING_PACKAGE_TEMPLATES[key];
+              return (
+                <li
+                  key={key}
+                  className="rounded-xl border border-white/10 bg-white/[0.03] p-5"
+                >
+                  <h3 className="font-semibold text-white">{pkg.label}</h3>
+                  <p className="mt-2 text-sm text-slate-400">{pkg.description}</p>
+                  <p className="mt-3 text-xs text-violet-200/80">{pkg.pricingPosture}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
         <section className="cc-public-band relative overflow-hidden rounded-2xl border border-cyan-500/15 p-6 sm:p-8">
           <CrowMotif variant="wing" className="pointer-events-none absolute -end-4 top-4 h-20 w-24 opacity-15" />
           <PublicSectionIntro

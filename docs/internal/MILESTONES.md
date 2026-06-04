@@ -929,6 +929,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## L7 — Startup / Growth / Enterprise Pricing Package Templates (no paid infra)
+
+**Scope:** Advisory package recommendation from discovery — setup/monthly direction, signals, client preference via notes — no checkout or payment activation.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L7_STARTUP_GROWTH_ENTERPRISE_PRICING_PACKAGES.md` |
+| Contract / templates | `pricing-package-contract.ts` · `pricing-package-templates.ts` |
+| Service | `pricing-package-recommendation.service.ts` |
+| Verifier | `npm run pricing-packages:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** **M1** CyberCrow tenant readiness or **L8** package preference refinement
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

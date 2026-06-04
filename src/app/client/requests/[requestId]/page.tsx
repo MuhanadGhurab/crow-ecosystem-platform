@@ -24,6 +24,8 @@ import {
   getClientRequestChangesEligibility,
   listClientReviewNotesForRequest,
 } from "@/lib/services/client-review-notes.service";
+import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
+import { ClientPricingPackagePanel } from "@/components/client-portal/client-pricing-package-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function ClientRequestDetailPage({
@@ -88,12 +90,15 @@ async function RequestDetail({
   discovery?: Awaited<ReturnType<typeof buildClientDiscoveryPageModel>> | null;
 }) {
   const user = await requireClientAccess(routes.client.request(requestId));
-  const [profileHints, onboardingTracker, feedbackEligibility, feedbackNotes] =
+  const [profileHints, onboardingTracker, feedbackEligibility, feedbackNotes, packageEstimate] =
     await Promise.all([
       buildClientProfileDashboardHints(user),
       buildClientOnboardingTracker(user, requestId),
       getClientRequestChangesEligibility(user, { requestId }),
       listClientReviewNotesForRequest(user, requestId),
+      discovery && discovery.draft.status !== "not_started"
+        ? buildPricingPackageEstimateForRequest(requestId).catch(() => null)
+        : Promise.resolve(null),
     ]);
 
   return (
@@ -156,6 +161,10 @@ async function RequestDetail({
           )}
         </div>
       </ClientPortalStatusCard>
+
+      {packageEstimate && (
+        <ClientPricingPackagePanel requestId={requestId} estimate={packageEstimate} />
+      )}
 
       <ClientPortalStatusCard title="Review materials" badge="Review" badgeTone="info">
         <p className="text-sm text-slate-400">

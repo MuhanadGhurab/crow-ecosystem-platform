@@ -46,6 +46,8 @@ import {
 } from "@/lib/services/commercial.service";
 import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onboarding.service";
 import { buildProCrowDiscoveryReviewSnapshot } from "@/lib/services/procrow-discovery-review.service";
+import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
+import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procrow-pricing-package-panel";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
@@ -100,6 +102,9 @@ export default async function AdminRequestDetailPage({
   const adminOnboardingTracker = await buildClientOnboardingTrackerForAdmin(requestId);
   const procrowDiscoveryReview = !isUseMockData()
     ? await buildProCrowDiscoveryReviewSnapshot(requestId).catch(() => null)
+    : null;
+  const pricingPackageEstimate = !isUseMockData()
+    ? await buildPricingPackageEstimateForRequest(requestId).catch(() => null)
     : null;
   const tenantSlug = request?.enterpriseBlueprint?.tenant?.slug ?? null;
   const blueprintId = request?.enterpriseBlueprint?.id ?? mockBlueprintId;
@@ -227,6 +232,17 @@ export default async function AdminRequestDetailPage({
         <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
         <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
         <AdminClientReviewFeedbackPanel requestId={requestId} />
+      </ProCrowWorkbenchSection>
+
+      <ProCrowWorkbenchSection
+        title="Advisory pricing package"
+        description="Startup / Growth / Enterprise direction from discovery — not final quote or checkout."
+      >
+        <AdminProcrowPricingPackagePanel
+          requestId={requestId}
+          estimate={pricingPackageEstimate}
+          blueprintId={blueprintId}
+        />
       </ProCrowWorkbenchSection>
 
       <ProCrowWorkbenchSection

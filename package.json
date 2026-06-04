@@ -99,6 +99,7 @@
     "client-company-profile:verify": "npx tsx scripts/verify-client-company-profile-completion.ts",
     "client-discovery:verify": "npx tsx scripts/verify-client-discovery-flow.ts",
     "procrow-discovery:verify": "npx tsx scripts/verify-procrow-discovery-review.ts",
+    "pricing-packages:verify": "npx tsx scripts/verify-pricing-package-templates.ts",
     "client-review:verify": "npx tsx scripts/verify-client-proposal-review.ts",
     "client-proposal-route:verify": "npx tsx scripts/verify-client-proposal-approval-route.ts",
     "client-approval:verify": "npx tsx scripts/verify-client-approval-flow.ts",

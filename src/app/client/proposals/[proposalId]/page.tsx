@@ -17,6 +17,8 @@ import {
   listClientReviewNotesForRequest,
 } from "@/lib/services/client-review-notes.service";
 import { routes } from "@/lib/routes";
+import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
+import { ClientPricingPackagePanel } from "@/components/client-portal/client-pricing-package-panel";
 
 export default async function ClientProposalDetailPage({
   params,
@@ -45,6 +47,11 @@ export default async function ClientProposalDetailPage({
   const onboardingTracker =
     model && access !== "not_found"
       ? await buildClientOnboardingTracker(user, model.requestId)
+      : null;
+
+  const packageEstimate =
+    model && access !== "not_found"
+      ? await buildPricingPackageEstimateForRequest(model.requestId).catch(() => null)
       : null;
 
   if (access === "not_found" || !model) {
@@ -80,6 +87,10 @@ export default async function ClientProposalDetailPage({
           </p>
         )}
       </ClientPortalStatusCard>
+
+      {packageEstimate && (
+        <ClientPricingPackagePanel requestId={model.requestId} estimate={packageEstimate} />
+      )}
 
       {model.modules.length > 0 && (
         <ClientPortalStatusCard title="Recommended modules" badge={`${model.modules.length}`} badgeTone="info">
