@@ -47,7 +47,9 @@ import {
 import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onboarding.service";
 import { buildProCrowDiscoveryReviewSnapshot } from "@/lib/services/procrow-discovery-review.service";
 import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
+import { buildCyberCrowTrustPreparationPreviewForRequest } from "@/lib/services/cybercrow-tenant-trust.service";
 import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procrow-pricing-package-panel";
+import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
@@ -105,6 +107,9 @@ export default async function AdminRequestDetailPage({
     : null;
   const pricingPackageEstimate = !isUseMockData()
     ? await buildPricingPackageEstimateForRequest(requestId).catch(() => null)
+    : null;
+  const cybercrowTrustPreview = !isUseMockData()
+    ? await buildCyberCrowTrustPreparationPreviewForRequest(requestId).catch(() => null)
     : null;
   const tenantSlug = request?.enterpriseBlueprint?.tenant?.slug ?? null;
   const blueprintId = request?.enterpriseBlueprint?.id ?? mockBlueprintId;
@@ -273,6 +278,12 @@ export default async function AdminRequestDetailPage({
         title="Trust & experience"
         description="Advisory checks before runtime handoff."
       >
+        {cybercrowTrustPreview && (
+          <AdminCybercrowTrustReadinessPanel
+            snapshot={cybercrowTrustPreview}
+            variant={tenantSlug ? "tenant" : "request-preview"}
+          />
+        )}
         <ProCrowContextLinkGrid
           links={[
             {

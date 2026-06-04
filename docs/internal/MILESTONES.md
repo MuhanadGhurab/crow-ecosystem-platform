@@ -946,6 +946,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M1 — CyberCrow Identity, Compliance & GRC Tenant Readiness (no paid infra)
+
+**Scope:** Advisory tenant trust model (identity, Entra mapping, GRC, evidence, risk, access review) for ProCrow and tenant CyberCrow — no live IdP sync, certified compliance, or migrations.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M1_CYBERCROW_IDENTITY_GRC_TENANT_READINESS.md` |
+| Contract / constants | `cybercrow-tenant-trust-contract.ts` · `cybercrow-identity-readiness.ts` · `cybercrow-grc-readiness.ts` |
+| Service | `cybercrow-tenant-trust.service.ts` |
+| Verifier | `npm run cybercrow-trust:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** **M2 — SAREA Blueprint-to-Experience Mapping** or **M1.1 — CyberCrow Access Review Workflow**
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

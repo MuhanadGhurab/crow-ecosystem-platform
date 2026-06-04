@@ -106,6 +106,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
       operatorAction: "Run npm run cybercrow:verify after CyberCrow-affecting changes.",
     }),
     d({
+      key: "cybercrow-tenant-trust-m1",
+      category: "cybercrow",
+      label: "CyberCrow tenant trust readiness (M1)",
+      status: "needs_review",
+      description:
+        "Per-tenant identity, GRC, evidence, risk, and access-review snapshots are advisory — not certified compliance, not legal audit evidence, not live Entra sync. ProCrow owns final Go/No-Go.",
+      relatedCommand: "npm run cybercrow-trust:verify",
+      operatorAction:
+        "Review tenant trust on ProCrow tenant workbench; run npm run cybercrow-trust:verify after M1 trust model changes.",
+    }),
+    d({
       key: "sarea-readiness-signal",
       category: "sarea",
       label: "SAREA experience studio",

@@ -37,6 +37,8 @@ import { getOrgIntelligenceForRequest } from "@/lib/services/org-intelligence.se
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { getTenantById, getTenantWorkspaceSummary } from "@/lib/services/tenant.service";
+import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
+import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function AdminTenantDetailPage({
@@ -73,6 +75,7 @@ export default async function AdminTenantDetailPage({
     billingAlignment,
     cemOps,
     runtimeCohesion,
+    cybercrowTrust,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -96,6 +99,7 @@ export default async function AdminTenantDetailPage({
       tenant.organization.industry,
       tenant.slug
     ),
+    buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -173,6 +177,7 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "overview" && (
         <div className="space-y-6">
+          {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">
             <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>
@@ -357,6 +362,7 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "cybercrow" && (
         <section className="cc-glass-card cc-entity-block--cybercrow space-y-4 !p-6">
+          {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
           <p className="text-xs text-slate-500">
             CyberCrow protects this tenant. SAREA adapts presentation on the workspace dashboard —
             RBAC still governs access.

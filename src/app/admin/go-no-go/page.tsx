@@ -3,9 +3,14 @@ import { ProCrowGoNoGoCenter } from "@/components/procrow/procrow-go-no-go-cente
 import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
 import { routes } from "@/lib/routes";
 import { getProCrowGoNoGoSnapshot } from "@/lib/services/procrow-go-no-go.service";
+import { buildCyberCrowTrustGoNoGoDependency } from "@/lib/services/cybercrow-tenant-trust.service";
+import { ProCrowCybercrowTrustGoNoGoPanel } from "@/components/procrow/procrow-cybercrow-trust-go-no-go-panel";
 
 export default async function AdminGoNoGoPage() {
-  const snapshot = await getProCrowGoNoGoSnapshot();
+  const [snapshot, cybercrowTrustDependency] = await Promise.all([
+    getProCrowGoNoGoSnapshot(),
+    Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -19,6 +24,7 @@ export default async function AdminGoNoGoPage() {
         description="Advisory readiness, validation baseline, and release gate visibility — operator-reviewed. Not CI/CD, not automatic deploy, not compliance certification. Production commercial launch remains F23-gated."
       />
 
+      <ProCrowCybercrowTrustGoNoGoPanel dependency={cybercrowTrustDependency} />
       <ProCrowGoNoGoCenter snapshot={snapshot} />
     </div>
   );

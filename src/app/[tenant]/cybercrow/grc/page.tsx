@@ -16,6 +16,8 @@ import {
   listTenantGrcFindings,
 } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
+import { CybercrowM1ReadinessAlign } from "@/components/tenant/cybercrow/cybercrow-m1-readiness-align";
 
 export default async function CybercrowGrcPage({
   params,
@@ -26,18 +28,21 @@ export default async function CybercrowGrcPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [summary, domains, mapping, gaps, findings] = await Promise.all([
+  const [summary, domains, mapping, gaps, findings, trustSnapshot] = await Promise.all([
     getCybercrowGrcSummary(tenant.id),
     getGrcControlReadiness(tenant.id),
     getControlEvidenceMapping(tenant.id),
     getEvidenceGaps(tenant.id, slug),
     listTenantGrcFindings(tenant.id),
+    buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
   ]);
   const r = routes.tenant(slug).cybercrow;
 
   return (
     <div className="space-y-8">
       <CybercrowPageHeader tenantSlug={slug} area="grc" title="GRC overview" />
+
+      <CybercrowM1ReadinessAlign area="grc" snapshot={trustSnapshot} />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-cc-sm border border-violet-500/20 bg-violet-500/5 p-4">

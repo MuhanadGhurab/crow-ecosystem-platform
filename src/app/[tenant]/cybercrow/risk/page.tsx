@@ -9,6 +9,8 @@ import { getRiskGrcSignals } from "@/lib/services/cybercrow-evidence-grc.service
 import { getRiskPostureDetail } from "@/lib/services/cybercrow-soc-workflow.service";
 import { listTenantRiskScores } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
+import { CybercrowM1ReadinessAlign } from "@/components/tenant/cybercrow/cybercrow-m1-readiness-align";
 
 export default async function CybercrowRiskPage({
   params,
@@ -18,16 +20,19 @@ export default async function CybercrowRiskPage({
   const { tenant: slug } = await params;
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
-  const [scores, posture, grcSignals] = await Promise.all([
+  const [scores, posture, grcSignals, trustSnapshot] = await Promise.all([
     listTenantRiskScores(tenant.id),
     getRiskPostureDetail(tenant.id),
     getRiskGrcSignals(tenant.id, slug),
+    buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
   ]);
   const r = routes.tenant(slug).cybercrow;
 
   return (
     <div className="space-y-8">
       <CybercrowPageHeader tenantSlug={slug} area="risk" title="Risk posture" />
+
+      <CybercrowM1ReadinessAlign area="risk" snapshot={trustSnapshot} />
 
       <section className="cc-glass-card">
         <h3 className="text-sm font-medium text-violet-300">

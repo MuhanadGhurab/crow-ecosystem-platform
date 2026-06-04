@@ -15,6 +15,8 @@ import {
 import { getEvidenceReadiness } from "@/lib/services/cybercrow-soc-workflow.service";
 import { getCybercrowGrcSummary } from "@/lib/services/cybercrow-tenant.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
+import { CybercrowM1ReadinessAlign } from "@/components/tenant/cybercrow/cybercrow-m1-readiness-align";
 
 const STATUS_LABEL: Record<string, string> = {
   available: "Available",
@@ -37,12 +39,13 @@ export default async function CybercrowEvidencePage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const [summary, catalog, gaps, readiness, report] = await Promise.all([
+  const [summary, catalog, gaps, readiness, report, trustSnapshot] = await Promise.all([
     getCybercrowGrcSummary(tenant.id),
     getEvidenceCatalog(tenant.id),
     getEvidenceGaps(tenant.id, slug),
     getEvidenceReadiness(tenant.id),
     getReportReadiness(tenant.id, slug),
+    buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
   ]);
   const r = routes.tenant(slug).cybercrow;
 
@@ -54,6 +57,8 @@ export default async function CybercrowEvidencePage({
         title="Evidence repository"
         emphasizeLegal
       />
+
+      <CybercrowM1ReadinessAlign area="evidence" snapshot={trustSnapshot} />
 
       <section className="rounded-lg border border-indigo-500/20 bg-indigo-950/15 px-4 py-3 text-sm text-indigo-100/90">
         <p className="font-medium text-indigo-300">Evidence readiness catalog</p>

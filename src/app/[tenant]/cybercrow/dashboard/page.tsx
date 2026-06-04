@@ -11,6 +11,7 @@ import { CybercrowRiskSummary } from "@/components/tenant/cybercrow/cybercrow-ri
 import { CybercrowSocPhilosophyBanner } from "@/components/tenant/cybercrow/cybercrow-soc-philosophy-banner";
 import { CybercrowSocWorkflowStrip } from "@/components/tenant/cybercrow/cybercrow-soc-workflow-strip";
 import { CybercrowTrustCockpitStrip } from "@/components/tenant/cybercrow/cybercrow-trust-cockpit-strip";
+import { CybercrowTenantTrustSummary } from "@/components/tenant/cybercrow/cybercrow-tenant-trust-summary";
 import { TwinEngineStrip } from "@/components/tenant/twin-engine-strip";
 import { MEEM_TENANT_SLUG } from "@/lib/constants/meem";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
@@ -33,6 +34,7 @@ import {
 } from "@/lib/services/cybercrow-tenant.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
 
 const SEVERITY_CLASS: Record<string, string> = {
   info: "text-cyan-400",
@@ -54,7 +56,7 @@ export default async function CybercrowDashboardPage({
     notFound();
   }
 
-  const [summary, metrics, identityTelemetry, canManageIncidents, soc, evidenceGaps, catalog, grcSummary] =
+  const [summary, metrics, identityTelemetry, canManageIncidents, soc, evidenceGaps, catalog, grcSummary, trustSnapshot] =
     await Promise.all([
       safeWorkspaceSummary(tenant.id),
       getCybercrowDashboardMetrics(tenant.id),
@@ -64,6 +66,7 @@ export default async function CybercrowDashboardPage({
       getEvidenceGaps(tenant.id, slug),
       getEvidenceCatalog(tenant.id),
       getCybercrowGrcSummary(tenant.id),
+      buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
     ]);
   const evidenceReadyCount = catalog.filter((c) => c.status === "available").length;
   const moduleKeys = (tenant.modules ?? []).map((m) => m.moduleKey);
@@ -121,6 +124,7 @@ export default async function CybercrowDashboardPage({
 
       <CybercrowConnectionPanel tenantSlug={slug} variant="cybercrow" />
       <CybercrowSocPhilosophyBanner compact showSareaNote />
+      {trustSnapshot && <CybercrowTenantTrustSummary tenantSlug={slug} snapshot={trustSnapshot} />}
       <CybercrowTrustCockpitStrip tenantSlug={slug} />
       <CybercrowSocWorkflowStrip
         steps={[
