@@ -9,6 +9,7 @@ import {
   saveClientDiscoveryDraft,
   submitClientDiscoveryForReview,
 } from "@/lib/services/client-discovery.service";
+import { notifyClientDiscoverySubmitted } from "@/lib/services/procrow-discovery-review.service";
 
 const listField = z
   .string()
@@ -110,6 +111,7 @@ export async function submitClientDiscoveryForReviewAction(
 
   try {
     await submitClientDiscoveryForReview(user, requestId);
+    void notifyClientDiscoverySubmitted(requestId).catch(() => {});
     revalidateClientDiscovery(requestId);
     return { ok: true };
   } catch (e) {

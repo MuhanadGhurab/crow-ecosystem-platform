@@ -907,7 +907,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** Shipped (29 May 2026)
 
-**Recommended next:** **L6 — Discovery-to-Blueprint ProCrow Review** or **tenant membership hardening**
+**Recommended next:** **L7 — Startup / Growth / Enterprise Pricing Package Templates** or **M1 — CyberCrow Identity & GRC Tenant Readiness**
+
+---
+
+## L6 — Discovery-to-Blueprint ProCrow Review (no paid infra)
+
+**Scope:** ProCrow reviews client-submitted discovery; requests changes or accepts into blueprint input — without auto-provisioning, payments, or proposal approval.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/L6_DISCOVERY_TO_BLUEPRINT_PROCROW_REVIEW.md` |
+| Contract | `src/lib/procrow/procrow-discovery-review-contract.ts` |
+| Service / actions | `procrow-discovery-review.service.ts` · `procrow-discovery-review.ts` |
+| ProCrow UI | `admin-procrow-discovery-review-panel.tsx` |
+| Verifier | `npm run procrow-discovery:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** **L7** pricing templates or **M1** CyberCrow tenant readiness
 
 ---
 

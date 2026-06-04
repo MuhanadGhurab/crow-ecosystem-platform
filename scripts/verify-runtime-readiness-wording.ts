@@ -98,10 +98,14 @@ function main(): boolean {
     pass = ok("Runtime preparation blocked error message") && pass;
   }
 
-  if (!wording.includes("submitted and waiting for ProCrow review")) {
-    pass = fail("L4 discovery status messages missing") && pass;
+  if (
+    !wording.includes("waiting for ProCrow review") ||
+    !wording.includes("changes were requested") ||
+    !wording.includes("accepted into the blueprint")
+  ) {
+    pass = fail("L4/L6 client discovery status messages missing") && pass;
   } else {
-    pass = ok("L4 client discovery status messages") && pass;
+    pass = ok("Client discovery status messages (L4/L6)") && pass;
   }
 
   if (!wording.includes("F23-gated") && !fileText("src/app/blueprints/[blueprintId]/readiness/page.tsx").includes("F23")) {

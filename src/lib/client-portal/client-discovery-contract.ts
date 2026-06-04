@@ -4,6 +4,7 @@
  */
 
 import type { ModeledSectorKey } from "@/lib/constants/sector-catalog";
+import type { ProCrowDiscoveryChangeRequest } from "@/lib/procrow/procrow-discovery-review-contract";
 
 export const CLIENT_DISCOVERY_SECTION = "client_discovery" as const;
 
@@ -196,6 +197,10 @@ export type ClientDiscoveryPageModel = {
   missingSteps: ClientDiscoveryStep[];
   nextStep: ClientDiscoveryStep | null;
   pricingHonestyCopy: string;
+  /** L6 — ProCrow change request when status is changes_requested */
+  procrowChangeRequest: ProCrowDiscoveryChangeRequest | null;
+  /** L6 — Shown when discovery is accepted into blueprint */
+  procrowAcceptedMessage: string | null;
 };
 
 export const CLIENT_DISCOVERY_PRICING_HONESTY_COPY =

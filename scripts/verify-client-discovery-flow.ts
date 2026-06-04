@@ -100,10 +100,13 @@ function main(): boolean {
   }
 
   const adminPage = fileText("src/app/admin/requests/[requestId]/page.tsx");
-  if (!adminPage.includes("AdminClientDiscoveryPanel")) {
-    pass = fail("Admin request page must surface client discovery") && pass;
+  if (
+    !adminPage.includes("AdminProcrowDiscoveryReviewPanel") &&
+    !adminPage.includes("buildProCrowDiscoveryReviewSnapshot")
+  ) {
+    pass = fail("Admin request page must surface client discovery review") && pass;
   } else {
-    pass = ok("ProCrow request workspace shows discovery status") && pass;
+    pass = ok("ProCrow request workspace shows discovery review") && pass;
   }
 
   const recs = fileText("src/lib/services/client-discovery-recommendations.ts");

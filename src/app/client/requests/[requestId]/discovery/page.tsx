@@ -42,7 +42,13 @@ export default async function ClientRequestDiscoveryPage({
         statusChip={{
           label: discoveryStatusLabel(model.draft.status),
           tone:
-            model.draft.status === "submitted_for_procrow_review" ? "warning" : "info",
+            model.draft.status === "accepted_into_blueprint"
+              ? "success"
+              : model.draft.status === "submitted_for_procrow_review" ||
+                  model.draft.status === "procrow_reviewing" ||
+                  model.draft.status === "changes_requested"
+                ? "warning"
+                : "info",
         }}
       />
 

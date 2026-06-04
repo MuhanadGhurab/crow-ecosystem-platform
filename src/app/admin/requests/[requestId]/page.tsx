@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
-import { AdminClientDiscoveryPanel } from "@/components/admin/admin-client-discovery-panel";
+import { AdminProcrowDiscoveryReviewPanel } from "@/components/admin/admin-procrow-discovery-review-panel";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
@@ -45,7 +45,7 @@ import {
   proposalStatusLabel,
 } from "@/lib/services/commercial.service";
 import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onboarding.service";
-import { getClientDiscoveryAdminSummary } from "@/lib/services/client-discovery.service";
+import { buildProCrowDiscoveryReviewSnapshot } from "@/lib/services/procrow-discovery-review.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
@@ -98,8 +98,8 @@ export default async function AdminRequestDetailPage({
   const clientApprovedAt =
     request?.enterpriseBlueprint?.clientApprovedAt ?? blueprint?.clientApprovedAt ?? null;
   const adminOnboardingTracker = await buildClientOnboardingTrackerForAdmin(requestId);
-  const clientDiscoverySummary = !isUseMockData()
-    ? await getClientDiscoveryAdminSummary(requestId).catch(() => null)
+  const procrowDiscoveryReview = !isUseMockData()
+    ? await buildProCrowDiscoveryReviewSnapshot(requestId).catch(() => null)
     : null;
   const tenantSlug = request?.enterpriseBlueprint?.tenant?.slug ?? null;
   const blueprintId = request?.enterpriseBlueprint?.id ?? mockBlueprintId;
@@ -225,7 +225,7 @@ export default async function AdminRequestDetailPage({
 
       <ProCrowWorkbenchSection title="Client interaction" description="Portal linkage, onboarding, feedback.">
         <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
-        <AdminClientDiscoveryPanel requestId={requestId} summary={clientDiscoverySummary} />
+        <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
         <AdminClientReviewFeedbackPanel requestId={requestId} />
       </ProCrowWorkbenchSection>
 

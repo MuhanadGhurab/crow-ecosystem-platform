@@ -12,6 +12,7 @@ import {
   type ClientDiscoveryPageModel,
   type ClientDiscoveryStep,
 } from "@/lib/client-portal/client-discovery-contract";
+import { PROCROW_DISCOVERY_CLIENT_CHANGES_PREFIX } from "@/lib/procrow/procrow-discovery-review-contract";
 import { CLIENT_PORTAL_EMPLOYEE_BAND_OPTIONS } from "@/lib/client-portal/client-company-profile-fields";
 import type { ClientDiscoveryStageTemplateDef } from "@/lib/constants/client-discovery-stage-templates";
 import { CEM_MODULES } from "@/lib/constants/modules";
@@ -86,6 +87,32 @@ export function ClientDiscoveryWizard({
       </nav>
 
       <ClientDiscoveryStatusBanner model={model} />
+
+      {model.procrowChangeRequest && (
+        <section className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+          <p className="font-medium">{PROCROW_DISCOVERY_CLIENT_CHANGES_PREFIX}</p>
+          <p className="mt-2 whitespace-pre-wrap text-amber-50/90">
+            {model.procrowChangeRequest.message}
+          </p>
+          {model.procrowChangeRequest.requestedSections.length > 0 && (
+            <p className="mt-2 text-xs text-amber-200/80">
+              Please revise:{" "}
+              {model.procrowChangeRequest.requestedSections
+                .map((s) => STEP_LABELS[s])
+                .join(", ")}
+            </p>
+          )}
+          <p className="mt-2 text-xs text-amber-200/70">
+            Update your answers below, then resubmit for ProCrow review.
+          </p>
+        </section>
+      )}
+
+      {model.procrowAcceptedMessage && (
+        <section className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+          {model.procrowAcceptedMessage}
+        </section>
+      )}
 
       {!model.canEdit && model.editBlockedReason && (
         <p className="cc-alert-warning text-sm">{model.editBlockedReason}</p>
@@ -381,18 +408,25 @@ function SummaryItem({ label, value }: { label: string; value: string }) {
 
 function ClientDiscoveryStatusBanner({ model }: { model: ClientDiscoveryPageModel }) {
   const tone =
-    model.draft.status === "submitted_for_procrow_review"
+    model.draft.status === "submitted_for_procrow_review" ||
+    model.draft.status === "procrow_reviewing"
       ? "warning"
-      : model.draft.status === "in_progress"
-        ? "info"
-        : "default";
+      : model.draft.status === "changes_requested"
+        ? "warning"
+        : model.draft.status === "accepted_into_blueprint"
+          ? "success"
+          : model.draft.status === "in_progress"
+            ? "info"
+            : "default";
 
   const badgeClass =
-    tone === "warning"
-      ? "border-amber-500/30 bg-amber-500/10 text-amber-100"
-      : tone === "info"
-        ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-100"
-        : "border-slate-600/50 bg-slate-800/50 text-slate-300";
+    tone === "success"
+      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-100"
+      : tone === "warning"
+        ? "border-amber-500/30 bg-amber-500/10 text-amber-100"
+        : tone === "info"
+          ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-100"
+          : "border-slate-600/50 bg-slate-800/50 text-slate-300";
 
   return (
     <div className={`rounded-xl border px-4 py-3 text-sm ${badgeClass}`}>

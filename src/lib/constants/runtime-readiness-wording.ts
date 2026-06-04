@@ -66,13 +66,13 @@ export function clientDiscoveryStatusMessage(status: ClientDiscoveryStatus): str
     case "in_progress":
       return "Client discovery is still in progress.";
     case "submitted_for_procrow_review":
-      return "Client discovery is submitted and waiting for ProCrow review.";
+      return "Client discovery is waiting for ProCrow review.";
     case "procrow_reviewing":
-      return "ProCrow is reviewing client discovery.";
+      return "Client discovery is waiting for ProCrow review.";
     case "accepted_into_blueprint":
       return "Client discovery has been accepted into the blueprint.";
     case "changes_requested":
-      return "ProCrow requested discovery changes from the client.";
+      return "Client discovery changes were requested.";
     default:
       return "Client discovery must be completed and reviewed before runtime preparation.";
   }
@@ -115,7 +115,7 @@ export function evaluateClientDiscoveryRuntimeGate(input: {
   return {
     passed: false,
     detail:
-      "Client discovery must be completed and reviewed before runtime preparation. ProCrow must confirm discovery before staging tenant preparation.",
+      "Client discovery must be accepted into the blueprint before runtime preparation.",
   };
 }
 

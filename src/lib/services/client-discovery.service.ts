@@ -26,6 +26,11 @@ import { resolveCompanyLinkStatusForRequest } from "@/lib/services/client-profil
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
 import { upsertDiscoveryAnswer } from "@/lib/services/discovery.service";
 import { buildClientDiscoveryRecommendations } from "@/lib/services/client-discovery-recommendations";
+import {
+  PROCROW_DISCOVERY_CHANGE_SECTION_ALLOWLIST,
+  PROCROW_DISCOVERY_CLIENT_ACCEPTED_MESSAGE,
+  type ProCrowDiscoveryChangeRequest,
+} from "@/lib/procrow/procrow-discovery-review-contract";
 import { isAuthDisabled } from "@/lib/supabase/env";
 
 const VALID_MODULE_KEYS = new Set(CEM_MODULES.map((m) => m.key));
@@ -71,6 +76,29 @@ function parseAnswerStringArray(
   return [];
 }
 
+function parseClientProcrowFeedbackFromAnswers(
+  answers: { sectionKey: string; questionKey: string; valueJson: unknown }[]
+): {
+  changeRequest: ProCrowDiscoveryChangeRequest | null;
+} {
+  const message = parseAnswerString(answers, "changeRequestMessage");
+  if (!message) return { changeRequest: null };
+  const sections = parseAnswerStringArray(answers, "changeRequestSections").filter(
+    (s): s is ClientDiscoveryStep =>
+      (PROCROW_DISCOVERY_CHANGE_SECTION_ALLOWLIST as readonly string[]).includes(s)
+  );
+  const requestedAt = parseAnswerString(answers, "changeRequestedAt");
+  if (!requestedAt) return { changeRequest: null };
+  return {
+    changeRequest: {
+      message,
+      requestedSections: sections,
+      requestedAt,
+      requestedBy: parseAnswerString(answers, "changeRequestedBy"),
+    },
+  };
+}
+
 export async function ensureClientDiscoveryProfile(requestId: string) {
   return prisma.discoveryProfile.upsert({
     where: { requestId },
@@ -79,7 +107,7 @@ export async function ensureClientDiscoveryProfile(requestId: string) {
   });
 }
 
-function buildDraftFromContext(
+export function buildDraftFromContext(
   requestId: string,
   request: {
     industry: string | null;
@@ -149,7 +177,9 @@ function buildDraftFromContext(
   };
 }
 
-function computeMissingSteps(draft: ClientDiscoveryDraft): ClientDiscoveryStep[] {
+export function computeClientDiscoveryMissingSteps(
+  draft: ClientDiscoveryDraft
+): ClientDiscoveryStep[] {
   const missing: ClientDiscoveryStep[] = [];
   if (!draft.employeeBand) missing.push("company_size");
   if (!draft.industryTemplate) missing.push("industry_template");
@@ -162,6 +192,9 @@ function computeMissingSteps(draft: ClientDiscoveryDraft): ClientDiscoveryStep[]
   if (!draft.sareaPreference) missing.push("sarea");
   return missing;
 }
+
+/** @deprecated Use computeClientDiscoveryMissingSteps */
+const computeMissingSteps = computeClientDiscoveryMissingSteps;
 
 export async function buildClientDiscoveryPageModel(
   user: User,
@@ -202,6 +235,8 @@ export async function buildClientDiscoveryPageModel(
       missingSteps: [],
       nextStep: "review_submit",
       pricingHonestyCopy: CLIENT_DISCOVERY_PRICING_HONESTY_COPY,
+      procrowChangeRequest: null,
+      procrowAcceptedMessage: null,
     };
   }
 
@@ -239,9 +274,30 @@ export async function buildClientDiscoveryPageModel(
   );
 
   const draft = buildDraftFromContext(requestId, request);
+  const answers = request.discoveryProfile?.answers ?? [];
+  const { changeRequest } = parseClientProcrowFeedbackFromAnswers(answers);
   const missingSteps = computeMissingSteps(draft);
+  const clientEditableStatuses = new Set([
+    "not_started",
+    "in_progress",
+    "changes_requested",
+  ]);
+  const canEdit = editDecision.canEdit && clientEditableStatuses.has(draft.status);
+
+  let editBlockedReason = editDecision.blockedReason;
+  if (draft.status === "accepted_into_blueprint") {
+    editBlockedReason = PROCROW_DISCOVERY_CLIENT_ACCEPTED_MESSAGE;
+  } else if (draft.status === "submitted_for_procrow_review") {
+    editBlockedReason =
+      "Discovery is submitted for ProCrow review. Contact ProCrow if you need changes.";
+  } else if (draft.status === "procrow_reviewing") {
+    editBlockedReason = "ProCrow is reviewing your discovery. You cannot edit until changes are requested.";
+  }
+
   const nextStep =
-    draft.status === "submitted_for_procrow_review"
+    draft.status === "submitted_for_procrow_review" ||
+    draft.status === "procrow_reviewing" ||
+    draft.status === "accepted_into_blueprint"
       ? null
       : (missingSteps[0] ?? "review_submit");
 
@@ -249,11 +305,8 @@ export async function buildClientDiscoveryPageModel(
     requestId,
     referenceCode: request.referenceCode,
     organizationName: request.organizationName,
-    canEdit: editDecision.canEdit && draft.status !== "submitted_for_procrow_review",
-    editBlockedReason:
-      draft.status === "submitted_for_procrow_review"
-        ? "Discovery is submitted for ProCrow review. Contact ProCrow if you need changes."
-        : editDecision.blockedReason,
+    canEdit,
+    editBlockedReason,
     draft,
     recommendations: buildClientDiscoveryRecommendations({
       industryTemplate: draft.industryTemplate,
@@ -262,6 +315,12 @@ export async function buildClientDiscoveryPageModel(
     missingSteps,
     nextStep,
     pricingHonestyCopy: CLIENT_DISCOVERY_PRICING_HONESTY_COPY,
+    procrowChangeRequest:
+      draft.status === "changes_requested" ? changeRequest : null,
+    procrowAcceptedMessage:
+      draft.status === "accepted_into_blueprint"
+        ? PROCROW_DISCOVERY_CLIENT_ACCEPTED_MESSAGE
+        : null,
   };
 }
 
@@ -509,6 +568,14 @@ export async function submitClientDiscoveryForReview(
   if (!request) throw new Error("Request not found.");
 
   const draft = buildDraftFromContext(requestId, request);
+  if (
+    draft.status !== "in_progress" &&
+    draft.status !== "changes_requested" &&
+    draft.status !== "not_started"
+  ) {
+    throw new Error("Discovery cannot be submitted in the current status.");
+  }
+
   const missing = computeMissingSteps(draft);
   if (missing.length > 0) {
     throw new Error(`Complete required discovery steps before submit: ${missing.join(", ")}`);
@@ -523,6 +590,7 @@ export async function submitClientDiscoveryForReview(
     where: { id: profile.id },
     data: { status: "IN_PROGRESS", summary: "Client discovery submitted for ProCrow review." },
   });
+
 }
 
 export function listClientDiscoveryIndustryOptions() {
