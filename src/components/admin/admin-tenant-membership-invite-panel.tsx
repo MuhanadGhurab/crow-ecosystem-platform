@@ -5,8 +5,21 @@ import {
   createTenantMembershipInviteAction,
   type TenantMembershipInviteState,
 } from "@/lib/actions/tenant-membership-invite";
+import {
+  createTenantInviteTokenAction,
+  revokeTenantInviteAction,
+  type TenantInviteRevokeState,
+  type TenantInviteTokenState,
+} from "@/lib/actions/tenant-invite-acceptance";
 import type { TenantMembershipAccessSummary } from "@/lib/tenant/tenant-membership-contract";
-import { TENANT_MEMBERSHIP_INVITE_DISCLAIMERS } from "@/lib/tenant/tenant-membership-invite-contract";
+import {
+  TENANT_MEMBERSHIP_INVITE_DISCLAIMERS,
+} from "@/lib/tenant/tenant-membership-invite-contract";
+import {
+  DEFAULT_TENANT_INVITE_EXPIRY_DAYS,
+  TENANT_INVITE_ACCEPTANCE_DISCLAIMERS,
+  type TenantMembershipInviteListItem,
+} from "@/lib/tenant/tenant-invite-acceptance-contract";
 
 type MembershipRow = {
   id: string;
@@ -19,132 +32,291 @@ type Props = {
   tenantSlug: string;
   accessSummary?: TenantMembershipAccessSummary | null;
   memberships: MembershipRow[];
+  pendingInvites: TenantMembershipInviteListItem[];
 };
+
+function InviteStatusBadge({ status }: { status: string }) {
+  const tone =
+    status === "pending"
+      ? "text-amber-200"
+      : status === "accepted"
+        ? "text-teal-300"
+        : status === "revoked"
+          ? "text-red-300"
+          : "text-slate-400";
+  return <span className={tone}>{status}</span>;
+}
 
 export function AdminTenantMembershipInvitePanel({
   tenantId,
   tenantSlug,
   accessSummary,
   memberships,
+  pendingInvites,
 }: Props) {
-  const [state, action, pending] = useActionState<TenantMembershipInviteState, FormData>(
-    createTenantMembershipInviteAction,
+  const [tokenState, tokenAction, tokenPending] = useActionState<TenantInviteTokenState, FormData>(
+    createTenantInviteTokenAction,
     undefined
   );
+  const [revokeState, revokeAction, revokePending] = useActionState<TenantInviteRevokeState, FormData>(
+    revokeTenantInviteAction,
+    undefined
+  );
+  const [breakGlassState, breakGlassAction, breakGlassPending] = useActionState<
+    TenantMembershipInviteState,
+    FormData
+  >(createTenantMembershipInviteAction, undefined);
 
   return (
-    <section className="rounded-xl border border-violet-500/25 bg-violet-950/15 p-4 space-y-4">
-      <div>
-        <h3 className="text-sm font-semibold text-violet-100">
-          Tenant membership invite (M4B)
-        </h3>
-        <p className="mt-1 text-xs text-slate-500">
-          Adding a tenant member grants Business Portal access only. It does not grant ProCrow,
-          platform admin, client approval rights, payments, or production access.
-        </p>
-        <p className="mt-2 text-xs text-amber-200/90">
-          After adding the membership, the user can sign in with that email. Crow email delivery is
-          not active in this phase unless you enable the Supabase invite API option below.
-        </p>
-      </div>
-
-      {accessSummary && (
-        <div className="grid gap-2 sm:grid-cols-3 text-xs">
-          <div>
-            <p className="text-slate-500">Access model</p>
-            <p className="text-slate-200">{accessSummary.membershipModel.replace(/_/g, " ")}</p>
-          </div>
-          <div>
-            <p className="text-slate-500">DB memberships</p>
-            <p className="text-slate-200">{accessSummary.activeMembershipCount}</p>
-          </div>
-          <div>
-            <p className="text-slate-500">Tenant</p>
-            <p className="font-mono text-slate-300">/{tenantSlug}</p>
-          </div>
-        </div>
-      )}
-
-      <form action={action} className="space-y-3">
-        <input type="hidden" name="tenantId" value={tenantId} />
-        <input type="hidden" name="tenantSlug" value={tenantSlug} />
+    <div className="space-y-4">
+      <section className="rounded-xl border border-cyan-500/25 bg-cyan-950/15 p-4 space-y-4">
         <div>
-          <label htmlFor="invite-email" className="mb-1 block text-xs text-slate-400">
-            Invite email
-          </label>
-          <input
-            id="invite-email"
-            name="email"
-            type="email"
-            required
-            className="input-cc w-full max-w-md"
-            placeholder="user@organization.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="invite-role" className="mb-1 block text-xs text-slate-400">
-            Tenant role
-          </label>
-          <select id="invite-role" name="role" className="input-cc max-w-md" defaultValue="tenant_user">
-            <option value="tenant_user">tenant_user</option>
-            <option value="tenant_admin">tenant_admin</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="invite-note" className="mb-1 block text-xs text-slate-400">
-            Operator note (optional)
-          </label>
-          <input
-            id="invite-note"
-            name="note"
-            type="text"
-            className="input-cc w-full max-w-md"
-            placeholder="Onboarding context for audit inbox"
-          />
-        </div>
-        <label className="flex items-start gap-2 text-xs text-slate-400">
-          <input
-            type="checkbox"
-            name="useSupabaseInviteApi"
-            className="mt-0.5 rounded border-violet-500/30"
-          />
-          <span>
-            Use Supabase invite API when no account exists (creates Auth user + membership). Does not
-            imply Crow-sent email.
-          </span>
-        </label>
-        {state?.error && <p className="text-sm text-red-400">{state.error}</p>}
-        {state?.success && <p className="text-sm text-teal-300">{state.success}</p>}
-        {state?.result?.snapshot && (
-          <p className="text-xs text-slate-500">
-            Status: <span className="text-slate-300">{state.result.snapshot.status}</span>
-            {" · "}
-            {state.result.snapshot.nextAction}
+          <h3 className="text-sm font-semibold text-cyan-100">Tenant invite link (M4C)</h3>
+          <p className="mt-1 text-xs text-slate-500">
+            Create a single-use invite link and copy it manually. Email delivery is not active — Crow
+            does not send email in this phase. The invited user signs in with the exact email, accepts,
+            and receives Business Portal access only.
           </p>
-        )}
-        <button type="submit" disabled={pending} className="cc-btn-primary text-sm disabled:opacity-50">
-          {pending ? "Adding…" : "Add tenant member"}
-        </button>
-      </form>
-
-      {memberships.length > 0 && (
-        <div>
-          <p className="text-xs font-medium text-slate-400">Existing memberships (DB)</p>
-          <ul className="mt-2 space-y-1 text-xs text-slate-500">
-            {memberships.map((m) => (
-              <li key={m.id} className="font-mono">
-                {m.supabaseUserId.slice(0, 8)}… · {m.role}
-              </li>
-            ))}
-          </ul>
         </div>
-      )}
 
-      <ul className="list-disc space-y-1 pl-4 text-xs text-slate-600">
-        {TENANT_MEMBERSHIP_INVITE_DISCLAIMERS.map((d) => (
-          <li key={d}>{d}</li>
-        ))}
-      </ul>
-    </section>
+        {accessSummary && (
+          <div className="grid gap-2 sm:grid-cols-3 text-xs">
+            <div>
+              <p className="text-slate-500">Access model</p>
+              <p className="text-slate-200">{accessSummary.membershipModel.replace(/_/g, " ")}</p>
+            </div>
+            <div>
+              <p className="text-slate-500">DB memberships</p>
+              <p className="text-slate-200">{accessSummary.activeMembershipCount}</p>
+            </div>
+            <div>
+              <p className="text-slate-500">Tenant</p>
+              <p className="font-mono text-slate-300">/{tenantSlug}</p>
+            </div>
+          </div>
+        )}
+
+        <form action={tokenAction} className="space-y-3">
+          <input type="hidden" name="tenantId" value={tenantId} />
+          <input type="hidden" name="tenantSlug" value={tenantSlug} />
+          <div>
+            <label htmlFor="m4c-invite-email" className="mb-1 block text-xs text-slate-400">
+              Invite email
+            </label>
+            <input
+              id="m4c-invite-email"
+              name="email"
+              type="email"
+              required
+              className="input-cc w-full max-w-md"
+              placeholder="user@organization.com"
+            />
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <div>
+              <label htmlFor="m4c-invite-role" className="mb-1 block text-xs text-slate-400">
+                Tenant role
+              </label>
+              <select id="m4c-invite-role" name="role" className="input-cc" defaultValue="tenant_user">
+                <option value="tenant_user">tenant_user</option>
+                <option value="tenant_admin">tenant_admin</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="m4c-invite-expiry" className="mb-1 block text-xs text-slate-400">
+                Expires (days)
+              </label>
+              <input
+                id="m4c-invite-expiry"
+                name="expiryDays"
+                type="number"
+                min={1}
+                max={90}
+                defaultValue={DEFAULT_TENANT_INVITE_EXPIRY_DAYS}
+                className="input-cc w-24"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="m4c-invite-note" className="mb-1 block text-xs text-slate-400">
+              Operator note (optional)
+            </label>
+            <input
+              id="m4c-invite-note"
+              name="note"
+              type="text"
+              className="input-cc w-full max-w-md"
+              placeholder="Onboarding context for audit inbox"
+            />
+          </div>
+          {tokenState?.error && <p className="text-sm text-red-400">{tokenState.error}</p>}
+          {tokenState?.success && <p className="text-sm text-teal-300">{tokenState.success}</p>}
+          {tokenState?.result?.inviteUrl && (
+            <div className="space-y-2 rounded-lg border border-teal-500/25 bg-teal-500/5 p-3">
+              <p className="text-xs text-teal-200/90">
+                Copy this link now — it is not stored in Crow and cannot be retrieved later.
+              </p>
+              <input
+                readOnly
+                value={tokenState.result.inviteUrl}
+                className="input-cc w-full font-mono text-xs"
+                onFocus={(e) => e.currentTarget.select()}
+              />
+              <p className="text-xs text-slate-500">
+                Expires {new Date(tokenState.result.expiresAt).toLocaleString()}
+              </p>
+            </div>
+          )}
+          <button
+            type="submit"
+            disabled={tokenPending}
+            className="cc-btn-primary text-sm disabled:opacity-50"
+          >
+            {tokenPending ? "Creating…" : "Create invite link"}
+          </button>
+        </form>
+
+        {pendingInvites.length > 0 && (
+          <div>
+            <p className="text-xs font-medium text-slate-400">Recent invites</p>
+            <ul className="mt-2 space-y-2 text-xs">
+              {pendingInvites.map((invite) => (
+                <li
+                  key={invite.id}
+                  className="flex flex-wrap items-center justify-between gap-2 rounded border border-slate-700/50 px-2 py-2"
+                >
+                  <span className="font-mono text-slate-300">{invite.email}</span>
+                  <span className="text-slate-500">{invite.role}</span>
+                  <InviteStatusBadge status={invite.status} />
+                  <span className="text-slate-600">
+                    exp {new Date(invite.expiresAt).toLocaleDateString()}
+                  </span>
+                  {invite.status === "pending" && (
+                    <form action={revokeAction}>
+                      <input type="hidden" name="inviteId" value={invite.id} />
+                      <input type="hidden" name="tenantId" value={tenantId} />
+                      <input type="hidden" name="tenantSlug" value={tenantSlug} />
+                      <button
+                        type="submit"
+                        disabled={revokePending}
+                        className="text-red-300 hover:text-red-200 disabled:opacity-50"
+                      >
+                        Revoke
+                      </button>
+                    </form>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {revokeState?.error && <p className="mt-2 text-sm text-red-400">{revokeState.error}</p>}
+            {revokeState?.success && <p className="mt-2 text-sm text-teal-300">{revokeState.success}</p>}
+          </div>
+        )}
+
+        <ul className="list-disc space-y-1 pl-4 text-xs text-slate-600">
+          {TENANT_INVITE_ACCEPTANCE_DISCLAIMERS.map((d) => (
+            <li key={d}>{d}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="rounded-xl border border-violet-500/25 bg-violet-950/15 p-4 space-y-4">
+        <div>
+          <h3 className="text-sm font-semibold text-violet-100">
+            Break-glass: immediate membership (M4B)
+          </h3>
+          <p className="mt-1 text-xs text-slate-500">
+            Grants Business Portal access only when a Supabase account already exists. Use invite links
+            above for standard onboarding. Email delivery is not active. Does not grant ProCrow,
+            platform admin, or client approval.
+          </p>
+        </div>
+
+        <form action={breakGlassAction} className="space-y-3">
+          <input type="hidden" name="tenantId" value={tenantId} />
+          <input type="hidden" name="tenantSlug" value={tenantSlug} />
+          <div>
+            <label htmlFor="invite-email" className="mb-1 block text-xs text-slate-400">
+              Email
+            </label>
+            <input
+              id="invite-email"
+              name="email"
+              type="email"
+              required
+              className="input-cc w-full max-w-md"
+              placeholder="user@organization.com"
+            />
+          </div>
+          <div>
+            <label htmlFor="invite-role" className="mb-1 block text-xs text-slate-400">
+              Tenant role
+            </label>
+            <select id="invite-role" name="role" className="input-cc max-w-md" defaultValue="tenant_user">
+              <option value="tenant_user">tenant_user</option>
+              <option value="tenant_admin">tenant_admin</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="invite-note" className="mb-1 block text-xs text-slate-400">
+              Operator note (optional)
+            </label>
+            <input
+              id="invite-note"
+              name="note"
+              type="text"
+              className="input-cc w-full max-w-md"
+              placeholder="Onboarding context for audit inbox"
+            />
+          </div>
+          <label className="flex items-start gap-2 text-xs text-slate-400">
+            <input
+              type="checkbox"
+              name="useSupabaseInviteApi"
+              className="mt-0.5 rounded border-violet-500/30"
+            />
+            <span>
+              Use Supabase invite API when no account exists (creates Auth user + membership). Does not
+              imply Crow-sent email.
+            </span>
+          </label>
+          {breakGlassState?.error && <p className="text-sm text-red-400">{breakGlassState.error}</p>}
+          {breakGlassState?.success && <p className="text-sm text-teal-300">{breakGlassState.success}</p>}
+          {breakGlassState?.result?.snapshot && (
+            <p className="text-xs text-slate-500">
+              Status: <span className="text-slate-300">{breakGlassState.result.snapshot.status}</span>
+              {" · "}
+              {breakGlassState.result.snapshot.nextAction}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={breakGlassPending}
+            className="cc-btn-secondary text-sm disabled:opacity-50"
+          >
+            {breakGlassPending ? "Adding…" : "Add member immediately"}
+          </button>
+        </form>
+
+        {memberships.length > 0 && (
+          <div>
+            <p className="text-xs font-medium text-slate-400">Existing memberships (DB)</p>
+            <ul className="mt-2 space-y-1 text-xs text-slate-500">
+              {memberships.map((m) => (
+                <li key={m.id} className="font-mono">
+                  {m.supabaseUserId.slice(0, 8)}… · {m.role}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <ul className="list-disc space-y-1 pl-4 text-xs text-slate-600">
+          {TENANT_MEMBERSHIP_INVITE_DISCLAIMERS.map((d) => (
+            <li key={d}>{d}</li>
+          ))}
+        </ul>
+      </section>
+    </div>
   );
 }

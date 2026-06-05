@@ -1133,22 +1133,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4C — Tenant Invite Acceptance Token / Email Delivery** or **M3.6 — Purchase-to-Stock UX Refinement** or **M3.4B — Approved Workflow Persistence Migration**
 
 ---
-## M4C — Tenant Invite Acceptance Token / Email Delivery (proposal gate)
+## M4C — Tenant Invite Acceptance Token / Email Delivery
 
-**Scope:** Safe tenant invite acceptance: persisted invite token (hash only), expiry/status lifecycle, `/tenant-invite/[token]` acceptance route, membership activation only after authenticated email match. Manual copy-link mode first; no Crow email-sent claims without provider (M4D).
+**Scope:** Safe tenant invite acceptance: persisted invite token (hash only), expiry/status lifecycle, `/tenant-invite/[token]` acceptance route, membership activation only after authenticated email match. Manual copy-link mode; no Crow email-sent claims (M4D for provider).
 
 | Deliverable | Location |
 |-------------|----------|
-| Schema proposal | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md` |
+| Migration | `prisma/migrations/20260605120000_tenant_membership_invite/` |
+| Contract | `src/lib/tenant/tenant-invite-acceptance-contract.ts` |
+| Token service | `src/lib/services/tenant-invite-token.service.ts` |
+| Actions | `src/lib/actions/tenant-invite-acceptance.ts` |
+| Accept route | `src/app/tenant-invite/[token]/page.tsx` |
+| ProCrow UI | `src/components/admin/admin-tenant-membership-invite-panel.tsx` |
 | Phase doc | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_TOKEN_EMAIL_DELIVERY.md` |
-| Proposal verifier | `scripts/verify-tenant-invite-acceptance.ts` |
+| Verifier | `scripts/verify-tenant-invite-acceptance.ts` |
 | Verification | `npm run tenant-invite-acceptance:verify` |
 
-**Status:** **PROPOSAL-ONLY PASS** (5 Jun 2026) — migration approval **pending**; no `TenantMembershipInvite` DDL applied
+**Status:** Shipped (5 Jun 2026) — manual copy-link mode; M4B break-glass immediate grant coexists
 
-**Blocked until approval:** contract, token service, actions, `/tenant-invite/[token]`, ProCrow copy-link UI
-
-**Recommended next:** Approve migration → complete M4C implementation · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M3.4B — Approved Workflow Persistence Migration**
+**Recommended next:** **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M3.4B — Approved Workflow Persistence Migration**
 
 ---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)

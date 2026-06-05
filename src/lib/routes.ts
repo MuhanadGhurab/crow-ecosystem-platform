@@ -32,6 +32,7 @@ export const routes = {
     settings: "/client/settings",
   },
   access: "/access",
+  tenantInvite: (token: string) => `/tenant-invite/${token}`,
   public: {
     home: "/",
     modules: "/modules",

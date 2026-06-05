@@ -452,6 +452,7 @@ model Tenant {
   incidents          Incident[]
   sareaProfiles      SareaExperienceProfile[]
   memberships        TenantMembership[]
+  membershipInvites  TenantMembershipInvite[]
   hrEmployees        HrEmployee[]
   crmAccounts        CrmAccount[]
   crmContacts        CrmContact[]
@@ -477,6 +478,40 @@ model TenantMembership {
   @@unique([supabaseUserId, tenantId])
   @@index([supabaseUserId])
   @@map("tenant_memberships")
+}
+
+enum TenantMembershipInviteStatus {
+  pending
+  accepted
+  revoked
+  expired
+}
+
+/// M4C — durable invite token row; membership created only on acceptance.
+model TenantMembershipInvite {
+  id               String                       @id @default(cuid())
+  tenantId         String
+  email            String
+  role             String
+  tokenHash        String                       @unique
+  status           TenantMembershipInviteStatus @default(pending)
+  expiresAt        DateTime
+  invitedByUserId  String
+  acceptedByUserId String?
+  acceptedAt       DateTime?
+  revokedAt        DateTime?
+  revokedByUserId  String?
+  operatorNote     String?
+  createdAt        DateTime                     @default(now())
+  updatedAt        DateTime                     @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([email])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("tenant_membership_invites")
 }
 
 model OrganizationModule {
