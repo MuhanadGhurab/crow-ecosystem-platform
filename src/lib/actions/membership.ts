@@ -76,7 +76,9 @@ export async function inviteTenantUserAction(
   }
 
   revalidatePath(routes.tenant(slug).users);
-  return { success: `Invitation sent to ${email}.` };
+  return {
+    success: `${email} membership prepared for /${slug} as ${role}. Crow does not send email in this phase — confirm Supabase Auth delivery if needed.`,
+  };
 }
 
 export async function promoteClientToTenantAction(

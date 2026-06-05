@@ -1114,6 +1114,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4B — Tenant Membership Invite / Onboarding Flow** or **M3.4B — Approved Workflow Persistence Migration** or **M3.6 — Purchase-to-Stock UX Refinement**
 
 ---
+## M4B — Tenant Membership Invite / Onboarding Flow (no paid infra)
+
+**Scope:** ProCrow-controlled tenant member onboarding: invite by email with `tenant_user` or `tenant_admin`, PATH A membership grant via existing helpers, guarded server action, audit log, honest email copy. No migrations, no public self-join, no email-domain membership, no ProCrow/platform_admin/client-approval escalation.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M4B_TENANT_MEMBERSHIP_INVITE_ONBOARDING_FLOW.md` |
+| Contract | `src/lib/tenant/tenant-membership-invite-contract.ts` |
+| Service | `src/lib/services/tenant-membership-invite.service.ts` |
+| Server action | `src/lib/actions/tenant-membership-invite.ts` |
+| ProCrow panel | `src/components/admin/admin-tenant-membership-invite-panel.tsx` |
+| Admin wiring | `src/app/admin/tenants/[tenantId]/page.tsx` |
+| Verification | `npm run tenant-invite:verify` |
+
+**Status:** Shipped (5 Jun 2026) — PATH A (existing `TenantMembership`), no migration
+
+**Recommended next:** **M4C — Tenant Invite Acceptance Token / Email Delivery** or **M3.6 — Purchase-to-Stock UX Refinement** or **M3.4B — Approved Workflow Persistence Migration**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

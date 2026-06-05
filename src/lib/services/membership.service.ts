@@ -20,6 +20,15 @@ export async function listTenantMemberships(tenantId: string) {
   });
 }
 
+/** Resolve Supabase Auth user by email (admin API listUsers scan). */
+export async function lookupSupabaseUserByEmail(email: string) {
+  const admin = getSupabaseAdmin();
+  const normalized = email.trim().toLowerCase();
+  const { data, error } = await admin.auth.admin.listUsers();
+  if (error) throw new Error(error.message);
+  return data.users.find((u) => u.email?.toLowerCase() === normalized) ?? null;
+}
+
 /** Grant a Supabase user access to a tenant (DB row + app_metadata sync). */
 export async function grantTenantAccess(
   supabaseUserId: string,

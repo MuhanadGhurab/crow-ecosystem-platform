@@ -52,6 +52,7 @@ import { buildCemTransactionWorkflowSummaryForTenantId } from "@/lib/services/ce
 import { AdminCemWorkflowPersistencePanel } from "@/components/admin/admin-cem-workflow-persistence-panel";
 import { buildCemWorkflowPersistenceSummaryForTenantId } from "@/lib/services/cem-workflow-persistence.service";
 import { AdminTenantMembershipAccessPanel } from "@/components/admin/admin-tenant-membership-access-panel";
+import { AdminTenantMembershipInvitePanel } from "@/components/admin/admin-tenant-membership-invite-panel";
 import { buildTenantMembershipAccessSummaryForTenantId } from "@/lib/services/tenant-membership-access.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
@@ -210,6 +211,12 @@ export default async function AdminTenantDetailPage({
           {tenantMembershipAccessSummary && (
             <AdminTenantMembershipAccessPanel summary={tenantMembershipAccessSummary} />
           )}
+          <AdminTenantMembershipInvitePanel
+            tenantId={tenant.id}
+            tenantSlug={tenant.slug}
+            accessSummary={tenantMembershipAccessSummary}
+            memberships={memberships}
+          />
           {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
           {sareaExperienceMapping && (
             <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
