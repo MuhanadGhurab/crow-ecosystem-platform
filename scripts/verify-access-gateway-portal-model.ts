@@ -96,10 +96,19 @@ function main(): boolean {
     pass = ok("Public header role-aware CTA") && pass;
   }
 
-  if (!landing.includes("Open workspace")) {
+  const lite = fileText("src/lib/portal/portal-access-lite.ts");
+  const hasOpenWorkspaceCta =
+    landing.includes("Open workspace") || lite.includes("Open workspace");
+  if (!hasOpenWorkspaceCta) {
     pass = fail("Multi-portal CTA should offer Open workspace → /access") && pass;
   } else {
     pass = ok("Open workspace CTA for multiple portals") && pass;
+  }
+
+  if (!existsSync(join(ROOT, "src/lib/portal/portal-access-lite.ts"))) {
+    pass = fail("portal-access-lite.ts required for lightweight header/post-login") && pass;
+  } else {
+    pass = ok("portal-access-lite split present") && pass;
   }
 
   const protection = fileText("src/lib/auth/route-protection.ts");

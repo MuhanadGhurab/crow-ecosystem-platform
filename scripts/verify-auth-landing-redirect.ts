@@ -39,6 +39,9 @@ function main() {
   check(pkg.includes('"auth-landing:verify"'), "package.json defines auth-landing:verify", "Add npm script");
 
   const landing = fileText("src/lib/auth/post-login-redirect.ts");
+  const portalCtaSource = existsSync(join(ROOT, "src/lib/portal/portal-access-lite.ts"))
+    ? `${landing}\n${fileText("src/lib/portal/portal-access-lite.ts")}`
+    : landing;
   check(
     landing.includes("resolvePostAuthLanding") && landing.includes("getAuthenticatedPortalCta"),
     "Centralized post-auth landing helpers",
@@ -60,12 +63,12 @@ function main() {
     "Handle missing role with login error"
   );
   check(
-    landing.includes('label: "ProCrow"') && landing.includes("isPlatformConsoleRole"),
+    portalCtaSource.includes('label: "ProCrow"') && portalCtaSource.includes("isPlatformConsoleRole"),
     "ProCrow CTA only for platform console roles",
     "getAuthenticatedPortalCta must gate ProCrow label"
   );
   check(
-    !landing.includes('label: "ProCrow"') || landing.includes("isClient(role)"),
+    !portalCtaSource.includes('label: "ProCrow"') || portalCtaSource.includes("isClient(role)"),
     "Portal CTA distinguishes client vs platform",
     "Portal CTA role branching"
   );

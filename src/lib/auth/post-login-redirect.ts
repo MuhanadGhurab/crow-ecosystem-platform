@@ -21,19 +21,13 @@ import {
   isPortalPath,
 } from "@/lib/auth/route-protection";
 import { routes } from "@/lib/routes";
-import {
-  buildCrowAccessGatewaySnapshot,
-  shouldRouteToAccessGateway,
-  singlePortalRoute,
-} from "@/lib/services/portal-access.service";
+import { shouldRouteToAccessGateway } from "@/lib/portal/portal-access-lite";
 
 const DEFAULT_STAFF_OVERVIEW = routes.admin.overview;
 const DEFAULT_CLIENT_HOME = routes.client.home;
 
-export type AuthenticatedPortalCta = {
-  href: string;
-  label: string;
-};
+export type { AuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
+export { getAuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
 
 /** Client-only landing paths — must not override platform staff post-login. */
 function isClientPortalNext(path: string): boolean {
@@ -187,35 +181,6 @@ function landingWithAccessGateway(
 
 /** K2.5 — preferred name for post sign-in / sign-up / OAuth landing. */
 export const resolvePostAuthLanding = resolvePostLoginDestination;
-
-/**
- * Role-based portal CTA for public header (never exposes ProCrow to clients).
- */
-export function getAuthenticatedPortalCta(user: User): AuthenticatedPortalCta | null {
-  const { role } = getCrowAuth(user);
-  if (!role) return null;
-
-  if (shouldRouteToAccessGateway(user)) {
-    return { href: routes.access, label: "Open workspace" };
-  }
-
-  const single = singlePortalRoute(user);
-  if (single) {
-    const snapshot = buildCrowAccessGatewaySnapshot(user);
-    const label = snapshot.availablePortals[0]?.label ?? "Your portal";
-    return { href: single, label };
-  }
-
-  if (isPlatformConsoleRole(role)) {
-    return { href: DEFAULT_STAFF_OVERVIEW, label: "ProCrow" };
-  }
-
-  if (isClient(role)) {
-    return { href: DEFAULT_CLIENT_HOME, label: "Client Portal" };
-  }
-
-  return null;
-}
 
 /** @deprecated Use resolvePostLoginDestination — kept for existing imports. */
 export const resolvePostLoginPath = resolvePostLoginDestination;

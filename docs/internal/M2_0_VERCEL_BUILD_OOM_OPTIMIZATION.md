@@ -36,12 +36,14 @@ Production deployment on Vercel failed **after** database steps completed succes
 
 - `productionBrowserSourceMaps: false` — avoids shipping source maps in production builds
 - `experimental.webpackMemoryOptimizations: true` — reduces peak webpack memory during compile
-- `experimental.webpackBuildWorker: true` — isolates webpack work when compatible with the default config
+- `serverExternalPackages: ["@prisma/client", "prisma"]` — keeps Prisma out of the webpack server bundle graph
+- **On Vercel (`VERCEL=1`):** `experimental.cpus: 1` and `webpackBuildWorker: false` — standard builders have **8 GB total RAM**; a second webpack worker plus a 6 GB Node heap can exceed cgroup limits and trigger SIGKILL
+- **Local / non-Vercel:** `webpackBuildWorker: true` — still isolates webpack when more RAM is available
 
 ### Build command (`package.json` + `scripts/next-build-with-memory.mjs`)
 
 - `npm run build` now runs through `scripts/next-build-with-memory.mjs`
-- Sets `NODE_OPTIONS=--max-old-space-size=6144` when not already set (Vercel-safe ceiling)
+- Sets `NODE_OPTIONS=--max-old-space-size=4096` on Vercel (`VERCEL=1`) and `6144` locally when not already set
 - Preserves `--use-system-ca` for Next CLI invocation
 - Does **not** set `ignoreBuildErrors` or hide type failures
 
@@ -109,11 +111,28 @@ Verifier: `scripts/verify-vercel-build-memory-guard.ts` (`npm run build-memory:v
 
 ---
 
+## M2.0.1 follow-up (commit `a506ae9` still OOM on Vercel)
+
+After the first M2.0 push, Vercel **2-core / 8 GB** builders still SIGKILL’d `next build` ~108s into webpack compile. DB steps remained green.
+
+**Likely cause:** `max-old-space-size=6144` reserves most of cgroup RAM for one Node process; `webpackBuildWorker: true` adds a second Node process. Total RSS (heap + workers + OS) exceeded 8 GB.
+
+**M2.0.1 adjustments (same milestone, no product behavior change):**
+
+| Change | Why |
+|--------|-----|
+| Vercel heap 4096 MB | Leaves headroom for non-heap memory and avoids cgroup SIGKILL |
+| `webpackBuildWorker: false` on Vercel | Single-process compile on constrained builders |
+| `cpus: 1` on Vercel | Limits parallel compile workers |
+| `serverExternalPackages` for Prisma | Shrinks webpack server graph |
+
+---
+
 ## Remaining risks
 
 - **Environment-specific OOM:** Local builds may pass on a machine with more RAM while Vercel still approaches limits on very large future diffs. Monitor build duration and memory after redeploy.
 - **Studio loader is still server-heavy at runtime:** Build graph is leaner; runtime still loads the full mapping service when studio snapshots are requested — intentional for M2 fidelity.
-- **webpackBuildWorker:** If a future custom webpack hook conflicts, disable only that flag — keep `webpackMemoryOptimizations` and source map disable.
+- **Slower Vercel builds:** Disabling `webpackBuildWorker` and `cpus: 1` trades build time for peak memory — acceptable until graph slimming or larger builders.
 - **Further growth:** Additional modules importing `sarea-experience-mapping.service` into many routes could regress compile memory; run `build-memory:verify` in CI or pre-deploy checks.
 
 ---

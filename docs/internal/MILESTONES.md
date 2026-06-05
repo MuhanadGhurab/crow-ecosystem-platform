@@ -980,6 +980,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
+
+**Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/P0_PRODUCTION_BUILD_RECOVERY_L5_PLUS.md` |
+| L5 lite split | `src/lib/portal/portal-access-lite.ts` |
+| Vercel build tuning | `next.config.ts` · `scripts/next-build-with-memory.mjs` |
+| Verifiers | `build-memory:verify` · `access-gateway:verify` · full L5–M2 suite |
+
+**Status:** Fix shipped locally (5 Jun 2026); **Vercel production Ready** = P0 pass gate. **M3 blocked** until green.
+
+**Recommended next:** Confirm Vercel deploy · smoke `/access`, `/admin/go-no-go`, `/sarea/overview`
+
+---
+
 ## M2.0 — Vercel Build OOM Optimization (no paid infra)
 
 **Scope:** Fix Vercel production build SIGKILL/OOM after M2 without weakening auth, migrations, or M2 product behavior.
@@ -992,9 +1009,9 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Studio loader / Go-No-Go split | `sarea-experience-studio-loader.ts` · `sarea-experience-go-no-go.ts` |
 | Verifier | `npm run build-memory:verify` |
 
-**Status:** Shipped (29 May 2026)
+**Status:** Shipped (29 May 2026); **M2.0.1 tuning** after `a506ae9` still OOM on 8 GB Vercel builders (Vercel heap 4096, disable `webpackBuildWorker`, `cpus: 1`, `serverExternalPackages`)
 
-**Recommended next:** Redeploy Vercel `main` · monitor build memory · **M3** or **M2.1**
+**Recommended next:** Redeploy Vercel `main` · confirm build green · **M3** or **M2.1**
 
 ---
 

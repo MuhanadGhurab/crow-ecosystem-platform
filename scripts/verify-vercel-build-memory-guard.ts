@@ -101,6 +101,21 @@ function main(): boolean {
       "No typescript ignoreBuildErrors suppression",
       "Remove ignoreBuildErrors from next.config"
     );
+    check(
+      nextCfg.includes("serverExternalPackages"),
+      "serverExternalPackages configured for Prisma",
+      "Externalize @prisma/client and prisma in next.config"
+    );
+    check(
+      nextCfg.includes("VERCEL") && nextCfg.includes("webpackBuildWorker: false"),
+      "Vercel build disables webpackBuildWorker",
+      "Set webpackBuildWorker: false when VERCEL=1 to avoid dual-process OOM on 8 GB builders"
+    );
+    check(
+      nextCfg.includes("cpus: 1"),
+      "Vercel build limits compile parallelism (cpus: 1)",
+      "Set experimental.cpus: 1 when VERCEL=1"
+    );
   }
 
   const pkg = fileText("package.json");
@@ -113,7 +128,11 @@ function main(): boolean {
   check(existsSync(join(ROOT, "scripts/next-build-with-memory.mjs")), "next-build-with-memory.mjs exists", "Add memory wrapper script");
 
   const memScript = fileText("scripts/next-build-with-memory.mjs");
-  check(memScript.includes("max-old-space-size=6144"), "Heap ceiling 6144 MB in build wrapper", "Set NODE_OPTIONS max-old-space-size=6144");
+  check(
+    memScript.includes("heapMb") && memScript.includes("4096") && memScript.includes("6144"),
+    "Vercel-aware heap ceilings (4096 Vercel / 6144 local)",
+    "Set 4096 MB heap on VERCEL=1 and 6144 MB locally in next-build-with-memory.mjs"
+  );
 
   for (const rel of SERVER_ONLY_SERVICES) {
     check(existsSync(join(ROOT, rel)), `Found ${rel}`, `Missing ${rel}`);

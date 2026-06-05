@@ -11,14 +11,20 @@ import {
   PROCROW_PORTAL_DESCRIPTION,
 } from "@/lib/portal/portal-access-contract";
 import {
-  canAccessPortalPath,
+  countAvailablePortals,
+  isClientOnlyUser,
+  isProcrowVisibleToUser,
+  shouldRouteToAccessGateway,
+  singlePortalRoute,
+} from "@/lib/portal/portal-access-lite";
+import {
   canAccessPlatformPath,
+  canAccessPortalPath,
 } from "@/lib/auth/permissions";
 import {
   getCrowAuth,
   isClient,
   isPlatformConsoleRole,
-  isPlatformStaff,
   PROCROW_PORTAL_ALLOWED_ROLES,
   type CrowRole,
 } from "@/lib/auth/roles";
@@ -29,7 +35,9 @@ function hasClientPortalAccess(role: CrowRole | null): boolean {
 }
 
 function hasProcrowPortalAccess(role: CrowRole | null): boolean {
-  return Boolean(role && isPlatformConsoleRole(role) && canAccessPlatformPath(role, routes.admin.overview));
+  return Boolean(
+    role && isPlatformConsoleRole(role) && canAccessPlatformPath(role, routes.admin.overview)
+  );
 }
 
 function hasBusinessPortalAccess(role: CrowRole | null, tenantSlugs: string[]): boolean {
@@ -94,7 +102,7 @@ function choosePrimaryPortal(available: CrowPortalOption[]): CrowPortalKind | nu
   return sorted[0].kind;
 }
 
-/** Build gateway snapshot for /access and header CTAs. */
+/** Build gateway snapshot for /access only (full portal cards). */
 export function buildCrowAccessGatewaySnapshot(user: User | null): CrowAccessGatewaySnapshot {
   if (!user) {
     const signedOut: CrowPortalOption[] = [
@@ -193,29 +201,10 @@ export function buildCrowAccessGatewaySnapshot(user: User | null): CrowAccessGat
   };
 }
 
-export function countAvailablePortals(user: User | null): number {
-  return buildCrowAccessGatewaySnapshot(user).availablePortals.length;
-}
-
-export function shouldRouteToAccessGateway(user: User | null): boolean {
-  return countAvailablePortals(user) > 1;
-}
-
-/** Single-portal default route when only one portal is available. */
-export function singlePortalRoute(user: User | null): string | null {
-  const snapshot = buildCrowAccessGatewaySnapshot(user);
-  if (snapshot.availablePortals.length !== 1) return null;
-  return snapshot.availablePortals[0].route;
-}
-
-export function isProcrowVisibleToUser(user: User | null): boolean {
-  if (!user) return false;
-  const { role } = getCrowAuth(user);
-  return hasProcrowPortalAccess(role);
-}
-
-export function isClientOnlyUser(user: User | null): boolean {
-  if (!user) return false;
-  const { role } = getCrowAuth(user);
-  return isClient(role) && !isPlatformStaff(role);
-}
+export {
+  countAvailablePortals,
+  isClientOnlyUser,
+  isProcrowVisibleToUser,
+  shouldRouteToAccessGateway,
+  singlePortalRoute,
+};

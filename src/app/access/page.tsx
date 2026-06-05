@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PortalAccessGateway } from "@/components/portal/portal-access-gateway";
+
+export const dynamic = "force-dynamic";
 import { ProductPageHeader } from "@/components/product/product-page-header";
 import { getSessionUser } from "@/lib/auth/session";
 import { buildCrowAccessGatewaySnapshot } from "@/lib/services/portal-access.service";
