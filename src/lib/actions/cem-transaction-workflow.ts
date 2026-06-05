@@ -9,6 +9,7 @@ import {
   ensurePurchaseToStockWorkflow,
   PURCHASE_TO_STOCK_REPORT_PREFIX,
   purchaseToStockWorkflowRoute,
+  updatePurchaseToStockLineage,
 } from "@/lib/services/cem-transaction-workflow.service";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import {
@@ -75,8 +76,12 @@ export async function createPurchaseToStockRequestAction(
     });
 
     const workflow = await ensurePurchaseToStockWorkflow(tenant.id);
+    const workflowWithSteps = await prisma.workflow.findUniqueOrThrow({
+      where: { id: workflow.id },
+      include: { steps: { orderBy: { orderIndex: "asc" } } },
+    });
 
-    await prisma.task.create({
+    const task = await prisma.task.create({
       data: {
         tenantId: tenant.id,
         workflowId: workflow.id,
@@ -95,12 +100,27 @@ export async function createPurchaseToStockRequestAction(
       requestedByRole: "requester",
     };
 
-    await prisma.report.create({
+    const report = await prisma.report.create({
       data: {
         tenantId: tenant.id,
         name: `${PURCHASE_TO_STOCK_REPORT_PREFIX}${referenceCode}`,
-        configJson: buildPurchaseToStockReportConfig(meta),
+        configJson: buildPurchaseToStockReportConfig(meta, {
+          workflowId: workflow.id,
+          primaryTaskId: task.id,
+          workflowStepIds: workflowWithSteps.steps.map((s) => s.id),
+          lastActionKey: "create_request",
+          lastAdvancedAt: new Date().toISOString(),
+        }),
       },
+    });
+
+    await updatePurchaseToStockLineage(tenant.id, pr.id, {
+      workflowId: workflow.id,
+      primaryTaskId: task.id,
+      reportId: report.id,
+      workflowStepIds: workflowWithSteps.steps.map((s) => s.id),
+      lastActionKey: "create_request",
+      lastAdvancedAt: new Date().toISOString(),
     });
 
     await prisma.cybercrowAuditLog.create({
@@ -218,6 +238,22 @@ export async function advancePurchaseToStockStageAction(
     } else {
       return { error: "Stage transition not allowed from current status." };
     }
+
+    const lineagePatch: {
+      lastActionKey: string;
+      lastAdvancedAt: string;
+      approvalId?: string;
+      workflowId: string;
+    } = {
+      lastActionKey: actionKey,
+      lastAdvancedAt: new Date().toISOString(),
+      workflowId: workflow.id,
+    };
+    if (actionKey === "approve_finance") {
+      const refreshed = await getPurchaseRequestById(tenant.id, pr.id);
+      if (refreshed?.linkedFinanceRef) lineagePatch.approvalId = refreshed.linkedFinanceRef;
+    }
+    await updatePurchaseToStockLineage(tenant.id, pr.id, lineagePatch);
 
     await prisma.cybercrowAuditLog.create({
       data: {

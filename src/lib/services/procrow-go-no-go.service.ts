@@ -161,6 +161,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
         "Review transaction workflow panel on ProCrow tenant workbench; walk /workflows/purchase-to-stock on a seeded tenant; run npm run cem-transaction:verify after M3.3 changes.",
     }),
     d({
+      key: "cem-workflow-persistence-m34",
+      category: "tenant_runtime",
+      label: "CEM workflow persistence / transaction schema (M3.4)",
+      status: "needs_review",
+      description:
+        "Workflow persistence confirms transaction lineage for staging operations using existing schema and report lineage metadata. It does not approve production launch, payment, accounting, or inventory mutation. Warning until stable links are verified; blocked if M3.4B schema migration is required without approval.",
+      relatedCommand: "npm run cem-workflow-persistence:verify",
+      operatorAction:
+        "Review workflow persistence panel on ProCrow tenant workbench; confirm purchase-to-stock UI shows persisted vs advisory links; run npm run cem-workflow-persistence:verify after M3.4 changes.",
+    }),
+    d({
       key: "cem-runtime-handoff-m3",
       category: "tenant_runtime",
       label: "CEM runtime handoff & Business Portal staging readiness (M3)",

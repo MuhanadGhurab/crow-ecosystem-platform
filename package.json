@@ -114,6 +114,7 @@
     "cem-operating-model:verify": "npx tsx scripts/verify-cem-operating-model.ts",
     "cem-module-depth:verify": "npx tsx scripts/verify-cem-module-depth.ts",
     "cem-transaction:verify": "npx tsx scripts/verify-cem-transaction-workflow.ts",
+    "cem-workflow-persistence:verify": "npx tsx scripts/verify-cem-workflow-persistence.ts",
     "build-memory:verify": "npx tsx scripts/verify-vercel-build-memory-guard.ts",
     "sarea:ux-verify": "npx tsx scripts/verify-sarea-ux-depth.ts",
     "procrow-workbench:verify": "npx tsx scripts/verify-procrow-workbench-ux.ts",

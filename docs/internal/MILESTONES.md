@@ -1051,8 +1051,30 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Status:** **PASSED** (5 Jun 2026)
 
 **Recommended next:** **M3.4 — CEM Workflow Persistence / Transaction Schema** or **M4 — Tenant Membership & Business Portal Access Hardening**
----
 
+---
+## M3.4 — CEM Workflow Persistence / Transaction Schema (no paid infra)
+
+**Scope:** Harden purchase-to-stock transaction lineage persistence using existing schema (PATH A) and report lineage metadata. Staging workflow persistence prototype — not payments, accounting posting, legal PO issuance, or production stock mutation. No migration unless M3.4B explicitly approved.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M3_4_CEM_WORKFLOW_PERSISTENCE_TRANSACTION_SCHEMA.md` |
+| Migration proposal (M3.4B only) | `docs/internal/M3_4_WORKFLOW_PERSISTENCE_MIGRATION_PROPOSAL.md` |
+| Contract | `src/lib/cem/cem-workflow-persistence-contract.ts` |
+| Lineage helper | `src/lib/cem/cem-workflow-lineage.ts` |
+| Audit service | `src/lib/services/cem-workflow-persistence.service.ts` |
+| Action hardening | `src/lib/actions/cem-transaction-workflow.ts` + `updatePurchaseToStockLineage` |
+| ProCrow tenant panel | `src/components/admin/admin-cem-workflow-persistence-panel.tsx` |
+| Business Portal panel | `src/components/tenant/cem-workflow-persistence-panel.tsx` |
+| Go/No-Go gate | `cem-workflow-persistence-m34` in `procrow-go-no-go.service.ts` |
+| Verification | `npm run cem-workflow-persistence:verify` |
+
+**Status:** Shipped (5 Jun 2026) — PATH A, no migration applied
+
+**Recommended next:** **M3.4B — Approved Workflow Persistence Migration** or **M4 — Tenant Membership & Business Portal Access Hardening**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

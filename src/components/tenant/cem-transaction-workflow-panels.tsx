@@ -1,10 +1,24 @@
 import Link from "next/link";
+import type { CemWorkflowPersistenceLink } from "@/lib/cem/cem-workflow-persistence-contract";
 import type { CemTransactionWorkflowSnapshot } from "@/lib/cem/cem-transaction-workflow-contract";
 import { routes } from "@/lib/routes";
 
 type Props = {
   snapshot: CemTransactionWorkflowSnapshot;
+  persistenceLinks?: CemWorkflowPersistenceLink[];
 };
+
+function lineageLabel(status: CemWorkflowPersistenceLink["status"] | undefined): string {
+  if (!status) return "advisory";
+  if (status === "linked") return "persisted (tenant-backed)";
+  if (status === "inferred") return "inferred / advisory";
+  if (status === "missing") return "missing — persistence hardening required";
+  return "proposed";
+}
+
+function findLink(links: CemWorkflowPersistenceLink[] | undefined, type: CemWorkflowPersistenceLink["linkType"]) {
+  return links?.find((l) => l.linkType === type);
+}
 
 export function CemTransactionStageTimeline({ snapshot }: Props) {
   return (
@@ -41,24 +55,33 @@ export function CemTransactionStageTimeline({ snapshot }: Props) {
   );
 }
 
-export function CemTransactionEvidencePanel({ snapshot }: Props) {
+export function CemTransactionEvidencePanel({ snapshot, persistenceLinks }: Props) {
+  const evidenceLink = findLink(persistenceLinks, "workflow_to_cybercrow_evidence");
+  const lineage = lineageLabel(evidenceLink?.status);
   return (
-    <ul className="space-y-2">
-      {snapshot.cyberCrowEvidence.map((hook) => (
-        <li key={hook.key} className="rounded-lg border border-violet-500/15 bg-violet-500/5 p-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm font-medium text-violet-200">{hook.label}</p>
-            <span className="text-xs capitalize text-slate-400">{hook.readiness}</span>
-          </div>
-          <p className="mt-1 text-xs text-slate-400">{hook.description}</p>
-          {hook.route && (
-            <Link href={hook.route} className="mt-2 inline-block text-xs text-violet-300 hover:text-violet-200">
-              Evidence readiness →
-            </Link>
-          )}
-        </li>
-      ))}
-    </ul>
+    <>
+      <p className="mb-3 text-xs text-slate-500">
+        Evidence hook lineage: <span className="text-slate-300">{lineage}</span>
+        {evidenceLink?.notes ? ` — ${evidenceLink.notes}` : ""}
+        . Advisory evidence posture only — not regulator attestation or certified compliance.
+      </p>
+      <ul className="space-y-2">
+        {snapshot.cyberCrowEvidence.map((hook) => (
+          <li key={hook.key} className="rounded-lg border border-violet-500/15 bg-violet-500/5 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm font-medium text-violet-200">{hook.label}</p>
+              <span className="text-xs capitalize text-slate-400">{hook.readiness}</span>
+            </div>
+            <p className="mt-1 text-xs text-slate-400">{hook.description}</p>
+            {hook.route && (
+              <Link href={hook.route} className="mt-2 inline-block text-xs text-violet-300 hover:text-violet-200">
+                Evidence readiness →
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
@@ -76,17 +99,25 @@ export function CemTransactionSareaPanel({ snapshot }: Props) {
   );
 }
 
-export function CemTransactionReportPanel({ snapshot }: Props) {
+export function CemTransactionReportPanel({ snapshot, persistenceLinks }: Props) {
   const r = routes.tenant(snapshot.tenantSlug);
+  const reportLink = findLink(persistenceLinks, "workflow_to_report");
+  const lineage = lineageLabel(reportLink?.status);
   if (snapshot.relatedReports.length === 0) {
     return (
       <p className="text-sm text-slate-400">
         Advisory report output — create a tenant-backed request to generate workflow reports.
+        Report lineage: {lineage}.
       </p>
     );
   }
   return (
-    <ul className="space-y-2">
+    <>
+      <p className="mb-3 text-xs text-slate-500">
+        Report output lineage: <span className="text-slate-300">{lineage}</span>
+        {reportLink?.notes ? ` — ${reportLink.notes}` : ""}
+      </p>
+      <ul className="space-y-2">
       {snapshot.relatedReports.map((rep) => (
         <li key={rep.id} className="rounded-lg border border-white/5 p-3">
           <p className="text-sm font-medium text-white">{rep.name}</p>
@@ -99,6 +130,7 @@ export function CemTransactionReportPanel({ snapshot }: Props) {
         </Link>
       </li>
     </ul>
+    </>
   );
 }
 

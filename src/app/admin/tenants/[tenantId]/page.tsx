@@ -49,6 +49,8 @@ import { AdminCemModuleDepthPanel } from "@/components/admin/admin-cem-module-de
 import { AdminCemTransactionWorkflowPanel } from "@/components/admin/admin-cem-transaction-workflow-panel";
 import { buildCemModuleDepthSummaryForTenantId } from "@/lib/services/cem-module-depth.service";
 import { buildCemTransactionWorkflowSummaryForTenantId } from "@/lib/services/cem-transaction-workflow.service";
+import { AdminCemWorkflowPersistencePanel } from "@/components/admin/admin-cem-workflow-persistence-panel";
+import { buildCemWorkflowPersistenceSummaryForTenantId } from "@/lib/services/cem-workflow-persistence.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -93,6 +95,7 @@ export default async function AdminTenantDetailPage({
     cemOperatingModel,
     cemModuleDepthSummary,
     cemTransactionWorkflowSummary,
+    cemWorkflowPersistenceSnapshot,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -122,6 +125,7 @@ export default async function AdminTenantDetailPage({
     buildCemOperatingModelSnapshotForTenantId(tenant.id),
     buildCemModuleDepthSummaryForTenantId(tenant.id),
     buildCemTransactionWorkflowSummaryForTenantId(tenant.id),
+    buildCemWorkflowPersistenceSummaryForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -212,6 +216,9 @@ export default async function AdminTenantDetailPage({
               tenantSlug={tenant.slug}
               summary={cemTransactionWorkflowSummary}
             />
+          )}
+          {cemWorkflowPersistenceSnapshot && (
+            <AdminCemWorkflowPersistencePanel snapshot={cemWorkflowPersistenceSnapshot} />
           )}
           {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />

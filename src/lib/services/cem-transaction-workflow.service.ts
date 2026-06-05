@@ -18,6 +18,11 @@ import {
   type CemTransactionWorkflowSnapshot,
   type CemTransactionWorkflowSummary,
 } from "@/lib/cem/cem-transaction-workflow-contract";
+import {
+  mergeWorkflowLineage,
+  parseWorkflowLineage,
+  type CemWorkflowLineageRecord,
+} from "@/lib/cem/cem-workflow-lineage";
 import { prisma } from "@/lib/db";
 import { hasErpModule } from "@/lib/constants/erp-module-registry";
 import {
@@ -630,12 +635,50 @@ export async function buildCemTransactionWorkflowSummaryForTenantId(
 }
 
 export function buildPurchaseToStockReportConfig(
-  meta: PurchaseToStockWorkflowMeta
+  meta: PurchaseToStockWorkflowMeta,
+  lineage?: Partial<CemWorkflowLineageRecord>
 ): Prisma.InputJsonValue {
   return {
     [PURCHASE_TO_STOCK_CONFIG_KEY]: true,
     ...meta,
+    ...lineage,
   } as Prisma.InputJsonValue;
+}
+
+/** M3.4 PATH A — persist lineage on report config without schema migration. */
+export async function updatePurchaseToStockLineage(
+  tenantId: string,
+  requestId: string,
+  patch: Partial<CemWorkflowLineageRecord>
+): Promise<void> {
+  const reports = await prisma.report.findMany({
+    where: {
+      tenantId,
+      OR: [
+        { name: { startsWith: PURCHASE_TO_STOCK_REPORT_PREFIX } },
+        { name: { contains: "purchase-to-stock" } },
+      ],
+    },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
+  for (const rep of reports) {
+    const lineage = parseWorkflowLineage(rep.configJson);
+    const meta = parseWorkflowMeta(rep.configJson);
+    if (lineage?.requestId === requestId || meta?.requestId === requestId) {
+      await prisma.report.update({
+        where: { id: rep.id },
+        data: {
+          configJson: mergeWorkflowLineage(rep.configJson, {
+            workflowKey: "purchase_to_stock",
+            requestId,
+            ...patch,
+          }),
+        },
+      });
+      return;
+    }
+  }
 }
 
 export function purchaseToStockWorkflowRoute(slug: string, requestId?: string) {

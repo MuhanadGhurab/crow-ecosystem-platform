@@ -10,7 +10,9 @@ import {
 import { CemTransactionWorkflowActions } from "@/components/tenant/cem-transaction-workflow-actions";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { routes } from "@/lib/routes";
+import { CemWorkflowPersistencePanel } from "@/components/tenant/cem-workflow-persistence-panel";
 import { buildPurchaseToStockWorkflowSnapshotForTenantSlug } from "@/lib/services/cem-transaction-workflow.service";
+import { auditCemWorkflowPersistenceForTenantSlug } from "@/lib/services/cem-workflow-persistence.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +29,10 @@ export default async function PurchaseToStockWorkflowPage({
   const tenant = await getTenantBySlug(slug);
   if (!tenant) notFound();
 
-  const snapshot = await buildPurchaseToStockWorkflowSnapshotForTenantSlug(slug, requestId);
+  const [snapshot, persistenceSnapshot] = await Promise.all([
+    buildPurchaseToStockWorkflowSnapshotForTenantSlug(slug, requestId),
+    auditCemWorkflowPersistenceForTenantSlug(slug, requestId),
+  ]);
   if (!snapshot) notFound();
 
   const r = routes.tenant(slug);
@@ -102,6 +107,13 @@ export default async function PurchaseToStockWorkflowPage({
         </dl>
       </section>
 
+      {persistenceSnapshot && (
+        <CemWorkflowPersistencePanel
+          snapshot={persistenceSnapshot}
+          requestId={snapshot.request.id}
+        />
+      )}
+
       <section className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
         <h2 className="font-display text-base font-semibold text-white">Stage timeline</h2>
         <div className="mt-4">
@@ -151,7 +163,10 @@ export default async function PurchaseToStockWorkflowPage({
         <div className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
           <h2 className="font-display text-base font-semibold text-white">Report output</h2>
           <div className="mt-4">
-            <CemTransactionReportPanel snapshot={snapshot} />
+            <CemTransactionReportPanel
+              snapshot={snapshot}
+              persistenceLinks={persistenceSnapshot?.links}
+            />
           </div>
         </div>
       </section>
@@ -160,7 +175,10 @@ export default async function PurchaseToStockWorkflowPage({
         <div className="cc-glass-card border-violet-500/15 p-4 sm:p-6">
           <h2 className="font-display text-base font-semibold text-white">CyberCrow evidence readiness</h2>
           <div className="mt-4">
-            <CemTransactionEvidencePanel snapshot={snapshot} />
+            <CemTransactionEvidencePanel
+              snapshot={snapshot}
+              persistenceLinks={persistenceSnapshot?.links}
+            />
           </div>
         </div>
         <div className="cc-glass-card border-rose-500/15 p-4 sm:p-6">
