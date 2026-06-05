@@ -6,12 +6,17 @@ import { SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { updateProfileConfigAction, updateProfileNameAction } from "@/lib/actions/sarea";
 import { routes } from "@/lib/routes";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 import { listProfilesForStudio } from "@/lib/services/sarea-studio.service";
 
 const COMPLEXITY_OPTIONS = ["low", "medium", "high", "adaptive"];
 
 export default async function SareaProfilesPage() {
-  const rows = await listProfilesForStudio();
+  const [rows, mapping] = await Promise.all([
+    listProfilesForStudio(),
+    buildSareaExperienceMappingStudioSnapshot(),
+  ]);
 
   return (
     <SareaStudioPage
@@ -37,6 +42,7 @@ export default async function SareaProfilesPage() {
       ]}
     >
       <SareaExperienceBoundaryNote variant="default" />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="profiles" compact />}
       <SareaRbacBanner compact />
 
       {rows.length === 0 ? (

@@ -7,11 +7,16 @@ import { updateWidgetVisibilityAction } from "@/lib/actions/sarea";
 import { routes } from "@/lib/routes";
 import { widgetLabel, widgetSourceArea } from "@/lib/sarea/studio-helpers";
 import { listWidgetRules } from "@/lib/services/sarea.service";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 
 const VISIBILITY = ["visible", "hidden", "optional"];
 
 export default async function SareaWidgetsPage() {
-  const rules = await listWidgetRules();
+  const [rules, mapping] = await Promise.all([
+    listWidgetRules(),
+    buildSareaExperienceMappingStudioSnapshot(),
+  ]);
 
   return (
     <SareaStudioPage
@@ -37,6 +42,7 @@ export default async function SareaWidgetsPage() {
       ]}
     >
       <SareaExperienceBoundaryNote variant="widgets" />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="widgets" compact />}
       <SareaRbacBanner compact />
       <section className="rounded-lg border border-rose-500/10 bg-rose-950/10 px-4 py-3 text-xs text-slate-400">
         <p>

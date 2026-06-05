@@ -963,6 +963,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M2 — SAREA Blueprint-to-Experience Mapping (no paid infra)
+
+**Scope:** Advisory persona/navigation/widget mapping from blueprint, discovery, tenant roles, and CyberCrow boundaries — RBAC unchanged.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M2_SAREA_BLUEPRINT_TO_EXPERIENCE_MAPPING.md` |
+| Contract / templates | `sarea-experience-mapping-contract.ts` · `sarea-blueprint-experience-templates.ts` |
+| Service | `sarea-experience-mapping.service.ts` |
+| Verifier | `npm run sarea-blueprint:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** **M3 — CEM Runtime Handoff & Business Portal Operational Readiness** or **M2.1 — SAREA Tenant Profile Materialization Workflow**
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

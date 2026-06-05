@@ -24,6 +24,7 @@ import {
 import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intelligence.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { TenantRuntimeDemoHint } from "@/components/tenant/tenant-runtime-demo-hint";
+import { TenantSareaExperienceNote } from "@/components/tenant/tenant-sarea-experience-note";
 import { RuntimeCohesionPanel } from "@/components/tenant/runtime-cohesion-panel";
 import { TENANT_RUNTIME_PROCROW_NOTE } from "@/lib/constants/tenant-runtime-demo";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
@@ -108,6 +109,7 @@ export default async function TenantDashboardPage({
       )}
 
       <TenantRuntimeDemoHint beat="dashboard" />
+      <TenantSareaExperienceNote variant="dashboard" />
 
       {isMeem && isPlatformStaff(role) && !previewPersona && (
         <p className="rounded-cc border border-rose-500/15 bg-rose-950/10 px-4 py-2 text-xs text-slate-400">

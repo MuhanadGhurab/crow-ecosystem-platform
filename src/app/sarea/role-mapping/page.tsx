@@ -12,12 +12,15 @@ import {
 } from "@/lib/services/sarea-studio.service";
 import { listSareaExperienceProfiles } from "@/lib/services/sarea.service";
 import { materializationStateHint } from "@/lib/services/sarea-materialization.service";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 
 export default async function SareaRoleMappingPage() {
-  const [maps, profiles, lighthouse] = await Promise.all([
+  const [maps, profiles, lighthouse, mapping] = await Promise.all([
     listRoleMapsForStudio(),
     listSareaExperienceProfiles(),
     getLighthouseMaterialization(),
+    buildSareaExperienceMappingStudioSnapshot(),
   ]);
 
   const profilesByTenant = new Map<string, typeof profiles>();
@@ -52,6 +55,7 @@ export default async function SareaRoleMappingPage() {
       ]}
     >
       <SareaExperienceBoundaryNote variant="mapping" />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="role_mapping" />}
       <SareaRbacBanner compact />
 
       <section className="rounded-lg border border-cyan-500/15 bg-cyan-950/15 px-4 py-3 text-xs text-slate-400">

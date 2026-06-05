@@ -17,6 +17,8 @@ import {
 import {
   materializationStateLabel,
 } from "@/lib/services/sarea-materialization.service";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 
 const PREVIEW_TENANTS = [
   { slug: MEEM_TENANT_SLUG, label: "MEEM logistics" },
@@ -24,10 +26,11 @@ const PREVIEW_TENANTS = [
 ] as const;
 
 export default async function SareaPreviewPage() {
-  const [summary, profiles, lighthouse] = await Promise.all([
+  const [summary, profiles, lighthouse, mapping] = await Promise.all([
     getSareaStudioSummary(),
     listSareaExperienceProfiles(),
     getLighthouseMaterialization(),
+    buildSareaExperienceMappingStudioSnapshot(),
   ]);
 
   return (
@@ -54,6 +57,7 @@ export default async function SareaPreviewPage() {
       ]}
     >
       <SareaExperienceBoundaryNote variant="preview" />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="preview" />}
       <SareaRbacBanner />
 
       {lighthouse.map(({ slug, rows }) => {

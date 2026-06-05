@@ -10,6 +10,7 @@ import {
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { TenantModulesRuntimeCohesionSection } from "@/components/tenant/tenant-modules-runtime-cohesion-section";
+import { TenantSareaExperienceNote } from "@/components/tenant/tenant-sarea-experience-note";
 import { routes } from "@/lib/routes";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
@@ -47,6 +48,7 @@ export default async function TenantModulesPage({
         description={`Enabled blueprint modules for ${tenant.organization.displayName}. ProCrow prepared the runtime; CEM operates these areas — depth varies by module.`}
       />
       <TenantRuntimeCohesionNote />
+      <TenantSareaExperienceNote variant="modules" />
 
       <TenantRuntimeStatStrip
         items={[

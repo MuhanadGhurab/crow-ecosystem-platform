@@ -9,8 +9,10 @@ import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-h
 import { SareaExperienceFlowBanner, SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 import { getSareaStudioHealthSummary } from "@/lib/services/sarea-studio.service";
 import { getSareaStudioSummary } from "@/lib/services/sarea.service";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
 
 const STUDIO_LINKS = [
   { href: routes.sarea.profiles, label: "Profiles", desc: "Persona visibility & safe edits" },
@@ -28,8 +30,14 @@ export default async function SareaOverviewPage() {
   let health: Awaited<ReturnType<typeof getSareaStudioHealthSummary>> | null = null;
   let dbError: string | null = null;
 
+  let mapping: Awaited<ReturnType<typeof buildSareaExperienceMappingStudioSnapshot>> = null;
+
   try {
-    [summary, health] = await Promise.all([getSareaStudioSummary(), getSareaStudioHealthSummary()]);
+    [summary, health, mapping] = await Promise.all([
+      getSareaStudioSummary(),
+      getSareaStudioHealthSummary(),
+      buildSareaExperienceMappingStudioSnapshot(),
+    ]);
   } catch (err) {
     dbError = err instanceof Error ? err.message : "Database unavailable";
   }
@@ -54,6 +62,7 @@ export default async function SareaOverviewPage() {
       <SareaStudioStrip />
       <ProCrowCapabilityFraming capability="sarea" />
       <SareaRbacBanner />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="overview" />}
       <SareaScopeNote compact />
       <SareaExperienceFlowBanner />
       <SareaAcceptanceHub />

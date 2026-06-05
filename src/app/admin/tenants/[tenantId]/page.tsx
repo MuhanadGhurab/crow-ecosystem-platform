@@ -38,7 +38,9 @@ import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intellig
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { getTenantById, getTenantWorkspaceSummary } from "@/lib/services/tenant.service";
 import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cybercrow-tenant-trust.service";
+import { buildSareaExperienceMappingSnapshotForTenantId } from "@/lib/services/sarea-experience-mapping.service";
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
+import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function AdminTenantDetailPage({
@@ -76,6 +78,7 @@ export default async function AdminTenantDetailPage({
     cemOps,
     runtimeCohesion,
     cybercrowTrust,
+    sareaExperienceMapping,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -100,6 +103,7 @@ export default async function AdminTenantDetailPage({
       tenant.slug
     ),
     buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
+    buildSareaExperienceMappingSnapshotForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -178,6 +182,9 @@ export default async function AdminTenantDetailPage({
       {activeTab === "overview" && (
         <div className="space-y-6">
           {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
+          {sareaExperienceMapping && (
+            <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
+          )}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">
             <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>
@@ -411,6 +418,9 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "sarea" && (
         <section className="cc-glass-card cc-entity-block--sarea space-y-5 !p-6">
+          {sareaExperienceMapping && (
+            <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
+          )}
           <div className="rounded-lg border border-rose-500/15 bg-rose-950/15 px-4 py-3 text-xs text-slate-400">
             <p className="font-medium text-rose-200">RBAC controls access. SAREA controls experience.</p>
             <p className="mt-1">

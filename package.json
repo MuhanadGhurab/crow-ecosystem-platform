@@ -109,6 +109,7 @@
     "client-notes:verify": "npx tsx scripts/verify-client-review-notes.ts",
     "cybercrow:verify": "npx tsx scripts/verify-cybercrow-ux-depth.ts",
     "cybercrow-trust:verify": "npx tsx scripts/verify-cybercrow-tenant-trust-readiness.ts",
+    "sarea-blueprint:verify": "npx tsx scripts/verify-sarea-blueprint-experience-mapping.ts",
     "sarea:ux-verify": "npx tsx scripts/verify-sarea-ux-depth.ts",
     "procrow-workbench:verify": "npx tsx scripts/verify-procrow-workbench-ux.ts",
     "procrow:verify": "npx tsx scripts/verify-procrow-portal-ux.ts && npx tsx scripts/verify-procrow-control-tower.ts && npx tsx scripts/verify-procrow-operator-queue.ts && npx tsx scripts/verify-cybercrow-ux-depth.ts && npx tsx scripts/verify-sarea-ux-depth.ts && npx tsx scripts/verify-procrow-go-no-go.ts && npx tsx scripts/verify-procrow-operator-console.ts && npx tsx scripts/verify-procrow-demo-rehearsal.ts && npx tsx scripts/verify-procrow-workbench-ux.ts",

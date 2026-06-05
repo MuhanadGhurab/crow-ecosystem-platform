@@ -4,12 +4,15 @@ import { ProCrowPageHeader } from "@/components/procrow/procrow-page-header";
 import { routes } from "@/lib/routes";
 import { getProCrowGoNoGoSnapshot } from "@/lib/services/procrow-go-no-go.service";
 import { buildCyberCrowTrustGoNoGoDependency } from "@/lib/services/cybercrow-tenant-trust.service";
+import { buildSareaExperienceGoNoGoDependency } from "@/lib/services/sarea-experience-mapping.service";
 import { ProCrowCybercrowTrustGoNoGoPanel } from "@/components/procrow/procrow-cybercrow-trust-go-no-go-panel";
+import { ProCrowSareaExperienceGoNoGoPanel } from "@/components/procrow/procrow-sarea-experience-go-no-go-panel";
 
 export default async function AdminGoNoGoPage() {
-  const [snapshot, cybercrowTrustDependency] = await Promise.all([
+  const [snapshot, cybercrowTrustDependency, sareaExperienceDependency] = await Promise.all([
     getProCrowGoNoGoSnapshot(),
     Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
+    Promise.resolve(buildSareaExperienceGoNoGoDependency()),
   ]);
 
   return (
@@ -25,6 +28,7 @@ export default async function AdminGoNoGoPage() {
       />
 
       <ProCrowCybercrowTrustGoNoGoPanel dependency={cybercrowTrustDependency} />
+      <ProCrowSareaExperienceGoNoGoPanel dependency={sareaExperienceDependency} />
       <ProCrowGoNoGoCenter snapshot={snapshot} />
     </div>
   );

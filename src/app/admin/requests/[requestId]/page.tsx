@@ -48,8 +48,10 @@ import { buildClientOnboardingTrackerForAdmin } from "@/lib/services/client-onbo
 import { buildProCrowDiscoveryReviewSnapshot } from "@/lib/services/procrow-discovery-review.service";
 import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
 import { buildCyberCrowTrustPreparationPreviewForRequest } from "@/lib/services/cybercrow-tenant-trust.service";
+import { buildSareaExperienceMappingPreviewForRequest } from "@/lib/services/sarea-experience-mapping.service";
 import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procrow-pricing-package-panel";
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
+import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
@@ -110,6 +112,9 @@ export default async function AdminRequestDetailPage({
     : null;
   const cybercrowTrustPreview = !isUseMockData()
     ? await buildCyberCrowTrustPreparationPreviewForRequest(requestId).catch(() => null)
+    : null;
+  const sareaExperiencePreview = !isUseMockData()
+    ? await buildSareaExperienceMappingPreviewForRequest(requestId).catch(() => null)
     : null;
   const tenantSlug = request?.enterpriseBlueprint?.tenant?.slug ?? null;
   const blueprintId = request?.enterpriseBlueprint?.id ?? mockBlueprintId;
@@ -281,6 +286,12 @@ export default async function AdminRequestDetailPage({
         {cybercrowTrustPreview && (
           <AdminCybercrowTrustReadinessPanel
             snapshot={cybercrowTrustPreview}
+            variant={tenantSlug ? "tenant" : "request-preview"}
+          />
+        )}
+        {sareaExperiencePreview && (
+          <AdminSareaExperienceMappingPanel
+            snapshot={sareaExperiencePreview}
             variant={tenantSlug ? "tenant" : "request-preview"}
           />
         )}

@@ -7,11 +7,14 @@ import { updateNavigationKeysAction } from "@/lib/actions/sarea";
 import { SAREA_NAV_KEYS } from "@/lib/constants/sarea-runtime";
 import { routes } from "@/lib/routes";
 import { listNavigationProfiles, listRoleExperienceMaps } from "@/lib/services/sarea.service";
+import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
 
 export default async function SareaNavigationPage() {
-  const [profiles, roleMaps] = await Promise.all([
+  const [profiles, roleMaps, mapping] = await Promise.all([
     listNavigationProfiles(),
     listRoleExperienceMaps(),
+    buildSareaExperienceMappingStudioSnapshot(),
   ]);
   const rolesByProfileId = new Map<string, string[]>();
   for (const m of roleMaps) {
@@ -44,6 +47,7 @@ export default async function SareaNavigationPage() {
       ]}
     >
       <SareaExperienceBoundaryNote variant="navigation" />
+      {mapping && <SareaBlueprintExperienceSummary snapshot={mapping} area="navigation" compact />}
       <SareaRbacBanner compact />
       <p className="text-xs text-slate-500">
         Navigation items shown here control which links appear in the shell for a mapped role.

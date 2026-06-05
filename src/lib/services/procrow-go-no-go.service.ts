@@ -117,6 +117,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
         "Review tenant trust on ProCrow tenant workbench; run npm run cybercrow-trust:verify after M1 trust model changes.",
     }),
     d({
+      key: "sarea-blueprint-experience-m2",
+      category: "sarea",
+      label: "SAREA blueprint-to-experience mapping (M2)",
+      status: "needs_review",
+      description:
+        "Persona, navigation, and widget recommendations are advisory. RBAC controls access; SAREA shapes experience — no permission grants or autonomous personalization.",
+      relatedCommand: "npm run sarea-blueprint:verify",
+      operatorAction:
+        "Review SAREA mapping on tenant workbench and studio; run npm run sarea-blueprint:verify after M2 changes.",
+    }),
+    d({
       key: "sarea-readiness-signal",
       category: "sarea",
       label: "SAREA experience studio",
