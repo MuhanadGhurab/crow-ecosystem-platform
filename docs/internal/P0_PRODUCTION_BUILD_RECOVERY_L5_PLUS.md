@@ -2,7 +2,7 @@
 
 **Last updated:** 5 Jun 2026  
 **Audience:** Internal delivery / engineering  
-**Status:** Fix committed — awaiting Vercel production **Ready**
+**Status:** **PASSED** — production **Ready** on `847d492` (5 Jun 2026)
 
 ---
 
@@ -18,6 +18,7 @@
 | M2 | `93c3c9c` | feat(sarea): blueprint-to-experience mapping | **Error** — OOM |
 | M2.0 | `a506ae9` | fix(build): reduce Vercel memory after SAREA mapping | **Error** — OOM ~108s (6144 heap + webpack worker) |
 | P0.1 | `c89ed1f` | fix(build): recover Vercel production after L5+ OOM | **Error** — OOM ~42s compile (4096 heap still over cgroup) |
+| P0.2 | `847d492` | fix(build): lower Vercel heap and split compile/generate | **Ready** — compile ~34s + generate; total build ~2m |
 
 ---
 
@@ -117,7 +118,11 @@ No migrations, seeds, payments, or tenant auto-provisioning were run.
 
 ## Vercel redeploy
 
-After push of P0 recovery commit: monitor production deployment until status **Ready**.
+**Production (`crow-ecosystem-platform`):** deployment `4942825955` / `crow-ecosystem-platform-mbd4n9za4` — **Ready** (~2m build, 5 Jun 2026).
+
+Build log confirms split mode: `Compiled successfully in 34.3s` (compile), then generate phase; no OOM.
+
+**Note:** Preview project `crow-ecosystem-platform-hsod` failed on `847d492` with `Cannot find module 'tailwindcss'` during compile — non-blocking for main production; investigate hsod install/settings separately if that env is needed.
 
 Smoke after green:
 
@@ -132,7 +137,8 @@ Smoke after green:
 
 1. **8 GB ceiling** — further feature growth may require Next.js upgrade, more aggressive code-splitting, or Vercel larger build machines.
 2. **Static generation + DB** — local build logs Prisma table missing for some pages; Vercel production DB has migrations applied; watch for SSG paths that query DB at build time.
-3. **M3 blocked** — do not resume CEM runtime handoff until production is green.
+3. **Preview hsod** — tailwindcss missing on one failed preview deploy; main production unaffected.
+4. **M3** — unblocked for planning; smoke recommended before large new compile-graph growth.
 
 ---
 
@@ -145,7 +151,7 @@ Smoke after green:
 | Fix without auth weakening | Done |
 | Local build + verifiers | Done |
 | No migrations/seeds/payments | Done |
-| Production Vercel **Ready** | **Pending** — after push |
+| Production Vercel **Ready** | **Done** — `847d492` |
 | Docs updated | Done |
 
-**Decision:** P0 **passes** only when Vercel production deployment is **Ready**.
+**Decision:** P0 **PASSED** (5 Jun 2026).

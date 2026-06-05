@@ -991,9 +991,9 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Vercel build tuning | `next.config.ts` · `scripts/next-build-with-memory.mjs` |
 | Verifiers | `build-memory:verify` · `access-gateway:verify` · full L5–M2 suite |
 
-**Status:** M2.0.2 tuning pushed (5 Jun 2026); **Vercel production Ready** = P0 pass gate. **M3 blocked** until green.
+**Status:** **PASSED** (5 Jun 2026) — production **Ready** on `847d492` after M2.0.2 split compile/generate + reduced heap.
 
-**Recommended next:** Confirm Vercel deploy · smoke `/access`, `/admin/go-no-go`, `/sarea/overview`
+**Recommended next:** Smoke `/access`, `/admin/go-no-go`, `/sarea/overview` · monitor build memory on next feature tranche before M3
 
 ---
 
