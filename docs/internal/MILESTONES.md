@@ -980,6 +980,24 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M3 — CEM Runtime Handoff & Business Portal Operational Readiness (no paid infra)
+
+**Scope:** Read-only CEM runtime handoff layer — ProCrow judges staging Business Portal operational readiness; CyberCrow + SAREA dependencies surfaced; production remains F23/Go-No-Go gated.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M3_CEM_RUNTIME_HANDOFF_BUSINESS_PORTAL_OPERATIONAL_READINESS.md` |
+| Contract | `cem-runtime-handoff-contract.ts` · `cem-runtime-go-no-go.ts` |
+| Constants | `cem-operational-readiness.ts` |
+| Service | `cem-runtime-handoff.service.ts` |
+| Verifier | `npm run cem-handoff:verify` |
+
+**Status:** Shipped (5 Jun 2026)
+
+**Recommended next:** **M4 — Tenant Membership & Business Portal Access Hardening** or **M3.1 — CEM Module Depth Pass**
+
+---
+
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

@@ -11,6 +11,7 @@ import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cros
 import { TenantRuntimeStatStrip } from "@/components/tenant/tenant-runtime-stat-strip";
 import { TenantModulesRuntimeCohesionSection } from "@/components/tenant/tenant-modules-runtime-cohesion-section";
 import { TenantSareaExperienceNote } from "@/components/tenant/tenant-sarea-experience-note";
+import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
 import { routes } from "@/lib/routes";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
@@ -49,6 +50,7 @@ export default async function TenantModulesPage({
       />
       <TenantRuntimeCohesionNote />
       <TenantSareaExperienceNote variant="modules" />
+      <TenantCemOperationalReadinessNote slug={slug} variant="modules" />
 
       <TenantRuntimeStatStrip
         items={[

@@ -5,17 +5,21 @@ import { routes } from "@/lib/routes";
 import { getProCrowGoNoGoSnapshot } from "@/lib/services/procrow-go-no-go.service";
 import { buildCyberCrowTrustGoNoGoDependency } from "@/lib/services/cybercrow-tenant-trust.service";
 import { buildSareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-go-no-go";
+import { buildCemRuntimeGoNoGoDependency } from "@/lib/cem/cem-runtime-go-no-go";
 import { ProCrowCybercrowTrustGoNoGoPanel } from "@/components/procrow/procrow-cybercrow-trust-go-no-go-panel";
 import { ProCrowSareaExperienceGoNoGoPanel } from "@/components/procrow/procrow-sarea-experience-go-no-go-panel";
+import { ProCrowCemRuntimeGoNoGoPanel } from "@/components/procrow/procrow-cem-runtime-go-no-go-panel";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminGoNoGoPage() {
-  const [snapshot, cybercrowTrustDependency, sareaExperienceDependency] = await Promise.all([
-    getProCrowGoNoGoSnapshot(),
-    Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
-    Promise.resolve(buildSareaExperienceGoNoGoDependency()),
-  ]);
+  const [snapshot, cybercrowTrustDependency, sareaExperienceDependency, cemRuntimeDependency] =
+    await Promise.all([
+      getProCrowGoNoGoSnapshot(),
+      Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
+      Promise.resolve(buildSareaExperienceGoNoGoDependency()),
+      Promise.resolve(buildCemRuntimeGoNoGoDependency()),
+    ]);
 
   return (
     <div className="space-y-8">
@@ -31,6 +35,7 @@ export default async function AdminGoNoGoPage() {
 
       <ProCrowCybercrowTrustGoNoGoPanel dependency={cybercrowTrustDependency} />
       <ProCrowSareaExperienceGoNoGoPanel dependency={sareaExperienceDependency} />
+      <ProCrowCemRuntimeGoNoGoPanel dependency={cemRuntimeDependency} />
       <ProCrowGoNoGoCenter snapshot={snapshot} />
     </div>
   );

@@ -25,6 +25,7 @@ import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intellig
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { TenantRuntimeDemoHint } from "@/components/tenant/tenant-runtime-demo-hint";
 import { TenantSareaExperienceNote } from "@/components/tenant/tenant-sarea-experience-note";
+import { TenantBusinessPortalHandoffNote } from "@/components/tenant/tenant-business-portal-handoff-note";
 import { RuntimeCohesionPanel } from "@/components/tenant/runtime-cohesion-panel";
 import { TENANT_RUNTIME_PROCROW_NOTE } from "@/lib/constants/tenant-runtime-demo";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
@@ -109,6 +110,7 @@ export default async function TenantDashboardPage({
       )}
 
       <TenantRuntimeDemoHint beat="dashboard" />
+      <TenantBusinessPortalHandoffNote slug={slug} />
       <TenantSareaExperienceNote variant="dashboard" />
 
       {isMeem && isPlatformStaff(role) && !previewPersona && (

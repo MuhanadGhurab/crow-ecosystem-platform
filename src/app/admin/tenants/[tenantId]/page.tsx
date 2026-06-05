@@ -41,6 +41,8 @@ import { buildCyberCrowTenantTrustSnapshotForTenantId } from "@/lib/services/cyb
 import { buildSareaExperienceMappingSnapshotForTenantId } from "@/lib/services/sarea-experience-mapping.service";
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
+import { buildCemRuntimeHandoffSnapshotForTenantId } from "@/lib/services/cem-runtime-handoff.service";
+import { AdminCemRuntimeHandoffPanel } from "@/components/admin/admin-cem-runtime-handoff-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -81,6 +83,7 @@ export default async function AdminTenantDetailPage({
     runtimeCohesion,
     cybercrowTrust,
     sareaExperienceMapping,
+    cemRuntimeHandoff,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -106,6 +109,7 @@ export default async function AdminTenantDetailPage({
     ),
     buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
     buildSareaExperienceMappingSnapshotForTenantId(tenant.id),
+    buildCemRuntimeHandoffSnapshotForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -187,6 +191,7 @@ export default async function AdminTenantDetailPage({
           {sareaExperienceMapping && (
             <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
           )}
+          {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">
             <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>

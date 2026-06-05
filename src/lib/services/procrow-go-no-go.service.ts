@@ -128,6 +128,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
         "Review SAREA mapping on tenant workbench and studio; run npm run sarea-blueprint:verify after M2 changes.",
     }),
     d({
+      key: "cem-runtime-handoff-m3",
+      category: "tenant_runtime",
+      label: "CEM runtime handoff & Business Portal staging readiness (M3)",
+      status: "needs_review",
+      description:
+        "CEM runtime handoff confirms the staging Business Portal is operationally usable — modules, org structure, tasks, workflows, and reports visibility. It does not approve production launch. CyberCrow trust and SAREA experience mapping remain dependencies.",
+      relatedCommand: "npm run cem-handoff:verify",
+      operatorAction:
+        "Review CEM handoff panel on ProCrow tenant workbench; open Business Portal dashboard for staging walkthrough; run npm run cem-handoff:verify after M3 changes.",
+    }),
+    d({
       key: "sarea-readiness-signal",
       category: "sarea",
       label: "SAREA experience studio",

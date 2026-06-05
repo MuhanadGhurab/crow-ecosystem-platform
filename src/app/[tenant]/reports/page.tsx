@@ -6,6 +6,7 @@ import { MeemReportsHub } from "@/components/tenant/meem-reports-hub";
 import { ReportsBiOperationsReadinessPanel } from "@/components/tenant/reports/reports-bi-operations-readiness-panel";
 import { getReportsBiReadinessSnapshot } from "@/lib/services/reports-bi-readiness.service";
 import { TenantRuntimeDemoHint } from "@/components/tenant/tenant-runtime-demo-hint";
+import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
 import { TenantRuntimeCrossLinks } from "@/components/tenant/tenant-runtime-cross-links";
 import { TenantModulePage } from "@/components/tenant/tenant-module-page";
 import { StatCard } from "@/components/ui/stat-card";
@@ -68,6 +69,7 @@ export default async function ReportsPage({
       tenantSlug={slug}
     >
       <TenantRuntimeDemoHint beat="visibility" compact />
+      <TenantCemOperationalReadinessNote slug={slug} variant="reports" />
 
       {showMeemHub ? (
         <div className="space-y-8">

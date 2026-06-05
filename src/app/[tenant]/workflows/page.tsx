@@ -20,6 +20,7 @@ import { TaskApprovalOperationsReadinessPanel } from "@/components/tenant/tasks/
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
+import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
 
 export default async function TenantWorkflowsPage({
   params,
@@ -85,6 +86,7 @@ export default async function TenantWorkflowsPage({
         cybercrowLive={summary.cybercrowInitialized}
         focus="workflows"
       />
+      <TenantCemOperationalReadinessNote slug={slug} variant="workflows" />
 
       <TenantRuntimeStatStrip
         items={[
