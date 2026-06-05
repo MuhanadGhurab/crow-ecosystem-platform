@@ -71,3 +71,9 @@ export const SAREA_EXPERIENCE_MAPPING_DISCLAIMERS = [
 
 export const SAREA_CYBERCROW_DEPENDENCY_COPY =
   "CyberCrow validates trust and access boundaries; SAREA uses those boundaries to shape role-based experience." as const;
+
+export type SareaExperienceGoNoGoDependency = {
+  status: "ready" | "warning" | "blocked";
+  label: string;
+  advisoryNote: string;
+};

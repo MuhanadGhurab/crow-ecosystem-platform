@@ -1,4 +1,4 @@
-import type { SareaExperienceGoNoGoDependency } from "@/lib/services/sarea-experience-mapping.service";
+import type { SareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-mapping-contract";
 
 type Props = {
   dependency: SareaExperienceGoNoGoDependency;

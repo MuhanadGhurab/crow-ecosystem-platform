@@ -58,6 +58,8 @@ import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/moc
 import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminRequestDetailPage({
   params,
 }: {

@@ -7,8 +7,10 @@ import { SareaStudioPage } from "@/components/studio/sarea/sarea-studio-page";
 import { updateProfileConfigAction, updateProfileNameAction } from "@/lib/actions/sarea";
 import { routes } from "@/lib/routes";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
 import { listProfilesForStudio } from "@/lib/services/sarea-studio.service";
+
+export const dynamic = "force-dynamic";
 
 const COMPLEXITY_OPTIONS = ["low", "medium", "high", "adaptive"];
 

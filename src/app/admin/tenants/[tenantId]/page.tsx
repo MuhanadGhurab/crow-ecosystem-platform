@@ -43,6 +43,8 @@ import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybe
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminTenantDetailPage({
   params,
   searchParams,

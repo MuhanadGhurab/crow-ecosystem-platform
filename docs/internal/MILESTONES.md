@@ -980,6 +980,24 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M2.0 — Vercel Build OOM Optimization (no paid infra)
+
+**Scope:** Fix Vercel production build SIGKILL/OOM after M2 without weakening auth, migrations, or M2 product behavior.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M2_0_VERCEL_BUILD_OOM_OPTIMIZATION.md` |
+| Next memory config | `next.config.ts` |
+| Build heap wrapper | `scripts/next-build-with-memory.mjs` |
+| Studio loader / Go-No-Go split | `sarea-experience-studio-loader.ts` · `sarea-experience-go-no-go.ts` |
+| Verifier | `npm run build-memory:verify` |
+
+**Status:** Shipped (29 May 2026)
+
+**Recommended next:** Redeploy Vercel `main` · monitor build memory · **M3** or **M2.1**
+
+---
+
 ## F37 — Industry catalog UX & sector selection polish (no paid infra)
 
 **Scope:** Present the five validated sector operating models clearly on public and operator surfaces — without adding a sixth sector, paid infra, or unsafe marketing claims.

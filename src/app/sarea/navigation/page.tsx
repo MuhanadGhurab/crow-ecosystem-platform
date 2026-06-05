@@ -8,7 +8,9 @@ import { SAREA_NAV_KEYS } from "@/lib/constants/sarea-runtime";
 import { routes } from "@/lib/routes";
 import { listNavigationProfiles, listRoleExperienceMaps } from "@/lib/services/sarea.service";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
+
+export const dynamic = "force-dynamic";
 
 export default async function SareaNavigationPage() {
   const [profiles, roleMaps, mapping] = await Promise.all([

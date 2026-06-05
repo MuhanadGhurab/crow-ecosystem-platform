@@ -13,7 +13,9 @@ import {
 import { listSareaExperienceProfiles } from "@/lib/services/sarea.service";
 import { materializationStateHint } from "@/lib/services/sarea-materialization.service";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
+
+export const dynamic = "force-dynamic";
 
 export default async function SareaRoleMappingPage() {
   const [maps, profiles, lighthouse, mapping] = await Promise.all([

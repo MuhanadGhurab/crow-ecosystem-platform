@@ -18,7 +18,9 @@ import {
   materializationStateLabel,
 } from "@/lib/services/sarea-materialization.service";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
+
+export const dynamic = "force-dynamic";
 
 const PREVIEW_TENANTS = [
   { slug: MEEM_TENANT_SLUG, label: "MEEM logistics" },

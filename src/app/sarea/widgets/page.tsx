@@ -8,7 +8,9 @@ import { routes } from "@/lib/routes";
 import { widgetLabel, widgetSourceArea } from "@/lib/sarea/studio-helpers";
 import { listWidgetRules } from "@/lib/services/sarea.service";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
+
+export const dynamic = "force-dynamic";
 
 const VISIBILITY = ["visible", "hidden", "optional"];
 

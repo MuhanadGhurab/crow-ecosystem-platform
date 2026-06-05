@@ -9,10 +9,12 @@ import { SareaAcceptanceHub } from "@/components/studio/sarea/sarea-acceptance-h
 import { SareaExperienceFlowBanner, SareaRbacBanner } from "@/components/studio/sarea/sarea-rbac-banner";
 import { StatCard } from "@/components/ui/stat-card";
 import { routes } from "@/lib/routes";
-import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/services/sarea-experience-mapping.service";
+import { buildSareaExperienceMappingStudioSnapshot } from "@/lib/sarea/sarea-experience-studio-loader";
 import { getSareaStudioHealthSummary } from "@/lib/services/sarea-studio.service";
 import { getSareaStudioSummary } from "@/lib/services/sarea.service";
 import { SareaBlueprintExperienceSummary } from "@/components/sarea/sarea-blueprint-experience-summary";
+
+export const dynamic = "force-dynamic";
 
 const STUDIO_LINKS = [
   { href: routes.sarea.profiles, label: "Profiles", desc: "Persona visibility & safe edits" },

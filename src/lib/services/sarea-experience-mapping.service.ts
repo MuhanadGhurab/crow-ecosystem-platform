@@ -415,17 +415,5 @@ export async function buildSareaExperienceMappingStudioSnapshot(): Promise<Sarea
   return buildSareaExperienceMappingSnapshotForTenantId(first.id);
 }
 
-export type SareaExperienceGoNoGoDependency = {
-  status: "ready" | "warning" | "blocked";
-  label: string;
-  advisoryNote: string;
-};
-
-export function buildSareaExperienceGoNoGoDependency(): SareaExperienceGoNoGoDependency {
-  return {
-    status: "warning",
-    label: "SAREA blueprint-to-experience mapping (M2)",
-    advisoryNote:
-      "Personas, navigation, and widget recommendations are advisory — RBAC controls access; SAREA does not grant permissions. Run npm run sarea-blueprint:verify after M2 changes.",
-  };
-}
+export type { SareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-mapping-contract";
+export { buildSareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-go-no-go";
