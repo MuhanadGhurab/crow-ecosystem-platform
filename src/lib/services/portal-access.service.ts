@@ -17,6 +17,8 @@ import {
   shouldRouteToAccessGateway,
   singlePortalRoute,
 } from "@/lib/portal/portal-access-lite";
+import { listTenantBusinessPortalSlugsForUser } from "@/lib/services/tenant-membership-access.service";
+import { getTenantBySlug } from "@/lib/services/tenant.service";
 import {
   canAccessPlatformPath,
   canAccessPortalPath,
@@ -25,6 +27,7 @@ import {
   getCrowAuth,
   isClient,
   isPlatformConsoleRole,
+  isPlatformStaff,
   PROCROW_PORTAL_ALLOWED_ROLES,
   type CrowRole,
 } from "@/lib/auth/roles";
@@ -41,7 +44,8 @@ function hasProcrowPortalAccess(role: CrowRole | null): boolean {
 }
 
 function hasBusinessPortalAccess(role: CrowRole | null, tenantSlugs: string[]): boolean {
-  if (!role) return false;
+  if (!role || isClient(role)) return false;
+  if (isPlatformStaff(role)) return true;
   if (role !== "tenant_admin" && role !== "tenant_user") return false;
   return tenantSlugs.length > 0;
 }
@@ -103,7 +107,9 @@ function choosePrimaryPortal(available: CrowPortalOption[]): CrowPortalKind | nu
 }
 
 /** Build gateway snapshot for /access only (full portal cards). */
-export function buildCrowAccessGatewaySnapshot(user: User | null): CrowAccessGatewaySnapshot {
+export async function buildCrowAccessGatewaySnapshot(
+  user: User | null
+): Promise<CrowAccessGatewaySnapshot> {
   if (!user) {
     const signedOut: CrowPortalOption[] = [
       {
@@ -133,8 +139,9 @@ export function buildCrowAccessGatewaySnapshot(user: User | null): CrowAccessGat
   const { role, tenantSlugs } = getCrowAuth(user);
   const clientOk = hasClientPortalAccess(role);
   const procrowOk = hasProcrowPortalAccess(role);
-  const businessOk = hasBusinessPortalAccess(role, tenantSlugs);
-  const businessSlug = tenantSlugs[0];
+  const provenBusinessSlugs = await listTenantBusinessPortalSlugsForUser(user);
+  const businessOk = provenBusinessSlugs.length > 0;
+  const businessSlug = provenBusinessSlugs[0] ?? tenantSlugs[0];
 
   const options: CrowPortalOption[] = [];
 
@@ -154,11 +161,27 @@ export function buildCrowAccessGatewaySnapshot(user: User | null): CrowAccessGat
     });
   }
 
-  if (businessOk && businessSlug) {
-    options.push(buildBusinessOption(true, businessSlug, null));
+  if (businessOk && provenBusinessSlugs.length > 0) {
+    for (const slug of provenBusinessSlugs) {
+      const tenant = await getTenantBySlug(slug);
+      options.push({
+        ...buildBusinessOption(true, slug, null),
+        tenantName: tenant?.organization.displayName ?? slug,
+        label: provenBusinessSlugs.length > 1 ? `Business Portal — ${slug}` : "Business Portal",
+      });
+    }
+  } else if (isClient(role)) {
+    options.push({
+      ...buildBusinessOption(
+        false,
+        undefined,
+        "Client Portal access does not include Business Portal. Verified tenant membership is required."
+      ),
+      accessState: "unavailable",
+    });
   } else if (role === "tenant_admin" || role === "tenant_user") {
     options.push({
-      ...buildBusinessOption(false, undefined, "No tenant workspace slug is linked to your account yet."),
+      ...buildBusinessOption(false, undefined, "No verified tenant membership for Business Portal yet."),
       accessState: "pending",
     });
   } else if (!isPlatformConsoleRole(role) && role !== "client") {

@@ -29,8 +29,10 @@ function hasProcrowPortalAccess(role: CrowRole | null): boolean {
   );
 }
 
+/** Sync conservative check — full DB membership resolved on /access and /[tenant] guards. */
 function hasBusinessPortalAccess(role: CrowRole | null, tenantSlugs: string[]): boolean {
-  if (!role) return false;
+  if (!role || isClient(role)) return false;
+  if (isPlatformStaff(role)) return true;
   if (role !== "tenant_admin" && role !== "tenant_user") return false;
   return tenantSlugs.length > 0;
 }
@@ -96,6 +98,13 @@ export function getAuthenticatedPortalCta(user: User): AuthenticatedPortalCta | 
 
   if (isClient(role)) {
     return { href: DEFAULT_CLIENT_HOME, label: "Client Portal" };
+  }
+
+  if (role === "tenant_admin" || role === "tenant_user") {
+    const { tenantSlugs } = getCrowAuth(user);
+    if (tenantSlugs[0]) {
+      return { href: routes.tenant(tenantSlugs[0]).dashboard, label: "Business Portal" };
+    }
   }
 
   return null;

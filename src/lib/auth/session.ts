@@ -129,15 +129,12 @@ export async function requirePlatformConsole(): Promise<User> {
   return user;
 }
 
+/** @deprecated Prefer requireTenantBusinessPortalAccess for M4 membership checks. */
 export async function requireTenantAccess(slug: string): Promise<User> {
-  const user = await requireAuth(`/${slug}/dashboard`);
-  if (isAuthDisabled()) {
-    return user;
-  }
-  const { role, tenantSlugs } = getCrowAuth(user);
-  if (!canAccessTenant(role, tenantSlugs, slug)) {
-    redirect("/unauthorized?reason=tenant");
-  }
+  const { requireTenantBusinessPortalAccess } = await import(
+    "@/lib/auth/tenant-business-portal-guard"
+  );
+  const { user } = await requireTenantBusinessPortalAccess(slug);
   return user;
 }
 

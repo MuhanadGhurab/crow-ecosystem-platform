@@ -51,6 +51,8 @@ import { buildCemModuleDepthSummaryForTenantId } from "@/lib/services/cem-module
 import { buildCemTransactionWorkflowSummaryForTenantId } from "@/lib/services/cem-transaction-workflow.service";
 import { AdminCemWorkflowPersistencePanel } from "@/components/admin/admin-cem-workflow-persistence-panel";
 import { buildCemWorkflowPersistenceSummaryForTenantId } from "@/lib/services/cem-workflow-persistence.service";
+import { AdminTenantMembershipAccessPanel } from "@/components/admin/admin-tenant-membership-access-panel";
+import { buildTenantMembershipAccessSummaryForTenantId } from "@/lib/services/tenant-membership-access.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -96,6 +98,7 @@ export default async function AdminTenantDetailPage({
     cemModuleDepthSummary,
     cemTransactionWorkflowSummary,
     cemWorkflowPersistenceSnapshot,
+    tenantMembershipAccessSummary,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -126,6 +129,7 @@ export default async function AdminTenantDetailPage({
     buildCemModuleDepthSummaryForTenantId(tenant.id),
     buildCemTransactionWorkflowSummaryForTenantId(tenant.id),
     buildCemWorkflowPersistenceSummaryForTenantId(tenant.id),
+    buildTenantMembershipAccessSummaryForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -203,6 +207,9 @@ export default async function AdminTenantDetailPage({
 
       {activeTab === "overview" && (
         <div className="space-y-6">
+          {tenantMembershipAccessSummary && (
+            <AdminTenantMembershipAccessPanel summary={tenantMembershipAccessSummary} />
+          )}
           {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
           {sareaExperienceMapping && (
             <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />

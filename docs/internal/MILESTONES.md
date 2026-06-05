@@ -1075,6 +1075,26 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M3.4B — Approved Workflow Persistence Migration** or **M4 — Tenant Membership & Business Portal Access Hardening**
 
 ---
+## M4 — Tenant Membership & Business Portal Access Hardening (no paid infra)
+
+**Scope:** Prove Business Portal access via tenant membership (DB-first, metadata fallback). Client Portal access does not grant Business Portal. Harden `/[tenant]/*` layout guard, workflow actions, access gateway, blocked UX, and ProCrow membership preview. No migrations, no public self-join, no auth weakening.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M4_TENANT_MEMBERSHIP_BUSINESS_PORTAL_ACCESS_HARDENING.md` |
+| Contract | `src/lib/tenant/tenant-membership-contract.ts` |
+| Decision service | `src/lib/services/tenant-membership-access.service.ts` |
+| Route guard | `src/lib/auth/tenant-business-portal-guard.ts` |
+| Blocked panel | `src/components/tenant/tenant-access-blocked-panel.tsx` |
+| ProCrow panel | `src/components/admin/admin-tenant-membership-access-panel.tsx` |
+| Gateway integration | `src/lib/services/portal-access.service.ts` · `src/app/access/page.tsx` |
+| Verification | `npm run tenant-membership:verify` |
+
+**Status:** Shipped (5 Jun 2026) — PATH A (existing `TenantMembership`), no migration
+
+**Recommended next:** **M4B — Tenant Invite / Membership Reconciliation** or **M3.4B — Approved Workflow Persistence Migration** or **M3.5 — Purchase-to-stock manual smoke**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

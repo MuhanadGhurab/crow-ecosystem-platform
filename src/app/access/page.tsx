@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PortalAccessGateway } from "@/components/portal/portal-access-gateway";
+import { TenantAccessBlockedPanel } from "@/components/tenant/tenant-access-blocked-panel";
 
 export const dynamic = "force-dynamic";
 import { ProductPageHeader } from "@/components/product/product-page-header";
@@ -7,9 +8,15 @@ import { getSessionUser } from "@/lib/auth/session";
 import { buildCrowAccessGatewaySnapshot } from "@/lib/services/portal-access.service";
 import { routes } from "@/lib/routes";
 
-export default async function AccessGatewayPage() {
+export default async function AccessGatewayPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reason?: string; tenant?: string; message?: string }>;
+}) {
+  const { reason, tenant, message } = await searchParams;
   const user = await getSessionUser();
-  const snapshot = buildCrowAccessGatewaySnapshot(user);
+  const snapshot = await buildCrowAccessGatewaySnapshot(user);
+  const showBlocked = reason === "business_portal_blocked";
 
   return (
     <div className="cc-safe-x mx-auto max-w-4xl space-y-10 py-10">
@@ -23,6 +30,13 @@ export default async function AccessGatewayPage() {
             : { label: "Sign in required", tone: "warning" }
         }
       />
+
+      {showBlocked && (
+        <TenantAccessBlockedPanel
+          tenantSlug={tenant}
+          message={message ? decodeURIComponent(message) : undefined}
+        />
+      )}
 
       <PortalAccessGateway
         availablePortals={snapshot.availablePortals}

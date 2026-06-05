@@ -82,6 +82,13 @@ function main(): boolean {
     pass = ok("Business portal requires tenant access") && pass;
   }
 
+  if (!service.includes("listTenantBusinessPortalSlugsForUser")) {
+    pass = fail("Gateway must prove tenant membership via listTenantBusinessPortalSlugsForUser") &&
+      pass;
+  } else {
+    pass = ok("Business portal uses proven membership slugs") && pass;
+  }
+
   const landing = fileText("src/lib/auth/post-login-redirect.ts");
   if (!landing.includes("routes.access") || !landing.includes("shouldRouteToAccessGateway")) {
     pass = fail("Post-login must route multi-portal users to /access") && pass;
