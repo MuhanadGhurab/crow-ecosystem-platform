@@ -23,6 +23,7 @@ import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-not
 import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
 import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
 import { buildCemOperatingModelSnapshotForTenantSlug } from "@/lib/services/cem-operating-model.service";
+import { TenantCemPurchaseToStockLink } from "@/components/tenant/tenant-cem-purchase-to-stock-link";
 
 export default async function TenantWorkflowsPage({
   params,
@@ -90,6 +91,8 @@ export default async function TenantWorkflowsPage({
         focus="workflows"
       />
       <TenantCemOperationalReadinessNote slug={slug} variant="workflows" />
+
+      <TenantCemPurchaseToStockLink slug={slug} moduleKey="workflows" />
 
       <TenantRuntimeStatStrip
         items={[

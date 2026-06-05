@@ -19,6 +19,7 @@ import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-ce
 import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
 import { TenantTaskStatusGroups } from "@/components/tenant/tenant-task-status-groups";
 import { buildCemOperatingModelSnapshotForTenantSlug } from "@/lib/services/cem-operating-model.service";
+import { TenantCemPurchaseToStockLink } from "@/components/tenant/tenant-cem-purchase-to-stock-link";
 
 export default async function TasksPage({
   params,
@@ -128,6 +129,8 @@ export default async function TasksPage({
       {operatingModel && (
         <TenantOperatingModelCrossLink variant="tasks" snapshot={operatingModel} />
       )}
+
+      <TenantCemPurchaseToStockLink slug={slug} moduleKey="tasks" />
 
       <TenantCemLinkageNote
         slug={slug}

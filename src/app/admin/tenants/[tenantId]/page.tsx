@@ -46,7 +46,9 @@ import { buildCemOperatingModelSnapshotForTenantId } from "@/lib/services/cem-op
 import { AdminCemRuntimeHandoffPanel } from "@/components/admin/admin-cem-runtime-handoff-panel";
 import { AdminCemOperatingModelPanel } from "@/components/admin/admin-cem-operating-model-panel";
 import { AdminCemModuleDepthPanel } from "@/components/admin/admin-cem-module-depth-panel";
+import { AdminCemTransactionWorkflowPanel } from "@/components/admin/admin-cem-transaction-workflow-panel";
 import { buildCemModuleDepthSummaryForTenantId } from "@/lib/services/cem-module-depth.service";
+import { buildCemTransactionWorkflowSummaryForTenantId } from "@/lib/services/cem-transaction-workflow.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -90,6 +92,7 @@ export default async function AdminTenantDetailPage({
     cemRuntimeHandoff,
     cemOperatingModel,
     cemModuleDepthSummary,
+    cemTransactionWorkflowSummary,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -118,6 +121,7 @@ export default async function AdminTenantDetailPage({
     buildCemRuntimeHandoffSnapshotForTenantId(tenant.id),
     buildCemOperatingModelSnapshotForTenantId(tenant.id),
     buildCemModuleDepthSummaryForTenantId(tenant.id),
+    buildCemTransactionWorkflowSummaryForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -202,6 +206,12 @@ export default async function AdminTenantDetailPage({
           {cemOperatingModel && <AdminCemOperatingModelPanel snapshot={cemOperatingModel} />}
           {cemModuleDepthSummary.length > 0 && (
             <AdminCemModuleDepthPanel items={cemModuleDepthSummary} />
+          )}
+          {cemTransactionWorkflowSummary && (
+            <AdminCemTransactionWorkflowPanel
+              tenantSlug={tenant.slug}
+              summary={cemTransactionWorkflowSummary}
+            />
           )}
           {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />

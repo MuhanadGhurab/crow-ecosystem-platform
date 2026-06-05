@@ -91,6 +91,7 @@ export const routes = {
   tenant: (slug: string) => ({
     dashboard: `/${slug}/dashboard`,
     workflows: `/${slug}/workflows`,
+    purchaseToStockWorkflow: `/${slug}/workflows/purchase-to-stock`,
     tasks: `/${slug}/tasks`,
     users: `/${slug}/users`,
     roles: `/${slug}/roles`,

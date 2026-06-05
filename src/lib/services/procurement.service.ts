@@ -23,6 +23,55 @@ export async function listPurchaseRequests(
   });
 }
 
+export async function getPurchaseRequestById(tenantId: string, id: string) {
+  return prisma.tenantPurchaseRequest.findFirst({
+    where: { tenantId, id },
+  });
+}
+
+export async function createPurchaseRequest(
+  tenantId: string,
+  data: {
+    title: string;
+    status?: string;
+    priority?: string;
+    vendorName?: string | null;
+    amountSar?: number | null;
+    referenceCode?: string | null;
+    linkedFinanceRef?: string | null;
+    linkedInventoryRef?: string | null;
+  }
+) {
+  return prisma.tenantPurchaseRequest.create({
+    data: {
+      tenantId,
+      title: data.title,
+      status: data.status ?? "draft",
+      priority: data.priority ?? "normal",
+      vendorName: data.vendorName ?? null,
+      amountSar: data.amountSar ?? null,
+      referenceCode: data.referenceCode ?? null,
+      linkedFinanceRef: data.linkedFinanceRef ?? null,
+      linkedInventoryRef: data.linkedInventoryRef ?? null,
+    },
+  });
+}
+
+export async function updatePurchaseRequest(
+  tenantId: string,
+  id: string,
+  data: Prisma.TenantPurchaseRequestUpdateInput
+) {
+  const existing = await getPurchaseRequestById(tenantId, id);
+  if (!existing) {
+    throw new Error("Purchase request not found.");
+  }
+  return prisma.tenantPurchaseRequest.update({
+    where: { id },
+    data,
+  });
+}
+
 export async function getProcurementSummary(tenantId: string): Promise<ProcurementSummary> {
   const rows = await prisma.tenantPurchaseRequest.findMany({
     where: { tenantId },

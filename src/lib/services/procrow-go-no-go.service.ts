@@ -71,7 +71,7 @@ function buildDefaultGates(): ProCrowGateItem[] {
     d({
       key: "tenant-provisioning-controlled",
       category: "tenant_runtime",
-      label: "Tenant auto-provisioning",
+      label: "Tenant auto provisioning",
       status: "advisory",
       description:
         "No automatic tenant provisioning from client approval — onboarding remains ProCrow-controlled. Tenant runtime readiness is separate from production commercial launch.",
@@ -148,6 +148,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
       relatedCommand: "npm run cem-module-depth:verify",
       operatorAction:
         "Review CEM module depth summary on ProCrow tenant workbench; walk Business Portal module pages for depth panels; run npm run cem-module-depth:verify after M3.2 changes.",
+    }),
+    d({
+      key: "cem-transaction-workflow-m33",
+      category: "tenant_runtime",
+      label: "CEM transaction workflow prototype (M3.3)",
+      status: "needs_review",
+      description:
+        "Purchase-to-stock connects department request, procurement, finance approval, warehouse receiving, inventory visibility, tasks, reports, CyberCrow evidence, and SAREA role views. Staging prototype — not payments, accounting posting, legal PO, or production stock mutation. Warning until tenant-backed persistence and a completed demo flow are verified.",
+      relatedCommand: "npm run cem-transaction:verify",
+      operatorAction:
+        "Review transaction workflow panel on ProCrow tenant workbench; walk /workflows/purchase-to-stock on a seeded tenant; run npm run cem-transaction:verify after M3.3 changes.",
     }),
     d({
       key: "cem-runtime-handoff-m3",
@@ -233,7 +244,7 @@ export async function getProCrowGoNoGoSnapshot(): Promise<ProCrowGoNoGoSnapshot>
   ];
 
   const safetyNotes: string[] = [
-    "No automatic deployment, migration execution, payment activation, or tenant auto-provisioning from this UI.",
+    "No automatic deployment, migration execution, payment activation, or tenant auto provisioning from this UI.",
     "No compliance certification, autonomous AI security claims, or production-ready assertions — advisory operator readiness only.",
     "No paid infrastructure activation is implied by this center.",
   ];

@@ -1031,8 +1031,26 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** Shipped (5 Jun 2026)
 
-**Recommended next:** **M4 — Tenant Membership & Business Portal Access Hardening** or **M3.3 — CEM Transaction Workflow Prototype**
+---
+## M3.3 — CEM Transaction Workflow Prototype (Purchase-to-stock) (no paid infra)
 
+**Scope:** Prove CEM can run a real cross-module transaction workflow prototype (department request → procurement review → finance approval → warehouse receiving → inventory visibility → tasks/reports → CyberCrow evidence readiness → SAREA role experience). Staging/demo-safe only: no payments, no accounting posting, no legal PO issuance, and no production stock mutation claims.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M3_3_CEM_TRANSACTION_WORKFLOW_PROTOTYPE.md` |
+| Contract | `src/lib/cem/cem-transaction-workflow-contract.ts` |
+| Snapshot service | `src/lib/services/cem-transaction-workflow.service.ts` |
+| Safe actions | `src/lib/actions/cem-transaction-workflow.ts` |
+| Workflow UI | `src/app/[tenant]/workflows/purchase-to-stock/page.tsx` |
+| Module deep links | `src/app/[tenant]/{procurement,finance,warehouse,inventory,reports,tasks,workflows}/page.tsx` + `src/components/tenant/tenant-cem-purchase-to-stock-link.tsx` |
+| Evidence & SAREA panels | `CemTransactionEvidencePanel` + `CemTransactionSareaPanel` |
+| ProCrow Go/No-Go gate | `src/lib/services/procrow-go-no-go.service.ts` (`cem-transaction-workflow-m33`) |
+| Verification | `npm run cem-transaction:verify` + full M3.3 suite (typecheck/lint/build/public mirror) |
+
+**Status:** **PASSED** (5 Jun 2026)
+
+**Recommended next:** **M3.4 — CEM Workflow Persistence / Transaction Schema** or **M4 — Tenant Membership & Business Portal Access Hardening**
 ---
 
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)

@@ -25,6 +25,8 @@ interface TenantModulePageProps {
   description?: string;
   route: string;
   tenantSlug?: string;
+  backHref?: string;
+  backLabel?: string;
   children?: React.ReactNode;
 }
 
@@ -35,6 +37,8 @@ export function TenantModulePage({
   description,
   route,
   tenantSlug,
+  backHref,
+  backLabel,
   children,
 }: TenantModulePageProps) {
   const modulePath = route.split("/").filter(Boolean).pop() ?? "module";
@@ -46,6 +50,13 @@ export function TenantModulePage({
         entity={ENGINE_ENTITY[engine]}
         title={title}
         description={description}
+        actions={
+          backHref ? (
+            <Link href={backHref} className="cc-btn-secondary text-sm">
+              {backLabel ?? "Back"}
+            </Link>
+          ) : undefined
+        }
       />
       {children ?? (
         <EmptyState

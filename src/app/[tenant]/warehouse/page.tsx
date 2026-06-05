@@ -22,6 +22,7 @@ import {
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { TenantCemPurchaseToStockLink } from "@/components/tenant/tenant-cem-purchase-to-stock-link";
 import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 export default async function TenantWarehousePage({
@@ -129,6 +130,8 @@ export default async function TenantWarehousePage({
             cybercrowInitialized={cybercrowLive}
           />
         )}
+
+        <TenantCemPurchaseToStockLink slug={slug} moduleKey="warehouse" />
 
         {locations.length > 0 && (
           <section className="cc-glass-card space-y-3">

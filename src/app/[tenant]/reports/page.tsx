@@ -24,6 +24,7 @@ import {
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
 import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { TenantCemPurchaseToStockLink } from "@/components/tenant/tenant-cem-purchase-to-stock-link";
 import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 function formatSar(amount: number) {
@@ -102,6 +103,8 @@ export default async function ReportsPage({
           cybercrowInitialized={summary.cybercrowInitialized}
         />
       )}
+
+      <TenantCemPurchaseToStockLink slug={slug} moduleKey="reports" />
 
       {showMeemHub ? (
         <div className="space-y-8">

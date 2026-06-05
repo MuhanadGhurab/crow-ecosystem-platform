@@ -28,6 +28,7 @@ import {
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { TenantCemPurchaseToStockLink } from "@/components/tenant/tenant-cem-purchase-to-stock-link";
 import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 const STATUS_CLASS: Record<string, string> = {
@@ -191,6 +192,8 @@ export default async function ProcurementPage({
             cybercrowInitialized={cybercrowLive}
           />
         )}
+
+        <TenantCemPurchaseToStockLink slug={slug} moduleKey="procurement" />
 
         {showMeemHub && (
           <>
