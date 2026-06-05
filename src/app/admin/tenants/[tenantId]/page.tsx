@@ -45,6 +45,8 @@ import { buildCemRuntimeHandoffSnapshotForTenantId } from "@/lib/services/cem-ru
 import { buildCemOperatingModelSnapshotForTenantId } from "@/lib/services/cem-operating-model.service";
 import { AdminCemRuntimeHandoffPanel } from "@/components/admin/admin-cem-runtime-handoff-panel";
 import { AdminCemOperatingModelPanel } from "@/components/admin/admin-cem-operating-model-panel";
+import { AdminCemModuleDepthPanel } from "@/components/admin/admin-cem-module-depth-panel";
+import { buildCemModuleDepthSummaryForTenantId } from "@/lib/services/cem-module-depth.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -87,6 +89,7 @@ export default async function AdminTenantDetailPage({
     sareaExperienceMapping,
     cemRuntimeHandoff,
     cemOperatingModel,
+    cemModuleDepthSummary,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -114,6 +117,7 @@ export default async function AdminTenantDetailPage({
     buildSareaExperienceMappingSnapshotForTenantId(tenant.id),
     buildCemRuntimeHandoffSnapshotForTenantId(tenant.id),
     buildCemOperatingModelSnapshotForTenantId(tenant.id),
+    buildCemModuleDepthSummaryForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -196,6 +200,9 @@ export default async function AdminTenantDetailPage({
             <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
           )}
           {cemOperatingModel && <AdminCemOperatingModelPanel snapshot={cemOperatingModel} />}
+          {cemModuleDepthSummary.length > 0 && (
+            <AdminCemModuleDepthPanel items={cemModuleDepthSummary} />
+          )}
           {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">

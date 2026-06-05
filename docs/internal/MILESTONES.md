@@ -1016,6 +1016,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M3.2 — CEM Module Depth Pass (no paid infra)
+
+**Scope:** Deepen nine Business Portal ERP modules (HR, Finance, Procurement, Inventory, Warehouse, Logistics, CRM, Sales, Reports) with uniform operational depth — records, workflows/tasks, reports, CyberCrow/SAREA hooks, cross-module flows; ProCrow advisory gates.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M3_2_CEM_MODULE_DEPTH_PASS.md` |
+| Contract | `cem-module-depth-contract.ts` · `cem-module-depth-go-no-go.ts` |
+| Service | `cem-module-depth.service.ts` |
+| Tenant UI | `tenant-cem-module-depth-section.tsx` + six panels |
+| ProCrow | `admin-cem-module-depth-panel.tsx` · `procrow-cem-module-depth-go-no-go-panel.tsx` |
+| Verifier | `npm run cem-module-depth:verify` |
+
+**Status:** Shipped (5 Jun 2026)
+
+**Recommended next:** **M4 — Tenant Membership & Business Portal Access Hardening** or **M3.3 — CEM Transaction Workflow Prototype**
+
+---
+
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

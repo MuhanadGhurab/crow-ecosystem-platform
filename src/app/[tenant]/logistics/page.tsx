@@ -18,6 +18,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 export default async function LogisticsPage({
   params,
@@ -41,13 +43,14 @@ export default async function LogisticsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "logistics") : [];
 
-  const [readiness, operatingModel] = await Promise.all([
+  const [readiness, operatingModel, moduleDepth] = await Promise.all([
     getLogisticsOperationsReadinessSnapshot(
       tenant.id,
       enabledModuleKeys,
       tenant.organization.industry
     ),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "logistics"),
   ]);
   const moduleCtx = operatingModel
     ? selectModuleOperatingContext(operatingModel, "logistics")
@@ -124,6 +127,14 @@ export default async function LogisticsPage({
             moduleKey="logistics"
             moduleAssignment={moduleCtx.moduleAssignment}
             relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
+
+        {moduleDepth && (
+          <TenantCemModuleDepthSection
+            slug={slug}
+            snapshot={moduleDepth}
             cybercrowInitialized={cybercrowLive}
           />
         )}

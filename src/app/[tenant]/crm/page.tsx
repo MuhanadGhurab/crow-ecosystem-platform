@@ -19,6 +19,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 export default async function TenantCrmPage({
   params,
@@ -42,7 +44,7 @@ export default async function TenantCrmPage({
     requestStatus: request?.status ?? null,
   };
 
-  const [accounts, contacts, readiness, operatingModel] = await Promise.all([
+  const [accounts, contacts, readiness, operatingModel, moduleDepth] = await Promise.all([
     hasCrmModule ? listCrmAccounts(tenant.id) : Promise.resolve([]),
     hasCrmModule ? listCrmContacts(tenant.id) : Promise.resolve([]),
     getCrmCommercialReadinessSnapshot(
@@ -52,6 +54,7 @@ export default async function TenantCrmPage({
       requestContext
     ),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "crm"),
   ]);
 
   const accountOptions = accounts.map((a) => ({ id: a.id, name: a.name }));
@@ -108,6 +111,14 @@ export default async function TenantCrmPage({
           moduleKey="crm"
           moduleAssignment={moduleCtx.moduleAssignment}
           relatedFlows={moduleCtx.relatedFlows}
+          cybercrowInitialized={cybercrowLive}
+        />
+      )}
+
+      {moduleDepth && (
+        <TenantCemModuleDepthSection
+          slug={slug}
+          snapshot={moduleDepth}
           cybercrowInitialized={cybercrowLive}
         />
       )}

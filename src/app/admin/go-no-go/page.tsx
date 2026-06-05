@@ -7,10 +7,12 @@ import { buildCyberCrowTrustGoNoGoDependency } from "@/lib/services/cybercrow-te
 import { buildSareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-go-no-go";
 import { buildCemRuntimeGoNoGoDependency } from "@/lib/cem/cem-runtime-go-no-go";
 import { buildCemOperatingModelGoNoGoDependency } from "@/lib/cem/cem-operating-model-go-no-go";
+import { buildCemModuleDepthGoNoGoDependency } from "@/lib/cem/cem-module-depth-go-no-go";
 import { ProCrowCybercrowTrustGoNoGoPanel } from "@/components/procrow/procrow-cybercrow-trust-go-no-go-panel";
 import { ProCrowSareaExperienceGoNoGoPanel } from "@/components/procrow/procrow-sarea-experience-go-no-go-panel";
 import { ProCrowCemRuntimeGoNoGoPanel } from "@/components/procrow/procrow-cem-runtime-go-no-go-panel";
 import { ProCrowCemOperatingModelGoNoGoPanel } from "@/components/procrow/procrow-cem-operating-model-go-no-go-panel";
+import { ProCrowCemModuleDepthGoNoGoPanel } from "@/components/procrow/procrow-cem-module-depth-go-no-go-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -21,12 +23,14 @@ export default async function AdminGoNoGoPage() {
     sareaExperienceDependency,
     cemRuntimeDependency,
     cemOperatingModelDependency,
+    cemModuleDepthDependency,
   ] = await Promise.all([
     getProCrowGoNoGoSnapshot(),
     Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
     Promise.resolve(buildSareaExperienceGoNoGoDependency()),
     Promise.resolve(buildCemRuntimeGoNoGoDependency()),
     Promise.resolve(buildCemOperatingModelGoNoGoDependency()),
+    Promise.resolve(buildCemModuleDepthGoNoGoDependency()),
   ]);
 
   return (
@@ -44,6 +48,7 @@ export default async function AdminGoNoGoPage() {
       <ProCrowCybercrowTrustGoNoGoPanel dependency={cybercrowTrustDependency} />
       <ProCrowSareaExperienceGoNoGoPanel dependency={sareaExperienceDependency} />
       <ProCrowCemOperatingModelGoNoGoPanel dependency={cemOperatingModelDependency} />
+      <ProCrowCemModuleDepthGoNoGoPanel dependency={cemModuleDepthDependency} />
       <ProCrowCemRuntimeGoNoGoPanel dependency={cemRuntimeDependency} />
       <ProCrowGoNoGoCenter snapshot={snapshot} />
     </div>

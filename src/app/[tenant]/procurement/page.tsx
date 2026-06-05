@@ -27,6 +27,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 const STATUS_CLASS: Record<string, string> = {
   draft: "bg-slate-600/30 text-slate-300",
@@ -73,7 +75,7 @@ export default async function ProcurementPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "procurement") : [];
 
-  const [requests, summary, readiness, operatingModel] = await Promise.all([
+  const [requests, summary, readiness, operatingModel, moduleDepth] = await Promise.all([
     useMockProcurement
       ? Promise.resolve(
           LOGISTICS_PROCUREMENT_SAMPLES.map((s, i) => ({
@@ -112,6 +114,7 @@ export default async function ProcurementPage({
       tenant.organization.industry
     ),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "procurement"),
   ]);
 
   const r = routes.tenant(slug);
@@ -177,6 +180,14 @@ export default async function ProcurementPage({
             moduleKey="procurement"
             moduleAssignment={moduleCtx.moduleAssignment}
             relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
+
+        {moduleDepth && (
+          <TenantCemModuleDepthSection
+            slug={slug}
+            snapshot={moduleDepth}
             cybercrowInitialized={cybercrowLive}
           />
         )}

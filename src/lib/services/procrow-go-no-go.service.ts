@@ -139,6 +139,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
         "Review CEM Core Operating Model panel on ProCrow tenant workbench; confirm cross-module flows on Business Portal dashboard; run npm run cem-operating-model:verify after M3.1 changes.",
     }),
     d({
+      key: "cem-module-depth-m32",
+      category: "tenant_runtime",
+      label: "CEM module depth pass (M3.2)",
+      status: "needs_review",
+      description:
+        "Module depth panels on HR–Reports expose operational records, cross-module flows, tasks, reports, CyberCrow trust, and SAREA experience per ERP area. Advisory staging depth — not a production transaction engine. Does not auto-pass Go/No-Go.",
+      relatedCommand: "npm run cem-module-depth:verify",
+      operatorAction:
+        "Review CEM module depth summary on ProCrow tenant workbench; walk Business Portal module pages for depth panels; run npm run cem-module-depth:verify after M3.2 changes.",
+    }),
+    d({
       key: "cem-runtime-handoff-m3",
       category: "tenant_runtime",
       label: "CEM runtime handoff & Business Portal staging readiness (M3)",

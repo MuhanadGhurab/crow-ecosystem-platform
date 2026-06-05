@@ -19,6 +19,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 export default async function TenantHrPage({
   params,
@@ -34,11 +36,12 @@ export default async function TenantHrPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "hr") : [];
 
-  const [employees, departments, readiness, operatingModel] = await Promise.all([
+  const [employees, departments, readiness, operatingModel, moduleDepth] = await Promise.all([
     listHrEmployees(tenant.id),
     listTenantDepartments(tenant.id),
     getHrWorkforceReadinessSnapshot(tenant.id, tenant.organization.industry),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "hr"),
   ]);
   const moduleCtx = operatingModel
     ? selectModuleOperatingContext(operatingModel, "hr")
@@ -84,6 +87,14 @@ export default async function TenantHrPage({
           moduleKey="hr"
           moduleAssignment={moduleCtx.moduleAssignment}
           relatedFlows={moduleCtx.relatedFlows}
+          cybercrowInitialized={cybercrowLive}
+        />
+      )}
+
+      {moduleDepth && (
+        <TenantCemModuleDepthSection
+          slug={slug}
+          snapshot={moduleDepth}
           cybercrowInitialized={cybercrowLive}
         />
       )}

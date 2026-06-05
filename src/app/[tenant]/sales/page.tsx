@@ -24,6 +24,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 const STATUS_CLASS: Record<string, string> = {
   draft: "bg-slate-600/30 text-slate-300",
@@ -69,7 +71,7 @@ export default async function SalesPage({
     requestStatus: request?.status ?? null,
   };
 
-  const [opportunities, summary, readiness, operatingModel] = await Promise.all([
+  const [opportunities, summary, readiness, operatingModel, moduleDepth] = await Promise.all([
     useMockSales
       ? Promise.resolve(
           LOGISTICS_SALES_SAMPLES.map((s, i) => ({
@@ -119,6 +121,7 @@ export default async function SalesPage({
       requestContext
     ),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "sales"),
   ]);
 
   const moduleCtx = operatingModel
@@ -258,6 +261,14 @@ export default async function SalesPage({
             moduleKey="sales"
             moduleAssignment={moduleCtx.moduleAssignment}
             relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
+
+        {moduleDepth && (
+          <TenantCemModuleDepthSection
+            slug={slug}
+            snapshot={moduleDepth}
             cybercrowInitialized={cybercrowLive}
           />
         )}

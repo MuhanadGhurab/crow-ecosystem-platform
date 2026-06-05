@@ -112,6 +112,7 @@
     "sarea-blueprint:verify": "npx tsx scripts/verify-sarea-blueprint-experience-mapping.ts",
     "cem-handoff:verify": "npx tsx scripts/verify-cem-runtime-handoff.ts",
     "cem-operating-model:verify": "npx tsx scripts/verify-cem-operating-model.ts",
+    "cem-module-depth:verify": "npx tsx scripts/verify-cem-module-depth.ts",
     "build-memory:verify": "npx tsx scripts/verify-vercel-build-memory-guard.ts",
     "sarea:ux-verify": "npx tsx scripts/verify-sarea-ux-depth.ts",
     "procrow-workbench:verify": "npx tsx scripts/verify-procrow-workbench-ux.ts",

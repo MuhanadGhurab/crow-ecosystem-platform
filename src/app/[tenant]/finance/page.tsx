@@ -22,6 +22,8 @@ import {
   selectModuleOperatingContext,
 } from "@/lib/services/cem-operating-model.service";
 import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantCemModuleDepthSection } from "@/components/tenant/tenant-cem-module-depth-section";
+import { buildCemModuleDepthSnapshotForTenantSlug } from "@/lib/services/cem-module-depth.service";
 
 const STATUS_CLASS: Record<string, string> = {
   open: "bg-amber-500/15 text-amber-300",
@@ -68,7 +70,7 @@ export default async function FinancePage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showFinanceHub ? resolveMeemHubAiKeys(answers, "finance") : [];
 
-  const [entries, summary, readiness, operatingModel] = await Promise.all([
+  const [entries, summary, readiness, operatingModel, moduleDepth] = await Promise.all([
     useMockFinance
       ? Promise.resolve(
           LOGISTICS_FINANCE_SAMPLES.map((s, i) => ({
@@ -120,6 +122,7 @@ export default async function FinancePage({
       tenant.organization.industry
     ),
     buildCemOperatingModelSnapshotForTenantSlug(slug),
+    buildCemModuleDepthSnapshotForTenantSlug(slug, "finance"),
   ]);
 
   const r = routes.tenant(slug);
@@ -169,6 +172,14 @@ export default async function FinancePage({
             moduleKey="finance"
             moduleAssignment={moduleCtx.moduleAssignment}
             relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
+
+        {moduleDepth && (
+          <TenantCemModuleDepthSection
+            slug={slug}
+            snapshot={moduleDepth}
             cybercrowInitialized={cybercrowLive}
           />
         )}
