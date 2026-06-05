@@ -6,20 +6,28 @@ import { getProCrowGoNoGoSnapshot } from "@/lib/services/procrow-go-no-go.servic
 import { buildCyberCrowTrustGoNoGoDependency } from "@/lib/services/cybercrow-tenant-trust.service";
 import { buildSareaExperienceGoNoGoDependency } from "@/lib/sarea/sarea-experience-go-no-go";
 import { buildCemRuntimeGoNoGoDependency } from "@/lib/cem/cem-runtime-go-no-go";
+import { buildCemOperatingModelGoNoGoDependency } from "@/lib/cem/cem-operating-model-go-no-go";
 import { ProCrowCybercrowTrustGoNoGoPanel } from "@/components/procrow/procrow-cybercrow-trust-go-no-go-panel";
 import { ProCrowSareaExperienceGoNoGoPanel } from "@/components/procrow/procrow-sarea-experience-go-no-go-panel";
 import { ProCrowCemRuntimeGoNoGoPanel } from "@/components/procrow/procrow-cem-runtime-go-no-go-panel";
+import { ProCrowCemOperatingModelGoNoGoPanel } from "@/components/procrow/procrow-cem-operating-model-go-no-go-panel";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminGoNoGoPage() {
-  const [snapshot, cybercrowTrustDependency, sareaExperienceDependency, cemRuntimeDependency] =
-    await Promise.all([
-      getProCrowGoNoGoSnapshot(),
-      Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
-      Promise.resolve(buildSareaExperienceGoNoGoDependency()),
-      Promise.resolve(buildCemRuntimeGoNoGoDependency()),
-    ]);
+  const [
+    snapshot,
+    cybercrowTrustDependency,
+    sareaExperienceDependency,
+    cemRuntimeDependency,
+    cemOperatingModelDependency,
+  ] = await Promise.all([
+    getProCrowGoNoGoSnapshot(),
+    Promise.resolve(buildCyberCrowTrustGoNoGoDependency()),
+    Promise.resolve(buildSareaExperienceGoNoGoDependency()),
+    Promise.resolve(buildCemRuntimeGoNoGoDependency()),
+    Promise.resolve(buildCemOperatingModelGoNoGoDependency()),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -35,6 +43,7 @@ export default async function AdminGoNoGoPage() {
 
       <ProCrowCybercrowTrustGoNoGoPanel dependency={cybercrowTrustDependency} />
       <ProCrowSareaExperienceGoNoGoPanel dependency={sareaExperienceDependency} />
+      <ProCrowCemOperatingModelGoNoGoPanel dependency={cemOperatingModelDependency} />
       <ProCrowCemRuntimeGoNoGoPanel dependency={cemRuntimeDependency} />
       <ProCrowGoNoGoCenter snapshot={snapshot} />
     </div>

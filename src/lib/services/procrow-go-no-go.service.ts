@@ -128,6 +128,17 @@ function buildDefaultGates(): ProCrowGateItem[] {
         "Review SAREA mapping on tenant workbench and studio; run npm run sarea-blueprint:verify after M2 changes.",
     }),
     d({
+      key: "cem-operating-model-m31",
+      category: "tenant_runtime",
+      label: "CEM core operating model integration (M3.1)",
+      status: "needs_review",
+      description:
+        "CEM operating model maps tenant modules, workflows, tasks, and reports as one staging operating spine. Advisory until ProCrow tenant workbench review — not production launch. CyberCrow observability and SAREA experience hooks are described, not certified.",
+      relatedCommand: "npm run cem-operating-model:verify",
+      operatorAction:
+        "Review CEM Core Operating Model panel on ProCrow tenant workbench; confirm cross-module flows on Business Portal dashboard; run npm run cem-operating-model:verify after M3.1 changes.",
+    }),
+    d({
       key: "cem-runtime-handoff-m3",
       category: "tenant_runtime",
       label: "CEM runtime handoff & Business Portal staging readiness (M3)",

@@ -16,6 +16,11 @@ import {
   listWarehouseLocations,
 } from "@/lib/services/warehouse.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 export default async function TenantWarehousePage({
   params,
@@ -39,7 +44,7 @@ export default async function TenantWarehousePage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "warehouse") : [];
 
-  const [locations, summary, readiness] = await Promise.all([
+  const [locations, summary, readiness, operatingModel] = await Promise.all([
     listWarehouseLocations(tenant.id),
     getWarehouseSummary(tenant.id),
     getWarehouseOperationsReadinessSnapshot(
@@ -47,7 +52,11 @@ export default async function TenantWarehousePage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "warehouse")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   const linkageWarnings: string[] = [];
   if (!readiness.procurementEnabled) {
@@ -99,6 +108,16 @@ export default async function TenantWarehousePage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="warehouse"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         {locations.length > 0 && (
           <section className="cc-glass-card space-y-3">

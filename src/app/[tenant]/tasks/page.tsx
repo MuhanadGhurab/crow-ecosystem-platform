@@ -16,7 +16,9 @@ import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
+import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
 import { TenantTaskStatusGroups } from "@/components/tenant/tenant-task-status-groups";
+import { buildCemOperatingModelSnapshotForTenantSlug } from "@/lib/services/cem-operating-model.service";
 
 export default async function TasksPage({
   params,
@@ -30,7 +32,7 @@ export default async function TasksPage({
   const tenantModules = tenant.modules ?? [];
   const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
 
-  const [tasks, summary, ops, taskApprovalSnapshot] = await Promise.all([
+  const [tasks, summary, ops, taskApprovalSnapshot, operatingModel] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TASK_SAMPLES.map((s, i) => ({
           id: `mock-task-${i}`,
@@ -51,6 +53,7 @@ export default async function TasksPage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
   const r = routes.tenant(slug);
   const openCount = tasks.filter((t) => t.status === "open" || t.status === "in_progress").length;
@@ -120,6 +123,10 @@ export default async function TasksPage({
           tasks={tasks}
           cybercrowInitialized={summary.cybercrowInitialized}
         />
+      )}
+
+      {operatingModel && (
+        <TenantOperatingModelCrossLink variant="tasks" snapshot={operatingModel} />
       )}
 
       <TenantCemLinkageNote

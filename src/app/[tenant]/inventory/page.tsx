@@ -19,6 +19,11 @@ import {
   listInventoryItems,
 } from "@/lib/services/inventory.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 export default async function TenantInventoryPage({
   params,
@@ -43,7 +48,7 @@ export default async function TenantInventoryPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "inventory") : [];
 
-  const [items, summary, readiness] = await Promise.all([
+  const [items, summary, readiness, operatingModel] = await Promise.all([
     useMockInventory
       ? Promise.resolve(
           LOGISTICS_INVENTORY_SAMPLES.map((s, i) => ({
@@ -75,7 +80,11 @@ export default async function TenantInventoryPage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "inventory")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   const linkageWarnings: string[] = [];
   if (readiness.procurementEnabled && readiness.prsWithoutInventoryRef > 0) {
@@ -129,6 +138,16 @@ export default async function TenantInventoryPage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="inventory"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         {items.length > 0 && (
           <section className="cc-glass-card space-y-3">

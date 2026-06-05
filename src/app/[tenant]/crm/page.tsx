@@ -14,6 +14,11 @@ import { routes } from "@/lib/routes";
 import { getCrmCommercialReadinessSnapshot } from "@/lib/services/crm-sales-readiness.service";
 import { listCrmAccounts, listCrmContacts } from "@/lib/services/crm.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 export default async function TenantCrmPage({
   params,
@@ -37,7 +42,7 @@ export default async function TenantCrmPage({
     requestStatus: request?.status ?? null,
   };
 
-  const [accounts, contacts, readiness] = await Promise.all([
+  const [accounts, contacts, readiness, operatingModel] = await Promise.all([
     hasCrmModule ? listCrmAccounts(tenant.id) : Promise.resolve([]),
     hasCrmModule ? listCrmContacts(tenant.id) : Promise.resolve([]),
     getCrmCommercialReadinessSnapshot(
@@ -46,9 +51,13 @@ export default async function TenantCrmPage({
       tenant.organization.industry,
       requestContext
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
 
   const accountOptions = accounts.map((a) => ({ id: a.id, name: a.name }));
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "crm")
+    : { relatedFlows: [], moduleAssignment: undefined };
   const cybercrowLive = readiness.cybercrowInitialized;
   const linkageWarnings: string[] = [];
   if (readiness.accountsWithoutContacts > 0) {
@@ -92,6 +101,16 @@ export default async function TenantCrmPage({
         snapshot={readiness}
         cybercrowLive={cybercrowLive}
       />
+
+      {operatingModel && (
+        <TenantModuleOperatingContext
+          slug={slug}
+          moduleKey="crm"
+          moduleAssignment={moduleCtx.moduleAssignment}
+          relatedFlows={moduleCtx.relatedFlows}
+          cybercrowInitialized={cybercrowLive}
+        />
+      )}
 
       <TenantRuntimeCrossLinks slug={slug} current="crm" cybercrowLive={cybercrowLive} />
 

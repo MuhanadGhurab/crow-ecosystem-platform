@@ -17,6 +17,12 @@ import { getCemOperationsSnapshot } from "@/lib/services/cem-operations-intellig
 import { getReportsKpiSummary } from "@/lib/services/reports.service";
 import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
+import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
 
 function formatSar(amount: number) {
   return new Intl.NumberFormat("en-SA", { maximumFractionDigits: 0 }).format(amount);
@@ -43,12 +49,16 @@ export default async function ReportsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "reports") : [];
 
-  const [kpis, summary, cemOps, biSnapshot] = await Promise.all([
+  const [kpis, summary, cemOps, biSnapshot, operatingModel] = await Promise.all([
     getReportsKpiSummary(tenant.id, moduleKeys),
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
     getReportsBiReadinessSnapshot(tenant.id, moduleKeys, tenant.organization.industry),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "bi")
+    : { relatedFlows: [], moduleAssignment: undefined };
   const r = routes.tenant(slug);
 
   const hasAnyErpData =
@@ -70,6 +80,18 @@ export default async function ReportsPage({
     >
       <TenantRuntimeDemoHint beat="visibility" compact />
       <TenantCemOperationalReadinessNote slug={slug} variant="reports" />
+      {operatingModel && (
+        <TenantOperatingModelCrossLink variant="reports" snapshot={operatingModel} />
+      )}
+      {operatingModel && (
+        <TenantModuleOperatingContext
+          slug={slug}
+          moduleKey="bi"
+          moduleAssignment={moduleCtx.moduleAssignment}
+          relatedFlows={moduleCtx.relatedFlows}
+          cybercrowInitialized={summary.cybercrowInitialized}
+        />
+      )}
 
       {showMeemHub ? (
         <div className="space-y-8">

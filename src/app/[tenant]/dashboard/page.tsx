@@ -29,7 +29,9 @@ import { TenantBusinessPortalHandoffNote } from "@/components/tenant/tenant-busi
 import { RuntimeCohesionPanel } from "@/components/tenant/runtime-cohesion-panel";
 import { TENANT_RUNTIME_PROCROW_NOTE } from "@/lib/constants/tenant-runtime-demo";
 import { getRuntimeCohesionSnapshot } from "@/lib/services/runtime-cohesion.service";
+import { buildCemOperatingModelSnapshotForTenantSlug } from "@/lib/services/cem-operating-model.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { TenantCemOperatingModelPanel } from "@/components/tenant/tenant-cem-operating-model-panel";
 import { readSareaPreviewPersona } from "@/lib/sarea/preview-cookie";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
@@ -56,10 +58,11 @@ export default async function TenantDashboardPage({
     previewPersona
   );
   const moduleKeys = tenant.modules.filter((m) => m.enabled !== false).map((m) => m.moduleKey);
-  const [summary, cemOps, cohesion] = await Promise.all([
+  const [summary, cemOps, cohesion, operatingModel] = await Promise.all([
     safeWorkspaceSummary(tenant.id),
     getCemOperationsSnapshot(tenant.id),
     getRuntimeCohesionSnapshot(tenant.id, moduleKeys, tenant.organization.industry, slug),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
   const cybercrowMetrics = summary.cybercrowInitialized
     ? await getCybercrowDashboardMetrics(tenant.id).catch(() => null)
@@ -195,6 +198,8 @@ export default async function TenantDashboardPage({
       <CybercrowConnectionPanel tenantSlug={slug} variant="tenant" />
 
       <TenantCemOperationsPanel slug={slug} snapshot={cemOps} />
+
+      {operatingModel && <TenantCemOperatingModelPanel slug={slug} snapshot={operatingModel} />}
 
       <RuntimeCohesionPanel slug={slug} snapshot={cohesion} />
 

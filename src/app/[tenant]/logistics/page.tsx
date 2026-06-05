@@ -13,6 +13,11 @@ import { resolveMeemHubAiKeys, showMeemErpHub } from "@/lib/meem/meem-hub-utils"
 import { routes } from "@/lib/routes";
 import { getLogisticsOperationsReadinessSnapshot } from "@/lib/services/logistics-readiness.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 export default async function LogisticsPage({
   params,
@@ -36,11 +41,17 @@ export default async function LogisticsPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "logistics") : [];
 
-  const readiness = await getLogisticsOperationsReadinessSnapshot(
-    tenant.id,
-    enabledModuleKeys,
-    tenant.organization.industry
-  );
+  const [readiness, operatingModel] = await Promise.all([
+    getLogisticsOperationsReadinessSnapshot(
+      tenant.id,
+      enabledModuleKeys,
+      tenant.organization.industry
+    ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
+  ]);
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "logistics")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   const linkageWarnings: string[] = [];
   if (!readiness.warehouseEnabled) {
@@ -106,6 +117,16 @@ export default async function LogisticsPage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="logistics"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         {(readiness.outboundLanes > 0 || readiness.inboundLanes > 0) && (
           <section className="cc-glass-card space-y-3">

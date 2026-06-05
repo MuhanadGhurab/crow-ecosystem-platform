@@ -17,6 +17,11 @@ import { routes } from "@/lib/routes";
 import { getFinanceOperationsReadinessSnapshot } from "@/lib/services/finance-readiness.service";
 import { getFinanceSummary, listFinanceEntries } from "@/lib/services/finance.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 const STATUS_CLASS: Record<string, string> = {
   open: "bg-amber-500/15 text-amber-300",
@@ -63,7 +68,7 @@ export default async function FinancePage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showFinanceHub ? resolveMeemHubAiKeys(answers, "finance") : [];
 
-  const [entries, summary, readiness] = await Promise.all([
+  const [entries, summary, readiness, operatingModel] = await Promise.all([
     useMockFinance
       ? Promise.resolve(
           LOGISTICS_FINANCE_SAMPLES.map((s, i) => ({
@@ -114,10 +119,14 @@ export default async function FinancePage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
 
   const r = routes.tenant(slug);
   const cybercrowLive = readiness.cybercrowInitialized;
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "finance")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   return (
     <TenantModulePage
@@ -153,6 +162,16 @@ export default async function FinancePage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="finance"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         {showFinanceHub && (
           <>

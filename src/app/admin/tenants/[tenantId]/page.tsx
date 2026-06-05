@@ -42,7 +42,9 @@ import { buildSareaExperienceMappingSnapshotForTenantId } from "@/lib/services/s
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import { buildCemRuntimeHandoffSnapshotForTenantId } from "@/lib/services/cem-runtime-handoff.service";
+import { buildCemOperatingModelSnapshotForTenantId } from "@/lib/services/cem-operating-model.service";
 import { AdminCemRuntimeHandoffPanel } from "@/components/admin/admin-cem-runtime-handoff-panel";
+import { AdminCemOperatingModelPanel } from "@/components/admin/admin-cem-operating-model-panel";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export const dynamic = "force-dynamic";
@@ -84,6 +86,7 @@ export default async function AdminTenantDetailPage({
     cybercrowTrust,
     sareaExperienceMapping,
     cemRuntimeHandoff,
+    cemOperatingModel,
   ] = await Promise.all([
     getTenantWorkspaceSummary(tenant.id),
     getTenantHealthSummary(tenant.id),
@@ -110,6 +113,7 @@ export default async function AdminTenantDetailPage({
     buildCyberCrowTenantTrustSnapshotForTenantId(tenant.id),
     buildSareaExperienceMappingSnapshotForTenantId(tenant.id),
     buildCemRuntimeHandoffSnapshotForTenantId(tenant.id),
+    buildCemOperatingModelSnapshotForTenantId(tenant.id),
   ]);
 
   if (activeTab === "plan" && capabilitySnapshot) {
@@ -191,6 +195,7 @@ export default async function AdminTenantDetailPage({
           {sareaExperienceMapping && (
             <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
           )}
+          {cemOperatingModel && <AdminCemOperatingModelPanel snapshot={cemOperatingModel} />}
           {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
           <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
           <section className="cc-glass-card space-y-4">

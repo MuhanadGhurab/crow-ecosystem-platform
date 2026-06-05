@@ -19,6 +19,11 @@ import { routes } from "@/lib/routes";
 import { getSalesCommercialReadinessSnapshot } from "@/lib/services/crm-sales-readiness.service";
 import { getSalesSummary, listSalesOpportunities } from "@/lib/services/sales.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 const STATUS_CLASS: Record<string, string> = {
   draft: "bg-slate-600/30 text-slate-300",
@@ -64,7 +69,7 @@ export default async function SalesPage({
     requestStatus: request?.status ?? null,
   };
 
-  const [opportunities, summary, readiness] = await Promise.all([
+  const [opportunities, summary, readiness, operatingModel] = await Promise.all([
     useMockSales
       ? Promise.resolve(
           LOGISTICS_SALES_SAMPLES.map((s, i) => ({
@@ -113,7 +118,12 @@ export default async function SalesPage({
       tenant.organization.industry,
       requestContext
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
+
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "sales")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   const r = routes.tenant(slug);
   const cybercrowLive = readiness.cybercrowInitialized;
@@ -241,6 +251,16 @@ export default async function SalesPage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="sales"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         <TenantRuntimeCrossLinks slug={slug} current="sales" cybercrowLive={cybercrowLive} />
 

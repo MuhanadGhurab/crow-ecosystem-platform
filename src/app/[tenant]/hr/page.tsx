@@ -14,6 +14,11 @@ import { getHrWorkforceReadinessSnapshot } from "@/lib/services/hr-readiness.ser
 import { listHrEmployees } from "@/lib/services/hr.service";
 import { listTenantDepartments } from "@/lib/services/tenant-identity.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 export default async function TenantHrPage({
   params,
@@ -29,11 +34,15 @@ export default async function TenantHrPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "hr") : [];
 
-  const [employees, departments, readiness] = await Promise.all([
+  const [employees, departments, readiness, operatingModel] = await Promise.all([
     listHrEmployees(tenant.id),
     listTenantDepartments(tenant.id),
     getHrWorkforceReadinessSnapshot(tenant.id, tenant.organization.industry),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "hr")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   const deptOptions = departments.map((d) => ({ id: d.id, name: d.name }));
   const cybercrowLive = readiness.cybercrowInitialized;
@@ -68,6 +77,16 @@ export default async function TenantHrPage({
         snapshot={readiness}
         cybercrowLive={cybercrowLive}
       />
+
+      {operatingModel && (
+        <TenantModuleOperatingContext
+          slug={slug}
+          moduleKey="hr"
+          moduleAssignment={moduleCtx.moduleAssignment}
+          relatedFlows={moduleCtx.relatedFlows}
+          cybercrowInitialized={cybercrowLive}
+        />
+      )}
 
       {showMeemHub && (
         <MeemHrHub

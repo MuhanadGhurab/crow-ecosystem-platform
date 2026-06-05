@@ -21,6 +21,8 @@ import { safeWorkspaceSummary } from "@/lib/services/workspace-summary-safe";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
 import { TenantCemLinkageNote } from "@/components/tenant/tenant-cem-linkage-note";
 import { TenantCemOperationalReadinessNote } from "@/components/tenant/tenant-cem-operational-readiness-note";
+import { TenantOperatingModelCrossLink } from "@/components/tenant/tenant-operating-model-cross-link";
+import { buildCemOperatingModelSnapshotForTenantSlug } from "@/lib/services/cem-operating-model.service";
 
 export default async function TenantWorkflowsPage({
   params,
@@ -34,7 +36,7 @@ export default async function TenantWorkflowsPage({
   const tenantModules = tenant.modules ?? [];
   const enabledModuleKeys = tenantModules.filter((m) => m.enabled).map((m) => m.moduleKey);
 
-  const [workflows, summary, ops, taskApprovalSnapshot] = await Promise.all([
+  const [workflows, summary, ops, taskApprovalSnapshot, operatingModel] = await Promise.all([
     isUseMockData() && slug === MEEM_TENANT_SLUG
       ? MEEM_TENANT_WORKFLOWS.map((w, i) => ({
           id: `mock-workflow-${i}`,
@@ -57,6 +59,7 @@ export default async function TenantWorkflowsPage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
 
   const intelById = new Map(ops.workflows.map((w) => [w.id, w]));
@@ -235,6 +238,10 @@ export default async function TenantWorkflowsPage({
           Tasks board
         </Link>
       </div>
+
+      {operatingModel && (
+        <TenantOperatingModelCrossLink variant="workflows" snapshot={operatingModel} />
+      )}
 
       <TenantCemLinkageNote
         slug={slug}

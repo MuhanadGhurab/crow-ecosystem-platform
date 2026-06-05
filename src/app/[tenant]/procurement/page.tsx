@@ -22,6 +22,11 @@ import {
   listPurchaseRequests,
 } from "@/lib/services/procurement.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import {
+  buildCemOperatingModelSnapshotForTenantSlug,
+  selectModuleOperatingContext,
+} from "@/lib/services/cem-operating-model.service";
+import { TenantModuleOperatingContext } from "@/components/tenant/tenant-module-operating-context";
 
 const STATUS_CLASS: Record<string, string> = {
   draft: "bg-slate-600/30 text-slate-300",
@@ -68,7 +73,7 @@ export default async function ProcurementPage({
   const answers = tenant.blueprint?.request?.discoveryProfile?.answers ?? [];
   const aiExtraKeys = showMeemHub ? resolveMeemHubAiKeys(answers, "procurement") : [];
 
-  const [requests, summary, readiness] = await Promise.all([
+  const [requests, summary, readiness, operatingModel] = await Promise.all([
     useMockProcurement
       ? Promise.resolve(
           LOGISTICS_PROCUREMENT_SAMPLES.map((s, i) => ({
@@ -106,6 +111,7 @@ export default async function ProcurementPage({
       enabledModuleKeys,
       tenant.organization.industry
     ),
+    buildCemOperatingModelSnapshotForTenantSlug(slug),
   ]);
 
   const r = routes.tenant(slug);
@@ -126,6 +132,9 @@ export default async function ProcurementPage({
   }
 
   const cybercrowLive = readiness.cybercrowInitialized;
+  const moduleCtx = operatingModel
+    ? selectModuleOperatingContext(operatingModel, "procurement")
+    : { relatedFlows: [], moduleAssignment: undefined };
 
   return (
     <TenantModulePage
@@ -161,6 +170,16 @@ export default async function ProcurementPage({
           snapshot={readiness}
           cybercrowLive={cybercrowLive}
         />
+
+        {operatingModel && (
+          <TenantModuleOperatingContext
+            slug={slug}
+            moduleKey="procurement"
+            moduleAssignment={moduleCtx.moduleAssignment}
+            relatedFlows={moduleCtx.relatedFlows}
+            cybercrowInitialized={cybercrowLive}
+          />
+        )}
 
         {showMeemHub && (
           <>

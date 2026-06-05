@@ -994,7 +994,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** Shipped (5 Jun 2026)
 
-**Recommended next:** **M4 — Tenant Membership & Business Portal Access Hardening** or **M3.1 — CEM Module Depth Pass**
+**Recommended next:** **M3.1 — CEM Core Operating Model Integration** or **M4 — Tenant Membership & Business Portal Access Hardening**
+
+---
+
+## M3.1 — CEM Core Operating Model Integration (no paid infra)
+
+**Scope:** Read-only CEM operating model layer — connect tenant, org, modules, workflows, tasks, and reports as one staging operating spine; ProCrow + Go/No-Go advisory gates; CyberCrow/SAREA hooks.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M3_1_CEM_CORE_OPERATING_MODEL_INTEGRATION.md` |
+| Contract | `cem-operating-model-contract.ts` · `cem-operating-model-go-no-go.ts` |
+| Core flows | `cem-core-operating-flows.ts` |
+| Service | `cem-operating-model.service.ts` |
+| Verifier | `npm run cem-operating-model:verify` |
+
+**Status:** Shipped (5 Jun 2026)
+
+**Recommended next:** **M3.2 — CEM Module Depth Pass** or **M4 — Tenant Membership & Business Portal Access Hardening**
 
 ---
 
