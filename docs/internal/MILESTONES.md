@@ -1095,6 +1095,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4B — Tenant Invite / Membership Reconciliation** or **M3.4B — Approved Workflow Persistence Migration** or **M3.5 — Purchase-to-stock manual smoke**
 
 ---
+## M3.5 — Purchase-to-Stock Manual Smoke & Demo Script (no paid infra)
+
+**Scope:** Manual smoke checklist and 7–10 minute demo script for the M3.3 purchase-to-stock workflow after M3.4 persistence and M4 Business Portal membership hardening. HTTP route smoke + staging membership precheck + operator OAuth follow-up. No migrations, seeds, payments, or production launch claims.
+
+| Deliverable | Location |
+|-------------|----------|
+| Smoke report | `docs/internal/M3_5_PURCHASE_TO_STOCK_MANUAL_SMOKE.md` |
+| Demo script | `docs/internal/M3_5_PURCHASE_TO_STOCK_DEMO_SCRIPT.md` |
+| Screenshot checklist | `docs/internal/M3_5_SCREENSHOT_CHECKLIST.md` |
+| Doc verifier | `scripts/verify-purchase-to-stock-smoke-docs.ts` |
+| Verification | `npm run purchase-smoke:verify` |
+
+**Test context:** Vercel `531a9e0` · Supabase `wbwnsndcxrgyqwppurms` · tenant `meem-global` · account `mkkzero@gmail.com` (`tenant_admin`)
+
+**Status:** **CONDITIONAL PASS** (5 Jun 2026) — HTTP + verifier green; authenticated OAuth, client-only block, and ProCrow UI walkthrough deferred to operator
+
+**Recommended next:** **M4B — Tenant Membership Invite / Onboarding Flow** or **M3.4B — Approved Workflow Persistence Migration** or **M3.6 — Purchase-to-Stock UX Refinement**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.
