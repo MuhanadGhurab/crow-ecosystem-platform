@@ -1133,6 +1133,24 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4C — Tenant Invite Acceptance Token / Email Delivery** or **M3.6 — Purchase-to-Stock UX Refinement** or **M3.4B — Approved Workflow Persistence Migration**
 
 ---
+## M4C — Tenant Invite Acceptance Token / Email Delivery (proposal gate)
+
+**Scope:** Safe tenant invite acceptance: persisted invite token (hash only), expiry/status lifecycle, `/tenant-invite/[token]` acceptance route, membership activation only after authenticated email match. Manual copy-link mode first; no Crow email-sent claims without provider (M4D).
+
+| Deliverable | Location |
+|-------------|----------|
+| Schema proposal | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md` |
+| Phase doc | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_TOKEN_EMAIL_DELIVERY.md` |
+| Proposal verifier | `scripts/verify-tenant-invite-acceptance.ts` |
+| Verification | `npm run tenant-invite-acceptance:verify` |
+
+**Status:** **PROPOSAL-ONLY PASS** (5 Jun 2026) — migration approval **pending**; no `TenantMembershipInvite` DDL applied
+
+**Blocked until approval:** contract, token service, actions, `/tenant-invite/[token]`, ProCrow copy-link UI
+
+**Recommended next:** Approve migration → complete M4C implementation · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M3.4B — Approved Workflow Persistence Migration**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.
