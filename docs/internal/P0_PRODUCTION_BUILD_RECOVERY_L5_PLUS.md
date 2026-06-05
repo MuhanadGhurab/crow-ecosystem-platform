@@ -17,6 +17,7 @@
 | M1 | `ed8de3d` | feat(cybercrow): tenant trust readiness | **Error** — OOM |
 | M2 | `93c3c9c` | feat(sarea): blueprint-to-experience mapping | **Error** — OOM |
 | M2.0 | `a506ae9` | fix(build): reduce Vercel memory after SAREA mapping | **Error** — OOM ~108s (6144 heap + webpack worker) |
+| P0.1 | `c89ed1f` | fix(build): recover Vercel production after L5+ OOM | **Error** — OOM ~42s compile (4096 heap still over cgroup) |
 
 ---
 
@@ -52,13 +53,13 @@ Auth boundaries preserved: ProCrow not exposed to clients; `/access` remains pub
 
 ---
 
-## Recovery fix (P0 + M2.0.1)
+## Recovery fix (P0 + M2.0.1 + M2.0.2)
 
-### Build / Vercel memory (M2.0.1)
+### Build / Vercel memory (M2.0.1 → M2.0.2)
 
-- `next.config.ts`: `productionBrowserSourceMaps: false`, `webpackMemoryOptimizations`, `serverExternalPackages` for Prisma
-- On `VERCEL=1`: `experimental.cpus: 1`, `webpackBuildWorker: false`, `staticGenerationMaxConcurrency: 1`
-- `scripts/next-build-with-memory.mjs`: **4096 MB** heap on Vercel, **6144 MB** locally
+- `next.config.ts`: `productionBrowserSourceMaps: false`, `webpackMemoryOptimizations`, `serverExternalPackages` for Prisma, `serverSourceMaps: false`, `preloadEntriesOnStart: false`
+- On `VERCEL=1`: `experimental.cpus: 1`, `webpackBuildWorker: false`, `staticGenerationMaxConcurrency: 1`, webpack `cache: false`, `parallelism: 1`
+- `scripts/next-build-with-memory.mjs`: **3072 MB** heap on Vercel (headroom for webpack native RSS), **6144 MB** locally; **split** `compile` then `generate` on Vercel
 
 ### L5 lite split (P0)
 
@@ -79,7 +80,7 @@ Auth boundaries preserved: ProCrow not exposed to clients; `/access` remains pub
 | Path | Change |
 |------|--------|
 | `next.config.ts` | Vercel-aware memory + Prisma externalization |
-| `scripts/next-build-with-memory.mjs` | Vercel 4096 / local 6144 heap |
+| `scripts/next-build-with-memory.mjs` | Vercel 3072 heap + compile/generate split |
 | `scripts/verify-vercel-build-memory-guard.ts` | Vercel config checks |
 | `scripts/verify-access-gateway-portal-model.ts` | Lite split verifier |
 | `scripts/verify-auth-landing-redirect.ts` | CTA checks include lite module |
@@ -107,7 +108,7 @@ Auth boundaries preserved: ProCrow not exposed to clients; `/access` remains pub
 | `npm run procrow-discovery:verify` | PASS |
 | `npm run typecheck` | PASS |
 | `npm run lint` | PASS |
-| `VERCEL=1 npm run build` | PASS (~22s compile) |
+| `VERCEL=1 npm run build` | PASS (split compile ~20s + generate ~5s) |
 | `npm run public:mirror-manifest` | PASS |
 
 No migrations, seeds, payments, or tenant auto-provisioning were run.
@@ -139,7 +140,7 @@ Smoke after green:
 
 | Criterion | Status |
 |-----------|--------|
-| Latest Vercel failure identified | Done — OOM/SIGKILL on `a506ae9` |
+| Latest Vercel failure identified | Done — OOM/SIGKILL on `c89ed1f` (after P0.1) |
 | First failing commit audited | Done — `f6d0085` / L5; no boundary bug |
 | Fix without auth weakening | Done |
 | Local build + verifiers | Done |

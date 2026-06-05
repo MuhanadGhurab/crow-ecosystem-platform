@@ -991,7 +991,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Vercel build tuning | `next.config.ts` · `scripts/next-build-with-memory.mjs` |
 | Verifiers | `build-memory:verify` · `access-gateway:verify` · full L5–M2 suite |
 
-**Status:** Fix shipped locally (5 Jun 2026); **Vercel production Ready** = P0 pass gate. **M3 blocked** until green.
+**Status:** M2.0.2 tuning pushed (5 Jun 2026); **Vercel production Ready** = P0 pass gate. **M3 blocked** until green.
 
 **Recommended next:** Confirm Vercel deploy · smoke `/access`, `/admin/go-no-go`, `/sarea/overview`
 

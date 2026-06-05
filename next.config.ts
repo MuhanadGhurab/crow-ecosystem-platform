@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@prisma/client", "prisma"],
   experimental: {
     webpackMemoryOptimizations: true,
+    serverSourceMaps: false,
+    preloadEntriesOnStart: false,
     ...(isVercelBuild
       ? {
           cpus: 1,
@@ -18,6 +20,13 @@ const nextConfig: NextConfig = {
       : {
           webpackBuildWorker: true,
         }),
+  },
+  webpack: (config, { dev }) => {
+    if (!dev && isVercelBuild) {
+      config.cache = false;
+      config.parallelism = 1;
+    }
+    return config;
   },
 };
 

@@ -107,6 +107,16 @@ function main(): boolean {
       "Externalize @prisma/client and prisma in next.config"
     );
     check(
+      nextCfg.includes("serverSourceMaps: false"),
+      "serverSourceMaps disabled on Vercel builds",
+      "Set experimental.serverSourceMaps: false in next.config"
+    );
+    check(
+      nextCfg.includes("config.cache = false") || nextCfg.includes("config.cache=false"),
+      "Webpack cache disabled on Vercel production builds",
+      "Disable webpack cache when VERCEL=1 in next.config webpack hook"
+    );
+    check(
       nextCfg.includes("VERCEL") && nextCfg.includes("webpackBuildWorker: false"),
       "Vercel build disables webpackBuildWorker",
       "Set webpackBuildWorker: false when VERCEL=1 to avoid dual-process OOM on 8 GB builders"
@@ -129,9 +139,14 @@ function main(): boolean {
 
   const memScript = fileText("scripts/next-build-with-memory.mjs");
   check(
-    memScript.includes("heapMb") && memScript.includes("4096") && memScript.includes("6144"),
-    "Vercel-aware heap ceilings (4096 Vercel / 6144 local)",
-    "Set 4096 MB heap on VERCEL=1 and 6144 MB locally in next-build-with-memory.mjs"
+    memScript.includes("heapMb") && memScript.includes("3072") && memScript.includes("6144"),
+    "Vercel-aware heap ceilings (3072 Vercel / 6144 local)",
+    "Set 3072 MB heap on VERCEL=1 and 6144 MB locally in next-build-with-memory.mjs"
+  );
+  check(
+    memScript.includes("experimental-build-mode") && memScript.includes("compile"),
+    "Vercel build splits compile and generate phases",
+    "Run compile then generate on VERCEL=1 in next-build-with-memory.mjs"
   );
 
   for (const rel of SERVER_ONLY_SERVICES) {
