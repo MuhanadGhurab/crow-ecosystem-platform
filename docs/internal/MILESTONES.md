@@ -1149,9 +1149,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Verifier | `scripts/verify-tenant-invite-acceptance.ts` |
 | Verification | `npm run tenant-invite-acceptance:verify` |
 
-**Status:** Shipped (5 Jun 2026) — manual copy-link mode; M4B break-glass immediate grant coexists
+**Status:** Shipped (5 Jun 2026) — manual copy-link mode; M4B break-glass immediate grant coexists; on branch `feat/m4c-tenant-invite-acceptance` (`cffaf95`), PR #1 open — **not merged to `main`**
 
-**Recommended next:** **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M3.4B — Approved Workflow Persistence Migration**
+**Recommended next:** **M4C.1 release smoke** (complete operator E2E) · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
+
+---
+## M4C.1 — Tenant Invite Acceptance Release & Smoke
+
+**Scope:** Safely release M4C: confirm migration/deploy path, run manual invite create → accept → Business Portal smoke, negative cases, ProCrow post-acceptance checks. Fix release blockers only — no new features.
+
+| Deliverable | Location |
+|-------------|----------|
+| Release smoke doc | `docs/internal/M4C_1_TENANT_INVITE_ACCEPTANCE_RELEASE_SMOKE.md` |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `cffaf95` |
+| PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
+| Preview URL | https://crow-ecosystem-platform-git-feat-7e40c6-muhanadghurabs-projects.vercel.app |
+
+**Status:** **CONDITIONAL PASS** (6 Jun 2026) — local + CI verify green; preview **Ready**; production health green on `main` without M4C; manual E2E and migration log verification deferred; preview auth wall blocks agent health smoke
+
+**Recommended next:** **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M4E — Tenant Membership Management UX**
 
 ---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
