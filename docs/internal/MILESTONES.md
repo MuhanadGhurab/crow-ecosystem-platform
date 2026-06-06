@@ -1189,6 +1189,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4C.1.1 — Invite Acceptance Operator Smoke Completion** · **M3.6 — Purchase-to-Stock UX Refinement**
 
 ---
+
+## A1.1 — Public Homepage Hero & Website Visual Reset
+
+**Scope:** Rebuild public homepage hero and first sections for premium enterprise SaaS feel. Remove hero side card; add 5-step flow, three workspaces, and product engine cards. Visual/UX only — no auth, backend, database, migrations, or payments.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/A1_1_PUBLIC_HOMEPAGE_HERO_VISUAL_RESET.md` |
+| Homepage copy | `src/lib/constants/homepage.ts` |
+| Hero | `src/components/public/hero-section.tsx` |
+| Sections | `homepage-how-it-works.tsx` · `homepage-three-workspaces.tsx` · `homepage-runtime-engines.tsx` |
+| Page composition | `src/app/(public)/page.tsx` |
+| Verifier | `npm run public-homepage:verify` |
+
+**Status:** **PASSED** (6 Jun 2026) — hero centered without side diagram; 5-step **How Crow works**; portal and engine sections; header polish; verifier + validation suite green.
+
+**Recommended next:** **Public subpages visual alignment** · **M4C.1.1 — Invite Acceptance Operator Smoke**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

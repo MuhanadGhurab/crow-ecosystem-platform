@@ -6,8 +6,8 @@ export function PublicLifecycleStrip() {
   return (
     <section className="cc-safe-x mx-auto max-w-6xl py-12 sm:py-16">
       <div className="text-center">
-        <span className="cc-star-badge">How Crow works</span>
-        <h2 className="cc-section-title mt-4">One clear path</h2>
+        <span className="cc-star-badge">Full lifecycle</span>
+        <h2 className="cc-section-title mt-4">End-to-end journey</h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
           Learn Crow, submit a request, complete discovery, review blueprint and proposal, then move
           day-to-day work to the Business Portal — ProCrow prepares everything in between.

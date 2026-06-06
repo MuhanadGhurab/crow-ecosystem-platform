@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/public/hero-section";
 import { HomepageBuiltFor } from "@/components/public/homepage-built-for";
 import { HomepageHowItWorks } from "@/components/public/homepage-how-it-works";
 import { HomepageRuntimeEngines } from "@/components/public/homepage-runtime-engines";
+import { HomepageThreeWorkspaces } from "@/components/public/homepage-three-workspaces";
 import { HomepageTrustProof } from "@/components/public/homepage-trust-proof";
 import { PublicLifecycleStrip } from "@/components/public/public-lifecycle-strip";
 import { PublicSectionIntro } from "@/components/public/public-section-intro";
@@ -17,6 +18,8 @@ export default function HomePage() {
       <HeroSection />
 
       <HomepageHowItWorks />
+
+      <HomepageThreeWorkspaces />
 
       <HomepageRuntimeEngines />
 

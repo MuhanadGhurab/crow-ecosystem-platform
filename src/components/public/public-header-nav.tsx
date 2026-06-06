@@ -36,8 +36,8 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cyan-500/10 bg-cc-deep/95 backdrop-blur-xl">
-      <div className="cc-safe-x mx-auto flex max-w-6xl items-center justify-between gap-3 py-3">
+    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-cc-deep/90 backdrop-blur-xl">
+      <div className="cc-safe-x mx-auto flex max-w-6xl items-center justify-between gap-4 py-2.5 sm:py-3">
         <CrowMark href="/" size="sm" />
 
         <div className="flex items-center gap-2 md:hidden">
@@ -64,7 +64,7 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
           </button>
         </div>
 
-        <nav className="hidden items-center gap-0.5 md:flex">
+        <nav className="hidden items-center gap-1 md:flex lg:gap-1.5">
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -96,8 +96,8 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
               Sign in
             </Link>
           )}
-          <Link href={routes.public.request} className="cc-btn-primary !py-2.5 text-sm">
-            Start Enterprise Request
+          <Link href={routes.public.request} className="cc-btn-primary !py-2 text-sm">
+            Start request
           </Link>
         </div>
       </div>
@@ -154,7 +154,7 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
                 </Link>
               )}
               <Link href={routes.public.request} className="cc-btn-primary text-center" onClick={() => setOpen(false)}>
-                Start Enterprise Request
+                Start request
               </Link>
             </div>
           </aside>

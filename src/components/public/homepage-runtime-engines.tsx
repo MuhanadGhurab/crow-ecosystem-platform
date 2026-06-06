@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { CyberCrowCardPreview } from "@/components/public/cybercrow-card-preview";
 import {
   HOMEPAGE_RBAC_SAREA_LINE,
   HOMEPAGE_RUNTIME_ENGINES,
 } from "@/lib/constants/homepage";
-import { PublicSectionIntro } from "@/components/public/public-section-intro";
 
 const BADGE_CLASS: Record<string, string> = {
   cem: "cc-entity-badge--cem",
@@ -20,39 +18,44 @@ const LINK_CLASS: Record<string, string> = {
 
 export function HomepageRuntimeEngines() {
   return (
-    <section id="three-engines" className="cc-safe-x relative mx-auto max-w-6xl scroll-mt-20 py-14 sm:py-20">
-      <PublicSectionIntro
-        badge="Three engines"
-        title="CEM · CyberCrow · SAREA"
-        description="After blueprint and provisioning, three sibling engines run under one governed tenant shell."
-      />
-      <p className="mx-auto mt-4 max-w-2xl text-center text-sm font-medium text-slate-300">
-        {HOMEPAGE_RBAC_SAREA_LINE}
-      </p>
-      <div className="mt-10 grid gap-5 lg:grid-cols-3">
-        {HOMEPAGE_RUNTIME_ENGINES.map((engine) => (
-          <article
-            key={engine.id}
-            className={`cc-engine-card cc-engine-card--${engine.id} flex flex-col p-6 sm:p-7`}
-          >
-            <span className={`cc-entity-badge ${BADGE_CLASS[engine.id] ?? ""} w-fit`}>
-              {engine.name}
-            </span>
-            <h3 className="mt-3 font-display text-xl font-bold text-white">{engine.fullName}</h3>
-            {engine.id === "cybercrow" ? (
-              <div className="mt-4">
-                <CyberCrowCardPreview />
-              </div>
-            ) : null}
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-400">{engine.summary}</p>
-            <Link
-              href={engine.href}
-              className={`mt-5 inline-flex text-sm font-medium ${LINK_CLASS[engine.id] ?? ""}`}
+    <section
+      id="product-engines"
+      className="cc-public-band scroll-mt-20 border-t border-white/[0.04]"
+    >
+      <div className="cc-safe-x relative mx-auto max-w-6xl py-14 sm:py-20">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="cc-star-badge">Product engines</span>
+          <h2 className="cc-section-title mt-4">Operations, trust, and experience</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-base">
+            Three sibling engines under one governed tenant shell — each with a clear job.
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-sm font-medium text-slate-300">
+            {HOMEPAGE_RBAC_SAREA_LINE}
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {HOMEPAGE_RUNTIME_ENGINES.map((engine) => (
+            <article
+              key={engine.id}
+              className={`cc-engine-card cc-engine-card--${engine.id} flex flex-col p-6 sm:p-7`}
             >
-              {engine.cta} →
-            </Link>
-          </article>
-        ))}
+              <span className={`cc-entity-badge ${BADGE_CLASS[engine.id] ?? ""} w-fit`}>
+                {engine.name}
+              </span>
+              <h3 className="mt-3 font-display text-lg font-bold text-white sm:text-xl">
+                {engine.fullName}
+              </h3>
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-400">{engine.summary}</p>
+              <Link
+                href={engine.href}
+                className={`mt-5 inline-flex text-sm font-medium ${LINK_CLASS[engine.id] ?? ""}`}
+              >
+                {engine.cta} →
+              </Link>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
