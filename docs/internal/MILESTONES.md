@@ -1186,7 +1186,24 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** **PASSED** (6 Jun 2026) — constants, portal copy, ProCrow tenant workbench grouping, purchase-to-stock timeline reorder, M4C copy reframe (functionality preserved); verifier green with full validation suite.
 
-**Recommended next:** **M4C.1.1 — Invite Acceptance Operator Smoke Completion** · **M3.6 — Purchase-to-Stock UX Refinement**
+**Recommended next:** **M4C.1.1 operator E2E completion on preview** · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
+
+---
+
+## M4C.1.1 — Invite Acceptance Operator Smoke Completion
+
+**Scope:** Complete manual operator browser smoke for Tenant Workforce Activation / Business Portal invite (M4C + A1 copy). Prove ProCrow invite creation, token acceptance, Business Portal access, negative cases, and ProCrow post-acceptance. Tiny route/copy fixes only.
+
+| Deliverable | Location |
+|-------------|----------|
+| Operator smoke doc | `docs/internal/M4C_1_1_INVITE_ACCEPTANCE_OPERATOR_SMOKE_COMPLETION.md` |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `b575c9c` |
+| PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
+| Tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
+
+**Status:** **CONDITIONAL PASS** (6 Jun 2026) — full verifier suite green; production `/api/health` green; operator browser smoke Parts 2–9 **not executed** (Browse MCP unavailable, no operator sessions); staging migration not SQL-verified; local uncommitted `/tenant-invite` route-reservation fix documented
+
+**Recommended next:** Operator manual checklist on preview with Vercel bypass · commit route fix if validated · merge PR #1 · **M4D**
 
 ---
 
@@ -1205,7 +1222,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** **PASSED** (6 Jun 2026) — hero centered without side diagram; 5-step **How Crow works**; portal and engine sections; header polish; verifier + validation suite green.
 
-**Recommended next:** **Public subpages visual alignment** · **M4C.1.1 — Invite Acceptance Operator Smoke**
+**Recommended next:** Operator manual E2E on preview (complete M4C.1.1 FULL PASS) · **Public subpages visual alignment** · **M4D**
 
 ---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
