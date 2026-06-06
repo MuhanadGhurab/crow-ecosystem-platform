@@ -76,7 +76,8 @@ function main(): boolean {
 
   const homepage = fileText("src/lib/constants/homepage.ts");
   check(
-    homepage.includes("Map your company, prepare a secure tenant runtime"),
+    homepage.includes("Build the operating workspace your company actually runs on") ||
+      homepage.includes("Map your company, prepare a secure tenant runtime"),
     "Homepage hero uses simplified Crow flow",
     "Update HOMEPAGE_HERO_HEADLINE"
   );
