@@ -22,8 +22,8 @@ export default async function AccessGatewayPage({
     <div className="cc-safe-x mx-auto max-w-4xl space-y-10 py-10">
       <ProductPageHeader
         eyebrow="Crow ecosystem"
-        title="Access gateway"
-        description="One sign-in — choose the portal that matches your role. Client Portal for requests and onboarding; Business Portal for day-to-day CEM operations; ProCrow for internal operators only."
+        title="Choose your workspace"
+        description="Client Portal — request, discovery, proposal, onboarding. Business Portal — run daily company operations. ProCrow — prepare, govern, and validate tenants (operators only)."
         statusChip={
           snapshot.isAuthenticated
             ? { label: "Signed in", tone: "success" }

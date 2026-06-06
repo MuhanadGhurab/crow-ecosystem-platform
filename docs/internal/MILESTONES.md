@@ -1170,6 +1170,25 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M4E — Tenant Membership Management UX**
 
 ---
+
+## A1 — Architecture Simplification + Portal UX System Reset
+
+**Scope:** Simplify Crow product architecture language and portal IA/UX across Public, Access Gateway, Client Portal, ProCrow, Business Portal / CEM, CyberCrow, and SAREA. Reframe M4C as **Tenant Workforce Activation** / **Business Portal invite**. No migrations, payments, auth weakening, or feature removal.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/A1_ARCHITECTURE_SIMPLIFICATION_PORTAL_UX_SYSTEM_RESET.md` |
+| UX principles | `src/lib/constants/crow-ux-principles.ts` |
+| Lifecycle | `src/lib/constants/crow-simplified-lifecycle.ts` |
+| Route ownership | `src/lib/constants/crow-route-ownership.ts` |
+| Workforce activation copy | `src/lib/constants/crow-workforce-activation.ts` |
+| Verifier | `npm run architecture-simplification:verify` |
+
+**Status:** **PASSED** (6 Jun 2026) — constants, portal copy, ProCrow tenant workbench grouping, purchase-to-stock timeline reorder, M4C copy reframe (functionality preserved); verifier green with full validation suite.
+
+**Recommended next:** **M4C.1.1 — Invite Acceptance Operator Smoke Completion** · **M3.6 — Purchase-to-Stock UX Refinement**
+
+---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
 
 **Scope:** Restore Vercel production **Ready** after OOM failures from `f6d0085` onward without weakening auth or rolling back L5–M2 product work.

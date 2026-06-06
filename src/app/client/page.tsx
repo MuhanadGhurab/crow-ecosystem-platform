@@ -29,7 +29,7 @@ export default async function ClientPortalHomePage() {
     <div className="space-y-8">
       <ClientPortalPageHeader
         eyebrow="Client Portal"
-        title="Your implementation journey"
+        title="Request and configure Crow"
         description={CLIENT_PORTAL_PURPOSE}
       />
       {staff && (

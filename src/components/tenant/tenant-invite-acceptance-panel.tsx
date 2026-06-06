@@ -68,7 +68,7 @@ export function TenantInviteAcceptancePanel({ token, view }: Props) {
   return (
     <section className="cc-glass-card space-y-4">
       <div>
-        <p className="text-xs uppercase tracking-wider text-violet-300/80">Tenant membership invite</p>
+        <p className="text-xs uppercase tracking-wider text-violet-300/80">Business Portal invite</p>
         <h2 className="mt-1 text-lg font-semibold text-white">{view.tenantName}</h2>
         <p className="mt-1 font-mono text-sm text-slate-500">/{view.tenantSlug}</p>
       </div>

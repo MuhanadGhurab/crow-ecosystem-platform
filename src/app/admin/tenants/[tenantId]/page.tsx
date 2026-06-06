@@ -210,69 +210,112 @@ export default async function AdminTenantDetailPage({
         ))}
 
       {activeTab === "overview" && (
-        <div className="space-y-6">
-          {tenantMembershipAccessSummary && (
-            <AdminTenantMembershipAccessPanel summary={tenantMembershipAccessSummary} />
-          )}
-          <AdminTenantMembershipInvitePanel
-            tenantId={tenant.id}
-            tenantSlug={tenant.slug}
-            accessSummary={tenantMembershipAccessSummary}
-            memberships={memberships}
-            pendingInvites={tenantMembershipInvites}
-          />
-          {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
-          {sareaExperienceMapping && (
-            <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
-          )}
-          {cemOperatingModel && <AdminCemOperatingModelPanel snapshot={cemOperatingModel} />}
-          {cemModuleDepthSummary.length > 0 && (
-            <AdminCemModuleDepthPanel items={cemModuleDepthSummary} />
-          )}
-          {cemTransactionWorkflowSummary && (
-            <AdminCemTransactionWorkflowPanel
-              tenantSlug={tenant.slug}
-              summary={cemTransactionWorkflowSummary}
-            />
-          )}
-          {cemWorkflowPersistenceSnapshot && (
-            <AdminCemWorkflowPersistencePanel snapshot={cemWorkflowPersistenceSnapshot} />
-          )}
-          {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
-          <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
-          <section className="cc-glass-card space-y-4">
-            <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div>
-                <p className="text-xs text-slate-500">Status</p>
-                <p className="text-sm font-medium text-white">{health.healthLabel}</p>
+        <div className="space-y-8">
+          <ProCrowWorkbenchSection
+            title="Tenant overview"
+            description="Health, lifecycle, and quick links into tenant runtime."
+          >
+            {tenantMembershipAccessSummary && (
+              <AdminTenantMembershipAccessPanel summary={tenantMembershipAccessSummary} />
+            )}
+            <section className="cc-glass-card space-y-4">
+              <h3 className="text-sm font-medium text-cyan-400">Operational health</h3>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div>
+                  <p className="text-xs text-slate-500">Status</p>
+                  <p className="text-sm font-medium text-white">{health.healthLabel}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">Open incidents</p>
+                  <p className="text-sm font-medium text-white">{health.openIncidentCount}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">Auth memberships</p>
+                  <p className="text-sm font-medium text-cyan-300">{health.membershipCount}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">Plan</p>
+                  <p className="text-sm font-medium text-white">{planLabel(tenant.planKey)}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs text-slate-500">Open incidents</p>
-                <p className="text-sm font-medium text-white">{health.openIncidentCount}</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-500">Auth memberships</p>
-                <p className="text-sm font-medium text-cyan-300">{health.membershipCount}</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-500">Plan</p>
-                <p className="text-sm font-medium text-white">{planLabel(tenant.planKey)}</p>
-              </div>
+            </section>
+            {lifecycle && <AdminLighthousePipelineCard pipeline={lifecycle} />}
+            <div className="flex flex-wrap gap-3">
+              <Link href={routes.tenant(tenant.slug).dashboard} className="cc-btn-primary text-sm">
+                Open Business Portal →
+              </Link>
+              <Link
+                href={routes.tenant(tenant.slug).cybercrow.dashboard}
+                className="cc-btn-secondary text-sm"
+              >
+                CyberCrow console
+              </Link>
             </div>
-          </section>
-          {lifecycle && <AdminLighthousePipelineCard pipeline={lifecycle} />}
-          <div className="flex flex-wrap gap-3">
-            <Link href={routes.tenant(tenant.slug).dashboard} className="cc-btn-primary text-sm">
-              Open CEM runtime →
-            </Link>
-            <Link
-              href={routes.tenant(tenant.slug).cybercrow.dashboard}
-              className="cc-btn-secondary text-sm"
-            >
-              CyberCrow console
-            </Link>
-          </div>
+          </ProCrowWorkbenchSection>
+
+          <ProCrowWorkbenchSection
+            title="Runtime preparation"
+            description="CEM handoff, cohesion, and transaction workflow readiness."
+            collapsible
+            defaultOpen
+          >
+            {cemRuntimeHandoff && <AdminCemRuntimeHandoffPanel snapshot={cemRuntimeHandoff} />}
+            <AdminRuntimeCohesionSummary tenantSlug={tenant.slug} snapshot={runtimeCohesion} />
+            {cemTransactionWorkflowSummary && (
+              <AdminCemTransactionWorkflowPanel
+                tenantSlug={tenant.slug}
+                summary={cemTransactionWorkflowSummary}
+              />
+            )}
+            {cemWorkflowPersistenceSnapshot && (
+              <AdminCemWorkflowPersistencePanel snapshot={cemWorkflowPersistenceSnapshot} />
+            )}
+          </ProCrowWorkbenchSection>
+
+          <ProCrowWorkbenchSection
+            title="Tenant workforce activation"
+            description="Business Portal invites — manual copy-link mode."
+          >
+            <AdminTenantMembershipInvitePanel
+              tenantId={tenant.id}
+              tenantSlug={tenant.slug}
+              accessSummary={tenantMembershipAccessSummary}
+              memberships={memberships}
+              pendingInvites={tenantMembershipInvites}
+            />
+          </ProCrowWorkbenchSection>
+
+          <ProCrowWorkbenchSection
+            title="CEM operating model"
+            description="Modules, depth, and day-to-day operational shape."
+            collapsible
+            defaultOpen={false}
+          >
+            {cemOperatingModel && <AdminCemOperatingModelPanel snapshot={cemOperatingModel} />}
+            {cemModuleDepthSummary.length > 0 && (
+              <AdminCemModuleDepthPanel items={cemModuleDepthSummary} />
+            )}
+          </ProCrowWorkbenchSection>
+
+          <ProCrowWorkbenchSection
+            title="CyberCrow trust readiness"
+            description="Review trust, identity, evidence, GRC, and risk readiness."
+            collapsible
+            defaultOpen={false}
+          >
+            {cybercrowTrust && <AdminCybercrowTrustReadinessPanel snapshot={cybercrowTrust} />}
+          </ProCrowWorkbenchSection>
+
+          <ProCrowWorkbenchSection
+            title="SAREA experience mapping"
+            description="Shape role-based experience — RBAC controls access."
+            collapsible
+            defaultOpen={false}
+          >
+            {sareaExperienceMapping && (
+              <AdminSareaExperienceMappingPanel snapshot={sareaExperienceMapping} />
+            )}
+          </ProCrowWorkbenchSection>
         </div>
       )}
 

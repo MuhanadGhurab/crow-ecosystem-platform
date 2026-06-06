@@ -139,8 +139,11 @@ export default async function TenantDashboardPage({
           className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-cyan-500/20 blur-3xl"
           aria-hidden
         />
-        <span className="cc-entity-badge cc-entity-badge--cem relative">Tenant Runtime / CEM</span>
+        <span className="cc-entity-badge cc-entity-badge--cem relative">Business Portal / CEM</span>
         <h2 className="cc-section-title relative mt-4">{tenant.organization.displayName}</h2>
+        <p className="relative mt-2 text-sm text-slate-400">
+          Run daily company operations — workflows, tasks, modules, and reports.
+        </p>
         <p className="relative mt-2 text-sm text-slate-500">{TENANT_RUNTIME_PROCROW_NOTE}</p>
         <p className="relative mt-2 text-sm text-slate-400">
           Plan: <span className="font-medium text-cyan-300">{planLabel(tenant.planKey)}</span>
@@ -163,6 +166,20 @@ export default async function TenantDashboardPage({
           </div>
         )}
       </section>
+
+      <TenantRuntimeNextActions
+        slug={slug}
+        planKey={tenant.planKey}
+        summary={{
+          openTaskCount: openTasks,
+          workflowCount: summary.workflowCount ?? 0,
+          profileCount: summary.profileCount,
+          departmentCount: summary.departmentCount,
+          moduleCount: tenant.modules.length,
+          cybercrowInitialized: summary.cybercrowInitialized,
+        }}
+        sareaProfileName={runtime.profileName}
+      />
 
       {isMeem && !isWidgetVisible(runtime, "fleet_kpis") && (
         <MeemDashboardHints
@@ -202,20 +219,6 @@ export default async function TenantDashboardPage({
       {operatingModel && <TenantCemOperatingModelPanel slug={slug} snapshot={operatingModel} />}
 
       <RuntimeCohesionPanel slug={slug} snapshot={cohesion} />
-
-      <TenantRuntimeNextActions
-        slug={slug}
-        planKey={tenant.planKey}
-        summary={{
-          openTaskCount: openTasks,
-          workflowCount: summary.workflowCount ?? 0,
-          profileCount: summary.profileCount,
-          departmentCount: summary.departmentCount,
-          moduleCount: tenant.modules.length,
-          cybercrowInitialized: summary.cybercrowInitialized,
-        }}
-        sareaProfileName={runtime.profileName}
-      />
 
       {isMeem && <TwinEngineStrip tenantSlug={slug} variant="sarea" />}
 

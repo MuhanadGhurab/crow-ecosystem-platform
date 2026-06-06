@@ -3,6 +3,7 @@ import "@/lib/server-only-guard";
 import type { User } from "@supabase/supabase-js";
 import {
   BUSINESS_PORTAL_DESCRIPTION,
+  BUSINESS_PORTAL_UNAVAILABLE_REASON,
   CLIENT_PORTAL_DESCRIPTION,
   type CrowAccessGatewaySnapshot,
   type CrowPortalKind,
@@ -72,12 +73,12 @@ function buildBusinessOption(
   const route = tenantSlug ? routes.tenant(tenantSlug).dashboard : routes.auth.login;
   return {
     kind: "business",
-    label: "Business Portal",
+    label: "Business Portal / CEM",
     description: BUSINESS_PORTAL_DESCRIPTION,
     route,
     accessState: access ? "available" : tenantSlug ? "unavailable" : "requires_sign_in",
     reason,
-    badge: "CEM · day-to-day operations",
+    badge: "CEM · daily operations",
     priority: 30,
     allowedRoles: ["tenant_admin", "tenant_user"],
     tenantSlug,
@@ -93,7 +94,7 @@ function buildProcrowOption(access: boolean, reason: string | null): CrowPortalO
     route: routes.admin.overview,
     accessState: access ? "available" : "requires_sign_in",
     reason,
-    badge: "Internal operators",
+    badge: "Operators only",
     priority: 10,
     allowedRoles: PROCROW_PORTAL_ALLOWED_ROLES,
   };
@@ -117,7 +118,7 @@ export async function buildCrowAccessGatewaySnapshot(
         accessState: "requires_sign_in",
       },
       {
-        ...buildBusinessOption(false, undefined, "Requires tenant employee access after ProCrow provisions your workspace."),
+        ...buildBusinessOption(false, undefined, BUSINESS_PORTAL_UNAVAILABLE_REASON),
         accessState: "requires_sign_in",
       },
       {
@@ -175,13 +176,13 @@ export async function buildCrowAccessGatewaySnapshot(
       ...buildBusinessOption(
         false,
         undefined,
-        "Client Portal access does not include Business Portal. Verified tenant membership is required."
+        BUSINESS_PORTAL_UNAVAILABLE_REASON
       ),
       accessState: "unavailable",
     });
   } else if (role === "tenant_admin" || role === "tenant_user") {
     options.push({
-      ...buildBusinessOption(false, undefined, "No verified tenant membership for Business Portal yet."),
+      ...buildBusinessOption(false, undefined, BUSINESS_PORTAL_UNAVAILABLE_REASON),
       accessState: "pending",
     });
   } else if (!isPlatformConsoleRole(role) && role !== "client") {

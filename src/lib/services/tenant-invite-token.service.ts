@@ -104,7 +104,7 @@ async function logInviteAcceptanceAudit(input: {
 }) {
   try {
     const subjectByEvent = {
-      created: `Tenant invite link created · /${input.tenantSlug}`,
+      created: `Business Portal invite link created · /${input.tenantSlug}`,
       accepted: `Tenant invite accepted · /${input.tenantSlug}`,
       revoked: `Tenant invite revoked · /${input.tenantSlug}`,
     } as const;

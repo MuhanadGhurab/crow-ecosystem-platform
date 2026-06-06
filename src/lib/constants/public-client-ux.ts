@@ -9,7 +9,7 @@ export const PUBLIC_ACCOUNT_REQUEST_NOTE =
   "Browse freely. Create an account or sign in to submit your ERP/CEM request — tracked in your Client Portal." as const;
 
 export const CLIENT_PORTAL_PURPOSE =
-  "Request, review proposals and blueprints, approve scope, and track onboarding. ProCrow operates the pipeline — you see your side here." as const;
+  "Request and configure Crow — discovery, proposals, scope approval, and onboarding. Day-to-day operations happen in the Business Portal." as const;
 
 export const SIGNUP_CLIENT_PURPOSE =
   "Create an account to submit and track your ERP request. Client Portal covers proposals, blueprint review, scope approval, and onboarding." as const;

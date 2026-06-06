@@ -1,67 +1,112 @@
+"use client";
+
 import Link from "next/link";
 import type { CrowPortalOption } from "@/lib/portal/portal-access-contract";
 import { routes } from "@/lib/routes";
-
-function PortalCard({ option, signedOut }: { option: CrowPortalOption; signedOut: boolean }) {
-  const actionable = option.accessState === "available";
-  const tone =
-    option.accessState === "available"
-      ? "border-teal-500/30 bg-teal-500/5"
-      : option.accessState === "pending"
-        ? "border-amber-500/25 bg-amber-950/10"
-        : "border-slate-700/80 bg-slate-900/40 opacity-90";
-
-  return (
-    <article className={`rounded-xl border p-5 ${tone}`}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold text-white">{option.label}</h2>
-        {option.badge && (
-          <span className="rounded-full border border-slate-600/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-            {option.badge}
-          </span>
-        )}
-      </div>
-      <p className="mt-2 text-sm text-slate-400">{option.description}</p>
-      {option.reason && (
-        <p className="mt-3 text-xs text-slate-500">{option.reason}</p>
-      )}
-      <div className="mt-4">
-        {actionable ? (
-          <Link href={option.route} className="cc-btn-primary text-sm">
-            Open {option.label} →
-          </Link>
-        ) : signedOut && option.kind !== "procrow" ? (
-          <div className="flex flex-wrap gap-2">
-            <Link href={routes.auth.login} className="cc-btn-secondary text-sm">
-              Sign in
-            </Link>
-            {option.kind === "client" && (
-              <Link href={routes.auth.signupWithNext(routes.public.request)} className="cc-btn-primary text-sm">
-                Create account
-              </Link>
-            )}
-          </div>
-        ) : (
-          <span className="text-xs text-slate-500">
-            {option.accessState === "unavailable"
-              ? "Not available for your account"
-              : option.accessState === "pending"
-                ? "Pending workspace linkage"
-                : "Sign in required"}
-          </span>
-        )}
-      </div>
-    </article>
-  );
-}
 
 type Props = {
   availablePortals: CrowPortalOption[];
   unavailablePortals: CrowPortalOption[];
   recommendedNextAction: string;
   safetyNotes: readonly string[];
-  signedOut: boolean;
+  signedOut?: boolean;
 };
+
+function stateLabel(state: CrowPortalOption["accessState"]): string {
+  switch (state) {
+    case "available":
+      return "Available";
+    case "requires_sign_in":
+      return "Sign in required";
+    case "pending":
+      return "Pending access";
+    case "unavailable":
+      return "Not available";
+    default:
+      return state;
+  }
+}
+
+function stateTone(state: CrowPortalOption["accessState"]): string {
+  switch (state) {
+    case "available":
+      return "border-teal-500/30 bg-teal-500/10 text-teal-200";
+    case "requires_sign_in":
+      return "border-amber-500/30 bg-amber-500/10 text-amber-200";
+    case "pending":
+      return "border-cyan-500/30 bg-cyan-500/10 text-cyan-200";
+    default:
+      return "border-slate-600/40 bg-slate-800/40 text-slate-400";
+  }
+}
+
+function PortalCard({ portal, signedOut }: { portal: CrowPortalOption; signedOut?: boolean }) {
+  const canOpen = portal.accessState === "available";
+  const signInHref =
+    portal.kind === "client"
+      ? routes.auth.loginWithNext(routes.client.home)
+      : portal.kind === "business" && portal.tenantSlug
+        ? routes.auth.loginWithNext(routes.tenant(portal.tenantSlug).dashboard)
+        : routes.auth.loginWithNext(routes.access);
+
+  return (
+    <article
+      className={`cc-glass-card flex flex-col gap-3 border p-5 ${
+        canOpen ? "border-teal-500/25" : "border-white/10"
+      }`}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <h3 className="font-display text-lg font-semibold text-white">{portal.label}</h3>
+          {portal.badge && (
+            <p className="mt-1 text-xs uppercase tracking-wider text-slate-500">{portal.badge}</p>
+          )}
+        </div>
+        <span
+          className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${stateTone(portal.accessState)}`}
+        >
+          {stateLabel(portal.accessState)}
+        </span>
+      </div>
+      <p className="text-sm leading-relaxed text-slate-400">{portal.description}</p>
+      {portal.tenantName && (
+        <p className="text-xs text-slate-500">
+          Workspace: <span className="text-slate-300">{portal.tenantName}</span>
+        </p>
+      )}
+      {portal.reason && (
+        <p className="text-xs text-slate-500">{portal.reason}</p>
+      )}
+      <div className="mt-auto pt-2">
+        {canOpen ? (
+          <Link href={portal.route} className="cc-btn-primary inline-flex text-sm">
+            Open {portal.label.split(" — ")[0]} →
+          </Link>
+        ) : signedOut && portal.accessState === "requires_sign_in" ? (
+          <Link href={signInHref} className="cc-btn-secondary inline-flex text-sm">
+            Sign in →
+          </Link>
+        ) : portal.accessState === "requires_sign_in" ? (
+          <Link href={routes.auth.loginWithNext(routes.access)} className="cc-btn-secondary inline-flex text-sm">
+            Sign in →
+          </Link>
+        ) : (
+          <span className="text-xs text-slate-600">Use another portal or contact your operator.</span>
+        )}
+      </div>
+    </article>
+  );
+}
+
+const WORKSPACE_ORDER: CrowPortalOption["kind"][] = ["client", "business", "procrow"];
+
+function sortWorkspacePortals(portals: CrowPortalOption[]): CrowPortalOption[] {
+  const byKind = new Map<CrowPortalOption["kind"], CrowPortalOption>();
+  for (const p of portals) {
+    if (!byKind.has(p.kind)) byKind.set(p.kind, p);
+  }
+  return WORKSPACE_ORDER.map((k) => byKind.get(k)).filter(Boolean) as CrowPortalOption[];
+}
 
 export function PortalAccessGateway({
   availablePortals,
@@ -70,44 +115,29 @@ export function PortalAccessGateway({
   safetyNotes,
   signedOut,
 }: Props) {
-  const showUnavailable = signedOut || unavailablePortals.some((p) => p.accessState !== "unavailable");
+  const allPortals = sortWorkspacePortals([...availablePortals, ...unavailablePortals]);
 
   return (
     <div className="space-y-8">
-      <p className="text-sm text-slate-300">{recommendedNextAction}</p>
+      <section className="cc-glass-card border-cyan-500/15 p-5 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-cyan-300/80">Next step</p>
+        <p className="mt-2 text-sm text-slate-300">{recommendedNextAction}</p>
+      </section>
 
-      {availablePortals.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-400/90">
-            Your portals
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {availablePortals.map((option) => (
-              <PortalCard key={option.kind} option={option} signedOut={signedOut} />
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="space-y-4">
+        <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-slate-400">
+          Client Portal · Business Portal · ProCrow
+        </h2>
+        <div className="grid gap-4 md:grid-cols-3">
+          {allPortals.map((portal) => (
+            <PortalCard key={portal.kind} portal={portal} signedOut={signedOut} />
+          ))}
+        </div>
+      </section>
 
-      {showUnavailable && unavailablePortals.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-            {signedOut ? "Portal overview" : "Other portals"}
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {unavailablePortals
-              .filter((p) => signedOut || p.kind !== "procrow" || p.accessState !== "unavailable")
-              .filter((p) => signedOut || !availablePortals.some((a) => a.kind === p.kind))
-              .map((option) => (
-                <PortalCard key={`${option.kind}-off`} option={option} signedOut={signedOut} />
-              ))}
-          </div>
-        </section>
-      )}
-
-      <section className="cc-glass-card text-xs text-slate-500">
-        <p className="font-medium uppercase tracking-wide text-slate-400">Safety notes</p>
-        <ul className="mt-2 list-inside list-disc space-y-1">
+      <section className="rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3">
+        <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Safety notes</p>
+        <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-slate-500">
           {safetyNotes.map((note) => (
             <li key={note}>{note}</li>
           ))}

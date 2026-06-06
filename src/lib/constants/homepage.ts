@@ -1,49 +1,50 @@
 /** Public homepage copy — plain language, no overclaims */
 
-export const HOMEPAGE_HERO_HEADLINE = "Map your company before runtime begins." as const;
+export const HOMEPAGE_HERO_HEADLINE =
+  "Map your company, prepare a secure tenant runtime, and run daily operations through a role-aware Business Portal." as const;
 
 export const HOMEPAGE_HERO_SUBHEADLINE =
-  "Departments, roles, workflows, modules, trust, and experience — prepared with Crow." as const;
+  "Request and configure Crow in the Client Portal. ProCrow prepares your workspace. Employees operate in the Business Portal." as const;
 
 export const HOMEPAGE_HERO_EXPLAINER =
-  "Crow helps you map your company’s departments, roles, workflows, modules, trust posture, and experience before tenant runtime begins. CEM runs operations, CyberCrow supports trust, SAREA adapts the experience — RBAC controls access." as const;
+  "Crow helps you submit a governed request, complete discovery, review blueprint and proposal, and track onboarding — before day-to-day work moves to the Business Portal. CyberCrow supports trust readiness; SAREA shapes role-based experience — RBAC controls access." as const;
 
 export const HOMEPAGE_HOW_IT_WORKS = [
   {
     step: "01",
-    title: "Submit a request",
+    title: "Learn & request",
     summary:
-      "Sign in, then share your organization and goals through a governed implementation request — tracked in your Client Portal.",
+      "Browse Crow, create an account, and submit a governed implementation request from the Client Portal.",
   },
   {
     step: "02",
-    title: "Discovery understands you",
+    title: "Discovery & blueprint",
     summary:
-      "Structured discovery captures departments, workflows, security needs, and operating model signals.",
+      "Structured discovery and blueprint define departments, workflows, modules, and commercial alignment.",
   },
   {
     step: "03",
-    title: "Blueprint defines the model",
+    title: "ProCrow prepares runtime",
     summary:
-      "Your digital DNA — modules, integrations, pricing alignment, and go-live readiness — becomes the source of truth.",
+      "Operators review, price, and prepare tenant runtime — including trust and experience readiness.",
   },
   {
     step: "04",
-    title: "CEM runs operations",
+    title: "Business Portal operations",
     summary:
-      "Tenant runtime for workflows, departments, CRM, finance, HR, and the modules you approved in blueprint.",
+      "After workforce activation, employees run modules, workflows, tasks, and reports in the Business Portal.",
   },
   {
     step: "05",
-    title: "CyberCrow protects trust",
+    title: "CyberCrow trust readiness",
     summary:
-      "Audit logs, risk posture, security events, incidents, and identity signals — advisory visibility, not a SIEM replacement.",
+      "Review identity, evidence, GRC, and risk posture — advisory visibility, not a compliance certification.",
   },
   {
     step: "06",
-    title: "SAREA adapts the experience",
+    title: "SAREA experience",
     summary:
-      "Dashboards, navigation, and widgets adjust to role and context so each person sees what they need.",
+      "Shape role-based navigation and dashboards. RBAC controls access; SAREA shapes experience.",
   },
 ] as const;
 

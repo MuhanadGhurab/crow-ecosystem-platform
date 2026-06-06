@@ -11,6 +11,11 @@ import {
   type TenantInviteRevokeState,
   type TenantInviteTokenState,
 } from "@/lib/actions/tenant-invite-acceptance";
+import {
+  BUSINESS_PORTAL_INVITE_TITLE,
+  TENANT_WORKFORCE_ACTIVATION_TITLE,
+  WORKFORCE_ACTIVATION_COPY,
+} from "@/lib/constants/crow-workforce-activation";
 import type { TenantMembershipAccessSummary } from "@/lib/tenant/tenant-membership-contract";
 import {
   TENANT_MEMBERSHIP_INVITE_DISCLAIMERS,
@@ -71,11 +76,13 @@ export function AdminTenantMembershipInvitePanel({
     <div className="space-y-4">
       <section className="rounded-xl border border-cyan-500/25 bg-cyan-950/15 p-4 space-y-4">
         <div>
-          <h3 className="text-sm font-semibold text-cyan-100">Tenant invite link (M4C)</h3>
+          <p className="text-xs font-semibold uppercase tracking-wider text-cyan-300/80">
+            {TENANT_WORKFORCE_ACTIVATION_TITLE}
+          </p>
+          <h3 className="mt-1 text-sm font-semibold text-cyan-100">{BUSINESS_PORTAL_INVITE_TITLE}</h3>
           <p className="mt-1 text-xs text-slate-500">
-            Create a single-use invite link and copy it manually. Email delivery is not active — Crow
-            does not send email in this phase. The invited user signs in with the exact email, accepts,
-            and receives Business Portal access only.
+            Business Portal access only. {WORKFORCE_ACTIVATION_COPY.manualDelivery} Email delivery is not
+            active in this phase.
           </p>
         </div>
 
@@ -101,7 +108,7 @@ export function AdminTenantMembershipInvitePanel({
           <input type="hidden" name="tenantSlug" value={tenantSlug} />
           <div>
             <label htmlFor="m4c-invite-email" className="mb-1 block text-xs text-slate-400">
-              Invite email
+              {WORKFORCE_ACTIVATION_COPY.inviteEmail}
             </label>
             <input
               id="m4c-invite-email"
@@ -172,7 +179,7 @@ export function AdminTenantMembershipInvitePanel({
             disabled={tokenPending}
             className="cc-btn-primary text-sm disabled:opacity-50"
           >
-            {tokenPending ? "Creating…" : "Create invite link"}
+            {tokenPending ? "Creating…" : WORKFORCE_ACTIVATION_COPY.createLink}
           </button>
         </form>
 
@@ -223,13 +230,9 @@ export function AdminTenantMembershipInvitePanel({
       <section className="rounded-xl border border-violet-500/25 bg-violet-950/15 p-4 space-y-4">
         <div>
           <h3 className="text-sm font-semibold text-violet-100">
-            Break-glass: immediate membership (M4B)
+            {WORKFORCE_ACTIVATION_COPY.breakGlassTitle}
           </h3>
-          <p className="mt-1 text-xs text-slate-500">
-            Grants Business Portal access only when a Supabase account already exists. Use invite links
-            above for standard onboarding. Email delivery is not active. Does not grant ProCrow,
-            platform admin, or client approval.
-          </p>
+          <p className="mt-1 text-xs text-slate-500">{WORKFORCE_ACTIVATION_COPY.breakGlassSubtitle}</p>
         </div>
 
         <form action={breakGlassAction} className="space-y-3">
