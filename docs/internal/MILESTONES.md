@@ -1201,9 +1201,9 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
 | Tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
 
-**Status:** **CONDITIONAL PASS** (6 Jun 2026) — full verifier suite green; production `/api/health` green; operator browser smoke Parts 2–9 **not executed** (Browse MCP unavailable, no operator sessions); staging migration not SQL-verified; local uncommitted `/tenant-invite` route-reservation fix documented
+**Status:** **PENDING** (6 Jun 2026) — R1A invite UX + CI fix complete locally; full verifier suite + build green; operator browser smoke Parts 2–9 **not executed**; PR #1 not merged
 
-**Recommended next:** Operator manual checklist on preview with Vercel bypass · commit route fix if validated · merge PR #1 · **M4D**
+**Recommended next:** Operator manual checklist on preview with Vercel bypass (R1A UX ready) · commit/push when requested · confirm CI `postgres-smoke` · merge PR #1 when green · **M4D**
 
 ---
 
@@ -1223,6 +1223,24 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Status:** **PASSED** (6 Jun 2026) — hero centered without side diagram; 5-step **How Crow works**; portal and engine sections; header polish; verifier + validation suite green.
 
 **Recommended next:** Operator manual E2E on preview (complete M4C.1.1 FULL PASS) · **Public subpages visual alignment** · **M4D**
+
+---
+
+## R1A — UI Consolidation, Invite UX Readiness & CI Fix
+
+**Scope:** Keep local A1.2 UI WIP; fix `postgres-smoke` CI; redesign ProCrow **Tenant Workforce Activation** / **Business Portal Invite** for operator manual smoke. No migrations, seeds, payments, auth weakening, or email provider.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/R1A_UI_CONSOLIDATION_INVITE_UX_READINESS_CI_FIX.md` |
+| A1.2A public pass | `src/app/(public)/page.tsx`, `globals.css`, `src/components/public/homepage-*.tsx`, `public-header-nav.tsx` |
+| A1.2B client shell | `src/app/client/page.tsx`, `client-portal-shell.tsx`, `client-portal-nav-links.tsx` |
+| Invite UX | `admin-tenant-membership-invite-panel.tsx`, `crow-workforce-activation.ts` |
+| CI fix | `scripts/run-smoke-phase1.mjs` (`CYBERCROW_SCRIPT_PRISMA=1`) |
+
+**Status:** **PASSED** (6 Jun 2026) — UI WIP classified (A1.2A/A1.2B + invite panel); postgres-smoke root cause fixed, local `smoke:phase1` green; invite UI operator-ready; verifiers + build green; uncommitted; CI remote pass pending push; M4C.1.1 browser smoke not run.
+
+**Recommended next:** **M4C.1.1 operator smoke on preview** · commit/push when requested · confirm CI `postgres-smoke` · PR #1 merge gate
 
 ---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)
