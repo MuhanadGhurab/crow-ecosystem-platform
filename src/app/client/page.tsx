@@ -48,7 +48,7 @@ export default async function ClientPortalHomePage() {
       <ClientOnboardingDashboardTile tile={onboardingTile!} />
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <Link href={routes.client.profile} className="cc-glass-card block hover:border-teal-500/30">
+        <Link href={routes.client.profile} className="cc-home-card block">
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Profile</p>
           <p className="mt-2 text-2xl font-semibold text-white">
             {profileHints.profileCompleteness}%
@@ -59,7 +59,7 @@ export default async function ClientPortalHomePage() {
               : `${profileHints.profileMissingCount} field(s) missing`}
           </p>
         </Link>
-        <Link href={routes.client.company} className="cc-glass-card block hover:border-teal-500/30">
+        <Link href={routes.client.company} className="cc-home-card block">
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Company</p>
           <p className="mt-2 text-2xl font-semibold text-white">
             {profileHints.companyCompleteness != null ? `${profileHints.companyCompleteness}%` : "—"}
@@ -103,7 +103,7 @@ export default async function ClientPortalHomePage() {
               <li key={r.requestId}>
                 <Link
                   href={routes.client.request(r.requestId)}
-                  className="cc-glass-card block hover:border-teal-500/30"
+                  className="cc-home-card block"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
@@ -116,7 +116,7 @@ export default async function ClientPortalHomePage() {
               </li>
             ))}
           </ul>
-          <Link href={routes.client.requests} className="text-sm text-teal-400 hover:text-teal-300">
+          <Link href={routes.client.requests} className="text-sm text-cyan-300/90 hover:text-cyan-200">
             View all requests →
           </Link>
         </section>

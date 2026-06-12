@@ -12,6 +12,13 @@ export const HOMEPAGE_HERO_SUBHEADLINE =
 export const HOMEPAGE_HERO_ACCOUNT_NOTE =
   "Account required to submit — sign in to start your request. Public pages remain open to browse." as const;
 
+/** Hero feature pills (above headline) */
+export const HOMEPAGE_HERO_FEATURE_PILLS = [
+  { highlight: "3 workspaces", label: "Client · Business · ProCrow" },
+  { highlight: "Governed flow", label: "Request → Blueprint → Runtime" },
+  { highlight: "CEM · CyberCrow · SAREA", label: "Operating engines" },
+] as const;
+
 /** Five-step public flow (below hero) */
 export const HOMEPAGE_CROW_WORKS_STEPS = [
   {

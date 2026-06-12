@@ -1,4 +1,4 @@
-const CASE_STUDY_PLACEHOLDERS = [
+export const CASE_STUDY_PLACEHOLDERS = [
   {
     sector: "Logistics & supply chain",
     status: "Coming soon",
@@ -16,12 +16,13 @@ const CASE_STUDY_PLACEHOLDERS = [
   },
 ] as const;
 
+/** Legacy grid — prefer HomepageRoadmap on the public homepage */
 export function ComingSoonCards() {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {CASE_STUDY_PLACEHOLDERS.map((card) => (
-        <article key={card.sector} className="cc-glass-card flex flex-col opacity-90">
-          <span className="cc-star-badge !text-[9px]">{card.status}</span>
+        <article key={card.sector} className="cc-home-card opacity-90">
+          <span className="cc-home-card-badge">{card.status}</span>
           <h3 className="mt-3 font-display text-base font-semibold text-white">{card.sector}</h3>
           <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{card.summary}</p>
         </article>

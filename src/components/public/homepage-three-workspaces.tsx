@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { HOMEPAGE_THREE_WORKSPACES } from "@/lib/constants/homepage";
-
-const ACCENT: Record<string, string> = {
-  client: "border-cyan-500/25 hover:border-cyan-500/40",
-  business: "border-teal-500/25 hover:border-teal-500/40",
-  procrow: "border-violet-500/25 hover:border-violet-500/40",
-};
+import { HomepageCardArrow } from "@/components/public/homepage-card-arrow";
+import { HomepageSectionHeader } from "@/components/public/homepage-section-header";
 
 const BADGE: Record<string, string> = {
   client: "text-cyan-300",
@@ -15,30 +11,25 @@ const BADGE: Record<string, string> = {
 
 export function HomepageThreeWorkspaces() {
   return (
-    <section id="three-workspaces" className="cc-safe-x relative mx-auto max-w-6xl scroll-mt-20 py-14 sm:py-20">
-      <div className="mx-auto max-w-2xl text-center">
-        <span className="cc-star-badge">Three workspaces</span>
-        <h2 className="cc-section-title mt-4">One platform, clear roles</h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-base">
-          Client Portal for request and onboarding. Business Portal for day-to-day work. ProCrow for
-          operators who prepare and govern tenant runtime — sign-in required for each.
-        </p>
-      </div>
+    <section id="three-workspaces" className="cc-home-section scroll-mt-24 border-t border-white/[0.04]">
+      <HomepageSectionHeader
+        eyebrow="Three workspaces"
+        title="One platform, clear roles"
+        description="Client Portal for request and onboarding. Business Portal for day-to-day work. ProCrow for operators who prepare and govern tenant runtime — sign-in required for each."
+      />
 
-      <ul className="mt-10 grid gap-5 md:grid-cols-3">
+      <ul className="mt-12 grid gap-4 md:grid-cols-3">
         {HOMEPAGE_THREE_WORKSPACES.map((workspace) => (
           <li key={workspace.id}>
-            <Link
-              href={workspace.href}
-              className={`flex h-full flex-col rounded-xl border bg-gradient-to-b from-white/[0.04] to-transparent p-6 transition ${ACCENT[workspace.id] ?? ""}`}
-            >
-              <span className={`text-xs font-semibold uppercase tracking-wider ${BADGE[workspace.id] ?? ""}`}>
+            <Link href={workspace.href} className="cc-home-card">
+              <span className={`cc-home-card-badge ${BADGE[workspace.id] ?? ""}`}>
                 {workspace.name}
               </span>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-300">{workspace.summary}</p>
-              <span className="mt-4 text-sm font-medium text-slate-400 transition group-hover:text-white">
-                Learn more →
-              </span>
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-300">{workspace.summary}</p>
+              <div className="mt-6 flex items-end justify-between gap-3">
+                <span className="text-sm font-medium text-slate-400">Learn more</span>
+                <HomepageCardArrow />
+              </div>
             </Link>
           </li>
         ))}
