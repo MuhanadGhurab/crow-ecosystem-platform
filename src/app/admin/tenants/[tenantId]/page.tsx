@@ -274,7 +274,7 @@ export default async function AdminTenantDetailPage({
 
           <ProCrowWorkbenchSection
             title="Tenant workforce activation"
-            description="Business Portal invites — manual copy-link mode."
+            description="Business Portal Invite — manual copy-link mode after runtime preparation."
           >
             <AdminTenantMembershipInvitePanel
               tenantId={tenant.id}
