@@ -1,7 +1,7 @@
 # M4C — Tenant Invite Acceptance Token / Email Delivery
 
 **Date:** 5 Jun 2026  
-**Status:** **PROPOSAL-ONLY PASS** (implementation blocked pending migration approval)  
+**Status:** **IMPLEMENTATION PASSED** (manual copy-link mode; no email provider)  
 **Audience:** Internal delivery / ProCrow operators
 
 **Related:** [`M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md`](M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md) · [`M4B_TENANT_MEMBERSHIP_INVITE_ONBOARDING_FLOW.md`](M4B_TENANT_MEMBERSHIP_INVITE_ONBOARDING_FLOW.md)
@@ -67,20 +67,20 @@ Deliverable: [`M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md`](M4C_TENANT_INVI
 | Backfill | Not required |
 | Destructive changes | None |
 
-**No migration applied in this phase.**
+**Migration applied:** `prisma/migrations/20260605120000_tenant_membership_invite/migration.sql`
 
 ---
 
-## Parts 3–8 — Implementation status (deferred)
+## Parts 3–8 — Implementation status
 
-| Part | Planned artifact | Status |
-|------|------------------|--------|
-| 3 Contract | `tenant-invite-acceptance-contract.ts` | **Not created** — blocked |
-| 4 Token service | `tenant-invite-token.service.ts` | **Not created** — blocked |
-| 5 Server actions | `tenant-invite-acceptance.ts` | **Not created** — blocked |
-| 6 Route | `/tenant-invite/[token]` | **Not created** — blocked |
-| 7 ProCrow UI | Copy link, list, revoke | **Not created** — blocked |
-| 8 Email | Manual copy-link default | **Documented** — M4D for provider |
+| Part | Artifact | Status |
+|------|----------|--------|
+| 3 Contract | `src/lib/tenant/tenant-invite-acceptance-contract.ts` | **Shipped** |
+| 4 Token service | `src/lib/services/tenant-invite-token.service.ts` | **Shipped** — SHA-256 hash only; raw token shown once |
+| 5 Server actions | `src/lib/actions/tenant-invite-acceptance.ts` | **Shipped** — platform staff or `cem.users.invite` |
+| 6 Route | `src/app/tenant-invite/[token]/page.tsx` | **Shipped** — auth + email match before accept |
+| 7 ProCrow UI | `admin-tenant-membership-invite-panel.tsx` | **Shipped** — create link, copy URL, list, revoke |
+| 8 Email | Manual copy-link default | **Shipped** — honest copy; **M4D** for provider |
 
 ---
 
@@ -99,7 +99,9 @@ After implementation:
 ## Part 10 — Verification
 
 ```bash
-npm run tenant-invite-acceptance:verify   # proposal-mode checks
+npx prisma validate
+npm run db:generate
+npm run tenant-invite-acceptance:verify
 npm run tenant-invite:verify              # M4B regression
 npm run tenant-membership:verify
 npm run access-gateway:verify
@@ -110,26 +112,19 @@ npm run build
 npm run public:mirror-manifest
 ```
 
-**Not run in proposal phase:** `prisma migrate`, `db:generate` for new model, seeds.
+**Operator deploy:** `npx prisma migrate deploy` on target environment before using invite links in production.
 
 ---
 
 ## Part 11 — Remaining gaps
 
-1. Migration approval + DDL apply
-2. Token service + accept route + guarded actions
-3. ProCrow panel: create link, list invites, revoke pending
-4. Lazy or scheduled expiry (`pending` → `expired`)
-5. Session/metadata refresh after accept (may require re-login or callback refresh)
-6. Crow-owned email delivery → **M4D**
+1. Crow-owned email delivery → **M4D**
+2. Session/metadata refresh after accept (may require re-login or callback refresh)
+3. Scheduled expiry job (lazy expiry on read is implemented)
 
 ---
 
 ## Recommended next phase
-
-**After migration approval:** complete M4C implementation tranche (contract → service → route → UI → verifiers).
-
-**Alternatively (parallel product work):**
 
 - **M4D** — Tenant invite email delivery provider
 - **M3.6** — Purchase-to-Stock UX refinement
@@ -141,10 +136,12 @@ npm run public:mirror-manifest
 
 | Criterion | Result |
 |-----------|--------|
-| Invite schema audit documented | **Yes** |
-| Migration proposal exists | **Yes** |
-| No schema/migration without approval | **Yes** |
-| Risks and rollout documented | **Yes** |
+| `TenantMembershipInvite` migration | **Yes** |
+| Token hash-only storage | **Yes** |
+| `/tenant-invite/[token]` acceptance route | **Yes** |
+| Membership only on accept (`grantTenantAccess`) | **Yes** |
+| ProCrow copy-link UI (no false email-sent claims) | **Yes** |
+| M4B break-glass immediate grant preserved | **Yes** |
+| `npm run tenant-invite-acceptance:verify` | **Yes** |
 
-**M4C proposal-only: PASSED**  
-**M4C implementation: NOT STARTED** (awaiting approval)
+**M4C implementation: PASSED**

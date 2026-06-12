@@ -1133,22 +1133,133 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 **Recommended next:** **M4C — Tenant Invite Acceptance Token / Email Delivery** or **M3.6 — Purchase-to-Stock UX Refinement** or **M3.4B — Approved Workflow Persistence Migration**
 
 ---
-## M4C — Tenant Invite Acceptance Token / Email Delivery (proposal gate)
+## M4C — Tenant Invite Acceptance Token / Email Delivery
 
-**Scope:** Safe tenant invite acceptance: persisted invite token (hash only), expiry/status lifecycle, `/tenant-invite/[token]` acceptance route, membership activation only after authenticated email match. Manual copy-link mode first; no Crow email-sent claims without provider (M4D).
+**Scope:** Safe tenant invite acceptance: persisted invite token (hash only), expiry/status lifecycle, `/tenant-invite/[token]` acceptance route, membership activation only after authenticated email match. Manual copy-link mode; no Crow email-sent claims (M4D for provider).
 
 | Deliverable | Location |
 |-------------|----------|
-| Schema proposal | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_SCHEMA_PROPOSAL.md` |
+| Migration | `prisma/migrations/20260605120000_tenant_membership_invite/` |
+| Contract | `src/lib/tenant/tenant-invite-acceptance-contract.ts` |
+| Token service | `src/lib/services/tenant-invite-token.service.ts` |
+| Actions | `src/lib/actions/tenant-invite-acceptance.ts` |
+| Accept route | `src/app/tenant-invite/[token]/page.tsx` |
+| ProCrow UI | `src/components/admin/admin-tenant-membership-invite-panel.tsx` |
 | Phase doc | `docs/internal/M4C_TENANT_INVITE_ACCEPTANCE_TOKEN_EMAIL_DELIVERY.md` |
-| Proposal verifier | `scripts/verify-tenant-invite-acceptance.ts` |
+| Verifier | `scripts/verify-tenant-invite-acceptance.ts` |
 | Verification | `npm run tenant-invite-acceptance:verify` |
 
-**Status:** **PROPOSAL-ONLY PASS** (5 Jun 2026) — migration approval **pending**; no `TenantMembershipInvite` DDL applied
+**Status:** Shipped (5 Jun 2026) — manual copy-link mode; M4B break-glass immediate grant coexists; on branch `feat/m4c-tenant-invite-acceptance` (`cffaf95`), PR #1 open — **not merged to `main`**
 
-**Blocked until approval:** contract, token service, actions, `/tenant-invite/[token]`, ProCrow copy-link UI
+**Recommended next:** **M4C.1 release smoke** (complete operator E2E) · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
 
-**Recommended next:** Approve migration → complete M4C implementation · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M3.4B — Approved Workflow Persistence Migration**
+---
+## M4C.1 — Tenant Invite Acceptance Release & Smoke
+
+**Scope:** Safely release M4C: confirm migration/deploy path, run manual invite create → accept → Business Portal smoke, negative cases, ProCrow post-acceptance checks. Fix release blockers only — no new features.
+
+| Deliverable | Location |
+|-------------|----------|
+| Release smoke doc | `docs/internal/M4C_1_TENANT_INVITE_ACCEPTANCE_RELEASE_SMOKE.md` |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `cffaf95` |
+| PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
+| Preview URL | https://crow-ecosystem-platform-git-feat-7e40c6-muhanadghurabs-projects.vercel.app |
+
+**Status:** **CONDITIONAL PASS** (6 Jun 2026) — local + CI verify green; preview **Ready**; production health green on `main` without M4C; manual E2E and migration log verification deferred; preview auth wall blocks agent health smoke
+
+**Recommended next:** **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement** · **M4E — Tenant Membership Management UX**
+
+---
+
+## A1 — Architecture Simplification + Portal UX System Reset
+
+**Scope:** Simplify Crow product architecture language and portal IA/UX across Public, Access Gateway, Client Portal, ProCrow, Business Portal / CEM, CyberCrow, and SAREA. Reframe M4C as **Tenant Workforce Activation** / **Business Portal invite**. No migrations, payments, auth weakening, or feature removal.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/A1_ARCHITECTURE_SIMPLIFICATION_PORTAL_UX_SYSTEM_RESET.md` |
+| UX principles | `src/lib/constants/crow-ux-principles.ts` |
+| Lifecycle | `src/lib/constants/crow-simplified-lifecycle.ts` |
+| Route ownership | `src/lib/constants/crow-route-ownership.ts` |
+| Workforce activation copy | `src/lib/constants/crow-workforce-activation.ts` |
+| Verifier | `npm run architecture-simplification:verify` |
+
+**Status:** **PASSED** (6 Jun 2026) — constants, portal copy, ProCrow tenant workbench grouping, purchase-to-stock timeline reorder, M4C copy reframe (functionality preserved); verifier green with full validation suite.
+
+**Recommended next:** **PR #1 merge** · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
+
+---
+
+## M4C.1.1 — Invite Acceptance Operator Smoke Completion
+
+**Scope:** Complete manual operator browser smoke for Tenant Workforce Activation / Business Portal invite (M4C + A1 copy). Prove ProCrow invite creation, token acceptance, Business Portal access, negative cases, and ProCrow post-acceptance. Tiny route/copy fixes only.
+
+| Deliverable | Location |
+|-------------|----------|
+| Operator smoke doc | `docs/internal/M4C_1_1_INVITE_ACCEPTANCE_OPERATOR_SMOKE_COMPLETION.md` |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `5e36464` (R1B) + docs pass |
+| PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
+| Tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
+
+**Status:** **FULL PASS** (6 Jun 2026) — initial operator smoke **UX BLOCKED** on pre-R1B page; **retest passed** after R1B Tenant Command Center redesign (`5e36464`); invite create/accept/Business Portal path verified on preview; upgrades M4C.1 to FULL PASS
+
+**Recommended next:** Merge PR #1 when CI green · production smoke after deploy · **M4D**
+
+---
+
+## R1B — ProCrow Tenant Command Center & Workforce Activation UX Fix
+
+**Scope:** Redesign `/admin/tenants/[tenantId]` into Tenant Command Center — header, primary action bar, lifecycle stepper, tabbed workspace, Workforce Activation tab, Advanced break-glass separation. Unblock M4C.1.1 operator UX. No migrations, seeds, payments, email provider, or auth weakening.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md` |
+| Constants | `src/lib/constants/tenant-command-center.ts` |
+| Command center UI | `tenant-command-center-*.tsx`, `tenant-lifecycle-stepper.tsx` |
+| Tabs | `tenant-control-room-nav.tsx` |
+| Invite / break-glass | `admin-tenant-membership-invite-panel.tsx`, `admin-tenant-membership-break-glass-panel.tsx` |
+| Tenant page | `src/app/admin/tenants/[tenantId]/page.tsx` |
+
+**Status:** **PASSED** (6 Jun 2026) — command center layout committed `5e36464`; invite visible without scroll; full verifier suite + build + `smoke:phase1` green; M4C.1.1 operator retest **FULL PASS**
+
+**Recommended next:** Merge PR #1 when CI green · **M4D**
+
+---
+
+## A1.1 — Public Homepage Hero & Website Visual Reset
+
+**Scope:** Rebuild public homepage hero and first sections for premium enterprise SaaS feel. Remove hero side card; add 5-step flow, three workspaces, and product engine cards. Visual/UX only — no auth, backend, database, migrations, or payments.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/A1_1_PUBLIC_HOMEPAGE_HERO_VISUAL_RESET.md` |
+| Homepage copy | `src/lib/constants/homepage.ts` |
+| Hero | `src/components/public/hero-section.tsx` |
+| Sections | `homepage-how-it-works.tsx` · `homepage-three-workspaces.tsx` · `homepage-runtime-engines.tsx` |
+| Page composition | `src/app/(public)/page.tsx` |
+| Verifier | `npm run public-homepage:verify` |
+
+**Status:** **PASSED** (6 Jun 2026) — hero centered without side diagram; 5-step **How Crow works**; portal and engine sections; header polish; verifier + validation suite green.
+
+**Recommended next:** Operator manual E2E on preview (complete M4C.1.1 FULL PASS) · **Public subpages visual alignment** · **M4D**
+
+---
+
+## R1A — UI Consolidation, Invite UX Readiness & CI Fix
+
+**Scope:** Keep local A1.2 UI WIP; fix `postgres-smoke` CI; redesign ProCrow **Tenant Workforce Activation** / **Business Portal Invite** for operator manual smoke. No migrations, seeds, payments, auth weakening, or email provider.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/R1A_UI_CONSOLIDATION_INVITE_UX_READINESS_CI_FIX.md` |
+| A1.2A public pass | `src/app/(public)/page.tsx`, `globals.css`, `src/components/public/homepage-*.tsx`, `public-header-nav.tsx` |
+| A1.2B client shell | `src/app/client/page.tsx`, `client-portal-shell.tsx`, `client-portal-nav-links.tsx` |
+| Invite UX | `admin-tenant-membership-invite-panel.tsx`, `crow-workforce-activation.ts` |
+| CI fix | `scripts/run-smoke-phase1.mjs` (`CYBERCROW_SCRIPT_PRISMA=1`) |
+
+**Status:** **PASSED** (6 Jun 2026) — UI WIP classified (A1.2A/A1.2B + invite panel); postgres-smoke root cause fixed, local `smoke:phase1` green; invite UI operator-ready; verifiers + build green; uncommitted; CI remote pass pending push; M4C.1.1 browser smoke not run.
+
+**Recommended next:** **M4C.1.1 operator smoke on preview** · commit/push when requested · confirm CI `postgres-smoke` · PR #1 merge gate
 
 ---
 ## P0 — Production Build Recovery: L5+ Deployment Failure (no paid infra)

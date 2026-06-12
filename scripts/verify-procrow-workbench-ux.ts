@@ -107,8 +107,8 @@ function main() {
 
   const tenant = fileText("src/app/admin/tenants/[tenantId]/page.tsx");
   check(
-    tenant.includes("ProCrowTenantWorkbenchHeader"),
-    "Tenant detail uses workbench header",
+    tenant.includes("ProCrowTenantWorkbenchHeader") || tenant.includes("TenantCommandCenterHeader"),
+    "Tenant detail uses command center or workbench header",
     "Redesign tenant detail header"
   );
   check(

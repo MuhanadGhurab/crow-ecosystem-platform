@@ -24,6 +24,7 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "industries",
   "case-studies",
   "access",
+  "tenant-invite",
   "_next",
   "favicon.ico",
 ]);

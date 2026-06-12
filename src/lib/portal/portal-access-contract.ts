@@ -43,10 +43,13 @@ export const PORTAL_GATEWAY_SAFETY_NOTES = [
 ] as const;
 
 export const CLIENT_PORTAL_DESCRIPTION =
-  "Request Crow, complete guided discovery, review proposals and blueprints, approve scope, and track onboarding." as const;
+  "Request, discovery, proposal, onboarding." as const;
 
 export const BUSINESS_PORTAL_DESCRIPTION =
-  "Run your company workspace through CEM — HR, finance, CRM, procurement, inventory, logistics, tasks, workflows, and reports." as const;
+  "Run daily company operations." as const;
 
 export const PROCROW_PORTAL_DESCRIPTION =
-  "Internal control tower for discovery review, blueprint, proposal flow, CyberCrow/SAREA readiness, staging tenant preparation, and Go/No-Go." as const;
+  "Prepare, govern, and validate tenants." as const;
+
+export const BUSINESS_PORTAL_UNAVAILABLE_REASON =
+  "Business Portal access requires verified tenant membership." as const;

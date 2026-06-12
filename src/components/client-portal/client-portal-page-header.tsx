@@ -18,13 +18,13 @@ export function ClientPortalPageHeader({
   return (
     <div>
       {backHref && (
-        <Link href={backHref} className="text-sm text-teal-400 hover:text-teal-300">
+        <Link href={backHref} className="text-sm text-cyan-300/90 hover:text-cyan-200">
           {backLabel}
         </Link>
       )}
       {eyebrow && (
         <p
-          className={`text-xs font-semibold uppercase tracking-wider text-teal-400/90 ${
+          className={`cc-home-eyebrow ${
             backHref ? "mt-4" : ""
           }`}
         >

@@ -57,6 +57,7 @@ jobs:
     needs: verify
     env:
       AUTH_DISABLED: "true"
+      CYBERCROW_SCRIPT_PRISMA: "1"
     services:
       postgres:
         image: postgres:16-alpine

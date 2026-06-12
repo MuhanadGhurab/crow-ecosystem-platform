@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { CyberCrowCardPreview } from "@/components/public/cybercrow-card-preview";
 import {
   HOMEPAGE_RBAC_SAREA_LINE,
   HOMEPAGE_RUNTIME_ENGINES,
 } from "@/lib/constants/homepage";
-import { PublicSectionIntro } from "@/components/public/public-section-intro";
+import { HomepageCardArrow } from "@/components/public/homepage-card-arrow";
+import { HomepageSectionHeader } from "@/components/public/homepage-section-header";
 
 const BADGE_CLASS: Record<string, string> = {
   cem: "cc-entity-badge--cem",
@@ -12,44 +12,55 @@ const BADGE_CLASS: Record<string, string> = {
   sarea: "cc-entity-badge--sarea",
 };
 
-const LINK_CLASS: Record<string, string> = {
-  cem: "text-cyan-400 hover:text-cyan-300",
-  cybercrow: "text-violet-400 hover:text-violet-300",
-  sarea: "text-rose-400 hover:text-rose-300",
-};
-
 export function HomepageRuntimeEngines() {
+  const [featured, ...rest] = HOMEPAGE_RUNTIME_ENGINES;
+
   return (
-    <section id="three-engines" className="cc-safe-x relative mx-auto max-w-6xl scroll-mt-20 py-14 sm:py-20">
-      <PublicSectionIntro
-        badge="Three engines"
-        title="CEM · CyberCrow · SAREA"
-        description="After blueprint and provisioning, three sibling engines run under one governed tenant shell."
+    <section id="product-engines" className="cc-home-section scroll-mt-24 border-t border-white/[0.04]">
+      <HomepageSectionHeader
+        eyebrow="Product engines"
+        title="Operations, trust, and experience"
+        description="Three sibling engines under one governed tenant shell — each with a clear job."
       />
-      <p className="mx-auto mt-4 max-w-2xl text-center text-sm font-medium text-slate-300">
+      <p className="mx-auto mt-4 max-w-xl text-center text-sm font-medium text-slate-300">
         {HOMEPAGE_RBAC_SAREA_LINE}
       </p>
-      <div className="mt-10 grid gap-5 lg:grid-cols-3">
-        {HOMEPAGE_RUNTIME_ENGINES.map((engine) => (
-          <article
-            key={engine.id}
-            className={`cc-engine-card cc-engine-card--${engine.id} flex flex-col p-6 sm:p-7`}
+
+      <div className="mt-12 grid gap-4 lg:grid-cols-2 lg:grid-rows-2">
+        <article className="cc-home-card lg:row-span-2">
+          <span className={`cc-entity-badge ${BADGE_CLASS[featured.id] ?? ""} w-fit`}>
+            {featured.name}
+          </span>
+          <h3 className="mt-4 font-display text-xl font-bold text-white sm:text-2xl">
+            {featured.fullName}
+          </h3>
+          <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-400 sm:text-base">
+            {featured.summary}
+          </p>
+          <Link
+            href={featured.href}
+            className="mt-8 flex items-end justify-between gap-3"
+            aria-label={featured.cta}
           >
+            <span className="text-sm font-medium text-slate-300">{featured.cta}</span>
+            <HomepageCardArrow />
+          </Link>
+        </article>
+
+        {rest.map((engine) => (
+          <article key={engine.id} className="cc-home-card">
             <span className={`cc-entity-badge ${BADGE_CLASS[engine.id] ?? ""} w-fit`}>
               {engine.name}
             </span>
-            <h3 className="mt-3 font-display text-xl font-bold text-white">{engine.fullName}</h3>
-            {engine.id === "cybercrow" ? (
-              <div className="mt-4">
-                <CyberCrowCardPreview />
-              </div>
-            ) : null}
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-400">{engine.summary}</p>
+            <h3 className="mt-3 font-display text-lg font-bold text-white">{engine.fullName}</h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{engine.summary}</p>
             <Link
               href={engine.href}
-              className={`mt-5 inline-flex text-sm font-medium ${LINK_CLASS[engine.id] ?? ""}`}
+              className="mt-5 flex items-end justify-between gap-3"
+              aria-label={engine.cta}
             >
-              {engine.cta} →
+              <span className="text-sm font-medium text-slate-400">{engine.cta}</span>
+              <HomepageCardArrow />
             </Link>
           </article>
         ))}

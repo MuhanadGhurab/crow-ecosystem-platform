@@ -7,6 +7,8 @@ import { spawnSync } from "node:child_process";
 
 const env = {
   ...process.env,
+  /** Required by @/lib/db server-only guard for CLI smoke (see run-with-script-prisma.mjs). */
+  CYBERCROW_SCRIPT_PRISMA: "1",
   NODE_OPTIONS: [process.env.NODE_OPTIONS, "--use-system-ca"].filter(Boolean).join(" "),
 };
 

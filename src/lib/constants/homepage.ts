@@ -1,68 +1,91 @@
-/** Public homepage copy — plain language, no overclaims */
+/** Public homepage copy — plain language, no overclaims (A1 / A1.1) */
 
-export const HOMEPAGE_HERO_HEADLINE = "Map your company before runtime begins." as const;
+export const HOMEPAGE_HERO_BADGE =
+  "Crow Ecosystem · Enterprise operating platform" as const;
+
+export const HOMEPAGE_HERO_HEADLINE =
+  "Build the operating workspace your company actually runs on." as const;
 
 export const HOMEPAGE_HERO_SUBHEADLINE =
-  "Departments, roles, workflows, modules, trust, and experience — prepared with Crow." as const;
+  "Crow turns discovery into a governed Business Portal — with ProCrow for preparation, CyberCrow for trust readiness, SAREA for role-based experience, and CEM for daily operations." as const;
 
-export const HOMEPAGE_HERO_EXPLAINER =
-  "Crow helps you map your company’s departments, roles, workflows, modules, trust posture, and experience before tenant runtime begins. CEM runs operations, CyberCrow supports trust, SAREA adapts the experience — RBAC controls access." as const;
+export const HOMEPAGE_HERO_ACCOUNT_NOTE =
+  "Account required to submit — sign in to start your request. Public pages remain open to browse." as const;
 
-export const HOMEPAGE_HOW_IT_WORKS = [
+/** Hero feature pills (above headline) */
+export const HOMEPAGE_HERO_FEATURE_PILLS = [
+  { highlight: "3 workspaces", label: "Client · Business · ProCrow" },
+  { highlight: "Governed flow", label: "Request → Blueprint → Runtime" },
+  { highlight: "CEM · CyberCrow · SAREA", label: "Operating engines" },
+] as const;
+
+/** Five-step public flow (below hero) */
+export const HOMEPAGE_CROW_WORKS_STEPS = [
   {
     step: "01",
-    title: "Submit a request",
-    summary:
-      "Sign in, then share your organization and goals through a governed implementation request — tracked in your Client Portal.",
+    title: "Request",
+    summary: "Create account and submit company request.",
   },
   {
     step: "02",
-    title: "Discovery understands you",
-    summary:
-      "Structured discovery captures departments, workflows, security needs, and operating model signals.",
+    title: "Discovery",
+    summary: "Map departments, roles, workflows, and modules.",
   },
   {
     step: "03",
-    title: "Blueprint defines the model",
-    summary:
-      "Your digital DNA — modules, integrations, pricing alignment, and go-live readiness — becomes the source of truth.",
+    title: "Blueprint",
+    summary: "Review scope, proposal, and package.",
   },
   {
     step: "04",
-    title: "CEM runs operations",
-    summary:
-      "Tenant runtime for workflows, departments, CRM, finance, HR, and the modules you approved in blueprint.",
+    title: "Runtime Preparation",
+    summary: "ProCrow prepares CEM, CyberCrow, and SAREA.",
   },
   {
     step: "05",
-    title: "CyberCrow protects trust",
-    summary:
-      "Audit logs, risk posture, security events, incidents, and identity signals — advisory visibility, not a SIEM replacement.",
-  },
-  {
-    step: "06",
-    title: "SAREA adapts the experience",
-    summary:
-      "Dashboards, navigation, and widgets adjust to role and context so each person sees what they need.",
+    title: "Business Portal Operations",
+    summary: "Employees work inside the Business Portal.",
   },
 ] as const;
 
+/** Three workspaces — public explanation */
+export const HOMEPAGE_THREE_WORKSPACES = [
+  {
+    id: "client" as const,
+    name: "Client Portal",
+    summary: "Request, discovery, proposal, onboarding.",
+    href: "/request",
+  },
+  {
+    id: "business" as const,
+    name: "Business Portal / CEM",
+    summary: "Run daily company operations.",
+    href: "/modules",
+  },
+  {
+    id: "procrow" as const,
+    name: "ProCrow",
+    summary: "Prepare, govern, and validate tenant runtime.",
+    href: "/architecture",
+  },
+] as const;
+
+/** Product engines — trust / experience / operations */
 export const HOMEPAGE_RUNTIME_ENGINES = [
   {
     id: "cem" as const,
     name: "CEM",
     fullName: "Crow Enterprise Manager",
-    summary:
-      "Runs operations, workflows, departments, approvals, and your tenant runtime — the day-to-day enterprise shell.",
+    summary: "Runs operations — modules, workflows, tasks, and daily work inside the Business Portal.",
     href: "/modules",
-    cta: "Explore CEM modules",
+    cta: "Explore modules",
   },
   {
     id: "cybercrow" as const,
     name: "CyberCrow",
-    fullName: "Enterprise Security Orchestration",
+    fullName: "Trust readiness layer",
     summary:
-      "Protects trust through audit logs, risk posture, incidents, security events, and identity/session signals you can review.",
+      "Reviews trust, identity, evidence, GRC, and risk readiness — advisory visibility, not a compliance certification.",
     href: "/security",
     cta: "View security layer",
   },
@@ -71,14 +94,17 @@ export const HOMEPAGE_RUNTIME_ENGINES = [
     name: "SAREA",
     fullName: "Smart Adaptive Role Experience",
     summary:
-      "Adapts dashboards, navigation, widgets, and complexity based on role and context — experience, not permissions.",
+      "Shapes role-based experience. RBAC controls access; SAREA shapes how each role sees the workspace.",
     href: "/architecture",
     cta: "Learn about SAREA",
   },
 ] as const;
 
 export const HOMEPAGE_RBAC_SAREA_LINE =
-  "RBAC controls who can access what. SAREA controls how the experience feels for each role." as const;
+  "RBAC controls who can access what. SAREA shapes how the experience feels for each role." as const;
+
+/** Legacy export — kept for any downstream references */
+export const HOMEPAGE_HOW_IT_WORKS = HOMEPAGE_CROW_WORKS_STEPS;
 
 export const HOMEPAGE_BUILT_FOR = [
   {

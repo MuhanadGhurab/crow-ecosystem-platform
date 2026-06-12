@@ -46,15 +46,18 @@ export default async function PurchaseToStockWorkflowPage({
       backHref={r.workflows}
       backLabel="Workflows"
     >
-      <section className="cc-glass-card border-amber-500/20 bg-amber-500/5 p-4">
-        <ul className="list-disc space-y-1 pl-5 text-sm text-amber-100/90">
+      <details className="cc-glass-card border-amber-500/20 bg-amber-500/5 p-4">
+        <summary className="cursor-pointer text-sm font-medium text-amber-200 marker:content-none [&::-webkit-details-marker]:hidden">
+          Safety notes
+        </summary>
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-amber-100/90">
           {snapshot.disclaimers.map((d) => (
             <li key={d}>{d}</li>
           ))}
         </ul>
-      </section>
+      </details>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="cc-glass-card border-cyan-500/10 p-4">
           <p className="text-xs text-slate-500">Status</p>
           <p className="mt-1 font-display text-lg font-semibold capitalize text-white">
@@ -68,16 +71,24 @@ export default async function PurchaseToStockWorkflowPage({
           </p>
         </div>
         <div className="cc-glass-card border-cyan-500/10 p-4">
-          <p className="text-xs text-slate-500">Persistence</p>
-          <p className="mt-1 font-display text-lg font-semibold text-white">
-            {snapshot.persistenceMode === "tenant_backed" ? "Tenant-backed" : "Advisory only"}
-          </p>
-        </div>
-        <div className="cc-glass-card border-cyan-500/10 p-4">
           <p className="text-xs text-slate-500">Request source</p>
           <p className="mt-1 font-display text-lg font-semibold capitalize text-white">
             {snapshot.request.source.replace(/_/g, " ")}
           </p>
+        </div>
+      </section>
+
+      <section className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
+        <h2 className="font-display text-base font-semibold text-white">Stage timeline</h2>
+        <div className="mt-4">
+          <CemTransactionStageTimeline snapshot={snapshot} />
+        </div>
+      </section>
+
+      <section className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
+        <h2 className="font-display text-base font-semibold text-white">Next actions</h2>
+        <div className="mt-4">
+          <CemTransactionWorkflowActions snapshot={snapshot} />
         </div>
       </section>
 
@@ -105,28 +116,27 @@ export default async function PurchaseToStockWorkflowPage({
             <dd className="text-slate-300">{snapshot.request.businessReason}</dd>
           </div>
         </dl>
+        <p className="mt-4 text-xs text-slate-500">
+          Persistence:{" "}
+          <span className="text-slate-300">
+            {snapshot.persistenceMode === "tenant_backed" ? "Tenant-backed" : "Advisory only"}
+          </span>
+        </p>
       </section>
 
       {persistenceSnapshot && (
-        <CemWorkflowPersistencePanel
-          snapshot={persistenceSnapshot}
-          requestId={snapshot.request.id}
-        />
+        <details className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
+          <summary className="cursor-pointer font-display text-base font-semibold text-white marker:content-none [&::-webkit-details-marker]:hidden">
+            Workflow persistence details
+          </summary>
+          <div className="mt-4">
+            <CemWorkflowPersistencePanel
+              snapshot={persistenceSnapshot}
+              requestId={snapshot.request.id}
+            />
+          </div>
+        </details>
       )}
-
-      <section className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
-        <h2 className="font-display text-base font-semibold text-white">Stage timeline</h2>
-        <div className="mt-4">
-          <CemTransactionStageTimeline snapshot={snapshot} />
-        </div>
-      </section>
-
-      <section className="cc-glass-card border-cyan-500/10 p-4 sm:p-6">
-        <h2 className="font-display text-base font-semibold text-white">Next actions</h2>
-        <div className="mt-4">
-          <CemTransactionWorkflowActions snapshot={snapshot} />
-        </div>
-      </section>
 
       {(snapshot.blockers.length > 0 || snapshot.warnings.length > 0) && (
         <section className="grid gap-4 sm:grid-cols-2">
