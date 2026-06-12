@@ -1197,13 +1197,32 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Deliverable | Location |
 |-------------|----------|
 | Operator smoke doc | `docs/internal/M4C_1_1_INVITE_ACCEPTANCE_OPERATOR_SMOKE_COMPLETION.md` |
-| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `b575c9c` |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `1369f5a` + R1B local |
 | PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
 | Tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
 
-**Status:** **PENDING** (6 Jun 2026) — R1A invite UX + CI fix complete locally; full verifier suite + build green; operator browser smoke Parts 2–9 **not executed**; PR #1 not merged
+**Status:** **UX BLOCKED / NOT FULL PASS** (6 Jun 2026) — operator smoke **attempted**; invite action too hard to find on pre-R1B tenant page; automated verifiers green; browser Parts 2–9 incomplete; **retest required after R1B** command center UX
 
-**Recommended next:** Operator manual checklist on preview with Vercel bypass (R1A UX ready) · commit/push when requested · confirm CI `postgres-smoke` · merge PR #1 when green · **M4D**
+**Recommended next:** M4C.1.1 operator retest on preview (R1B command center) · commit/push R1B when requested · do **not** merge PR #1 until FULL PASS · **M4D**
+
+---
+
+## R1B — ProCrow Tenant Command Center & Workforce Activation UX Fix
+
+**Scope:** Redesign `/admin/tenants/[tenantId]` into Tenant Command Center — header, primary action bar, lifecycle stepper, tabbed workspace, Workforce Activation tab, Advanced break-glass separation. Unblock M4C.1.1 operator UX. No migrations, seeds, payments, email provider, or auth weakening.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md` |
+| Constants | `src/lib/constants/tenant-command-center.ts` |
+| Command center UI | `tenant-command-center-*.tsx`, `tenant-lifecycle-stepper.tsx` |
+| Tabs | `tenant-control-room-nav.tsx` |
+| Invite / break-glass | `admin-tenant-membership-invite-panel.tsx`, `admin-tenant-membership-break-glass-panel.tsx` |
+| Tenant page | `src/app/admin/tenants/[tenantId]/page.tsx` |
+
+**Status:** **PASSED** (6 Jun 2026) — command center layout shipped locally; invite visible without scroll; full verifier suite + build + `smoke:phase1` green; uncommitted; M4C.1.1 retest pending; PR #1 not merged
+
+**Recommended next:** Operator M4C.1.1 retest on `meem-global` · commit/push when requested · merge PR #1 after FULL PASS · **M4D**
 
 ---
 

@@ -148,7 +148,9 @@ function main(): boolean {
   const tenantPage = fileText("src/app/admin/tenants/[tenantId]/page.tsx");
   check(
     tenantPage.includes("Tenant workforce activation") ||
-      tenantPage.includes("Tenant Workforce Activation"),
+      tenantPage.includes("Tenant Workforce Activation") ||
+      tenantPage.includes("TENANT_WORKFORCE_ACTIVATION_TITLE") ||
+      tenantPage.includes('activeTab === "workforce"'),
     "ProCrow tenant overview groups workforce activation",
     "Group M4C under Tenant workforce activation on tenant page"
   );

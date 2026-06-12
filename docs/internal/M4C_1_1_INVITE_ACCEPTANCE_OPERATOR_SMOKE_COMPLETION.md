@@ -1,8 +1,8 @@
 # M4C.1.1 — Invite Acceptance Operator Smoke Completion
 
-**Date:** 6 Jun 2026  
+**Date:** 6 Jun 2026 (updated after R1B UX fix)  
 **Branch tested:** `feat/m4c-tenant-invite-acceptance`  
-**Commit tested:** `b575c9c` (includes A1 + A1.1 + M4C + M4C.1 docs on branch)  
+**Commit tested:** `1369f5a` + R1B local (Tenant Command Center UX)  
 **PR:** https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 (OPEN — not merged to `main`)  
 **Primary deployment URL:** https://crow-ecosystem-platform.vercel.app  
 **Preview URL (M4C + A1 copy):** https://crow-ecosystem-platform-git-feat-7e40c6-muhanadghurabs-projects.vercel.app  
@@ -56,13 +56,27 @@
 
 ---
 
+## 3b. UX blocker (R1B trigger)
+
+**Status:** **UX BLOCKED** (operator smoke attempted, flow not obvious)
+
+Operator attempted M4C.1.1 on `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` (`meem-global`). Backend invite/token flow and verifiers were acceptable, but the **pre-R1B tenant page** failed operator usability:
+
+- Business Portal Invite buried below many equal-weight sections
+- No clear first/next/last operator journey
+- Break-glass grant competed visually with normal invite path
+
+**Remediation:** R1B — Tenant Command Center redesign ([`R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md`](R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md)). M4C.1.1 **retest required** after R1B on preview.
+
+---
+
 ## 4. ProCrow invite creation result (Part 2)
 
-**Status:** **NOT EXECUTED**
+**Status:** **NOT EXECUTED** (pre-R1B UX blocked findability; retest after R1B)
 
 | Requirement | Agent pass |
 |-------------|------------|
-| `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` — Tenant Workforce Activation section | **Manual** — requires platform staff session |
+| `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` — Tenant Workforce Activation section | **Manual** — requires platform staff session; **R1B:** dedicated tab + primary action bar |
 | Business Portal Invite / Create invite link panel | **Code + `tenant-invite-acceptance:verify`** |
 | Roles: `tenant_user`, `tenant_admin` only | **Verifier** |
 | Manual copy-link; no false email-sent claim | **Verifier** |
@@ -175,13 +189,13 @@ Post-acceptance expectations:
 
 ## 13. Issues found
 
-1. **Manual operator browser smoke not completed** — Parts 2–9 blocked by missing credentials + Browse MCP `ENOENT`.
-2. **Preview Deployment Protection** — unauthenticated `/api/health` and manual smoke on preview require bypass or signed-in Vercel session.
-3. **Migration not SQL-verified** on staging project `wbwnsndcxrgyqwppurms`.
-4. **PR #1 not merged** — git `main` lacks M4C; production commit alignment unclear from HTTP probes alone.
-5. **`/tenant-invite` middleware misclassification (fixed locally, uncommitted):** First path segment `tenant-invite` was treated as a tenant slug, forcing auth before the public invite page. Signed-out users saw login shell instead of invite safe context. Fix: add `tenant-invite` to `RESERVED_PATH_SEGMENTS` in `src/lib/auth/route-protection.ts`.
-6. **postgres-smoke CI** — still **FAIL** (pre-existing `CYBERCROW_SCRIPT_PRISMA` omission); not M4C regression.
-7. **Working tree** — unstaged A1.1 verifier tweak + M4C.1.1 route fix; do not mix into smoke commit without explicit operator request.
+1. **Tenant page UX blocked operator smoke (R1B)** — invite action too hard to find; equal-weight card wall; no command-center journey. Addressed by R1B locally; **retest not yet run**.
+2. **Manual operator browser smoke not completed** — Parts 2–9 blocked by UX (above) and missing credentials / browser automation in agent pass.
+3. **Preview Deployment Protection** — unauthenticated `/api/health` and manual smoke on preview require bypass or signed-in Vercel session.
+4. **Migration not SQL-verified** on staging project `wbwnsndcxrgyqwppurms`.
+5. **PR #1 not merged** — do not merge until M4C.1.1 FULL PASS after R1B retest.
+6. **`/tenant-invite` middleware misclassification (fixed in branch):** `tenant-invite` in `RESERVED_PATH_SEGMENTS` (`src/lib/auth/route-protection.ts`).
+7. **Working tree** — R1B command center + invite panel changes uncommitted until operator requests commit.
 
 ---
 
@@ -219,12 +233,11 @@ Run on branch `feat/m4c-tenant-invite-acceptance` at `b575c9c` + uncommitted rou
 
 ## 16. Remaining gaps
 
-1. Operator manual smoke Parts 2–9 on deployment with known M4C commit (preview bypass or post-merge).
-2. Confirm migration `20260605120000_tenant_membership_invite` on `wbwnsndcxrgyqwppurms` via Supabase SQL or Vercel build logs.
-3. Commit or discard local route fix + A1.1 verifier unstaged change per operator preference.
-4. Merge PR #1 when E2E green.
+1. **M4C.1.1 operator retest** on R1B Tenant Command Center UX (`meem-global`, preview with bypass).
+2. Operator manual smoke Parts 2–9 on deployment with known M4C + R1B commit.
+3. Confirm migration `20260605120000_tenant_membership_invite` on `wbwnsndcxrgyqwppurms` via Supabase SQL or Vercel build logs.
+4. Commit/push R1B when requested; **do not merge PR #1** until FULL PASS.
 5. Optional: client-only negative test account.
-6. Optional: `postgres-smoke` one-line env fix (separate hygiene commit).
 
 ---
 
@@ -232,8 +245,8 @@ Run on branch `feat/m4c-tenant-invite-acceptance` at `b575c9c` + uncommitted rou
 
 | Priority | Phase | Rationale |
 |----------|-------|-----------|
-| 1 | **Operator completion of Parts 2–9** on preview with bypass | Unblocks FULL PASS for M4C.1.1 |
-| 2 | **Merge PR #1** + production promotion | Aligns git `main` with deployed invite flow |
+| 1 | **R1B retest — operator Parts 2–9** on preview with bypass | Unblocks FULL PASS for M4C.1.1 after command center UX |
+| 2 | **Merge PR #1** + production promotion | Only after M4C.1.1 FULL PASS |
 | 3 | **M4D — Tenant Invite Email Delivery Provider** | After copy-link path operator-verified |
 | 4 | **M3.6 — Purchase-to-Stock UX Refinement** | Parallel product track |
 
@@ -241,7 +254,7 @@ Run on branch `feat/m4c-tenant-invite-acceptance` at `b575c9c` + uncommitted rou
 
 ## 18. Final M4C.1.1 decision
 
-**CONDITIONAL PASS — OPERATOR BROWSER SMOKE NOT COMPLETED**
+**UX BLOCKED / NOT FULL PASS — OPERATOR SMOKE ATTEMPTED; RETEST AFTER R1B**
 
 | # | Criterion | Status |
 |---|-----------|--------|
@@ -260,6 +273,6 @@ Run on branch `feat/m4c-tenant-invite-acceptance` at `b575c9c` + uncommitted rou
 | 13 | Docs / status / milestones updated | **Met** (this doc + updates) |
 | 14 | Validation commands pass | **Met** |
 
-**Summary:** M4C.1.1 **does not** upgrade M4C.1 to FULL PASS. Automated verification remains green; production health is green; one **local route fix** improves signed-out invite page access but is **uncommitted** and **unverified in browser**. An operator with platform staff + test invitee accounts must complete Parts 2–9 on a deployment that includes commit `b575c9c` (or later with route fix), then append results to this document or a short addendum.
+**Summary:** M4C.1.1 **does not** upgrade M4C.1 to FULL PASS. Operator smoke was **attempted** but **UX BLOCKED** on the pre-R1B tenant page (invite buried, no command-center flow). **R1B** redesigns `/admin/tenants/[tenantId]` as Tenant Command Center with primary **Create Business Portal Invite** CTA and Workforce Activation tab. Automated verification remains green after R1B. An operator must **retest** Parts 2–9 on preview (with bypass) using the R1B layout, then append results here.
 
-**Immediate operator action:** Use preview URL with Vercel bypass (or merge first), run the checklist in §4–§12, redact tokens in notes, confirm staging migration table exists.
+**Immediate operator action:** Open `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` on preview → click **Create Business Portal Invite** (or Workforce Activation tab) → run checklist §4–§12, redact tokens, confirm staging migration table exists.

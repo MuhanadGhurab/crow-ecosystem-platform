@@ -3,16 +3,23 @@ import { routes } from "@/lib/routes";
 
 export const TENANT_CONTROL_ROOM_TABS = [
   { id: "overview", label: "Overview" },
-  { id: "plan", label: "Plan" },
-  { id: "organization", label: "Organization" },
-  { id: "cem", label: "CEM" },
-  { id: "cybercrow", label: "CyberCrow" },
-  { id: "sarea", label: "SAREA" },
-  { id: "readiness", label: "Readiness" },
-  { id: "audit", label: "Audit" },
+  { id: "readiness", label: "Runtime Readiness" },
+  { id: "workforce", label: "Workforce Activation" },
+  { id: "cem", label: "Business Portal / CEM" },
+  { id: "cybercrow-sarea", label: "CyberCrow & SAREA" },
+  { id: "evidence", label: "Evidence & Logs" },
+  { id: "advanced", label: "Advanced" },
 ] as const;
 
 export type TenantControlRoomTab = (typeof TENANT_CONTROL_ROOM_TABS)[number]["id"];
+
+const LEGACY_TAB_MAP: Record<string, TenantControlRoomTab> = {
+  plan: "advanced",
+  organization: "advanced",
+  cybercrow: "cybercrow-sarea",
+  sarea: "cybercrow-sarea",
+  audit: "evidence",
+};
 
 export function TenantControlRoomNav({
   tenantId,
@@ -55,6 +62,9 @@ export function parseTenantControlRoomTab(
 ): TenantControlRoomTab {
   if (tab && TENANT_CONTROL_ROOM_TABS.some((t) => t.id === tab)) {
     return tab as TenantControlRoomTab;
+  }
+  if (tab && tab in LEGACY_TAB_MAP) {
+    return LEGACY_TAB_MAP[tab];
   }
   return "overview";
 }

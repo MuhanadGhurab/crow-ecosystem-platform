@@ -2,10 +2,6 @@
 
 import { useActionState, useState } from "react";
 import {
-  createTenantMembershipInviteAction,
-  type TenantMembershipInviteState,
-} from "@/lib/actions/tenant-membership-invite";
-import {
   createTenantInviteTokenAction,
   revokeTenantInviteAction,
   type TenantInviteRevokeState,
@@ -21,25 +17,18 @@ import {
   WORKFORCE_ACTIVATION_STATUS_CHIP,
 } from "@/lib/constants/crow-workforce-activation";
 import type { TenantMembershipAccessSummary } from "@/lib/tenant/tenant-membership-contract";
-import { TENANT_MEMBERSHIP_INVITE_DISCLAIMERS } from "@/lib/tenant/tenant-membership-invite-contract";
+import { TENANT_WORKFORCE_SECTION_ID } from "@/lib/constants/tenant-command-center";
 import {
   DEFAULT_TENANT_INVITE_EXPIRY_DAYS,
   type TenantMembershipInviteListItem,
   type TenantMembershipInviteRecordStatus,
 } from "@/lib/tenant/tenant-invite-acceptance-contract";
 
-type MembershipRow = {
-  id: string;
-  supabaseUserId: string;
-  role: string;
-};
-
 type Props = {
   tenantId: string;
   tenantSlug: string;
   accessSummary?: TenantMembershipAccessSummary | null;
-  memberships: MembershipRow[];
-  pendingInvites: TenantMembershipInviteListItem[];
+  inviteHistory: TenantMembershipInviteListItem[];
 };
 
 function statusLabel(status: TenantMembershipInviteRecordStatus): string {
@@ -112,8 +101,7 @@ export function AdminTenantMembershipInvitePanel({
   tenantId,
   tenantSlug,
   accessSummary,
-  memberships,
-  pendingInvites,
+  inviteHistory,
 }: Props) {
   const [tokenState, tokenAction, tokenPending] = useActionState<TenantInviteTokenState, FormData>(
     createTenantInviteTokenAction,
@@ -123,13 +111,9 @@ export function AdminTenantMembershipInvitePanel({
     revokeTenantInviteAction,
     undefined
   );
-  const [breakGlassState, breakGlassAction, breakGlassPending] = useActionState<
-    TenantMembershipInviteState,
-    FormData
-  >(createTenantMembershipInviteAction, undefined);
 
   return (
-    <div className="space-y-6">
+    <div id={TENANT_WORKFORCE_SECTION_ID} className="scroll-mt-24 space-y-6">
       <header className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-base font-semibold text-slate-100">{TENANT_WORKFORCE_ACTIVATION_TITLE}</h2>
@@ -250,11 +234,11 @@ export function AdminTenantMembershipInvitePanel({
           <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             {WORKFORCE_ACTIVATION_COPY.inviteListTitle}
           </h4>
-          {pendingInvites.length === 0 ? (
+          {inviteHistory.length === 0 ? (
             <p className="text-xs text-slate-600">{WORKFORCE_ACTIVATION_COPY.inviteListEmpty}</p>
           ) : (
             <div className="overflow-x-auto rounded-lg border border-slate-700/50">
-              <table className="w-full min-w-[520px] text-left text-xs">
+              <table className="w-full min-w-[600px] text-left text-xs">
                 <thead className="border-b border-slate-700/50 bg-slate-900/40 text-slate-500">
                   <tr>
                     <th className="px-3 py-2 font-medium">Email</th>
@@ -262,11 +246,12 @@ export function AdminTenantMembershipInvitePanel({
                     <th className="px-3 py-2 font-medium">Status</th>
                     <th className="px-3 py-2 font-medium">Created</th>
                     <th className="px-3 py-2 font-medium">Expires</th>
+                    <th className="px-3 py-2 font-medium">Accepted</th>
                     <th className="px-3 py-2 font-medium text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/80">
-                  {pendingInvites.map((invite) => (
+                  {inviteHistory.map((invite) => (
                     <tr key={invite.id} className="text-slate-300">
                       <td className="px-3 py-2 font-mono">{invite.email}</td>
                       <td className="px-3 py-2 text-slate-400">{invite.role}</td>
@@ -278,6 +263,11 @@ export function AdminTenantMembershipInvitePanel({
                       </td>
                       <td className="px-3 py-2 text-slate-500">
                         {new Date(invite.expiresAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-3 py-2 text-slate-500">
+                        {invite.acceptedAt
+                          ? new Date(invite.acceptedAt).toLocaleString()
+                          : "—"}
                       </td>
                       <td className="px-3 py-2 text-right">
                         {invite.status === "pending" ? (
@@ -316,103 +306,6 @@ export function AdminTenantMembershipInvitePanel({
           </ul>
         </div>
       </section>
-
-      <details className="rounded-xl border border-slate-700/50 bg-slate-900/20">
-        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-slate-400 hover:text-slate-300 [&::-webkit-details-marker]:hidden">
-          <span className="inline-flex items-center gap-2">
-            <span className="text-slate-500">▸</span>
-            {WORKFORCE_ACTIVATION_COPY.breakGlassTitle}
-          </span>
-        </summary>
-        <div className="space-y-4 border-t border-slate-700/50 px-4 py-4">
-          <p className="text-xs text-slate-500">{WORKFORCE_ACTIVATION_COPY.breakGlassSubtitle}</p>
-
-          <form action={breakGlassAction} className="space-y-3">
-            <input type="hidden" name="tenantId" value={tenantId} />
-            <input type="hidden" name="tenantSlug" value={tenantSlug} />
-            <div>
-              <label htmlFor="invite-email" className="mb-1 block text-xs text-slate-400">
-                Email
-              </label>
-              <input
-                id="invite-email"
-                name="email"
-                type="email"
-                required
-                className="input-cc w-full max-w-md"
-                placeholder="user@organization.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="invite-role" className="mb-1 block text-xs text-slate-400">
-                Tenant role
-              </label>
-              <select id="invite-role" name="role" className="input-cc max-w-md" defaultValue="tenant_user">
-                <option value="tenant_user">tenant_user</option>
-                <option value="tenant_admin">tenant_admin</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="invite-note" className="mb-1 block text-xs text-slate-400">
-                Operator note (optional)
-              </label>
-              <input
-                id="invite-note"
-                name="note"
-                type="text"
-                className="input-cc w-full max-w-md"
-                placeholder="Recovery or test context"
-              />
-            </div>
-            <label className="flex items-start gap-2 text-xs text-slate-500">
-              <input
-                type="checkbox"
-                name="useSupabaseInviteApi"
-                className="mt-0.5 rounded border-slate-600"
-              />
-              <span>
-                Use Supabase invite API when no account exists (creates Auth user + membership). Does not
-                imply Crow-sent email.
-              </span>
-            </label>
-            {breakGlassState?.error && <p className="text-sm text-red-400">{breakGlassState.error}</p>}
-            {breakGlassState?.success && <p className="text-sm text-teal-300">{breakGlassState.success}</p>}
-            {breakGlassState?.result?.snapshot && (
-              <p className="text-xs text-slate-500">
-                Status: <span className="text-slate-300">{breakGlassState.result.snapshot.status}</span>
-                {" · "}
-                {breakGlassState.result.snapshot.nextAction}
-              </p>
-            )}
-            <button
-              type="submit"
-              disabled={breakGlassPending}
-              className="cc-btn-secondary text-sm disabled:opacity-50"
-            >
-              {breakGlassPending ? "Granting…" : WORKFORCE_ACTIVATION_COPY.breakGlassSubmit}
-            </button>
-          </form>
-
-          {memberships.length > 0 && (
-            <div>
-              <p className="text-xs font-medium text-slate-500">Existing memberships (DB)</p>
-              <ul className="mt-2 space-y-1 text-xs text-slate-600">
-                {memberships.map((m) => (
-                  <li key={m.id} className="font-mono">
-                    {m.supabaseUserId.slice(0, 8)}… · {m.role}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <ul className="list-disc space-y-1 pl-4 text-xs text-slate-600">
-            {TENANT_MEMBERSHIP_INVITE_DISCLAIMERS.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
-          </ul>
-        </div>
-      </details>
     </div>
   );
 }
