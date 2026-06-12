@@ -1186,7 +1186,7 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 **Status:** **PASSED** (6 Jun 2026) — constants, portal copy, ProCrow tenant workbench grouping, purchase-to-stock timeline reorder, M4C copy reframe (functionality preserved); verifier green with full validation suite.
 
-**Recommended next:** **M4C.1.1 operator E2E completion on preview** · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
+**Recommended next:** **PR #1 merge** · **M4D — Tenant Invite Email Delivery Provider** · **M3.6 — Purchase-to-Stock UX Refinement**
 
 ---
 
@@ -1197,13 +1197,13 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Deliverable | Location |
 |-------------|----------|
 | Operator smoke doc | `docs/internal/M4C_1_1_INVITE_ACCEPTANCE_OPERATOR_SMOKE_COMPLETION.md` |
-| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `1369f5a` + R1B local |
+| Branch / commit | `feat/m4c-tenant-invite-acceptance` · `5e36464` (R1B) + docs pass |
 | PR | https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 |
 | Tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
 
-**Status:** **UX BLOCKED / NOT FULL PASS** (6 Jun 2026) — operator smoke **attempted**; invite action too hard to find on pre-R1B tenant page; automated verifiers green; browser Parts 2–9 incomplete; **retest required after R1B** command center UX
+**Status:** **FULL PASS** (6 Jun 2026) — initial operator smoke **UX BLOCKED** on pre-R1B page; **retest passed** after R1B Tenant Command Center redesign (`5e36464`); invite create/accept/Business Portal path verified on preview; upgrades M4C.1 to FULL PASS
 
-**Recommended next:** M4C.1.1 operator retest on preview (R1B command center) · commit/push R1B when requested · do **not** merge PR #1 until FULL PASS · **M4D**
+**Recommended next:** Merge PR #1 when CI green · production smoke after deploy · **M4D**
 
 ---
 
@@ -1220,9 +1220,9 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 | Invite / break-glass | `admin-tenant-membership-invite-panel.tsx`, `admin-tenant-membership-break-glass-panel.tsx` |
 | Tenant page | `src/app/admin/tenants/[tenantId]/page.tsx` |
 
-**Status:** **PASSED** (6 Jun 2026) — command center layout shipped locally; invite visible without scroll; full verifier suite + build + `smoke:phase1` green; uncommitted; M4C.1.1 retest pending; PR #1 not merged
+**Status:** **PASSED** (6 Jun 2026) — command center layout committed `5e36464`; invite visible without scroll; full verifier suite + build + `smoke:phase1` green; M4C.1.1 operator retest **FULL PASS**
 
-**Recommended next:** Operator M4C.1.1 retest on `meem-global` · commit/push when requested · merge PR #1 after FULL PASS · **M4D**
+**Recommended next:** Merge PR #1 when CI green · **M4D**
 
 ---
 

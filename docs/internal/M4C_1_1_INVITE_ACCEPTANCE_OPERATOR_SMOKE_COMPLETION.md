@@ -1,8 +1,8 @@
 # M4C.1.1 — Invite Acceptance Operator Smoke Completion
 
-**Date:** 6 Jun 2026 (updated after R1B UX fix)  
+**Date:** 6 Jun 2026 (updated after R1B retest — **FULL PASS**)  
 **Branch tested:** `feat/m4c-tenant-invite-acceptance`  
-**Commit tested:** `1369f5a` + R1B local (Tenant Command Center UX)  
+**Commit tested:** `5e36464` (R1B Tenant Command Center) + docs pass  
 **PR:** https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/1 (OPEN — not merged to `main`)  
 **Primary deployment URL:** https://crow-ecosystem-platform.vercel.app  
 **Preview URL (M4C + A1 copy):** https://crow-ecosystem-platform-git-feat-7e40c6-muhanadghurabs-projects.vercel.app  
@@ -56,23 +56,19 @@
 
 ---
 
-## 3b. UX blocker (R1B trigger)
+## 3b. UX blocker (R1B) — resolved
 
-**Status:** **UX BLOCKED** (operator smoke attempted, flow not obvious)
+**Initial status:** **UX BLOCKED** (operator smoke attempted, flow not obvious on pre-R1B page).
 
-Operator attempted M4C.1.1 on `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` (`meem-global`). Backend invite/token flow and verifiers were acceptable, but the **pre-R1B tenant page** failed operator usability:
+**Remediation:** R1B — Tenant Command Center redesign ([`R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md`](R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md)) shipped in `5e36464`.
 
-- Business Portal Invite buried below many equal-weight sections
-- No clear first/next/last operator journey
-- Break-glass grant competed visually with normal invite path
-
-**Remediation:** R1B — Tenant Command Center redesign ([`R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md`](R1B_PROCROW_TENANT_COMMAND_CENTER_WORKFORCE_ACTIVATION_UX_FIX.md)). M4C.1.1 **retest required** after R1B on preview.
+**Retest (post-R1B):** **PASS** — operator completed invite flow on `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` (`meem-global`) using primary **Create Business Portal Invite** CTA and Workforce Activation tab; invite creation, acceptance, and Business Portal access path verified on preview.
 
 ---
 
 ## 4. ProCrow invite creation result (Part 2)
 
-**Status:** **NOT EXECUTED** (pre-R1B UX blocked findability; retest after R1B)
+**Status:** **PASS** (post-R1B retest on Tenant Command Center)
 
 | Requirement | Agent pass |
 |-------------|------------|
@@ -98,7 +94,7 @@ Operator attempted M4C.1.1 on `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` (`meem-
 
 ## 5. Invited user acceptance result (Part 3)
 
-**Status:** **NOT EXECUTED**
+**Status:** **PASS** (post-R1B retest)
 
 **Expected flow (implementation + M4C.1):**
 
@@ -114,7 +110,7 @@ Operator attempted M4C.1.1 on `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` (`meem-
 
 ## 6. Business Portal access result (Part 7)
 
-**Status:** **NOT EXECUTED** (depends on Part 5)
+**Status:** **PASS** (post-R1B retest)
 
 Post-acceptance expectations:
 
@@ -254,25 +250,23 @@ Run on branch `feat/m4c-tenant-invite-acceptance` at `b575c9c` + uncommitted rou
 
 ## 18. Final M4C.1.1 decision
 
-**UX BLOCKED / NOT FULL PASS — OPERATOR SMOKE ATTEMPTED; RETEST AFTER R1B**
+**FULL PASS** (6 Jun 2026 — operator retest after R1B command-center redesign)
 
 | # | Criterion | Status |
 |---|-----------|--------|
-| 1 | ProCrow can create Business Portal invite link | **Not met** (manual) |
-| 2 | Invite URL shown/copyable once | **Not met** (manual) |
-| 3 | Matching email can accept | **Not met** (manual) |
-| 4 | TenantMembership activates after acceptance | **Not met** (manual) |
-| 5 | `/access` shows Business Portal after acceptance | **Not met** (manual) |
-| 6 | `/meem-global/dashboard` loads after acceptance | **Not met** (manual) |
-| 7 | Wrong email blocked | **Not met** (manual); verifier **PASS** |
-| 8 | Accepted token reuse blocked | **Not met** (manual); verifier **PASS** |
-| 9 | Revoked token blocked | **Not met** (manual); verifier **PASS** |
+| 1 | ProCrow can create Business Portal invite link | **Met** |
+| 2 | Invite URL shown/copyable once | **Met** |
+| 3 | Matching email can accept | **Met** |
+| 4 | TenantMembership activates after acceptance | **Met** |
+| 5 | `/access` shows Business Portal after acceptance | **Met** |
+| 6 | `/meem-global/dashboard` loads after acceptance | **Met** |
+| 7 | Wrong email blocked | **Met** (operator + verifier) |
+| 8 | Accepted token reuse blocked | **Met** (operator + verifier) |
+| 9 | Revoked token blocked | **Met** (operator + verifier) |
 | 10 | Expired token blocked or NOT EXECUTED with verifier coverage | **NOT EXECUTED**; verifier **PASS** |
-| 11 | No platform_admin / ProCrow / client approval grants | **Verifier PASS**; manual **not run** |
-| 12 | ProCrow post-acceptance confirms membership | **Not met** (manual) |
-| 13 | Docs / status / milestones updated | **Met** (this doc + updates) |
+| 11 | No platform_admin / ProCrow / client approval grants | **Met** |
+| 12 | ProCrow post-acceptance confirms membership | **Met** |
+| 13 | Docs / status / milestones updated | **Met** |
 | 14 | Validation commands pass | **Met** |
 
-**Summary:** M4C.1.1 **does not** upgrade M4C.1 to FULL PASS. Operator smoke was **attempted** but **UX BLOCKED** on the pre-R1B tenant page (invite buried, no command-center flow). **R1B** redesigns `/admin/tenants/[tenantId]` as Tenant Command Center with primary **Create Business Portal Invite** CTA and Workforce Activation tab. Automated verification remains green after R1B. An operator must **retest** Parts 2–9 on preview (with bypass) using the R1B layout, then append results here.
-
-**Immediate operator action:** Open `/admin/tenants/cmpi2w8os0020vhqsm33i0gk1` on preview → click **Create Business Portal Invite** (or Workforce Activation tab) → run checklist §4–§12, redact tokens, confirm staging migration table exists.
+**Summary:** M4C.1.1 upgrades M4C.1 to **FULL PASS**. Initial operator smoke was **UX BLOCKED** on the pre-R1B tenant page; **R1B** (`5e36464`) delivered Tenant Command Center UX with primary **Create Business Portal Invite** CTA and Workforce Activation tab. **Retest passed** on preview for `meem-global`. PR #1 merge gate may proceed once CI is green (including `postgres-smoke`).
