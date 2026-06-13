@@ -1226,6 +1226,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## R2 — Post-Merge Production Stabilization & Operator Confirmation
+
+**Scope:** Confirm production stable after PR #1 merge (`e58a896`). Sync `main`, spot-check production routes, auth gates, migration alignment inference, CI/Vercel status, hsod classification, full verifier suite. No new features, migrations, seeds, or auth changes.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/R2_POST_MERGE_PRODUCTION_STABILIZATION.md` |
+| Production URL | https://crow-ecosystem-platform.vercel.app |
+| Merge commit | `e58a896` |
+| Test tenant | `meem-global` · `cmpi2w8os0020vhqsm33i0gk1` |
+
+**Status:** **CONDITIONAL PASS** (6 Jun 2026) — production health green; A1.2 homepage live; auth gates correct; tenant-invite route safe; post-merge CI green; hsod secondary/non-blocking; local verifiers + build + smoke green; operator production Command Center UI walkthrough + optional staging SQL audit deferred.
+
+**Recommended next:** Operator production UI confirm · optional Supabase migration SQL · **M4D** · decommission/repair hsod Vercel project
+
+---
+
 ## A1.1 — Public Homepage Hero & Website Visual Reset
 
 **Scope:** Rebuild public homepage hero and first sections for premium enterprise SaaS feel. Remove hero side card; add 5-step flow, three workspaces, and product engine cards. Visual/UX only — no auth, backend, database, migrations, or payments.
