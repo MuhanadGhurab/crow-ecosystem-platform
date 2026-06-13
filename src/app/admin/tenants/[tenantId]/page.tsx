@@ -57,6 +57,7 @@ import { AdminCemWorkflowPersistencePanel } from "@/components/admin/admin-cem-w
 import { buildCemWorkflowPersistenceSummaryForTenantId } from "@/lib/services/cem-workflow-persistence.service";
 import { AdminTenantMembershipAccessPanel } from "@/components/admin/admin-tenant-membership-access-panel";
 import { AdminTenantMembershipInvitePanel } from "@/components/admin/admin-tenant-membership-invite-panel";
+import { isBusinessPortalInviteEmailConfigured } from "@/lib/email/send-business-portal-invite-email";
 import { buildTenantMembershipAccessSummaryForTenantId } from "@/lib/services/tenant-membership-access.service";
 import { listTenantMembershipInvitesForTenant } from "@/lib/services/tenant-invite-token.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -221,6 +222,7 @@ export default async function AdminTenantDetailPage({
             tenantSlug={tenant.slug}
             accessSummary={tenantMembershipAccessSummary}
             inviteHistory={tenantMembershipInvites}
+            inviteEmailConfigured={isBusinessPortalInviteEmailConfigured()}
           />
         </div>
       )}

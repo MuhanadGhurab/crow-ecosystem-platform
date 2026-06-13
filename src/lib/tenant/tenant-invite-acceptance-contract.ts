@@ -25,9 +25,22 @@ export const DEFAULT_TENANT_INVITE_EXPIRY_DAYS = 7;
 
 export const TENANT_INVITE_ACCEPTANCE_DISCLAIMERS = [
   ...TENANT_MEMBERSHIP_INVITE_DISCLAIMERS,
-  "Invite links are shared manually in this phase — Crow does not send invite email.",
+  "When email delivery is configured, Crow sends a transactional invite; copy-link fallback remains available.",
   "Each invite link is single-use and expires; revoked invites cannot be accepted.",
 ] as const;
+
+export type InviteEmailDeliveryOutcome =
+  | "delivered"
+  | "provider_unconfigured"
+  | "provider_rejected"
+  | "invalid_recipient"
+  | "delivery_error";
+
+export type InviteEmailDeliverySummary = {
+  outcome: InviteEmailDeliveryOutcome;
+  /** Operator-safe message — never includes secrets or raw provider errors. */
+  operatorMessage: string;
+};
 
 export type TenantMembershipInviteListItem = {
   id: string;
@@ -60,6 +73,7 @@ export type CreateTenantInviteTokenResult = {
   expiresAt: string;
   /** Shown once at create — not stored in DB. */
   message: string;
+  emailDelivery: InviteEmailDeliverySummary;
 };
 
 export type AcceptTenantInviteResult = {

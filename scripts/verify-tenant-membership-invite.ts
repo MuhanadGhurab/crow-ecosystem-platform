@@ -124,12 +124,19 @@ function main(): boolean {
   pass = ok("Guarded tenant membership invite action") && pass;
 
   const panel = fileText("src/components/admin/admin-tenant-membership-invite-panel.tsx");
+  const workforce = fileText("src/lib/constants/crow-workforce-activation.ts");
   if (!panel.includes("Business Portal access only")) {
     pass = fail("Invite panel must state Business Portal only") && pass;
   }
-  const panelNorm = panel.replace(/\s+/g, " ").toLowerCase();
-  if (!panelNorm.includes("email delivery is not active")) {
-    pass = fail("Invite panel must not claim Crow email delivery") && pass;
+  if (!panel.includes("inviteEmailConfigured")) {
+    pass = fail("Invite panel must gate email UX on inviteEmailConfigured (M4D)") && pass;
+  }
+  if (
+    !workforce.includes("emailUnconfiguredHint") ||
+    !workforce.includes("emailConfiguredHint") ||
+    !workforce.includes("copyLinkLabel")
+  ) {
+    pass = fail("Workforce copy must document email config + copy-link fallback (M4D)") && pass;
   }
   if (!panel.includes("tenant_user") || !panel.includes("tenant_admin")) {
     pass = fail("Invite panel role select required") && pass;

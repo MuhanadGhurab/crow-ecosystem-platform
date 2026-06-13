@@ -118,6 +118,7 @@
     "tenant-membership:verify": "npx tsx scripts/verify-tenant-membership-access.ts",
     "tenant-invite:verify": "npx tsx scripts/verify-tenant-membership-invite.ts",
     "tenant-invite-acceptance:verify": "npx tsx scripts/verify-tenant-invite-acceptance.ts",
+    "tenant-invite-email:verify": "npx tsx scripts/verify-tenant-invite-email-delivery.ts",
     "purchase-smoke:verify": "npx tsx scripts/verify-purchase-to-stock-smoke-docs.ts",
     "build-memory:verify": "npx tsx scripts/verify-vercel-build-memory-guard.ts",
     "sarea:ux-verify": "npx tsx scripts/verify-sarea-ux-depth.ts",
