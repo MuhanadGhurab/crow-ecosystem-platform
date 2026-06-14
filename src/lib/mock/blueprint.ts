@@ -77,6 +77,10 @@ export function getMockEnterpriseBlueprint(
     clientApprovedAt: approvalOverrides.clientApprovedAt,
     version: 1,
     approvedAt: null,
+    tenantId: null,
+    title: null,
+    currentApprovedVersionId: null,
+    activeDraftVersionId: null,
     createdAt: now,
     updatedAt: now,
     modules: [

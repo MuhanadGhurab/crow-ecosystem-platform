@@ -10,14 +10,25 @@ import {
   buildMeemGlobalReferenceRoiModel,
   isMeemReferenceBlueprint,
 } from "@/lib/crow-core/blueprint-studio/fixtures/meem-global-reference";
+import type { EnterpriseBlueprintDocument } from "@/lib/crow-core/blueprint";
+import type { RoiModel } from "@/lib/crow-core/commercial";
 import { calculateRoi } from "@/lib/crow-core/commercial-intelligence/roi-calculator";
 import { generateSowDraft } from "@/lib/crow-core/commercial-intelligence/sow-generator";
-import type { RoiModel } from "@/lib/crow-core/commercial";
-import type { EnterpriseBlueprintDocument } from "@/lib/crow-core/blueprint";
+import type { TenantScope } from "@/lib/crow-core/blueprint-persistence/tenant-scope";
+import {
+  loadBlueprintRuntimeReadState,
+  loadPersistedTraceTimeline,
+} from "@/lib/crow-core/blueprint-runtime/blueprint-runtime.service";
+import {
+  loadPersistedBlueprintVersions,
+  type PersistenceReadMode,
+} from "@/lib/crow-core/blueprint-runtime/blueprint-dual-read.service";
 import {
   buildBlueprintTraceTimeline,
   recordBlueprintTraceEvent,
 } from "@/lib/crow-core/traceability/blueprint-traceability.service";
+import type { BlueprintTraceTimeline } from "@/lib/crow-core/traceability";
+import { shouldUseMockBlueprint } from "@/lib/mock/blueprint";
 import { getEnterpriseBlueprint } from "@/lib/services/blueprint.service";
 
 function buildDefaultRoiModel(document: EnterpriseBlueprintDocument): RoiModel {
@@ -106,17 +117,76 @@ export type BlueprintStudioContext = {
   roiResult: ReturnType<typeof calculateRoi>;
   sowResult: ReturnType<typeof generateSowDraft>;
   versions: ReturnType<typeof listBlueprintVersions>;
-  timeline: ReturnType<typeof buildBlueprintTraceTimeline>;
+  timeline: BlueprintTraceTimeline;
+  persistenceMode?: PersistenceReadMode;
+  tenantId?: string | null;
+  tenantUnresolved?: boolean;
+  activeDraftVersionId?: string | null;
+  draftRevision?: number | null;
+  draftContentHash?: string | null;
 };
 
+async function loadVersionsForStudio(
+  blueprintId: string,
+  document: EnterpriseBlueprintDocument,
+  scope: TenantScope | undefined,
+  detailVersion: number
+): Promise<{
+  versions: ReturnType<typeof listBlueprintVersions>;
+  persistenceMode: PersistenceReadMode;
+}> {
+  const usePersistence = scope && !shouldUseMockBlueprint(blueprintId);
+  if (usePersistence) {
+    const persisted = await loadPersistedBlueprintVersions(scope, blueprintId, document);
+    if (persisted.versions.length > 0) {
+      return { versions: persisted.versions, persistenceMode: persisted.mode };
+    }
+  }
+
+  let versions = listBlueprintVersions(blueprintId);
+  if (versions.length === 0) {
+    createBlueprintVersionSnapshot(document);
+    recordBlueprintTraceEvent({
+      blueprintId,
+      stage: "blueprint_version",
+      actor: {
+        actorType: "system_process",
+        actorId: "blueprint-studio",
+        displayName: "Blueprint Studio",
+        isNonHuman: true,
+      },
+      summary: "Initial studio snapshot created from current blueprint state",
+      version: detailVersion,
+      document,
+    });
+    versions = listBlueprintVersions(blueprintId);
+  }
+
+  return { versions, persistenceMode: "legacy_unversioned" };
+}
+
+async function loadTimelineForStudio(
+  blueprintId: string,
+  scope: TenantScope | undefined
+): Promise<BlueprintTraceTimeline> {
+  if (scope && !shouldUseMockBlueprint(blueprintId)) {
+    const persisted = await loadPersistedTraceTimeline(scope, blueprintId);
+    if (persisted.events.length > 0) {
+      return persisted;
+    }
+  }
+  return buildBlueprintTraceTimeline(blueprintId);
+}
+
 export async function loadBlueprintStudioContext(
-  blueprintId: string
+  blueprintId: string,
+  scope?: TenantScope
 ): Promise<BlueprintStudioContext | null> {
-  const detail = await getEnterpriseBlueprint(blueprintId);
+  const detail = await getEnterpriseBlueprint(blueprintId, scope);
   if (!detail) return null;
 
   const isReferenceFixture = isMeemReferenceBlueprint(blueprintId);
-  let document =
+  const document =
     isReferenceFixture && buildMeemGlobalReferenceDocument()
       ? buildMeemGlobalReferenceDocument()!
       : adaptEnterpriseBlueprintDetail(detail);
@@ -134,26 +204,19 @@ export async function loadBlueprintStudioContext(
   const roiResult = calculateRoi({ model: roiModel });
   const sowResult = generateSowDraft({ document, roiModel });
 
-  let versions = listBlueprintVersions(blueprintId);
-  if (versions.length === 0) {
-    createBlueprintVersionSnapshot(document);
-    recordBlueprintTraceEvent({
-      blueprintId,
-      stage: "blueprint_version",
-      actor: {
-        actorType: "system_process",
-        actorId: "blueprint-studio",
-        displayName: "Blueprint Studio",
-        isNonHuman: true,
-      },
-      summary: "Initial studio snapshot created from current blueprint state",
-      version: detail.version,
-      document,
-    });
-    versions = listBlueprintVersions(blueprintId);
-  }
+  const { versions, persistenceMode } = await loadVersionsForStudio(
+    blueprintId,
+    document,
+    scope,
+    detail.version
+  );
 
-  const timeline = buildBlueprintTraceTimeline(blueprintId);
+  const timeline = await loadTimelineForStudio(blueprintId, scope);
+
+  const runtimeRead =
+    scope && !shouldUseMockBlueprint(blueprintId)
+      ? await loadBlueprintRuntimeReadState(scope, blueprintId, document)
+      : null;
 
   return {
     blueprintId,
@@ -162,7 +225,7 @@ export async function loadBlueprintStudioContext(
     proposalStatus: detail.proposalStatus,
     requestStatus: detail.request.status,
     isReferenceFixture,
-    document,
+    document: runtimeRead?.document ?? document,
     lifecycleState,
     readiness,
     roiModel,
@@ -170,5 +233,11 @@ export async function loadBlueprintStudioContext(
     sowResult,
     versions,
     timeline,
+    persistenceMode: runtimeRead?.persistenceMode ?? persistenceMode,
+    tenantId: runtimeRead?.tenantId ?? detail.tenantId ?? null,
+    tenantUnresolved: runtimeRead?.tenantUnresolved ?? false,
+    activeDraftVersionId: runtimeRead?.activeDraftVersionId ?? null,
+    draftRevision: runtimeRead?.draftRevision ?? null,
+    draftContentHash: runtimeRead?.draftContentHash ?? null,
   };
 }

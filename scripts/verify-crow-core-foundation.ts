@@ -4,8 +4,10 @@
  *   npm run crow-core-foundation:verify
  */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+
+import { countMigrationSql, expectedMigrationBaseline } from "./lib/migration-baseline";
 
 const ROOT = join(import.meta.dirname, "..");
 
@@ -97,7 +99,6 @@ const FORBIDDEN_OVERCLAIM = [
 const SECRET_PATTERNS = [/sk-[a-zA-Z0-9]{20,}/, /password\s*=\s*["'][^"']+["']/i] as const;
 
 /** Baseline migration SQL count at C0 branch start (no new migrations in C0). */
-const MIGRATION_BASELINE_COUNT = 13;
 
 function fail(msg: string) {
   console.error(`FAIL: ${msg}`);
@@ -111,18 +112,6 @@ function ok(msg: string) {
 
 function fileText(rel: string): string {
   return readFileSync(join(ROOT, rel), "utf8");
-}
-
-function countMigrationSql(): number {
-  const dir = join(ROOT, "prisma/migrations");
-  if (!existsSync(dir)) return 0;
-  let count = 0;
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory() && existsSync(join(dir, entry.name, "migration.sql"))) {
-      count += 1;
-    }
-  }
-  return count;
 }
 
 function main(): boolean {
@@ -162,11 +151,12 @@ function main(): boolean {
     "Add crow-core-foundation:verify script to package.json"
   );
 
-  const migrationCount = countMigrationSql();
+  const expectedMigrations = expectedMigrationBaseline(ROOT);
+  const migrationCount = countMigrationSql(ROOT);
   check(
-    migrationCount === MIGRATION_BASELINE_COUNT,
-    `No new prisma migrations (${migrationCount} === ${MIGRATION_BASELINE_COUNT})`,
-    `Migration count changed: ${migrationCount} (baseline ${MIGRATION_BASELINE_COUNT})`
+    migrationCount === expectedMigrations,
+    `Prisma migration count (${migrationCount} === ${expectedMigrations})`,
+    `Migration count changed: ${migrationCount} (expected ${expectedMigrations})`
   );
 
   const docCorpus = DOC_FILES.map((f) => fileText(f)).join("\n");

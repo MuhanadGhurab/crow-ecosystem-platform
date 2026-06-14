@@ -7,8 +7,14 @@
  * and no Prisma schema/migration changes were introduced in the gate branch.
  */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+
+import {
+  countMigrationSql,
+  hasC2BlueprintMigration,
+  C1_MIGRATION_BASELINE,
+} from "./lib/migration-baseline";
 
 const ROOT = join(import.meta.dirname, "..");
 
@@ -20,8 +26,6 @@ const C1_1_DOC_FILES = [
   "docs/architecture/crow-core/c1/C1_1_SCHEMA_DESIGN_PREVIEW.md",
   "docs/internal/C1_1_BLUEPRINT_PERSISTENCE_MIGRATION_APPROVAL_GATE.md",
 ] as const;
-
-const MIGRATION_BASELINE_COUNT = 13;
 
 function fail(msg: string) {
   console.error(`FAIL: ${msg}`);
@@ -35,18 +39,6 @@ function ok(msg: string) {
 
 function fileText(rel: string): string {
   return readFileSync(join(ROOT, rel), "utf8");
-}
-
-function countMigrationSql(): number {
-  const dir = join(ROOT, "prisma/migrations");
-  if (!existsSync(dir)) return 0;
-  let count = 0;
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory() && existsSync(join(dir, entry.name, "migration.sql"))) {
-      count += 1;
-    }
-  }
-  return count;
 }
 
 function main(): boolean {
@@ -158,12 +150,16 @@ function main(): boolean {
     "Add c1-migration-gate:verify script to package.json"
   );
 
-  const migrationCount = countMigrationSql();
-  check(
-    migrationCount === MIGRATION_BASELINE_COUNT,
-    `No new prisma migrations (${migrationCount} === ${MIGRATION_BASELINE_COUNT})`,
-    `Migration count changed: ${migrationCount} (baseline ${MIGRATION_BASELINE_COUNT})`
-  );
+  if (hasC2BlueprintMigration(ROOT)) {
+    ok("C2 branch detected — C1.1 gate migration freeze check skipped");
+  } else {
+    const migrationCount = countMigrationSql(ROOT);
+    check(
+      migrationCount === C1_MIGRATION_BASELINE,
+      `No new prisma migrations (${migrationCount} === ${C1_MIGRATION_BASELINE})`,
+      `Migration count changed: ${migrationCount} (baseline ${C1_MIGRATION_BASELINE})`
+    );
+  }
 
   const schemaPath = join(ROOT, "prisma/schema.prisma");
   const schemaStat = existsSync(schemaPath);

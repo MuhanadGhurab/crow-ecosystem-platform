@@ -146,6 +146,10 @@ export function getMeemMockTenant(slug: string): MeemMockTenant | null {
       clientApprovedAt: now,
       version: 1,
       approvedAt: now,
+      tenantId: "mock-tenant-meem-global",
+      title: "Meem Global Enterprise Blueprint",
+      currentApprovedVersionId: null,
+      activeDraftVersionId: null,
       createdAt: now,
       updatedAt: now,
       request: {
@@ -194,6 +198,10 @@ export function getMeemMockBlueprint(blueprintId: string): EnterpriseBlueprintDe
     clientApprovedAt: now,
     version: 1,
     approvedAt: now,
+    tenantId: "mock-tenant-meem-global",
+    title: "Meem Global Enterprise Blueprint",
+    currentApprovedVersionId: null,
+    activeDraftVersionId: null,
     createdAt: now,
     updatedAt: now,
     modules: MEEM_MODULE_KEYS.map((moduleKey, i) => ({

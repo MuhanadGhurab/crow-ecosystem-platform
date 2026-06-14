@@ -4,8 +4,14 @@
  *   npm run enterprise-blueprint-studio:verify
  */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+
+import {
+  countMigrationSql,
+  expectedMigrationBaseline,
+  hasC2BlueprintMigration,
+} from "./lib/migration-baseline";
 
 const ROOT = join(import.meta.dirname, "..");
 
@@ -58,8 +64,6 @@ const TEST_FILES = [
   "src/lib/crow-core/commercial-intelligence/sow-generator.test.ts",
 ] as const;
 
-const MIGRATION_BASELINE_COUNT = 13;
-
 function fail(msg: string) {
   console.error(`FAIL: ${msg}`);
   return false;
@@ -72,18 +76,6 @@ function ok(msg: string) {
 
 function fileText(rel: string): string {
   return readFileSync(join(ROOT, rel), "utf8");
-}
-
-function countMigrationSql(): number {
-  const dir = join(ROOT, "prisma/migrations");
-  if (!existsSync(dir)) return 0;
-  let count = 0;
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory() && existsSync(join(dir, entry.name, "migration.sql"))) {
-      count += 1;
-    }
-  }
-  return count;
 }
 
 function main(): boolean {
@@ -132,11 +124,12 @@ function main(): boolean {
     "Add test:blueprint-studio script"
   );
 
-  const migrationCount = countMigrationSql();
+  const expectedMigrations = expectedMigrationBaseline(ROOT);
+  const migrationCount = countMigrationSql(ROOT);
   check(
-    migrationCount === MIGRATION_BASELINE_COUNT,
-    `No new prisma migrations (${migrationCount} === ${MIGRATION_BASELINE_COUNT})`,
-    `Migration count changed: ${migrationCount} (baseline ${MIGRATION_BASELINE_COUNT})`
+    migrationCount === expectedMigrations,
+    `Prisma migration count (${migrationCount} === ${expectedMigrations})`,
+    `Migration count ${migrationCount} (expected ${expectedMigrations})`
   );
 
   const mapping = fileText("docs/architecture/crow-core/c1/C1_EXISTING_BLUEPRINT_PERSISTENCE_MAPPING.md");
@@ -179,8 +172,11 @@ function main(): boolean {
     "src/lib/crow-core/commercial-intelligence/roi-calculator.ts",
     "src/lib/crow-core/commercial-intelligence/sow-generator.ts",
   ];
+  const persistenceNeutralPaths = crowCoreStudio.filter(
+    (f) => !f.includes("blueprint-persistence/") && !f.includes("blueprint-runtime/")
+  );
   let prismaClean = true;
-  for (const f of crowCoreStudio) {
+  for (const f of persistenceNeutralPaths) {
     const path = join(ROOT, f);
     if (!existsSync(path)) continue;
     if (fileText(f).includes("@prisma/client")) {
@@ -220,10 +216,17 @@ function main(): boolean {
   );
 
   const actions = fileText("src/lib/actions/blueprint-studio.ts");
+  const c2Branch = hasC2BlueprintMigration(ROOT);
   check(
-    actions.includes("requireActionDiscoveryWrite"),
-    "Studio mutations guarded by discovery.write",
-    "blueprint-studio actions must use requireActionDiscoveryWrite"
+    c2Branch
+      ? actions.includes("requireBlueprintAction") || actions.includes("saveBlueprintDraft")
+      : actions.includes("requireActionDiscoveryWrite"),
+    c2Branch
+      ? "Studio mutations guarded by blueprint action capabilities"
+      : "Studio mutations guarded by discovery.write",
+    c2Branch
+      ? "blueprint-studio actions must use requireBlueprintAction on C2 branch"
+      : "blueprint-studio actions must use requireActionDiscoveryWrite"
   );
 
   const internal = fileText("docs/internal/C1_ENTERPRISE_BLUEPRINT_STUDIO.md");

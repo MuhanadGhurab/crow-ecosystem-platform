@@ -1,7 +1,9 @@
 # Project status
 
-**Last updated:** 14 Jun 2026 (C1.1 PO sign-off — **APPROVE PATH C — READY FOR C2** on `feat/c1-1-blueprint-persistence-gate`; C1 **CONDITIONAL PASS — MIGRATION APPROVAL REQUIRED**)  
+**Last updated:** 14 Jun 2026 (C2 blueprint persistence runtime **PASSED — READY FOR PREVIEW MIGRATION REVIEW** on `feat/c2-blueprint-persistence-runtime`; C1.1 **APPROVE PATH C — READY FOR C2**; C1 **CONDITIONAL PASS — MIGRATION APPROVAL REQUIRED**)  
 **Audience:** Internal delivery / engineering
+
+**C2 blueprint persistence runtime:** [`C2_BLUEPRINT_PERSISTENCE_RUNTIME.md`](C2_BLUEPRINT_PERSISTENCE_RUNTIME.md) · docs [`docs/architecture/crow-core/c2/`](../architecture/crow-core/c2/) · verifier `npm run c2-blueprint-runtime:verify` · branch `feat/c2-blueprint-persistence-runtime` stacked on C1.1 · **additive migration #14 only** · **no hosted DB apply in C2**
 
 **C1.1 persistence gate:** [`C1_1_BLUEPRINT_PERSISTENCE_MIGRATION_APPROVAL_GATE.md`](C1_1_BLUEPRINT_PERSISTENCE_MIGRATION_APPROVAL_GATE.md) · docs [`docs/architecture/crow-core/c1/`](../architecture/crow-core/c1/) · verifier `npm run c1-migration-gate:verify` · **decision: APPROVE PATH C — READY FOR C2 MIGRATION IMPLEMENTATION** (PO sign-off 14 Jun 2026) · **no Prisma migration in C1.1**
 
@@ -72,7 +74,9 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 
 **C1 (stacked on C0):** Enterprise Blueprint Studio — Path A adapter + in-memory version/ROI/SOW prototype, Studio Command Center (10 tabs), Architecture Lab C1 mocks, `enterprise-blueprint-studio:verify`. **Gate: CONDITIONAL PASS — Path C migration approval required before production persistence.**
 
-**C1.1 (stacked on C1):** Blueprint Persistence Migration Approval Gate — hybrid persistence architecture (identity + version tables + immutable snapshots), auth matrix, threat model, backfill/rollout plan, non-executable schema preview, `c1-migration-gate:verify`. **Selected strategy: Option 2 Hybrid.** **Gate: APPROVE PATH C — READY FOR C2 MIGRATION IMPLEMENTATION** (product-owner sign-off 14 Jun 2026; 22 policy decisions + 10 mandatory C2 security gates recorded). No `schema.prisma` or migration file changes in this branch.
+**C1.1 (stacked on C1):** Blueprint Persistence Migration Approval Gate — hybrid persistence architecture (identity + version tables + immutable snapshots), auth matrix, threat model, backfill/rollout plan, non-executable schema preview, `c1-migration-gate:verify`. **Selected strategy: Option 2 Hybrid.** **Gate: APPROVE PATH C — READY FOR C2 MIGRATION IMPLEMENTATION** (product-owner sign-off 14 Jun 2026; 22 policy decisions + 10 mandatory C2 security gates recorded). No `schema.prisma` or migration file changes in this branch. **PR #5** open on `feat/c1-1-blueprint-persistence-gate`.
+
+**C2 (stacked on C1.1):** Persistent Blueprint Versioning & Traceability Runtime — implements approved Hybrid Path C: tenant-scoped identity/versions, immutable approved snapshots, evidence-bound approvals, persistent trace, ROI/SOW persistence, explicit Studio authorization, client-safe projection, dual-read adapter, dry-run-first backfill (`blueprint-persistence:backfill`), `c2-blueprint-runtime:verify`. **One additive migration** (`20260614120000_blueprint_versioning_traceability`). **No destructive cleanup, no runtime configuration deployment, no hosted migration apply.** **Gate: PASSED — READY FOR PREVIEW MIGRATION REVIEW** (isolated Docker Postgres: C1.1 schema push + baseline 13 migrations + C2 `migrate deploy`, seed + `smoke:phase1` green; full static verifier suite green 14 Jun 2026). **PR #6** pending on `feat/c2-blueprint-persistence-runtime`.
 
 **Resume primary:** **M4D email delivery** · operator production UI confirm (R2 follow-up) · **M3.6 purchase-to-stock UX refinement** · M3.5 screenshot pack (operator). **No paid infra** in the default path.
 

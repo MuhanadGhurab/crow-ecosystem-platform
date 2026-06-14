@@ -4,6 +4,8 @@ import {
   isBlueprintStudioSectionKey,
   type BlueprintStudioSectionKey,
 } from "@/lib/crow-core/blueprint-studio/studio-sections";
+import { blueprintScopeFromSession } from "@/lib/auth/blueprint-scope";
+import { getSessionUser } from "@/lib/auth/session";
 import { loadBlueprintStudioContext } from "@/lib/server/blueprint-studio-load";
 
 export default async function BlueprintStudioSectionPage({
@@ -18,7 +20,9 @@ export default async function BlueprintStudioSectionPage({
   }
 
   const section = sectionParam as BlueprintStudioSectionKey;
-  const context = await loadBlueprintStudioContext(blueprintId);
+  const user = await getSessionUser();
+  const scope = await blueprintScopeFromSession(user);
+  const context = await loadBlueprintStudioContext(blueprintId, scope);
   if (!context) {
     notFound();
   }

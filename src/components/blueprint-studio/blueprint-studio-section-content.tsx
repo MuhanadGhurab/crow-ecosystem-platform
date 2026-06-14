@@ -325,7 +325,11 @@ export function BlueprintStudioSectionContent({ section, context }: Props) {
         <div className="space-y-4">
           <SliceCard title="Version snapshots">
             <p className="text-xs text-slate-500">
-              Prototype store (in-memory). Path C migration required for durable version history.
+              {context.persistenceMode === "c2_version"
+                ? "Persistent C2 version snapshots (Hybrid Path C). Approved versions are immutable."
+                : context.tenantUnresolved
+                  ? "Legacy read — tenant ownership unresolved; backfill required before C2 writes."
+                  : "Legacy adapter (unversioned). Initial C2 draft will be created on first save."}
             </p>
             <form action={captureBlueprintSnapshotAction} className="mt-3">
               <input type="hidden" name="blueprintId" value={context.blueprintId} />

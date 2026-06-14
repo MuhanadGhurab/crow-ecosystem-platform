@@ -28,41 +28,43 @@ enum ImplementationRequestStatus {
 }
 
 model ImplementationRequest {
-  id                    String                        @id @default(cuid())
-  referenceCode         String                        @unique
-  organizationName      String
-  organizationNameAr    String?
-  industry              String?
-  employeeBand          String?
-  countryCode           String                        @default("SA")
-  status                ImplementationRequestStatus   @default(PENDING_REVIEW)
-  estimatedMonthlySar   Decimal?                      @db.Decimal(12, 2)
-  notes                 String?
-  /** Supabase Auth user id when submitter signed in or linked via Entra email match */
-  submittedByUserId     String?
-  createdAt             DateTime                      @default(now())
-  updatedAt             DateTime                      @updatedAt
+  id                  String                      @id @default(cuid())
+  referenceCode       String                      @unique
+  organizationName    String
+  organizationNameAr  String?
+  industry            String?
+  employeeBand        String?
+  countryCode         String                      @default("SA")
+  status              ImplementationRequestStatus @default(PENDING_REVIEW)
+  estimatedMonthlySar Decimal?                    @db.Decimal(12, 2)
+  notes               String?
+  /**
+   * Supabase Auth user id when submitter signed in or linked via Entra email match
+   */
+  submittedByUserId   String?
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
 
-  contacts              RequestContact[]
-  requestedModules      RequestedModule[]
-  requestedSecurityPkgs RequestedSecurityPackage[]
-  requestedPlans        RequestedSubscriptionPlan[]
-  discoveryProfile      DiscoveryProfile?
-  enterpriseBlueprint   EnterpriseBlueprint?
+  contacts                       RequestContact[]
+  requestedModules               RequestedModule[]
+  requestedSecurityPkgs          RequestedSecurityPackage[]
+  requestedPlans                 RequestedSubscriptionPlan[]
+  discoveryProfile               DiscoveryProfile?
+  enterpriseBlueprint            EnterpriseBlueprint?
   clientOrganizationRequestLinks ClientOrganizationRequestLink[]
 
   @@map("implementation_requests")
 }
 
 model RequestContact {
-  id         String   @id @default(cuid())
-  requestId  String
-  fullName   String
-  email      String
-  phone      String?
-  jobTitle   String?
-  isPrimary  Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  requestId String
+  fullName  String
+  email     String
+  phone     String?
+  jobTitle  String?
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
 
   request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
 
@@ -81,9 +83,9 @@ model RequestedModule {
 }
 
 model RequestedSecurityPackage {
-  id          String @id @default(cuid())
-  requestId   String
-  packageKey  String
+  id         String @id @default(cuid())
+  requestId  String
+  packageKey String
 
   request ImplementationRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
 
@@ -119,27 +121,27 @@ model DiscoveryProfile {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
-  request              ImplementationRequest           @relation(fields: [requestId], references: [id], onDelete: Cascade)
-  answers              DiscoveryAnswer[]
-  departments          DiscoveryDepartment[]
-  branches             DiscoveryBranch[]
-  roles                DiscoveryRole[]
-  workflows            DiscoveryWorkflow[]
-  securityRequirements DiscoverySecurityRequirement[]
-  integrations         DiscoveryIntegration[]
+  request                ImplementationRequest            @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  answers                DiscoveryAnswer[]
+  departments            DiscoveryDepartment[]
+  branches               DiscoveryBranch[]
+  roles                  DiscoveryRole[]
+  workflows              DiscoveryWorkflow[]
+  securityRequirements   DiscoverySecurityRequirement[]
+  integrations           DiscoveryIntegration[]
   experienceRequirements DiscoveryExperienceRequirement[]
-  enterpriseBlueprint  EnterpriseBlueprint?
-  orgIntelligence      DiscoveryOrgIntelligence?
+  enterpriseBlueprint    EnterpriseBlueprint?
+  orgIntelligence        DiscoveryOrgIntelligence?
 
   @@map("discovery_profiles")
 }
 
 model DiscoveryAnswer {
-  id         String @id @default(cuid())
-  profileId  String
-  sectionKey String
+  id          String @id @default(cuid())
+  profileId   String
+  sectionKey  String
   questionKey String
-  valueJson  Json
+  valueJson   Json
 
   profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
@@ -148,7 +150,7 @@ model DiscoveryAnswer {
 }
 
 model DiscoveryDepartment {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   profileId String
   name      String
   nameAr    String?
@@ -160,7 +162,7 @@ model DiscoveryDepartment {
 }
 
 model DiscoveryBranch {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   profileId String
   name      String
   city      String?
@@ -172,7 +174,7 @@ model DiscoveryBranch {
 }
 
 model DiscoveryRole {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   profileId String
   name      String
   level     String?
@@ -183,7 +185,7 @@ model DiscoveryRole {
 }
 
 model DiscoveryWorkflow {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   profileId   String
   name        String
   description String?
@@ -194,7 +196,7 @@ model DiscoveryWorkflow {
 }
 
 model DiscoverySecurityRequirement {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   profileId   String
   requirement String
   priority    String?
@@ -205,10 +207,10 @@ model DiscoverySecurityRequirement {
 }
 
 model DiscoveryIntegration {
-  id            String @id @default(cuid())
-  profileId     String
-  providerKey   String
-  notes         String?
+  id          String  @id @default(cuid())
+  profileId   String
+  providerKey String
+  notes       String?
 
   profile DiscoveryProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
@@ -285,36 +287,55 @@ enum ProposalStatus {
 }
 
 model EnterpriseBlueprint {
-  id                String          @id @default(cuid())
-  requestId         String          @unique
-  discoveryProfileId String         @unique
-  status            BlueprintStatus @default(DRAFT)
-  proposalStatus    ProposalStatus  @default(DRAFT)
-  proposalToken     String?         @unique
-  proposalSentAt    DateTime?
-  clientApprovedAt  DateTime?
-  version           Int             @default(1)
-  approvedAt        DateTime?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id                       String          @id @default(cuid())
+  requestId                String          @unique
+  discoveryProfileId       String          @unique
+  /// C2 — explicit tenant ownership (nullable for legacy; backfill required)
+  tenantId                 String?
+  /// C2 — human-readable identity title
+  title                    String?
+  status                   BlueprintStatus @default(DRAFT)
+  proposalStatus           ProposalStatus  @default(DRAFT)
+  proposalToken            String?         @unique
+  proposalSentAt           DateTime?
+  clientApprovedAt         DateTime?
+  /// Legacy monolithic version counter — superseded by EnterpriseBlueprintVersion
+  version                  Int             @default(1)
+  approvedAt               DateTime?
+  /// C2 — pointers to versioned snapshots (enforced one-draft / one-approved via partial indexes)
+  currentApprovedVersionId String?         @unique
+  activeDraftVersionId     String?         @unique
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
 
-  request            ImplementationRequest @relation(fields: [requestId], references: [id])
-  discoveryProfile   DiscoveryProfile      @relation(fields: [discoveryProfileId], references: [id])
-  modules            BlueprintModule[]
-  workflows          BlueprintWorkflow[]
-  roles              BlueprintRole[]
-  permissions        BlueprintPermission[]
-  securityBaselines  BlueprintSecurityBaseline[]
-  sareaProfiles      BlueprintSareaProfile[]
-  integrations       BlueprintIntegration[]
-  goLiveChecklists   BlueprintGoLiveChecklist[]
-  tenant             Tenant?
+  request                 ImplementationRequest            @relation(fields: [requestId], references: [id])
+  discoveryProfile        DiscoveryProfile                 @relation(fields: [discoveryProfileId], references: [id])
+  tenantOwner             Tenant?                          @relation("BlueprintTenantOwner", fields: [tenantId], references: [id])
+  modules                 BlueprintModule[]
+  workflows               BlueprintWorkflow[]
+  roles                   BlueprintRole[]
+  permissions             BlueprintPermission[]
+  securityBaselines       BlueprintSecurityBaseline[]
+  sareaProfiles           BlueprintSareaProfile[]
+  integrations            BlueprintIntegration[]
+  goLiveChecklists        BlueprintGoLiveChecklist[]
+  tenant                  Tenant?
+  blueprintVersions       EnterpriseBlueprintVersion[]
+  currentApprovedVersion  EnterpriseBlueprintVersion?      @relation("CurrentApprovedVersion", fields: [currentApprovedVersionId], references: [id], onDelete: Restrict)
+  activeDraftVersion      EnterpriseBlueprintVersion?      @relation("ActiveDraftVersion", fields: [activeDraftVersionId], references: [id], onDelete: Restrict)
+  blueprintApprovals      BlueprintApproval[]
+  blueprintTraceEvents    BlueprintTraceEvent[]
+  blueprintChangeRequests BlueprintChangeRequest[]
+  configurationProposals  BlueprintConfigurationProposal[]
+  roiAssumptions          RoiAssumption[]
+  sowDocuments            SowDocument[]
 
+  @@index([tenantId])
   @@map("enterprise_blueprints")
 }
 
 model BlueprintModule {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   blueprintId String
   moduleKey   String
   enabled     Boolean @default(true)
@@ -342,7 +363,7 @@ model BlueprintRole {
   name        String
   slug        String
 
-  blueprint   EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+  blueprint   EnterpriseBlueprint   @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
   permissions BlueprintPermission[]
 
   @@unique([blueprintId, slug])
@@ -350,10 +371,10 @@ model BlueprintRole {
 }
 
 model BlueprintPermission {
-  id            String @id @default(cuid())
-  blueprintId   String
+  id              String  @id @default(cuid())
+  blueprintId     String
   blueprintRoleId String?
-  permissionKey String
+  permissionKey   String
 
   blueprint     EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
   blueprintRole BlueprintRole?      @relation(fields: [blueprintRoleId], references: [id])
@@ -395,7 +416,7 @@ model BlueprintIntegration {
 }
 
 model BlueprintGoLiveChecklist {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   blueprintId String
   itemKey     String
   completed   Boolean @default(false)
@@ -406,17 +427,385 @@ model BlueprintGoLiveChecklist {
   @@map("blueprint_go_live_checklists")
 }
 
+// ─── 3b. C2 Blueprint versioning & traceability ───────────────────────────────
+
+enum BlueprintVersionStatus {
+  DISCOVERY_DRAFT
+  BLUEPRINT_DRAFT
+  INTERNAL_REVIEW
+  CLIENT_REVIEW
+  CHANGES_REQUESTED
+  APPROVAL_PENDING
+  APPROVED
+  CONFIGURATION_PROPOSED
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum BlueprintVersionProvenance {
+  LEGACY_IMPORT
+  STUDIO_CAPTURE
+  NEXT_VERSION
+  BACKFILL
+  UNKNOWN
+}
+
+enum BlueprintTraceActorType {
+  HUMAN
+  AI_ASSISTANT
+  AUTOMATION
+  SERVICE_ACCOUNT
+  INTEGRATION
+  SYSTEM_PROCESS
+}
+
+enum BlueprintApprovalDecision {
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+}
+
+enum BlueprintChangeRequestScope {
+  CLIENT
+  INTERNAL
+}
+
+enum BlueprintChangeRequestStatus {
+  OPEN
+  RESOLVED
+  WITHDRAWN
+}
+
+enum BlueprintConfigurationProposalStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+enum RoiAssumptionApprovalState {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum RoiSourceType {
+  OPERATOR_ESTIMATE
+  BENCHMARK
+  CLIENT_INPUT
+  DISCOVERY
+  SYSTEM_DEFAULT
+}
+
+enum SowVersionStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum SowSectionProvenance {
+  GENERATED
+  MANUAL
+  GENERATED_EDITED
+  LOCKED
+}
+
+model EnterpriseBlueprintVersion {
+  id                String                     @id @default(cuid())
+  tenantId          String
+  blueprintId       String
+  versionNumber     Int
+  parentVersionId   String?
+  status            BlueprintVersionStatus     @default(BLUEPRINT_DRAFT)
+  schemaVersion     String                     @default("1.0.0")
+  contentSnapshot   Json
+  contentHash       String
+  revision          Int                        @default(1)
+  isActiveDraft     Boolean                    @default(false)
+  isCurrentApproved Boolean                    @default(false)
+  provenance        BlueprintVersionProvenance @default(STUDIO_CAPTURE)
+  authorUserId      String?
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+  submittedAt       DateTime?
+  reviewedAt        DateTime?
+  approvedAt        DateTime?
+  supersededAt      DateTime?
+  archivedAt        DateTime?
+
+  tenant                  Tenant                           @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint               EnterpriseBlueprint              @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  parentVersion           EnterpriseBlueprintVersion?      @relation("VersionLineage", fields: [parentVersionId], references: [id], onDelete: Restrict)
+  childVersions           EnterpriseBlueprintVersion[]     @relation("VersionLineage")
+  approvals               BlueprintApproval[]
+  traceEvents             BlueprintTraceEvent[]
+  changeRequests          BlueprintChangeRequest[]
+  configurationProposals  BlueprintConfigurationProposal[]
+  roiSnapshots            RoiSnapshot[]
+  sowVersions             SowVersion[]
+  currentForBlueprint     EnterpriseBlueprint?             @relation("CurrentApprovedVersion")
+  activeDraftForBlueprint EnterpriseBlueprint?             @relation("ActiveDraftVersion")
+
+  @@unique([blueprintId, versionNumber])
+  @@index([tenantId, blueprintId, createdAt(sort: Desc)])
+  @@index([blueprintId, status])
+  @@map("enterprise_blueprint_versions")
+}
+
+model BlueprintApproval {
+  id                    String                    @id @default(cuid())
+  tenantId              String
+  blueprintId           String
+  blueprintVersionId    String
+  contentHash           String
+  decision              BlueprintApprovalDecision
+  approverUserId        String
+  approverRole          String
+  rationale             String?
+  policyReference       String?
+  evidenceRefs          Json?
+  aiAssistanceDisclosed Boolean                   @default(false)
+  externalSignatureRef  String?
+  createdAt             DateTime                  @default(now())
+
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint        EnterpriseBlueprint        @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+
+  @@index([tenantId, blueprintId, createdAt(sort: Desc)])
+  @@index([blueprintVersionId])
+  @@map("blueprint_approvals")
+}
+
+model BlueprintTraceEvent {
+  id                 String                  @id @default(cuid())
+  tenantId           String
+  blueprintId        String
+  blueprintVersionId String?
+  resourceType       String
+  resourceId         String?
+  actorType          BlueprintTraceActorType
+  actorId            String?
+  action             String
+  reason             String?
+  previousState      String?
+  newState           String?
+  impact             String?
+  evidenceRefs       Json?
+  aiInvolved         Boolean                 @default(false)
+  correlationId      String?
+  requestId          String?
+  metadata           Json?
+  createdAt          DateTime                @default(now())
+
+  tenant           Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint        EnterpriseBlueprint         @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion? @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+
+  @@index([tenantId, blueprintId, createdAt(sort: Desc)])
+  @@index([blueprintVersionId, createdAt])
+  @@map("blueprint_trace_events")
+}
+
+model BlueprintChangeRequest {
+  id                 String                       @id @default(cuid())
+  tenantId           String
+  blueprintId        String
+  blueprintVersionId String
+  requestedByUserId  String
+  scope              BlueprintChangeRequestScope
+  comments           Json
+  status             BlueprintChangeRequestStatus @default(OPEN)
+  createdAt          DateTime                     @default(now())
+  resolvedAt         DateTime?
+
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint        EnterpriseBlueprint        @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+
+  @@index([tenantId, blueprintId])
+  @@map("blueprint_change_requests")
+}
+
+model BlueprintConfigurationProposal {
+  id                 String                               @id @default(cuid())
+  tenantId           String
+  blueprintId        String
+  blueprintVersionId String
+  targetTenantId     String
+  requestedScope     Json
+  status             BlueprintConfigurationProposalStatus @default(DRAFT)
+  proposerUserId     String
+  reviewerUserId     String?
+  riskRefs           Json?
+  evidenceRefs       Json?
+  createdAt          DateTime                             @default(now())
+  updatedAt          DateTime                             @updatedAt
+
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint        EnterpriseBlueprint        @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+  targetTenant     Tenant                     @relation("ConfigurationProposalTarget", fields: [targetTenantId], references: [id], onDelete: Restrict)
+
+  @@index([tenantId, blueprintId])
+  @@map("blueprint_configuration_proposals")
+}
+
+model RoiAssumption {
+  id          String   @id @default(cuid())
+  tenantId    String
+  blueprintId String
+  key         String
+  label       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant    Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint EnterpriseBlueprint     @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  revisions RoiAssumptionRevision[]
+
+  @@unique([blueprintId, key])
+  @@index([tenantId, blueprintId])
+  @@map("roi_assumptions")
+}
+
+model RoiAssumptionRevision {
+  id              String                     @id @default(cuid())
+  tenantId        String
+  assumptionId    String
+  revisionNumber  Int
+  value           Float
+  unit            String
+  currency        String                     @default("SAR")
+  frequency       String?
+  annualizedValue Float?
+  source          String?
+  sourceType      RoiSourceType              @default(OPERATOR_ESTIMATE)
+  confidence      String?
+  ownerUserId     String?
+  approvalState   RoiAssumptionApprovalState @default(DRAFT)
+  scenarioTags    String[]
+  reviewedAt      DateTime?
+  createdAt       DateTime                   @default(now())
+
+  tenant     Tenant        @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  assumption RoiAssumption @relation(fields: [assumptionId], references: [id], onDelete: Restrict)
+
+  @@unique([assumptionId, revisionNumber])
+  @@index([tenantId, assumptionId])
+  @@map("roi_assumption_revisions")
+}
+
+model RoiSnapshot {
+  id                    String   @id @default(cuid())
+  tenantId              String
+  blueprintVersionId    String
+  assumptionRevisionIds String[]
+  engineName            String
+  engineVersion         String
+  formulaVersion        String
+  scenarioInputs        Json
+  results               Json
+  warnings              Json?
+  unsupportedInputs     Json?
+  currency              String   @default("SAR")
+  advisoryLabel         String   @default("advisory_only")
+  contentHash           String
+  createdAt             DateTime @default(now())
+
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+  sowVersions      SowVersion[]
+
+  @@index([blueprintVersionId, createdAt(sort: Desc)])
+  @@index([tenantId])
+  @@map("roi_snapshots")
+}
+
+model SowDocument {
+  id                   String   @id @default(cuid())
+  tenantId             String
+  blueprintId          String
+  title                String
+  commercialPackageRef String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  blueprint EnterpriseBlueprint @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  versions  SowVersion[]
+
+  @@index([tenantId, blueprintId])
+  @@map("sow_documents")
+}
+
+model SowVersion {
+  id                 String           @id @default(cuid())
+  tenantId           String
+  sowDocumentId      String
+  versionNumber      Int
+  status             SowVersionStatus @default(DRAFT)
+  blueprintVersionId String
+  roiSnapshotId      String?
+  contentHash        String
+  revision           Int              @default(1)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  approvedAt         DateTime?
+
+  tenant           Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  sowDocument      SowDocument                @relation(fields: [sowDocumentId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+  roiSnapshot      RoiSnapshot?               @relation(fields: [roiSnapshotId], references: [id], onDelete: Restrict)
+  sections         SowSection[]
+
+  @@unique([sowDocumentId, versionNumber])
+  @@index([tenantId, sowDocumentId])
+  @@map("sow_versions")
+}
+
+model SowSection {
+  id               String               @id @default(cuid())
+  tenantId         String
+  sowVersionId     String
+  sectionKey       String
+  orderIndex       Int
+  title            String
+  provenance       SowSectionProvenance @default(GENERATED)
+  generatedContent String?
+  manualContent    String?
+  sourceRefs       Json?
+  manuallyEdited   Boolean              @default(false)
+  locked           Boolean              @default(false)
+  completeness     String?
+  warnings         Json?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  sowVersion SowVersion @relation(fields: [sowVersionId], references: [id], onDelete: Restrict)
+
+  @@unique([sowVersionId, sectionKey])
+  @@index([tenantId, sowVersionId, orderIndex])
+  @@map("sow_sections")
+}
+
 // ─── 4. Tenant / CEM tables ──────────────────────────────────────────────────
 
 model Organization {
-  id           String   @id @default(cuid())
-  legalName    String
-  displayName  String
+  id            String   @id @default(cuid())
+  legalName     String
+  displayName   String
   displayNameAr String?
-  vatNumber    String?
-  industry     String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  vatNumber     String?
+  industry      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   tenants Tenant[]
 
@@ -433,34 +822,47 @@ model Tenant {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization Organization         @relation(fields: [organizationId], references: [id])
-  blueprint    EnterpriseBlueprint? @relation(fields: [blueprintId], references: [id])
-  modules      OrganizationModule[]
-  departments  Department[]
-  branches     Branch[]
-  profiles     Profile[]
-  roles        Role[]
-  workflows    Workflow[]
-  tasks        Task[]
-  approvals    Approval[]
-  documents    Document[]
-  reports      Report[]
-  subscription TenantSubscription?
-  cybercrowAuditLogs CybercrowAuditLog[]
-  securityEvents     SecurityEvent[]
-  riskScores         RiskScore[]
-  incidents          Incident[]
-  sareaProfiles      SareaExperienceProfile[]
-  memberships        TenantMembership[]
-  membershipInvites  TenantMembershipInvite[]
-  hrEmployees        HrEmployee[]
-  crmAccounts        CrmAccount[]
-  crmContacts        CrmContact[]
-  salesOpportunities TenantSalesOpportunity[]
-  inventoryItems     TenantInventoryItem[]
-  warehouseLocations TenantWarehouseLocation[]
-  financeEntries     TenantFinanceEntry[]
-  purchaseRequests   TenantPurchaseRequest[]
+  organization                 Organization                     @relation(fields: [organizationId], references: [id])
+  blueprint                    EnterpriseBlueprint?             @relation(fields: [blueprintId], references: [id])
+  ownedBlueprints              EnterpriseBlueprint[]            @relation("BlueprintTenantOwner")
+  blueprintVersions            EnterpriseBlueprintVersion[]
+  blueprintApprovals           BlueprintApproval[]
+  blueprintTraceEvents         BlueprintTraceEvent[]
+  blueprintChangeRequests      BlueprintChangeRequest[]
+  configurationProposals       BlueprintConfigurationProposal[]
+  configurationProposalTargets BlueprintConfigurationProposal[] @relation("ConfigurationProposalTarget")
+  roiAssumptions               RoiAssumption[]
+  roiAssumptionRevisions       RoiAssumptionRevision[]
+  roiSnapshots                 RoiSnapshot[]
+  sowDocuments                 SowDocument[]
+  sowVersions                  SowVersion[]
+  sowSections                  SowSection[]
+  modules                      OrganizationModule[]
+  departments                  Department[]
+  branches                     Branch[]
+  profiles                     Profile[]
+  roles                        Role[]
+  workflows                    Workflow[]
+  tasks                        Task[]
+  approvals                    Approval[]
+  documents                    Document[]
+  reports                      Report[]
+  subscription                 TenantSubscription?
+  cybercrowAuditLogs           CybercrowAuditLog[]
+  securityEvents               SecurityEvent[]
+  riskScores                   RiskScore[]
+  incidents                    Incident[]
+  sareaProfiles                SareaExperienceProfile[]
+  memberships                  TenantMembership[]
+  membershipInvites            TenantMembershipInvite[]
+  hrEmployees                  HrEmployee[]
+  crmAccounts                  CrmAccount[]
+  crmContacts                  CrmContact[]
+  salesOpportunities           TenantSalesOpportunity[]
+  inventoryItems               TenantInventoryItem[]
+  warehouseLocations           TenantWarehouseLocation[]
+  financeEntries               TenantFinanceEntry[]
+  purchaseRequests             TenantPurchaseRequest[]
 
   @@map("tenants")
 }
@@ -527,15 +929,15 @@ model OrganizationModule {
 }
 
 model Department {
-  id        String @id @default(cuid())
-  tenantId  String
-  name      String
-  nameAr    String?
-  parentId  String?
+  id       String  @id @default(cuid())
+  tenantId String
+  name     String
+  nameAr   String?
+  parentId String?
 
-  tenant   Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  parent   Department?  @relation("DeptHierarchy", fields: [parentId], references: [id])
-  children Department[] @relation("DeptHierarchy")
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent      Department?  @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children    Department[] @relation("DeptHierarchy")
   profiles    Profile[]
   hrEmployees HrEmployee[]
 
@@ -543,7 +945,7 @@ model Department {
 }
 
 model Branch {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   tenantId String
   name     String
   city     String?
@@ -572,10 +974,10 @@ model Profile {
 }
 
 model Role {
-  id        String @id @default(cuid())
-  tenantId  String
-  name      String
-  slug      String
+  id       String @id @default(cuid())
+  tenantId String
+  name     String
+  slug     String
 
   tenant          Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   rolePermissions RolePermission[]
@@ -619,10 +1021,10 @@ model UserRole {
 }
 
 model Workflow {
-  id        String @id @default(cuid())
-  tenantId  String
-  name      String
-  status    String @default("active")
+  id       String @id @default(cuid())
+  tenantId String
+  name     String
+  status   String @default("active")
 
   tenant Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   steps  WorkflowStep[]
@@ -659,12 +1061,12 @@ model Task {
 }
 
 model Approval {
-  id        String   @id @default(cuid())
-  tenantId  String
+  id         String   @id @default(cuid())
+  tenantId   String
   entityType String
-  entityId  String
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
+  entityId   String
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -672,11 +1074,11 @@ model Approval {
 }
 
 model Document {
-  id        String   @id @default(cuid())
-  tenantId  String
-  title     String
+  id         String   @id @default(cuid())
+  tenantId   String
+  title      String
   storageKey String?
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -684,11 +1086,11 @@ model Document {
 }
 
 model Report {
-  id        String   @id @default(cuid())
-  tenantId  String
-  name      String
+  id         String   @id @default(cuid())
+  tenantId   String
+  name       String
   configJson Json?
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -726,8 +1128,8 @@ model CrmAccount {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tenant   Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  contacts CrmContact[]
+  tenant             Tenant                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  contacts           CrmContact[]
   salesOpportunities TenantSalesOpportunity[]
 
   @@index([tenantId])
@@ -842,18 +1244,18 @@ model TenantFinanceEntry {
 
 /// Tenant-scoped purchase requests (CEM procurement module, lite PR workflow).
 model TenantPurchaseRequest {
-  id                    String   @id @default(cuid())
-  tenantId              String
-  referenceCode         String?
-  title                 String
-  status                String   @default("draft")
-  priority              String   @default("normal")
-  amountSar             Int?
-  vendorName            String?
-  linkedInventoryRef    String?
-  linkedFinanceRef      String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  tenantId           String
+  referenceCode      String?
+  title              String
+  status             String   @default("draft")
+  priority           String   @default("normal")
+  amountSar          Int?
+  vendorName         String?
+  linkedInventoryRef String?
+  linkedFinanceRef   String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -916,11 +1318,11 @@ model SessionEvent {
 }
 
 model AccessAttempt {
-  id           String   @id @default(cuid())
-  tenantId     String
-  resourceKey  String
-  allowed      Boolean
-  createdAt    DateTime @default(now())
+  id          String   @id @default(cuid())
+  tenantId    String
+  resourceKey String
+  allowed     Boolean
+  createdAt   DateTime @default(now())
 
   @@map("access_attempts")
 }
@@ -952,10 +1354,10 @@ model Incident {
 }
 
 model ComplianceControl {
-  id          String @id @default(cuid())
-  tenantId    String
-  controlKey  String
-  status      String @default("not_assessed")
+  id         String @id @default(cuid())
+  tenantId   String
+  controlKey String
+  status     String @default("not_assessed")
 
   evidence ComplianceEvidence[]
 
@@ -964,11 +1366,11 @@ model ComplianceControl {
 }
 
 model ComplianceEvidence {
-  id        String   @id @default(cuid())
-  controlId String
-  title     String
+  id         String   @id @default(cuid())
+  controlId  String
+  title      String
   storageKey String?
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
   control ComplianceControl @relation(fields: [controlId], references: [id], onDelete: Cascade)
 
@@ -986,11 +1388,11 @@ model GrcFinding {
 }
 
 model DeviceTrustRecord {
-  id        String   @id @default(cuid())
-  tenantId  String
-  deviceId  String
+  id         String   @id @default(cuid())
+  tenantId   String
+  deviceId   String
   trustLevel String
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
   @@map("device_trust_records")
 }
@@ -998,19 +1400,19 @@ model DeviceTrustRecord {
 // ─── 6. SAREA tables ─────────────────────────────────────────────────────────
 
 model SareaExperienceProfile {
-  id          String @id @default(cuid())
-  tenantId    String?
-  name        String
-  personaKey  String
-  configJson  Json?
+  id         String  @id @default(cuid())
+  tenantId   String?
+  name       String
+  personaKey String
+  configJson Json?
 
-  tenant              Tenant?              @relation(fields: [tenantId], references: [id])
-  roleExperienceMaps  RoleExperienceMap[]
-  dashboardLayouts    DashboardLayout[]
-  widgetRules         WidgetRule[]
-  navigationProfiles  NavigationProfile[]
-  deviceRules         DeviceExperienceRule[]
-  adaptiveRules       AdaptiveUiRule[]
+  tenant             Tenant?                @relation(fields: [tenantId], references: [id])
+  roleExperienceMaps RoleExperienceMap[]
+  dashboardLayouts   DashboardLayout[]
+  widgetRules        WidgetRule[]
+  navigationProfiles NavigationProfile[]
+  deviceRules        DeviceExperienceRule[]
+  adaptiveRules      AdaptiveUiRule[]
 
   @@map("sarea_experience_profiles")
 }
@@ -1027,9 +1429,9 @@ model RoleExperienceMap {
 }
 
 model DashboardLayout {
-  id        String @id @default(cuid())
-  profileId String
-  name      String
+  id         String @id @default(cuid())
+  profileId  String
+  name       String
   layoutJson Json?
 
   profile SareaExperienceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
@@ -1084,14 +1486,14 @@ model AdaptiveUiRule {
 // ─── 7. Subscription tables ──────────────────────────────────────────────────
 
 model SubscriptionPlan {
-  id              String  @id @default(cuid())
-  key             String  @unique
-  nameEn          String
-  nameAr          String
-  baseMonthlySar  Decimal @db.Decimal(12, 2)
-  descriptionEn   String?
-  descriptionAr   String?
-  isActive        Boolean @default(true)
+  id             String  @id @default(cuid())
+  key            String  @unique
+  nameEn         String
+  nameAr         String
+  baseMonthlySar Decimal @db.Decimal(12, 2)
+  descriptionEn  String?
+  descriptionAr  String?
+  isActive       Boolean @default(true)
 
   tenantSubscriptions TenantSubscription[]
   moduleLimits        ModuleLimit[]
@@ -1100,18 +1502,18 @@ model SubscriptionPlan {
 }
 
 model TenantSubscription {
-  id                   String   @id @default(cuid())
-  tenantId             String   @unique
+  id                   String    @id @default(cuid())
+  tenantId             String    @unique
   planId               String
-  status               String   @default("active")
-  startedAt            DateTime @default(now())
+  status               String    @default("active")
+  startedAt            DateTime  @default(now())
   endsAt               DateTime?
   stripeCustomerId     String?
   stripeSubscriptionId String?
   stripePriceId        String?
 
-  tenant Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+  tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  plan           SubscriptionPlan @relation(fields: [planId], references: [id])
   billingRecords BillingRecord[]
   usageMetrics   UsageMetric[]
 
@@ -1199,23 +1601,23 @@ model IntegrationConnection {
 }
 
 model IdentityProvider {
-  id          String @id @default(cuid())
-  tenantId    String
+  id           String  @id @default(cuid())
+  tenantId     String
   providerType String
-  name        String
-  isActive    Boolean @default(true)
+  name         String
+  isActive     Boolean @default(true)
 
-  ssoConfigs SsoConfig[]
+  ssoConfigs   SsoConfig[]
   entraConfigs EntraIdConfig[]
 
   @@map("identity_providers")
 }
 
 model SsoConfig {
-  id         String @id @default(cuid())
-  providerId String
+  id          String  @id @default(cuid())
+  providerId  String
   metadataUrl String?
-  configJson Json?
+  configJson  Json?
 
   provider IdentityProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
 
@@ -1223,11 +1625,11 @@ model SsoConfig {
 }
 
 model EntraIdConfig {
-  id           String @id @default(cuid())
-  providerId   String
+  id            String @id @default(cuid())
+  providerId    String
   tenantIdAzure String
-  clientId     String
-  configJson   Json?
+  clientId      String
+  configJson    Json?
 
   provider IdentityProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
 
@@ -1235,10 +1637,10 @@ model EntraIdConfig {
 }
 
 model SyncJob {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   tenantId    String
   jobType     String
-  status      String   @default("queued")
+  status      String    @default("queued")
   startedAt   DateTime?
   completedAt DateTime?
 
@@ -1246,24 +1648,24 @@ model SyncJob {
 }
 
 model ApiKey {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   tenantId  String
   name      String
   keyHash   String
   scopes    String[]
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   expiresAt DateTime?
 
   @@map("api_keys")
 }
 
 model WebhookEvent {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   tenantId    String?
   eventType   String
   payload     Json?
   deliveredAt DateTime?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   @@map("webhook_events")
 }
@@ -1272,13 +1674,13 @@ model WebhookEvent {
 
 /// Client-side organization linkage for ImplementationRequests, decoupled from tenant runtime.
 model ClientOrganization {
-  id            String   @id @default(cuid())
-  name          String
-  industry      String?
-  employeeBand  String?
-  region        String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String
+  industry     String?
+  employeeBand String?
+  region       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   members      ClientOrganizationMember[]
   requestLinks ClientOrganizationRequestLink[]
@@ -1288,15 +1690,15 @@ model ClientOrganization {
 
 /// Membership of Supabase-authenticated users in client organizations.
 model ClientOrganizationMember {
-  id               String   @id @default(cuid())
-  organizationId   String
-  supabaseUserId   String
-  email            String?
-  role             String
-  status           String   @default("pending_verification")
-  linkSource       String   @default("invitation")
-  verifiedByProcrow Boolean @default(false)
-  verifiedAt       DateTime?
+  id                String    @id @default(cuid())
+  organizationId    String
+  supabaseUserId    String
+  email             String?
+  role              String
+  status            String    @default("pending_verification")
+  linkSource        String    @default("invitation")
+  verifiedByProcrow Boolean   @default(false)
+  verifiedAt        DateTime?
 
   organization ClientOrganization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
@@ -1316,4 +1718,3 @@ model ClientOrganizationRequestLink {
   @@index([organizationId])
   @@map("client_organization_request_links")
 }
-

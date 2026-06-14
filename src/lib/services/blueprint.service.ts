@@ -1,4 +1,10 @@
 import type { Prisma } from "@prisma/client";
+import {
+  getBlueprintByTenantAndId,
+  listBlueprintsForScope,
+} from "@/lib/crow-core/blueprint-persistence/blueprint.repository";
+import { mapPersistedRowToEnterpriseBlueprintDetail } from "@/lib/crow-core/blueprint-persistence/blueprint-detail-mapper";
+import type { TenantScope } from "@/lib/crow-core/blueprint-persistence/tenant-scope";
 import { prisma } from "@/lib/db";
 import {
   getMockEnterpriseBlueprint,
@@ -44,11 +50,27 @@ export type EnterpriseBlueprintDetail = Prisma.EnterpriseBlueprintGetPayload<{
   include: typeof enterpriseBlueprintDetailInclude;
 }>;
 
+function mapListItemFromPersistedRow(
+  row: Awaited<ReturnType<typeof listBlueprintsForScope>>[number]
+): EnterpriseBlueprintListItem {
+  const { tenantOwner, ...rest } = row;
+  return {
+    ...rest,
+    tenant: tenantOwner ? { id: tenantOwner.id, slug: tenantOwner.slug } : null,
+  } as EnterpriseBlueprintListItem;
+}
+
 export async function getEnterpriseBlueprint(
-  blueprintId: string
+  blueprintId: string,
+  scope?: TenantScope
 ): Promise<EnterpriseBlueprintDetail | null> {
   if (shouldUseMockBlueprint(blueprintId)) {
     return getMockEnterpriseBlueprint(blueprintId);
+  }
+  if (scope) {
+    const row = await getBlueprintByTenantAndId(scope, blueprintId);
+    if (!row) return null;
+    return mapPersistedRowToEnterpriseBlueprintDetail(row);
   }
   return prisma.enterpriseBlueprint.findUnique({
     where: { id: blueprintId },
@@ -56,7 +78,13 @@ export async function getEnterpriseBlueprint(
   });
 }
 
-export async function listEnterpriseBlueprints(): Promise<EnterpriseBlueprintListItem[]> {
+export async function listEnterpriseBlueprints(
+  scope?: TenantScope
+): Promise<EnterpriseBlueprintListItem[]> {
+  if (scope) {
+    const rows = await listBlueprintsForScope(scope);
+    return rows.map(mapListItemFromPersistedRow);
+  }
   return prisma.enterpriseBlueprint.findMany({
     orderBy: { updatedAt: "desc" },
     ...blueprintListArgs,

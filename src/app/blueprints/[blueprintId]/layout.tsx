@@ -4,6 +4,7 @@ import { UserMenu } from "@/components/portal/auth/user-menu";
 import { AreaShell } from "@/components/ui/area-shell";
 import { Permission, hasPermission } from "@/lib/auth/permissions";
 import { getCrowAuth } from "@/lib/auth/roles";
+import { blueprintScopeFromSession } from "@/lib/auth/blueprint-scope";
 import { getSessionUser, requirePermission } from "@/lib/auth/session";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
@@ -23,7 +24,8 @@ export default async function BlueprintLayout({
   await requirePermission(Permission["platform.blueprint.view"]);
   const user = await getSessionUser();
   const { role } = getCrowAuth(user);
-  const blueprint = await getEnterpriseBlueprint(blueprintId);
+  const scope = await blueprintScopeFromSession(user);
+  const blueprint = await getEnterpriseBlueprint(blueprintId, scope);
 
   if (!blueprint) {
     notFound();
