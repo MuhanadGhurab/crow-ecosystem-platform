@@ -10,6 +10,7 @@
 
 | ID | Milestone | Phases / backlog | Owner | % | Status |
 |----|-----------|------------------|-------|---|--------|
+| **C0** | Crow Core universal operating architecture & experience foundation (no paid infra) | 15 arch docs, `src/lib/crow-core/` contracts, Architecture Lab, transition map, `crow-core-foundation:verify` | Muhanad | **~95%** | **In progress** — branch `feat/c0-universal-operating-architecture`; isolated from M4D/PR #2 — [`C0_UNIVERSAL_OPERATING_ARCHITECTURE_EXPERIENCE_FOUNDATION.md`](C0_UNIVERSAL_OPERATING_ARCHITECTURE_EXPERIENCE_FOUNDATION.md) |
 | **G1** | ERP module architecture & integration blueprint (no paid infra) | Module catalog, integration map, maturity/UX standards, erp:verify | Muhanad | **100%** | **Passed** — [`G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md`](G1_ERP_MODULE_ARCHITECTURE_INTEGRATION_BLUEPRINT.md) |
 | **G2** | HR module depth (no paid infra) | Workforce readiness hub, org linkage, hr:verify | Muhanad | **100%** | **Passed** — [`G2_HR_MODULE_DEPTH.md`](G2_HR_MODULE_DEPTH.md) |
 | **G3** | Finance module depth (no paid infra) | Finance readiness hub, cross-links, finance:verify | Muhanad | **100%** | **Passed** — [`G3_FINANCE_MODULE_DEPTH.md`](G3_FINANCE_MODULE_DEPTH.md) |

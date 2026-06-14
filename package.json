@@ -137,6 +137,7 @@
     "client-signup:verify": "npx tsx scripts/verify-client-signup-flow.ts",
     "auth-landing:verify": "npx tsx scripts/verify-auth-landing-redirect.ts",
     "architecture-simplification:verify": "npx tsx scripts/verify-architecture-simplification.ts",
+    "crow-core-foundation:verify": "npx tsx scripts/verify-crow-core-foundation.ts",
     "access-gateway:verify": "npx tsx scripts/verify-access-gateway-portal-model.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

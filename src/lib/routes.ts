@@ -62,6 +62,8 @@ export const routes = {
     securityBaselines: "/admin/security-baselines",
     audit: "/admin/audit",
     notifications: "/admin/notifications",
+    /** C0 — Architecture Lab reference prototype (mock data, platform-console only). */
+    architectureLab: "/admin/architecture-lab",
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,
