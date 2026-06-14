@@ -111,3 +111,61 @@ export type ConfigurationReleaseBinding = {
   deployedAtIso: string | null;
   verificationEvidenceRefs: readonly string[];
 };
+
+/** C1 — lifecycle view model (maps to existing Prisma enums; no DB migration). */
+export const BLUEPRINT_LIFECYCLE_STATES = [
+  "DISCOVERY_DRAFT",
+  "BLUEPRINT_DRAFT",
+  "INTERNAL_REVIEW",
+  "CLIENT_REVIEW",
+  "CHANGES_REQUESTED",
+  "APPROVAL_PENDING",
+  "APPROVED",
+  "CONFIGURATION_PROPOSED",
+  "SUPERSEDED",
+  "ARCHIVED",
+] as const;
+
+export type BlueprintLifecycleState = (typeof BLUEPRINT_LIFECYCLE_STATES)[number];
+
+/** C1 — normalized snapshot for version/diff/hash (prototype: in-memory + fixtures). */
+export type BlueprintVersionSnapshot = {
+  id: string;
+  blueprintId: string;
+  ref: BlueprintVersionRef;
+  contentHash: string;
+  parentVersionId?: string;
+  document: EnterpriseBlueprintDocument;
+};
+
+export type BlueprintDiffImpact = "NONE" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+
+export type BlueprintSectionDiff = {
+  sectionKey: string;
+  impact: BlueprintDiffImpact;
+  summary: string;
+  beforeSummary?: string;
+  afterSummary?: string;
+};
+
+export type BlueprintVersionDiff = {
+  fromVersionId: string;
+  toVersionId: string;
+  sections: BlueprintSectionDiff[];
+  overallImpact: BlueprintDiffImpact;
+};
+
+export type BlueprintReadinessCheck = {
+  key: string;
+  label: string;
+  complete: boolean;
+  blocker?: string;
+};
+
+export type BlueprintReadinessReport = {
+  blueprintId: string;
+  overviewComplete: boolean;
+  roiReady: boolean;
+  sowReady: boolean;
+  checks: BlueprintReadinessCheck[];
+};

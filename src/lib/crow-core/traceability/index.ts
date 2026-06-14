@@ -18,6 +18,29 @@ export const TRACEABILITY_CHAIN_STAGES = [
 
 export type TraceabilityChainStage = (typeof TRACEABILITY_CHAIN_STAGES)[number];
 
+export type BlueprintTraceEvent = {
+  id: string;
+  blueprintId: string;
+  versionId?: string;
+  stage: TraceabilityChainStage;
+  actor: ActorRef;
+  summary: string;
+  timestamp: string;
+  aiAssisted?: boolean;
+  payload?: Record<string, unknown>;
+};
+
+export type BlueprintTraceTimeline = {
+  blueprintId: string;
+  events: BlueprintTraceEvent[];
+  /** Stages present in the chain (C1 studio). */
+  stagesPresent?: readonly TraceabilityChainStage[];
+  /** Stages not yet evidenced (C1 studio). */
+  missingStages?: readonly TraceabilityChainStage[];
+  /** True when all TRACEABILITY_CHAIN_STAGES are represented. */
+  chainComplete?: boolean;
+};
+
 export type MaterialChangeRecord = {
   tenantId: TenantScopeId;
   changeId: string;
@@ -49,3 +72,9 @@ export const TRACEABILITY_CONSTITUTION_RULE =
 
 export const AI_ACTOR_SEPARATION_RULE =
   "AI actions must never appear as human actions. Actor type must distinguish ai_assistant and automation." as const;
+
+export {
+  appendBlueprintTraceEvent,
+  buildBlueprintTraceTimeline,
+  resetBlueprintTraceStore,
+} from "./blueprint-traceability.service";

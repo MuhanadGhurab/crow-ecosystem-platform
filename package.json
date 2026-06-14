@@ -138,6 +138,8 @@
     "auth-landing:verify": "npx tsx scripts/verify-auth-landing-redirect.ts",
     "architecture-simplification:verify": "npx tsx scripts/verify-architecture-simplification.ts",
     "crow-core-foundation:verify": "npx tsx scripts/verify-crow-core-foundation.ts",
+    "enterprise-blueprint-studio:verify": "npx tsx scripts/verify-enterprise-blueprint-studio.ts",
+    "test:blueprint-studio": "npx tsx src/lib/crow-core/blueprint-studio/blueprint-version.service.test.ts && npx tsx src/lib/crow-core/blueprint-studio/blueprint-diff.service.test.ts && npx tsx src/lib/crow-core/blueprint-studio/blueprint-hash.service.test.ts && npx tsx src/lib/crow-core/commercial-intelligence/roi-calculator.test.ts && npx tsx src/lib/crow-core/commercial-intelligence/sow-generator.test.ts",
     "access-gateway:verify": "npx tsx scripts/verify-access-gateway-portal-model.ts",
     "request:e2e:verify": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",
     "request:e2e:organic": "npx tsx --env-file=.env.staging scripts/verify-organic-request-e2e.ts",

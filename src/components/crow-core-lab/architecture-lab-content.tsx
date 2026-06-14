@@ -4,8 +4,15 @@ import { ProductSection } from "@/components/product/product-section";
 import { ProductStatusCard } from "@/components/product/product-status-card";
 import {
   ARCHITECTURE_LAB_REFERENCE,
+  C1_ARCHITECTURE_LAB_REFERENCE,
   MOCK_AI_RECOMMENDATION,
   MOCK_BLUEPRINT_SLICES,
+  MOCK_C1_COMMAND_CENTER,
+  MOCK_C1_ROI_SCENARIOS,
+  MOCK_C1_SAREA_ROLE_COMPARISON,
+  MOCK_C1_SOW_SECTIONS,
+  MOCK_C1_TRACEABILITY_TIMELINE,
+  MOCK_C1_VERSION_COMPARE,
   MOCK_DECISION,
   MOCK_ENTITY_PROFILE,
   MOCK_LIFECYCLE_HIGHLIGHTS,
@@ -206,6 +213,112 @@ export function ArchitectureLabContent() {
             <li key={step}>{step}</li>
           ))}
         </ol>
+      </ProductSection>
+
+      <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/5 px-4 py-3 text-sm text-cyan-100">
+        {C1_ARCHITECTURE_LAB_REFERENCE.label} — route pattern {C1_ARCHITECTURE_LAB_REFERENCE.studioRoute}
+      </div>
+
+      <ProductPageHeader
+        eyebrow="Crow Core · C1"
+        title="Blueprint Studio (reference)"
+        description="Command Center layout: ten workspace tabs, version compare, ROI scenarios, 22-section SOW draft, and traceability drawer. Mock data only; no DB mutations."
+        statusChip={{ label: "C1 prototype", tone: "info" }}
+      />
+
+      <ProductSection
+        title="Blueprint Command Center"
+        description="Primary action bar + lifecycle status (presentation only)."
+      >
+        <div className="cc-glass-card !p-4 text-sm">
+          <p className="text-xs uppercase tracking-wider text-slate-500">
+            Lifecycle · {MOCK_C1_COMMAND_CENTER.lifecycleState}
+          </p>
+          <p className="mt-2 font-display text-2xl font-bold text-white">
+            {MOCK_C1_COMMAND_CENTER.readinessScore}% readiness
+          </p>
+          <p className="mt-1 text-xs text-slate-500">{MOCK_C1_COMMAND_CENTER.advisoryNote}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {MOCK_C1_COMMAND_CENTER.primaryActions.map((action) => (
+              <span
+                key={action}
+                className="rounded-full border border-slate-600/60 px-3 py-1 text-xs text-slate-300"
+              >
+                {action}
+              </span>
+            ))}
+          </div>
+        </div>
+      </ProductSection>
+
+      <ProductSection title="Version compare (mock)" description="Section-level diff with impact labels.">
+        <ul className="space-y-2">
+          {MOCK_C1_VERSION_COMPARE.sections.map((row) => (
+            <li key={row.sectionKey} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-700/50 px-3 py-2 text-sm">
+              <span className="text-slate-200">{row.sectionKey}</span>
+              <span className="text-xs uppercase tracking-wide text-amber-300/90">{row.impact}</span>
+              <span className="w-full text-xs text-slate-500">{row.summary}</span>
+            </li>
+          ))}
+        </ul>
+      </ProductSection>
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        <ProductSection title="ROI scenarios (mock)" description="Conservative / base / optimistic — deterministic formulas in C1 services.">
+          <ul className="space-y-2">
+            {MOCK_C1_ROI_SCENARIOS.map((s) => (
+              <li key={s.scenario} className="cc-glass-card !p-4 text-sm">
+                <p className="font-medium text-white">{s.scenario}</p>
+                <p className="text-slate-400">
+                  Net annual benefit {s.netAnnualBenefitSar.toLocaleString()} SAR · payback {s.paybackMonths} mo
+                </p>
+              </li>
+            ))}
+          </ul>
+        </ProductSection>
+
+        <ProductSection title="SOW workspace (22 sections)" description="Deterministic draft sections — advisory until approved.">
+          <p className="mb-2 text-xs text-slate-500">{MOCK_C1_SOW_SECTIONS.length} sections in C1 contract</p>
+          <ul className="max-h-48 space-y-1 overflow-y-auto text-sm text-slate-300">
+            {MOCK_C1_SOW_SECTIONS.map((key) => (
+              <li key={key} className="rounded border border-slate-800/60 px-2 py-1 font-mono text-xs">
+                {key}
+              </li>
+            ))}
+          </ul>
+        </ProductSection>
+      </div>
+
+      <ProductSection title="Traceability timeline (mock)" description="Actor attribution — AI entries labeled separately in production.">
+        <ul className="space-y-2">
+          {MOCK_C1_TRACEABILITY_TIMELINE.map((evt) => (
+            <li key={evt.stage} className="cc-glass-card !p-3 text-sm">
+              <p className="text-xs uppercase tracking-wider text-slate-500">{evt.stage}</p>
+              <p className="text-slate-200">{evt.summary}</p>
+              <p className="text-xs text-cyan-400/80">{evt.actor}</p>
+            </li>
+          ))}
+        </ul>
+      </ProductSection>
+
+      <ProductSection
+        title="SAREA role comparison (C1)"
+        description="Studio tab mapping per persona — SAREA never grants access."
+      >
+        <div className="grid gap-3 sm:grid-cols-3">
+          {MOCK_C1_SAREA_ROLE_COMPARISON.map((row) => (
+            <div key={row.role} className="cc-glass-card !p-4 text-sm">
+              <p className="font-semibold capitalize text-white">{row.role.replace(/_/g, " ")}</p>
+              <p className="text-slate-400">Tab: {row.studioTab}</p>
+              <p className="mt-1 text-xs text-slate-500">Density: {row.density}</p>
+              {!row.grantsAccess && (
+                <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-300/90">
+                  Does not grant access
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
       </ProductSection>
     </div>
   );

@@ -16,3 +16,5 @@ export * from "./ai";
 export * from "./resilience";
 export * from "./industries";
 export * from "./integrations";
+export * from "./blueprint-studio";
+export * from "./commercial-intelligence";

@@ -81,6 +81,8 @@ export const routes = {
     summary: `/discovery/${requestId}/summary`,
   }),
   blueprint: (blueprintId: string) => ({
+    studio: `/blueprints/${blueprintId}/studio`,
+    studioSection: (section: string) => `/blueprints/${blueprintId}/studio/${section}`,
     overview: `/blueprints/${blueprintId}/overview`,
     pricing: `/blueprints/${blueprintId}/pricing`,
     cem: `/blueprints/${blueprintId}/cem`,

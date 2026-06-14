@@ -153,3 +153,73 @@ export const MOCK_LIFECYCLE_HIGHLIGHTS: ReadonlyArray<{
   stage,
   label: stage.replace(/_/g, " "),
 }));
+
+/** C1 Blueprint Studio — mock reference only (extends C0 lab, not production). */
+export const C1_ARCHITECTURE_LAB_REFERENCE = {
+  isC1ReferencePrototype: true as const,
+  label: "C1 Blueprint Studio — mock command center patterns only",
+  studioRoute: "/blueprints/bp_mock_c1/studio",
+} as const;
+
+export const MOCK_C1_COMMAND_CENTER = {
+  primaryActions: ["Capture snapshot", "Open traceability", "Compare versions"],
+  lifecycleState: "INTERNAL_REVIEW",
+  readinessScore: 72,
+  advisoryNote: "Advisory completeness — not production readiness",
+} as const;
+
+export const MOCK_C1_VERSION_COMPARE = {
+  fromVersion: "bvs-mock-001",
+  toVersion: "bvs-mock-002",
+  sections: [
+    { sectionKey: "commercial", impact: "HIGH", summary: "Pricing assumptions updated" },
+    { sectionKey: "integration", impact: "MEDIUM", summary: "ERP connector count changed" },
+    { sectionKey: "security_trust", impact: "LOW", summary: "Control narrative refined" },
+  ],
+} as const;
+
+export const MOCK_C1_ROI_SCENARIOS = [
+  { scenario: "CONSERVATIVE", netAnnualBenefitSar: 142_000, paybackMonths: 28 },
+  { scenario: "BASE", netAnnualBenefitSar: 218_000, paybackMonths: 19 },
+  { scenario: "OPTIMISTIC", netAnnualBenefitSar: 305_000, paybackMonths: 14 },
+] as const;
+
+export const MOCK_C1_SOW_SECTIONS = [
+  "title_page",
+  "objective",
+  "scope",
+  "organization_coverage",
+  "departments",
+  "branches",
+  "account_volume",
+  "capabilities",
+  "workflows",
+  "integrations",
+  "security_controls",
+  "sarea_experiences",
+  "ai_capabilities",
+  "migration_responsibilities",
+  "implementation_phases",
+  "deliverables",
+  "responsibilities",
+  "exclusions",
+  "milestones",
+  "acceptance_criteria",
+  "support",
+  "change_control",
+  "pricing_and_payment",
+  "assumptions_and_dependencies",
+] as const;
+
+export const MOCK_C1_TRACEABILITY_TIMELINE = [
+  { stage: "discovery_evidence", actor: "ProCrow operator", summary: "Discovery profile linked" },
+  { stage: "blueprint_version", actor: "ProCrow operator", summary: "Snapshot captured (mock)" },
+  { stage: "commercial_impact", actor: "Commercial lead", summary: "ROI assumptions drafted" },
+  { stage: "approval", actor: "Client executive", summary: "Pending human approval" },
+] as const;
+
+export const MOCK_C1_SAREA_ROLE_COMPARISON = [
+  { role: "requester", studioTab: "Operations", density: "compact", grantsAccess: false },
+  { role: "procurement_manager", studioTab: "Commercial", density: "comfortable", grantsAccess: false },
+  { role: "security_auditor", studioTab: "Security & Trust", density: "dense", grantsAccess: false },
+] as const;

@@ -1,7 +1,9 @@
 # Project status
 
-**Last updated:** 14 Jun 2026 (C0 Crow Core foundation on `feat/c0-universal-operating-architecture` — isolated from M4D/PR #2; verification pending)  
+**Last updated:** 14 Jun 2026 (C1 Enterprise Blueprint Studio on `feat/c1-enterprise-blueprint-studio` stacked on C0; **CONDITIONAL PASS — MIGRATION APPROVAL REQUIRED**)  
 **Audience:** Internal delivery / engineering
+
+**C1 Blueprint Studio:** [`C1_ENTERPRISE_BLUEPRINT_STUDIO.md`](C1_ENTERPRISE_BLUEPRINT_STUDIO.md) · docs [`docs/architecture/crow-core/c1/`](../architecture/crow-core/c1/) · verifier `npm run enterprise-blueprint-studio:verify` · Studio `/blueprints/[id]/studio`
 
 **C0 Crow Core:** [`C0_UNIVERSAL_OPERATING_ARCHITECTURE_EXPERIENCE_FOUNDATION.md`](C0_UNIVERSAL_OPERATING_ARCHITECTURE_EXPERIENCE_FOUNDATION.md) · docs [`docs/architecture/crow-core/`](../architecture/crow-core/) · verifier `npm run crow-core-foundation:verify` · Architecture Lab `/admin/architecture-lab`
 
@@ -65,6 +67,8 @@ RC1 is **advisory-first** — no hard billing enforcement, no usage blocking, no
 | Launch deferred gate (F23) | [`F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md`](F23_PRODUCTION_LAUNCH_DEFERRED_GATE.md) |
 
 **Roadmap:** **Paused** at v0.30 portfolio baseline. **H1**, **I1**–**I11** complete on the client-portal track. **J1**–**J9** complete on the ProCrow arc. **L1**–**L3** product/ProCrow/client UX. **K1** tenant runtime demo · **K2** manual smoke · **K2.6** company profile completion. **L4** — client-led discovery foundation ([`L4_CLIENT_LED_DISCOVERY_BLUEPRINT_CONFIGURATION.md`](L4_CLIENT_LED_DISCOVERY_BLUEPRINT_CONFIGURATION.md)). **L5** — access gateway ([`L5_ACCESS_GATEWAY_PORTAL_ROLE_MODEL.md`](L5_ACCESS_GATEWAY_PORTAL_ROLE_MODEL.md)). **L6** — ProCrow discovery review ([`L6_DISCOVERY_TO_BLUEPRINT_PROCROW_REVIEW.md`](L6_DISCOVERY_TO_BLUEPRINT_PROCROW_REVIEW.md)). **L7** — pricing package templates ([`L7_STARTUP_GROWTH_ENTERPRISE_PRICING_PACKAGES.md`](L7_STARTUP_GROWTH_ENTERPRISE_PRICING_PACKAGES.md)). **M1** — CyberCrow identity/GRC tenant readiness ([`M1_CYBERCROW_IDENTITY_GRC_TENANT_READINESS.md`](M1_CYBERCROW_IDENTITY_GRC_TENANT_READINESS.md)). **M2** — SAREA blueprint-to-experience mapping ([`M2_SAREA_BLUEPRINT_TO_EXPERIENCE_MAPPING.md`](M2_SAREA_BLUEPRINT_TO_EXPERIENCE_MAPPING.md)). **M2.0** — Vercel build OOM optimization ([`M2_0_VERCEL_BUILD_OOM_OPTIMIZATION.md`](M2_0_VERCEL_BUILD_OOM_OPTIMIZATION.md)). **M3** — CEM runtime handoff & Business Portal operational readiness ([`M3_CEM_RUNTIME_HANDOFF_BUSINESS_PORTAL_OPERATIONAL_READINESS.md`](M3_CEM_RUNTIME_HANDOFF_BUSINESS_PORTAL_OPERATIONAL_READINESS.md)). **M3.1** — CEM core operating model integration ([`M3_1_CEM_CORE_OPERATING_MODEL_INTEGRATION.md`](M3_1_CEM_CORE_OPERATING_MODEL_INTEGRATION.md)). **M3.2** — CEM module depth pass ([`M3_2_CEM_MODULE_DEPTH_PASS.md`](M3_2_CEM_MODULE_DEPTH_PASS.md)). **M4** — Tenant membership & Business Portal access hardening ([`M4_TENANT_MEMBERSHIP_BUSINESS_PORTAL_ACCESS_HARDENING.md`](M4_TENANT_MEMBERSHIP_BUSINESS_PORTAL_ACCESS_HARDENING.md)). **C0 (parallel, feature branch):** Universal Operating Architecture & Experience Foundation — docs (15), `src/lib/crow-core/` contracts, Architecture Lab prototype, `crow-core-foundation:verify`. **No migrations, no M4D merge, no PR #2 changes.**
+
+**C1 (stacked on C0):** Enterprise Blueprint Studio — Path A adapter + in-memory version/ROI/SOW prototype, Studio Command Center (10 tabs), Architecture Lab C1 mocks, `enterprise-blueprint-studio:verify`. **Gate: CONDITIONAL PASS — Path C migration approval required before production persistence.**
 
 **Resume primary:** **M4D email delivery** · operator production UI confirm (R2 follow-up) · **M3.6 purchase-to-stock UX refinement** · M3.5 screenshot pack (operator). **No paid infra** in the default path.
 

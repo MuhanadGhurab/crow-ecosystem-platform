@@ -31,6 +31,7 @@ export default async function BlueprintLayout({
 
   const b = routes.blueprint(blueprintId);
   const navItems = [
+    { href: b.studio, label: "Studio" },
     { href: b.overview, label: "Overview" },
     { href: b.pricing, label: "Pricing" },
     { href: b.cem, label: "CEM" },

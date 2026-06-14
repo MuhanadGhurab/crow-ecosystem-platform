@@ -61,6 +61,7 @@ export type RoiModel = {
 };
 
 export const SOW_SECTION_KEYS = [
+  "title_page",
   "objective",
   "scope",
   "organization_coverage",
@@ -82,9 +83,41 @@ export const SOW_SECTION_KEYS = [
   "acceptance_criteria",
   "support",
   "change_control",
+  "pricing_and_payment",
+  "assumptions_and_dependencies",
 ] as const;
 
 export type SowSectionKey = (typeof SOW_SECTION_KEYS)[number];
+
+export type RoiScenario = "CONSERVATIVE" | "BASE" | "OPTIMISTIC";
+
+export type RoiConfidence = "LOW" | "MEDIUM" | "HIGH";
+
+export type RoiEvidenceSource = {
+  id: string;
+  label: string;
+  sourceType: "discovery" | "assumption" | "blueprint" | "manual";
+  referenceId?: string;
+};
+
+export type RoiCalculation = {
+  scenario: RoiScenario;
+  annualBenefitSar: number;
+  annualCostSar: number;
+  netAnnualBenefitSar: number;
+  paybackMonths: number | null;
+  threeYearRoiPercent: number | null;
+  assumptionIds: string[];
+  formulaInputs: Record<string, number>;
+};
+
+export type RoiResult = {
+  model: RoiModel;
+  calculations: RoiCalculation[];
+  confidence: RoiConfidence;
+  evidenceSources: RoiEvidenceSource[];
+  advisoryFooter: string;
+};
 
 export type SowSection = {
   key: SowSectionKey;

@@ -43,10 +43,10 @@ export default async function AdminBlueprintsPage() {
               status={b.request.status as ImplementationRequestStatus}
             />
             <Link
-              href={routes.blueprint(b.id).overview}
+              href={routes.blueprint(b.id).studio}
               className="cc-btn-secondary !px-3 !py-1.5 text-sm"
             >
-              Open →
+              Open studio →
             </Link>
           </div>
         </ListCard>
