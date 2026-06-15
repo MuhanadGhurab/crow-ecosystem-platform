@@ -4,6 +4,7 @@ import { isStripeConfigured } from "@/lib/billing/env";
 import { isStripePackageInstalled } from "@/lib/billing/stripe-client";
 import { isUseMockData } from "@/lib/mock/env";
 import { isAuthDisabled, isSupabaseAuthConfigured } from "@/lib/supabase/env";
+import { collectDatabaseEnvironmentWarnings } from "@/lib/crow-core/database-environment";
 
 export async function GET() {
   let db: "ok" | "unreachable" | "not_configured" = "not_configured";
@@ -47,6 +48,7 @@ export async function GET() {
     Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim());
 
   const ok = db === "ok" && !productionBlocked;
+  const databaseEnvironmentWarnings = collectDatabaseEnvironmentWarnings();
 
   // RC1 SEC-005: full detail for staging/dev smoke; reduced surface in production.
   const verboseHealth =
@@ -72,5 +74,7 @@ export async function GET() {
     billingReady,
     migrationsApplied,
     productionBlocked: productionBlocked || undefined,
+    databaseEnvironmentWarnings:
+      databaseEnvironmentWarnings.length > 0 ? databaseEnvironmentWarnings : undefined,
   });
 }

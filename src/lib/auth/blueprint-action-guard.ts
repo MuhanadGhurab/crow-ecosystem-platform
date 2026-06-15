@@ -1,6 +1,7 @@
 import { BlueprintAction, type BlueprintActionKey } from "@/lib/auth/blueprint-actions";
 import { Permission } from "@/lib/auth/permissions";
 import { requirePermission, requirePlatformStaff } from "@/lib/auth/session";
+import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 import { BlueprintAuthorizationError } from "@/lib/crow-core/blueprint-runtime/blueprint-errors";
 
 const READ_ACTIONS = new Set<BlueprintActionKey>([
@@ -57,6 +58,10 @@ export async function requireBlueprintAction(
   context?: { crowRole?: string | null; authorUserId?: string; approverUserId?: string }
 ) {
   await requirePlatformStaff();
+
+  if (!READ_ACTIONS.has(action)) {
+    await assertC2DatabaseEnvironmentSafe();
+  }
 
   if (READ_ACTIONS.has(action)) {
     if (action === BlueprintAction["blueprint.read.client"]) {

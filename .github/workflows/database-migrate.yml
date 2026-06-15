@@ -1,0 +1,78 @@
+name: Database controlled migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target database environment
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+      confirmation_phrase:
+        description: Exact confirmation phrase (see C2_2_CONTROLLED_MIGRATION_DELIVERY.md)
+        required: true
+        type: string
+      check_only:
+        description: Run migrate status only (no deploy)
+        required: false
+        type: boolean
+        default: true
+      expected_migration_name:
+        description: Optional migration folder name to assert in status output
+        required: false
+        type: string
+
+concurrency:
+  group: database-migrate-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Controlled migration (check-only)
+        if: inputs.check_only == true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+        run: |
+          ARGS=(--environment "${{ inputs.environment }}" --check-only)
+          if [ -n "${{ inputs.expected_migration_name }}" ]; then
+            ARGS+=(--expected-migration "${{ inputs.expected_migration_name }}")
+          fi
+          npm run db:migrate:controlled -- "${ARGS[@]}"
+
+      - name: Controlled migration (apply)
+        if: inputs.check_only != true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+          ALLOW_DATABASE_MIGRATION: "true"
+        run: |
+          ARGS=(--environment "${{ inputs.environment }}" --confirm "${{ inputs.confirmation_phrase }}")
+          if [ -n "${{ inputs.expected_migration_name }}" ]; then
+            ARGS+=(--expected-migration "${{ inputs.expected_migration_name }}")
+          fi
+          npm run db:migrate:controlled -- "${ARGS[@]}"

@@ -16,7 +16,6 @@ if (simDirect) process.env.DIRECT_URL = simDirect;
 const steps = [
   ["Vercel build guard", "node", ["scripts/vercel-build-guard.mjs"]],
   ["prisma generate", "npm", ["run", "db:generate"]],
-  ["prisma migrate deploy", "npm", ["run", "db:migrate:deploy"]],
   ["next build", "npm", ["run", "build"]],
 ];
 

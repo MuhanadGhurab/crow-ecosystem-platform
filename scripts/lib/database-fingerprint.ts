@@ -65,3 +65,10 @@ export function maskId(id: string): string {
   if (id.length <= 8) return "***";
   return `${id.slice(0, 4)}…${id.slice(-4)}`;
 }
+
+/** Operator-safe one-line target summary (no credentials). */
+export function maskDatabaseTarget(url: string): string {
+  const fp = fingerprintDatabaseUrl(url);
+  const ref = fp.supabaseProjectRef ? ` ref=${maskId(fp.supabaseProjectRef)}` : "";
+  return `${fp.provider} host=${fp.maskedHost} db=${fp.maskedDatabase} schema=${fp.schema} port=${fp.port}${ref} hash=${fp.targetHash}`;
+}

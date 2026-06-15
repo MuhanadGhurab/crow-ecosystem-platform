@@ -44,6 +44,7 @@ credentials.json
 
 # C2.1 read-only Preview audit evidence (masked; local only)
 docs/architecture/crow-core/c2/.c21-preview-audit-evidence.json
+docs/architecture/crow-core/c2/.c22-legacy-blueprint-ownership.local.json
 
 # TypeScript incremental build cache (local only)
 tsconfig.tsbuildinfo
