@@ -28,7 +28,7 @@
 
 | State | Meaning |
 |-------|---------|
-| `LEGACY_IMPORTED` | Successfully imported snapshot |
+| `LEGACY_IMPORT` | Successfully imported snapshot |
 | `UNAPPROVED_LEGACY` | Legacy status was draft/review but never approved in new model |
 | `PROVENANCE_COMPLETE` | Author, timestamps, links all resolved |
 | `PROVENANCE_PARTIAL` | Snapshot valid but missing author or discovery link |

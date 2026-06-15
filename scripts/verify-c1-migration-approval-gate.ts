@@ -114,7 +114,7 @@ function main(): boolean {
     ["client-safe", "Client-safe projection"],
     ["SHA-256", "Content hashing (SHA-256)"],
     ["AI cannot approve", "AI cannot approve"],
-    ["LEGACY_IMPORTED", "Backfill provenance (no invented approvals)"],
+    ["LEGACY_IMPORT", "Backfill provenance (no invented approvals)"],
     ["optimistic", "Concurrency strategy"],
     ["rollback", "Rollback strategy"],
   ];
@@ -138,7 +138,7 @@ function main(): boolean {
     "C1_1_THREAT_MODEL.md must address IDOR"
   );
   check(
-    backfill.includes("LEGACY_IMPORTED") || backfill.includes("provenance"),
+    backfill.includes("LEGACY_IMPORT") || backfill.includes("provenance"),
     "Backfill plan defines provenance",
     "Backfill plan must not invent approvals"
   );

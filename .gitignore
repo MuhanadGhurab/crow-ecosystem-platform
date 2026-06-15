@@ -42,6 +42,9 @@ credentials.json
 .vercel/
 .env.vercel.local
 
+# C2.1 read-only Preview audit evidence (masked; local only)
+docs/architecture/crow-core/c2/.c21-preview-audit-evidence.json
+
 # TypeScript incremental build cache (local only)
 tsconfig.tsbuildinfo
 

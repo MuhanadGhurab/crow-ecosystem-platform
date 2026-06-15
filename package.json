@@ -140,6 +140,8 @@
     "crow-core-foundation:verify": "npx tsx scripts/verify-crow-core-foundation.ts",
     "c1-migration-gate:verify": "npx tsx scripts/verify-c1-migration-approval-gate.ts",
     "c2-blueprint-runtime:verify": "npx tsx scripts/verify-c2-blueprint-persistence-runtime.ts",
+    "c2-preview-readiness:verify": "npx tsx scripts/verify-c2-preview-migration-readiness.ts",
+    "c2-preview-readiness:audit": "npx tsx scripts/audit-preview-database-readonly.ts",
     "blueprint-persistence:backfill": "npx tsx scripts/backfill-blueprint-persistence.ts",
     "enterprise-blueprint-studio:verify": "npx tsx scripts/verify-enterprise-blueprint-studio.ts",
     "test:blueprint-studio": "npx tsx src/lib/crow-core/blueprint-studio/blueprint-version.service.test.ts && npx tsx src/lib/crow-core/blueprint-studio/blueprint-diff.service.test.ts && npx tsx src/lib/crow-core/blueprint-studio/blueprint-hash.service.test.ts && npx tsx src/lib/crow-core/commercial-intelligence/roi-calculator.test.ts && npx tsx src/lib/crow-core/commercial-intelligence/sow-generator.test.ts && npx tsx src/lib/crow-core/blueprint-runtime/snapshot-hash.test.ts && npx tsx src/lib/crow-core/blueprint-runtime/snapshot-validation.test.ts && npx tsx src/lib/crow-core/blueprint-runtime/blueprint-projection.service.test.ts",

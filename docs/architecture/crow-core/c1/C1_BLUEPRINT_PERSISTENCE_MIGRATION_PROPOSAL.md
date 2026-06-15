@@ -212,7 +212,7 @@ Detail: [`C1_1_BACKFILL_AND_ROLLOUT_PLAN.md`](C1_1_BACKFILL_AND_ROLLOUT_PLAN.md)
 
 | Provenance state | Meaning |
 |------------------|---------|
-| `LEGACY_IMPORTED` | Migrated from Path A |
+| `LEGACY_IMPORT` | Migrated from Path A |
 | `UNAPPROVED_LEGACY` | No approval evidence |
 | `PROVENANCE_COMPLETE` | Author + timestamps known |
 | `PROVENANCE_PARTIAL` | Partial metadata |

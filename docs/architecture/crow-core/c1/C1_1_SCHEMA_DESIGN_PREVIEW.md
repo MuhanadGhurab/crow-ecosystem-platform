@@ -69,7 +69,7 @@ EnterpriseBlueprint (identity, existing table extended)
 | createdAt / updatedAt | DateTime | | |
 | submittedAt | DateTime? | | |
 | approvedAt | DateTime? | | |
-| provenance | Enum | | LEGACY_IMPORTED, etc. |
+| provenance | Enum | | LEGACY_IMPORT, etc. |
 | legacyImportBatchId | String? | | |
 
 **Unique:** `@@unique([blueprintId, versionNumber])`  
