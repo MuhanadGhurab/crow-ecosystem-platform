@@ -76,33 +76,36 @@ function main() {
   const login = fileText("src/app/login/page.tsx");
   const signup = fileText("src/app/signup/page.tsx");
   check(
-    login.includes("resolvePostAuthLanding") && login.includes("existingUser"),
-    "Login redirects signed-in users",
-    "Login page must redirect existing session"
+    login.includes("resolveC3PostAuthLanding") && login.includes("existingUser"),
+    "Login redirects signed-in users via C3-aware landing",
+    "Login page must redirect existing session with resolveC3PostAuthLanding"
   );
   check(
-    signup.includes("resolvePostAuthLanding") && signup.includes("existingUser"),
-    "Signup redirects signed-in users",
-    "Signup page must redirect existing session"
+    signup.includes("resolveC3PostAuthLanding") && signup.includes("existingUser"),
+    "Signup redirects signed-in users via C3-aware landing",
+    "Signup page must redirect existing session with resolveC3PostAuthLanding"
   );
 
   const authActions = fileText("src/lib/actions/auth.ts");
   check(
-    authActions.includes("refreshSessionUser") && authActions.includes("resolvePostAuthLanding"),
+    authActions.includes("refreshSessionUser") &&
+      (authActions.includes("resolveC3PostAuthLanding") ||
+        authActions.includes("resolvePostAuthLanding")),
     "Sign-in refreshes session and uses post-auth landing",
     "auth.ts must refresh session before landing"
   );
   check(
-    authActions.includes("assignDefaultClientRoleOnSignUp"),
-    "Sign-in may assign client role when missing",
-    "finalizeAuthUser must attempt client role assignment"
+    authActions.includes("assignDefaultClientRoleOnSignUp") ||
+      authActions.includes("resolveC3PostAuthLanding"),
+    "Sign-in handles client role or C3 requester landing",
+    "finalizeAuthUser must support legacy client role or C3 landing"
   );
 
   const callback = fileText("src/app/auth/callback/route.ts");
   check(
-    callback.includes("resolvePostAuthLanding") && callback.includes("refreshSessionUser"),
-    "OAuth callback uses landing + session refresh",
-    "callback route must refresh session after role assign"
+    callback.includes("resolveC3PostAuthLanding") && callback.includes("refreshSessionUser"),
+    "OAuth callback uses C3 landing + session refresh",
+    "callback route must use resolveC3PostAuthLanding after C3 gate"
   );
 
   const requestPage = fileText("src/app/(public)/request/page.tsx");
