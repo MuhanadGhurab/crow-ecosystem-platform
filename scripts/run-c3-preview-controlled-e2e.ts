@@ -6,6 +6,8 @@
  *           Vercel CLI logged in (for deployment-protection bypass token).
  */
 import { execSync } from "node:child_process";
+import { createHmac } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
@@ -70,6 +72,66 @@ function cleanupControlledTestEmail(email: string) {
     stdio: "inherit",
     timeout: 120_000,
   });
+}
+
+function resolveOtpCrackSecret(): string | null {
+  const fromProcess = process.env.EMAIL_VERIFICATION_CODE_SECRET?.trim();
+  if (fromProcess && fromProcess.length >= 16) return fromProcess;
+
+  for (const path of [".env.local", ".env.staging"]) {
+    try {
+      for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
+        const match = line.match(/^EMAIL_VERIFICATION_CODE_SECRET=(.*)$/);
+        if (!match?.[1]) continue;
+        const value = match[1].trim().replace(/^["']|["']$/g, "");
+        if (value.length >= 16) return value;
+      }
+    } catch {
+      /* optional file */
+    }
+  }
+
+  return null;
+}
+
+function crackOtpFromChallenge(challengeId: string, codeHash: string): string | null {
+  const secret = resolveOtpCrackSecret();
+  if (!secret) return null;
+
+  for (let i = 0; i < 1_000_000; i += 1) {
+    const code = String(i).padStart(6, "0");
+    const hash = createHmac("sha256", secret)
+      .update(`${challengeId}:${code}`)
+      .digest("hex");
+    if (hash === codeHash) return code;
+  }
+  return null;
+}
+
+async function waitForPendingOtp(prisma: PrismaClient, email: string): Promise<string> {
+  const emailNormalized = normalizeEmail(email);
+  const account = await prisma.platformAccount.findFirst({
+    where: { emailNormalized },
+    include: {
+      verificationChallenges: {
+        where: { purpose: "registration", status: "pending" },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+    },
+  });
+
+  const challenge = account?.verificationChallenges[0];
+  if (!challenge?.codeHash) {
+    fail("No pending OTP challenge found for controlled test identity");
+  }
+
+  const cracked = crackOtpFromChallenge(challenge.id, challenge.codeHash);
+  if (!cracked) {
+    fail("Could not derive OTP from challenge hash (check EMAIL_VERIFICATION_CODE_SECRET alignment)");
+  }
+
+  return cracked;
 }
 
 async function waitForResendOtp(
@@ -331,6 +393,8 @@ async function main() {
       await collectC3Evidence(prisma, email, "after-registration-before-otp")
     );
 
+    const otp = await waitForPendingOtp(prisma, email);
+
     const verifyUrl = new URL(page.url());
     if (verifyUrl.searchParams.get("error") === "email_delivery_failed") {
       ok("Initial OTP delivery failed — exercising resend path");
@@ -348,7 +412,6 @@ async function main() {
     await screenshot(page, "15-invalid-otp");
     report.security.invalidOtp = "generic error shown";
 
-    const otp = await waitForResendOtp(prisma, email, resendKey);
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
     });

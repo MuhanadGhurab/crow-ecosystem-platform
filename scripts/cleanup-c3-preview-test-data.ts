@@ -72,7 +72,11 @@ async function main() {
     where: { submittedByUserId: account.supabaseUserId },
   });
 
-  await prisma.legalAcceptance.deleteMany({
+  await prisma.accountLegalAcceptance.deleteMany({
+    where: { platformAccountId: account.id },
+  });
+
+  await prisma.accountConsentPreference.deleteMany({
     where: { platformAccountId: account.id },
   });
 

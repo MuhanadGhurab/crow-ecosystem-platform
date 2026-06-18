@@ -67,11 +67,11 @@ export async function collectC3Evidence(
   }
 
   const mandatoryLegalAcceptanceCount = account
-    ? await prisma.legalAcceptance.count({
+    ? await prisma.accountLegalAcceptance.count({
         where: {
           platformAccountId: account.id,
           legalDocumentVersion: {
-            legalDocument: { mandatoryClassification: "mandatory_contractual" },
+            mandatoryClassification: "mandatory_contractual",
           },
         },
       })
@@ -79,7 +79,7 @@ export async function collectC3Evidence(
 
   const tenantMembershipCount = account
     ? await prisma.tenantMembership.count({
-        where: { userId: account.supabaseUserId },
+        where: { supabaseUserId: account.supabaseUserId },
       })
     : 0;
 
