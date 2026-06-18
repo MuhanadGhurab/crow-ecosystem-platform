@@ -299,11 +299,11 @@ async function main() {
     if (await legalConfirm.isVisible()) await legalConfirm.fill(password);
     const submitLegal = page.getByRole("button", { name: /continue to email verification/i });
     await submitLegal.waitFor({ state: "visible", timeout: 15_000 });
-    await submitLegal.click({ timeout: 120_000 });
-    const navigated = await page
-      .waitForURL(/\/verify-email/, { timeout: 120_000 })
-      .then(() => true)
-      .catch(() => false);
+    await Promise.all([
+      page.waitForURL(/\/verify-email/, { timeout: 120_000 }),
+      submitLegal.click(),
+    ]);
+    const navigated = page.url().includes("/verify-email");
     if (!navigated) {
       const alerts = await page.locator('[role="alert"]').allTextContents();
       await screenshot(page, "07b-legal-submit-failure");

@@ -358,10 +358,17 @@ async function completeRegistrationWithLegalAcceptanceInternal(
     if (!issued.ok) {
       if (issued.reason === "delivery_failed") {
         markStage(ctx, "OTP_DELIVERY_FAILED", "failed", issued.reason);
+        const params = new URLSearchParams({ email: account.email });
+        if (next) params.set("next", next);
+        params.set("error", "email_delivery_failed");
+        params.set("ref", ctx.supportRef);
+        params.set(
+          "message",
+          userMessageForRegistrationError("email_delivery_failed", ctx.supportRef)
+        );
+        markStage(ctx, "REGISTRATION_REDIRECT_ISSUED", "ok");
         return {
-          errorCode: "email_delivery_failed",
-          supportRef: ctx.supportRef,
-          error: userMessageForRegistrationError("email_delivery_failed", ctx.supportRef),
+          redirectPath: `${routes.account.verifyEmail}?${params.toString()}`,
         };
       }
     } else {
