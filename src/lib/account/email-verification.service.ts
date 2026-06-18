@@ -14,6 +14,8 @@ import {
 } from "@/lib/account/supabase-email-confirmation.service";
 import { getEmailDeliveryPort } from "@/lib/email/get-email-delivery-port";
 import { buildCrowVerificationEmail } from "@/lib/email/templates/crow-verification-email";
+import { resolveHostedEmailProviderConfig } from "@/lib/email/email-provider-config";
+import { isC3RegistrationDiagnosticsEnabled } from "@/lib/account/c3-registration-diagnostics";
 import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 
 const OTP_TTL_MS = 15 * 60 * 1000;
@@ -83,6 +85,23 @@ export async function issueEmailVerificationCode(input: {
   });
 
   const emailContent = buildCrowVerificationEmail({ code, expiresMinutes: 15 });
+
+  if (isC3RegistrationDiagnosticsEnabled()) {
+    const hostedConfig = resolveHostedEmailProviderConfig();
+    const fromDomain = hostedConfig?.fromAddress.match(/@([\w.-]+)/)?.[1] ?? "missing";
+    console.info(
+      "[c3-registration]",
+      JSON.stringify({
+        c3_registration: true,
+        stage: "OTP_DELIVERY_CONFIG",
+        outcome: hostedConfig ? "ok" : "failed",
+        keyConfigured: Boolean(hostedConfig?.apiKey),
+        keyLength: hostedConfig?.apiKey.length ?? 0,
+        fromDomainSuffix: fromDomain,
+      })
+    );
+  }
+
   const delivery = await getEmailDeliveryPort().send({
     to: input.email.trim(),
     subject: emailContent.subject,

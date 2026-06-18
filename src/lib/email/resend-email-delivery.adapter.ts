@@ -101,6 +101,20 @@ export class ResendEmailDeliveryAdapter implements EmailDeliveryPort {
           redactEmailAddress(recipient)
         );
       }
+      if (
+        process.env.C3_REGISTRATION_DIAGNOSTICS === "true" &&
+        process.env.VERCEL_ENV === "preview"
+      ) {
+        console.error(
+          "[c3-registration]",
+          JSON.stringify({
+            c3_registration: true,
+            stage: "OTP_DELIVERY_FAILED",
+            errorClass: summarizeDeliveryError(err),
+            transport: true,
+          })
+        );
+      }
       return {
         channel: "resend",
         status: "failed",
