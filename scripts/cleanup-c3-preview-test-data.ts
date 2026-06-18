@@ -6,6 +6,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
+import { findRequestIdsByContactEmail } from "../src/lib/services/client-request-link.service";
 
 async function findSupabaseUserIdByEmail(emailNormalized: string): Promise<string | null> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
@@ -49,6 +50,14 @@ async function main() {
   });
 
   if (!account) {
+    const requestIdsByContact = await findRequestIdsByContactEmail(email);
+    if (requestIdsByContact.length > 0) {
+      const removed = await prisma.implementationRequest.deleteMany({
+        where: { id: { in: requestIdsByContact } },
+      });
+      console.log(`Removed ERP requests by contact email: ${removed.count}`);
+    }
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
     const orphanId = await findSupabaseUserIdByEmail(emailNormalized);
@@ -68,8 +77,14 @@ async function main() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
+  const requestIdsByContact = await findRequestIdsByContactEmail(email);
   const erpDeleted = await prisma.implementationRequest.deleteMany({
-    where: { submittedByUserId: account.supabaseUserId },
+    where: {
+      OR: [
+        { submittedByUserId: account.supabaseUserId },
+        ...(requestIdsByContact.length > 0 ? [{ id: { in: requestIdsByContact } }] : []),
+      ],
+    },
   });
 
   await prisma.accountLegalAcceptance.deleteMany({

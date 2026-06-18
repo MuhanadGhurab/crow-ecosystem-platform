@@ -63,7 +63,7 @@ function accountLegalReacceptPath(): string {
 /** Link prior intake requests by email only — never auto-assign client role on activation. */
 export async function runDeferredClientOnboarding(user: User): Promise<void> {
   try {
-    await linkRequestsForUser(user);
+    await linkRequestsForUser(user, { grantClientRole: false });
   } catch {
     /* DB optional */
   }

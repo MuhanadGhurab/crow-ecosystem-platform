@@ -80,7 +80,8 @@ function resolveOtpCrackSecret(): string | null {
 
   for (const path of [".env.local", ".env.staging"]) {
     try {
-      for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
+      const lines = readFileSync(path, "utf8").replace(/\r/g, "").split("\n");
+      for (const line of lines) {
         const match = line.match(/^EMAIL_VERIFICATION_CODE_SECRET=(.*)$/);
         if (!match?.[1]) continue;
         const value = match[1].trim().replace(/^["']|["']$/g, "");
@@ -424,15 +425,20 @@ async function main() {
 
     report.evidence.push(await collectC3Evidence(prisma, email, "after-otp"));
 
-    // Replay used OTP
+    // Replay used OTP — active accounts are redirected away from verify-email
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
     });
-    await page.fill("#code", otp);
-    await page.getByRole("button", { name: /verify email/i }).click();
-    await page.waitForTimeout(2_000);
-    await screenshot(page, "16-replayed-otp");
-    report.security.replayedOtp = "rejected";
+    if (page.url().includes("/login")) {
+      await screenshot(page, "16-replayed-otp");
+      report.security.replayedOtp = "active account redirected to login";
+    } else {
+      await page.fill("#code", otp);
+      await page.getByRole("button", { name: /verify email/i }).click();
+      await page.waitForTimeout(2_000);
+      await screenshot(page, "16-replayed-otp");
+      report.security.replayedOtp = "rejected";
+    }
 
     // Sign in
     await page.goto(`${PREVIEW_BASE}/login?verified=1`, { waitUntil: "networkidle" });

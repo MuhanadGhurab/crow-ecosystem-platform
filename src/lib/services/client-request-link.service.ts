@@ -42,8 +42,16 @@ export async function countRequestsForEmail(email: string): Promise<number> {
   return ids.length;
 }
 
+type LinkRequestsOptions = {
+  /** When false, only associate request ids — do not grant crow_role (C3 activation path). */
+  grantClientRole?: boolean;
+};
+
 /** Link matching requests to the Supabase user and optionally grant client role. */
-export async function linkRequestsForUser(user: User): Promise<string[]> {
+export async function linkRequestsForUser(
+  user: User,
+  options?: LinkRequestsOptions
+): Promise<string[]> {
   const email = user.email;
   if (!email) return [];
 
@@ -60,7 +68,8 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
   }
 
   const meta = (user.app_metadata ?? {}) as CrowAppMetadata;
-  if (!meta.crow_role) {
+  const grantClientRole = options?.grantClientRole !== false;
+  if (grantClientRole && !meta.crow_role) {
     await ensureClientRole(user.id, requestIds);
   } else if (meta.crow_role === "client") {
     await syncLinkedRequestIds(user.id, requestIds);
