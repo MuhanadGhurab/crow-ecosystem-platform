@@ -11,6 +11,7 @@ import { readFileSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
+import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
 import { chromium, devices, type BrowserContext, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
 import { collectC3Evidence } from "./lib/c3-preview-e2e-evidence";
@@ -37,6 +38,55 @@ function fail(msg: string): never {
 
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+function supabaseAuthCookieName(): string {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  const match = url.match(/https?:\/\/([^.]+)\./);
+  return `sb-${match?.[1] ?? "project"}-auth-token`;
+}
+
+/** Browser HTTP sign-in may not persist SSR cookies on Preview; bootstrap session for account sub-routes. */
+async function ensurePlaywrightAuthSession(
+  context: BrowserContext,
+  baseUrl: string,
+  email: string,
+  password: string
+) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (!supabaseUrl || !anonKey) {
+    fail("NEXT_PUBLIC_SUPABASE_URL and publishable key required for session bootstrap");
+  }
+
+  const client = createSupabaseJsClient(supabaseUrl, anonKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
+  if (error || !data.session) {
+    fail(`Session bootstrap failed: ${error?.message ?? "no session"}`);
+  }
+
+  const hostname = new URL(baseUrl).hostname;
+  await context.addCookies([
+    {
+      name: supabaseAuthCookieName(),
+      value: JSON.stringify({
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
+        expires_at: data.session.expires_at,
+        expires_in: data.session.expires_in,
+        token_type: data.session.token_type,
+        user: data.user,
+      }),
+      domain: hostname,
+      path: "/",
+      secure: true,
+      sameSite: "Lax",
+    },
+  ]);
 }
 
 function getVercelBypassToken(baseUrl: string): string {
@@ -446,20 +496,21 @@ async function main() {
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL((url) => url.pathname === "/account" || url.pathname.endsWith("/account"), {
-        timeout: 90_000,
-      }),
+      page.waitForURL((url) => url.pathname === "/account", { timeout: 90_000 }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
+    if (page.url().includes("/login")) {
+      fail(`HTTP sign-in did not reach /account (url=${page.url()})`);
+    }
 
     report.evidence.push(await collectC3Evidence(prisma, email, "after-sign-in-pre-intake"));
 
     await screenshot(page, "11-account-desktop");
 
-    await page.reload({ waitUntil: "networkidle", timeout: 60_000 });
+    await ensurePlaywrightAuthSession(context, PREVIEW_BASE, email, password);
+    await page.goto(`${PREVIEW_BASE}/account`, { waitUntil: "networkidle", timeout: 60_000 });
     if (page.url().includes("/login")) {
-      const names = (await context.cookies()).map((c) => c.name).join(", ");
-      fail(`Session lost after reload at /account (cookies=${names || "none"})`);
+      fail(`Session bootstrap failed — still redirected to login (${page.url()})`);
     }
 
     await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle", timeout: 60_000 });
