@@ -1,12 +1,10 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
 
-type PendingCookie = { name: string; value: string; options: CookieOptions };
-
 /** Supabase client for Route Handlers — persists auth cookies on the outgoing response. */
 export function createSupabaseRouteHandlerClient(request: NextRequest) {
-  const pendingCookies: PendingCookie[] = [];
+  let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
     cookies: {
@@ -14,17 +12,22 @@ export function createSupabaseRouteHandlerClient(request: NextRequest) {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach((cookie) => pendingCookies.push(cookie));
+        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        supabaseResponse = NextResponse.next({ request });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options)
+        );
       },
     },
   });
 
-  function applyCookiesToResponse(response: NextResponse): NextResponse {
-    pendingCookies.forEach(({ name, value, options }) => {
-      response.cookies.set(name, value, options);
-    });
-    return response;
+  function redirectWithSession(path: string): NextResponse {
+    const redirect = NextResponse.redirect(new URL(path, request.url), 303);
+    for (const cookieHeader of supabaseResponse.headers.getSetCookie()) {
+      redirect.headers.append("set-cookie", cookieHeader);
+    }
+    return redirect;
   }
 
-  return { supabase, applyCookiesToResponse };
+  return { supabase, redirectWithSession };
 }
