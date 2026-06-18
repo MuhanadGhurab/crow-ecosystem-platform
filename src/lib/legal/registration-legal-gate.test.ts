@@ -37,6 +37,15 @@ assert(
   "plain registration form action"
 );
 assert(
+  accountLegal.includes("resolveRegistrationLegalSubmissionUrl"),
+  "shared legal submit resolver"
+);
+const gate = readFileSync(
+  join(process.cwd(), "src/components/account/legal-review-gate.tsx"),
+  "utf8"
+);
+assert(gate.includes('action="/register/legal/submit"'), "legal form posts to submit route");
+assert(
   accountLegal.includes("assertC2DatabaseEnvironmentSafe"),
   "legal registration uses C2 guard"
 );

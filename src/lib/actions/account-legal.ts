@@ -405,8 +405,8 @@ async function completeRegistrationWithLegalAcceptanceInternal(
   return { redirectPath: buildVerifyEmailRedirect(account!.email, next) };
 }
 
-/** Plain form action — server redirect; progressive enhancement safe. */
-export async function submitRegistrationLegalFormAction(formData: FormData): Promise<void> {
+/** Resolve post-submit redirect path for legal registration (route handler + server action). */
+export async function resolveRegistrationLegalSubmissionUrl(formData: FormData): Promise<string> {
   const correlationId = createRegistrationCorrelationId();
   const supportRef = formatSupportReference(correlationId);
   const ctx: RegistrationContext = {
@@ -423,16 +423,20 @@ export async function submitRegistrationLegalFormAction(formData: FormData): Pro
     const code = classifyRegistrationFailure(
       err instanceof Error ? err.message : "registration_failed"
     );
-    await buildLegalFailureRedirect(
-      formData,
-      code,
-      supportRef,
-      userMessageForRegistrationError(code, supportRef)
-    );
+    const email = String(formData.get("email") ?? "").trim();
+    const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+    const params = new URLSearchParams();
+    if (email) params.set("email", email);
+    if (next) params.set("next", next);
+    params.set("error", code);
+    params.set("ref", supportRef);
+    params.set("message", userMessageForRegistrationError(code, supportRef));
+    markStage(ctx, "REGISTRATION_REDIRECT_FAILED", "failed", code);
+    return `${routes.account.registerLegal}?${params.toString()}`;
   }
 
   if (result?.redirectPath) {
-    await redirectToAppPath(result.redirectPath);
+    return result.redirectPath;
   }
 
   const email = String(formData.get("email") ?? "").trim();
@@ -455,7 +459,13 @@ export async function submitRegistrationLegalFormAction(formData: FormData): Pro
 
   params.set("message", displayMessage);
   markStage(ctx, "REGISTRATION_REDIRECT_FAILED", "failed", code);
-  await redirectToAppPath(`${routes.account.registerLegal}?${params.toString()}`);
+  return `${routes.account.registerLegal}?${params.toString()}`;
+}
+
+/** Plain form action — server redirect; progressive enhancement safe. */
+export async function submitRegistrationLegalFormAction(formData: FormData): Promise<void> {
+  const path = await resolveRegistrationLegalSubmissionUrl(formData);
+  await redirectToAppPath(path);
 }
 
 /** @deprecated use submitRegistrationLegalFormAction — kept for tests referencing export name */

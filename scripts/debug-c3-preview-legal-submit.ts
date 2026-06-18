@@ -85,7 +85,7 @@ async function main() {
   await page.locator("#reg-password").fill(password);
   await page.locator("#reg-password-confirm").fill(password);
   await page.getByRole("button", { name: /continue to email verification/i }).click();
-  await page.waitForTimeout(15_000);
+  await page.waitForURL(/\/verify-email|error=/, { timeout: 60_000 });
 
   console.log("redirects:", redirects);
   console.log("final:", page.url());

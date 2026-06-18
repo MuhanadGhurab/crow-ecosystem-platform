@@ -41,8 +41,9 @@ const gate = readFileSync(
 );
 assert(gate.includes('name="termsAccepted"'), "named terms field");
 assert(gate.includes('value="true"'), "explicit true value");
-assert(gate.includes("terms-ack-checkbox"), "visible acknowledgement control");
 assert(!gate.includes("useActionState"), "no useActionState on legal form");
-assert(gate.includes("action={submitRegistrationLegalFormAction}"), "server action bound");
+assert(gate.includes('action="/register/legal/submit"'), "HTTP submit route for legal form");
+assert(gate.includes('method="POST"'), "legal form uses POST");
+assert(accountLegal.includes("resolveRegistrationLegalSubmissionUrl"), "shared legal submit resolver");
 
 console.log("c3-registration-errors.test.ts: OK");

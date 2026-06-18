@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { submitRegistrationLegalFormAction } from "@/lib/actions/account-legal";
 import { legalDocumentPublicPath } from "@/lib/legal/legal-urls";
 import type { LegalDocumentType, MandatoryClassification } from "@prisma/client";
 import { routes } from "@/lib/routes";
@@ -108,7 +107,7 @@ export function LegalReviewGate({
   const activeDoc = documents[activeTab] ?? documents[0];
 
   return (
-    <form action={submitRegistrationLegalFormAction} className="mt-6 space-y-6">
+    <form action="/register/legal/submit" method="POST" className="mt-6 space-y-6">
       {initialErrorBody && (
         <p className="cc-alert-warning whitespace-pre-line text-sm" role="alert">
           {initialErrorBody}
