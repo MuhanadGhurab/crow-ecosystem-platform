@@ -59,6 +59,13 @@ async function main() {
   }
 
   console.log("Seeded subscription plans and permissions");
+
+  if (process.env.SEED_LEGAL_DOCUMENTS === "true") {
+    const { seedLegalDocuments } = await import("./seed-legal-documents");
+    console.log("Seeding legal documents (SEED_LEGAL_DOCUMENTS=true)...");
+    await seedLegalDocuments(prisma);
+    console.log("Seeded legal documents");
+  }
 }
 
 main()
