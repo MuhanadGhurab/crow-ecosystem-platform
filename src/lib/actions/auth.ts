@@ -237,6 +237,12 @@ export async function signUp(
     return { error: "Passwords do not match." };
   }
 
+  if (isC3AuthEnabled()) {
+    const params = new URLSearchParams({ email });
+    if (next) params.set("next", next);
+    redirect(`${routes.account.registerLegal}?${params.toString()}`);
+  }
+
   const supabase = await createClient();
   let signUpError: { message: string } | null = null;
   let sessionUser: User | null = null;

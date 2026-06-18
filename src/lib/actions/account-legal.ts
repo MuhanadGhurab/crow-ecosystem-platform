@@ -8,13 +8,20 @@ import type { LegalDocumentType } from "@prisma/client";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import { issueEmailVerificationCode } from "@/lib/account/email-verification.service";
 import {
-  createPendingPlatformAccount,
+  C3_GENERIC_REGISTRATION_MESSAGE,
+  classifyRegistrationEmail,
+  compensateOrphanAuthUser,
+  ensurePendingPlatformAccountForRegistration,
+  provisionUnconfirmedAuthUser,
+} from "@/lib/account/c3-registration-provisioning.service";
+import {
+  findPlatformAccountByEmailNormalized,
   findPlatformAccountBySupabaseUserId,
   isBlockedPlatformAccountStatus,
   isPlatformAccountActive,
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
-import { requireActivePlatformAccount, requireAuth } from "@/lib/auth/session";
+import { getSessionUser, requireActivePlatformAccount, requireAuth } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { hashLegalDocumentContent } from "@/lib/legal/legal-document-hash";
 import {
@@ -30,6 +37,9 @@ import {
 import { recordInitialMarketingConsent, setMarketingEmailConsent } from "@/lib/legal/account-consent.service";
 import { resolveRegistrationLocale } from "@/lib/legal/registration-locale";
 import { summarizeUserAgent } from "@/lib/legal/user-agent-summary";
+import { assertC3RegistrationOrigin } from "@/lib/security/c3-registration-origin-guard";
+import { checkC3RegistrationRateLimit } from "@/lib/security/c3-registration-rate-limit";
+import { getClientIpFromHeaders } from "@/lib/security/client-ip";
 import { routes } from "@/lib/routes";
 import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 
@@ -48,6 +58,19 @@ function isNextRedirectError(err: unknown): boolean {
     "digest" in err &&
     String((err as { digest?: string }).digest).startsWith("NEXT_REDIRECT")
   );
+}
+
+function buildVerifyEmailRedirect(email: string, next?: string): string {
+  const params = new URLSearchParams({ email });
+  if (next) params.set("next", next);
+  return `${routes.account.verifyEmail}?${params.toString()}`;
+}
+
+function validatePasswordPair(password: string, passwordConfirm: string): string | null {
+  if (!password) return "Password is required.";
+  if (password.length < 8) return "Password must be at least 8 characters.";
+  if (password !== passwordConfirm) return "Passwords do not match.";
+  return null;
 }
 
 async function buildAcceptancesFromForm(
@@ -89,7 +112,7 @@ async function buildAcceptancesFromForm(
   return built;
 }
 
-/** Transactional registration step: platform account + legal evidence + OTP. */
+/** Transactional registration: server-admin Auth user + platform account + legal + Crow OTP. */
 export async function completeRegistrationWithLegalAcceptance(
   _prev: LegalActionState,
   formData: FormData
@@ -119,12 +142,34 @@ export async function completeRegistrationWithLegalAcceptance(
     return { error: "You must accept the Acceptable Use Policy." };
   }
 
-  // Client scroll state is never trusted (ignored even if present).
   void formData.get("scrolledToBottom");
 
-  const user = await requireAuth(routes.account.registerLegal);
-  if (!user.email) {
+  const h = await headers();
+  const rate = checkC3RegistrationRateLimit(getClientIpFromHeaders(h));
+  if (!rate.allowed) {
+    return { error: "Too many registration attempts. Try again later." };
+  }
+
+  try {
+    await assertC3RegistrationOrigin();
+  } catch {
+    return { error: "Registration could not be completed." };
+  }
+
+  const sessionUser = await getSessionUser();
+  const formEmail = String(formData.get("email") ?? "").trim();
+  const email = sessionUser?.email ?? formEmail;
+  if (!email) {
     return { error: "Account email is required." };
+  }
+
+  const password = String(formData.get("password") ?? "");
+  const passwordConfirm = String(formData.get("passwordConfirm") ?? "");
+  const isOAuthPath = Boolean(sessionUser && !formEmail);
+
+  if (!sessionUser) {
+    const passwordError = validatePasswordPair(password, passwordConfirm);
+    if (passwordError) return { error: passwordError };
   }
 
   let acceptances: { documentType: LegalDocumentType; versionId: string; contentHash: string }[];
@@ -139,35 +184,61 @@ export async function completeRegistrationWithLegalAcceptance(
     };
   }
 
-  const existing = await findPlatformAccountBySupabaseUserId(user.id);
-  if (existing) {
-    if (isPlatformAccountActive(existing)) {
+  const existingBySession = sessionUser
+    ? await findPlatformAccountBySupabaseUserId(sessionUser.id)
+    : null;
+  if (existingBySession) {
+    if (isPlatformAccountActive(existingBySession)) {
       redirect(routes.account.profile);
     }
-    if (isBlockedPlatformAccountStatus(existing.status)) {
+    if (isBlockedPlatformAccountStatus(existingBySession.status)) {
       return { error: "This account cannot register. Contact support." };
     }
-    if (await hasMandatoryLegalAcceptanceComplete(existing.id, locale)) {
-      const verifyPath = next
-        ? `${routes.account.verifyEmail}?next=${encodeURIComponent(next)}`
-        : routes.account.verifyEmail;
-      redirect(verifyPath);
+    if (await hasMandatoryLegalAcceptanceComplete(existingBySession.id, locale)) {
+      redirect(buildVerifyEmailRedirect(existingBySession.email, next));
     }
   }
 
-  const h = await headers();
   const userAgentSummary = summarizeUserAgent(h.get("user-agent"));
   const registrationCorrelationId = randomUUID();
+
+  let supabaseUserId = sessionUser?.id;
+  let createdAuthUser = false;
+  let account = existingBySession;
 
   try {
     await assertC2DatabaseEnvironmentSafe();
 
-    const account =
-      existing ??
-      (await createPendingPlatformAccount({
-        supabaseUserId: user.id,
-        email: user.email,
-        registrationSource: "email_password",
+    if (!sessionUser) {
+      const policy = await classifyRegistrationEmail(email);
+      if (policy.kind === "generic_response") {
+        return { message: C3_GENERIC_REGISTRATION_MESSAGE };
+      }
+
+      if (policy.kind === "continue_pending") {
+        supabaseUserId = policy.supabaseUserId;
+        account = await findPlatformAccountBySupabaseUserId(policy.supabaseUserId);
+      } else {
+        const provisioned = await provisionUnconfirmedAuthUser({ email, password });
+        if (!provisioned.ok) {
+          return { message: C3_GENERIC_REGISTRATION_MESSAGE };
+        }
+        supabaseUserId = provisioned.userId;
+        createdAuthUser = provisioned.created;
+      }
+    }
+
+    if (!supabaseUserId) {
+      return { error: "Registration could not be completed." };
+    }
+
+    const existingByEmailBefore = await findPlatformAccountByEmailNormalized(email);
+
+    account =
+      account ??
+      (await ensurePendingPlatformAccountForRegistration({
+        supabaseUserId,
+        email,
       }));
 
     await recordLegalAcceptances({
@@ -184,10 +255,17 @@ export async function completeRegistrationWithLegalAcceptance(
       registrationCorrelationId,
     });
 
-    if (!existing) {
+    const hadPlatformAccount =
+      Boolean(existingBySession) || Boolean(existingByEmailBefore);
+    if (!hadPlatformAccount) {
       await recordPlatformAccountAudit(account.id, "registration_started", {
-        source: "email_password",
+        source: isOAuthPath ? "oauth" : "email_password",
         registrationCorrelationId,
+        supabaseAuthUserProvisioned: !sessionUser,
+      });
+      await recordPlatformAccountAudit(account.id, "legal_acceptance_recorded", {
+        registrationCorrelationId,
+        locale,
       });
     }
 
@@ -196,20 +274,22 @@ export async function completeRegistrationWithLegalAcceptance(
       email: account.email,
     });
 
-    if (!issued.ok) {
-      if (issued.reason === "cooldown") {
-        /* still proceed — user may already have a pending code */
-      } else if (issued.reason === "delivery_failed") {
-        return {
-          error:
-            "We could not deliver a verification code right now. Try again in a few minutes or contact support.",
-        };
-      } else {
-        return { error: "Could not send verification email. Try again shortly." };
-      }
+    if (!issued.ok && issued.reason === "delivery_failed") {
+      return {
+        error:
+          "We could not deliver a verification code right now. Try again in a few minutes or contact support.",
+      };
     }
   } catch (err) {
     if (isNextRedirectError(err)) throw err;
+
+    if (supabaseUserId && createdAuthUser) {
+      await compensateOrphanAuthUser({
+        supabaseUserId,
+        createdInThisOperation: true,
+      });
+    }
+
     return {
       error:
         err instanceof LegalAcceptanceValidationError
@@ -220,10 +300,7 @@ export async function completeRegistrationWithLegalAcceptance(
     };
   }
 
-  const verifyPath = next
-    ? `${routes.account.verifyEmail}?next=${encodeURIComponent(next)}`
-    : routes.account.verifyEmail;
-  redirect(verifyPath);
+  redirect(buildVerifyEmailRedirect(account!.email, next));
 }
 
 export async function updateMarketingConsent(

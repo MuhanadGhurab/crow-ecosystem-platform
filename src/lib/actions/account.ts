@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import {
   issueEmailVerificationCode,
@@ -8,22 +9,33 @@ import {
 } from "@/lib/account/email-verification.service";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
+  findPlatformAccountByEmailNormalized,
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
 import { updatePlatformAccountProfile } from "@/lib/account/platform-account-profile.service";
-import { runDeferredClientOnboarding } from "@/lib/account/c3-auth-orchestration";
 import { requireAuth } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
-import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
-import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
-import { createClient } from "@/lib/supabase/server";
+import { checkC3VerificationRateLimit } from "@/lib/security/c3-registration-rate-limit";
+import { getClientIpFromHeaders } from "@/lib/security/client-ip";
 import { routes } from "@/lib/routes";
 
 export type AccountActionState = { error?: string; message?: string } | undefined;
 
 function c3DisabledState(): AccountActionState {
   return { error: "Account registration is not enabled." };
+}
+
+function loginAfterVerificationPath(email: string, next?: string): string {
+  const params = new URLSearchParams({ verified: "1", email });
+  if (next) params.set("next", next);
+  return `${routes.auth.login}?${params.toString()}`;
+}
+
+async function resolvePendingAccount(email: string) {
+  const normalized = email.trim();
+  if (!normalized) return null;
+  return findPlatformAccountByEmailNormalized(normalized);
 }
 
 export async function verifyEmailCode(
@@ -34,21 +46,31 @@ export async function verifyEmailCode(
     return c3DisabledState();
   }
 
+  const h = await headers();
+  const rate = checkC3VerificationRateLimit(getClientIpFromHeaders(h));
+  if (!rate.allowed) {
+    return { error: "Too many attempts. Try again later." };
+  }
+
   const code = String(formData.get("code") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
   const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+
+  if (!email) {
+    return { error: "Email is required." };
+  }
 
   if (!/^\d{6}$/.test(code)) {
     return { error: "Enter the 6-digit code from your email." };
   }
 
-  const user = await requireAuth(routes.account.verifyEmail);
-  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  const account = await resolvePendingAccount(email);
   if (!account) {
-    return { error: "No platform account found. Sign up again or contact support." };
+    return { error: "No pending registration found for this email." };
   }
 
   if (isPlatformAccountActive(account)) {
-    redirect(await resolveC3PostAuthLanding(user, next));
+    redirect(loginAfterVerificationPath(account.email, next));
   }
 
   const result = await verifyEmailVerificationCode({
@@ -71,15 +93,17 @@ export async function verifyEmailCode(
         return { error: "This account cannot be verified. Contact support." };
       case "legal_incomplete":
         redirect(routes.account.registerLegal);
+      case "confirm_failed":
+        return {
+          error:
+            "Verification succeeded but activation could not finish. Try again or contact support.",
+        };
       default:
         return { error: "Verification failed. Try again." };
     }
   }
 
-  const supabase = await createClient();
-  await runDeferredClientOnboarding(user);
-  const refreshed = (await refreshSessionUser(supabase)) ?? user;
-  redirect(await resolveC3PostAuthLanding(refreshed, next));
+  redirect(loginAfterVerificationPath(account.email, next));
 }
 
 export async function resendVerificationCode(
@@ -90,14 +114,24 @@ export async function resendVerificationCode(
     return c3DisabledState();
   }
 
-  const user = await requireAuth(routes.account.verifyEmail);
-  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  const h = await headers();
+  const rate = checkC3VerificationRateLimit(getClientIpFromHeaders(h));
+  if (!rate.allowed) {
+    return { error: "Too many attempts. Try again later." };
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  if (!email) {
+    return { error: "Email is required." };
+  }
+
+  const account = await resolvePendingAccount(email);
   if (!account) {
-    return { error: "No platform account found." };
+    return { error: "No pending registration found for this email." };
   }
 
   if (isPlatformAccountActive(account)) {
-    return { message: "Your email is already verified." };
+    return { message: "Your email is already verified. You can sign in." };
   }
 
   const issued = await issueEmailVerificationCode({

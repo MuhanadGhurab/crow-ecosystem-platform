@@ -34,10 +34,14 @@ export function LegalReviewGate({
   documents,
   locale,
   nextPath,
+  showAccountFields = false,
+  initialEmail = "",
 }: {
   documents: MandatoryLegalDoc[];
   locale: string;
   nextPath?: string;
+  showAccountFields?: boolean;
+  initialEmail?: string;
 }) {
   const [state, action, pending] = useActionState(
     completeRegistrationWithLegalAcceptance,
@@ -90,10 +94,69 @@ export function LegalReviewGate({
           {state.error}
         </p>
       )}
+      {state?.message && (
+        <p className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">
+          {state.message}
+        </p>
+      )}
 
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="mandatoryVersions" value={mandatoryVersionsJson} />
       {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
+
+      {showAccountFields && (
+        <fieldset className="space-y-4 border-b border-slate-700/50 pb-4">
+          <legend className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Account details
+          </legend>
+          <div>
+            <label htmlFor="reg-email" className="block text-xs font-medium text-slate-500">
+              Email
+            </label>
+            <input
+              id="reg-email"
+              name="email"
+              type="email"
+              required
+              readOnly={Boolean(initialEmail)}
+              defaultValue={initialEmail}
+              autoComplete="email"
+              className="input-cc mt-1 w-full read-only:opacity-80"
+            />
+          </div>
+          <div>
+            <label htmlFor="reg-password" className="block text-xs font-medium text-slate-500">
+              Password
+            </label>
+            <input
+              id="reg-password"
+              name="password"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              className="input-cc mt-1 w-full"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="reg-password-confirm"
+              className="block text-xs font-medium text-slate-500"
+            >
+              Confirm password
+            </label>
+            <input
+              id="reg-password-confirm"
+              name="passwordConfirm"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              className="input-cc mt-1 w-full"
+            />
+          </div>
+        </fieldset>
+      )}
 
       <div
         className="flex flex-wrap gap-2 border-b border-slate-700/50 pb-2"

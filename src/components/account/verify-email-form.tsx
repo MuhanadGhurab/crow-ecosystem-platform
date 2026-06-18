@@ -33,7 +33,8 @@ export function VerifyEmailForm({
       <p className="text-sm text-slate-400">
         We sent a 6-digit code to{" "}
         <span className="font-medium text-slate-200">{email}</span>. Enter it below
-        to activate your platform account.
+        to activate your platform account. After verification you will sign in with
+        your password.
       </p>
 
       {error && (
@@ -48,6 +49,7 @@ export function VerifyEmailForm({
       )}
 
       <form action={verifyAction} className="space-y-4">
+        <input type="hidden" name="email" value={email} />
         {nextPath && <input type="hidden" name="next" value={nextPath} />}
         <div>
           <label htmlFor="code" className="block text-xs font-medium text-slate-500">
@@ -72,6 +74,7 @@ export function VerifyEmailForm({
       </form>
 
       <form action={resendAction}>
+        <input type="hidden" name="email" value={email} />
         <button
           type="submit"
           disabled={resendPending}

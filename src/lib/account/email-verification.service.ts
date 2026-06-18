@@ -8,6 +8,10 @@ import {
   activatePlatformAccount,
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
+import {
+  confirmSupabaseUserEmail,
+  isSupabaseUserEmailConfirmed,
+} from "@/lib/account/supabase-email-confirmation.service";
 import { getEmailDeliveryPort } from "@/lib/email/get-email-delivery-port";
 import { buildCrowVerificationEmail } from "@/lib/email/templates/crow-verification-email";
 import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
@@ -133,8 +137,55 @@ export type VerifyEmailCodeResult =
         | "max_attempts"
         | "no_challenge"
         | "blocked"
-        | "legal_incomplete";
+        | "legal_incomplete"
+        | "confirm_failed";
     };
+
+async function finalizeActivationIfPending(
+  platformAccountId: string,
+  supabaseUserId: string,
+  challengeId: string
+): Promise<{ activated: boolean; legalIncomplete: boolean; confirmFailed: boolean }> {
+  const account = await prisma.platformAccount.findUnique({
+    where: { id: platformAccountId },
+  });
+  if (!account || account.status === "ACTIVE") {
+    return { activated: false, legalIncomplete: false, confirmFailed: false };
+  }
+
+  const legalComplete = await hasMandatoryLegalAcceptanceComplete(account.id);
+  if (!legalComplete) {
+    await recordPlatformAccountAudit(account.id, "verification_failed", {
+      challengeId,
+      reason: "legal_incomplete",
+    });
+    return { activated: false, legalIncomplete: true, confirmFailed: false };
+  }
+
+  const confirmResult = await confirmSupabaseUserEmail(supabaseUserId);
+  if (!confirmResult.ok) {
+    await recordPlatformAccountAudit(account.id, "verification_failed", {
+      challengeId,
+      reason: "supabase_email_confirm_failed",
+    });
+    return { activated: false, legalIncomplete: false, confirmFailed: true };
+  }
+
+  if (!confirmResult.alreadyConfirmed) {
+    await recordPlatformAccountAudit(account.id, "verification_succeeded", {
+      challengeId,
+      supabaseEmailConfirmed: true,
+    });
+  }
+
+  await activatePlatformAccount(account.id);
+  await recordPlatformAccountAudit(account.id, "account_activated", {
+    challengeId,
+    supabaseEmailConfirmed: true,
+  });
+
+  return { activated: true, legalIncomplete: false, confirmFailed: false };
+}
 
 export async function verifyEmailVerificationCode(input: {
   platformAccountId: string;
@@ -151,6 +202,9 @@ export async function verifyEmailVerificationCode(input: {
   if (!account) {
     return { ok: false, reason: "no_challenge" };
   }
+  if (account.status === "ACTIVE") {
+    return { ok: true, activated: false };
+  }
   if (account.status === "SUSPENDED" || account.status === "LOCKED") {
     return { ok: false, reason: "blocked" };
   }
@@ -165,6 +219,29 @@ export async function verifyEmailVerificationCode(input: {
   });
 
   if (!challenge) {
+    const consumed = await prisma.emailVerificationChallenge.findFirst({
+      where: {
+        platformAccountId: input.platformAccountId,
+        emailNormalized,
+        status: "consumed",
+      },
+      orderBy: { consumedAt: "desc" },
+    });
+
+    if (consumed && account.status === "PENDING_EMAIL_VERIFICATION") {
+      const confirmed = await isSupabaseUserEmailConfirmed(account.supabaseUserId);
+      if (confirmed) {
+        const finish = await finalizeActivationIfPending(
+          account.id,
+          account.supabaseUserId,
+          consumed.id
+        );
+        if (finish.legalIncomplete) return { ok: false, reason: "legal_incomplete" };
+        if (finish.confirmFailed) return { ok: false, reason: "confirm_failed" };
+        return { ok: true, activated: finish.activated };
+      }
+    }
+
     return { ok: false, reason: "no_challenge" };
   }
 
@@ -197,22 +274,20 @@ export async function verifyEmailVerificationCode(input: {
     data: { status: "consumed", consumedAt: now },
   });
 
-  let activated = false;
-  if (account.status === "PENDING_EMAIL_VERIFICATION") {
-    const legalComplete = await hasMandatoryLegalAcceptanceComplete(account.id);
-    if (!legalComplete) {
-      await recordPlatformAccountAudit(account.id, "verification_failed", {
-        challengeId: challenge.id,
-        reason: "legal_incomplete",
-      });
-      return { ok: false, reason: "legal_incomplete" };
-    }
-    await activatePlatformAccount(account.id);
-    await recordPlatformAccountAudit(account.id, "account_activated", {
-      challengeId: challenge.id,
-    });
-    activated = true;
-  } else {
+  const finish = await finalizeActivationIfPending(
+    account.id,
+    account.supabaseUserId,
+    challenge.id
+  );
+
+  if (finish.legalIncomplete) {
+    return { ok: false, reason: "legal_incomplete" };
+  }
+  if (finish.confirmFailed) {
+    return { ok: false, reason: "confirm_failed" };
+  }
+
+  if (!finish.activated) {
     await prisma.platformAccount.update({
       where: { id: account.id },
       data: { lastVerifiedAt: now },
@@ -221,8 +296,8 @@ export async function verifyEmailVerificationCode(input: {
 
   await recordPlatformAccountAudit(account.id, "verification_succeeded", {
     challengeId: challenge.id,
-    activated,
+    activated: finish.activated,
   });
 
-  return { ok: true, activated };
+  return { ok: true, activated: finish.activated };
 }

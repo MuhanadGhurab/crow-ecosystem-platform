@@ -137,6 +137,7 @@
     "runtime-readiness-wording:verify": "npx tsx scripts/verify-runtime-readiness-wording.ts",
     "client-signup:verify": "npx tsx scripts/verify-client-signup-flow.ts",
     "c3-account:verify": "npx tsx src/lib/account/otp-code.test.ts && npx tsx src/lib/legal/legal-document-hash.test.ts && npx tsx src/lib/legal/legal-acceptance.service.test.ts && npx tsx src/lib/legal/registration-legal-gate.test.ts && npx tsx src/lib/account/email-verification-legal-gate.test.ts && npx tsx scripts/verify-c3-account-registration.ts",
+    "c3-auth-convergence:verify": "npx tsx src/lib/supabase/admin.server-boundary.test.ts && npx tsx src/lib/account/c3-auth-confirmation-convergence.test.ts && npx tsx scripts/verify-c3-auth-confirmation-convergence.ts",
     "c3-account-registration:verify": "npm run c3-account:verify",
     "c3-operability:verify": "npx tsx --env-file=.env.local src/lib/auth/public-auth-paths.test.ts && npx tsx --env-file=.env.local scripts/verify-c3-operability.ts",
     "c3-operability:e2e": "npx tsx --env-file=.env.local scripts/verify-c3-operability-e2e.ts",

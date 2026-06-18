@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { sanitizeAuthNextPathWithDefault } from "@/lib/auth/sanitize-auth-next";
 import { routes } from "@/lib/routes";
 
-/** C3 alias — platform registration uses the existing Supabase sign-up flow. */
+/** C3 alias — routes to sign-up then legal acceptance (server-admin provisioning). */
 export default async function RegisterPage({
   searchParams,
 }: {

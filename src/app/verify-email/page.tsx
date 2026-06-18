@@ -3,11 +3,11 @@ import { redirect } from "next/navigation";
 import { VerifyEmailForm } from "@/components/account/verify-email-form";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import {
+  findPlatformAccountByEmailNormalized,
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
-import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 import { getSessionUser } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { routes } from "@/lib/routes";
@@ -15,27 +15,29 @@ import { routes } from "@/lib/routes";
 export default async function VerifyEmailPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; email?: string }>;
 }) {
   if (!isAccountRegistrationEnabled()) {
     redirect("/login?error=config");
   }
 
-  const { next } = await searchParams;
+  const { next, email: emailParam } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
+  const queryEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
   const user = await getSessionUser();
-  if (!user) {
-    redirect(routes.auth.loginWithNext(routes.account.verifyEmail));
-  }
+  const account =
+    (user ? await findPlatformAccountBySupabaseUserId(user.id) : null) ??
+    (queryEmail ? await findPlatformAccountByEmailNormalized(queryEmail) : null);
 
-  const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account) {
     redirect(routes.account.registerLegal);
   }
 
   if (isPlatformAccountActive(account)) {
-    redirect(await resolveC3PostAuthLanding(user, nextPath));
+    const params = new URLSearchParams({ verified: "1", email: account.email });
+    if (nextPath) params.set("next", nextPath);
+    redirect(`${routes.auth.login}?${params.toString()}`);
   }
 
   return (
@@ -53,10 +55,24 @@ export default async function VerifyEmailPage({
         </div>
 
         <p className="mt-6 text-center text-sm text-slate-500">
-          Wrong account?{" "}
-          <Link href={routes.auth.signOut} className="text-cyan-400 hover:text-cyan-300">
-            Sign out
-          </Link>
+          {user ? (
+            <>
+              Wrong account?{" "}
+              <Link href={routes.auth.signOut} className="text-cyan-400 hover:text-cyan-300">
+                Sign out
+              </Link>
+            </>
+          ) : (
+            <>
+              Already verified?{" "}
+              <Link
+                href={routes.auth.loginWithNext(nextPath ?? routes.account.profile)}
+                className="text-cyan-400 hover:text-cyan-300"
+              >
+                Sign in
+              </Link>
+            </>
+          )}
         </p>
       </div>
     </div>

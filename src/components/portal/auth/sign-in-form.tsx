@@ -11,12 +11,14 @@ interface SignInFormProps {
   nextPath?: string;
   entraEnabled?: boolean;
   googleEnabled?: boolean;
+  defaultEmail?: string;
 }
 
 export function SignInForm({
   nextPath,
   entraEnabled = false,
   googleEnabled = false,
+  defaultEmail,
 }: SignInFormProps) {
   const [state, action, pending] = useActionState<SignInState, FormData>(signIn, undefined);
   const showProviders = entraEnabled || googleEnabled;
@@ -52,6 +54,7 @@ export function SignInForm({
             type="email"
             autoComplete="email"
             required
+            defaultValue={defaultEmail}
             className="input-cc w-full"
             placeholder="you@organization.com"
           />

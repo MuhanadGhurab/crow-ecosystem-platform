@@ -47,10 +47,12 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; verified?: string; email?: string }>;
 }) {
-  const { next, error } = await searchParams;
+  const { next, error, verified, email: emailParam } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
+  const verifiedBanner = verified === "1";
+  const prefillEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
   const existingUser = await getSessionUser();
   if (existingUser) {
@@ -72,6 +74,12 @@ export default async function LoginPage({
 
         {errorMessage && <p className="cc-alert-warning mt-5">{errorMessage}</p>}
 
+        {verifiedBanner && (
+          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+            Email verified. Sign in with your password to continue.
+          </p>
+        )}
+
         {!configured ? (
           <p className="mt-6 text-sm text-slate-500">
             Set <span className="cc-kbd">NEXT_PUBLIC_SUPABASE_URL</span> and{" "}
@@ -85,6 +93,7 @@ export default async function LoginPage({
               nextPath={nextPath}
               entraEnabled={entraEnabled}
               googleEnabled={googleEnabled}
+              defaultEmail={prefillEmail || undefined}
             />
           </div>
         )}
