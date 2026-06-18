@@ -4,7 +4,6 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import {
   resendVerificationCode,
-  submitVerifyEmailFormAction,
   type AccountActionState,
 } from "@/lib/actions/account";
 
@@ -58,7 +57,7 @@ export function VerifyEmailForm({
         </p>
       )}
 
-      <form action={submitVerifyEmailFormAction} className="space-y-4">
+      <form action="/verify-email/submit" method="POST" className="space-y-4">
         <input type="hidden" name="email" value={email} />
         {nextPath && <input type="hidden" name="next" value={nextPath} />}
         <div>

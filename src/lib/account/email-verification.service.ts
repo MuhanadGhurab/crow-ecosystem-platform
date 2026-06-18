@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { createHash, randomUUID } from "crypto";
 import type { EmailVerificationPurpose } from "@prisma/client";
 import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 import { prisma } from "@/lib/db";
@@ -97,6 +97,9 @@ export async function issueEmailVerificationCode(input: {
         outcome: hostedConfig ? "ok" : "failed",
         keyConfigured: Boolean(hostedConfig?.apiKey),
         keyLength: hostedConfig?.apiKey.length ?? 0,
+        keyDigestPrefix: hostedConfig?.apiKey
+          ? createHash("sha256").update(hostedConfig.apiKey).digest("hex").slice(0, 12)
+          : null,
         fromDomainSuffix: fromDomain,
       })
     );

@@ -56,11 +56,20 @@ function buildTestEmail(): string {
     process.env.C3_PROVIDER_TEST_EMAIL?.trim() ||
     process.env.NOTIFICATION_TEST_EMAIL?.trim();
   if (!base?.includes("@")) {
-    fail("Set C3_PROVIDER_TEST_EMAIL in .env.staging for Preview OTP delivery");
+    fail("Set C3_PROVIDER_TEST_EMAIL or NOTIFICATION_TEST_EMAIL in .env.staging");
   }
   const [local, domain] = base.split("@");
-  const tag = `c3pv${Date.now().toString(36)}`;
-  return `${local.split("+")[0]}+${tag}@${domain}`;
+  // Resend onboarding@resend.dev only delivers to the exact sandbox owner address (no +tags).
+  return `${local.split("+")[0]}@${domain}`;
+}
+
+function cleanupControlledTestEmail(email: string) {
+  process.env.C3_CLEANUP_EMAIL = email;
+  execSync("npm run c3-preview-controlled:cleanup", {
+    cwd: process.cwd(),
+    stdio: "inherit",
+    timeout: 120_000,
+  });
 }
 
 async function waitForResendOtp(
@@ -228,6 +237,10 @@ async function main() {
   const email = buildTestEmail();
   const password = `CrowPv-${Date.now().toString(36)}!9`;
   const prisma = new PrismaClient();
+
+  console.log("Pre-run cleanup for controlled test identity…");
+  cleanupControlledTestEmail(email);
+  ok("Controlled test identity ready");
 
   mkdirSync(OUT_DIR, { recursive: true });
 

@@ -109,9 +109,14 @@ export async function verifyEmailCode(
 }
 
 export async function submitVerifyEmailFormAction(formData: FormData): Promise<void> {
+  const path = await resolveVerifyEmailSubmissionUrl(formData);
+  await redirectToAppPath(path);
+}
+
+export async function resolveVerifyEmailSubmissionUrl(formData: FormData): Promise<string> {
   const result = await verifyEmailCode(undefined, formData);
   if (result?.redirectPath) {
-    await redirectToAppPath(result.redirectPath);
+    return result.redirectPath;
   }
 
   const email = String(formData.get("email") ?? "").trim();
@@ -123,7 +128,7 @@ export async function submitVerifyEmailFormAction(formData: FormData): Promise<v
   if (result?.message) params.set("message", result.message);
 
   const qs = params.toString();
-  await redirectToAppPath(qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail);
+  return qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail;
 }
 
 export async function resendVerificationCode(
