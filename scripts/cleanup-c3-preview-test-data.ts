@@ -7,6 +7,28 @@ import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
 
+async function findSupabaseUserIdByEmail(emailNormalized: string): Promise<string | null> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!supabaseUrl || !serviceKey) return null;
+
+  const admin = createClient(supabaseUrl, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+
+  for (let page = 1; page <= 10; page += 1) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+    if (error || !data.users.length) break;
+    const match = data.users.find(
+      (user) => user.email && normalizeEmail(user.email) === emailNormalized
+    );
+    if (match) return match.id;
+    if (data.users.length < 200) break;
+  }
+
+  return null;
+}
+
 function parseEmailArg(): string {
   const flag = process.argv.find((a) => a.startsWith("--email="));
   if (flag) return flag.slice("--email=".length);
@@ -27,7 +49,18 @@ async function main() {
   });
 
   if (!account) {
-    console.log("No PlatformAccount found for cleanup target (already clean).");
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+    const orphanId = await findSupabaseUserIdByEmail(emailNormalized);
+    if (orphanId && supabaseUrl && serviceKey) {
+      const admin = createClient(supabaseUrl, serviceKey, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      await admin.auth.admin.deleteUser(orphanId);
+      console.log("Removed orphan Supabase auth user for cleanup target.");
+    } else {
+      console.log("No PlatformAccount found for cleanup target (already clean).");
+    }
     await prisma.$disconnect();
     return;
   }
