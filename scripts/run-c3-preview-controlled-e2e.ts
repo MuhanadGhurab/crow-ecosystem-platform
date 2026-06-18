@@ -456,11 +456,16 @@ async function main() {
 
     await screenshot(page, "11-account-desktop");
 
-    await page.getByRole("navigation").getByRole("link", { name: "Profile" }).click();
-    await page.waitForURL(
-      (url) => url.pathname === "/account/profile",
-      { timeout: 60_000 }
-    );
+    await page.reload({ waitUntil: "networkidle", timeout: 60_000 });
+    if (page.url().includes("/login")) {
+      const names = (await context.cookies()).map((c) => c.name).join(", ");
+      fail(`Session lost after reload at /account (cookies=${names || "none"})`);
+    }
+
+    await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle", timeout: 60_000 });
+    if (page.url().includes("/login")) {
+      fail(`Session not persisted for /account/profile (url=${page.url()})`);
+    }
     await page.waitForSelector("#displayName", { timeout: 60_000 });
     await screenshot(page, "13-profile");
     await page.fill("#displayName", "C3 Preview");
@@ -470,9 +475,10 @@ async function main() {
     await mobilePage.goto(`${PREVIEW_BASE}/account`, { waitUntil: "networkidle" });
     await screenshot(mobilePage, "12-account-mobile");
 
-    // Requests
-    await page.getByRole("navigation").getByRole("link", { name: "Requests" }).click();
-    await page.waitForURL(/\/account\/requests/, { timeout: 60_000 });
+    await page.goto(`${PREVIEW_BASE}/account/requests`, { waitUntil: "networkidle", timeout: 60_000 });
+    if (page.url().includes("/login")) {
+      fail(`Session not persisted for /account/requests (url=${page.url()})`);
+    }
     await screenshot(page, "14-account-requests");
 
     // Portal denial (pre-intake)
