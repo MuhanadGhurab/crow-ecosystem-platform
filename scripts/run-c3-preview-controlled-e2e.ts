@@ -445,24 +445,29 @@ async function main() {
     await screenshot(page, "10-verified-login-banner");
     await page.fill("#email", email);
     await page.fill("#password", password);
-    await page.getByRole("button", { name: /sign in/i }).click();
-    await page.waitForURL(/\/account/, { timeout: 90_000 });
+    await Promise.all([
+      page.waitForURL(/\/account/, { timeout: 90_000 }),
+      page.getByRole("button", { name: /sign in with email/i }).click(),
+    ]);
 
     report.evidence.push(await collectC3Evidence(prisma, email, "after-sign-in-pre-intake"));
 
     await screenshot(page, "11-account-desktop");
+
+    await page.getByRole("navigation").getByRole("link", { name: "Profile" }).click();
+    await page.waitForURL(/\/account\/profile/, { timeout: 60_000 });
+    await page.waitForSelector("#displayName", { timeout: 60_000 });
+    await screenshot(page, "13-profile");
+    await page.fill("#displayName", "C3 Preview");
+    await page.getByRole("button", { name: /save profile/i }).click();
+    await page.waitForTimeout(2_000);
+
     await mobilePage.goto(`${PREVIEW_BASE}/account`, { waitUntil: "networkidle" });
     await screenshot(mobilePage, "12-account-mobile");
 
-    // Profile
-    await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle" });
-    await screenshot(page, "13-profile");
-    await page.fill("#displayName", "C3 Preview");
-    await page.getByRole("button", { name: /save/i }).click();
-    await page.waitForTimeout(2_000);
-
     // Requests
-    await page.goto(`${PREVIEW_BASE}/account/requests`, { waitUntil: "networkidle" });
+    await page.getByRole("navigation").getByRole("link", { name: "Requests" }).click();
+    await page.waitForURL(/\/account\/requests/, { timeout: 60_000 });
     await screenshot(page, "14-account-requests");
 
     // Portal denial (pre-intake)
@@ -492,8 +497,10 @@ async function main() {
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
     await page.fill("#email", email);
     await page.fill("#password", password);
-    await page.getByRole("button", { name: /sign in/i }).click();
-    await page.waitForURL(/\/(client|account)/, { timeout: 90_000 });
+    await Promise.all([
+      page.waitForURL(/\/(client|account)/, { timeout: 90_000 }),
+      page.getByRole("button", { name: /sign in with email/i }).click(),
+    ]);
     const landed = page.url();
     report.signInAfterIntakeLanding = landed.includes("/client") ? "/client" : landed;
     ok(`Post-intake sign-in landed: ${report.signInAfterIntakeLanding}`);

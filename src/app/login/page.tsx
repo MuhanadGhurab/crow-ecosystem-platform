@@ -47,9 +47,9 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string; verified?: string; email?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; verified?: string; email?: string; message?: string }>;
 }) {
-  const { next, error, verified, email: emailParam } = await searchParams;
+  const { next, error, verified, email: emailParam, message: messageParam } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
   const verifiedBanner = verified === "1";
   const prefillEmail = typeof emailParam === "string" ? emailParam.trim() : "";
@@ -59,7 +59,11 @@ export default async function LoginPage({
     redirect(await resolveC3PostAuthLanding(existingUser, nextPath));
   }
 
-  const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;
+  const errorMessage = error
+    ? (ERROR_MESSAGES[error] ??
+        (typeof messageParam === "string" ? messageParam : undefined) ??
+        "Sign-in failed.")
+    : null;
   const configured = isSupabaseAuthConfigured();
   const entraEnabled = isEntraSsoEnabled();
   const googleEnabled = isGoogleSsoEnabled();

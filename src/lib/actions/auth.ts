@@ -89,33 +89,24 @@ async function completeAuthenticatedSession(
   return finalizeAuthUser(supabase, user, next);
 }
 
-async function applyC3AuthGate(
-  user: User,
-  next?: string
-): Promise<SignInState | "continue"> {
-  const gate = await gateAuthSessionForC3(user, next);
-  if (gate.action === "redirect") {
-    redirect(gate.path);
-  }
-  if (gate.action === "error") {
-    return { error: gate.message };
-  }
-  return "continue";
-}
+type SignInCompletion = { path: string } | { error: string };
 
-async function finalizeAuthUser(
+async function resolvePostSignInCompletion(
   supabase: Awaited<ReturnType<typeof createClient>>,
   user: User,
   next?: string
-): Promise<SignInState> {
+): Promise<SignInCompletion> {
   if (isC3AuthEnabled()) {
-    const gateResult = await applyC3AuthGate(user, next);
-    if (gateResult !== "continue") {
-      return gateResult;
+    const gate = await gateAuthSessionForC3(user, next);
+    if (gate.action === "redirect") {
+      return { path: gate.path };
+    }
+    if (gate.action === "error") {
+      return { error: gate.message };
     }
 
     const refreshed = (await refreshSessionUser(supabase)) ?? user;
-    redirect(await resolveC3PostAuthLanding(refreshed, next));
+    return { path: await resolveC3PostAuthLanding(refreshed, next) };
   }
 
   try {
@@ -141,15 +132,15 @@ async function finalizeAuthUser(
     try {
       const count = await countRequestsForEmail(refreshed.email);
       if (count > 0) {
-        redirect(
-          resolvePostAuthLanding(
+        return {
+          path: resolvePostAuthLanding(
             {
               ...refreshed,
               app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
             } as typeof refreshed,
             next
-          )
-        );
+          ),
+        };
       }
     } catch {
       /* fall through */
@@ -164,7 +155,84 @@ async function finalizeAuthUser(
     return { error: "No Crow access assigned. Contact your administrator." };
   }
 
-  redirect(resolvePostAuthLanding(refreshed, next));
+  return { path: resolvePostAuthLanding(refreshed, next) };
+}
+
+async function finalizeAuthUser(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  user: User,
+  next?: string
+): Promise<SignInState> {
+  const completion = await resolvePostSignInCompletion(supabase, user, next);
+  if ("error" in completion) {
+    return { error: completion.error };
+  }
+  redirect(completion.path);
+}
+
+function buildLoginFailureRedirect(message: string, next?: string): string {
+  const params = new URLSearchParams({ error: "signin", message });
+  if (next) params.set("next", next);
+  return `/login?${params.toString()}`;
+}
+
+export async function resolveSignInSubmissionUrl(formData: FormData): Promise<string> {
+  if (!isSupabaseAuthConfigured()) {
+    return buildLoginFailureRedirect("Supabase Auth is not configured. Add keys to .env.");
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+
+  if (!email || !password) {
+    return buildLoginFailureRedirect("Email and password are required.", next);
+  }
+
+  const supabase = await createClient();
+  let error: { message: string } | null = null;
+  try {
+    ({ error } = await supabase.auth.signInWithPassword({ email, password }));
+  } catch (err) {
+    const cause = err instanceof Error ? err.cause : undefined;
+    const code =
+      cause && typeof cause === "object" && "code" in cause
+        ? String((cause as { code: string }).code)
+        : "";
+    if (code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE") {
+      return buildLoginFailureRedirect(
+        "SSL certificate error reaching Supabase. Restart with: npm run dev (uses --use-system-ca).",
+        next
+      );
+    }
+    return buildLoginFailureRedirect(
+      err instanceof Error ? err.message : "Sign-in request failed.",
+      next
+    );
+  }
+
+  if (error) {
+    return buildLoginFailureRedirect(mapSupabaseAuthError(error.message, "signin"), next);
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return buildLoginFailureRedirect("Sign-in could not be completed. Try again.", next);
+  }
+
+  const completion = await resolvePostSignInCompletion(supabase, user, next);
+  if ("error" in completion) {
+    return buildLoginFailureRedirect(completion.error, next);
+  }
+  return completion.path;
+}
+
+export async function submitSignInFormAction(formData: FormData): Promise<void> {
+  const path = await resolveSignInSubmissionUrl(formData);
+  redirect(path);
 }
 
 export async function signIn(

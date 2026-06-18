@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { routes } from "@/lib/routes";
 import { SignInWithEntra } from "@/components/portal/auth/sign-in-with-entra";
 import { SignInWithGoogle } from "@/components/portal/auth/sign-in-with-google";
-import { signIn, type SignInState } from "@/lib/actions/auth";
 
 interface SignInFormProps {
   nextPath?: string;
@@ -14,13 +13,26 @@ interface SignInFormProps {
   defaultEmail?: string;
 }
 
+function SignInSubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="cc-btn-primary w-full disabled:opacity-50"
+      aria-busy={pending}
+    >
+      {pending ? "Signing in…" : "Sign in with email"}
+    </button>
+  );
+}
+
 export function SignInForm({
   nextPath,
   entraEnabled = false,
   googleEnabled = false,
   defaultEmail,
 }: SignInFormProps) {
-  const [state, action, pending] = useActionState<SignInState, FormData>(signIn, undefined);
   const showProviders = entraEnabled || googleEnabled;
 
   return (
@@ -42,7 +54,7 @@ export function SignInForm({
         </div>
       )}
 
-      <form action={action} className="space-y-4">
+      <form action="/login/submit" method="POST" className="space-y-4">
         {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
         <div>
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-300">
@@ -72,15 +84,7 @@ export function SignInForm({
             className="input-cc w-full"
           />
         </div>
-        {state?.error && <p className="cc-alert-error">{state.error}</p>}
-        <button
-          type="submit"
-          disabled={pending}
-          className="cc-btn-primary w-full disabled:opacity-50"
-          aria-busy={pending}
-        >
-          {pending ? "Signing in…" : "Sign in with email"}
-        </button>
+        <SignInSubmitButton />
       </form>
 
       <p className="text-center text-sm text-slate-500">
