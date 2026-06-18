@@ -196,8 +196,17 @@ export async function completeRegistrationWithLegalAcceptance(
       email: account.email,
     });
 
-    if (!issued.ok && issued.reason !== "cooldown") {
-      return { error: "Could not send verification email. Try again shortly." };
+    if (!issued.ok) {
+      if (issued.reason === "cooldown") {
+        /* still proceed — user may already have a pending code */
+      } else if (issued.reason === "delivery_failed") {
+        return {
+          error:
+            "We could not deliver a verification code right now. Try again in a few minutes or contact support.",
+        };
+      } else {
+        return { error: "Could not send verification email. Try again shortly." };
+      }
     }
   } catch (err) {
     if (isNextRedirectError(err)) throw err;

@@ -9,6 +9,7 @@ import {
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
 import { getEmailDeliveryPort } from "@/lib/email/get-email-delivery-port";
+import { buildCrowVerificationEmail } from "@/lib/email/templates/crow-verification-email";
 import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 
 const OTP_TTL_MS = 15 * 60 * 1000;
@@ -17,7 +18,10 @@ const MAX_SENDS_PER_CHALLENGE = 5;
 
 export type IssueVerificationResult =
   | { ok: true; challengeId: string }
-  | { ok: false; reason: "cooldown" | "max_sends" | "no_account" };
+  | {
+      ok: false;
+      reason: "cooldown" | "max_sends" | "no_account" | "delivery_failed";
+    };
 
 export async function issueEmailVerificationCode(input: {
   platformAccountId: string;
@@ -74,12 +78,32 @@ export async function issueEmailVerificationCode(input: {
     },
   });
 
+  const emailContent = buildCrowVerificationEmail({ code, expiresMinutes: 15 });
   const delivery = await getEmailDeliveryPort().send({
     to: input.email.trim(),
-    subject: "Your Crow verification code",
-    text: `Your Crow verification code is ${code}. It expires in 15 minutes.`,
-    html: `<p>Your Crow verification code is <strong>${code}</strong>.</p><p>It expires in 15 minutes.</p>`,
+    subject: emailContent.subject,
+    text: emailContent.text,
+    html: emailContent.html,
   });
+
+  if (delivery.status === "failed") {
+    await prisma.emailVerificationChallenge.update({
+      where: { id: challenge.id },
+      data: {
+        status: "revoked",
+        invalidatedAt: new Date(),
+        deliveryStatus: "failed",
+        providerMessageId: delivery.providerMessageId,
+      },
+    });
+    await recordPlatformAccountAudit(input.platformAccountId, "verification_failed", {
+      purpose,
+      challengeId: challenge.id,
+      reason: "delivery_failed",
+      channel: delivery.channel,
+    });
+    return { ok: false, reason: "delivery_failed" };
+  }
 
   await prisma.emailVerificationChallenge.update({
     where: { id: challenge.id },
@@ -93,6 +117,7 @@ export async function issueEmailVerificationCode(input: {
     purpose,
     challengeId: challenge.id,
     deliveryStatus: delivery.status,
+    channel: delivery.channel,
   });
 
   return { ok: true, challengeId: challenge.id };

@@ -109,6 +109,12 @@ export async function resendVerificationCode(
     if (issued.reason === "cooldown") {
       return { error: "Please wait before requesting another code." };
     }
+    if (issued.reason === "delivery_failed") {
+      return {
+        error:
+          "We could not deliver a verification code right now. Try again in a few minutes or contact support.",
+      };
+    }
     return { error: "Could not send a new code. Try again shortly." };
   }
 

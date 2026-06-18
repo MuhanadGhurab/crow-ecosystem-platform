@@ -3,6 +3,7 @@ import type {
   EmailDeliveryPayload,
   EmailDeliveryResult,
 } from "@/lib/email/email-delivery.port";
+import { redactEmailAddress } from "@/lib/email/email-redaction";
 
 type MailpitSendResponse = {
   ID?: string;
@@ -65,7 +66,11 @@ export class MailpitEmailDeliveryAdapter implements EmailDeliveryPort {
     }
 
     if (process.env.NODE_ENV !== "test") {
-      console.info("[C3 email] delivered to Mailpit for", payload.to, "— open inbox UI to read code");
+      console.info(
+        "[C3 email] delivered to Mailpit for",
+        redactEmailAddress(payload.to),
+        "— open inbox UI to read code"
+      );
     }
 
     return {
