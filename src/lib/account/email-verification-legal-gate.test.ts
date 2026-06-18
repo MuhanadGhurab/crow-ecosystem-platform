@@ -14,11 +14,15 @@ const platformSvc = readFileSync(
   "utf8"
 );
 
-const legalIdx = emailVerify.indexOf("const legalComplete = await hasMandatoryLegalAcceptanceComplete");
-const activateCallIdx = emailVerify.indexOf("await activatePlatformAccount(account.id)");
-assert(legalIdx >= 0, "email verification imports legal completeness check");
-assert(activateCallIdx >= 0, "email verification calls activatePlatformAccount");
-assert(legalIdx < activateCallIdx, "legal check runs before activation");
+const finalizeIdx = emailVerify.indexOf("async function finalizeActivationIfPending");
+const finalizeBody = emailVerify.slice(finalizeIdx);
+const legalIdx = finalizeBody.indexOf("hasMandatoryLegalAcceptanceComplete");
+const confirmIdx = finalizeBody.indexOf("confirmSupabaseUserEmail");
+const activateCallIdx = finalizeBody.indexOf("await activatePlatformAccount");
+assert(legalIdx >= 0, "finalize checks legal completeness");
+assert(confirmIdx >= 0, "finalize confirms Supabase email via admin");
+assert(activateCallIdx >= 0, "finalize calls activatePlatformAccount");
+assert(legalIdx < confirmIdx && confirmIdx < activateCallIdx, "legal → confirm → activate order");
 
 assert(
   emailVerify.includes('"legal_incomplete"'),

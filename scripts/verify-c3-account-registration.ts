@@ -336,9 +336,14 @@ function main() {
     "account actions must check isAccountRegistrationEnabled"
   );
   check(
-    accountActions.includes("runDeferredClientOnboarding"),
-    "Verify action runs deferred onboarding",
-    "verifyEmailCode must run deferred onboarding"
+    !accountActions.includes("runDeferredClientOnboarding"),
+    "Verify action does not auto-sign-in after OTP",
+    "verifyEmailCode must not run deferred onboarding or auto session"
+  );
+  check(
+    accountActions.includes("verified=1") || accountActions.includes('verified: "1"'),
+    "Verify action redirects to login with verified flag",
+    "verifyEmailCode must redirect to /login?verified=1"
   );
 
   const routes = fileText("src/lib/routes.ts");
