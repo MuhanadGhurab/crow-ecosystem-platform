@@ -52,3 +52,4 @@ tsconfig.tsbuildinfo
 # Cursor / agent local state (repo policy: do not commit)
 .agents/
 skills-lock.json
+.vercel
