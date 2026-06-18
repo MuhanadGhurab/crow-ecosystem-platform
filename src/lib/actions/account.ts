@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { redirectToAppPath } from "@/lib/auth/next-redirect";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import {
@@ -111,7 +111,7 @@ export async function verifyEmailCode(
 export async function submitVerifyEmailFormAction(formData: FormData): Promise<void> {
   const result = await verifyEmailCode(undefined, formData);
   if (result?.redirectPath) {
-    redirect(result.redirectPath);
+    await redirectToAppPath(result.redirectPath);
   }
 
   const email = String(formData.get("email") ?? "").trim();
@@ -123,7 +123,7 @@ export async function submitVerifyEmailFormAction(formData: FormData): Promise<v
   if (result?.message) params.set("message", result.message);
 
   const qs = params.toString();
-  redirect(qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail);
+  await redirectToAppPath(qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail);
 }
 
 export async function resendVerificationCode(
@@ -186,7 +186,7 @@ export async function updateAccountProfile(
   const user = await requireAuth(routes.account.profile);
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account || !isPlatformAccountActive(account)) {
-    redirect(routes.account.verifyEmail);
+    return await redirectToAppPath(routes.account.verifyEmail);
   }
 
   try {

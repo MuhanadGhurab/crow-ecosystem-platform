@@ -41,6 +41,7 @@ const gate = readFileSync(
 );
 assert(gate.includes('name="termsAccepted"'), "named terms field");
 assert(gate.includes('value="true"'), "explicit true value");
+assert(gate.includes("terms-ack-checkbox"), "visible acknowledgement control");
 assert(!gate.includes("useActionState"), "no useActionState on legal form");
 assert(gate.includes("action={submitRegistrationLegalFormAction}"), "server action bound");
 

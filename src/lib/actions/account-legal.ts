@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { isNextRedirectError, redirectToAppPath } from "@/lib/auth/next-redirect";
 import { revalidatePath } from "next/cache";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import { issueEmailVerificationCode } from "@/lib/account/email-verification.service";
@@ -81,15 +81,6 @@ function c3DisabledState(ctx: RegistrationContext): LegalActionState {
   };
 }
 
-function isNextRedirectError(err: unknown): boolean {
-  return (
-    typeof err === "object" &&
-    err !== null &&
-    "digest" in err &&
-    String((err as { digest?: string }).digest).startsWith("NEXT_REDIRECT")
-  );
-}
-
 function buildVerifyEmailRedirect(email: string, next?: string): string {
   const params = new URLSearchParams({ email });
   if (next) params.set("next", next);
@@ -119,12 +110,12 @@ function markStage(
   });
 }
 
-function buildLegalFailureRedirect(
+async function buildLegalFailureRedirect(
   formData: FormData,
   code: C3RegistrationErrorCode,
   supportRef: string,
   message?: string
-): never {
+): Promise<never> {
   const email = String(formData.get("email") ?? "").trim();
   const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
   const params = new URLSearchParams();
@@ -133,7 +124,7 @@ function buildLegalFailureRedirect(
   params.set("error", code);
   params.set("ref", supportRef);
   if (message) params.set("message", message);
-  redirect(`${routes.account.registerLegal}?${params.toString()}`);
+  return await redirectToAppPath(`${routes.account.registerLegal}?${params.toString()}`);
 }
 
 /** Transactional registration: server-admin Auth user + platform account + legal + Crow OTP. */
@@ -425,7 +416,7 @@ export async function submitRegistrationLegalFormAction(formData: FormData): Pro
     const code = classifyRegistrationFailure(
       err instanceof Error ? err.message : "registration_failed"
     );
-    buildLegalFailureRedirect(
+    await buildLegalFailureRedirect(
       formData,
       code,
       supportRef,
@@ -434,7 +425,7 @@ export async function submitRegistrationLegalFormAction(formData: FormData): Pro
   }
 
   if (result?.redirectPath) {
-    redirect(result.redirectPath);
+    await redirectToAppPath(result.redirectPath);
   }
 
   const email = String(formData.get("email") ?? "").trim();
@@ -457,7 +448,7 @@ export async function submitRegistrationLegalFormAction(formData: FormData): Pro
 
   params.set("message", displayMessage);
   markStage(ctx, "REGISTRATION_REDIRECT_FAILED", "failed", code);
-  redirect(`${routes.account.registerLegal}?${params.toString()}`);
+  await redirectToAppPath(`${routes.account.registerLegal}?${params.toString()}`);
 }
 
 /** @deprecated use submitRegistrationLegalFormAction — kept for tests referencing export name */

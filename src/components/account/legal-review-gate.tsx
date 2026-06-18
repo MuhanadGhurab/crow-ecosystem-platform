@@ -233,13 +233,16 @@ export function LegalReviewGate({
         {hasTerms && (
           <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-300">
             <input
+              id="terms-ack-checkbox"
               type="checkbox"
-              name="termsAccepted"
-              value="true"
+              checked={termsChecked}
               disabled={!reviewedByType.TERMS_OF_SERVICE}
               onChange={(e) => setTermsChecked(e.target.checked)}
               className="mt-1"
             />
+            {termsChecked && reviewedByType.TERMS_OF_SERVICE ? (
+              <input type="hidden" name="termsAccepted" value="true" />
+            ) : null}
             <span>
               I have read and accept the Terms of Service, including platform rules
               governing my use of Crow.
@@ -250,13 +253,16 @@ export function LegalReviewGate({
         {hasPrivacy && (
           <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-300">
             <input
+              id="privacy-ack-checkbox"
               type="checkbox"
-              name="privacyAcknowledged"
-              value="true"
+              checked={privacyChecked}
               disabled={!reviewedByType.PRIVACY_NOTICE}
               onChange={(e) => setPrivacyChecked(e.target.checked)}
               className="mt-1"
             />
+            {privacyChecked && reviewedByType.PRIVACY_NOTICE ? (
+              <input type="hidden" name="privacyAcknowledged" value="true" />
+            ) : null}
             <span>
               I acknowledge that I have read the Privacy Notice and understand how
               Crow processes my personal data.
@@ -267,13 +273,16 @@ export function LegalReviewGate({
         {hasAup && (
           <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-300">
             <input
+              id="aup-ack-checkbox"
               type="checkbox"
-              name="aupAccepted"
-              value="true"
+              checked={aupChecked}
               disabled={!reviewedByType.ACCEPTABLE_USE_POLICY}
               onChange={(e) => setAupChecked(e.target.checked)}
               className="mt-1"
             />
+            {aupChecked && reviewedByType.ACCEPTABLE_USE_POLICY ? (
+              <input type="hidden" name="aupAccepted" value="true" />
+            ) : null}
             <span>I accept the Acceptable Use Policy.</span>
           </label>
         )}

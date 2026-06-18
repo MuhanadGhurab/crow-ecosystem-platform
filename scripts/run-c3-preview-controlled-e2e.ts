@@ -162,17 +162,15 @@ async function acceptAllLegalDocs(page: Page) {
     await page.waitForTimeout(300);
   }
 
-  for (const name of ["termsAccepted", "privacyAcknowledged", "aupAccepted"]) {
-    const input = page.locator(`input[type="checkbox"][name="${name}"]`);
+  for (const id of ["terms-ack-checkbox", "privacy-ack-checkbox", "aup-ack-checkbox"] as const) {
+    const input = page.locator(`#${id}`);
     if ((await input.count()) === 0) continue;
     await page.waitForFunction(
-      (fieldName) => {
-        const el = document.querySelector(
-          `input[type="checkbox"][name="${fieldName}"]`
-        ) as HTMLInputElement | null;
+      (checkboxId) => {
+        const el = document.getElementById(checkboxId) as HTMLInputElement | null;
         return Boolean(el && !el.disabled);
       },
-      name,
+      id,
       { timeout: 30_000 }
     );
     await input.check({ force: true });
@@ -180,8 +178,15 @@ async function acceptAllLegalDocs(page: Page) {
 
   await page.waitForFunction(
     () => {
+      const terms = document.querySelector('input[name="termsAccepted"]');
+      const privacy = document.querySelector('input[name="privacyAcknowledged"]');
+      const aup = document.querySelector('input[name="aupAccepted"]');
       const btn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-      return Boolean(btn && !btn.disabled && btn.textContent?.includes("Continue to email verification"));
+      const acks =
+        (!document.getElementById("terms-ack-checkbox") || terms) &&
+        (!document.getElementById("privacy-ack-checkbox") || privacy) &&
+        (!document.getElementById("aup-ack-checkbox") || aup);
+      return Boolean(acks && btn && !btn.disabled);
     },
     { timeout: 30_000 }
   );
