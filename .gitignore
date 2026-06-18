@@ -53,3 +53,6 @@ tsconfig.tsbuildinfo
 .agents/
 skills-lock.json
 .vercel
+
+# C3 pre-migration backups (local operator artifacts; never commit)
+.backups/

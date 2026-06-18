@@ -44,7 +44,47 @@ export function isMigrationExplicitlyAllowed(): boolean {
   return process.env.ALLOW_DATABASE_MIGRATION === "true";
 }
 
-export function assertAppDatabaseEnvironmentAlignment(): void {
+export type BackendIsolation = "shared" | "isolated";
+
+export function resolveBackendIsolation(): BackendIsolation | null {
+  const raw = process.env.BACKEND_ISOLATION?.trim().toLowerCase();
+  if (raw === "shared" || raw === "isolated") return raw;
+  return null;
+}
+
+export const SHARED_PRODUCTION_BACKEND_WARNING = [
+  "⚠ SHARED PRODUCTION BACKEND",
+  "APP_ENVIRONMENT=preview is paired with DATABASE_ENVIRONMENT=production.",
+  "Hosted migration checks target the live shared Supabase database.",
+  "Check-only does not apply migrations. Apply requires a separate PO authorization phrase.",
+].join("\n");
+
+export function isSharedProductionBackendPairing(): boolean {
+  return resolveAppEnvironment() === "preview" && resolveDatabaseEnvironment() === "production";
+}
+
+export function assertSharedProductionBackendAcknowledged(
+  allowSharedProductionBackend: boolean
+): void {
+  if (!isSharedProductionBackendPairing()) return;
+
+  if (!allowSharedProductionBackend) {
+    throw new Error(
+      "Preview app is paired with DATABASE_ENVIRONMENT=production (shared backend). " +
+        "Re-run with --allow-shared-production-backend after operator review."
+    );
+  }
+
+  if (resolveBackendIsolation() !== "shared") {
+    throw new Error(
+      "BACKEND_ISOLATION=shared is required when acknowledging a shared production backend."
+    );
+  }
+}
+
+export function assertAppDatabaseEnvironmentAlignment(options?: {
+  allowSharedProductionBackend?: boolean;
+}): void {
   const appEnv = resolveAppEnvironment();
   const dbEnv = resolveDatabaseEnvironment();
 
@@ -52,6 +92,11 @@ export function assertAppDatabaseEnvironmentAlignment(): void {
     throw new Error(
       "DATABASE_ENVIRONMENT is not set. Set production, preview, local, or ci to match the database target."
     );
+  }
+
+  if (appEnv === "preview" && dbEnv === "production") {
+    assertSharedProductionBackendAcknowledged(Boolean(options?.allowSharedProductionBackend));
+    return;
   }
 
   if (appEnv === "preview" && dbEnv !== "preview") {
@@ -67,20 +112,48 @@ export function assertAppDatabaseEnvironmentAlignment(): void {
   }
 }
 
-export function assertDatabaseFingerprintMatches(): void {
+export function resolveDirectDatabaseUrl(): string | null {
+  return process.env.DIRECT_URL?.trim() || null;
+}
+
+export function expectedDirectDatabaseFingerprint(): string | null {
+  const direct = process.env.EXPECTED_DIRECT_DATABASE_FINGERPRINT?.trim();
+  if (direct) return direct;
+  return expectedDatabaseFingerprint();
+}
+
+export function assertDatabaseFingerprintMatches(url?: string): void {
   const expected = expectedDatabaseFingerprint();
-  const url = process.env.DATABASE_URL?.trim();
+  const target = url?.trim() || process.env.DATABASE_URL?.trim();
   if (!expected) {
     throw new Error("EXPECTED_DATABASE_FINGERPRINT is not set.");
   }
-  if (!url) {
+  if (!target) {
     throw new Error("DATABASE_URL is not set.");
   }
 
-  const actual = fingerprintDatabaseUrl(url).targetHash;
+  const actual = fingerprintDatabaseUrl(target).targetHash;
   if (actual !== expected) {
     throw new Error(
-      `Database fingerprint mismatch (expected ${expected}, actual ${actual}). Target: ${maskDatabaseTarget(url)}`
+      `Database fingerprint mismatch (expected ${expected}, actual ${actual}). Target: ${maskDatabaseTarget(target)}`
+    );
+  }
+}
+
+export function assertDirectDatabaseFingerprintMatches(): void {
+  const expected = expectedDirectDatabaseFingerprint();
+  const direct = resolveDirectDatabaseUrl();
+  if (!expected) {
+    throw new Error("EXPECTED_DIRECT_DATABASE_FINGERPRINT (or EXPECTED_DATABASE_FINGERPRINT) is not set.");
+  }
+  if (!direct) {
+    throw new Error("DIRECT_URL is not set.");
+  }
+
+  const actual = fingerprintDatabaseUrl(direct).targetHash;
+  if (actual !== expected) {
+    throw new Error(
+      `Direct database fingerprint mismatch (expected ${expected}, actual ${actual}). Target: ${maskDatabaseTarget(direct)}`
     );
   }
 }

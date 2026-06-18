@@ -1,135 +1,124 @@
 #!/usr/bin/env tsx
 /**
- * Create a logical backup of the shared Supabase database before controlled migration.
- * Output stays outside Git. Requires DATABASE_URL (use --env-file=.env.staging).
- *
- * Run: npm run db:backup:pre-migration -- --env-file=.env.staging
+ * C3.4 — Create verified pre-migration backups (custom archive + schema-only).
+ * Run: npm run db:backup:pre-migration
  */
 import { createHash } from "node:crypto";
-import { spawnSync } from "node:child_process";
-import { mkdirSync, statSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  assertDirectDatabaseFingerprintMatches,
+  resolveBackendIsolation,
+  resolveDatabaseEnvironment,
+} from "./lib/database-environment";
 import { fingerprintDatabaseUrl, maskDatabaseTarget } from "./lib/database-fingerprint";
-import { assertDatabaseFingerprintMatches, resolveDatabaseEnvironment, expectedDatabaseFingerprint } from "./lib/database-environment";
+import {
+  queryServerMajorVersion,
+  resolvePgBackupClient,
+  runPgDumpToFile,
+} from "./lib/pg-backup-client";
 
-function parseEnvFileArg(argv: string[]): string | null {
-  const idx = argv.indexOf("--env-file");
-  if (idx >= 0 && argv[idx + 1]) return argv[idx + 1] ?? null;
-  return null;
-}
-
-function loadEnvFile(path: string) {
-  const { config } = require("dotenv") as typeof import("dotenv");
-  config({ path });
-}
+const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-pre-migration");
 
 function main() {
-  const envFile = parseEnvFileArg(process.argv.slice(2));
-  if (envFile) loadEnvFile(envFile);
-
-  const dbEnv = resolveDatabaseEnvironment();
-  if (!dbEnv) {
-    console.error("DATABASE_ENVIRONMENT is not set. Set production for shared backup.");
-    process.exit(1);
-  }
+  const dbEnv = resolveDatabaseEnvironment() ?? "production";
   if (dbEnv !== "production") {
-    console.error(`DATABASE_ENVIRONMENT must be production for shared backup (got ${dbEnv ?? "unset"}).`);
+    console.error(`DATABASE_ENVIRONMENT must be production (got ${dbEnv}).`);
+    process.exit(1);
+  }
+  if (!process.env.DATABASE_ENVIRONMENT?.trim()) {
+    process.env.DATABASE_ENVIRONMENT = "production";
+  }
+  if (!process.env.EXPECTED_DIRECT_DATABASE_FINGERPRINT?.trim()) {
+    process.env.EXPECTED_DIRECT_DATABASE_FINGERPRINT = "0355c17692e2a90d";
+  }
+
+  const directUrl = process.env.DIRECT_URL?.trim();
+  if (!directUrl) {
+    console.error("DIRECT_URL is required for pre-migration backup.");
     process.exit(1);
   }
 
-  const databaseUrl =
-    process.env.DIRECT_URL?.trim() || process.env.DATABASE_URL?.trim();
-  if (!databaseUrl) {
-    console.error("DIRECT_URL or DATABASE_URL is not set.");
-    process.exit(1);
-  }
-
-  const expected = expectedDatabaseFingerprint();
-  if (expected) {
-    const actual = fingerprintDatabaseUrl(databaseUrl).targetHash;
-    if (actual !== expected) {
-      console.error(
-        `Backup target fingerprint mismatch (expected ${expected}, actual ${actual}). Target: ${maskDatabaseTarget(databaseUrl)}`
-      );
-      process.exit(1);
-    }
-  } else if (process.env.DATABASE_URL?.trim()) {
-    assertDatabaseFingerprintMatches();
-  } else {
-    console.error("EXPECTED_DATABASE_FINGERPRINT is not set.");
+  try {
+    assertDirectDatabaseFingerprintMatches();
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : err);
     process.exit(1);
   }
 
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const outDir = join(process.cwd(), ".backups", "c3-pre-migration");
+  const outDir = join(BACKUP_ROOT, stamp);
   mkdirSync(outDir, { recursive: true });
-  const sqlPath = join(outDir, `${stamp}-shared-production.sql`);
-  const metaPath = join(outDir, `${stamp}-shared-production.meta.json`);
 
-  console.log("\n=== Pre-migration backup ===\n");
-  console.log(`Target: ${maskDatabaseTarget(databaseUrl)}`);
-  console.log(`Output: ${sqlPath}`);
+  const archivePath = join(outDir, "shared-production.custom.dump");
+  const schemaPath = join(outDir, "shared-production.schema.sql");
+  const manifestPath = join(outDir, "manifest.json");
 
-  const dumpFlags = ["--no-owner", "--no-privileges", "--format=plain"];
+  console.log("\n=== C3 pre-migration backup ===\n");
+  console.log(`Target: ${maskDatabaseTarget(directUrl)}`);
+  console.log(`Output: ${outDir}`);
 
-  let dump = spawnSync("pg_dump", [...dumpFlags, `--file=${sqlPath}`, databaseUrl], {
-    encoding: "utf8",
-    shell: process.platform === "win32",
-  });
+  const server = queryServerMajorVersion(directUrl);
+  const client = resolvePgBackupClient(server.major);
 
-  if (dump.status !== 0) {
-    console.warn("pg_dump not available locally — trying Docker postgres:15-alpine…");
-    const sslUrl = databaseUrl.includes("?")
-      ? `${databaseUrl}&sslmode=require`
-      : `${databaseUrl}?sslmode=require`;
-    const dockerOut = spawnSync(
-      "docker",
-      ["run", "--rm", "-e", "PGSSLMODE=require", "postgres:15-alpine", "pg_dump", ...dumpFlags, sslUrl],
-      { encoding: "buffer", shell: process.platform === "win32", maxBuffer: 1024 * 1024 * 512 }
-    );
-    if (dockerOut.status === 0 && dockerOut.stdout) {
-      writeFileSync(sqlPath, dockerOut.stdout);
-      dump = { status: 0, stderr: "" } as ReturnType<typeof spawnSync>;
-    } else {
-      dump = dockerOut;
-    }
-  }
+  console.log(`Server major: ${server.major}`);
+  console.log(`Client: ${client.kind} (${client.clientVersion})`);
 
-  if (dump.status !== 0) {
-    console.error("\n✗ pg_dump failed");
-    console.error(dump.stderr?.slice(0, 500) ?? "unknown error");
-    console.error("\nInstall PostgreSQL client tools or run backup from an operator workstation with pg_dump.\n");
+  runPgDumpToFile(
+    archivePath,
+    ["--format=custom", "--compress=9", "--no-owner", "--no-acl"],
+    directUrl,
+    client
+  );
+  runPgDumpToFile(
+    schemaPath,
+    ["--schema-only", "--no-owner", "--no-acl"],
+    directUrl,
+    client
+  );
+
+  const archiveBytes = readFileSync(archivePath);
+  const schemaBytes = readFileSync(schemaPath);
+  if (archiveBytes.length === 0 || schemaBytes.length === 0) {
+    console.error("\n✗ Backup artifact is empty\n");
     process.exit(1);
   }
 
-  const { readFileSync } = require("node:fs") as typeof import("node:fs");
-  const bytes = readFileSync(sqlPath);
-  if (bytes.length === 0) {
-    console.error("\n✗ Backup file is empty\n");
-    process.exit(1);
-  }
-
-  const checksum = createHash("sha256").update(bytes).digest("hex");
-  const meta = {
-    createdAt: new Date().toISOString(),
+  const manifest = {
+    createdAtUtc: new Date().toISOString(),
     databaseEnvironment: dbEnv,
-    maskedTarget: maskDatabaseTarget(databaseUrl),
-    byteLength: bytes.length,
-    sha256: checksum,
-    restoration: [
-      "1. Restore to a disposable Postgres instance only (never overwrite production without PO authorization).",
-      "2. psql \"$RESTORE_DATABASE_URL\" -f <backup.sql>",
-      "3. Verify `_prisma_migrations` row count matches pre-migration audit.",
-      "4. Run npm run db:migrate:controlled -- --environment production --check-only before any apply.",
-    ],
+    backendIsolation: resolveBackendIsolation(),
+    maskedTarget: maskDatabaseTarget(directUrl),
+    directFingerprint: fingerprintDatabaseUrl(directUrl).targetHash,
+    serverMajor: server.major,
+    serverVersionRaw: server.raw,
+    clientKind: client.kind,
+    clientVersion: client.clientVersion,
+    artifacts: {
+      customArchive: {
+        path: archivePath,
+        byteLength: archiveBytes.length,
+        sha256: createHash("sha256").update(archiveBytes).digest("hex"),
+      },
+      schemaOnly: {
+        path: schemaPath,
+        byteLength: schemaBytes.length,
+        sha256: createHash("sha256").update(schemaBytes).digest("hex"),
+      },
+    },
+    restoreTemplate:
+      "pg_restore --no-owner --no-acl --dbname \"$RESTORE_DATABASE_URL\" shared-production.custom.dump",
   };
-  writeFileSync(metaPath, JSON.stringify(meta, null, 2));
 
-  console.log("\n✓ Backup created");
-  console.log(`  Path: ${sqlPath}`);
-  console.log(`  SHA-256: ${checksum}`);
-  console.log(`  Bytes: ${bytes.length}`);
-  console.log(`  Meta: ${metaPath}\n`);
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+  writeFileSync(join(BACKUP_ROOT, "LATEST"), stamp);
+
+  console.log("\n✓ Backup artifacts created");
+  console.log(`  Custom archive: ${archivePath}`);
+  console.log(`  Schema-only: ${schemaPath}`);
+  console.log(`  Archive SHA-256: ${manifest.artifacts.customArchive.sha256}`);
+  console.log(`  Archive bytes: ${manifest.artifacts.customArchive.byteLength}`);
+  console.log(`  Manifest: ${manifestPath}\n`);
 }
 
 main();
