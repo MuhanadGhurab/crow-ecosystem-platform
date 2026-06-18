@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CrowBrandLabSection } from "@/components/crow-core-lab/crow-brand-lab-section";
 import { ProductPageHeader } from "@/components/product/product-page-header";
 import { ProductSection } from "@/components/product/product-section";
 import { ProductStatusCard } from "@/components/product/product-status-card";
@@ -320,6 +321,8 @@ export function ArchitectureLabContent() {
           ))}
         </div>
       </ProductSection>
+
+      <CrowBrandLabSection />
     </div>
   );
 }
