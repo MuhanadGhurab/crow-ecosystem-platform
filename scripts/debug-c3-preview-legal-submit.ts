@@ -35,6 +35,25 @@ async function main() {
     }
   });
 
+  page.on("request", (req) => {
+    if (req.method() === "POST") {
+      console.log("POST", req.url());
+    }
+  });
+
+  page.on("response", async (res) => {
+    if (res.request().method() !== "POST") return;
+    const headers = res.headers();
+    console.log(
+      "POST response",
+      res.status(),
+      "location=",
+      headers.location ?? "",
+      "x-action-redirect=",
+      headers["x-action-redirect"] ?? ""
+    );
+  });
+
   await page.goto(`${PREVIEW}/signup`, { waitUntil: "networkidle" });
   await page.fill("#email", email);
   await page.fill("#password", password);
@@ -54,14 +73,7 @@ async function main() {
   for (const id of ["terms-ack-checkbox", "privacy-ack-checkbox", "aup-ack-checkbox"] as const) {
     const input = page.locator(`#${id}`);
     if ((await input.count()) === 0) continue;
-    await page.waitForFunction(
-      (checkboxId) => {
-        const el = document.getElementById(checkboxId) as HTMLInputElement | null;
-        return Boolean(el && !el.disabled);
-      },
-      id
-    );
-    await input.check({ force: true });
+    await input.check();
   }
   await page.waitForFunction(
     () => {

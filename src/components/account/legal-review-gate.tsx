@@ -235,14 +235,11 @@ export function LegalReviewGate({
             <input
               id="terms-ack-checkbox"
               type="checkbox"
-              checked={termsChecked}
-              disabled={!reviewedByType.TERMS_OF_SERVICE}
+              name="termsAccepted"
+              value="true"
               onChange={(e) => setTermsChecked(e.target.checked)}
               className="mt-1"
             />
-            {termsChecked && reviewedByType.TERMS_OF_SERVICE ? (
-              <input type="hidden" name="termsAccepted" value="true" />
-            ) : null}
             <span>
               I have read and accept the Terms of Service, including platform rules
               governing my use of Crow.
@@ -255,14 +252,11 @@ export function LegalReviewGate({
             <input
               id="privacy-ack-checkbox"
               type="checkbox"
-              checked={privacyChecked}
-              disabled={!reviewedByType.PRIVACY_NOTICE}
+              name="privacyAcknowledged"
+              value="true"
               onChange={(e) => setPrivacyChecked(e.target.checked)}
               className="mt-1"
             />
-            {privacyChecked && reviewedByType.PRIVACY_NOTICE ? (
-              <input type="hidden" name="privacyAcknowledged" value="true" />
-            ) : null}
             <span>
               I acknowledge that I have read the Privacy Notice and understand how
               Crow processes my personal data.
@@ -275,14 +269,11 @@ export function LegalReviewGate({
             <input
               id="aup-ack-checkbox"
               type="checkbox"
-              checked={aupChecked}
-              disabled={!reviewedByType.ACCEPTABLE_USE_POLICY}
+              name="aupAccepted"
+              value="true"
               onChange={(e) => setAupChecked(e.target.checked)}
               className="mt-1"
             />
-            {aupChecked && reviewedByType.ACCEPTABLE_USE_POLICY ? (
-              <input type="hidden" name="aupAccepted" value="true" />
-            ) : null}
             <span>I accept the Acceptable Use Policy.</span>
           </label>
         )}

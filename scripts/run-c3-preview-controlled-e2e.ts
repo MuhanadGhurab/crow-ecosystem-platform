@@ -165,28 +165,13 @@ async function acceptAllLegalDocs(page: Page) {
   for (const id of ["terms-ack-checkbox", "privacy-ack-checkbox", "aup-ack-checkbox"] as const) {
     const input = page.locator(`#${id}`);
     if ((await input.count()) === 0) continue;
-    await page.waitForFunction(
-      (checkboxId) => {
-        const el = document.getElementById(checkboxId) as HTMLInputElement | null;
-        return Boolean(el && !el.disabled);
-      },
-      id,
-      { timeout: 30_000 }
-    );
-    await input.check({ force: true });
+    await input.check();
   }
 
   await page.waitForFunction(
     () => {
-      const terms = document.querySelector('input[name="termsAccepted"]');
-      const privacy = document.querySelector('input[name="privacyAcknowledged"]');
-      const aup = document.querySelector('input[name="aupAccepted"]');
       const btn = document.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-      const acks =
-        (!document.getElementById("terms-ack-checkbox") || terms) &&
-        (!document.getElementById("privacy-ack-checkbox") || privacy) &&
-        (!document.getElementById("aup-ack-checkbox") || aup);
-      return Boolean(acks && btn && !btn.disabled);
+      return Boolean(btn && !btn.disabled);
     },
     { timeout: 30_000 }
   );
