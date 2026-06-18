@@ -1,32 +1,42 @@
 "use client";
 
 import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import {
   resendVerificationCode,
-  verifyEmailCode,
+  submitVerifyEmailFormAction,
   type AccountActionState,
 } from "@/lib/actions/account";
 
 const initial: AccountActionState = undefined;
 
+function VerifySubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button type="submit" disabled={pending} className="btn-cc-primary w-full">
+      {pending ? "Verifying…" : "Verify email"}
+    </button>
+  );
+}
+
 export function VerifyEmailForm({
   email,
   nextPath,
+  initialError,
+  initialMessage,
 }: {
   email: string;
   nextPath?: string;
+  initialError?: string;
+  initialMessage?: string;
 }) {
-  const [verifyState, verifyAction, verifyPending] = useActionState(
-    verifyEmailCode,
-    initial
-  );
   const [resendState, resendAction, resendPending] = useActionState(
     resendVerificationCode,
     initial
   );
 
-  const error = verifyState?.error ?? resendState?.error;
-  const message = verifyState?.message ?? resendState?.message;
+  const error = initialError ?? resendState?.error;
+  const message = initialMessage ?? resendState?.message;
 
   return (
     <div className="space-y-6">
@@ -48,7 +58,7 @@ export function VerifyEmailForm({
         </p>
       )}
 
-      <form action={verifyAction} className="space-y-4">
+      <form action={submitVerifyEmailFormAction} className="space-y-4">
         <input type="hidden" name="email" value={email} />
         {nextPath && <input type="hidden" name="next" value={nextPath} />}
         <div>
@@ -68,9 +78,7 @@ export function VerifyEmailForm({
             className="input-cc mt-1 w-full tracking-[0.35em] text-center font-mono text-lg"
           />
         </div>
-        <button type="submit" disabled={verifyPending} className="btn-cc-primary w-full">
-          {verifyPending ? "Verifying…" : "Verify email"}
-        </button>
+        <VerifySubmitButton />
       </form>
 
       <form action={resendAction}>
@@ -78,9 +86,9 @@ export function VerifyEmailForm({
         <button
           type="submit"
           disabled={resendPending}
-          className="w-full text-sm text-cyan-400 hover:text-cyan-300 disabled:opacity-50"
+          className="text-sm text-cyan-400 hover:text-cyan-300 disabled:opacity-50"
         >
-          {resendPending ? "Sending…" : "Resend code"}
+          {resendPending ? "Sending…" : "Resend verification code"}
         </button>
       </form>
     </div>

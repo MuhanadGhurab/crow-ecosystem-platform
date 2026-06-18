@@ -13,18 +13,33 @@ import { getSessionUser } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 import { resolveRegistrationLocale } from "@/lib/legal/registration-locale";
+import { resolveRegistrationErrorDisplay } from "@/lib/account/c3-registration-error-display";
 import { routes } from "@/lib/routes";
+
+export const maxDuration = 60;
 
 export default async function RegisterLegalPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; email?: string }>;
+  searchParams: Promise<{
+    next?: string;
+    email?: string;
+    error?: string;
+    message?: string;
+    ref?: string;
+  }>;
 }) {
   if (!isAccountRegistrationEnabled()) {
     redirect("/login?error=config");
   }
 
-  const { next, email: emailParam } = await searchParams;
+  const {
+    next,
+    email: emailParam,
+    error: errorParam,
+    message: messageParam,
+    ref: refParam,
+  } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
   const initialEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
@@ -49,6 +64,12 @@ export default async function RegisterLegalPage({
   const showAccountFields = !user;
   const email = user?.email ?? initialEmail;
 
+  const errorDisplay = resolveRegistrationErrorDisplay({
+    error: typeof errorParam === "string" ? errorParam : undefined,
+    message: typeof messageParam === "string" ? messageParam : undefined,
+    ref: typeof refParam === "string" ? refParam : undefined,
+  });
+
   return (
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-2xl !p-6 sm:!p-8">
@@ -65,6 +86,12 @@ export default async function RegisterLegalPage({
           nextPath={nextPath}
           showAccountFields={showAccountFields}
           initialEmail={email}
+          initialErrorBody={
+            errorDisplay?.isAlert ? errorDisplay.body : undefined
+          }
+          initialMessageBody={
+            errorDisplay && !errorDisplay.isAlert ? errorDisplay.body : undefined
+          }
         />
       </div>
     </div>

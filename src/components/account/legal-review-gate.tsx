@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useMemo, useState } from "react";
-import {
-  completeRegistrationWithLegalAcceptance,
-  type LegalActionState,
-} from "@/lib/actions/account-legal";
+import { useMemo, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { submitRegistrationLegalFormAction } from "@/lib/actions/account-legal";
 import { legalDocumentPublicPath } from "@/lib/legal/legal-urls";
 import type { LegalDocumentType, MandatoryClassification } from "@prisma/client";
 import { routes } from "@/lib/routes";
@@ -28,7 +26,35 @@ const DOC_LABELS: Partial<Record<LegalDocumentType, string>> = {
   ACCEPTABLE_USE_POLICY: "Acceptable Use Policy",
 };
 
-const initial: LegalActionState = undefined;
+function LegalSubmitButton({
+  canSubmit,
+  allReviewed,
+  checkboxesOk,
+}: {
+  canSubmit: boolean;
+  allReviewed: boolean;
+  checkboxesOk: boolean;
+}) {
+  const { pending } = useFormStatus();
+  const disabled = !canSubmit || pending;
+
+  return (
+    <button
+      type="submit"
+      disabled={disabled}
+      className="btn-cc-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
+      aria-disabled={disabled}
+    >
+      {pending
+        ? "Saving…"
+        : !allReviewed
+          ? "Read to the end to continue"
+          : !checkboxesOk
+            ? "Confirm required acknowledgements"
+            : "Continue to email verification"}
+    </button>
+  );
+}
 
 export function LegalReviewGate({
   documents,
@@ -36,18 +62,17 @@ export function LegalReviewGate({
   nextPath,
   showAccountFields = false,
   initialEmail = "",
+  initialErrorBody,
+  initialMessageBody,
 }: {
   documents: MandatoryLegalDoc[];
   locale: string;
   nextPath?: string;
   showAccountFields?: boolean;
   initialEmail?: string;
+  initialErrorBody?: string;
+  initialMessageBody?: string;
 }) {
-  const [state, action, pending] = useActionState(
-    completeRegistrationWithLegalAcceptance,
-    initial
-  );
-
   const [activeTab, setActiveTab] = useState(0);
   const [reviewedByType, setReviewedByType] = useState<Record<string, boolean>>({});
 
@@ -58,7 +83,6 @@ export function LegalReviewGate({
   const [termsChecked, setTermsChecked] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [aupChecked, setAupChecked] = useState(false);
-  const [marketingChecked, setMarketingChecked] = useState(false);
 
   const allReviewed = useMemo(
     () => documents.every((d) => reviewedByType[d.documentType]),
@@ -70,11 +94,7 @@ export function LegalReviewGate({
     (!hasPrivacy || privacyChecked) &&
     (!hasAup || aupChecked);
 
-  const canSubmit = allReviewed && checkboxesOk && !pending;
-
-  const mandatoryVersionsJson = JSON.stringify(
-    documents.map((d) => ({ documentType: d.documentType, versionId: d.id }))
-  );
+  const canSubmit = allReviewed && checkboxesOk;
 
   if (documents.length === 0) {
     return (
@@ -88,20 +108,19 @@ export function LegalReviewGate({
   const activeDoc = documents[activeTab] ?? documents[0];
 
   return (
-    <form action={action} className="mt-6 space-y-6">
-      {state?.error && (
-        <p className="cc-alert-warning text-sm" role="alert">
-          {state.error}
+    <form action={submitRegistrationLegalFormAction} className="mt-6 space-y-6">
+      {initialErrorBody && (
+        <p className="cc-alert-warning whitespace-pre-line text-sm" role="alert">
+          {initialErrorBody}
         </p>
       )}
-      {state?.message && (
-        <p className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">
-          {state.message}
+      {initialMessageBody && !initialErrorBody && (
+        <p className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 whitespace-pre-line px-3 py-2 text-sm text-cyan-100">
+          {initialMessageBody}
         </p>
       )}
 
       <input type="hidden" name="locale" value={locale} />
-      <input type="hidden" name="mandatoryVersions" value={mandatoryVersionsJson} />
       {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
 
       {showAccountFields && (
@@ -216,9 +235,9 @@ export function LegalReviewGate({
             <input
               type="checkbox"
               name="termsAccepted"
-              checked={termsChecked}
-              onChange={(e) => setTermsChecked(e.target.checked)}
+              value="true"
               disabled={!reviewedByType.TERMS_OF_SERVICE}
+              onChange={(e) => setTermsChecked(e.target.checked)}
               className="mt-1"
             />
             <span>
@@ -233,9 +252,9 @@ export function LegalReviewGate({
             <input
               type="checkbox"
               name="privacyAcknowledged"
-              checked={privacyChecked}
-              onChange={(e) => setPrivacyChecked(e.target.checked)}
+              value="true"
               disabled={!reviewedByType.PRIVACY_NOTICE}
+              onChange={(e) => setPrivacyChecked(e.target.checked)}
               className="mt-1"
             />
             <span>
@@ -250,9 +269,9 @@ export function LegalReviewGate({
             <input
               type="checkbox"
               name="aupAccepted"
-              checked={aupChecked}
-              onChange={(e) => setAupChecked(e.target.checked)}
+              value="true"
               disabled={!reviewedByType.ACCEPTABLE_USE_POLICY}
+              onChange={(e) => setAupChecked(e.target.checked)}
               className="mt-1"
             />
             <span>I accept the Acceptable Use Policy.</span>
@@ -260,13 +279,7 @@ export function LegalReviewGate({
         )}
 
         <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-400">
-          <input
-            type="checkbox"
-            name="marketingOptIn"
-            checked={marketingChecked}
-            onChange={(e) => setMarketingChecked(e.target.checked)}
-            className="mt-1"
-          />
+          <input type="checkbox" name="marketingOptIn" value="true" className="mt-1" />
           <span>
             I agree to receive optional product and marketing emails from Crow. (Not
             required to create an account.)
@@ -274,20 +287,11 @@ export function LegalReviewGate({
         </label>
       </fieldset>
 
-      <button
-        type="submit"
-        disabled={!canSubmit}
-        className="btn-cc-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
-        aria-disabled={!canSubmit}
-      >
-        {pending
-          ? "Saving…"
-          : !allReviewed
-            ? "Read to the end to continue"
-            : !checkboxesOk
-              ? "Confirm required acknowledgements"
-              : "Continue to email verification"}
-      </button>
+      <LegalSubmitButton
+        canSubmit={canSubmit}
+        allReviewed={allReviewed}
+        checkboxesOk={checkboxesOk}
+      />
 
       <p className="text-center text-sm text-slate-500">
         Wrong account?{" "}

@@ -1,10 +1,8 @@
 "use server";
 
-import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import type { LegalDocumentType } from "@prisma/client";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import { issueEmailVerificationCode } from "@/lib/account/email-verification.service";
 import {
@@ -15,18 +13,34 @@ import {
   provisionUnconfirmedAuthUser,
 } from "@/lib/account/c3-registration-provisioning.service";
 import {
+  parseMandatoryLegalAcknowledgements,
+  resolveMandatoryAcceptancesForLocale,
+  validateMandatoryAcknowledgements,
+} from "@/lib/account/c3-legal-acknowledgement";
+import {
+  classifyRegistrationFailure,
+  createRegistrationCorrelationId,
+  formatSupportReference,
+  type C3RegistrationErrorCode,
+  userMessageForRegistrationError,
+} from "@/lib/account/c3-registration-errors";
+import {
+  emitC3RegistrationDiagnostic,
+  isC3RegistrationDiagnosticsEnabled,
+  sanitizeDiagnosticErrorClass,
+} from "@/lib/account/c3-registration-diagnostics";
+import {
   findPlatformAccountByEmailNormalized,
   findPlatformAccountBySupabaseUserId,
   isBlockedPlatformAccountStatus,
   isPlatformAccountActive,
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
-import { getSessionUser, requireActivePlatformAccount, requireAuth } from "@/lib/auth/session";
+import { getSessionUser, requireActivePlatformAccount } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { hashLegalDocumentContent } from "@/lib/legal/legal-document-hash";
 import {
   getCurrentPublishedMandatoryVersions,
-  getPublishedVersionById,
 } from "@/lib/legal/legal-document.service";
 import {
   hasMandatoryLegalAcceptanceComplete,
@@ -44,11 +58,27 @@ import { routes } from "@/lib/routes";
 import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 
 export type LegalActionState =
-  | { error?: string; message?: string }
+  | {
+      error?: string;
+      message?: string;
+      redirectPath?: string;
+      errorCode?: C3RegistrationErrorCode;
+      supportRef?: string;
+    }
   | undefined;
 
-function c3DisabledState(): LegalActionState {
-  return { error: "Account registration is not enabled." };
+type RegistrationContext = {
+  correlationId: string;
+  supportRef: string;
+  startedAt: number;
+};
+
+function c3DisabledState(ctx: RegistrationContext): LegalActionState {
+  return {
+    errorCode: "registration_disabled",
+    supportRef: ctx.supportRef,
+    error: userMessageForRegistrationError("registration_disabled", ctx.supportRef),
+  };
 }
 
 function isNextRedirectError(err: unknown): boolean {
@@ -73,94 +103,116 @@ function validatePasswordPair(password: string, passwordConfirm: string): string
   return null;
 }
 
-async function buildAcceptancesFromForm(
+function markStage(
+  ctx: RegistrationContext,
+  stage: Parameters<typeof emitC3RegistrationDiagnostic>[0]["stage"],
+  outcome: "ok" | "failed",
+  errorClass?: string
+) {
+  emitC3RegistrationDiagnostic({
+    correlationId: ctx.correlationId,
+    supportRef: ctx.supportRef,
+    stage,
+    outcome,
+    durationMs: Date.now() - ctx.startedAt,
+    errorClass,
+  });
+}
+
+function buildLegalFailureRedirect(
   formData: FormData,
-  locale: string
-): Promise<{ documentType: LegalDocumentType; versionId: string; contentHash: string }[]> {
-  const mandatoryRaw = formData.get("mandatoryVersions");
-  if (typeof mandatoryRaw !== "string") {
-    throw new LegalAcceptanceValidationError("Missing legal document versions.");
-  }
-
-  let entries: { documentType: LegalDocumentType; versionId: string }[];
-  try {
-    entries = JSON.parse(mandatoryRaw) as { documentType: LegalDocumentType; versionId: string }[];
-  } catch {
-    throw new LegalAcceptanceValidationError("Invalid legal document payload.");
-  }
-
-  if (!Array.isArray(entries) || entries.length === 0) {
-    throw new LegalAcceptanceValidationError("Missing legal document versions.");
-  }
-
-  const built: { documentType: LegalDocumentType; versionId: string; contentHash: string }[] =
-    [];
-  for (const entry of entries) {
-    const version = await getPublishedVersionById(entry.versionId);
-    if (!version || version.legalDocument.documentType !== entry.documentType) {
-      throw new LegalAcceptanceValidationError("Invalid legal document version.");
-    }
-    if (version.locale !== locale) {
-      throw new LegalAcceptanceValidationError("Legal document locale mismatch.");
-    }
-    built.push({
-      documentType: entry.documentType,
-      versionId: entry.versionId,
-      contentHash: hashLegalDocumentContent(version.contentBody),
-    });
-  }
-  return built;
+  code: C3RegistrationErrorCode,
+  supportRef: string,
+  message?: string
+): never {
+  const email = String(formData.get("email") ?? "").trim();
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+  const params = new URLSearchParams();
+  if (email) params.set("email", email);
+  if (next) params.set("next", next);
+  params.set("error", code);
+  params.set("ref", supportRef);
+  if (message) params.set("message", message);
+  redirect(`${routes.account.registerLegal}?${params.toString()}`);
 }
 
 /** Transactional registration: server-admin Auth user + platform account + legal + Crow OTP. */
-export async function completeRegistrationWithLegalAcceptance(
-  _prev: LegalActionState,
-  formData: FormData
+async function completeRegistrationWithLegalAcceptanceInternal(
+  formData: FormData,
+  ctx: RegistrationContext
 ): Promise<LegalActionState> {
+  markStage(ctx, "LEGAL_FORM_RECEIVED", "ok");
+
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "registration_disabled");
+    return c3DisabledState(ctx);
   }
 
-  const termsAccepted = formData.get("termsAccepted") === "on";
-  const privacyAcknowledged = formData.get("privacyAcknowledged") === "on";
-  const aupAccepted = formData.get("aupAccepted") === "on";
-  const marketingOptIn = formData.get("marketingOptIn") === "on";
+  const acks = parseMandatoryLegalAcknowledgements(formData);
   const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
-
   const locale = String(formData.get("locale") ?? (await resolveRegistrationLocale()));
+
   const mandatoryTypes = (
     await getCurrentPublishedMandatoryVersions({ locale })
   ).map((v) => v.legalDocument.documentType);
 
-  if (mandatoryTypes.includes("TERMS_OF_SERVICE") && !termsAccepted) {
-    return { error: "You must accept the Terms of Service." };
+  try {
+    validateMandatoryAcknowledgements({
+      mandatoryTypes,
+      termsAccepted: acks.termsAccepted,
+      privacyAcknowledged: acks.privacyAcknowledged,
+      aupAccepted: acks.aupAccepted,
+    });
+  } catch (err) {
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", sanitizeDiagnosticErrorClass(err));
+    const message =
+      err instanceof LegalAcceptanceValidationError
+        ? err.message
+        : "Invalid legal acceptance.";
+    return {
+      errorCode: "invalid_legal_acceptance",
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError("invalid_legal_acceptance", ctx.supportRef),
+      message,
+    };
   }
-  if (mandatoryTypes.includes("PRIVACY_NOTICE") && !privacyAcknowledged) {
-    return { error: "You must acknowledge the Privacy Notice." };
-  }
-  if (mandatoryTypes.includes("ACCEPTABLE_USE_POLICY") && !aupAccepted) {
-    return { error: "You must accept the Acceptable Use Policy." };
-  }
+
+  markStage(ctx, "LEGAL_INPUT_VALIDATED", "ok");
 
   void formData.get("scrolledToBottom");
 
   const h = await headers();
   const rate = checkC3RegistrationRateLimit(getClientIpFromHeaders(h));
   if (!rate.allowed) {
-    return { error: "Too many registration attempts. Try again later." };
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "rate_limited");
+    return {
+      errorCode: "rate_limited",
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError("rate_limited", ctx.supportRef),
+    };
   }
 
   try {
     await assertC3RegistrationOrigin();
-  } catch {
-    return { error: "Registration could not be completed." };
+  } catch (err) {
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", sanitizeDiagnosticErrorClass(err));
+    return {
+      errorCode: "registration_failed",
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError("registration_failed", ctx.supportRef),
+    };
   }
 
   const sessionUser = await getSessionUser();
   const formEmail = String(formData.get("email") ?? "").trim();
   const email = sessionUser?.email ?? formEmail;
   if (!email) {
-    return { error: "Account email is required." };
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "missing_email");
+    return {
+      errorCode: "registration_failed",
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError("registration_failed", ctx.supportRef),
+    };
   }
 
   const password = String(formData.get("password") ?? "");
@@ -169,15 +221,27 @@ export async function completeRegistrationWithLegalAcceptance(
 
   if (!sessionUser) {
     const passwordError = validatePasswordPair(password, passwordConfirm);
-    if (passwordError) return { error: passwordError };
+    if (passwordError) {
+      markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "invalid_password");
+      return {
+        errorCode: "registration_failed",
+        supportRef: ctx.supportRef,
+        error: passwordError,
+      };
+    }
   }
 
-  let acceptances: { documentType: LegalDocumentType; versionId: string; contentHash: string }[];
+  let acceptances: Awaited<ReturnType<typeof resolveMandatoryAcceptancesForLocale>>;
   try {
-    acceptances = await buildAcceptancesFromForm(formData, locale);
+    acceptances = await resolveMandatoryAcceptancesForLocale(locale);
+    markStage(ctx, "LEGAL_DOCUMENTS_RESOLVED", "ok");
   } catch (err) {
+    markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", sanitizeDiagnosticErrorClass(err));
     return {
-      error:
+      errorCode: "invalid_legal_acceptance",
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError("invalid_legal_acceptance", ctx.supportRef),
+      message:
         err instanceof LegalAcceptanceValidationError
           ? err.message
           : "Could not validate legal documents.",
@@ -189,18 +253,22 @@ export async function completeRegistrationWithLegalAcceptance(
     : null;
   if (existingBySession) {
     if (isPlatformAccountActive(existingBySession)) {
-      redirect(routes.account.profile);
+      return { redirectPath: routes.account.profile };
     }
     if (isBlockedPlatformAccountStatus(existingBySession.status)) {
-      return { error: "This account cannot register. Contact support." };
+      return {
+        errorCode: "registration_failed",
+        supportRef: ctx.supportRef,
+        error: "This account cannot register. Contact support.",
+      };
     }
     if (await hasMandatoryLegalAcceptanceComplete(existingBySession.id, locale)) {
-      redirect(buildVerifyEmailRedirect(existingBySession.email, next));
+      return { redirectPath: buildVerifyEmailRedirect(existingBySession.email, next) };
     }
   }
 
   const userAgentSummary = summarizeUserAgent(h.get("user-agent"));
-  const registrationCorrelationId = randomUUID();
+  const registrationCorrelationId = ctx.correlationId;
 
   let supabaseUserId = sessionUser?.id;
   let createdAuthUser = false;
@@ -208,28 +276,46 @@ export async function completeRegistrationWithLegalAcceptance(
 
   try {
     await assertC2DatabaseEnvironmentSafe();
+    markStage(ctx, "APPLICATION_TRANSACTION_STARTED", "ok");
 
     if (!sessionUser) {
       const policy = await classifyRegistrationEmail(email);
       if (policy.kind === "generic_response") {
-        return { message: C3_GENERIC_REGISTRATION_MESSAGE };
+        markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "generic_response");
+        return {
+          errorCode: "registration_already_pending",
+          supportRef: ctx.supportRef,
+          message: C3_GENERIC_REGISTRATION_MESSAGE,
+        };
       }
 
       if (policy.kind === "continue_pending") {
         supabaseUserId = policy.supabaseUserId;
         account = await findPlatformAccountBySupabaseUserId(policy.supabaseUserId);
       } else {
+        markStage(ctx, "SUPABASE_USER_PROVISION_STARTED", "ok");
         const provisioned = await provisionUnconfirmedAuthUser({ email, password });
         if (!provisioned.ok) {
-          return { message: C3_GENERIC_REGISTRATION_MESSAGE };
+          markStage(ctx, "SUPABASE_USER_PROVISION_FAILED", "failed", provisioned.reason);
+          return {
+            errorCode: "registration_already_pending",
+            supportRef: ctx.supportRef,
+            message: C3_GENERIC_REGISTRATION_MESSAGE,
+          };
         }
         supabaseUserId = provisioned.userId;
         createdAuthUser = provisioned.created;
+        markStage(ctx, "SUPABASE_USER_PROVISION_COMPLETED", "ok");
       }
     }
 
     if (!supabaseUserId) {
-      return { error: "Registration could not be completed." };
+      markStage(ctx, "APPLICATION_TRANSACTION_FAILED", "failed", "missing_supabase_user");
+      return {
+        errorCode: "registration_failed",
+        supportRef: ctx.supportRef,
+        error: userMessageForRegistrationError("registration_failed", ctx.supportRef),
+      };
     }
 
     const existingByEmailBefore = await findPlatformAccountByEmailNormalized(email);
@@ -241,6 +327,8 @@ export async function completeRegistrationWithLegalAcceptance(
         email,
       }));
 
+    markStage(ctx, "PLATFORM_ACCOUNT_CREATED", "ok");
+
     await recordLegalAcceptances({
       platformAccountId: account.id,
       locale,
@@ -249,9 +337,11 @@ export async function completeRegistrationWithLegalAcceptance(
       userAgentSummary,
     });
 
+    markStage(ctx, "LEGAL_ACCEPTANCE_RECORDED", "ok");
+
     await recordInitialMarketingConsent({
       platformAccountId: account.id,
-      granted: marketingOptIn,
+      granted: acks.marketingOptIn,
       registrationCorrelationId,
     });
 
@@ -274,11 +364,18 @@ export async function completeRegistrationWithLegalAcceptance(
       email: account.email,
     });
 
-    if (!issued.ok && issued.reason === "delivery_failed") {
-      return {
-        error:
-          "We could not deliver a verification code right now. Try again in a few minutes or contact support.",
-      };
+    if (!issued.ok) {
+      if (issued.reason === "delivery_failed") {
+        markStage(ctx, "OTP_DELIVERY_FAILED", "failed", issued.reason);
+        return {
+          errorCode: "email_delivery_failed",
+          supportRef: ctx.supportRef,
+          error: userMessageForRegistrationError("email_delivery_failed", ctx.supportRef),
+        };
+      }
+    } else {
+      markStage(ctx, "OTP_CHALLENGE_CREATED", "ok");
+      markStage(ctx, "OTP_DELIVERY_ACCEPTED", "ok");
     }
   } catch (err) {
     if (isNextRedirectError(err)) throw err;
@@ -290,17 +387,91 @@ export async function completeRegistrationWithLegalAcceptance(
       });
     }
 
+    markStage(ctx, "APPLICATION_TRANSACTION_FAILED", "failed", sanitizeDiagnosticErrorClass(err));
+
+    const code = classifyRegistrationFailure(
+      err instanceof Error ? err.message : "registration_failed"
+    );
     return {
-      error:
+      errorCode: code,
+      supportRef: ctx.supportRef,
+      error: userMessageForRegistrationError(code, ctx.supportRef),
+      message:
         err instanceof LegalAcceptanceValidationError
           ? err.message
-          : err instanceof Error
-            ? err.message
-            : "Registration could not be completed.",
+          : undefined,
     };
   }
 
-  redirect(buildVerifyEmailRedirect(account!.email, next));
+  markStage(ctx, "REGISTRATION_REDIRECT_ISSUED", "ok");
+  return { redirectPath: buildVerifyEmailRedirect(account!.email, next) };
+}
+
+/** Plain form action — server redirect; progressive enhancement safe. */
+export async function submitRegistrationLegalFormAction(formData: FormData): Promise<void> {
+  const correlationId = createRegistrationCorrelationId();
+  const supportRef = formatSupportReference(correlationId);
+  const ctx: RegistrationContext = {
+    correlationId,
+    supportRef,
+    startedAt: Date.now(),
+  };
+
+  let result: LegalActionState;
+  try {
+    result = await completeRegistrationWithLegalAcceptanceInternal(formData, ctx);
+  } catch (err) {
+    if (isNextRedirectError(err)) throw err;
+    const code = classifyRegistrationFailure(
+      err instanceof Error ? err.message : "registration_failed"
+    );
+    buildLegalFailureRedirect(
+      formData,
+      code,
+      supportRef,
+      userMessageForRegistrationError(code, supportRef)
+    );
+  }
+
+  if (result?.redirectPath) {
+    redirect(result.redirectPath);
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+  const params = new URLSearchParams();
+  if (email) params.set("email", email);
+  if (next) params.set("next", next);
+
+  const code =
+    result?.errorCode ??
+    (result?.message ? "registration_already_pending" : "registration_failed");
+  params.set("error", code);
+  params.set("ref", result?.supportRef ?? supportRef);
+
+  const displayMessage =
+    result?.error ??
+    (result?.message
+      ? userMessageForRegistrationError("registration_already_pending", result.supportRef ?? supportRef)
+      : userMessageForRegistrationError("registration_failed", result?.supportRef ?? supportRef));
+
+  params.set("message", displayMessage);
+  markStage(ctx, "REGISTRATION_REDIRECT_FAILED", "failed", code);
+  redirect(`${routes.account.registerLegal}?${params.toString()}`);
+}
+
+/** @deprecated use submitRegistrationLegalFormAction — kept for tests referencing export name */
+export async function completeRegistrationWithLegalAcceptance(
+  _prev: LegalActionState,
+  formData: FormData
+): Promise<LegalActionState> {
+  const correlationId = createRegistrationCorrelationId();
+  const supportRef = formatSupportReference(correlationId);
+  return completeRegistrationWithLegalAcceptanceInternal(formData, {
+    correlationId,
+    supportRef,
+    startedAt: Date.now(),
+  });
 }
 
 export async function updateMarketingConsent(
@@ -308,7 +479,12 @@ export async function updateMarketingConsent(
   formData: FormData
 ): Promise<LegalActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    const ref = formatSupportReference(createRegistrationCorrelationId());
+    return {
+      errorCode: "registration_disabled",
+      supportRef: ref,
+      error: userMessageForRegistrationError("registration_disabled", ref),
+    };
   }
 
   const granted = formData.get("granted") === "true";
@@ -333,7 +509,12 @@ export async function recordReacceptance(
   formData: FormData
 ): Promise<LegalActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    const ref = formatSupportReference(createRegistrationCorrelationId());
+    return {
+      errorCode: "registration_disabled",
+      supportRef: ref,
+      error: userMessageForRegistrationError("registration_disabled", ref),
+    };
   }
 
   const versionId = String(formData.get("versionId") ?? "");
@@ -384,3 +565,5 @@ export async function loadMandatoryLegalDocumentsForRegistration(locale?: string
     mandatoryClassification: v.mandatoryClassification,
   }));
 }
+
+export { isC3RegistrationDiagnosticsEnabled };

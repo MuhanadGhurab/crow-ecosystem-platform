@@ -12,7 +12,7 @@ export async function resolveRegistrationLocale(): Promise<string> {
   if (!first) return DEFAULT_LOCALE;
 
   const tag = first.split(";")[0]?.trim();
-  if (!tag) return DEFAULT_LOCALE;
+  if (!tag || tag === "*") return DEFAULT_LOCALE;
 
   if (tag === "en" || tag.startsWith("en-")) return "en-US";
   return tag;

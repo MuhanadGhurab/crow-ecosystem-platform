@@ -21,7 +21,9 @@ const c3Branch = auth.indexOf("if (isC3AuthEnabled())");
 const signUpCall = auth.indexOf("supabase.auth.signUp");
 assert(c3Branch >= 0 && signUpCall > c3Branch, "C3 path avoids client signUp");
 
-const completeFnIdx = accountLegal.indexOf("export async function completeRegistrationWithLegalAcceptance");
+const completeFnIdx = accountLegal.indexOf(
+  "async function completeRegistrationWithLegalAcceptanceInternal"
+);
 const completeBody = accountLegal.slice(completeFnIdx);
 assert(
   completeBody.indexOf("recordLegalAcceptances") <

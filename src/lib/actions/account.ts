@@ -20,7 +20,9 @@ import { checkC3VerificationRateLimit } from "@/lib/security/c3-registration-rat
 import { getClientIpFromHeaders } from "@/lib/security/client-ip";
 import { routes } from "@/lib/routes";
 
-export type AccountActionState = { error?: string; message?: string } | undefined;
+export type AccountActionState =
+  | { error?: string; message?: string; redirectPath?: string }
+  | undefined;
 
 function c3DisabledState(): AccountActionState {
   return { error: "Account registration is not enabled." };
@@ -70,7 +72,7 @@ export async function verifyEmailCode(
   }
 
   if (isPlatformAccountActive(account)) {
-    redirect(loginAfterVerificationPath(account.email, next));
+    return { redirectPath: loginAfterVerificationPath(account.email, next) };
   }
 
   const result = await verifyEmailVerificationCode({
@@ -92,7 +94,7 @@ export async function verifyEmailCode(
       case "blocked":
         return { error: "This account cannot be verified. Contact support." };
       case "legal_incomplete":
-        redirect(routes.account.registerLegal);
+        return { redirectPath: routes.account.registerLegal };
       case "confirm_failed":
         return {
           error:
@@ -103,7 +105,25 @@ export async function verifyEmailCode(
     }
   }
 
-  redirect(loginAfterVerificationPath(account.email, next));
+  return { redirectPath: loginAfterVerificationPath(account.email, next) };
+}
+
+export async function submitVerifyEmailFormAction(formData: FormData): Promise<void> {
+  const result = await verifyEmailCode(undefined, formData);
+  if (result?.redirectPath) {
+    redirect(result.redirectPath);
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+  const params = new URLSearchParams();
+  if (email) params.set("email", email);
+  if (next) params.set("next", next);
+  if (result?.error) params.set("error", result.error);
+  if (result?.message) params.set("message", result.message);
+
+  const qs = params.toString();
+  redirect(qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail);
 }
 
 export async function resendVerificationCode(

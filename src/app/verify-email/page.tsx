@@ -15,13 +15,14 @@ import { routes } from "@/lib/routes";
 export default async function VerifyEmailPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; email?: string }>;
+  searchParams: Promise<{ next?: string; email?: string; error?: string; message?: string }>;
 }) {
   if (!isAccountRegistrationEnabled()) {
     redirect("/login?error=config");
   }
 
-  const { next, email: emailParam } = await searchParams;
+  const { next, email: emailParam, error: errorParam, message: messageParam } =
+    await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
   const queryEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
@@ -51,7 +52,12 @@ export default async function VerifyEmailPage({
         </p>
 
         <div className="mt-6">
-          <VerifyEmailForm email={account.email} nextPath={nextPath} />
+          <VerifyEmailForm
+            email={account.email}
+            nextPath={nextPath}
+            initialError={typeof errorParam === "string" ? errorParam : undefined}
+            initialMessage={typeof messageParam === "string" ? messageParam : undefined}
+          />
         </div>
 
         <p className="mt-6 text-center text-sm text-slate-500">

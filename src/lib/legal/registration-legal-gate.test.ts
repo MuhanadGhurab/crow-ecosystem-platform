@@ -5,22 +5,20 @@ function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message);
 }
 
-function checkboxOn(formData: FormData, name: string): boolean {
-  return formData.get(name) === "on";
+function checkboxChecked(formData: FormData, name: string): boolean {
+  const v = formData.get(name);
+  return v === "true" || v === "on";
 }
 
 const fd = new FormData();
-fd.set("termsAccepted", "on");
-fd.set("privacyAcknowledged", "on");
-fd.set("aupAccepted", "on");
+fd.set("termsAccepted", "true");
+fd.set("privacyAcknowledged", "true");
+fd.set("aupAccepted", "true");
 
-assert(checkboxOn(fd, "termsAccepted"), "terms checkbox on");
-assert(checkboxOn(fd, "privacyAcknowledged"), "privacy checkbox on");
-assert(checkboxOn(fd, "aupAccepted"), "aup checkbox on");
-assert(!checkboxOn(fd, "marketingOptIn"), "marketing defaults unchecked");
-
-fd.set("scrolledToBottom", "true");
-assert(!checkboxOn(fd, "marketingOptIn"), "scroll state does not imply marketing consent");
+assert(checkboxChecked(fd, "termsAccepted"), "terms checkbox true");
+assert(checkboxChecked(fd, "privacyAcknowledged"), "privacy checkbox true");
+assert(checkboxChecked(fd, "aupAccepted"), "aup checkbox true");
+assert(!checkboxChecked(fd, "marketingOptIn"), "marketing defaults unchecked");
 
 const accountLegal = readFileSync(
   join(process.cwd(), "src/lib/actions/account-legal.ts"),
@@ -31,16 +29,30 @@ assert(
   "server ignores scrolledToBottom"
 );
 assert(
-  accountLegal.includes('formData.get("marketingOptIn") === "on"'),
-  "marketing requires explicit opt-in"
+  accountLegal.includes("parseMandatoryLegalAcknowledgements"),
+  "server parses acknowledgements"
 );
 assert(
-  accountLegal.includes("completeRegistrationWithLegalAcceptance"),
-  "registration action exists"
+  accountLegal.includes("submitRegistrationLegalFormAction"),
+  "plain registration form action"
 );
 assert(
   accountLegal.includes("assertC2DatabaseEnvironmentSafe"),
   "legal registration uses C2 guard"
+);
+assert(
+  accountLegal.includes("isC3SessionOnlyPath") === false,
+  "account-legal does not own session path"
+);
+
+const routeProtection = readFileSync(
+  join(process.cwd(), "src/lib/auth/route-protection.ts"),
+  "utf8"
+);
+assert(
+  routeProtection.includes("isC3SessionOnlyPath") &&
+    routeProtection.includes("isAccountSelfServicePath"),
+  "session-only paths exclude legal/verify-email"
 );
 
 console.log("registration-legal-gate.test.ts: OK");

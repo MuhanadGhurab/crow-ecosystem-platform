@@ -129,12 +129,14 @@ export function isAccountSelfServicePath(pathname: string): boolean {
   return pathname === "/account" || pathname.startsWith("/account/");
 }
 
+/**
+ * C3 — account self-service requires a Supabase session in middleware.
+ * `/register/legal` and `/verify-email` are auth-entry paths (see public-auth-paths)
+ * and stay reachable without a session when registration is enabled; pages enforce
+ * platform-account state server-side.
+ */
 export function isC3SessionOnlyPath(pathname: string): boolean {
-  return (
-    isVerifyEmailPath(pathname) ||
-    isC3LegalRegistrationPath(pathname) ||
-    isAccountSelfServicePath(pathname)
-  );
+  return isAccountSelfServicePath(pathname);
 }
 
 export function isHandlerAuthorizedApiPath(pathname: string, method: string): boolean {

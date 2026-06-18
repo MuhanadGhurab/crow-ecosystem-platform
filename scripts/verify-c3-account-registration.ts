@@ -181,6 +181,16 @@ function main() {
     "account-legal.ts must export completeRegistrationWithLegalAcceptance"
   );
   check(
+    accountLegal.includes("submitRegistrationLegalFormAction"),
+    "submitRegistrationLegalFormAction exported",
+    "account-legal.ts must export plain form action"
+  );
+  check(
+    accountLegal.includes("resolveMandatoryAcceptancesForLocale"),
+    "server-side legal version resolution",
+    "account-legal must resolve legal versions server-side"
+  );
+  check(
     accountLegal.includes('void formData.get("scrolledToBottom")'),
     "Server ignores client scroll state",
     "account-legal must not trust scrolledToBottom"
