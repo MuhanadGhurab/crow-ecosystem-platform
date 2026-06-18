@@ -45,14 +45,28 @@ export class ResendEmailDeliveryAdapter implements EmailDeliveryPort {
         }),
       });
 
-      if (!response.ok) {
-        if (process.env.NODE_ENV !== "test") {
-          console.warn(
-            "[C3 email] Resend delivery failed for",
-            redactEmailAddress(recipient),
-            `status=${response.status}`
-          );
-        }
+  if (!response.ok) {
+    if (process.env.NODE_ENV !== "test") {
+      console.warn(
+        "[C3 email] Resend delivery failed for",
+        redactEmailAddress(recipient),
+        `status=${response.status}`
+      );
+    }
+    if (
+      process.env.C3_REGISTRATION_DIAGNOSTICS === "true" &&
+      process.env.VERCEL_ENV === "preview"
+    ) {
+      console.error(
+        "[c3-registration]",
+        JSON.stringify({
+          c3_registration: true,
+          stage: "OTP_DELIVERY_FAILED",
+          httpStatus: response.status,
+          errorClass: summarizeProviderHttpFailure(response.status),
+        })
+      );
+    }
         return {
           channel: "resend",
           status: "failed",

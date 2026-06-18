@@ -318,6 +318,16 @@ async function main() {
       await collectC3Evidence(prisma, email, "after-registration-before-otp")
     );
 
+    const verifyUrl = new URL(page.url());
+    if (verifyUrl.searchParams.get("error") === "email_delivery_failed") {
+      ok("Initial OTP delivery failed — exercising resend path");
+      await screenshot(page, "08a-verify-email-delivery-failed");
+      const resendBtn = page.getByRole("button", { name: /resend verification code/i });
+      await resendBtn.click();
+      await page.waitForTimeout(3_000);
+      await screenshot(page, "08b-verify-email-after-resend");
+    }
+
     // Invalid OTP first
     await page.fill("#code", "000000");
     await page.getByRole("button", { name: /verify email/i }).click();
