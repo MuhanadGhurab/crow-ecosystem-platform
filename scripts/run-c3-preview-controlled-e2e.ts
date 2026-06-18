@@ -446,7 +446,9 @@ async function main() {
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL(/\/account/, { timeout: 90_000 }),
+      page.waitForURL((url) => url.pathname === "/account" || url.pathname.endsWith("/account"), {
+        timeout: 90_000,
+      }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
 
@@ -455,7 +457,10 @@ async function main() {
     await screenshot(page, "11-account-desktop");
 
     await page.getByRole("navigation").getByRole("link", { name: "Profile" }).click();
-    await page.waitForURL(/\/account\/profile/, { timeout: 60_000 });
+    await page.waitForURL(
+      (url) => url.pathname === "/account/profile",
+      { timeout: 60_000 }
+    );
     await page.waitForSelector("#displayName", { timeout: 60_000 });
     await screenshot(page, "13-profile");
     await page.fill("#displayName", "C3 Preview");

@@ -176,7 +176,10 @@ function buildLoginFailureRedirect(message: string, next?: string): string {
   return `/login?${params.toString()}`;
 }
 
-export async function resolveSignInSubmissionUrl(formData: FormData): Promise<string> {
+export async function resolveSignInSubmissionUrl(
+  formData: FormData,
+  supabaseClient?: Awaited<ReturnType<typeof createClient>>
+): Promise<string> {
   if (!isSupabaseAuthConfigured()) {
     return buildLoginFailureRedirect("Supabase Auth is not configured. Add keys to .env.");
   }
@@ -189,7 +192,7 @@ export async function resolveSignInSubmissionUrl(formData: FormData): Promise<st
     return buildLoginFailureRedirect("Email and password are required.", next);
   }
 
-  const supabase = await createClient();
+  const supabase = supabaseClient ?? (await createClient());
   let error: { message: string } | null = null;
   try {
     ({ error } = await supabase.auth.signInWithPassword({ email, password }));

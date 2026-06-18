@@ -1,11 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { resolveSignInSubmissionUrl } from "@/lib/actions/auth";
+import {
+  createSupabaseRouteHandlerClient,
+  mergeSupabaseCookies,
+} from "@/lib/supabase/route-handler";
 
 export const maxDuration = 60;
 
-/** HTTP POST sign-in — real 303 redirect so session cookies persist (progressive enhancement). */
-export async function POST(request: Request) {
+/** HTTP POST sign-in — real 303 redirect with Supabase session cookies on the response. */
+export async function POST(request: NextRequest) {
   const formData = await request.formData();
-  const path = await resolveSignInSubmissionUrl(formData);
-  return NextResponse.redirect(new URL(path, request.url), 303);
+  const { supabase, cookieResponse } = createSupabaseRouteHandlerClient(request);
+  const path = await resolveSignInSubmissionUrl(formData, supabase);
+  const redirect = NextResponse.redirect(new URL(path, request.url), 303);
+  return mergeSupabaseCookies(redirect, cookieResponse);
 }
