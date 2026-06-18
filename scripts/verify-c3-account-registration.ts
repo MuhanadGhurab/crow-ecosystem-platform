@@ -370,6 +370,19 @@ function main() {
     "InMemoryEmailDeliveryAdapter must track deliveries"
   );
 
+  const hostedEmail = fileText("src/lib/email/get-email-delivery-port.ts");
+  check(
+    hostedEmail.includes("ResendEmailDeliveryAdapter") &&
+      hostedEmail.includes("assertHostedEmailProviderConfigured"),
+    "Hosted email uses Resend adapter with configuration guard",
+    "get-email-delivery-port must wire Resend for hosted environments"
+  );
+  check(
+    existsSync(join(ROOT, "src/lib/email/resend-email-delivery.adapter.ts")),
+    "Resend email delivery adapter present",
+    "Add resend-email-delivery.adapter.ts"
+  );
+
   const registerPage = fileText("src/app/register/page.tsx");
   check(
     registerPage.includes("signupWithNext") || registerPage.includes("routes.auth.signup"),
