@@ -192,7 +192,7 @@ function main() {
     process.exit(0);
   }
 
-  if (statusBefore.status !== 0) {
+  if (statusBefore.status !== 0 && /failed migrations/i.test(statusBefore.output)) {
     process.exit(statusBefore.status);
   }
 
