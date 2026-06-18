@@ -12,9 +12,11 @@ import {
   isPlatformConsoleRole,
 } from "@/lib/auth/roles";
 import { routes } from "@/lib/routes";
+import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
   getTenantSlugFromPath,
   isAuthApiPath,
+  isC3SessionOnlyPath,
   isHandlerAuthorizedApiPath,
   isPlatformPath,
   isPortalPath,
@@ -63,12 +65,16 @@ export async function updateSession(request: NextRequest) {
     response.headers.set("x-tenant-slug", tenantSlug);
   }
 
+  const c3SessionGate =
+    isAccountRegistrationEnabled() && isC3SessionOnlyPath(pathname);
+
   const needsAuth =
-    !isPublicPath(pathname) &&
-    (isPlatformPath(pathname) ||
-      isPortalPath(pathname) ||
-      tenantSlug !== null ||
-      pathname.startsWith("/api/"));
+    c3SessionGate ||
+    (!isPublicPath(pathname) &&
+      (isPlatformPath(pathname) ||
+        isPortalPath(pathname) ||
+        tenantSlug !== null ||
+        pathname.startsWith("/api/")));
 
   if (!needsAuth) {
     return response;
@@ -103,6 +109,10 @@ export async function updateSession(request: NextRequest) {
 
   if (!user) {
     return redirectToLogin(request);
+  }
+
+  if (c3SessionGate) {
+    return response;
   }
 
   const { role, tenantSlugs } = getCrowAuth(user);

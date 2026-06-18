@@ -898,14 +898,16 @@ model TenantMembershipInvite {
   tokenHash        String                       @unique
   status           TenantMembershipInviteStatus @default(pending)
   expiresAt        DateTime
-  invitedByUserId  String
-  acceptedByUserId String?
-  acceptedAt       DateTime?
-  revokedAt        DateTime?
-  revokedByUserId  String?
-  operatorNote     String?
-  createdAt        DateTime                     @default(now())
-  updatedAt        DateTime                     @updatedAt
+  invitedByUserId       String
+  acceptedByUserId      String?
+  acceptedAt            DateTime?
+  revokedAt             DateTime?
+  revokedByUserId       String?
+  operatorNote          String?
+  /// C3 — optional pre-bound Supabase user (account id linkage after verification).
+  targetSupabaseUserId  String?
+  createdAt             DateTime                     @default(now())
+  updatedAt             DateTime                     @updatedAt
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -913,6 +915,7 @@ model TenantMembershipInvite {
   @@index([email])
   @@index([status])
   @@index([expiresAt])
+  @@index([targetSupabaseUserId])
   @@map("tenant_membership_invites")
 }
 
@@ -1717,4 +1720,271 @@ model ClientOrganizationRequestLink {
 
   @@index([organizationId])
   @@map("client_organization_request_links")
+}
+
+// --- C3 — Universal account registration, email verification, requester onboarding ---
+
+enum PlatformAccountStatus {
+  PENDING_EMAIL_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  LOCKED
+  DEACTIVATED
+}
+
+/// Platform-layer account bound to Supabase Auth (credentials stay in Supabase).
+model PlatformAccount {
+  id                 String                @id @default(cuid())
+  supabaseUserId     String                @unique
+  email              String
+  emailNormalized    String                @unique
+  publicAccountId    String                @unique
+  status             PlatformAccountStatus @default(PENDING_EMAIL_VERIFICATION)
+  registrationSource String?
+  activatedAt        DateTime?
+  lastVerifiedAt     DateTime?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+
+  profile                PlatformAccountProfile?
+  verificationChallenges EmailVerificationChallenge[]
+  auditEvents            PlatformAccountAuditEvent[]
+  legalAcceptances       AccountLegalAcceptance[]
+  consentPreferences     AccountConsentPreference[]
+
+  @@index([email])
+  @@index([status])
+  @@map("platform_accounts")
+}
+
+/// Private self-service profile (not tenant-scoped Profile).
+model PlatformAccountProfile {
+  id                String   @id @default(cuid())
+  platformAccountId String   @unique
+  displayName       String?
+  handle            String?  @unique
+  jobTitle          String?
+  phone             String?
+  preferredLanguage String?
+  bio               String?
+  isPrivate         Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@map("platform_account_profiles")
+}
+
+enum EmailVerificationChallengeStatus {
+  pending
+  consumed
+  expired
+  revoked
+}
+
+enum EmailVerificationPurpose {
+  registration
+  email_change
+  reactivation
+}
+
+/// One-time email verification codes (store HMAC hash only).
+model EmailVerificationChallenge {
+  id                String                           @id @default(cuid())
+  platformAccountId String
+  emailNormalized   String
+  purpose           EmailVerificationPurpose         @default(registration)
+  codeHash          String
+  status            EmailVerificationChallengeStatus @default(pending)
+  attemptCount      Int                              @default(0)
+  maxAttempts       Int                              @default(5)
+  sendCount         Int                              @default(0)
+  expiresAt         DateTime
+  consumedAt        DateTime?
+  invalidatedAt     DateTime?
+  lastSentAt        DateTime?
+  deliveryChannel   String                           @default("email")
+  deliveryStatus    String?
+  providerMessageId String?
+  createdAt         DateTime                         @default(now())
+  updatedAt         DateTime                         @updatedAt
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@index([platformAccountId, status])
+  @@index([emailNormalized, purpose, status])
+  @@index([expiresAt])
+  @@map("email_verification_challenges")
+}
+
+enum PlatformAccountAuditEventType {
+  registration_started
+  verification_code_sent
+  verification_succeeded
+  verification_failed
+  account_activated
+  profile_updated
+  invitation_linked
+  account_locked
+  legal_acceptance_recorded
+  consent_preference_updated
+  reacceptance_required
+}
+
+model PlatformAccountAuditEvent {
+  id                String                        @id @default(cuid())
+  platformAccountId String
+  eventType         PlatformAccountAuditEventType
+  metadata          Json?
+  createdAt         DateTime                      @default(now())
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@index([platformAccountId, createdAt])
+  @@map("platform_account_audit_events")
+}
+
+// --- C3 — Legal agreement versioning and consent evidence ---
+
+enum LegalDocumentType {
+  TERMS_OF_SERVICE
+  PRIVACY_NOTICE
+  ACCEPTABLE_USE_POLICY
+}
+
+enum LegalDocumentVersionStatus {
+  draft
+  published
+  superseded
+}
+
+enum LegalAudience {
+  platform_requester
+}
+
+enum MandatoryClassification {
+  mandatory_contractual
+  mandatory_notice
+  optional_consent
+}
+
+enum ReacceptancePolicy {
+  none
+  notice_only
+  required_before_protected_activity
+}
+
+enum LegalContentFormat {
+  markdown
+}
+
+enum LegalAcceptanceMethod {
+  registration_web
+  reacceptance_web
+}
+
+enum AffirmativeActionType {
+  checkbox_submit
+}
+
+enum ConsentPurpose {
+  marketing_email
+}
+
+enum ConsentPreferenceSource {
+  registration_web
+  account_settings
+}
+
+/// Stable identity for a legal document family (ToS, Privacy, AUP).
+model LegalDocument {
+  id           String            @id @default(cuid())
+  documentType LegalDocumentType @unique
+  title        String
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  versions LegalDocumentVersion[]
+
+  @@map("legal_documents")
+}
+
+/// Immutable published snapshot of legal content for a locale/audience.
+model LegalDocumentVersion {
+  id                     String                     @id @default(cuid())
+  legalDocumentId        String
+  versionNumber          Int
+  locale                 String
+  audience               LegalAudience              @default(platform_requester)
+  title                  String
+  contentFormat          LegalContentFormat         @default(markdown)
+  contentBody            String                     @db.Text
+  contentSchemaVersion   String                     @default("1")
+  status                 LegalDocumentVersionStatus @default(draft)
+  mandatoryClassification MandatoryClassification
+  reacceptancePolicy     ReacceptancePolicy         @default(none)
+  effectiveAt            DateTime
+  publishedAt            DateTime?
+  contentSha256          String
+  supersedesVersionId    String?
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+
+  legalDocument       LegalDocument            @relation(fields: [legalDocumentId], references: [id], onDelete: Cascade)
+  supersedesVersion     LegalDocumentVersion?    @relation("LegalVersionSupersedes", fields: [supersedesVersionId], references: [id], onDelete: SetNull)
+  supersededByVersions  LegalDocumentVersion[]   @relation("LegalVersionSupersedes")
+  acceptances           AccountLegalAcceptance[]
+
+  @@unique([legalDocumentId, versionNumber, locale, audience])
+  @@index([legalDocumentId, status, locale, audience])
+  @@index([status, locale, audience])
+  @@map("legal_document_versions")
+}
+
+/// Append-only evidence of account acceptance of a specific legal document version.
+model AccountLegalAcceptance {
+  id                       String                 @id @default(cuid())
+  platformAccountId        String
+  legalDocumentVersionId   String
+  documentHashAtAcceptance String
+  acceptedLocale           String
+  acceptedAt               DateTime               @default(now())
+  acceptanceMethod         LegalAcceptanceMethod  @default(registration_web)
+  affirmativeActionType    AffirmativeActionType  @default(checkbox_submit)
+  registrationCorrelationId String?
+  userAgentSummary         String?
+  networkEvidence          Json?
+  supersedesAcceptanceId   String?
+  createdAt                DateTime               @default(now())
+
+  platformAccount      PlatformAccount      @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+  legalDocumentVersion LegalDocumentVersion @relation(fields: [legalDocumentVersionId], references: [id], onDelete: Restrict)
+  supersedesAcceptance   AccountLegalAcceptance? @relation("AcceptanceSupersedes", fields: [supersedesAcceptanceId], references: [id], onDelete: SetNull)
+  supersededBy           AccountLegalAcceptance[] @relation("AcceptanceSupersedes")
+
+  @@unique([platformAccountId, legalDocumentVersionId])
+  @@index([platformAccountId, acceptedAt])
+  @@index([registrationCorrelationId])
+  @@map("account_legal_acceptances")
+}
+
+/// Purpose-based optional consent (e.g. marketing email).
+model AccountConsentPreference {
+  id                      String                  @id @default(cuid())
+  platformAccountId       String
+  purpose                 ConsentPurpose
+  granted                 Boolean                 @default(false)
+  grantedAt               DateTime?
+  withdrawnAt             DateTime?
+  source                  ConsentPreferenceSource @default(registration_web)
+  registrationCorrelationId String?
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([platformAccountId, purpose])
+  @@index([platformAccountId])
+  @@map("account_consent_preferences")
 }

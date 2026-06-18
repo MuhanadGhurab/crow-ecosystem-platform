@@ -11,6 +11,22 @@ export const routes = {
     signOut: "/auth/signout",
     callback: "/auth/callback",
   },
+  /** C3 — universal platform account (registration, verification, self-service). */
+  account: {
+    home: "/account",
+    register: "/register",
+    registerLegal: "/register/legal",
+    verifyEmail: "/verify-email",
+    legal: "/account/legal",
+    legalDocumentView: (slug: string, versionId: string) =>
+      `/legal/${slug}/${versionId}`,
+    profile: "/account/profile",
+    settings: "/account/settings",
+    sessions: "/account/sessions",
+    requests: "/account/requests",
+    request: (id: string) => `/account/requests/${id}`,
+    invitations: "/account/invitations",
+  },
   portal: {
     home: "/portal",
     requests: "/portal/requests",

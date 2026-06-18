@@ -3,7 +3,20 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
-import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import {
+  gateAuthSessionForC3,
+  isC3AuthEnabled,
+  runDeferredClientOnboarding,
+} from "@/lib/account/c3-auth-orchestration";
+import {
+  findPlatformAccountBySupabaseUserId,
+  isPlatformAccountActive,
+} from "@/lib/account/platform-account.service";
+import {
+  resolveC3PostAuthLanding,
+  resolvePostAuthLanding,
+} from "@/lib/auth/post-login-redirect";
+import { isNextRedirectError } from "@/lib/auth/next-redirect";
 import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
@@ -76,11 +89,35 @@ async function completeAuthenticatedSession(
   return finalizeAuthUser(supabase, user, next);
 }
 
+async function applyC3AuthGate(
+  user: User,
+  next?: string
+): Promise<SignInState | "continue"> {
+  const gate = await gateAuthSessionForC3(user, next);
+  if (gate.action === "redirect") {
+    redirect(gate.path);
+  }
+  if (gate.action === "error") {
+    return { error: gate.message };
+  }
+  return "continue";
+}
+
 async function finalizeAuthUser(
   supabase: Awaited<ReturnType<typeof createClient>>,
   user: User,
   next?: string
 ): Promise<SignInState> {
+  if (isC3AuthEnabled()) {
+    const gateResult = await applyC3AuthGate(user, next);
+    if (gateResult !== "continue") {
+      return gateResult;
+    }
+
+    const refreshed = (await refreshSessionUser(supabase)) ?? user;
+    redirect(await resolveC3PostAuthLanding(refreshed, next));
+  }
+
   try {
     await linkRequestsForUser(user);
   } catch {
@@ -228,21 +265,37 @@ export async function signUp(
     return { error: "Account could not be created. Try again or use Google sign-in." };
   }
 
-  let roleAssigned = false;
-  try {
-    roleAssigned = await assignDefaultClientRoleOnSignUp(sessionUser.id);
-  } catch {
-    roleAssigned = false;
-  }
+  if (hasSession && isC3AuthEnabled()) {
+    const existing = await findPlatformAccountBySupabaseUserId(sessionUser.id);
+    if (existing && isPlatformAccountActive(existing)) {
+      await runDeferredClientOnboarding(sessionUser);
+      const {
+        data: { user: refreshed },
+      } = await supabase.auth.getUser();
+      if (refreshed) {
+        redirect(await resolveC3PostAuthLanding(refreshed, next));
+      }
+    }
 
-  if (hasSession && !roleAssigned) {
-    return {
-      error:
-        "Account created but client access could not be assigned. Ensure SUPABASE_SERVICE_ROLE_KEY is set on the server (not public), then sign out and sign in again.",
-    };
-  }
+    const legalPath = next
+      ? `${routes.account.registerLegal}?next=${encodeURIComponent(next)}`
+      : routes.account.registerLegal;
+    redirect(legalPath);
+  } else if (hasSession) {
+    let roleAssigned = false;
+    try {
+      roleAssigned = await assignDefaultClientRoleOnSignUp(sessionUser.id);
+    } catch {
+      roleAssigned = false;
+    }
 
-  if (hasSession) {
+    if (!roleAssigned) {
+      return {
+        error:
+          "Account created but client access could not be assigned. Ensure SUPABASE_SERVICE_ROLE_KEY is set on the server (not public), then sign out and sign in again.",
+      };
+    }
+
     try {
       await linkRequestsForUser(sessionUser);
     } catch {

@@ -13,9 +13,15 @@ import {
   hasPermission,
   type PermissionKey,
 } from "@/lib/auth/permissions";
+import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import {
+  findPlatformAccountBySupabaseUserId,
+  isPlatformAccountActive,
+} from "@/lib/account/platform-account.service";
 import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled } from "@/lib/supabase/env";
 import { countRequestsForEmail } from "@/lib/services/client-request-link.service";
+import { routes } from "@/lib/routes";
 
 export async function getSessionUser(): Promise<User | null> {
   if (isAuthDisabled()) {
@@ -139,6 +145,22 @@ export async function requireTenantAccess(slug: string): Promise<User> {
 }
 
 /** Client portal — client role, staff preview, or email-matched requests. */
+/** C3 — authenticated session with ACTIVE platform account (self-service /account/*). */
+export async function requireActivePlatformAccount(nextPath?: string): Promise<User> {
+  const user = await requireAuth(nextPath);
+  if (isAuthDisabled()) {
+    return user;
+  }
+  if (!isAccountRegistrationEnabled()) {
+    redirect("/login?error=config");
+  }
+  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  if (!account || !isPlatformAccountActive(account)) {
+    redirect(routes.account.verifyEmail);
+  }
+  return user;
+}
+
 export async function requireClientAccess(nextPath = "/portal/requests"): Promise<User> {
   const user = await requireAuth(nextPath);
   if (isAuthDisabled()) {

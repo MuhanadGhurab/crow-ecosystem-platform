@@ -4,6 +4,11 @@ import {
   oauthNextCookieOptions,
   resolveOAuthNextPath,
 } from "@/lib/auth/entra-sso";
+import {
+  gateAuthSessionForC3,
+  isC3AuthEnabled,
+} from "@/lib/account/c3-auth-orchestration";
+import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
 import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import { getCrowAuth } from "@/lib/auth/roles";
@@ -52,6 +57,27 @@ export async function GET(request: Request) {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+      if (user && isC3AuthEnabled()) {
+        const gate = await gateAuthSessionForC3(user, explicitNext);
+        if (gate.action === "redirect") {
+          return clearNextCookie(
+            NextResponse.redirect(`${origin}${gate.path}`)
+          );
+        }
+        if (gate.action === "error") {
+          await supabase.auth.signOut();
+          const detail = encodeURIComponent(gate.message.slice(0, 200));
+          return clearNextCookie(
+            NextResponse.redirect(`${origin}/login?error=forbidden&detail=${detail}`)
+          );
+        }
+
+        const refreshed =
+          (await refreshSessionUser(supabase)) ?? user;
+        const destination = await resolveC3PostAuthLanding(refreshed, explicitNext);
+        return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
+      }
 
       if (user) {
         try {

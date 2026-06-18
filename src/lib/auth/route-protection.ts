@@ -15,6 +15,10 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "request",
   "login",
   "signup",
+  "register",
+  "verify-email",
+  "legal",
+  "account",
   "auth",
   "unauthorized",
   "about",
@@ -43,6 +47,9 @@ const PUBLIC_PREFIXES = [
   "/case-studies",
   "/login",
   "/signup",
+  "/register",
+  "/verify-email",
+  "/legal",
   "/auth/callback",
   "/auth/entra",
   "/proposal",
@@ -102,6 +109,34 @@ export function isPublicApiPath(pathname: string, method: string): boolean {
  * Authenticated API routes that enforce authorization in the route handler.
  * Middleware requires a session but does not require platform staff (RC1 SEC-003).
  */
+/** C3 — email verification gate (session required; role optional). */
+export function isVerifyEmailPath(pathname: string): boolean {
+  return pathname === "/verify-email";
+}
+
+/** C3 — legal registration gate (session required; no ACTIVE account yet). */
+export function isC3LegalRegistrationPath(pathname: string): boolean {
+  return pathname === "/register/legal";
+}
+
+/** Public read-only legal document views (print/download). */
+export function isPublicLegalDocumentPath(pathname: string): boolean {
+  return pathname.startsWith("/legal/");
+}
+
+/** C3 — self-service account area (session required; ACTIVE enforced in pages). */
+export function isAccountSelfServicePath(pathname: string): boolean {
+  return pathname === "/account" || pathname.startsWith("/account/");
+}
+
+export function isC3SessionOnlyPath(pathname: string): boolean {
+  return (
+    isVerifyEmailPath(pathname) ||
+    isC3LegalRegistrationPath(pathname) ||
+    isAccountSelfServicePath(pathname)
+  );
+}
+
 export function isHandlerAuthorizedApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/billing/checkout" && method === "POST") {
     return true;

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignUpForm } from "@/components/portal/auth/sign-up-form";
-import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
@@ -23,7 +23,7 @@ export default async function SignUpPage({
 
   const existingUser = await getSessionUser();
   if (existingUser) {
-    redirect(resolvePostAuthLanding(existingUser, nextPath));
+    redirect(await resolveC3PostAuthLanding(existingUser, nextPath));
   }
 
   const configured = isSupabaseAuthConfigured();
