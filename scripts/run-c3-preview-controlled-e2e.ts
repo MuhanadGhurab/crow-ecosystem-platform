@@ -457,6 +457,18 @@ async function main() {
 
     await screenshot(page, "11-account-desktop");
 
+    const authCookiesAfterSignIn = (await context.cookies()).filter((cookie) =>
+      cookie.name.includes("-auth-token")
+    );
+    if (authCookiesAfterSignIn.length === 0) {
+      fail(
+        "Supabase auth cookies missing from browser jar after form sign-in (Set-Cookie not persisted)"
+      );
+    }
+    ok(
+      `Browser jar after sign-in: ${authCookiesAfterSignIn.map((cookie) => cookie.name).join(", ")}`
+    );
+
     await page.reload({ waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
       fail("/account reload redirected to login — Supabase session cookies not persistent");
