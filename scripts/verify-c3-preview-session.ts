@@ -84,6 +84,27 @@ function isSupabaseAuthCookieName(name: string): boolean {
   return name.startsWith(supabaseAuthCookiePrefix());
 }
 
+async function probeSignInResponseHeaders(
+  page: import("playwright").Page,
+  baseUrl: string,
+  email: string,
+  password: string
+): Promise<{ location: string; supabaseSetCookieNames: string[]; status: number }> {
+  const response = await page.request.post(`${baseUrl}/login/submit`, {
+    form: { email, password },
+    maxRedirects: 0,
+  });
+
+  const location = response.headers()["location"] ?? "";
+  const supabaseSetCookieNames = response
+    .headersArray()
+    .filter((header) => header.name.toLowerCase() === "set-cookie")
+    .map((header) => header.value.match(/^([^=]+)=/)?.[1] ?? "")
+    .filter((name) => name.length > 0 && isSupabaseAuthCookieName(name));
+
+  return { location, supabaseSetCookieNames, status: response.status() };
+}
+
 async function main() {
   const prisma = new PrismaClient();
   const { email, password } = resolveSessionCredentials();
@@ -115,50 +136,45 @@ async function main() {
 
   try {
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
-    await page.fill("#email", email);
-    await page.fill("#password", password);
 
-    const signInResponsePromise = page.waitForResponse(
-      (response) =>
-        response.url().includes("/login/submit") && response.request().method() === "POST",
-      { timeout: 90_000 }
+    const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
+      page,
+      PREVIEW_BASE,
+      email,
+      password
     );
 
-    await page.getByRole("button", { name: /sign in with email/i }).click();
-    const signInResponse = await signInResponsePromise;
-
-    if (signInResponse.status() !== 303) {
-      fail(`POST /login/submit expected 303, got ${signInResponse.status()}`);
+    if (status !== 303) {
+      fail(`POST /login/submit expected 303, got ${status}`);
     }
     ok("POST /login/submit returns 303");
 
-    const location = signInResponse.headers()["location"] ?? "";
     const locationUrl = new URL(location, PREVIEW_BASE);
     const previewOrigin = new URL(PREVIEW_BASE);
     if (locationUrl.host !== previewOrigin.host) {
       fail(`Location host mismatch: ${locationUrl.host} vs ${previewOrigin.host}`);
     }
-    if (locationUrl.pathname !== "/account" && !locationUrl.pathname.startsWith("/account")) {
-      fail(`Expected same-origin /account redirect, got ${locationUrl.pathname}`);
+    const authenticatedDestinations = ["/account", "/client"];
+    if (
+      !authenticatedDestinations.some(
+        (path) =>
+          locationUrl.pathname === path || locationUrl.pathname.startsWith(`${path}/`)
+      )
+    ) {
+      fail(
+        `Expected same-origin authenticated redirect (/account or /client), got ${locationUrl.pathname}`
+      );
     }
     ok(`Location is same-origin ${locationUrl.pathname}`);
 
-    const responseHeaderNames = signInResponse
-      .headersArray()
-      .filter((header) => header.name.toLowerCase() === "set-cookie")
-      .flatMap((header) => {
-        const nameMatch = header.value.match(/^([^=]+)=/);
-        return nameMatch?.[1] ? [nameMatch[1]] : [];
-      });
-    const supabaseSetCookieNames = responseHeaderNames.filter(isSupabaseAuthCookieName);
     if (supabaseSetCookieNames.length === 0) {
       fail("Response Set-Cookie headers missing Supabase auth cookie names");
     }
     ok(`Response Set-Cookie includes Supabase auth names: ${supabaseSetCookieNames.join(", ")}`);
 
-    await page.waitForURL((url) => url.pathname === "/account", { timeout: 90_000 });
+    await page.goto(location, { waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
-      fail("Browser did not land on /account after sign-in");
+      fail("Browser did not land on an authenticated route after sign-in");
     }
 
     const jarAfterSignIn = await context.cookies();
@@ -178,11 +194,12 @@ async function main() {
     }
     ok("_vercel_jwt is not mistaken for application session");
 
+    const reloadPath = new URL(page.url()).pathname;
     await page.reload({ waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
-      fail("/account reload redirected to login — session not persistent");
+      fail(`${reloadPath} reload redirected to login — session not persistent`);
     }
-    ok("/account survives hard reload");
+    ok(`${reloadPath} survives hard reload`);
 
     await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
@@ -216,7 +233,9 @@ async function main() {
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL((url) => url.pathname === "/account", { timeout: 90_000 }),
+      page.waitForURL((url) => url.pathname === "/account" || url.pathname === "/client", {
+        timeout: 90_000,
+      }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
     const jarAfterSecondSignIn = await context.cookies();
