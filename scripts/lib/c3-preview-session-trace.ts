@@ -156,18 +156,22 @@ export async function captureBrowserSignInTrace(input: {
       );
     }
 
-    const accountResponse = await page.waitForResponse(
-      (response) => {
-        const url = new URL(response.url());
-        return (
-          response.request().method() === "GET" &&
-          url.host === new URL(previewBase).host &&
-          (url.pathname === "/account" || url.pathname === "/client")
-        );
-      },
-      { timeout: 5_000 }
-    ).catch(() => null);
-    firstAccountGet = accountResponse;
+    const accountDocument = await page
+      .waitForResponse(
+        async (response) => {
+          const url = new URL(response.url());
+          if (response.request().method() !== "GET") return false;
+          if (url.host !== new URL(previewBase).host) return false;
+          if (url.pathname !== "/account" && url.pathname !== "/client") return false;
+          const cookie = await response.request().headerValue("cookie");
+          return authTokenCookieNames(
+            cookie?.split(";").map((part) => part.trim().split("=")[0] ?? "") ?? []
+          ).length > 0;
+        },
+        { timeout: 90_000 }
+      )
+      .catch(() => null);
+    firstAccountGet = accountDocument;
 
     if (firstAccountGet) {
       trace.firstRedirectGetStatus = firstAccountGet.status();

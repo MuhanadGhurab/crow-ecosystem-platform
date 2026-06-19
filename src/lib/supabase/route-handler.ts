@@ -19,6 +19,7 @@ function mergeCookieOptions(
     path: options.path ?? "/",
     sameSite: options.sameSite ?? "lax",
     secure: options.secure ?? secure,
+    httpOnly: options.httpOnly ?? true,
   };
 }
 
@@ -100,6 +101,7 @@ export function createSupabaseRouteHandlerClient(
       path: "/",
       sameSite: "lax",
       secure,
+      httpOnly: true,
     },
     cookies: trackingAdapter,
   });
