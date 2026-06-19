@@ -24,9 +24,13 @@ export function createRouteHandlerCookieAdapter(
       return request.cookies.getAll();
     },
     setAll(cookiesToSet) {
+      const secure = request.nextUrl.protocol === "https:";
       for (const { name, value, options } of cookiesToSet) {
         request.cookies.set(name, value);
-        response.cookies.set(name, value, options);
+        response.cookies.set(name, value, {
+          ...options,
+          secure: options.secure ?? secure,
+        });
         setCookieNames.push(name);
       }
     },

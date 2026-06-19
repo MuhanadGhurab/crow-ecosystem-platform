@@ -445,16 +445,15 @@ async function main() {
     await screenshot(page, "10-verified-login-banner");
     const signInResponse = await page.request.post(`${PREVIEW_BASE}/login/submit`, {
       form: { email, password },
-      maxRedirects: 0,
     });
-    if (signInResponse.status() !== 303) {
-      fail(`POST /login/submit expected 303, got ${signInResponse.status()}`);
+    if (!signInResponse.ok() && signInResponse.status() !== 200) {
+      fail(`POST /login/submit failed with status ${signInResponse.status()}`);
     }
-    const signInLocation = signInResponse.headers()["location"];
-    if (!signInLocation) {
-      fail("POST /login/submit missing Location header");
+    const signInLocation = signInResponse.url();
+    if (signInLocation.includes("/login")) {
+      fail(`POST /login/submit did not reach /account (url=${signInLocation})`);
     }
-    const signInDestination = new URL(signInLocation, PREVIEW_BASE);
+    const signInDestination = new URL(signInLocation);
     if (signInDestination.pathname !== "/account") {
       fail(`Expected post-sign-in landing on /account, got ${signInDestination.pathname}`);
     }

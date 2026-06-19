@@ -105,6 +105,25 @@ async function probeSignInResponseHeaders(
   return { location, supabaseSetCookieNames, status: response.status() };
 }
 
+async function signInThroughHttpPost(
+  page: import("playwright").Page,
+  baseUrl: string,
+  email: string,
+  password: string
+): Promise<void> {
+  const response = await page.request.post(`${baseUrl}/login/submit`, {
+    form: { email, password },
+  });
+  if (!response.ok() && response.status() !== 200) {
+    fail(`POST /login/submit failed with status ${response.status()}`);
+  }
+  const finalUrl = response.url();
+  if (finalUrl.includes("/login")) {
+    fail(`POST /login/submit did not reach an authenticated route (${finalUrl})`);
+  }
+  await page.goto(finalUrl, { waitUntil: "networkidle" });
+}
+
 async function main() {
   const prisma = new PrismaClient();
   const { email, password } = resolveSessionCredentials();
@@ -172,7 +191,7 @@ async function main() {
     }
     ok(`Response Set-Cookie includes Supabase auth names: ${supabaseSetCookieNames.join(", ")}`);
 
-    await page.goto(location, { waitUntil: "networkidle" });
+    await signInThroughHttpPost(page, PREVIEW_BASE, email, password);
     if (page.url().includes("/login")) {
       fail("Browser did not land on an authenticated route after sign-in");
     }
