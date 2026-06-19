@@ -14,6 +14,10 @@ import {
 import { routes } from "@/lib/routes";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
+  isAuthCanarySessionRefreshPath,
+  isC3AuthCanaryEnabled,
+} from "@/lib/auth/c3-auth-canary";
+import {
   getTenantSlugFromPath,
   isAuthApiPath,
   isC3SessionOnlyPath,
@@ -73,6 +77,9 @@ export async function updateSession(request: NextRequest) {
   const c3SessionGate =
     isAccountRegistrationEnabled() && isC3SessionOnlyPath(pathname);
 
+  const authCanarySessionRefresh =
+    isC3AuthCanaryEnabled() && isAuthCanarySessionRefreshPath(pathname);
+
   const needsAuth =
     c3SessionGate ||
     (!isPublicPath(pathname) &&
@@ -81,7 +88,7 @@ export async function updateSession(request: NextRequest) {
         tenantSlug !== null ||
         pathname.startsWith("/api/")));
 
-  if (!needsAuth) {
+  if (!needsAuth && !authCanarySessionRefresh) {
     return response;
   }
 
@@ -155,6 +162,9 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (!user) {
+    if (authCanarySessionRefresh) {
+      return response;
+    }
     if (isC3SessionDiagnosticsEnabled()) {
       emitC3SessionDiagnostic("MIDDLEWARE_RESPONSE_ROUTE", {
         route: "/login",
@@ -171,6 +181,10 @@ export async function updateSession(request: NextRequest) {
         reason: "c3_session_gate",
       });
     }
+    return response;
+  }
+
+  if (authCanarySessionRefresh) {
     return response;
   }
 

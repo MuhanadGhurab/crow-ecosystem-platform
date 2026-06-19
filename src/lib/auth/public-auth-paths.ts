@@ -16,6 +16,7 @@ const AUTH_ENTRY_PREFIXES = [
 const STARTUP_LOADER_BYPASS_PREFIXES = [
   ...AUTH_ENTRY_PREFIXES,
   "/account",
+  "/auth-canary",
 ] as const;
 
 /** C3 self-service account area — session + ACTIVE account enforced in layout/middleware. */
