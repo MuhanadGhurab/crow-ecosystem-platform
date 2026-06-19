@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const requestOrigin = new URL(request.url);
 
-  const response = NextResponse.redirect(new URL("/login", request.url), { status: 303 });
+  const response = new NextResponse(null, { status: 303 });
   const { supabase, cookieAudit } = createSupabaseRouteHandlerClient(request, response);
 
   const path = await resolveSignInSubmissionUrl(formData, supabase);
