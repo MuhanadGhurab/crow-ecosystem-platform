@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
+import { isSupabaseAuthCookieName } from "@/lib/supabase/auth-cookie-names";
 import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 export type RouteHandlerCookieAudit = {
@@ -19,6 +20,32 @@ function mergeCookieOptions(
     sameSite: options.sameSite ?? "lax",
     secure: options.secure ?? secure,
   };
+}
+
+/**
+ * Expire stale Supabase auth cookies (base + chunk suffixes) before issuing a new session.
+ * Prevents orphaned chunks from a prior browser context breaking session parsing.
+ */
+export function clearStaleSupabaseAuthCookies(
+  request: NextRequest,
+  response: NextResponse
+): string[] {
+  const cleared: string[] = [];
+  const secure = request.nextUrl.protocol === "https:";
+
+  for (const cookie of request.cookies.getAll()) {
+    if (!isSupabaseAuthCookieName(cookie.name)) continue;
+    request.cookies.set(cookie.name, "");
+    response.cookies.set(cookie.name, "", {
+      path: "/",
+      maxAge: 0,
+      sameSite: "lax",
+      secure,
+    });
+    cleared.push(cookie.name);
+  }
+
+  return cleared;
 }
 
 /** Cookie adapter for Route Handlers — writes every Set-Cookie to the returned response. */

@@ -30,6 +30,11 @@ import {
   isAuthDisabled,
   isSupabaseAuthConfigured,
 } from "@/lib/supabase/env";
+import {
+  emitC3SessionDiagnostic,
+  isC3SessionDiagnosticsEnabled,
+} from "@/lib/account/c3-session-diagnostics";
+import { listSupabaseAuthCookieNames } from "@/lib/supabase/auth-cookie-names";
 
 function redirectToLogin(request: NextRequest, error?: string) {
   const url = request.nextUrl.clone();
@@ -88,17 +93,42 @@ export async function updateSession(request: NextRequest) {
     return redirectToLogin(request, "config");
   }
 
+  const secure = request.nextUrl.protocol === "https:";
+  const authCookiesReceived = listSupabaseAuthCookieNames(request.cookies.getAll());
+  if (isC3SessionDiagnosticsEnabled()) {
+    emitC3SessionDiagnostic("MIDDLEWARE_AUTH_COOKIE_NAMES_RECEIVED", {
+      count: authCookiesReceived.length,
+      cookieNames: authCookiesReceived,
+      route: pathname,
+    });
+  }
+
+  let middlewareSetCookieNames: string[] = [];
+  let sessionRefreshed = false;
+
   const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+    cookieOptions: {
+      path: "/",
+      sameSite: "lax",
+      secure,
+    },
     cookies: {
       getAll() {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet) {
+        sessionRefreshed = cookiesToSet.length > 0;
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
-        );
+        cookiesToSet.forEach(({ name, value, options }) => {
+          response.cookies.set(name, value, {
+            ...options,
+            path: options.path ?? "/",
+            sameSite: options.sameSite ?? "lax",
+            secure: options.secure ?? secure,
+          });
+          middlewareSetCookieNames.push(name);
+        });
       },
     },
   });
@@ -107,11 +137,40 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (isC3SessionDiagnosticsEnabled()) {
+    emitC3SessionDiagnostic("MIDDLEWARE_USER_VALIDATED", {
+      outcome: Boolean(user),
+      route: pathname,
+    });
+    if (sessionRefreshed) {
+      emitC3SessionDiagnostic("MIDDLEWARE_SESSION_REFRESHED", { route: pathname });
+    }
+    if (middlewareSetCookieNames.length > 0) {
+      emitC3SessionDiagnostic("MIDDLEWARE_SET_COOKIE_NAMES", {
+        count: middlewareSetCookieNames.length,
+        cookieNames: [...new Set(middlewareSetCookieNames)],
+        route: pathname,
+      });
+    }
+  }
+
   if (!user) {
+    if (isC3SessionDiagnosticsEnabled()) {
+      emitC3SessionDiagnostic("MIDDLEWARE_RESPONSE_ROUTE", {
+        route: "/login",
+        reason: "unauthenticated",
+      });
+    }
     return redirectToLogin(request);
   }
 
   if (c3SessionGate) {
+    if (isC3SessionDiagnosticsEnabled()) {
+      emitC3SessionDiagnostic("MIDDLEWARE_RESPONSE_ROUTE", {
+        route: pathname,
+        reason: "c3_session_gate",
+      });
+    }
     return response;
   }
 

@@ -319,7 +319,7 @@ async function main() {
   };
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
+  let context = await browser.newContext({
     extraHTTPHeaders: {
       "x-vercel-protection-bypass": bypass,
       "x-vercel-set-bypass-cookie": "true",
@@ -327,7 +327,7 @@ async function main() {
     },
   });
 
-  const page = await context.newPage();
+  let page = await context.newPage();
 
   try {
     await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle", timeout: 60_000 });
@@ -440,7 +440,20 @@ async function main() {
       report.security.replayedOtp = "rejected";
     }
 
-    // Sign in — native form POST /login/submit (browser navigation)
+    // C3.7C — registration context must not share cookie jar with login session proof
+    await page.close();
+    await context.close();
+
+    context = await browser.newContext({
+      extraHTTPHeaders: {
+        "x-vercel-protection-bypass": bypass,
+        "x-vercel-set-bypass-cookie": "true",
+        "Accept-Language": "en-US",
+      },
+    });
+    page = await context.newPage();
+
+    // Sign in — fresh browser context, native form POST /login/submit
     await page.goto(`${PREVIEW_BASE}/login?verified=1`, { waitUntil: "networkidle" });
     await screenshot(page, "10-verified-login-banner");
     await page.fill("#email", email);

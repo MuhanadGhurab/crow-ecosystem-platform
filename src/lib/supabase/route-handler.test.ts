@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createRouteHandlerCookieAdapter } from "./route-handler";
+import { supabaseAuthCookieBaseName } from "./auth-cookie-names";
+import { clearStaleSupabaseAuthCookies, createRouteHandlerCookieAdapter } from "./route-handler";
 
 function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message);
@@ -42,6 +43,31 @@ assert(
 assert(
   serialized.some((header) => header.includes("Secure")),
   "HTTPS adapter marks auth cookies Secure"
+);
+
+const base = supabaseAuthCookieBaseName();
+const staleRequest = new NextRequest("https://preview.example.com/login/submit", {
+  method: "POST",
+  headers: {
+    cookie: `${base}=stale; ${base}.0=stale-chunk`,
+  },
+});
+const staleResponse = NextResponse.redirect(new URL("/account", staleRequest.url), 303);
+const cleared = clearStaleSupabaseAuthCookies(staleRequest, staleResponse);
+assert(cleared.includes(base), "clears base auth cookie name");
+assert(cleared.includes(`${base}.0`), "clears chunked auth cookie name");
+
+const freshAdapter = createRouteHandlerCookieAdapter(staleRequest, staleResponse);
+freshAdapter.setAll([
+  {
+    name: base,
+    value: "redacted-not-asserted",
+    options: { path: "/", secure: true, sameSite: "lax" },
+  },
+]);
+assert(
+  staleResponse.cookies.getAll().some((cookie) => cookie.name === base),
+  "new session cookie written after stale clear"
 );
 
 console.log("route-handler.test.ts: OK");
