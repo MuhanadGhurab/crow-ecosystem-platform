@@ -194,16 +194,9 @@ export async function resolveSignInSubmissionUrl(
 
   const supabase = supabaseClient ?? (await createClient());
   let error: { message: string } | null = null;
-  let session: { access_token: string; refresh_token: string } | null = null;
   try {
     const result = await supabase.auth.signInWithPassword({ email, password });
     error = result.error;
-    if (result.data.session) {
-      session = {
-        access_token: result.data.session.access_token,
-        refresh_token: result.data.session.refresh_token,
-      };
-    }
   } catch (err) {
     const cause = err instanceof Error ? err.cause : undefined;
     const code =
@@ -224,10 +217,6 @@ export async function resolveSignInSubmissionUrl(
 
   if (error) {
     return buildLoginFailureRedirect(mapSupabaseAuthError(error.message, "signin"), next);
-  }
-
-  if (session) {
-    await supabase.auth.setSession(session);
   }
 
   const {
