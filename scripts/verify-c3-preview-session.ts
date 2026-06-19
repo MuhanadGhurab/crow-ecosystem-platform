@@ -5,6 +5,7 @@
  * Requires: .env.staging, Playwright, Vercel CLI (deployment-protection bypass).
  */
 import { execSync } from "node:child_process";
+import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { chromium } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
@@ -46,20 +47,37 @@ function resolveSessionCredentials(): { email: string; password: string } {
     process.env.C3_PREVIEW_SESSION_EMAIL?.trim() ||
     process.env.C3_PROVIDER_TEST_EMAIL?.trim() ||
     process.env.NOTIFICATION_TEST_EMAIL?.trim();
-  const password = process.env.C3_PREVIEW_SESSION_PASSWORD?.trim();
 
   if (!emailRaw?.includes("@")) {
     fail("Set C3_PREVIEW_SESSION_EMAIL or NOTIFICATION_TEST_EMAIL in .env.staging");
   }
-  if (!password) {
-    fail("Set C3_PREVIEW_SESSION_PASSWORD in .env.staging (active controlled test user)");
-  }
 
   const [local, domain] = emailRaw.split("@");
-  return {
-    email: normalizeEmail(`${local.split("+")[0]}@${domain}`),
-    password,
-  };
+  const email = normalizeEmail(`${local.split("+")[0]}@${domain}`);
+  const password =
+    process.env.C3_PREVIEW_SESSION_PASSWORD?.trim() ?? "CrowSessionPv!9Controlled";
+
+  return { email, password };
+}
+
+async function ensureControlledSessionPassword(
+  supabaseUserId: string,
+  password: string
+): Promise<void> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!supabaseUrl || !serviceKey) {
+    fail("SUPABASE_SERVICE_ROLE_KEY required to provision controlled session password");
+  }
+
+  const admin = createClient(supabaseUrl, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+  const { error } = await admin.auth.admin.updateUserById(supabaseUserId, { password });
+  if (error) {
+    fail(`Could not set controlled session password: ${error.message}`);
+  }
+  ok("Controlled session password provisioned for active test user");
 }
 
 function isSupabaseAuthCookieName(name: string): boolean {
@@ -83,6 +101,8 @@ async function main() {
     fail(`PlatformAccount must be ACTIVE (got ${account.status})`);
   }
   ok(`Controlled active test user exists (status=ACTIVE)`);
+
+  await ensureControlledSessionPassword(account.supabaseUserId, password);
 
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
