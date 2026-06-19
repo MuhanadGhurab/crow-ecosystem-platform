@@ -440,15 +440,25 @@ async function main() {
       report.security.replayedOtp = "rejected";
     }
 
-    // Sign in
+    // Sign in — HTTP POST /login/submit (same contract as the native form)
     await page.goto(`${PREVIEW_BASE}/login?verified=1`, { waitUntil: "networkidle" });
     await screenshot(page, "10-verified-login-banner");
-    await page.fill("#email", email);
-    await page.fill("#password", password);
-    await Promise.all([
-      page.waitForURL((url) => url.pathname === "/account", { timeout: 90_000 }),
-      page.getByRole("button", { name: /sign in with email/i }).click(),
-    ]);
+    const signInResponse = await page.request.post(`${PREVIEW_BASE}/login/submit`, {
+      form: { email, password },
+      maxRedirects: 0,
+    });
+    if (signInResponse.status() !== 303) {
+      fail(`POST /login/submit expected 303, got ${signInResponse.status()}`);
+    }
+    const signInLocation = signInResponse.headers()["location"];
+    if (!signInLocation) {
+      fail("POST /login/submit missing Location header");
+    }
+    const signInDestination = new URL(signInLocation, PREVIEW_BASE);
+    if (signInDestination.pathname !== "/account") {
+      fail(`Expected post-sign-in landing on /account, got ${signInDestination.pathname}`);
+    }
+    await page.goto(signInLocation, { waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
       fail(`HTTP sign-in did not reach /account (url=${page.url()})`);
     }

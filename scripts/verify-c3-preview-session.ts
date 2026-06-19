@@ -177,7 +177,7 @@ async function main() {
       fail("Browser did not land on an authenticated route after sign-in");
     }
 
-    const jarAfterSignIn = await context.cookies();
+    const jarAfterSignIn = await context.cookies(PREVIEW_BASE);
     const authJarNames = jarAfterSignIn
       .filter((cookie) => isSupabaseAuthCookieName(cookie.name))
       .map((cookie) => cookie.name);

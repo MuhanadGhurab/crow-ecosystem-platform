@@ -5,24 +5,18 @@ import { createSupabaseRouteHandlerClient } from "@/lib/supabase/route-handler";
 
 export const maxDuration = 60;
 
-/** HTTP POST sign-in — 303 redirect with Supabase session cookies on the response. */
+/** HTTP POST sign-in — 303 redirect with Supabase session cookies on the same response. */
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const requestOrigin = new URL(request.url);
 
-  const stagingResponse = NextResponse.next({ request });
-  const { supabase, cookieAudit } = createSupabaseRouteHandlerClient(
-    request,
-    stagingResponse
-  );
+  const response = NextResponse.redirect(new URL("/login", request.url), { status: 303 });
+  const { supabase, cookieAudit } = createSupabaseRouteHandlerClient(request, response);
 
   const path = await resolveSignInSubmissionUrl(formData, supabase);
   const destination = new URL(path, request.url);
 
-  const response = NextResponse.redirect(destination, { status: 303 });
-  for (const cookieHeader of stagingResponse.headers.getSetCookie()) {
-    response.headers.append("set-cookie", cookieHeader);
-  }
+  response.headers.set("Location", destination.toString());
   response.headers.set("Cache-Control", "private, no-store");
 
   const cookieNames = cookieAudit.getSetCookieNames();
