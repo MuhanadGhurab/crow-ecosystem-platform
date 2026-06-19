@@ -71,7 +71,9 @@ export async function collectC3Evidence(
         where: {
           platformAccountId: account.id,
           legalDocumentVersion: {
-            mandatoryClassification: "mandatory_contractual",
+            mandatoryClassification: {
+              in: ["mandatory_contractual", "mandatory_notice"],
+            },
           },
         },
       })
