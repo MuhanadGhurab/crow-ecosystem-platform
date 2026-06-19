@@ -105,25 +105,6 @@ async function probeSignInResponseHeaders(
   return { location, supabaseSetCookieNames, status: response.status() };
 }
 
-async function signInThroughHttpPost(
-  page: import("playwright").Page,
-  baseUrl: string,
-  email: string,
-  password: string
-): Promise<void> {
-  const response = await page.request.post(`${baseUrl}/login/submit`, {
-    form: { email, password },
-  });
-  if (!response.ok() && response.status() !== 200) {
-    fail(`POST /login/submit failed with status ${response.status()}`);
-  }
-  const finalUrl = response.url();
-  if (finalUrl.includes("/login")) {
-    fail(`POST /login/submit did not reach an authenticated route (${finalUrl})`);
-  }
-  await page.goto(finalUrl, { waitUntil: "networkidle" });
-}
-
 async function main() {
   const prisma = new PrismaClient();
   const { email, password } = resolveSessionCredentials();
@@ -191,9 +172,18 @@ async function main() {
     }
     ok(`Response Set-Cookie includes Supabase auth names: ${supabaseSetCookieNames.join(", ")}`);
 
-    await signInThroughHttpPost(page, PREVIEW_BASE, email, password);
+    await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
+    await page.fill("#email", email);
+    await page.fill("#password", password);
+    await Promise.all([
+      page.waitForURL(
+        (url) => url.pathname === "/account" || url.pathname === "/client",
+        { timeout: 90_000 }
+      ),
+      page.getByRole("button", { name: /sign in with email/i }).click(),
+    ]);
     if (page.url().includes("/login")) {
-      fail("Browser did not land on an authenticated route after sign-in");
+      fail("Browser form sign-in did not reach an authenticated route");
     }
 
     const jarAfterSignIn = await context.cookies(PREVIEW_BASE);
