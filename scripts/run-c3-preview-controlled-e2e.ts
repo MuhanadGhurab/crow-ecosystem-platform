@@ -457,7 +457,7 @@ async function main() {
 
     await screenshot(page, "11-account-desktop");
 
-    const authCookiesAfterSignIn = (await context.cookies()).filter((cookie) =>
+    const authCookiesAfterSignIn = (await context.cookies(PREVIEW_BASE)).filter((cookie) =>
       cookie.name.includes("-auth-token")
     );
     if (authCookiesAfterSignIn.length === 0) {
