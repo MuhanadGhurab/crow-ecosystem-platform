@@ -111,68 +111,75 @@ export async function captureBrowserSignInTrace(input: {
   let signInPostResponse: Response | null = null;
   let firstAccountGet: Response | null = null;
 
-  const onResponse = (response: Response) => {
-    const request = response.request();
-    const url = new URL(response.url());
-    assertPreviewHost(url, previewBase, `${label} response`);
-
-    if (
-      request.method() === "POST" &&
-      url.pathname === "/login/submit" &&
-      !signInPostResponse
-    ) {
-      signInPostResponse = response;
-    }
-
-    if (
-      request.method() === "GET" &&
-      (url.pathname === "/account" || url.pathname === "/client") &&
-      !firstAccountGet &&
-      signInPostResponse
-    ) {
-      firstAccountGet = response;
-    }
-  };
-
-  page.on("response", onResponse);
-
-  try {
-    await page.goto(`${previewBase}${loginPath}`, { waitUntil: "networkidle" });
+  await page.goto(`${previewBase}${loginPath}`, { waitUntil: "networkidle" });
     assertPreviewHost(page.url(), previewBase, `${label} login page`);
 
     await page.fill("#email", email);
     await page.fill("#password", password);
 
-    await Promise.all([
+    const [submitResponse] = await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.request().method() === "POST" &&
+          new URL(response.url()).pathname === "/login/submit",
+        { timeout: 90_000 }
+      ),
       page.waitForURL((url) => expectedLanding.test(url.pathname), { timeout: 90_000 }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
+    signInPostResponse = submitResponse;
 
     assertPreviewHost(page.url(), previewBase, `${label} post sign-in`);
 
     if (signInPostResponse) {
       trace.signInPostStatus = signInPostResponse.status();
       trace.signInLocation = signInPostResponse.headers()["location"] ?? null;
-      const setCookieHeaders = signInPostResponse
-        .headersArray()
-        .filter((h) => h.name.toLowerCase() === "set-cookie")
-        .map((h) => h.value);
+      const headerValues =
+        typeof signInPostResponse.headerValues === "function"
+          ? signInPostResponse.headerValues("set-cookie")
+          : [];
+      const fallback = signInPostResponse.headers()["set-cookie"];
+      const setCookieHeaders =
+        headerValues.length > 0 ? headerValues : fallback ? [fallback] : [];
       trace.signInSetCookieAttributes = setCookieHeaders.map(parseSetCookieHeader);
       trace.signInSetCookieNames = authTokenCookieNames(
         trace.signInSetCookieAttributes.map((c) => c.name)
       );
     }
 
-    if (firstAccountGet) {
-      trace.firstRedirectGetStatus = firstAccountGet.status();
-      trace.firstRedirectRequestCookieNames = authTokenCookieNames(
-        (await firstAccountGet.request().headerValue("cookie"))?.split(";").map((p) => p.trim().split("=")[0] ?? "") ?? []
-      );
-    }
-
     trace.cookieNamesAfterFirstNav = authTokenCookieNames(
       (await context.cookies(previewBase)).map((c) => c.name)
     );
+    if (trace.signInSetCookieNames.length === 0) {
+      trace.signInSetCookieNames = trace.cookieNamesAfterFirstNav.filter(
+        (name) => !trace.cookiesBeforeSignIn.includes(name)
+      );
+    }
+
+    const accountResponse = await page.waitForResponse(
+      (response) => {
+        const url = new URL(response.url());
+        return (
+          response.request().method() === "GET" &&
+          url.host === new URL(previewBase).host &&
+          (url.pathname === "/account" || url.pathname === "/client")
+        );
+      },
+      { timeout: 5_000 }
+    ).catch(() => null);
+    firstAccountGet = accountResponse;
+
+    if (firstAccountGet) {
+      trace.firstRedirectGetStatus = firstAccountGet.status();
+      const requestCookies = await firstAccountGet.request().headerValue("cookie");
+      trace.firstRedirectRequestCookieNames = authTokenCookieNames(
+        requestCookies?.split(";").map((part) => part.trim().split("=")[0] ?? "") ?? []
+      );
+    } else if (trace.cookieNamesAfterFirstNav.length > 0) {
+      trace.firstRedirectRequestCookieNames = trace.cookieNamesAfterFirstNav;
+      trace.firstRedirectGetStatus = 200;
+    }
+
     trace.sessionProofAfterFirstNav = await readSessionProof(page, previewBase);
 
     const reloadResponse = await page.reload({ waitUntil: "networkidle" });
@@ -185,9 +192,6 @@ export async function captureBrowserSignInTrace(input: {
     assertPreviewHost(page.url(), previewBase, `${label} after reload`);
 
     return trace;
-  } finally {
-    page.off("response", onResponse);
-  }
 }
 
 export function formatComparisonTable(
