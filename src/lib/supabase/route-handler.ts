@@ -9,64 +9,29 @@ export type RouteHandlerCookieAudit = {
 
 type CookieToSet = { name: string; value: string; options: CookieOptions };
 
-/**
- * Supabase client for Route Handlers — collects auth cookies during sign-in, then
- * apply them to the single redirect response returned to the browser.
- */
-export function createSupabaseRouteHandlerClient(request: NextRequest): {
-  supabase: SupabaseClient;
-  cookieAudit: RouteHandlerCookieAudit;
-  applyCollectedCookies(response: NextResponse): void;
-} {
-  const collected: CookieToSet[] = [];
-  const secure = request.nextUrl.protocol === "https:";
-
-  const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
-    cookieOptions: {
-      path: "/",
-      sameSite: "lax",
-      secure,
-    },
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet) {
-        for (const entry of cookiesToSet) {
-          collected.push(entry);
-          request.cookies.set(entry.name, entry.value);
-        }
-      },
-    },
-  });
-
+function mergeCookieOptions(
+  options: CookieOptions,
+  secure: boolean
+): CookieOptions {
   return {
-    supabase,
-    cookieAudit: {
-      getSetCookieNames: () => collected.map((cookie) => cookie.name),
-    },
-    applyCollectedCookies(response) {
-      for (const { name, value, options } of collected) {
-        response.cookies.set(name, value, {
-          ...options,
-          path: options.path ?? "/",
-          sameSite: options.sameSite ?? "lax",
-          secure: options.secure ?? secure,
-        });
-      }
-    },
+    ...options,
+    path: options.path ?? "/",
+    sameSite: options.sameSite ?? "lax",
+    secure: options.secure ?? secure,
   };
 }
 
-/** @deprecated Use createSupabaseRouteHandlerClient(request) + applyCollectedCookies. */
+/** Cookie adapter for Route Handlers — writes every Set-Cookie to the returned response. */
 export function createRouteHandlerCookieAdapter(
   request: NextRequest,
-  response: NextResponse
+  response: NextResponse,
+  secure = request.nextUrl.protocol === "https:"
 ): {
   getAll(): ReturnType<NextRequest["cookies"]["getAll"]>;
   setAll(cookiesToSet: CookieToSet[]): void;
 } {
-  const secure = request.nextUrl.protocol === "https:";
+  const setCookieNames: string[] = [];
+
   return {
     getAll() {
       return request.cookies.getAll();
@@ -74,11 +39,48 @@ export function createRouteHandlerCookieAdapter(
     setAll(cookiesToSet) {
       for (const { name, value, options } of cookiesToSet) {
         request.cookies.set(name, value);
-        response.cookies.set(name, value, {
-          ...options,
-          secure: options.secure ?? secure,
-        });
+        response.cookies.set(name, value, mergeCookieOptions(options, secure));
+        setCookieNames.push(name);
       }
+    },
+  };
+}
+
+/**
+ * Supabase client for Route Handlers — bind `setAll` to the exact response you will return.
+ * Create the redirect (or other) response before calling this helper.
+ */
+export function createSupabaseRouteHandlerClient(
+  request: NextRequest,
+  response: NextResponse
+): { supabase: SupabaseClient; cookieAudit: RouteHandlerCookieAudit } {
+  const secure = request.nextUrl.protocol === "https:";
+  const adapter = createRouteHandlerCookieAdapter(request, response, secure);
+  const setCookieNames = new Set<string>();
+
+  const trackingAdapter = {
+    getAll: adapter.getAll,
+    setAll(cookiesToSet: CookieToSet[]) {
+      adapter.setAll(cookiesToSet);
+      for (const { name } of cookiesToSet) {
+        setCookieNames.add(name);
+      }
+    },
+  };
+
+  const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+    cookieOptions: {
+      path: "/",
+      sameSite: "lax",
+      secure,
+    },
+    cookies: trackingAdapter,
+  });
+
+  return {
+    supabase,
+    cookieAudit: {
+      getSetCookieNames: () => [...setCookieNames],
     },
   };
 }
