@@ -33,9 +33,15 @@ assert(
   responseCookieNames.includes("sb-example-auth-token.0"),
   "adapter writes chunked auth cookie name to response"
 );
+
+const serialized = response.headers.getSetCookie();
 assert(
-  response.cookies.get("sb-example-auth-token")?.value === "redacted-not-asserted",
-  "adapter preserves cookie value on response object"
+  serialized.some((header) => header.startsWith("sb-example-auth-token=")),
+  "redirect response exposes Set-Cookie for auth token"
+);
+assert(
+  serialized.some((header) => header.includes("Secure")),
+  "HTTPS adapter marks auth cookies Secure"
 );
 
 console.log("route-handler.test.ts: OK");
