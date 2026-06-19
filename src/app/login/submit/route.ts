@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { resolveSignInSubmissionUrl } from "@/lib/actions/auth";
 import { emitC3SessionDiagnostic } from "@/lib/account/c3-session-diagnostics";
-import { createSupabaseRouteHandlerClient, expireOrphanedSupabaseAuthCookies } from "@/lib/supabase/route-handler";
+import { createSupabaseRouteHandlerClient, expireOrphanedSupabaseAuthCookies, stripSupabaseAuthCookiesFromRequest } from "@/lib/supabase/route-handler";
 
 export const maxDuration = 60;
 
@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
     request,
     response
   );
+
+  const strippedRequestCookies = stripSupabaseAuthCookiesFromRequest(request);
 
   const path = await resolveSignInSubmissionUrl(formData, supabase);
   const destination = new URL(path, request.url);
@@ -43,6 +45,7 @@ export async function POST(request: NextRequest) {
   emitC3SessionDiagnostic("SIGNIN_SET_COOKIE_NAMES", {
     cookieNames,
     clearedOrphanCookieNames: clearedOrphans,
+    strippedRequestCookieNames: strippedRequestCookies,
   });
   emitC3SessionDiagnostic("SIGNIN_REDIRECT_HOST_MATCH", {
     requestHost: requestOrigin.host,

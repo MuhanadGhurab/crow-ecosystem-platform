@@ -24,6 +24,21 @@ function mergeCookieOptions(
 }
 
 /**
+ * Remove Supabase auth cookies from the incoming request only.
+ * Use before sign-in so stale chunks do not corrupt the new session, without
+ * emitting Set-Cookie expirations that could race after the new session cookies.
+ */
+export function stripSupabaseAuthCookiesFromRequest(request: NextRequest): string[] {
+  const stripped: string[] = [];
+  for (const cookie of request.cookies.getAll()) {
+    if (!isSupabaseAuthCookieName(cookie.name)) continue;
+    request.cookies.set(cookie.name, "");
+    stripped.push(cookie.name);
+  }
+  return stripped;
+}
+
+/**
  * Expire stale Supabase auth cookies (base + chunk suffixes) before issuing a new session.
  * Prevents orphaned chunks from a prior browser context breaking session parsing.
  */

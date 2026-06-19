@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAuthCookieBaseName } from "./auth-cookie-names";
-import { clearStaleSupabaseAuthCookies, createRouteHandlerCookieAdapter } from "./route-handler";
+import { clearStaleSupabaseAuthCookies, createRouteHandlerCookieAdapter, stripSupabaseAuthCookiesFromRequest } from "./route-handler";
 
 function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message);
@@ -68,6 +68,18 @@ freshAdapter.setAll([
 assert(
   staleResponse.cookies.getAll().some((cookie) => cookie.name === base),
   "new session cookie written after stale clear"
+);
+
+const stripRequest = new NextRequest("https://preview.example.com/login/submit", {
+  method: "POST",
+  headers: { cookie: `${base}=stale; ${base}.0=stale-chunk` },
+});
+const stripped = stripSupabaseAuthCookiesFromRequest(stripRequest);
+assert(stripped.includes(base), "strip removes base auth cookie from request");
+assert(stripped.includes(`${base}.0`), "strip removes chunked auth cookie from request");
+assert(
+  stripRequest.cookies.getAll().every((cookie) => cookie.value === ""),
+  "stripped request cookies are empty"
 );
 
 console.log("route-handler.test.ts: OK");
