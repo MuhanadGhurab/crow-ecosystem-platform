@@ -7,7 +7,7 @@
 import { execSync } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
-import { chromium } from "playwright";
+import { chromium, request } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
 
 const PREVIEW_BASE =
@@ -85,24 +85,36 @@ function isSupabaseAuthCookieName(name: string): boolean {
 }
 
 async function probeSignInResponseHeaders(
-  page: import("playwright").Page,
   baseUrl: string,
+  bypass: string,
   email: string,
   password: string
 ): Promise<{ location: string; supabaseSetCookieNames: string[]; status: number }> {
-  const response = await page.request.post(`${baseUrl}/login/submit`, {
-    form: { email, password },
-    maxRedirects: 0,
+  const api = await request.newContext({
+    extraHTTPHeaders: {
+      "x-vercel-protection-bypass": bypass,
+      "x-vercel-set-bypass-cookie": "true",
+    },
   });
 
-  const location = response.headers()["location"] ?? "";
-  const supabaseSetCookieNames = response
-    .headersArray()
-    .filter((header) => header.name.toLowerCase() === "set-cookie")
-    .map((header) => header.value.match(/^([^=]+)=/)?.[1] ?? "")
-    .filter((name) => name.length > 0 && isSupabaseAuthCookieName(name));
+  try {
+    await api.get(`${baseUrl}/login`);
+    const response = await api.post(`${baseUrl}/login/submit`, {
+      form: { email, password },
+      maxRedirects: 0,
+    });
 
-  return { location, supabaseSetCookieNames, status: response.status() };
+    const location = response.headers()["location"] ?? "";
+    const supabaseSetCookieNames = response
+      .headersArray()
+      .filter((header) => header.name.toLowerCase() === "set-cookie")
+      .map((header) => header.value.match(/^([^=]+)=/)?.[1] ?? "")
+      .filter((name) => name.length > 0 && isSupabaseAuthCookieName(name));
+
+    return { location, supabaseSetCookieNames, status: response.status() };
+  } finally {
+    await api.dispose();
+  }
 }
 
 async function main() {
@@ -138,8 +150,8 @@ async function main() {
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
 
     const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
-      page,
       PREVIEW_BASE,
+      bypass,
       email,
       password
     );
