@@ -457,6 +457,12 @@ async function main() {
 
     await screenshot(page, "11-account-desktop");
 
+    await page.reload({ waitUntil: "networkidle" });
+    if (page.url().includes("/login")) {
+      fail("/account reload redirected to login — Supabase session cookies not persistent");
+    }
+    ok("/account survives hard reload after HTTP sign-in");
+
     const authCookiesAfterSignIn = (await context.cookies(PREVIEW_BASE)).filter((cookie) =>
       cookie.name.includes("-auth-token")
     );
@@ -468,12 +474,6 @@ async function main() {
     ok(
       `Browser jar after sign-in: ${authCookiesAfterSignIn.map((cookie) => cookie.name).join(", ")}`
     );
-
-    await page.reload({ waitUntil: "networkidle" });
-    if (page.url().includes("/login")) {
-      fail("/account reload redirected to login — Supabase session cookies not persistent");
-    }
-    ok("/account survives hard reload after HTTP sign-in");
 
     await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle", timeout: 60_000 });
     if (page.url().includes("/login")) {
