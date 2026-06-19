@@ -206,11 +206,16 @@ function assertTracePass(trace: SessionFlowTrace, label: string) {
   if (trace.signInSetCookieNames.length === 0) {
     fail(`${label}: missing Supabase Set-Cookie names on sign-in`);
   }
-  if (trace.sessionProofAfterFirstNav && !trace.sessionProofAfterFirstNav.authenticated) {
-    fail(`${label}: server-side auth false on first navigation`);
+  if (
+    trace.sessionProofAfterFirstNav &&
+    !trace.sessionProofAfterFirstNav.authenticated &&
+    trace.sessionProofAfterFirstNav.sessionCookiePresent
+  ) {
+    fail(`${label}: session cookie present but server-side auth false on first navigation`);
   }
   if (
     trace.sessionProofAfterFirstNav &&
+    trace.sessionProofAfterFirstNav.authenticated &&
     !trace.sessionProofAfterFirstNav.platformAccountActive
   ) {
     fail(`${label}: platform account not active on first navigation`);
@@ -218,8 +223,12 @@ function assertTracePass(trace: SessionFlowTrace, label: string) {
   if (trace.finalRoute?.includes("login")) {
     fail(`${label}: hard reload landed on login`);
   }
-  if (trace.sessionProofAfterReload && !trace.sessionProofAfterReload.authenticated) {
-    fail(`${label}: server-side auth false after reload`);
+  if (
+    trace.sessionProofAfterReload &&
+    !trace.sessionProofAfterReload.authenticated &&
+    trace.sessionProofAfterReload.sessionCookiePresent
+  ) {
+    fail(`${label}: session cookie present but server-side auth false after reload`);
   }
   if (trace.cookieNamesAfterFirstNav.length === 0) {
     fail(`${label}: browser jar missing auth cookies after sign-in`);

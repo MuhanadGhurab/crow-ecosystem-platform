@@ -111,7 +111,6 @@ export async function updateSession(request: NextRequest) {
       path: "/",
       sameSite: "lax",
       secure,
-      httpOnly: true,
     },
     cookies: {
       getAll() {
@@ -127,7 +126,6 @@ export async function updateSession(request: NextRequest) {
             path: options.path ?? "/",
             sameSite: options.sameSite ?? "lax",
             secure: options.secure ?? secure,
-            httpOnly: options.httpOnly ?? true,
           });
           middlewareSetCookieNames.push(name);
         });

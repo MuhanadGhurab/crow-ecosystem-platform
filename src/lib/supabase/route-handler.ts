@@ -19,7 +19,7 @@ function mergeCookieOptions(
     path: options.path ?? "/",
     sameSite: options.sameSite ?? "lax",
     secure: options.secure ?? secure,
-    httpOnly: options.httpOnly ?? true,
+    httpOnly: options.httpOnly,
   };
 }
 
@@ -27,6 +27,31 @@ function mergeCookieOptions(
  * Expire stale Supabase auth cookies (base + chunk suffixes) before issuing a new session.
  * Prevents orphaned chunks from a prior browser context breaking session parsing.
  */
+export function expireOrphanedSupabaseAuthCookies(
+  request: NextRequest,
+  response: NextResponse,
+  activeNames: string[]
+): string[] {
+  const cleared: string[] = [];
+  const secure = request.nextUrl.protocol === "https:";
+  const active = new Set(activeNames);
+
+  for (const cookie of request.cookies.getAll()) {
+    if (!isSupabaseAuthCookieName(cookie.name)) continue;
+    if (active.has(cookie.name)) continue;
+    response.cookies.set(cookie.name, "", {
+      path: "/",
+      maxAge: 0,
+      sameSite: "lax",
+      secure,
+    });
+    cleared.push(cookie.name);
+  }
+
+  return cleared;
+}
+
+/** @deprecated Prefer expireOrphanedSupabaseAuthCookies after a successful sign-in. */
 export function clearStaleSupabaseAuthCookies(
   request: NextRequest,
   response: NextResponse
@@ -101,7 +126,6 @@ export function createSupabaseRouteHandlerClient(
       path: "/",
       sameSite: "lax",
       secure,
-      httpOnly: true,
     },
     cookies: trackingAdapter,
   });

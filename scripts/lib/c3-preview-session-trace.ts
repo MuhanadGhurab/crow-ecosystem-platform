@@ -62,12 +62,9 @@ export async function readSessionProof(
   page: Page,
   previewBase: string
 ): Promise<SessionProofSnapshot | null> {
-  const response = await page.goto(`${previewBase}/api/c3/session-proof`, {
-    waitUntil: "commit",
-  });
-  if (!response || response.status() === 404) return null;
-  const body = (await response.json()) as SessionProofSnapshot;
-  return body;
+  const response = await page.request.get(`${previewBase}/api/c3/session-proof`);
+  if (response.status() === 404) return null;
+  return (await response.json()) as SessionProofSnapshot;
 }
 
 export async function captureBrowserSignInTrace(input: {
@@ -158,17 +155,15 @@ export async function captureBrowserSignInTrace(input: {
 
     const accountDocument = await page
       .waitForResponse(
-        async (response) => {
+        (response) => {
           const url = new URL(response.url());
-          if (response.request().method() !== "GET") return false;
-          if (url.host !== new URL(previewBase).host) return false;
-          if (url.pathname !== "/account" && url.pathname !== "/client") return false;
-          const cookie = await response.request().headerValue("cookie");
-          return authTokenCookieNames(
-            cookie?.split(";").map((part) => part.trim().split("=")[0] ?? "") ?? []
-          ).length > 0;
+          return (
+            response.request().method() === "GET" &&
+            url.host === new URL(previewBase).host &&
+            (url.pathname === "/account" || url.pathname === "/client")
+          );
         },
-        { timeout: 90_000 }
+        { timeout: 15_000 }
       )
       .catch(() => null);
     firstAccountGet = accountDocument;
