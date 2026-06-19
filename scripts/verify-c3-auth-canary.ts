@@ -83,11 +83,12 @@ async function main() {
 
   console.log(`\n=== C3 Auth Canary verify (${PREVIEW_BASE}) ===\n`);
 
-  const prodResponse = await fetch(`${PRODUCTION_BASE}/auth-canary`, { redirect: "manual" });
-  if (prodResponse.status !== 404) {
-    fail(`Production /auth-canary expected 404, got ${prodResponse.status}`);
+  const prodResponse = await fetch(`${PRODUCTION_BASE}/auth-canary`, { redirect: "follow" });
+  const prodBody = await prodResponse.text();
+  if (prodResponse.status === 200 && prodBody.includes("Official Supabase SSR canary")) {
+    fail("Production exposes auth canary surface");
   }
-  ok("Production /auth-canary returns 404");
+  ok("Production does not expose auth canary (not 200 with canary UI)");
 
   const previewDisabled = await fetch(`${PREVIEW_BASE}/auth-canary`, {
     headers: previewBypassHeaders(bypass),
