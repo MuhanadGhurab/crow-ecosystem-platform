@@ -10,6 +10,13 @@ import {
   PASSWORD_RECOVERY_NEXT_PATH,
 } from "@/lib/auth/password-recovery-session";
 import { isC3GoogleOAuthCallbackEligible } from "@/lib/account/provider-identity.service";
+import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
+import {
+  C3_OAUTH_PROVIDER_COOKIE,
+  isGoogleOAuthProviderHint,
+  isGoogleSsoEnabled,
+  oauthProviderCookieOptions,
+} from "@/lib/auth/google-sso";
 import { routes } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/server";
 
@@ -41,6 +48,10 @@ export async function GET(request: Request) {
       ...oauthNextCookieOptions(),
       maxAge: 0,
     });
+    response.cookies.set(C3_OAUTH_PROVIDER_COOKIE, "", {
+      ...oauthProviderCookieOptions(),
+      maxAge: 0,
+    });
     response.headers.set("Cache-Control", "private, no-store");
     return response;
   };
@@ -67,11 +78,47 @@ export async function GET(request: Request) {
         return clearNextCookie(response);
       }
 
-      const {
+      const oauthProviderHint = cookieStore.get(C3_OAUTH_PROVIDER_COOKIE)?.value;
+
+      let {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user && isC3GoogleOAuthCallbackEligible(user)) {
+      const shouldUseCrowGoogleResolver = (candidate: typeof user) =>
+        Boolean(candidate && isC3GoogleOAuthCallbackEligible(candidate, oauthProviderHint));
+
+      if (user && !shouldUseCrowGoogleResolver(user) && isGoogleOAuthProviderHint(oauthProviderHint)) {
+        user = (await refreshSessionUser(supabase)) ?? user;
+      }
+
+      if (user && shouldUseCrowGoogleResolver(user)) {
+        const params = new URLSearchParams();
+        if (explicitNext) params.set("next", explicitNext);
+        const resolvingPath = params.size
+          ? `${routes.auth.resolving}?${params.toString()}`
+          : routes.auth.resolving;
+        return clearNextCookie(NextResponse.redirect(`${origin}${resolvingPath}`));
+      }
+
+      if (user && isGoogleSsoEnabled() && isGoogleOAuthProviderHint(oauthProviderHint)) {
+        const params = new URLSearchParams();
+        if (explicitNext) params.set("next", explicitNext);
+        const resolvingPath = params.size
+          ? `${routes.auth.resolving}?${params.toString()}`
+          : routes.auth.resolving;
+        return clearNextCookie(NextResponse.redirect(`${origin}${resolvingPath}`));
+      }
+
+      if (user && isGoogleSsoEnabled() && user.identities?.some((i) => i.provider === "google")) {
+        const params = new URLSearchParams();
+        if (explicitNext) params.set("next", explicitNext);
+        const resolvingPath = params.size
+          ? `${routes.auth.resolving}?${params.toString()}`
+          : routes.auth.resolving;
+        return clearNextCookie(NextResponse.redirect(`${origin}${resolvingPath}`));
+      }
+
+      if (isGoogleSsoEnabled()) {
         const params = new URLSearchParams();
         if (explicitNext) params.set("next", explicitNext);
         const resolvingPath = params.size
@@ -91,7 +138,6 @@ export async function GET(request: Request) {
         }
       }
 
-      const { refreshSessionUser } = await import("@/lib/auth/refresh-session-user");
       const { getCrowAuth } = await import("@/lib/auth/roles");
       const {
         assignDefaultClientRoleOnSignUp,

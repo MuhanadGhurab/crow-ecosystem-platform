@@ -11,6 +11,7 @@ import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
+import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 import { loadMandatoryLegalDocumentsForRegistration } from "@/lib/actions/account-legal";
 import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 import { getSessionUser } from "@/lib/auth/session";
@@ -56,11 +57,24 @@ export default async function RegisterLegalPage({
   }
 
   const account = user ? await findPlatformAccountBySupabaseUserId(user.id) : null;
-  if (user && account && isPlatformAccountActive(account)) {
-    redirect(await resolveC3PostAuthLanding(user, nextPath));
+  const locale = await resolveRegistrationLocale();
+
+  if (user && account) {
+    const legalComplete = await hasMandatoryLegalAcceptanceComplete(account.id, locale);
+    if (
+      legalComplete &&
+      isPlatformAccountActive(account) &&
+      isOnboardingGenerationCurrent(account.onboardingGeneration)
+    ) {
+      redirect(await resolveC3PostAuthLanding(user, nextPath));
+    }
+    if (legalComplete && !isPlatformAccountActive(account)) {
+      const params = new URLSearchParams({ email: account.email });
+      if (nextPath) params.set("next", nextPath);
+      redirect(`${routes.onboarding.verifyEmail}?${params.toString()}`);
+    }
   }
 
-  const locale = await resolveRegistrationLocale();
   if (account && (await hasMandatoryLegalAcceptanceComplete(account.id, locale))) {
     const params = new URLSearchParams({ email: account.email });
     if (nextPath) params.set("next", nextPath);

@@ -89,7 +89,7 @@ function main() {
     "resolver must call resolveC3PostAuthLanding"
   );
   check(
-    read("src/components/auth/crow-post-auth-resolver.tsx").includes("Securing your session"),
+    read("src/components/auth/crow-post-auth-resolver.tsx").includes("Securing your Google session"),
     "branded resolver stages",
     "resolver UI missing stage copy"
   );

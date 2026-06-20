@@ -16,8 +16,8 @@ const STAGE_COPY: Record<
   { active: string; done: string }
 > = {
   session_secured: {
-    active: "Securing your session",
-    done: "Session secured",
+    active: "Securing your Google session",
+    done: "Google session secured",
   },
   account_checked: {
     active: "Checking your Crow account",

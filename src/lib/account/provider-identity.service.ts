@@ -48,8 +48,17 @@ export function resolveOAuthProviderForPlatformAccount(
   return null;
 }
 
-export function isC3GoogleOAuthCallbackEligible(user: User): boolean {
-  return resolveOAuthProviderForPlatformAccount(user) === "google";
+export function userHasGoogleProviderIdentity(user: User): boolean {
+  return user.identities?.some((identity) => identity.provider === "google") ?? false;
+}
+
+export function isC3GoogleOAuthCallbackEligible(
+  user: User,
+  oauthProviderHint?: string | null
+): boolean {
+  if (!isGoogleSsoEnabled()) return false;
+  if (oauthProviderHint === "google") return true;
+  return userHasGoogleProviderIdentity(user);
 }
 
 /** One Supabase user → one PlatformAccount; link provider identity safely. */

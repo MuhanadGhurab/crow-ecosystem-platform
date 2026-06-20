@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
-import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
+import { redirectAuthenticatedSession } from "@/lib/auth/c3-authenticated-entry";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
@@ -73,7 +73,7 @@ export default async function LoginPage({
 
   const existingUser = await getSessionUser();
   if (existingUser) {
-    redirect(await resolveC3PostAuthLanding(existingUser, nextPath));
+    await redirectAuthenticatedSession(existingUser, nextPath);
   }
 
   const errorMessage = error

@@ -251,10 +251,12 @@ function main() {
     "auth.ts uses resolveC3PostAuthLanding for C3 sign-in",
     "auth.ts finalizeAuthUser must call resolveC3PostAuthLanding"
   );
+  const loginPage = fileText("src/app/login/page.tsx");
   check(
-    fileText("src/app/login/page.tsx").includes("resolveC3PostAuthLanding"),
-    "Login page uses C3 post-auth landing",
-    "login page must call resolveC3PostAuthLanding"
+    loginPage.includes("resolveC3PostAuthLanding") ||
+      loginPage.includes("redirectAuthenticatedSession"),
+    "Login page uses C3 post-auth entry",
+    "login page must call redirectAuthenticatedSession or resolveC3PostAuthLanding"
   );
   check(
     auth.includes("routes.onboarding.legal"),

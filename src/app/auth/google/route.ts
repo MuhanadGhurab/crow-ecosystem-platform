@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   googleOAuthOptions,
   isGoogleSsoEnabled,
+  oauthProviderCookieOptions,
 } from "@/lib/auth/google-sso";
 import {
   oauthNextCookieOptions,
@@ -39,6 +40,11 @@ export async function GET(request: Request) {
     oauthNextCookieOptions().name,
     nextPath,
     oauthNextCookieOptions()
+  );
+  response.cookies.set(
+    oauthProviderCookieOptions().name,
+    "google",
+    oauthProviderCookieOptions()
   );
   return response;
 }

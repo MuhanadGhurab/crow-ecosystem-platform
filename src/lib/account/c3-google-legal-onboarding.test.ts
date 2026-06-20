@@ -19,9 +19,30 @@ function readSrc(rel: string): string {
   const callback = readSrc("src/app/auth/callback/route.ts");
   assert(callback.includes("isC3GoogleOAuthCallbackEligible"), "callback gates Google OAuth");
   assert(callback.includes("routes.auth.resolving"), "callback hands off to Crow resolver");
+  assert(callback.includes("C3_OAUTH_PROVIDER_COOKIE"), "callback reads Google provider cookie");
+  assert(
+    callback.includes("isGoogleSsoEnabled()") &&
+      callback.indexOf("assignDefaultClientRoleOnSignUp") >
+        callback.lastIndexOf("if (isGoogleSsoEnabled())"),
+    "client role assignment unreachable when Google SSO enabled"
+  );
   assert(callback.includes("exchangeCodeForSession"), "PKCE code exchange");
   assert(callback.includes("Cache-Control"), "no-store on OAuth response");
   assert(!callback.includes("gateAuthSessionForC3"), "callback must not duplicate C3 gate");
+}
+
+{
+  const session = readSrc("src/lib/auth/session.ts");
+  assert(session.includes("enforceC3HumanAccessGate"), "human portals share legal gate");
+}
+
+{
+  const registerLegal = readSrc("src/app/register/legal/page.tsx");
+  assert(
+    registerLegal.includes("hasMandatoryLegalAcceptanceComplete") &&
+      registerLegal.includes("isOnboardingGenerationCurrent"),
+    "legal page requires current mandatory acceptance before exit"
+  );
 }
 
 {

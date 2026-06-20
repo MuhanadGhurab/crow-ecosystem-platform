@@ -87,6 +87,7 @@ export async function requirePlatformStaff(): Promise<User> {
   if (isAuthDisabled()) {
     return user;
   }
+  await enforceC3HumanAccessGate(user);
   const { role } = getCrowAuth(user);
   if (!isPlatformStaff(role)) {
     redirect("/unauthorized?reason=platform_staff");
@@ -100,6 +101,7 @@ export async function requirePlatformPathAccess(pathname: string): Promise<User>
   if (isAuthDisabled()) {
     return user;
   }
+  await enforceC3HumanAccessGate(user, pathname);
   const { role } = getCrowAuth(user);
   if (!canAccessPlatformPath(role, pathname)) {
     redirect("/unauthorized?reason=permission");
@@ -125,6 +127,7 @@ export async function requirePlatformConsole(): Promise<User> {
   if (isAuthDisabled()) {
     return user;
   }
+  await enforceC3HumanAccessGate(user);
   const { role } = getCrowAuth(user);
   const allowed =
     isPlatformStaff(role) ||
@@ -147,14 +150,13 @@ export async function requireTenantAccess(slug: string): Promise<User> {
 }
 
 /** Client portal — client role, staff preview, or email-matched requests. */
-/** C3 — authenticated session with ACTIVE platform account (self-service /account/*). */
-export async function requireActivePlatformAccount(nextPath?: string): Promise<User> {
-  const user = await requireAuth(nextPath);
-  if (isAuthDisabled()) {
-    return user;
-  }
-  if (!isC3PlatformAccountGateEnabled()) {
-    redirect("/login?error=config");
+/** Enforce C3 legal + activation before any protected human application surface. */
+export async function enforceC3HumanAccessGate(
+  user: User,
+  nextPath?: string
+): Promise<void> {
+  if (isAuthDisabled() || !isC3PlatformAccountGateEnabled()) {
+    return;
   }
 
   const gate = await gateAuthSessionForC3(user, nextPath);
@@ -171,8 +173,22 @@ export async function requireActivePlatformAccount(nextPath?: string): Promise<U
     !isPlatformAccountActive(account) ||
     !isOnboardingGenerationCurrent(account.onboardingGeneration)
   ) {
-    redirect(routes.onboarding.legal);
+    const q = nextPath ? `?next=${encodeURIComponent(nextPath)}` : "";
+    redirect(`${routes.account.registerLegal}${q}`);
   }
+}
+
+/** C3 — authenticated session with ACTIVE platform account (self-service /account/*). */
+export async function requireActivePlatformAccount(nextPath?: string): Promise<User> {
+  const user = await requireAuth(nextPath);
+  if (isAuthDisabled()) {
+    return user;
+  }
+  if (!isC3PlatformAccountGateEnabled()) {
+    redirect("/login?error=config");
+  }
+
+  await enforceC3HumanAccessGate(user, nextPath);
   return user;
 }
 
@@ -181,6 +197,8 @@ export async function requireClientAccess(nextPath = "/portal/requests"): Promis
   if (isAuthDisabled()) {
     return user;
   }
+
+  await enforceC3HumanAccessGate(user, nextPath);
 
   const { role } = getCrowAuth(user);
   if (canAccessPortal(role)) {

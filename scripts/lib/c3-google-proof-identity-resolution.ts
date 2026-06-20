@@ -4,6 +4,8 @@
 import { createClient, type User } from "@supabase/supabase-js";
 import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
+import { hasMandatoryLegalAcceptanceComplete } from "../../src/lib/legal/legal-acceptance.service";
+import { resolveRegistrationLocale } from "../../src/lib/legal/registration-locale";
 import { opaqueManifestRef } from "./identity-manifest";
 
 export type GoogleProofAccountRetention = "delete_after_proof" | "retain_after_proof";
@@ -12,12 +14,20 @@ export type GoogleProofIdentityClassification =
   | "NO_EXISTING_IDENTITY"
   | "CONTROLLED_PENDING_GOOGLE_REQUESTER"
   | "CONTROLLED_ACTIVE_GOOGLE_REQUESTER"
+  | "INCOMPLETE_GOOGLE_REQUESTER"
+  | "ACTIVE_GOOGLE_REQUESTER"
+  | "EXISTING_CLIENT_LEGAL_INCOMPLETE"
+  | "EXISTING_CLIENT_LEGAL_CURRENT"
   | "INCOMPLETE_GOOGLE_IDENTITY"
+  | "LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT"
+  | "PRIVILEGED_OR_OPERATIONAL_IDENTITY"
   | "PROVIDER_IDENTITY_COLLISION"
-  | "ACTIVE_PRIVILEGED_IDENTITY"
+  | "PROVIDER_COLLISION"
   | "LEGACY_IDENTITY"
+  | "ACTIVE_PRIVILEGED_IDENTITY"
   | "OPERATIONAL_OWNERSHIP_BLOCKER"
-  | "DUPLICATE_IDENTITY";
+  | "DUPLICATE_IDENTITY"
+  | "UNKNOWN";
 
 export type GoogleProofIdentityResolution = {
   classification: GoogleProofIdentityClassification;
@@ -55,6 +65,9 @@ const PROCEED_CLASSIFICATIONS: GoogleProofIdentityClassification[] = [
   "NO_EXISTING_IDENTITY",
   "CONTROLLED_PENDING_GOOGLE_REQUESTER",
   "INCOMPLETE_GOOGLE_IDENTITY",
+  "INCOMPLETE_GOOGLE_REQUESTER",
+  "EXISTING_CLIENT_LEGAL_INCOMPLETE",
+  "LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT",
 ];
 
 function parseRetention(): GoogleProofAccountRetention | null {
@@ -200,7 +213,7 @@ export async function resolveGoogleProofIdentity(
   }
 
   if (authUser && !account) {
-    return baseResolution("INCOMPLETE_GOOGLE_IDENTITY", {
+    return baseResolution("LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT", {
       authOpaque: opaqueManifestRef("supabase-auth", authUser.id),
       stopReason: "Supabase Auth without PlatformAccount — reconcile on OAuth callback",
     });
@@ -284,8 +297,11 @@ export async function resolveGoogleProofIdentity(
   const accountOpaque = opaqueManifestRef("platform-account", account.id);
   const authOpaque = opaqueManifestRef("supabase-auth", authUser.id);
 
+  const locale = await resolveRegistrationLocale();
+  const legalCurrent = await hasMandatoryLegalAcceptanceComplete(account.id, locale);
+
   if (providerCollision) {
-    return baseResolution("PROVIDER_IDENTITY_COLLISION", {
+    return baseResolution("PROVIDER_COLLISION", {
       accountOpaque,
       authOpaque,
       counts,
@@ -305,16 +321,35 @@ export async function resolveGoogleProofIdentity(
   }
 
   if (
-    crowRole === "client" ||
     crowRole === "admin" ||
-    crowRole === "platform_admin"
+    crowRole === "platform_admin" ||
+    crowRole === "implementer" ||
+    crowRole === "sales" ||
+    crowRole === "auditor_readonly"
   ) {
-    return baseResolution("ACTIVE_PRIVILEGED_IDENTITY", {
+    return baseResolution("PRIVILEGED_OR_OPERATIONAL_IDENTITY", {
       accountOpaque,
       authOpaque,
       counts,
       state,
       stopReason: `Privileged crow_role=${crowRole}`,
+    });
+  }
+
+  if (crowRole === "client") {
+    const classification: GoogleProofIdentityClassification = legalCurrent
+      ? "EXISTING_CLIENT_LEGAL_CURRENT"
+      : "EXISTING_CLIENT_LEGAL_INCOMPLETE";
+    return baseResolution(classification, {
+      accountOpaque,
+      authOpaque,
+      counts,
+      state,
+      mayProceed: classification === "EXISTING_CLIENT_LEGAL_INCOMPLETE",
+      stopReason:
+        classification === "EXISTING_CLIENT_LEGAL_CURRENT"
+          ? "Client with current legal — use for post-legal session proof"
+          : null,
     });
   }
 
@@ -331,12 +366,12 @@ export async function resolveGoogleProofIdentity(
   const isActiveOrdinary =
     account.status === "ACTIVE" &&
     account.onboardingGeneration === 2 &&
-    legalAcceptances === 3 &&
+    legalCurrent &&
     Boolean(account.emailVerifiedAt) &&
     state.googleProviderLinked;
 
   if (isActiveOrdinary) {
-    return baseResolution("CONTROLLED_ACTIVE_GOOGLE_REQUESTER", {
+    return baseResolution("ACTIVE_GOOGLE_REQUESTER", {
       accountOpaque,
       authOpaque,
       counts,
@@ -348,7 +383,7 @@ export async function resolveGoogleProofIdentity(
   const isPendingOrdinary =
     account.status === "PENDING_EMAIL_VERIFICATION" &&
     account.onboardingGeneration === 2 &&
-    legalAcceptances === 3 &&
+    legalCurrent &&
     !crowRole;
 
   if (isPendingOrdinary) {
@@ -361,14 +396,14 @@ export async function resolveGoogleProofIdentity(
   }
 
   const incomplete =
-    legalAcceptances < 3 ||
+    !legalCurrent ||
     account.status === "PENDING_EMAIL_VERIFICATION" ||
     account.status === "PENDING_PHONE_VERIFICATION" ||
     !state.linkedAuthToAccount ||
     !state.googleProviderLinked;
 
   if (incomplete) {
-    return baseResolution("INCOMPLETE_GOOGLE_IDENTITY", {
+    return baseResolution("INCOMPLETE_GOOGLE_REQUESTER", {
       accountOpaque,
       authOpaque,
       counts,
@@ -376,7 +411,7 @@ export async function resolveGoogleProofIdentity(
     });
   }
 
-  return baseResolution("ACTIVE_PRIVILEGED_IDENTITY", {
+  return baseResolution("UNKNOWN", {
     accountOpaque,
     authOpaque,
     counts,
