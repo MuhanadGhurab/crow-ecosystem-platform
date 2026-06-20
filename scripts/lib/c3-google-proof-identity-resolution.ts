@@ -6,7 +6,7 @@ import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
 import { opaqueManifestRef } from "./identity-manifest";
 
-const MANDATORY_CLASSIFICATIONS = ["terms_of_service", "privacy_notice", "acceptable_use"] as const;
+const MANDATORY_CLASSIFICATIONS = ["mandatory_contractual", "mandatory_notice"] as const;
 
 async function isCurrentMandatoryLegalComplete(
   prisma: PrismaClient,
