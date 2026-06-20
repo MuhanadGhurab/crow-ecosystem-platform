@@ -1,7 +1,7 @@
 {
   "mission": "C3.10D",
-  "previewUrl": "https://crow-ecosystem-platform-rmsk1kph3-muhanadghurabs-projects.vercel.app",
-  "deploymentId": "dpl_5sYkpwmVo73cocQy4M4aSK9uorex",
+  "previewUrl": "https://crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+  "deploymentId": "dpl_AFRHXELyesBQiALBjNtNb6vBBv5P",
   "automationBypassConfigured": true,
   "manualBrowserTest": {
     "recorded": false,
@@ -17,339 +17,587 @@
     "reloadSurvived": false,
     "vercelJwtPresent": false
   },
-  "pathBExistingUser": {
+  "pathB1ServerAction": {
     "proofCategory": "BROWSER_DOCUMENT_SESSION",
-    "reloadSurvived": false,
-    "profileSurvived": false,
+    "reloadSurvived": true,
+    "profileSurvived": true,
     "vercelJwtPresent": true,
-    "applicableCookieMeta": [],
+    "applicableCookieMeta": [
+      {
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token",
+        "domain": "crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+        "path": "/",
+        "secure": false,
+        "sameSite": "Lax",
+        "httpOnly": false,
+        "expires": 1816525806.461979
+      }
+    ],
     "documentCookieTable": [
       {
         "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/css/b75fc3e2a933398e.css",
+        "pathname": "/_next/static/css/b75fc3e2a933398e.css",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/webpack-ba64637afeabee18.js",
         "pathname": "/_next/static/chunks/webpack-ba64637afeabee18.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/4bd1b696-f785427dddbba9fb.js",
         "pathname": "/_next/static/chunks/4bd1b696-f785427dddbba9fb.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/1255-c19248ef99aa5806.js",
         "pathname": "/_next/static/chunks/1255-c19248ef99aa5806.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/main-app-5eb0d9c55a395822.js",
         "pathname": "/_next/static/chunks/main-app-5eb0d9c55a395822.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/app/layout-effbe4a838665eeb.js",
         "pathname": "/_next/static/chunks/app/layout-effbe4a838665eeb.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
         "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
         "pathname": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/1613-c8f901b486f8fc0d.js",
-        "pathname": "/_next/static/chunks/1613-c8f901b486f8fc0d.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "requestLabel": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "pathname": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/app/login/page-dedaf4bcb5e37575.js",
-        "pathname": "/_next/static/chunks/app/login/page-dedaf4bcb5e37575.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "requestLabel": "/_next/static/chunks/app/login/page-62566416543f8713.js",
+        "pathname": "/_next/static/chunks/app/login/page-62566416543f8713.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/?_rsc=j7s84HGI7papZ6oY",
         "pathname": "/",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY",
         "pathname": "/signup",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/login/submit",
-        "pathname": "/login/submit",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account",
-        "pathname": "/account",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/_next/static/chunks/app/account/page-3234663b35ad16f9.js",
-        "pathname": "/_next/static/chunks/app/account/page-3234663b35ad16f9.js",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account",
-        "pathname": "/account",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/auth/signout?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/auth/signout",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/request",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/login",
-        "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/auth/signout?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/auth/signout",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/login?next=%2Faccount%2Frequests",
-        "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/login?next=%2Faccount%2Flegal",
-        "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/login?next=%2Faccount%2Fprofile",
-        "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/request",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "pathname": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account",
+        "pathname": "/account",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
         "blockedReasons": []
       },
       {
         "requestLabel": "/account/profile",
         "pathname": "/account/profile",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "pathname": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      }
+    ]
+  },
+  "pathB2PostRoute": {
+    "error": "page.waitForResponse: Timeout 90000ms exceeded while waiting for event \"response\""
+  },
+  "pathBExistingUser": {
+    "proofCategory": "BROWSER_DOCUMENT_SESSION",
+    "reloadSurvived": true,
+    "profileSurvived": true,
+    "vercelJwtPresent": true,
+    "applicableCookieMeta": [
+      {
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token",
+        "domain": "crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+        "path": "/",
+        "secure": false,
+        "sameSite": "Lax",
+        "httpOnly": false,
+        "expires": 1816525806.461979
+      }
+    ],
+    "documentCookieTable": [
+      {
+        "requestLabel": "/login",
+        "pathname": "/login",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/login?next=%2Faccount%2Fprofile",
+        "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/css/b75fc3e2a933398e.css",
+        "pathname": "/_next/static/css/b75fc3e2a933398e.css",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/webpack-ba64637afeabee18.js",
+        "pathname": "/_next/static/chunks/webpack-ba64637afeabee18.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/4bd1b696-f785427dddbba9fb.js",
+        "pathname": "/_next/static/chunks/4bd1b696-f785427dddbba9fb.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/1255-c19248ef99aa5806.js",
+        "pathname": "/_next/static/chunks/1255-c19248ef99aa5806.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/main-app-5eb0d9c55a395822.js",
+        "pathname": "/_next/static/chunks/main-app-5eb0d9c55a395822.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/app/layout-effbe4a838665eeb.js",
+        "pathname": "/_next/static/chunks/app/layout-effbe4a838665eeb.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
+        "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
+        "pathname": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "pathname": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/app/login/page-62566416543f8713.js",
+        "pathname": "/_next/static/chunks/app/login/page-62566416543f8713.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
         "requestLabel": "/?_rsc=j7s84HGI7papZ6oY",
         "pathname": "/",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/signup?next=%2Faccount%2Fprofile&_rsc=j7s84HGI7papZ6oY",
+        "requestLabel": "/signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY",
         "pathname": "/signup",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/login?next=%2Faccount%2Fprofile",
+        "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
         "sentOnRequest": false,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=j7s84HGI7papZ6oY",
+        "requestLabel": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "pathname": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account",
+        "pathname": "/account",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
         "pathname": "/",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/signup?next=%2Faccount%2Fprofile&_rsc=j7s84HGI7papZ6oY",
-        "pathname": "/signup",
-        "supabaseCookieStored": false,
-        "applicableToUrl": false,
-        "sentOnRequest": false,
+        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/account/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "pathname": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/profile",
+        "pathname": "/account/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
+        "pathname": "/account/legal",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
         "blockedReasons": []
       }
     ]
@@ -357,8 +605,9 @@
   "pathCFreshUser": {
     "error": "Path C requires EMAIL_VERIFICATION_CODE_SECRET in operator env for OTP derivation"
   },
-  "pathBDocumentCookieTable": "| Request | Supabase cookie stored | Applicable to URL | Sent on request | Blocked reason |\n| --- | ---: | ---: | ---: | --- |\n| /login | false | false | false | — |\n| /login | false | false | false | — |\n| /_next/static/chunks/webpack-ba64637afeabee18.js | false | false | false | — |\n| /_next/static/chunks/4bd1b696-f785427dddbba9fb.js | false | false | false | — |\n| /_next/static/chunks/1255-c19248ef99aa5806.js | false | false | false | — |\n| /_next/static/chunks/main-app-5eb0d9c55a395822.js | false | false | false | — |\n| /_next/static/chunks/app/layout-effbe4a838665eeb.js | false | false | false | — |\n| /_next/static/chunks/2619-3c9e02e22d10480a.js | false | false | false | — |\n| /_next/static/chunks/44530001-ef2edd53e6cfdfa8.js | false | false | false | — |\n| /_next/static/chunks/1613-c8f901b486f8fc0d.js | false | false | false | — |\n| /_next/static/chunks/app/login/page-dedaf4bcb5e37575.js | false | false | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | false | false | false | — |\n| /signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY | false | false | false | — |\n| /login/submit | false | false | false | — |\n| /account | false | false | true | — |\n| /_next/static/chunks/app/account/page-3234663b35ad16f9.js | false | false | true | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /account | false | false | true | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /auth/signout?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | false | false | true | — |\n| /login | false | false | false | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /auth/signout?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /login?next=%2Faccount%2Frequests | false | false | false | — |\n| /login?next=%2Faccount%2Flegal | false | false | false | — |\n| /login?next=%2Faccount%2Fprofile | false | false | false | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | false | false | false | — |\n| /login | false | false | false | — |\n| /account/profile | false | false | false | — |\n| /login?next=%2Faccount%2Fprofile | false | false | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | false | false | false | — |\n| /signup?next=%2Faccount%2Fprofile&_rsc=j7s84HGI7papZ6oY | false | false | false | — |\n| /login?next=%2Faccount%2Fprofile | false | false | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | false | false | false | — |\n| /signup?next=%2Faccount%2Fprofile&_rsc=j7s84HGI7papZ6oY | false | false | false | — |",
+  "pathBDocumentCookieTable": "| Request | Supabase cookie stored | Applicable to URL | Sent on request | Blocked reason |\n| --- | ---: | ---: | ---: | --- |\n| /login | true | true | false | — |\n| /login | true | true | false | — |\n| /_next/static/css/b75fc3e2a933398e.css | true | true | false | — |\n| /_next/static/chunks/webpack-ba64637afeabee18.js | true | true | false | — |\n| /_next/static/chunks/4bd1b696-f785427dddbba9fb.js | true | true | false | — |\n| /_next/static/chunks/1255-c19248ef99aa5806.js | true | true | false | — |\n| /_next/static/chunks/main-app-5eb0d9c55a395822.js | true | true | false | — |\n| /_next/static/chunks/app/layout-effbe4a838665eeb.js | true | true | false | — |\n| /_next/static/chunks/2619-3c9e02e22d10480a.js | true | true | false | — |\n| /_next/static/chunks/44530001-ef2edd53e6cfdfa8.js | true | true | false | — |\n| /_next/static/chunks/1018-74aa70de676403f4.js | true | true | false | — |\n| /_next/static/chunks/app/login/page-62566416543f8713.js | true | true | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /login | true | true | false | — |\n| /_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js | true | true | true | — |\n| /account | true | true | true | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile | true | true | true | — |\n| /_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js | true | true | true | — |\n| /?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/legal?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/profile | true | true | true | — |\n| /?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/legal?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |",
+  "pathB2DocumentCookieTable": null,
   "pathCDocumentCookieTable": null,
-  "rootCauseClassification": "FAILED — CROW BROWSER SESSION DEFECT",
-  "capturedAt": "2026-06-20T13:41:59.420Z"
+  "rootCauseClassification": "FAILED — SUPABASE SSR OR PREVIEW PLATFORM DEFECT",
+  "capturedAt": "2026-06-20T14:31:47.081Z"
 }
