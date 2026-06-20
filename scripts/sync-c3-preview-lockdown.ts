@@ -2,7 +2,7 @@
  * Restore known-safe gated Preview state for the C3 branch.
  * Usage: npm run c3-preview:lockdown
  */
-import { spawnSync } from "node:child_process";
+import { execSync, spawnSync } from "node:child_process";
 
 const BRANCH = "feat/c3-account-registration-email-verification";
 
@@ -10,6 +10,8 @@ type FlagSpec = { name: string; value: string; sensitive: boolean };
 
 const LOCKDOWN_FLAGS: FlagSpec[] = [
   { name: "ACCOUNT_REGISTRATION_ENABLED", value: "false", sensitive: false },
+  { name: "GOOGLE_SSO_ENABLED", value: "false", sensitive: false },
+  { name: "CROW_PHONE_VERIFICATION_REQUIRED", value: "false", sensitive: false },
   { name: "C3_REGISTRATION_DIAGNOSTICS", value: "false", sensitive: false },
   { name: "C3_SESSION_DIAGNOSTICS", value: "false", sensitive: false },
   { name: "C3_AUTH_CANARY_ENABLED", value: "false", sensitive: false },
@@ -51,9 +53,10 @@ console.log(`Applied gated Preview flags on branch ${BRANCH}.`);
 
 if (shouldDeploy) {
   console.log("Triggering Preview deployment…");
+  const commitSha = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
   const deploy = spawnSync(
     "npx",
-    ["vercel", "deploy", "--yes"],
+    ["vercel", "deploy", "--yes", "--meta", `githubCommitSha=${commitSha}`],
     { stdio: "inherit", shell: process.platform === "win32" }
   );
   if ((deploy.status ?? 1) !== 0) {

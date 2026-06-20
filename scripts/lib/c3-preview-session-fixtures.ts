@@ -44,9 +44,12 @@ export function resolveSessionFixtureCredentials(
   const emailRaw =
     kind === "requester"
       ? process.env.C3_SESSION_REQUESTER_FIXTURE_EMAIL?.trim() ||
+        process.env.C3_GOOGLE_PROOF_EMAIL?.trim() ||
         process.env.C3_PREVIEW_SESSION_REQUESTER_EMAIL?.trim() ||
         process.env.C3_PREVIEW_SESSION_EMAIL?.trim() ||
-        baseNotificationEmail()
+        (process.env.C3_PROOF_ACCOUNT_RETENTION?.trim()
+          ? undefined
+          : baseNotificationEmail())
       : process.env.C3_SESSION_CLIENT_FIXTURE_EMAIL?.trim() ||
         process.env.C3_PREVIEW_SESSION_CLIENT_EMAIL?.trim() ||
         process.env.C3_PREVIEW_SESSION_EMAIL?.trim();
@@ -55,12 +58,23 @@ export function resolveSessionFixtureCredentials(
     throw new Error(
       kind === "client"
         ? "Set C3_SESSION_CLIENT_FIXTURE_EMAIL (client-role ACTIVE user) for SESSION_CLIENT_FIXTURE"
-        : "Set C3_SESSION_REQUESTER_FIXTURE_EMAIL or NOTIFICATION_TEST_EMAIL for SESSION_REQUESTER_FIXTURE"
+        : process.env.C3_PROOF_ACCOUNT_RETENTION?.trim()
+          ? "Set C3_SESSION_REQUESTER_FIXTURE_EMAIL or C3_GOOGLE_PROOF_EMAIL for hosted proof (required when C3_PROOF_ACCOUNT_RETENTION is set)"
+          : "Set C3_SESSION_REQUESTER_FIXTURE_EMAIL or NOTIFICATION_TEST_EMAIL for SESSION_REQUESTER_FIXTURE"
     );
   }
 
   const [local, domain] = emailRaw.split("@");
   const email = normalizeEmail(`${local.split("+")[0]}@${domain}`);
+
+  if (kind === "requester") {
+    const platformAdmin = process.env.PLATFORM_ADMIN_EMAIL?.trim();
+    if (platformAdmin && email === normalizeEmail(platformAdmin)) {
+      throw new Error(
+        "C3_SESSION_REQUESTER_FIXTURE_EMAIL must not match PLATFORM_ADMIN_EMAIL — use an ordinary requester inbox"
+      );
+    }
+  }
 
   return {
     kind,
