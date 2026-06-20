@@ -56,3 +56,25 @@ skills-lock.json
 
 # C3 pre-migration backups (local operator artifacts; never commit)
 .backups/
+
+# C3 Preview env pulls and operator secrets (never commit)
+.env.preview.*
+.env.preview.e2e
+
+# Ad-hoc local debug / test artifacts
+tmp-legal.html
+-X
+
+# Internal preview E2E evidence (local operator; keep out of public mirror)
+docs/internal/screenshots/c3-preview-e2e/
+docs/internal/C3.*-PREVIEW-E2E-REPORT.md
+
+# Ad-hoc C3 debug scripts (local operator tooling; not product surface)
+scripts/check-c3-*.ts
+scripts/smoke-c3-provision-hosted.ts
+scripts/smoke-supabase-admin-hosted.ts
+scripts/staging-resend-key-digest.ts
+scripts/sync-preview-resend-key.ts
+scripts/test-otp-crack.ts
+scripts/test-otp-email-send.ts
+scripts/test-preview-from-resend.ts

@@ -78,3 +78,10 @@ ALTER TABLE "platform_provider_identities" ADD CONSTRAINT "platform_provider_ide
 
 -- Legacy accounts: generation 1 (pre C3.8 dual-channel)
 UPDATE "platform_accounts" SET "onboardingGeneration" = 1 WHERE "onboardingGeneration" = 2 AND "status" = 'ACTIVE';
+
+-- C3.8 — deny PostgREST client access to new dual-channel tables (server-side Prisma only)
+ALTER TABLE "phone_verification_challenges" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "platform_provider_identities" ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON TABLE "phone_verification_challenges" FROM anon, authenticated;
+REVOKE ALL ON TABLE "platform_provider_identities" FROM anon, authenticated;
