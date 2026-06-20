@@ -3,7 +3,10 @@ import { redirect } from "next/navigation";
 import { LegalReviewGate } from "@/components/account/legal-review-gate";
 import { OnboardingProgress } from "@/components/account/onboarding-progress";
 import { CrowMark } from "@/components/public/brand/crow-mark";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import {
+  isAccountRegistrationEnabled,
+  isC3GoogleOnboardingSurfaceEnabled,
+} from "@/lib/account/feature-flags";
 import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
@@ -30,7 +33,11 @@ export default async function RegisterLegalPage({
     ref?: string;
   }>;
 }) {
-  if (!isAccountRegistrationEnabled()) {
+  const user = await getSessionUser();
+  const oauthLegalSurface =
+    isC3GoogleOnboardingSurfaceEnabled() && Boolean(user);
+
+  if (!isAccountRegistrationEnabled() && !oauthLegalSurface) {
     redirect("/login?error=config");
   }
 
@@ -44,7 +51,6 @@ export default async function RegisterLegalPage({
   const nextPath = sanitizeAuthNextPathOptional(next);
   const initialEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
-  const user = await getSessionUser();
   if (!user && !initialEmail) {
     redirect(routes.auth.signupWithNext(routes.account.registerLegal));
   }

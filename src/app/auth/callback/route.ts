@@ -9,21 +9,8 @@ import {
   passwordRecoveryCookieOptions,
   PASSWORD_RECOVERY_NEXT_PATH,
 } from "@/lib/auth/password-recovery-session";
-import {
-  gateAuthSessionForC3,
-  isC3AuthEnabled,
-} from "@/lib/account/c3-auth-orchestration";
-import { resolvePlatformAccountForOAuthUser } from "@/lib/account/provider-identity.service";
-import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
-import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
-import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
-import { getCrowAuth } from "@/lib/auth/roles";
-import {
-  assignDefaultClientRoleOnSignUp,
-  countRequestsForEmail,
-  isSupabaseServiceRoleConfigured,
-  linkRequestsForUser,
-} from "@/lib/services/client-request-link.service";
+import { isC3GoogleOAuthCallbackEligible } from "@/lib/account/provider-identity.service";
+import { routes } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/server";
 
 /** OAuth / magic-link callback — exchanges code for a session cookie. */
@@ -84,42 +71,34 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user && isC3AuthEnabled()) {
-        const oauthLink = await resolvePlatformAccountForOAuthUser(user, "google");
-        if (!oauthLink.ok) {
-          await supabase.auth.signOut();
-          return clearNextCookie(
-            NextResponse.redirect(`${origin}/login?error=forbidden`)
-          );
-        }
-
-        const gate = await gateAuthSessionForC3(user, explicitNext);
-        if (gate.action === "redirect") {
-          return clearNextCookie(
-            NextResponse.redirect(`${origin}${gate.path}`)
-          );
-        }
-        if (gate.action === "error") {
-          await supabase.auth.signOut();
-          const detail = encodeURIComponent(gate.message.slice(0, 200));
-          return clearNextCookie(
-            NextResponse.redirect(`${origin}/login?error=forbidden&detail=${detail}`)
-          );
-        }
-
-        const refreshed =
-          (await refreshSessionUser(supabase)) ?? user;
-        const destination = await resolveC3PostAuthLanding(refreshed, explicitNext);
-        return clearNextCookie(NextResponse.redirect(`${origin}${destination}`));
+      if (user && isC3GoogleOAuthCallbackEligible(user)) {
+        const params = new URLSearchParams();
+        if (explicitNext) params.set("next", explicitNext);
+        const resolvingPath = params.size
+          ? `${routes.auth.resolving}?${params.toString()}`
+          : routes.auth.resolving;
+        return clearNextCookie(NextResponse.redirect(`${origin}${resolvingPath}`));
       }
 
       if (user) {
         try {
+          const { linkRequestsForUser } = await import(
+            "@/lib/services/client-request-link.service"
+          );
           await linkRequestsForUser(user);
         } catch {
           /* DB optional in dev */
         }
       }
+
+      const { refreshSessionUser } = await import("@/lib/auth/refresh-session-user");
+      const { getCrowAuth } = await import("@/lib/auth/roles");
+      const {
+        assignDefaultClientRoleOnSignUp,
+        countRequestsForEmail,
+        isSupabaseServiceRoleConfigured,
+      } = await import("@/lib/services/client-request-link.service");
+      const { resolvePostAuthLanding } = await import("@/lib/auth/post-login-redirect");
 
       let refreshed = user
         ? (await supabase.auth.getUser()).data.user ?? user
@@ -129,7 +108,6 @@ export async function GET(request: Request) {
 
       if (!role && refreshed) {
         try {
-          // Public OAuth: client role only when none assigned (never overwrites staff roles).
           const assigned = await assignDefaultClientRoleOnSignUp(refreshed.id);
           if (assigned) {
             refreshed = (await refreshSessionUser(supabase)) ?? refreshed;

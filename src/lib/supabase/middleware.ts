@@ -12,7 +12,7 @@ import {
   isPlatformConsoleRole,
 } from "@/lib/auth/roles";
 import { routes } from "@/lib/routes";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import {
   isAuthCanarySessionRefreshPath,
   isC3AuthCanaryEnabled,
@@ -121,7 +121,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   const c3SessionGate =
-    isAccountRegistrationEnabled() && isC3SessionOnlyPath(pathname);
+    isC3PlatformAccountGateEnabled() && isC3SessionOnlyPath(pathname);
 
   const authCanarySessionRefresh =
     isC3AuthCanaryEnabled() && isAuthCanarySessionRefreshPath(pathname);

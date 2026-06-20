@@ -12,19 +12,44 @@ import {
 } from "@/lib/account/platform-account.service";
 import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 import { EMAIL_VERIFICATION_SOURCES } from "@/lib/account/verification-sources";
+import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 
 export type LinkProviderResult =
   | { ok: true; platformAccountId: string; created: boolean }
   | { ok: false; reason: "email_conflict" | "blocked" | "provider_collision" };
 
-function isGoogleEmailVerified(user: User): boolean {
-  const meta = user.user_metadata ?? {};
-  const identities = user.identities ?? [];
-  const google = identities.find((i) => i.provider === "google");
-  return Boolean(
-    google?.identity_data?.email_verified === true ||
-      meta.email_verified === true
-  );
+export function isGoogleEmailVerified(user: User): boolean {
+  if (!user.email) return false;
+
+  const canonicalEmail = normalizeEmail(user.email);
+  const googleIdentity = user.identities?.find((identity) => identity.provider === "google");
+  if (!googleIdentity) return false;
+
+  const providerEmail = googleIdentity.identity_data?.email;
+  if (typeof providerEmail === "string") {
+    if (normalizeEmail(providerEmail) !== canonicalEmail) {
+      return false;
+    }
+  }
+
+  const providerVerified = googleIdentity.identity_data?.email_verified === true;
+  const supabaseConfirmed = Boolean(user.email_confirmed_at);
+
+  return providerVerified || supabaseConfirmed;
+}
+
+export function resolveOAuthProviderForPlatformAccount(
+  user: User
+): PlatformAuthProvider | null {
+  if (!isGoogleSsoEnabled()) return null;
+  if (user.identities?.some((identity) => identity.provider === "google")) {
+    return "google";
+  }
+  return null;
+}
+
+export function isC3GoogleOAuthCallbackEligible(user: User): boolean {
+  return resolveOAuthProviderForPlatformAccount(user) === "google";
 }
 
 /** One Supabase user → one PlatformAccount; link provider identity safely. */

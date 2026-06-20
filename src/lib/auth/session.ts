@@ -13,7 +13,8 @@ import {
   hasPermission,
   type PermissionKey,
 } from "@/lib/auth/permissions";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { gateAuthSessionForC3 } from "@/lib/account/c3-auth-orchestration";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
@@ -152,16 +153,25 @@ export async function requireActivePlatformAccount(nextPath?: string): Promise<U
   if (isAuthDisabled()) {
     return user;
   }
-  if (!isAccountRegistrationEnabled()) {
+  if (!isC3PlatformAccountGateEnabled()) {
     redirect("/login?error=config");
   }
+
+  const gate = await gateAuthSessionForC3(user, nextPath);
+  if (gate.action === "redirect") {
+    redirect(gate.path);
+  }
+  if (gate.action === "error") {
+    redirect("/login?error=forbidden");
+  }
+
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (
     !account ||
     !isPlatformAccountActive(account) ||
     !isOnboardingGenerationCurrent(account.onboardingGeneration)
   ) {
-    redirect(routes.onboarding.verifyEmail);
+    redirect(routes.onboarding.legal);
   }
   return user;
 }

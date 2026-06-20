@@ -320,6 +320,36 @@ body {
     }
   }
 
+  .crow-resolver-glow::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.18), rgba(168, 85, 247, 0.12), transparent 70%);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .crow-resolver-stage-active {
+    box-shadow: 0 0 24px rgba(34, 211, 238, 0.08);
+  }
+
+  @keyframes crow-resolver-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .crow-resolver-pulse {
+    animation: crow-resolver-pulse 1.4s ease-in-out infinite;
+  }
+
   @keyframes crow-hero-glow-drift {
     0% {
       opacity: 0.45;
@@ -381,7 +411,8 @@ body {
     .crow-hero-ambient .crow-network-line,
     .crow-hero-ambient .crow-network-node,
     .crow-motion-stroke,
-    .crow-loader-bar {
+    .crow-loader-bar,
+    .crow-resolver-pulse {
       animation: none !important;
     }
 

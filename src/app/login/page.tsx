@@ -30,6 +30,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   config: "Supabase Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and anon key to .env.",
   auth_callback:
     "Sign-in could not be completed. Check Supabase redirect URLs (must include your app /auth/callback) and provider settings — see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md and docs/internal/ENTRA_SSO.md.",
+  oauth_session:
+    "Your sign-in session could not be established. Try Continue with Google again.",
   entra_start_failed:
     "Could not start Microsoft sign-in. Check Azure provider in Supabase Dashboard and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
   entra_not_configured:

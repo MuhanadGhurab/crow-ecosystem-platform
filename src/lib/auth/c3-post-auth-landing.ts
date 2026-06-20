@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
@@ -17,7 +17,7 @@ export async function resolveC3PostAuthLanding(
   user: User,
   explicitNext?: string | null
 ): Promise<string> {
-  if (!isAccountRegistrationEnabled()) {
+  if (!isC3PlatformAccountGateEnabled()) {
     return resolvePostLoginDestination(user, explicitNext);
   }
 

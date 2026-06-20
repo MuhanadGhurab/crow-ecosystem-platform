@@ -12,6 +12,11 @@ export const routes = {
     resetPassword: "/reset-password",
     signOut: "/auth/signout",
     callback: "/auth/callback",
+    resolving: "/auth/resolving",
+    resolvingWithNext: (nextPath: string) =>
+      `/auth/resolving?next=${encodeURIComponent(nextPath)}`,
+    accountStatus: "/auth/account-status",
+    google: "/auth/google",
   },
   /** C3 — universal platform account (registration, verification, self-service). */
   account: {

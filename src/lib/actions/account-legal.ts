@@ -3,7 +3,10 @@
 import { headers } from "next/headers";
 import { isNextRedirectError, redirectToAppPath } from "@/lib/auth/next-redirect";
 import { revalidatePath } from "next/cache";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import {
+  isAccountRegistrationEnabled,
+  isC3GoogleOnboardingSurfaceEnabled,
+} from "@/lib/account/feature-flags";
 import { issueEmailVerificationCode } from "@/lib/account/email-verification.service";
 import {
   C3_GENERIC_REGISTRATION_MESSAGE,
@@ -30,6 +33,7 @@ import {
   sanitizeDiagnosticErrorClass,
 } from "@/lib/account/c3-registration-diagnostics";
 import {
+  activatePlatformAccountIfReady,
   findPlatformAccountByEmailNormalized,
   findPlatformAccountBySupabaseUserId,
   isBlockedPlatformAccountStatus,
@@ -134,7 +138,11 @@ async function completeRegistrationWithLegalAcceptanceInternal(
 ): Promise<LegalActionState> {
   markStage(ctx, "LEGAL_FORM_RECEIVED", "ok");
 
-  if (!isAccountRegistrationEnabled()) {
+  const sessionUserEarly = await getSessionUser();
+  const isOAuthLegalSurface =
+    isC3GoogleOnboardingSurfaceEnabled() && Boolean(sessionUserEarly);
+
+  if (!isAccountRegistrationEnabled() && !isOAuthLegalSurface) {
     markStage(ctx, "LEGAL_INPUT_REJECTED", "failed", "registration_disabled");
     return c3DisabledState(ctx);
   }
@@ -336,6 +344,9 @@ async function completeRegistrationWithLegalAcceptanceInternal(
       registrationCorrelationId,
     });
 
+    account =
+      (await findPlatformAccountBySupabaseUserId(supabaseUserId)) ?? account;
+
     const hadPlatformAccount =
       Boolean(existingBySession) || Boolean(existingByEmailBefore);
     if (!hadPlatformAccount) {
@@ -348,6 +359,16 @@ async function completeRegistrationWithLegalAcceptanceInternal(
         registrationCorrelationId,
         locale,
       });
+    }
+
+    if (isOAuthPath && account.emailVerifiedAt) {
+      await activatePlatformAccountIfReady(account.id);
+      const activated =
+        (await findPlatformAccountBySupabaseUserId(supabaseUserId)) ?? account;
+      markStage(ctx, "REGISTRATION_REDIRECT_ISSUED", "ok");
+      if (isPlatformAccountActive(activated)) {
+        return { redirectPath: next ? routes.auth.resolvingWithNext(next) : routes.auth.resolving };
+      }
     }
 
     const issued = await issueEmailVerificationCode({

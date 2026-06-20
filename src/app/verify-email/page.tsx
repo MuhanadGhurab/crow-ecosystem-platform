@@ -9,7 +9,10 @@ import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import {
+  isAccountRegistrationEnabled,
+  isC3GoogleOnboardingSurfaceEnabled,
+} from "@/lib/account/feature-flags";
 import { getSessionUser } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { routes } from "@/lib/routes";
@@ -19,7 +22,11 @@ export default async function VerifyEmailPage({
 }: {
   searchParams: Promise<{ next?: string; email?: string; error?: string; message?: string }>;
 }) {
-  if (!isAccountRegistrationEnabled()) {
+  const user = await getSessionUser();
+  const oauthVerifySurface =
+    isC3GoogleOnboardingSurfaceEnabled() && Boolean(user);
+
+  if (!isAccountRegistrationEnabled() && !oauthVerifySurface) {
     redirect("/login?error=config");
   }
 
@@ -28,7 +35,6 @@ export default async function VerifyEmailPage({
   const nextPath = sanitizeAuthNextPathOptional(next);
   const queryEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
-  const user = await getSessionUser();
   const account =
     (user ? await findPlatformAccountBySupabaseUserId(user.id) : null) ??
     (queryEmail ? await findPlatformAccountByEmailNormalized(queryEmail) : null);

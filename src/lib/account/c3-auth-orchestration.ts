@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { isC3PlatformAccountGateEnabled, isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
   activatePlatformAccountIfReady,
   findPlatformAccountBySupabaseUserId,
@@ -47,7 +47,7 @@ export async function gateAuthSessionForC3(
   user: User,
   next?: string
 ): Promise<C3GateResult> {
-  if (!isAccountRegistrationEnabled()) {
+  if (!isC3PlatformAccountGateEnabled()) {
     return { action: "continue" };
   }
 
