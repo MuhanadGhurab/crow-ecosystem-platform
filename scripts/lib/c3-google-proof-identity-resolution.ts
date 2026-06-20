@@ -4,8 +4,43 @@
 import { createClient, type User } from "@supabase/supabase-js";
 import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
-import { hasMandatoryLegalAcceptanceComplete } from "../../src/lib/legal/legal-acceptance.service";
 import { opaqueManifestRef } from "./identity-manifest";
+
+const MANDATORY_CLASSIFICATIONS = ["terms_of_service", "privacy_notice", "acceptable_use"] as const;
+
+async function isCurrentMandatoryLegalComplete(
+  prisma: PrismaClient,
+  platformAccountId: string,
+  locale: string
+): Promise<boolean> {
+  const versions = await prisma.legalDocumentVersion.findMany({
+    where: {
+      status: "published",
+      locale,
+      audience: "platform_requester",
+      mandatoryClassification: { in: [...MANDATORY_CLASSIFICATIONS] },
+    },
+    include: { legalDocument: true },
+    orderBy: [{ legalDocument: { documentType: "asc" } }, { versionNumber: "desc" }],
+  });
+
+  const latestByType = new Map<string, string>();
+  for (const version of versions) {
+    const type = version.legalDocument.documentType;
+    if (!latestByType.has(type)) {
+      latestByType.set(type, version.id);
+    }
+  }
+
+  if (latestByType.size === 0) return false;
+
+  const accepted = await prisma.accountLegalAcceptance.findMany({
+    where: { platformAccountId },
+    select: { legalDocumentVersionId: true },
+  });
+  const acceptedIds = new Set(accepted.map((row) => row.legalDocumentVersionId));
+  return [...latestByType.values()].every((versionId) => acceptedIds.has(versionId));
+}
 
 export type GoogleProofAccountRetention = "delete_after_proof" | "retain_after_proof";
 
@@ -296,8 +331,8 @@ export async function resolveGoogleProofIdentity(
   const accountOpaque = opaqueManifestRef("platform-account", account.id);
   const authOpaque = opaqueManifestRef("supabase-auth", authUser.id);
 
-  const locale = await resolveRegistrationLocale();
-  const legalCurrent = await hasMandatoryLegalAcceptanceComplete(account.id, locale);
+  const locale = process.env.CROW_REGISTRATION_LOCALE?.trim() || "en-US";
+  const legalCurrent = await isCurrentMandatoryLegalComplete(prisma, account.id, locale);
 
   if (providerCollision) {
     return baseResolution("PROVIDER_COLLISION", {
