@@ -11,18 +11,29 @@ const BRANCH = "feat/c3-account-registration-email-verification";
 
 const TRACKED_FLAGS = [
   "ACCOUNT_REGISTRATION_ENABLED",
+  "CROW_PHONE_VERIFICATION_REQUIRED",
+  "CROW_ONBOARDING_GENERATION_REQUIRED",
   "C3_REGISTRATION_DIAGNOSTICS",
   "C3_SESSION_DIAGNOSTICS",
   "C3_AUTH_CANARY_ENABLED",
-  "CROW_ONBOARDING_GENERATION_REQUIRED",
 ] as const;
 
-const REQUIRED_GATED = {
-  ACCOUNT_REGISTRATION_ENABLED: "false",
+const PROOF_EXPECTED = {
+  ACCOUNT_REGISTRATION_ENABLED: "true",
+  CROW_PHONE_VERIFICATION_REQUIRED: "false",
+  CROW_ONBOARDING_GENERATION_REQUIRED: "2",
   C3_REGISTRATION_DIAGNOSTICS: "false",
   C3_SESSION_DIAGNOSTICS: "false",
   C3_AUTH_CANARY_ENABLED: "false",
+} as const;
+
+const REQUIRED_GATED = {
+  ACCOUNT_REGISTRATION_ENABLED: "false",
+  CROW_PHONE_VERIFICATION_REQUIRED: "false",
   CROW_ONBOARDING_GENERATION_REQUIRED: "1",
+  C3_REGISTRATION_DIAGNOSTICS: "false",
+  C3_SESSION_DIAGNOSTICS: "false",
+  C3_AUTH_CANARY_ENABLED: "false",
 } as const;
 
 function parseEnvFile(content: string): Map<string, string> {
@@ -68,24 +79,28 @@ function pullPreviewEnv(targetPath: string): void {
 }
 
 function main() {
+  const mode = process.argv[2] === "proof" ? "proof" : "gated";
+  const expected = mode === "proof" ? PROOF_EXPECTED : REQUIRED_GATED;
+
   const dir = mkdtempSync(join(tmpdir(), "crow-preview-env-"));
   const envPath = join(dir, ".env.preview.branch");
   try {
     pullPreviewEnv(envPath);
     const values = parseEnvFile(readFileSync(envPath, "utf8"));
 
-    console.log(`\nBranch Preview env (${BRANCH})\n`);
+    console.log(`\nBranch Preview env (${BRANCH}) mode=${mode}\n`);
     let allMatch = true;
 
     for (const flag of TRACKED_FLAGS) {
       const actual = values.get(flag) ?? "(unset)";
-      const expected = REQUIRED_GATED[flag];
-      const match = actual === expected;
+      const want = expected[flag as keyof typeof expected];
+      const match = actual === want;
       if (!match) allMatch = false;
-      console.log(`  ${flag}=${actual}${match ? "" : ` (expected ${expected})`}`);
+      console.log(`  ${flag}=${actual}${match ? "" : ` (expected ${want})`}`);
     }
 
-    console.log(allMatch ? "\nGATED_STATE=OK\n" : "\nGATED_STATE=MISMATCH\n");
+    const label = mode === "proof" ? "PROOF_STATE" : "GATED_STATE";
+    console.log(allMatch ? `\n${label}=OK\n` : `\n${label}=MISMATCH\n`);
     process.exit(allMatch ? 0 : 2);
   } finally {
     rmSync(dir, { recursive: true, force: true });

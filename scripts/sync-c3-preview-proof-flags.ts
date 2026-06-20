@@ -1,5 +1,7 @@
 import { spawnSync } from "node:child_process";
 
+import { vercelEnvAdd } from "./lib/vercel-env-add-with-timeout";
+
 const BRANCH = "feat/c3-account-registration-email-verification";
 
 type FlagSpec = { name: string; value: string; sensitive: boolean };
@@ -7,8 +9,10 @@ type FlagSpec = { name: string; value: string; sensitive: boolean };
 const DISABLE_FLAGS: FlagSpec[] = [
   { name: "ACCOUNT_REGISTRATION_ENABLED", value: "false", sensitive: false },
   { name: "CROW_PHONE_VERIFICATION_REQUIRED", value: "false", sensitive: false },
+  { name: "CROW_ONBOARDING_GENERATION_REQUIRED", value: "1", sensitive: false },
   { name: "C3_REGISTRATION_DIAGNOSTICS", value: "false", sensitive: false },
   { name: "C3_SESSION_DIAGNOSTICS", value: "false", sensitive: false },
+  { name: "C3_AUTH_CANARY_ENABLED", value: "false", sensitive: false },
 ];
 
 const ENABLE_PROOF_FLAGS: FlagSpec[] = [
@@ -17,42 +21,40 @@ const ENABLE_PROOF_FLAGS: FlagSpec[] = [
   { name: "CROW_ONBOARDING_GENERATION_REQUIRED", value: "2", sensitive: false },
   { name: "C3_REGISTRATION_DIAGNOSTICS", value: "false", sensitive: false },
   { name: "C3_SESSION_DIAGNOSTICS", value: "false", sensitive: false },
+  { name: "C3_AUTH_CANARY_ENABLED", value: "false", sensitive: false },
 ];
 
-function runVercelEnvAdd(spec: FlagSpec) {
-  const args = [
-    "vercel",
-    "env",
-    "add",
-    spec.name,
-    "preview",
-    BRANCH,
-    "--value",
-    spec.value,
-    "--force",
-    "--yes",
-    spec.sensitive ? "--sensitive" : "--no-sensitive",
-  ];
+async function main() {
+  const mode = process.argv[2] ?? "disable";
+  const shouldDeploy = process.argv.includes("--deploy");
+  const flags = mode === "enable-proof" ? ENABLE_PROOF_FLAGS : DISABLE_FLAGS;
 
-  const result = spawnSync("npx", args, {
-    stdio: "inherit",
-    shell: process.platform === "win32",
-  });
+  for (const spec of flags) {
+    console.log(`Setting ${spec.name}=${spec.value}…`);
+    await vercelEnvAdd(spec.name, spec.value);
+    console.log(`  ✓ ${spec.name}`);
+  }
 
-  if ((result.status ?? 1) !== 0) {
-    throw new Error(`vercel env add failed for ${spec.name}`);
+  console.log(
+    mode === "enable-proof"
+      ? "Enabled C3.10C email-only Preview proof flags on branch Preview."
+      : "Closed C3 Preview proof window — registration disabled, generation gate restored to 1."
+  );
+
+  if (shouldDeploy) {
+    console.log("Triggering Preview deployment…");
+    const deploy = spawnSync("npx", ["vercel", "deploy", "--yes"], {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+      timeout: 600_000,
+    });
+    if ((deploy.status ?? 1) !== 0) {
+      process.exit(deploy.status ?? 1);
+    }
   }
 }
 
-const mode = process.argv[2] ?? "disable";
-const flags = mode === "enable-proof" ? ENABLE_PROOF_FLAGS : DISABLE_FLAGS;
-
-for (const spec of flags) {
-  runVercelEnvAdd(spec);
-}
-
-console.log(
-  mode === "enable-proof"
-    ? "Enabled C3 Preview proof flags on branch Preview."
-    : "Disabled C3 Preview registration/diagnostics flags on branch Preview."
-);
+main().catch((err) => {
+  console.error(err instanceof Error ? err.message : err);
+  process.exit(1);
+});

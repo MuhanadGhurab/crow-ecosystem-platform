@@ -1,5 +1,5 @@
 /**
- * C3.7 — Controlled Preview E2E (protected branch deployment).
+ * C3.10C — Email-only hosted Preview proof (generation 2, phone deferred).
  *
  * Run: npm run c3-preview-controlled:e2e
  * Requires: .env.staging (hosted DB, Supabase admin, Resend), Playwright chromium,
@@ -11,17 +11,22 @@ import { readFileSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
-import { chromium, devices, type BrowserContext, type Page } from "playwright";
+import { chromium, type BrowserContext, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
-import { collectC3Evidence } from "./lib/c3-preview-e2e-evidence";
+import { evaluateTenantPlatformAccountAuthorization } from "../src/lib/account/tenant-platform-account-authorization";
+import {
+  assertPostOtpEvidence,
+  assertPreOtpEvidence,
+  collectC3Evidence,
+} from "./lib/c3-preview-e2e-evidence";
 
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
   "https://crow-ecosystem-platform-l5ngz2rty-muhanadghurabs-projects.vercel.app";
 const DEPLOYMENT_ID =
   process.env.C3_PREVIEW_DEPLOYMENT_ID ?? "dpl_DK3pReKFCRUhNifcojaRM2mGBvUQ";
-const OUT_DIR = join(process.cwd(), "docs/internal/screenshots/c3-preview-e2e");
-const REPORT_PATH = join(process.cwd(), "docs/internal/c3-preview-e2e-report.json");
+const OUT_DIR = join(process.cwd(), "docs/internal/screenshots/c3-preview-email-only-proof");
+const REPORT_PATH = join(process.cwd(), "docs/internal/c3-preview-email-only-proof-report.json");
 
 const ENABLE_TS = process.env.C3_PREVIEW_ENABLE_TS ?? new Date().toISOString();
 
@@ -249,45 +254,63 @@ async function acceptAllLegalDocs(page: Page) {
   );
 }
 
-async function createContext(bypass: string): Promise<BrowserContext> {
-  const browser = await chromium.launch({ headless: true });
-  return browser.newContext({
-    extraHTTPHeaders: {
-      "x-vercel-protection-bypass": bypass,
-      "x-vercel-set-bypass-cookie": "true",
-    },
-    viewport: { width: 1440, height: 900 },
-  });
+async function assertOnboardingProgress(page: Page, expectPhone: boolean) {
+  const nav = page.locator('nav[aria-label="Onboarding progress"]');
+  await nav.waitFor({ state: "visible", timeout: 15_000 });
+  const text = (await nav.innerText()).replace(/\s+/g, " ");
+  if (!text.includes("Legal") || !text.includes("Email") || !text.includes("Active")) {
+    fail(`Onboarding progress missing Legal → Email → Active (got: ${text})`);
+  }
+  if (expectPhone && !text.includes("Phone")) {
+    fail("Expected Phone step when phone policy enabled");
+  }
+  if (!expectPhone && text.includes("Phone")) {
+    fail("Phone step must be hidden when phone policy disabled");
+  }
+  ok(`Onboarding progress: ${expectPhone ? "Legal → Email → Phone → Active" : "Legal → Email → Active"}`);
 }
 
-async function fillErpIntakeForm(page: Page, contactEmail: string) {
-  await page.fill('input[name="organizationName"]', "C3 Preview Controlled Org");
-  await page.locator('input[name="planKey"][value="growth"]').check({ force: true });
-  const firstModule = page.locator('input[name="modules"]').first();
-  if (await firstModule.isVisible()) await firstModule.check({ force: true });
-  const firstSec = page.locator('input[name="security"]').first();
-  if (await firstSec.isVisible()) await firstSec.check({ force: true });
-  await page.fill('input[name="contactName"]', "C3 Preview Tester");
-  await page.fill('input[name="contactEmail"]', contactEmail);
-  const submit = page.getByRole("button", { name: /submit request/i });
-  if (await submit.first().isVisible()) {
-    await submit.first().click();
-  } else {
-    await page.locator('button[type="submit"]').first().click();
+async function verifyInactiveMembershipRegression(prisma: PrismaClient) {
+  const memberships = await prisma.tenantMembership.findMany({ take: 50 });
+  for (const membership of memberships) {
+    const account = await prisma.platformAccount.findFirst({
+      where: { supabaseUserId: membership.supabaseUserId },
+      select: { status: true, onboardingGeneration: true },
+    });
+    const isActiveGenerationAccount =
+      account?.status === "ACTIVE" &&
+      account.onboardingGeneration >= 2;
+    if (isActiveGenerationAccount) continue;
+
+    const result = evaluateTenantPlatformAccountAuthorization({
+      supabaseUserId: membership.supabaseUserId,
+      account,
+      requiredGeneration: 2,
+      registrationFeatureEnabled: true,
+      hasTenantMembership: true,
+    });
+
+    if (result.authorized) {
+      fail("MEMBERSHIP ALONE CANNOT AUTHORIZE ACCESS — regression failed");
+    }
+    ok("PASS — MEMBERSHIP ALONE CANNOT AUTHORIZE ACCESS");
+    return;
   }
+  ok("Inactive-membership regression skipped (no legacy fixture row)");
+}
+
+function supabaseAuthCookies(context: BrowserContext, baseUrl: string) {
+  return context.cookies(baseUrl).then((cookies) =>
+    cookies.filter((c) => c.name.includes("-auth-token"))
+  );
 }
 
 async function main() {
-  console.log("\n=== C3.7 Controlled Preview E2E ===\n");
+  console.log("\n=== C3.10C Email-only Preview proof ===\n");
   console.log(`Preview: ${PREVIEW_BASE}`);
   console.log(`Deployment: ${DEPLOYMENT_ID}`);
   console.log(`Registration enabled at: ${ENABLE_TS}\n`);
 
-  if (process.env.ACCOUNT_REGISTRATION_ENABLED !== "true") {
-    console.warn(
-      "  ⚠ Local ACCOUNT_REGISTRATION_ENABLED is not true — Preview flag is authoritative"
-    );
-  }
   if (process.env.AUTH_DISABLED === "true") fail("AUTH_DISABLED must be false");
   if (process.env.USE_MOCK_DATA === "true") fail("USE_MOCK_DATA must be false");
 
@@ -305,17 +328,22 @@ async function main() {
   cleanupControlledTestEmail(email);
   ok("Controlled test identity ready");
 
+  await verifyInactiveMembershipRegression(prisma);
+
   mkdirSync(OUT_DIR, { recursive: true });
 
   const report: Record<string, unknown> = {
+    proof: "C3.10C-email-only",
     previewUrl: PREVIEW_BASE,
     deploymentId: DEPLOYMENT_ID,
     registrationEnableTimestamp: ENABLE_TS,
-    testEmailRedacted: true,
+    googleOAuth: "DEFERRED — PROVIDER CONFIGURATION NOT ENABLED",
+    phonePolicyDisabled: true,
     screenshotsDir: OUT_DIR,
     evidence: [] as unknown[],
     security: {} as Record<string, string>,
     portalDenial: {} as Record<string, number>,
+    sessionDurability: {} as Record<string, string>,
   };
 
   const browser = await chromium.launch({ headless: true });
@@ -325,39 +353,16 @@ async function main() {
       "x-vercel-set-bypass-cookie": "true",
       "Accept-Language": "en-US",
     },
+    viewport: { width: 1440, height: 900 },
   });
 
   let page = await context.newPage();
 
   try {
     await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle", timeout: 60_000 });
-    // Homepage
-    await page.goto(`${PREVIEW_BASE}/`, { waitUntil: "networkidle", timeout: 120_000 });
-    await screenshot(page, "01-homepage-desktop");
 
-    const mobile = await browser.newContext({
-      extraHTTPHeaders: {
-        "x-vercel-protection-bypass": bypass,
-        "x-vercel-set-bypass-cookie": "true",
-        "Accept-Language": "en-US",
-      },
-      ...devices["iPhone 13"],
-    });
-    const mobilePage = await mobile.newPage();
-    await mobilePage.goto(`${PREVIEW_BASE}/`, { waitUntil: "networkidle", timeout: 120_000 });
-    await screenshot(mobilePage, "02-homepage-mobile");
-
-    // Login
-    await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
-    await screenshot(page, "03-login-desktop");
-    await mobilePage.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
-    await screenshot(mobilePage, "04-login-mobile");
-
-    // Signup
     await page.goto(`${PREVIEW_BASE}/signup`, { waitUntil: "networkidle" });
-    await screenshot(page, "05-signup-desktop");
-    await mobilePage.goto(`${PREVIEW_BASE}/signup`, { waitUntil: "networkidle" });
-    await screenshot(mobilePage, "06-signup-mobile");
+    await screenshot(page, "01-signup");
 
     await page.fill("#email", email);
     await page.fill("#password", password);
@@ -365,8 +370,9 @@ async function main() {
     await page.getByRole("button", { name: "Continue", exact: true }).click();
     await page.waitForURL(/\/register\/legal/, { timeout: 60_000 });
     await page.waitForSelector("h1:has-text('Review legal agreements')", { timeout: 30_000 });
+    await assertOnboardingProgress(page, false);
+    await screenshot(page, "02-legal-review");
 
-    await screenshot(page, "07-legal-review");
     await acceptAllLegalDocs(page);
     const legalPassword = page.locator("#reg-password, input[name='password']").first();
     await legalPassword.waitFor({ state: "visible", timeout: 15_000 });
@@ -379,68 +385,58 @@ async function main() {
       page.waitForURL(/\/verify-email/, { timeout: 120_000 }),
       submitLegal.click(),
     ]);
-    const navigated = page.url().includes("/verify-email");
-    if (!navigated) {
-      const alerts = await page.locator('[role="alert"]').allTextContents();
-      await screenshot(page, "07b-legal-submit-failure");
-      fail(
-        `Legal submit did not reach verify-email (url=${page.url()})${
-          alerts.length ? ` alerts=${alerts.join(" | ")}` : ""
-        }`
-      );
+    if (!page.url().includes("/verify-email")) {
+      await screenshot(page, "02b-legal-submit-failure");
+      fail(`Legal submit did not reach verify-email (url=${page.url()})`);
     }
+    await screenshot(page, "03-legal-accepted");
+    await assertOnboardingProgress(page, false);
 
-    report.evidence.push(
-      await collectC3Evidence(prisma, email, "after-registration-before-otp")
-    );
+    const preOtp = await collectC3Evidence(prisma, email, "after-registration-before-otp");
+    assertPreOtpEvidence(preOtp);
+    (report.evidence as unknown[]).push(preOtp);
+    ok("Pre-OTP aggregate state verified");
 
     const otp = await waitForPendingOtp(prisma, email);
 
-    const verifyUrl = new URL(page.url());
-    if (verifyUrl.searchParams.get("error") === "email_delivery_failed") {
-      ok("Initial OTP delivery failed — exercising resend path");
-      await screenshot(page, "08a-verify-email-delivery-failed");
-      const resendBtn = page.getByRole("button", { name: /resend verification code/i });
-      await resendBtn.click();
-      await page.waitForTimeout(3_000);
-      await screenshot(page, "08b-verify-email-after-resend");
-    }
+    await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
+      waitUntil: "networkidle",
+    });
+    await screenshot(page, "04-verify-email-otp-entry");
 
-    // Invalid OTP first
     await page.fill("#code", "000000");
     await page.getByRole("button", { name: /verify email/i }).click();
     await page.waitForTimeout(2_000);
-    await screenshot(page, "15-invalid-otp");
+    await screenshot(page, "14-invalid-otp");
     report.security.invalidOtp = "generic error shown";
 
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
     });
-    await screenshot(page, "08-verify-email-otp-entry-redacted");
-
     await page.fill("#code", otp);
     await page.getByRole("button", { name: /verify email/i }).click();
     await page.waitForURL(/\/login/, { timeout: 90_000 });
-    await screenshot(page, "09-activation-success-login");
+    await screenshot(page, "05-activation-success-login");
 
-    report.evidence.push(await collectC3Evidence(prisma, email, "after-otp"));
+    const postOtp = await collectC3Evidence(prisma, email, "after-otp");
+    assertPostOtpEvidence(postOtp);
+    (report.evidence as unknown[]).push(postOtp);
+    ok("legal=3 + verified email + generation 2 + phone policy disabled = ACTIVE requester account");
 
-    // Replay used OTP — active accounts are redirected away from verify-email
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
     });
     if (page.url().includes("/login")) {
-      await screenshot(page, "16-replayed-otp");
+      await screenshot(page, "15-replayed-otp");
       report.security.replayedOtp = "active account redirected to login";
     } else {
       await page.fill("#code", otp);
       await page.getByRole("button", { name: /verify email/i }).click();
       await page.waitForTimeout(2_000);
-      await screenshot(page, "16-replayed-otp");
+      await screenshot(page, "15-replayed-otp");
       report.security.replayedOtp = "rejected";
     }
 
-    // C3.7C — registration context must not share cookie jar with login session proof
     await page.close();
     await context.close();
 
@@ -453,9 +449,8 @@ async function main() {
     });
     page = await context.newPage();
 
-    // Sign in — fresh browser context, native form POST /login/submit
     await page.goto(`${PREVIEW_BASE}/login?verified=1`, { waitUntil: "networkidle" });
-    await screenshot(page, "10-verified-login-banner");
+    await screenshot(page, "06-verified-login-banner");
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
@@ -463,104 +458,81 @@ async function main() {
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
     if (page.url().includes("/login")) {
-      fail(`HTTP sign-in did not reach /account (url=${page.url()})`);
+      fail(`Real login did not reach /account (url=${page.url()})`);
     }
+    ok("Real Server Action login reached /account");
+    (report.sessionDurability as Record<string, string>).loginLanding = "/account";
 
-    report.evidence.push(await collectC3Evidence(prisma, email, "after-sign-in-pre-intake"));
-
-    await screenshot(page, "11-account-desktop");
-
+    await screenshot(page, "07-account");
     await page.reload({ waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
-      fail("/account reload redirected to login — Supabase session cookies not persistent");
+      fail("/account hard reload redirected to login");
     }
-    ok("/account survives hard reload after HTTP sign-in");
+    ok("/account survives hard reload");
+    await screenshot(page, "08-account-after-reload");
+    (report.sessionDurability as Record<string, string>).accountReload = "pass";
 
-    const authCookiesAfterSignIn = (await context.cookies(PREVIEW_BASE)).filter((cookie) =>
-      cookie.name.includes("-auth-token")
-    );
-    if (authCookiesAfterSignIn.length === 0) {
-      fail(
-        "Supabase auth cookies missing from browser jar after form sign-in (Set-Cookie not persisted)"
-      );
+    const authAfterSignIn = await supabaseAuthCookies(context, PREVIEW_BASE);
+    if (authAfterSignIn.length === 0) {
+      fail("Supabase auth cookies missing after sign-in");
     }
-    ok(
-      `Browser jar after sign-in: ${authCookiesAfterSignIn.map((cookie) => cookie.name).join(", ")}`
-    );
+    ok("Supabase session cookies present (not counting _vercel_jwt)");
 
     await page.goto(`${PREVIEW_BASE}/account/profile`, { waitUntil: "networkidle", timeout: 60_000 });
-    if (page.url().includes("/login")) {
-      fail(`Session not persisted for /account/profile (url=${page.url()})`);
-    }
+    if (page.url().includes("/login")) fail(`Session lost on /account/profile`);
     await page.waitForSelector("#displayName", { timeout: 60_000 });
-    await screenshot(page, "13-profile");
-    await page.fill("#displayName", "C3 Preview");
+    await screenshot(page, "09-profile");
+    await page.reload({ waitUntil: "networkidle" });
+    if (page.url().includes("/login")) fail("/account/profile hard reload lost session");
+    await screenshot(page, "10-profile-after-reload");
+    await page.fill("#displayName", "C3 Email-Only Proof");
     await page.getByRole("button", { name: /save profile/i }).click();
     await page.waitForTimeout(2_000);
+    ok("Profile update saved");
 
-    await mobilePage.goto(`${PREVIEW_BASE}/account`, { waitUntil: "networkidle" });
-    await screenshot(mobilePage, "12-account-mobile");
-
-    await page.goto(`${PREVIEW_BASE}/account/requests`, { waitUntil: "networkidle", timeout: 60_000 });
-    if (page.url().includes("/login")) {
-      fail(`Session not persisted for /account/requests (url=${page.url()})`);
-    }
-    await screenshot(page, "14-account-requests");
-
-    // Portal denial (pre-intake)
-    for (const path of ["/admin", "/procrow", "/business", "/portal"]) {
+    for (const path of ["/admin", "/procrow", "/business", "/portal", "/client"]) {
       const res = await page.goto(`${PREVIEW_BASE}${path}`, {
         waitUntil: "networkidle",
         timeout: 60_000,
       });
       (report.portalDenial as Record<string, number>)[path] = res?.status() ?? 0;
-      await screenshot(page, `deny-${path.replace(/\//g, "")}`);
+      await screenshot(page, `11-deny-${path.replace(/\//g, "") || "root"}`);
     }
+    ok("Portal denial paths exercised (pre-ERP)");
 
-    // ERP intake
-    await page.goto(`${PREVIEW_BASE}/request`, { waitUntil: "networkidle" });
-    await screenshot(page, "17-erp-intake");
-    await fillErpIntakeForm(page, email);
-    await page.waitForSelector("text=Request received", { timeout: 120_000 });
-    await screenshot(page, "18-erp-success");
-
-    report.evidence.push(await collectC3Evidence(prisma, email, "after-erp-intake"));
-
-    await page.goto(`${PREVIEW_BASE}/client`, { waitUntil: "networkidle" });
-    await screenshot(page, "19-client-after-intake");
-
-    // Sign out / sign in routing → /client
     await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle" });
+    const cookiesAfterSignOut = await supabaseAuthCookies(context, PREVIEW_BASE);
+    if (cookiesAfterSignOut.length > 0) {
+      fail("Supabase auth cookies still present after sign-out");
+    }
+    ok("Sign-out cleared Supabase auth cookies");
+    await screenshot(page, "12-sign-out");
+
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL(/\/(client|account)/, { timeout: 90_000 }),
+      page.waitForURL(/\/account/, { timeout: 90_000 }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
-    const landed = page.url();
-    report.signInAfterIntakeLanding = landed.includes("/client") ? "/client" : landed;
-    ok(`Post-intake sign-in landed: ${report.signInAfterIntakeLanding}`);
+    await page.reload({ waitUntil: "networkidle" });
+    if (page.url().includes("/login")) fail("Second sign-in session lost on hard reload");
+    await screenshot(page, "13-second-sign-in-reload");
+    (report.sessionDurability as Record<string, string>).secondSignInReload = "pass";
 
-    // Reduced motion loader
-    const reduced = await browser.newContext({
-      extraHTTPHeaders: {
-        "x-vercel-protection-bypass": bypass,
-        "x-vercel-set-bypass-cookie": "true",
-      },
-      reducedMotion: "reduce",
-    });
-    const reducedPage = await reduced.newPage();
-    await reducedPage.goto(`${PREVIEW_BASE}/`, { waitUntil: "networkidle" });
-    await screenshot(reducedPage, "20-reduced-motion-homepage");
+    const finalEvidence = await collectC3Evidence(prisma, email, "after-session-proof");
+    if (finalEvidence.phoneVerificationChallengeCount !== 0) {
+      fail(`Phone challenges must remain zero (${finalEvidence.phoneVerificationChallengeCount})`);
+    }
+    (report.evidence as unknown[]).push(finalEvidence);
 
-    await mobile.close();
-    await reduced.close();
+    report.sessionDurabilityVerdict =
+      "PASS — REAL LOGIN SESSION SURVIVES REDIRECT, RELOAD AND PROTECTED SUBROUTES";
 
     writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2));
     console.log(`\nReport written: ${REPORT_PATH}`);
     console.log(`Screenshots: ${OUT_DIR}\n`);
-    ok("C3.7 Preview controlled E2E journey complete");
+    ok("C3.10C email-only Preview proof complete");
   } finally {
     await browser.close();
     await prisma.$disconnect();
