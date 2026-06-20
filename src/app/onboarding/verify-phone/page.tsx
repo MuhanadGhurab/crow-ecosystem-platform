@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { VerifyPhoneForm } from "@/components/account/verify-phone-form";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { gateAuthSessionForC3 } from "@/lib/account/c3-auth-orchestration";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
@@ -69,9 +70,7 @@ export default async function OnboardingVerifyPhonePage({
         </div>
 
         <p className="mt-6 text-center text-sm text-slate-500">
-          <Link href={routes.auth.signOut} className="text-cyan-400 hover:text-cyan-300">
-            Sign out
-          </Link>
+          <SignOutButton className="text-cyan-400 hover:text-cyan-300" />
         </p>
       </div>
     </div>

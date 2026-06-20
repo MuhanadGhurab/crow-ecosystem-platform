@@ -105,8 +105,7 @@ async function resolvePostSignInCompletion(
       return { error: gate.message };
     }
 
-    const refreshed = (await refreshSessionUser(supabase)) ?? user;
-    return { path: await resolveC3PostAuthLanding(refreshed, next) };
+    return { path: await resolveC3PostAuthLanding(user, next) };
   }
 
   try {

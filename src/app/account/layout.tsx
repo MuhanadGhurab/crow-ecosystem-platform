@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CrowMark } from "@/components/public/brand/crow-mark";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { requireActivePlatformAccount } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 
@@ -28,9 +29,7 @@ export default async function AccountLayout({
             >
               Legal
             </Link>
-            <Link href={routes.auth.signOut} className="text-slate-500 hover:text-slate-300">
-              Sign out
-            </Link>
+            <SignOutButton className="text-sm text-slate-500 hover:text-slate-300" />
           </nav>
         </div>
       </header>

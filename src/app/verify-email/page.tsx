@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { VerifyEmailForm } from "@/components/account/verify-email-form";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { OnboardingProgress } from "@/components/account/onboarding-progress";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import {
@@ -66,9 +67,7 @@ export default async function VerifyEmailPage({
           {user ? (
             <>
               Wrong account?{" "}
-              <Link href={routes.auth.signOut} className="text-cyan-400 hover:text-cyan-300">
-                Sign out
-              </Link>
+              <SignOutButton className="text-cyan-400 hover:text-cyan-300" />
             </>
           ) : (
             <>

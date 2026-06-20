@@ -294,9 +294,14 @@ export function LegalReviewGate({
 
       <p className="text-center text-sm text-slate-500">
         Wrong account?{" "}
-        <Link href={routes.auth.signOut} className="text-cyan-400 hover:text-cyan-300">
+        <button
+          type="submit"
+          formAction={routes.auth.signOut}
+          formMethod="post"
+          className="text-cyan-400 hover:text-cyan-300"
+        >
           Sign out
-        </Link>
+        </button>
       </p>
     </form>
   );

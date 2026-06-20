@@ -5,9 +5,12 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   await supabase.auth.signOut();
   const { origin } = new URL(request.url);
-  return NextResponse.redirect(`${origin}/login`, { status: 303 });
+  const response = NextResponse.redirect(`${origin}/login`, { status: 303 });
+  response.headers.set("Cache-Control", "private, no-store");
+  return response;
 }
 
-export async function GET(request: Request) {
-  return POST(request);
+/** RSC/link prefetch must not clear the Supabase session (C3.10E). */
+export function GET() {
+  return NextResponse.json({ error: "Method Not Allowed" }, { status: 405 });
 }
