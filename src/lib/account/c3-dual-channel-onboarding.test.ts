@@ -42,7 +42,8 @@ function readSrc(rel: string): string {
 {
   const orch = readSrc("src/lib/account/c3-auth-orchestration.ts");
   assert(orch.includes("routes.onboarding.legal"), "legal onboarding path");
-  assert(orch.includes("routes.onboarding.verifyPhone"), "phone onboarding path");
+  assert(orch.includes("isPhoneVerificationRequiredForAccount"), "phone path gated by policy");
+  assert(orch.includes("routes.onboarding.verifyPhone"), "phone route retained for future");
 }
 
 // identity reset defaults dry-run
