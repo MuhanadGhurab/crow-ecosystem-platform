@@ -278,10 +278,15 @@ function main() {
   );
 
   const callback = fileText("src/app/auth/callback/route.ts");
+  const resolver = fileText("src/lib/auth/c3-post-auth-resolution.ts");
   check(
-    callback.includes("gateAuthSessionForC3"),
-    "OAuth callback uses C3 gate",
-    "callback route must call gateAuthSessionForC3"
+    (callback.includes("gateAuthSessionForC3") &&
+      callback.includes("resolvePlatformAccountForOAuthUser")) ||
+      (callback.includes("routes.auth.resolving") &&
+        resolver.includes("gateAuthSessionForC3") &&
+        resolver.includes("resolvePlatformAccountForOAuthUser")),
+    "Google OAuth uses C3 gate via callback or post-auth resolver",
+    "callback/resolver must run C3 gate and provider linking"
   );
 
   const middleware = fileText("src/lib/supabase/middleware.ts");
