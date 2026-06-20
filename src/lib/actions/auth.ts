@@ -197,12 +197,6 @@ export async function resolveSignInSubmissionUrl(
   try {
     const result = await supabase.auth.signInWithPassword({ email, password });
     error = result.error;
-    if (!error && result.data.session) {
-      await supabase.auth.setSession({
-        access_token: result.data.session.access_token,
-        refresh_token: result.data.session.refresh_token,
-      });
-    }
   } catch (err) {
     const cause = err instanceof Error ? err.cause : undefined;
     const code =
@@ -266,12 +260,6 @@ export async function signIn(
   try {
     const result = await supabase.auth.signInWithPassword({ email, password });
     error = result.error;
-    if (result.data.session) {
-      await supabase.auth.setSession({
-        access_token: result.data.session.access_token,
-        refresh_token: result.data.session.refresh_token,
-      });
-    }
   } catch (err) {
     const cause = err instanceof Error ? err.cause : undefined;
     const code =
@@ -325,7 +313,7 @@ export async function signUp(
   if (isC3AuthEnabled()) {
     const params = new URLSearchParams({ email });
     if (next) params.set("next", next);
-    redirect(`${routes.account.registerLegal}?${params.toString()}`);
+    redirect(`${routes.onboarding.legal}?${params.toString()}`);
   }
 
   const supabase = await createClient();
@@ -369,8 +357,8 @@ export async function signUp(
     }
 
     const legalPath = next
-      ? `${routes.account.registerLegal}?next=${encodeURIComponent(next)}`
-      : routes.account.registerLegal;
+      ? `${routes.onboarding.legal}?next=${encodeURIComponent(next)}`
+      : routes.onboarding.legal;
     redirect(legalPath);
   } else if (hasSession) {
     let roleAssigned = false;
