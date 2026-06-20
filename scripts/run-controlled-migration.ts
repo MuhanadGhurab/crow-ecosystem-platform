@@ -25,6 +25,7 @@ const C3_PENDING_MIGRATIONS = [
   "20260614140000_c3_account_registration",
   "20260614150000_c3_legal_agreement",
   "20260614160000_c3_public_schema_access_hardening",
+  "20260618140000_c3_dual_channel_onboarding",
 ] as const;
 
 /** Documented operator phrases (must match CONTROLLED_MIGRATION_PHRASES). */
@@ -94,7 +95,7 @@ function assertMigrationInventory(output: string, checkOnly: boolean): void {
 
   if (checkOnly) {
     if (pending.length !== C3_PENDING_MIGRATIONS.length) {
-      console.error("Expected exactly three pending C3 migrations.");
+      console.error(`Expected exactly ${C3_PENDING_MIGRATIONS.length} pending C3 migrations.`);
       console.error(`Found: ${pending.join(", ") || "(none)"}`);
       process.exit(1);
     }
@@ -161,6 +162,15 @@ function main() {
       );
       process.exit(1);
     }
+    const backupChecksum = process.env.MIGRATION_BACKUP_CHECKSUM?.trim();
+    if (!backupChecksum) {
+      console.error(
+        "MIGRATION_BACKUP_CHECKSUM is required for apply mode. " +
+          "Record a fresh backup checksum before controlled migrate deploy."
+      );
+      process.exit(1);
+    }
+    console.log(`  backupChecksum: ${backupChecksum.slice(0, 8)}… (verified present)`);
     try {
       assertControlledMigrationPhrase(environment, confirm);
     } catch (error) {

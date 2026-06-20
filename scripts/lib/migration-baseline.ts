@@ -11,6 +11,8 @@ export const C3_LEGAL_MIGRATION_DIR = "20260614150000_c3_legal_agreement";
 
 export const C3_RLS_MIGRATION_DIR = "20260614160000_c3_public_schema_access_hardening";
 
+export const C3_DUAL_CHANNEL_MIGRATION_DIR = "20260618140000_c3_dual_channel_onboarding";
+
 export function countMigrationSql(root: string): number {
   const dir = join(root, "prisma/migrations");
   if (!existsSync(dir)) return 0;
@@ -39,6 +41,10 @@ export function hasC3RlsMigration(root: string): boolean {
   return existsSync(join(root, "prisma/migrations", C3_RLS_MIGRATION_DIR, "migration.sql"));
 }
 
+export function hasC3DualChannelMigration(root: string): boolean {
+  return existsSync(join(root, "prisma/migrations", C3_DUAL_CHANNEL_MIGRATION_DIR, "migration.sql"));
+}
+
 /** Expected migration folder count for the current branch stack. */
 export function expectedMigrationBaseline(root: string): number {
   let baseline = C1_MIGRATION_BASELINE;
@@ -46,5 +52,6 @@ export function expectedMigrationBaseline(root: string): number {
   if (hasC3AccountMigration(root)) baseline += 1;
   if (hasC3LegalMigration(root)) baseline += 1;
   if (hasC3RlsMigration(root)) baseline += 1;
+  if (hasC3DualChannelMigration(root)) baseline += 1;
   return baseline;
 }
