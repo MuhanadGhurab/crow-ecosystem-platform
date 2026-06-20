@@ -9,7 +9,14 @@ export function isOnboardingGenerationCurrent(generation: number): boolean {
   return generation >= getRequiredOnboardingGeneration();
 }
 
-/** New registrations always enroll in the current generation. */
+/** Dual-channel enrollment generation for newly created accounts (independent of temporary gate). */
+export const CROW_DUAL_CHANNEL_ENROLLMENT_GENERATION = 2;
+
+/** New registrations always enroll in dual-channel generation (default 2), not the temporary required gate. */
 export function getCurrentEnrollmentGeneration(): number {
-  return getRequiredOnboardingGeneration();
+  const raw = process.env.CROW_NEW_ACCOUNT_ENROLLMENT_GENERATION?.trim();
+  const parsed = raw ? Number.parseInt(raw, 10) : CROW_DUAL_CHANNEL_ENROLLMENT_GENERATION;
+  return Number.isFinite(parsed) && parsed > 0
+    ? parsed
+    : CROW_DUAL_CHANNEL_ENROLLMENT_GENERATION;
 }

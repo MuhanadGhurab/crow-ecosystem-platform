@@ -10,6 +10,8 @@ import {
 } from "@/lib/account/platform-account.service";
 import { isValidE164Phone } from "@/lib/account/phone-normalize";
 import { getPhoneVerificationDeliveryPort } from "@/lib/phone/get-phone-verification-port";
+import { isPreviewPhoneDestinationAllowed } from "@/lib/phone/preview-phone-allowlist";
+import { buildOtpSmsBody } from "@/lib/phone/otp-sms-templates";
 import { PHONE_VERIFICATION_SOURCES } from "@/lib/account/verification-sources";
 
 const OTP_TTL_MS = 10 * 60 * 1000;
@@ -166,9 +168,25 @@ export async function issuePhoneVerificationCode(input: {
     },
   });
 
+  if (
+    process.env.VERCEL_ENV === "preview" &&
+    !isPreviewPhoneDestinationAllowed(input.phoneNormalized)
+  ) {
+    await prisma.phoneVerificationChallenge.update({
+      where: { id: challenge.id },
+      data: { status: "revoked", invalidatedAt: now, deliveryStatus: "failed" },
+    });
+    return { ok: false, reason: "delivery_failed" };
+  }
+
+  const otpMinutes = Math.round(OTP_TTL_MS / 60_000);
   const delivery = await getPhoneVerificationDeliveryPort().send({
     toE164: input.phoneNormalized,
-    message: `Your Crow verification code is ${code}. It expires in 10 minutes.`,
+    message: buildOtpSmsBody({
+      code,
+      minutes: otpMinutes,
+      locale: process.env.C3_SMS_DEFAULT_LOCALE,
+    }),
   });
 
   if (delivery.status === "failed") {
