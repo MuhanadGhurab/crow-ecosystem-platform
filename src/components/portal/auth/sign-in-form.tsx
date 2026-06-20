@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
+import { submitSignInFormAction } from "@/lib/actions/auth";
 import { routes } from "@/lib/routes";
 import { SignInWithEntra } from "@/components/portal/auth/sign-in-with-entra";
 import { SignInWithGoogle } from "@/components/portal/auth/sign-in-with-google";
@@ -54,7 +55,7 @@ export function SignInForm({
         </div>
       )}
 
-      <form action="/login/submit" method="post" className="space-y-4">
+      <form action={submitSignInFormAction} className="space-y-4">
         {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
         <div>
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-300">

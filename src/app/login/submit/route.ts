@@ -5,7 +5,7 @@ import { createSupabaseRouteHandlerClient, expireOrphanedSupabaseAuthCookies, st
 
 export const maxDuration = 60;
 
-/** HTTP POST sign-in — one 303 redirect with Supabase session cookies on the same response. */
+/** HTTP POST sign-in (compatibility) — primary login uses Server Action; see sign-in-form.tsx. */
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const requestOrigin = new URL(request.url);

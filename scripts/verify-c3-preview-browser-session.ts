@@ -217,11 +217,12 @@ async function runFreshRegistration(
   }
 }
 
-async function runPathBExistingUser(
+async function runPathBLogin(
   browser: Browser,
   previewBase: string,
   email: string,
-  password: string
+  password: string,
+  loginMode: "server-action" | "post-route"
 ): Promise<DocumentSessionResult> {
   const context = await newBypassBrowserContext(browser);
   const page = await context.newPage();
@@ -232,6 +233,7 @@ async function runPathBExistingUser(
       previewBase,
       email,
       password,
+      loginMode,
       expectedLanding: /^\/(account|client)(\/|$)/,
     });
   } finally {
@@ -419,11 +421,15 @@ async function main() {
   ok("Controlled test user ready (not Platform Owner)");
 
   let pathA: Awaited<ReturnType<typeof runPathAAuthCanary>> | null = null;
-  let pathB: DocumentSessionResult | null = null;
+  let pathB1: DocumentSessionResult | null = null;
+  let pathB2: DocumentSessionResult | null = null;
   let pathC: DocumentSessionResult | null = null;
+  let pathB1Pass = false;
+  let pathB2Pass = false;
   let pathBPass = false;
   let pathCPass = false;
-  let pathBError: string | null = null;
+  let pathB1Error: string | null = null;
+  let pathB2Error: string | null = null;
   let pathCError: string | null = null;
 
   try {
@@ -435,26 +441,52 @@ async function main() {
     }
 
     try {
-      pathB = await runPathBExistingUser(
+      pathB1 = await runPathBLogin(
         browser,
         previewBase,
         controlled.email,
-        controlled.password
+        controlled.password,
+        "server-action"
       );
-      console.log("\nPath B Chromium cookie diagnostics:\n");
-      console.log(formatDocumentCookieTable(pathB.documentCookieTable));
+      console.log("\nPath B1 (Server Action) cookie diagnostics:\n");
+      console.log(formatDocumentCookieTable(pathB1.documentCookieTable));
       try {
-        assertDocumentSessionPass(pathB, "Path B — existing active user");
-        pathBPass = true;
-        ok("Path B document session passed");
+        assertDocumentSessionPass(pathB1, "Path B1 — Server Action login");
+        pathB1Pass = true;
+        ok("Path B1 Server Action document session passed");
       } catch (assertErr) {
-        pathBError = assertErr instanceof Error ? assertErr.message : String(assertErr);
-        console.error(`  ✗ Path B failed: ${pathBError}`);
+        pathB1Error = assertErr instanceof Error ? assertErr.message : String(assertErr);
+        console.error(`  ✗ Path B1 failed: ${pathB1Error}`);
       }
     } catch (err) {
-      pathBError = err instanceof Error ? err.message : String(err);
-      console.error(`  ✗ Path B failed: ${pathBError}`);
+      pathB1Error = err instanceof Error ? err.message : String(err);
+      console.error(`  ✗ Path B1 failed: ${pathB1Error}`);
     }
+
+    try {
+      pathB2 = await runPathBLogin(
+        browser,
+        previewBase,
+        controlled.email,
+        controlled.password,
+        "post-route"
+      );
+      console.log("\nPath B2 (POST /login/submit) cookie diagnostics:\n");
+      console.log(formatDocumentCookieTable(pathB2.documentCookieTable));
+      try {
+        assertDocumentSessionPass(pathB2, "Path B2 — POST /login/submit");
+        pathB2Pass = true;
+        ok("Path B2 POST route document session passed");
+      } catch (assertErr) {
+        pathB2Error = assertErr instanceof Error ? assertErr.message : String(assertErr);
+        console.error(`  ✗ Path B2 failed: ${pathB2Error}`);
+      }
+    } catch (err) {
+      pathB2Error = err instanceof Error ? err.message : String(err);
+      console.error(`  ✗ Path B2 failed: ${pathB2Error}`);
+    }
+
+    const pathBPass = pathB1Pass;
 
     const freshEmail = buildFreshTestEmail();
     const freshPassword = `CrowPv-${Date.now().toString(36)}!9`;
@@ -495,16 +527,36 @@ async function main() {
       manualBrowserTest: manual,
       vercelJwtRequiredForAuth: false,
       pathAAuthCanary: pathA,
-      pathBExistingUser: pathB
+      pathB1ServerAction: pathB1
         ? {
-            proofCategory: pathB.proofCategory,
-            reloadSurvived: pathB.reloadSurvived,
-            profileSurvived: pathB.profileSurvived,
-            vercelJwtPresent: pathB.vercelJwtPresent,
-            applicableCookieMeta: pathB.applicableCookieMeta,
-            documentCookieTable: pathB.documentCookieTable,
+            proofCategory: pathB1.proofCategory,
+            reloadSurvived: pathB1.reloadSurvived,
+            profileSurvived: pathB1.profileSurvived,
+            vercelJwtPresent: pathB1.vercelJwtPresent,
+            applicableCookieMeta: pathB1.applicableCookieMeta,
+            documentCookieTable: pathB1.documentCookieTable,
           }
-        : { error: pathBError },
+        : { error: pathB1Error },
+      pathB2PostRoute: pathB2
+        ? {
+            proofCategory: pathB2.proofCategory,
+            reloadSurvived: pathB2.reloadSurvived,
+            profileSurvived: pathB2.profileSurvived,
+            vercelJwtPresent: pathB2.vercelJwtPresent,
+            applicableCookieMeta: pathB2.applicableCookieMeta,
+            documentCookieTable: pathB2.documentCookieTable,
+          }
+        : { error: pathB2Error },
+      pathBExistingUser: pathB1
+        ? {
+            proofCategory: pathB1.proofCategory,
+            reloadSurvived: pathB1.reloadSurvived,
+            profileSurvived: pathB1.profileSurvived,
+            vercelJwtPresent: pathB1.vercelJwtPresent,
+            applicableCookieMeta: pathB1.applicableCookieMeta,
+            documentCookieTable: pathB1.documentCookieTable,
+          }
+        : { error: pathB1Error },
       pathCFreshUser: pathC
         ? {
             proofCategory: pathC.proofCategory,
@@ -515,7 +567,8 @@ async function main() {
             documentCookieTable: pathC.documentCookieTable,
           }
         : { error: pathCError },
-      pathBDocumentCookieTable: pathB ? formatDocumentCookieTable(pathB.documentCookieTable) : null,
+      pathBDocumentCookieTable: pathB1 ? formatDocumentCookieTable(pathB1.documentCookieTable) : null,
+      pathB2DocumentCookieTable: pathB2 ? formatDocumentCookieTable(pathB2.documentCookieTable) : null,
       pathCDocumentCookieTable: pathC ? formatDocumentCookieTable(pathC.documentCookieTable) : null,
       rootCauseClassification: decision,
       capturedAt: new Date().toISOString(),
@@ -524,9 +577,9 @@ async function main() {
     writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2));
     ok(`Report: ${REPORT_PATH}`);
 
-    if (pathB?.documentCookieTable.length) {
-      console.log("\nPath B Chromium cookie diagnostics:\n");
-      console.log(formatDocumentCookieTable(pathB.documentCookieTable));
+    if (pathB1?.documentCookieTable.length) {
+      console.log("\nPath B1 Chromium cookie diagnostics:\n");
+      console.log(formatDocumentCookieTable(pathB1.documentCookieTable));
     }
     if (pathC?.documentCookieTable.length) {
       console.log("\nPath C Chromium cookie diagnostics:\n");

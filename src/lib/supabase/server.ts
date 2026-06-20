@@ -4,16 +4,8 @@ import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 export async function createClient() {
   const cookieStore = await cookies();
-  const secure =
-    process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
   return createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
-    cookieOptions: {
-      path: "/",
-      sameSite: "lax",
-      secure,
-      httpOnly: true,
-    },
     cookies: {
       getAll() {
         return cookieStore.getAll();

@@ -9,20 +9,21 @@ function readSrc(rel: string): string {
   return readFileSync(resolve(root, rel), "utf8");
 }
 
-// §1 — real login uses HTTP POST /login/submit (303 + Set-Cookie); setSession materializes cookies
+// §1 — primary login uses proven Server Action; POST /login/submit retained for compatibility
 {
   const auth = readSrc("src/lib/actions/auth.ts");
   assert(auth.includes("signInWithPassword"), "signIn must use signInWithPassword");
-  assert(auth.includes("setSession"), "sign-in must materialize session cookies after password auth");
-  assert(auth.includes("resolveSignInSubmissionUrl"), "resolveSignInSubmissionUrl must exist");
+  assert(!auth.includes("setSession"), "sign-in must not call setSession (Supabase SSR sets cookies)");
+  assert(auth.includes("submitSignInFormAction"), "submitSignInFormAction must exist");
+  assert(auth.includes("resolveSignInSubmissionUrl"), "resolveSignInSubmissionUrl must exist for POST compatibility");
   const loginSubmit = readSrc("src/app/login/submit/route.ts");
   assert(loginSubmit.includes("resolveSignInSubmissionUrl"), "login submit route must resolve sign-in");
 }
 
 {
   const form = readSrc("src/components/portal/auth/sign-in-form.tsx");
-  assert(form.includes('action="/login/submit"'), "sign-in form must POST /login/submit for durable cookies");
-  assert(form.includes('method="post"'), "sign-in form must use POST");
+  assert(form.includes("submitSignInFormAction"), "sign-in form must use Server Action login");
+  assert(!form.includes('action="/login/submit"'), "route handler must not be primary login target");
 }
 
 // §8 — OAuth cannot bypass phone; email OTP cannot mark phone

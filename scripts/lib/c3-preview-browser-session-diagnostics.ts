@@ -152,6 +152,8 @@ export function formatDocumentCookieTable(rows: DocumentCookieRow[]): string {
   return [header, sep, ...body].join("\n");
 }
 
+export type DocumentLoginMode = "server-action" | "post-route";
+
 export async function runDocumentLoginSessionProof(input: {
   page: Page;
   context: BrowserContext;
@@ -160,6 +162,7 @@ export async function runDocumentLoginSessionProof(input: {
   password: string;
   loginPath?: string;
   expectedLanding?: RegExp;
+  loginMode?: DocumentLoginMode;
 }): Promise<DocumentSessionResult> {
   const {
     page,
@@ -169,6 +172,7 @@ export async function runDocumentLoginSessionProof(input: {
     password,
     loginPath = "/login",
     expectedLanding = /^\/account(\/|$)/,
+    loginMode = "server-action",
   } = input;
 
   const observer = new DocumentCookieObserver(previewBase, new URL(previewBase).host);
@@ -182,15 +186,34 @@ export async function runDocumentLoginSessionProof(input: {
   await page.fill("#email", email);
   await page.fill("#password", password);
 
-  await Promise.all([
-    page.waitForResponse(
-      (r) =>
-        r.request().method() === "POST" && new URL(r.url()).pathname === "/login/submit",
-      { timeout: 90_000 }
-    ),
-    page.waitForURL((url) => expectedLanding.test(url.pathname), { timeout: 90_000 }),
-    page.getByRole("button", { name: /sign in with email/i }).click(),
-  ]);
+  if (loginMode === "post-route") {
+    await page.evaluate(() => {
+      const form = document.querySelector("form");
+      if (form) {
+        form.setAttribute("action", "/login/submit");
+        form.setAttribute("method", "post");
+      }
+    });
+  }
+
+  const signInClick = page.getByRole("button", { name: /sign in with email/i }).click();
+
+  if (loginMode === "post-route") {
+    await Promise.all([
+      page.waitForResponse(
+        (r) =>
+          r.request().method() === "POST" && new URL(r.url()).pathname === "/login/submit",
+        { timeout: 90_000 }
+      ),
+      page.waitForURL((url) => expectedLanding.test(url.pathname), { timeout: 90_000 }),
+      signInClick,
+    ]);
+  } else {
+    await Promise.all([
+      page.waitForURL((url) => expectedLanding.test(url.pathname), { timeout: 90_000 }),
+      signInClick,
+    ]);
+  }
   assertPreviewHost(page.url(), previewBase, "post sign-in landing");
 
   await page.reload({ waitUntil: "networkidle" });
