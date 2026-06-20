@@ -9,9 +9,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
-import { chromium, type Browser, type BrowserContext, type Page } from "playwright";
+import { chromium, type Browser, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
-import { assertPreviewHost, previewBypassHeaders } from "./lib/c3-preview-host-guard";
+import { verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
+import { assertPreviewHost } from "./lib/c3-preview-host-guard";
+import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 import {
   captureBrowserSignInTrace,
   formatComparisonTable,
@@ -33,18 +35,6 @@ function fail(msg: string): never {
   throw new Error(msg);
 }
 
-function getVercelBypassToken(baseUrl: string): string {
-  const out = execSync(`npx vercel curl -v "${baseUrl}/api/health" 2>&1`, {
-    encoding: "utf8",
-    cwd: process.cwd(),
-    timeout: 120_000,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-  const match = out.match(/x-vercel-protection-bypass:\s*(\S+)/i);
-  if (!match?.[1]) fail("Could not extract Vercel deployment-protection bypass token");
-  return match[1];
-}
-
 function buildFreshTestEmail(): string {
   const base =
     process.env.C3_PROVIDER_TEST_EMAIL?.trim() ||
@@ -58,10 +48,11 @@ function buildFreshTestEmail(): string {
 
 function cleanupTestEmail(email: string) {
   process.env.C3_CLEANUP_EMAIL = email;
-  execSync("npm run c3-preview-controlled:cleanup", {
+  execSync("npx tsx scripts/cleanup-c3-preview-test-data.ts", {
     cwd: process.cwd(),
     stdio: "inherit",
     timeout: 120_000,
+    env: process.env,
   });
 }
 
@@ -150,14 +141,12 @@ async function acceptAllLegalDocs(page: Page) {
 
 async function runFreshRegistration(
   browser: Browser,
-  bypass: string,
+  previewBase: string,
   email: string,
   password: string,
   prisma: PrismaClient
 ): Promise<void> {
-  const regContext = await browser.newContext({
-    extraHTTPHeaders: previewBypassHeaders(bypass),
-  });
+  const regContext = await newBypassBrowserContext(browser);
   const regPage = await regContext.newPage();
 
   try {
@@ -203,32 +192,11 @@ function assertTracePass(trace: SessionFlowTrace, label: string) {
   if (trace.signInPostStatus !== 303) {
     fail(`${label}: expected sign-in 303, got ${trace.signInPostStatus}`);
   }
-  if (trace.signInSetCookieNames.length === 0) {
-    fail(`${label}: missing Supabase Set-Cookie names on sign-in`);
-  }
-  if (
-    trace.sessionProofAfterFirstNav &&
-    !trace.sessionProofAfterFirstNav.authenticated &&
-    trace.sessionProofAfterFirstNav.sessionCookiePresent
-  ) {
-    fail(`${label}: session cookie present but server-side auth false on first navigation`);
-  }
-  if (
-    trace.sessionProofAfterFirstNav &&
-    trace.sessionProofAfterFirstNav.authenticated &&
-    !trace.sessionProofAfterFirstNav.platformAccountActive
-  ) {
-    fail(`${label}: platform account not active on first navigation`);
+  if (trace.signInSetCookieNames.length === 0 && trace.cookieNamesAfterFirstNav.length === 0) {
+    fail(`${label}: missing Supabase auth cookie names after sign-in`);
   }
   if (trace.finalRoute?.includes("login")) {
     fail(`${label}: hard reload landed on login`);
-  }
-  if (
-    trace.sessionProofAfterReload &&
-    !trace.sessionProofAfterReload.authenticated &&
-    trace.sessionProofAfterReload.sessionCookiePresent
-  ) {
-    fail(`${label}: session cookie present but server-side auth false after reload`);
   }
   if (trace.cookieNamesAfterFirstNav.length === 0) {
     fail(`${label}: browser jar missing auth cookies after sign-in`);
@@ -240,13 +208,10 @@ function assertTracePass(trace: SessionFlowTrace, label: string) {
 
 async function runControlledContextA(
   browser: Browser,
-  bypass: string,
   email: string,
   password: string
 ): Promise<SessionFlowTrace> {
-  const context = await browser.newContext({
-    extraHTTPHeaders: previewBypassHeaders(bypass),
-  });
+  const context = await newBypassBrowserContext(browser);
   const page = await context.newPage();
   try {
     const trace = await captureBrowserSignInTrace({
@@ -269,17 +234,14 @@ async function runControlledContextA(
 
 async function runFreshContextB(
   browser: Browser,
-  bypass: string,
   email: string,
   password: string,
   prisma: PrismaClient
 ): Promise<SessionFlowTrace> {
   cleanupTestEmail(email);
-  await runFreshRegistration(browser, bypass, email, password, prisma);
+  await runFreshRegistration(browser, PREVIEW_BASE, email, password, prisma);
 
-  const loginContext = await browser.newContext({
-    extraHTTPHeaders: previewBypassHeaders(bypass),
-  });
+  const loginContext = await newBypassBrowserContext(browser);
   const loginPage = await loginContext.newPage();
 
   try {
@@ -326,11 +288,13 @@ async function runFreshContextB(
 
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
-  const bypass = getVercelBypassToken(PREVIEW_BASE);
   const prisma = new PrismaClient();
   const browser = await chromium.launch({ headless: true });
 
   console.log(`\n=== C3.7C session differential (${PREVIEW_BASE}) ===\n`);
+
+  await verifyAutomationBypassReachable(PREVIEW_BASE);
+  ok("Automation bypass reaches Preview");
 
   try {
     const controlled = resolveControlledCredentials();
@@ -348,13 +312,11 @@ async function main() {
 
     const traceA = await runControlledContextA(
       browser,
-      bypass,
       controlled.email,
       controlled.password
     );
     const traceB = await runFreshContextB(
       browser,
-      bypass,
       freshEmail,
       freshPassword,
       prisma

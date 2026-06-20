@@ -3,7 +3,7 @@
  *
  * Run: npm run c3-preview-controlled:e2e
  * Requires: .env.staging (hosted DB, Supabase admin, Resend), Playwright chromium,
- *           Vercel CLI logged in (for deployment-protection bypass token).
+ *           VERCEL_AUTOMATION_BYPASS_SECRET.
  */
 import { execSync } from "node:child_process";
 import { createHmac } from "node:crypto";
@@ -14,6 +14,7 @@ import { PrismaClient } from "@prisma/client";
 import { chromium, type BrowserContext, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
 import { evaluateTenantPlatformAccountAuthorization } from "../src/lib/account/tenant-platform-account-authorization";
+import { automationBypassHeaders, verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
 import {
   assertPostOtpEvidence,
   assertPreOtpEvidence,
@@ -42,20 +43,6 @@ function fail(msg: string): never {
 
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
-}
-
-function getVercelBypassToken(baseUrl: string): string {
-  const out = execSync(`npx vercel curl -v "${baseUrl}/api/health" 2>&1`, {
-    encoding: "utf8",
-    cwd: process.cwd(),
-    timeout: 120_000,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-  const match = out.match(/x-vercel-protection-bypass:\s*(\S+)/i);
-  if (!match?.[1]) {
-    fail("Could not extract Vercel deployment-protection bypass token (vercel curl -v)");
-  }
-  return match[1];
 }
 
 function buildTestEmail(): string {
@@ -317,8 +304,8 @@ async function main() {
   const resendKey = process.env.RESEND_API_KEY?.trim();
   if (!resendKey) fail("RESEND_API_KEY required in .env.staging");
 
-  const bypass = getVercelBypassToken(PREVIEW_BASE);
-  ok("Obtained Vercel deployment-protection bypass token");
+  await verifyAutomationBypassReachable(PREVIEW_BASE);
+  ok("Automation bypass reaches Preview");
 
   const email = buildTestEmail();
   const password = `CrowPv-${Date.now().toString(36)}!9`;
@@ -349,8 +336,7 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   let context = await browser.newContext({
     extraHTTPHeaders: {
-      "x-vercel-protection-bypass": bypass,
-      "x-vercel-set-bypass-cookie": "true",
+      ...automationBypassHeaders(),
       "Accept-Language": "en-US",
     },
     viewport: { width: 1440, height: 900 },
@@ -442,8 +428,7 @@ async function main() {
 
     context = await browser.newContext({
       extraHTTPHeaders: {
-        "x-vercel-protection-bypass": bypass,
-        "x-vercel-set-bypass-cookie": "true",
+        ...automationBypassHeaders(),
         "Accept-Language": "en-US",
       },
     });

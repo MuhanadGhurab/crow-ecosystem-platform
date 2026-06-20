@@ -4,13 +4,17 @@
  * Run: npm run c3-auth-canary:verify
  * Requires: C3_AUTH_CANARY_ENABLED=true on Preview, Playwright, .env.staging
  */
-import { execSync } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { chromium } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
-import { assertPreviewHost, previewBypassHeaders } from "./lib/c3-preview-host-guard";
+import { assertPreviewHost } from "./lib/c3-preview-host-guard";
 import { listSupabaseAuthCookieNames } from "../src/lib/supabase/auth-cookie-names";
+import {
+  automationBypassHeaders,
+  verifyAutomationBypassReachable,
+} from "./lib/c3-preview-automation-bypass";
+import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
@@ -26,18 +30,6 @@ function ok(msg: string) {
 
 function fail(msg: string): never {
   throw new Error(msg);
-}
-
-function getVercelBypassToken(baseUrl: string): string {
-  const out = execSync(`npx vercel curl -v "${baseUrl}/api/health" 2>&1`, {
-    encoding: "utf8",
-    cwd: process.cwd(),
-    timeout: 120_000,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-  const match = out.match(/x-vercel-protection-bypass:\s*(\S+)/i);
-  if (!match?.[1]) fail("Could not extract Vercel deployment-protection bypass token");
-  return match[1];
 }
 
 function resolveCredentials(): { email: string; password: string } {
@@ -79,9 +71,11 @@ async function assertLandingAuthenticated(page: import("playwright").Page) {
 async function main() {
   const prisma = new PrismaClient();
   const { email, password } = resolveCredentials();
-  const bypass = getVercelBypassToken(PREVIEW_BASE);
 
   console.log(`\n=== C3 Auth Canary verify (${PREVIEW_BASE}) ===\n`);
+
+  await verifyAutomationBypassReachable(PREVIEW_BASE);
+  ok("Automation bypass reaches Preview");
 
   const prodResponse = await fetch(`${PRODUCTION_BASE}/auth-canary`, { redirect: "follow" });
   const prodBody = await prodResponse.text();
@@ -91,7 +85,7 @@ async function main() {
   ok("Production does not expose auth canary (not 200 with canary UI)");
 
   const previewDisabled = await fetch(`${PREVIEW_BASE}/auth-canary`, {
-    headers: previewBypassHeaders(bypass),
+    headers: automationBypassHeaders(),
     redirect: "manual",
   });
   if (previewDisabled.status === 404) {
@@ -111,9 +105,7 @@ async function main() {
   ok("Controlled test user ready");
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    extraHTTPHeaders: previewBypassHeaders(bypass),
-  });
+  const context = await newBypassBrowserContext(browser);
   const page = await context.newPage();
 
   try {

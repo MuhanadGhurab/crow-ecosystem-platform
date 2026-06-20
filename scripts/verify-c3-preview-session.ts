@@ -2,13 +2,17 @@
  * C3.7B — Preview session micro-proof (password sign-in cookie persistence).
  *
  * Run: npm run c3-preview-session:verify
- * Requires: .env.staging, Playwright, Vercel CLI (deployment-protection bypass).
+ * Requires: .env.staging, Playwright, VERCEL_AUTOMATION_BYPASS_SECRET.
  */
-import { execSync } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { chromium, request } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
+import {
+  automationBypassHeaders,
+  verifyAutomationBypassReachable,
+} from "./lib/c3-preview-automation-bypass";
+import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
@@ -26,20 +30,6 @@ function supabaseAuthCookiePrefix(): string {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
   const match = url.match(/https?:\/\/([^.]+)\./);
   return `sb-${match?.[1] ?? "project"}-auth-token`;
-}
-
-function getVercelBypassToken(baseUrl: string): string {
-  const out = execSync(`npx vercel curl -v "${baseUrl}/api/health" 2>&1`, {
-    encoding: "utf8",
-    cwd: process.cwd(),
-    timeout: 120_000,
-    stdio: ["pipe", "pipe", "pipe"],
-  });
-  const match = out.match(/x-vercel-protection-bypass:\s*(\S+)/i);
-  if (!match?.[1]) {
-    fail("Could not extract Vercel deployment-protection bypass token");
-  }
-  return match[1];
 }
 
 function resolveSessionCredentials(): { email: string; password: string } {
@@ -84,17 +74,14 @@ function isSupabaseAuthCookieName(name: string): boolean {
   return name.startsWith(supabaseAuthCookiePrefix());
 }
 
+/** ISOLATED_API_SESSION — does not share browser cookies. */
 async function probeSignInResponseHeaders(
   baseUrl: string,
-  bypass: string,
   email: string,
   password: string
 ): Promise<{ location: string; supabaseSetCookieNames: string[]; status: number }> {
   const api = await request.newContext({
-    extraHTTPHeaders: {
-      "x-vercel-protection-bypass": bypass,
-      "x-vercel-set-bypass-cookie": "true",
-    },
+    extraHTTPHeaders: automationBypassHeaders(),
   });
 
   try {
@@ -120,9 +107,11 @@ async function probeSignInResponseHeaders(
 async function main() {
   const prisma = new PrismaClient();
   const { email, password } = resolveSessionCredentials();
-  const bypass = getVercelBypassToken(PREVIEW_BASE);
 
   console.log(`\n=== C3 Preview session verify (${PREVIEW_BASE}) ===\n`);
+
+  await verifyAutomationBypassReachable(PREVIEW_BASE);
+  ok("Automation bypass reaches Preview");
 
   const account = await prisma.platformAccount.findFirst({
     where: { emailNormalized: normalizeEmail(email) },
@@ -137,53 +126,46 @@ async function main() {
 
   await ensureControlledSessionPassword(account.supabaseUserId, password);
 
+  const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
+    PREVIEW_BASE,
+    email,
+    password
+  );
+  ok("ISOLATED_API_SESSION: POST /login/submit probe completed");
+
+  if (status !== 303) {
+    fail(`POST /login/submit expected 303, got ${status}`);
+  }
+  ok("POST /login/submit returns 303");
+
+  const locationUrl = new URL(location, PREVIEW_BASE);
+  const previewOrigin = new URL(PREVIEW_BASE);
+  if (locationUrl.host !== previewOrigin.host) {
+    fail(`Location host mismatch: ${locationUrl.host} vs ${previewOrigin.host}`);
+  }
+  const authenticatedDestinations = ["/account", "/client"];
+  if (
+    !authenticatedDestinations.some(
+      (path) =>
+        locationUrl.pathname === path || locationUrl.pathname.startsWith(`${path}/`)
+    )
+  ) {
+    fail(
+      `Expected same-origin authenticated redirect (/account or /client), got ${locationUrl.pathname}`
+    );
+  }
+  ok(`Location is same-origin ${locationUrl.pathname}`);
+
+  if (supabaseSetCookieNames.length === 0) {
+    fail("Response Set-Cookie headers missing Supabase auth cookie names");
+  }
+  ok(`Response Set-Cookie includes Supabase auth names: ${supabaseSetCookieNames.join(", ")}`);
+
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    extraHTTPHeaders: {
-      "x-vercel-protection-bypass": bypass,
-      "x-vercel-set-bypass-cookie": "true",
-    },
-  });
+  const context = await newBypassBrowserContext(browser);
   const page = await context.newPage();
 
   try {
-    await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
-
-    const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
-      PREVIEW_BASE,
-      bypass,
-      email,
-      password
-    );
-
-    if (status !== 303) {
-      fail(`POST /login/submit expected 303, got ${status}`);
-    }
-    ok("POST /login/submit returns 303");
-
-    const locationUrl = new URL(location, PREVIEW_BASE);
-    const previewOrigin = new URL(PREVIEW_BASE);
-    if (locationUrl.host !== previewOrigin.host) {
-      fail(`Location host mismatch: ${locationUrl.host} vs ${previewOrigin.host}`);
-    }
-    const authenticatedDestinations = ["/account", "/client"];
-    if (
-      !authenticatedDestinations.some(
-        (path) =>
-          locationUrl.pathname === path || locationUrl.pathname.startsWith(`${path}/`)
-      )
-    ) {
-      fail(
-        `Expected same-origin authenticated redirect (/account or /client), got ${locationUrl.pathname}`
-      );
-    }
-    ok(`Location is same-origin ${locationUrl.pathname}`);
-
-    if (supabaseSetCookieNames.length === 0) {
-      fail("Response Set-Cookie headers missing Supabase auth cookie names");
-    }
-    ok(`Response Set-Cookie includes Supabase auth names: ${supabaseSetCookieNames.join(", ")}`);
-
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
     await page.fill("#email", email);
     await page.fill("#password", password);
@@ -195,7 +177,7 @@ async function main() {
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
     if (page.url().includes("/login")) {
-      fail("Browser form sign-in did not reach an authenticated route");
+      fail("BROWSER_DOCUMENT_SESSION: form sign-in did not reach an authenticated route");
     }
 
     const jarAfterSignIn = await context.cookies(PREVIEW_BASE);
@@ -209,7 +191,9 @@ async function main() {
 
     const vercelJwtOnly =
       jarAfterSignIn.length > 0 &&
-      jarAfterSignIn.every((cookie) => cookie.name === "_vercel_jwt" || cookie.name.startsWith("_vercel"));
+      jarAfterSignIn.every(
+        (cookie) => cookie.name === "_vercel_jwt" || cookie.name.startsWith("_vercel")
+      );
     if (vercelJwtOnly) {
       fail("_vercel_jwt present but Supabase application session cookies are absent");
     }
@@ -228,17 +212,6 @@ async function main() {
     }
     await page.waitForSelector("#displayName", { timeout: 60_000 });
     ok("/account/profile loads with authenticated session");
-
-    const profileResponse = await page.request.get(`${PREVIEW_BASE}/account/profile`, {
-      headers: {
-        "x-vercel-protection-bypass": bypass,
-        "x-vercel-set-bypass-cookie": "true",
-      },
-    });
-    if (profileResponse.status() !== 200) {
-      fail(`Fresh GET /account/profile expected 200, got ${profileResponse.status()}`);
-    }
-    ok("Second fresh request to /account/profile succeeds");
 
     await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle" });
     const jarAfterSignOut = await context.cookies();

@@ -1,4 +1,5 @@
 import type { BrowserContext, Page, Response } from "playwright";
+import { automationBypassHeaders } from "./c3-preview-automation-bypass";
 import { assertPreviewHost } from "./c3-preview-host-guard";
 
 export type SanitizedSetCookie = {
@@ -59,12 +60,18 @@ function authTokenCookieNames(names: string[]): string[] {
 }
 
 export async function readSessionProof(
-  page: Page,
-  previewBase: string
+  previewBase: string,
+  bypassHeaders: Record<string, string>
 ): Promise<SessionProofSnapshot | null> {
-  const response = await page.request.get(`${previewBase}/api/c3/session-proof`);
-  if (response.status() === 404) return null;
-  return (await response.json()) as SessionProofSnapshot;
+  const { request } = await import("playwright");
+  const api = await request.newContext({ extraHTTPHeaders: bypassHeaders });
+  try {
+    const response = await api.get(`${previewBase}/api/c3/session-proof`);
+    if (response.status() === 404) return null;
+    return (await response.json()) as SessionProofSnapshot;
+  } finally {
+    await api.dispose();
+  }
 }
 
 export async function captureBrowserSignInTrace(input: {
@@ -179,14 +186,20 @@ export async function captureBrowserSignInTrace(input: {
       trace.firstRedirectGetStatus = 200;
     }
 
-    trace.sessionProofAfterFirstNav = await readSessionProof(page, previewBase);
+    trace.sessionProofAfterFirstNav = await readSessionProof(
+      previewBase,
+      automationBypassHeaders()
+    );
 
     const reloadResponse = await page.reload({ waitUntil: "networkidle" });
     trace.reloadStatus = reloadResponse?.status() ?? null;
     trace.reloadRequestCookieNames = authTokenCookieNames(
       (await context.cookies(previewBase)).map((c) => c.name)
     );
-    trace.sessionProofAfterReload = await readSessionProof(page, previewBase);
+    trace.sessionProofAfterReload = await readSessionProof(
+      previewBase,
+      automationBypassHeaders()
+    );
     trace.finalRoute = new URL(page.url()).pathname;
     assertPreviewHost(page.url(), previewBase, `${label} after reload`);
 
