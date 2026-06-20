@@ -197,6 +197,12 @@ export async function resolveSignInSubmissionUrl(
   try {
     const result = await supabase.auth.signInWithPassword({ email, password });
     error = result.error;
+    if (!error && result.data.session) {
+      await supabase.auth.setSession({
+        access_token: result.data.session.access_token,
+        refresh_token: result.data.session.refresh_token,
+      });
+    }
   } catch (err) {
     const cause = err instanceof Error ? err.cause : undefined;
     const code =

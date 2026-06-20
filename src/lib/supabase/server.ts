@@ -12,6 +12,7 @@ export async function createClient() {
       path: "/",
       sameSite: "lax",
       secure,
+      httpOnly: true,
     },
     cookies: {
       getAll() {

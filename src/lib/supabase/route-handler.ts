@@ -19,7 +19,7 @@ function mergeCookieOptions(
     path: options.path ?? "/",
     sameSite: options.sameSite ?? "lax",
     secure: options.secure ?? secure,
-    httpOnly: options.httpOnly,
+    httpOnly: options.httpOnly ?? true,
   };
 }
 

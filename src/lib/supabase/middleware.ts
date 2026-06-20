@@ -118,6 +118,7 @@ export async function updateSession(request: NextRequest) {
       path: "/",
       sameSite: "lax",
       secure,
+      httpOnly: true,
     },
     cookies: {
       getAll() {
