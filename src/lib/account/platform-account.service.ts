@@ -30,6 +30,12 @@ export async function findPlatformAccountByEmailNormalized(
   });
 }
 
+export async function findPlatformAccountById(
+  platformAccountId: string
+): Promise<PlatformAccountRecord | null> {
+  return prisma.platformAccount.findUnique({ where: { id: platformAccountId } });
+}
+
 export async function createPendingPlatformAccount(input: {
   supabaseUserId: string;
   email: string;
