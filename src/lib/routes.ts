@@ -8,6 +8,8 @@ export const routes = {
     signup: "/signup",
     signupWithNext: (nextPath: string) =>
       `/signup?next=${encodeURIComponent(nextPath)}`,
+    forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
     signOut: "/auth/signout",
     callback: "/auth/callback",
   },

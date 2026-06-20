@@ -1916,6 +1916,9 @@ enum PlatformAccountAuditEventType {
   phone_verification_failed
   email_verification_recorded
   provider_identity_linked
+  password_recovery_requested
+  password_recovery_succeeded
+  password_recovery_failed
 }
 
 model PlatformAccountAuditEvent {

@@ -5,6 +5,11 @@ import {
   resolveOAuthNextPath,
 } from "@/lib/auth/entra-sso";
 import {
+  isPasswordRecoveryNextPath,
+  passwordRecoveryCookieOptions,
+  PASSWORD_RECOVERY_NEXT_PATH,
+} from "@/lib/auth/password-recovery-session";
+import {
   gateAuthSessionForC3,
   isC3AuthEnabled,
 } from "@/lib/account/c3-auth-orchestration";
@@ -42,12 +47,14 @@ export async function GET(request: Request) {
     searchParams.get("next"),
     nextCookie
   );
+  const isPasswordRecovery = isPasswordRecoveryNextPath(explicitNext);
 
   const clearNextCookie = (response: NextResponse) => {
     response.cookies.set(oauthNextCookieOptions().name, "", {
       ...oauthNextCookieOptions(),
       maxAge: 0,
     });
+    response.headers.set("Cache-Control", "private, no-store");
     return response;
   };
 
@@ -55,6 +62,24 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      if (isPasswordRecovery) {
+        const proto = request.headers.get("x-forwarded-proto") ?? "http";
+        const secure = proto === "https";
+        const response = NextResponse.redirect(`${origin}${PASSWORD_RECOVERY_NEXT_PATH}`);
+        response.cookies.set(
+          passwordRecoveryCookieOptions(secure).name,
+          passwordRecoveryCookieOptions(secure).value,
+          {
+            httpOnly: true,
+            secure,
+            sameSite: "lax",
+            path: "/",
+            maxAge: passwordRecoveryCookieOptions(secure).maxAge,
+          }
+        );
+        return clearNextCookie(response);
+      }
+
       const {
         data: { user },
       } = await supabase.auth.getUser();

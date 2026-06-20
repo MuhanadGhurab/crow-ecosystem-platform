@@ -4,6 +4,8 @@ const AUTH_ENTRY_PREFIXES = [
   "/signup",
   "/register",
   "/verify-email",
+  "/forgot-password",
+  "/reset-password",
   "/onboarding",
   "/legal",
   "/auth",

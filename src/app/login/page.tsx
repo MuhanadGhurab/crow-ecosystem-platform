@@ -47,11 +47,26 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string; verified?: string; email?: string; message?: string }>;
+  searchParams: Promise<{
+    next?: string;
+    error?: string;
+    verified?: string;
+    email?: string;
+    message?: string;
+    "password-reset"?: string;
+  }>;
 }) {
-  const { next, error, verified, email: emailParam, message: messageParam } = await searchParams;
+  const {
+    next,
+    error,
+    verified,
+    email: emailParam,
+    message: messageParam,
+    "password-reset": passwordReset,
+  } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
   const verifiedBanner = verified === "1";
+  const passwordResetBanner = passwordReset === "1";
   const prefillEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
   const existingUser = await getSessionUser();
@@ -81,6 +96,12 @@ export default async function LoginPage({
         {verifiedBanner && (
           <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
             Email verified. Sign in with your password to continue.
+          </p>
+        )}
+
+        {passwordResetBanner && (
+          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+            Your password was changed successfully. Sign in with your new password.
           </p>
         )}
 

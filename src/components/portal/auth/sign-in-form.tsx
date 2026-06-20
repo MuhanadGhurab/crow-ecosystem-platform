@@ -84,6 +84,14 @@ export function SignInForm({
             required
             className="input-cc w-full"
           />
+          <div className="mt-2 flex justify-end">
+            <Link
+              href={routes.auth.forgotPassword}
+              className="text-sm text-cyan-400 hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 rounded-sm"
+            >
+              Forgot your password?
+            </Link>
+          </div>
         </div>
         <SignInSubmitButton />
       </form>
