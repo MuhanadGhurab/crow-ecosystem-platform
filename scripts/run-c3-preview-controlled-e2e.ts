@@ -6,8 +6,6 @@
  *           VERCEL_AUTOMATION_BYPASS_SECRET.
  */
 import { execSync } from "node:child_process";
-import { createHmac } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
@@ -16,6 +14,13 @@ import { normalizeEmail } from "../src/lib/account/email-normalize";
 import { evaluateTenantPlatformAccountAuthorization } from "../src/lib/account/tenant-platform-account-authorization";
 import { automationBypassHeaders, verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
 import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
+import {
+  deriveOtpFromPendingChallenge,
+  hasOtpDerivationSecret,
+  isOperatorAssistedOtpEnabled,
+  reportOtpEnvPresence,
+  submitValidRegistrationOtp,
+} from "./lib/c3-preview-operator-otp";
 import {
   assertPostOtpEvidence,
   assertPreOtpEvidence,
@@ -54,141 +59,16 @@ function buildTestEmail(): string {
     fail("Set C3_PROVIDER_TEST_EMAIL or NOTIFICATION_TEST_EMAIL in .env.staging");
   }
   const [local, domain] = base.split("@");
-  // Resend onboarding@resend.dev only delivers to the exact sandbox owner address (no +tags).
-  return `${local.split("+")[0]}@${domain}`;
+  return normalizeEmail(`${local.split("+")[0]}@${domain}`);
 }
 
 function cleanupControlledTestEmail(email: string) {
   process.env.C3_CLEANUP_EMAIL = email;
-  execSync("npm run c3-preview-controlled:cleanup", {
+  execSync("npm run c3-preview:runtime-env && npm run c3-preview-controlled:cleanup", {
     cwd: process.cwd(),
     stdio: "inherit",
     timeout: 120_000,
   });
-}
-
-function resolveOtpCrackSecret(): string | null {
-  const fromProcess = process.env.EMAIL_VERIFICATION_CODE_SECRET?.trim();
-  if (fromProcess && fromProcess.length >= 16) return fromProcess;
-
-  for (const path of [".env.local", ".env.staging"]) {
-    try {
-      const lines = readFileSync(path, "utf8").replace(/\r/g, "").split("\n");
-      for (const line of lines) {
-        const match = line.match(/^EMAIL_VERIFICATION_CODE_SECRET=(.*)$/);
-        if (!match?.[1]) continue;
-        const value = match[1].trim().replace(/^["']|["']$/g, "");
-        if (value.length >= 16) return value;
-      }
-    } catch {
-      /* optional file */
-    }
-  }
-
-  return null;
-}
-
-function crackOtpFromChallenge(challengeId: string, codeHash: string): string | null {
-  const secret = resolveOtpCrackSecret();
-  if (!secret) return null;
-
-  for (let i = 0; i < 1_000_000; i += 1) {
-    const code = String(i).padStart(6, "0");
-    const hash = createHmac("sha256", secret)
-      .update(`${challengeId}:${code}`)
-      .digest("hex");
-    if (hash === codeHash) return code;
-  }
-  return null;
-}
-
-async function waitForPendingOtp(prisma: PrismaClient, email: string): Promise<string> {
-  const emailNormalized = normalizeEmail(email);
-  const account = await prisma.platformAccount.findFirst({
-    where: { emailNormalized },
-    include: {
-      verificationChallenges: {
-        where: { purpose: "registration", status: "pending" },
-        orderBy: { createdAt: "desc" },
-        take: 1,
-      },
-    },
-  });
-
-  const challenge = account?.verificationChallenges[0];
-  if (!challenge?.codeHash) {
-    fail("No pending OTP challenge found for controlled test identity");
-  }
-
-  const cracked = crackOtpFromChallenge(challenge.id, challenge.codeHash);
-  if (!cracked) {
-    fail("Could not derive OTP from challenge hash (check EMAIL_VERIFICATION_CODE_SECRET alignment)");
-  }
-
-  return cracked;
-}
-
-async function waitForResendOtp(
-  prisma: PrismaClient,
-  email: string,
-  resendKey: string,
-  timeoutMs = 90_000
-): Promise<string> {
-  const emailNormalized = normalizeEmail(email);
-  const started = Date.now();
-
-  while (Date.now() - started < timeoutMs) {
-    const account = await prisma.platformAccount.findFirst({
-      where: { emailNormalized },
-      include: {
-        verificationChallenges: {
-          where: { purpose: "registration", status: "pending" },
-          orderBy: { createdAt: "desc" },
-          take: 1,
-        },
-      },
-    });
-
-    const msgId = account?.verificationChallenges[0]?.providerMessageId;
-    if (msgId) {
-      const res = await fetch(`https://api.resend.com/emails/${msgId}`, {
-        headers: { Authorization: `Bearer ${resendKey}` },
-      });
-      if (res.ok) {
-        const data = (await res.json()) as { text?: string; html?: string };
-        const body = `${data.text ?? ""}\n${data.html ?? ""}`;
-        const match = body.match(/\b(\d{6})\b/);
-        if (match?.[1]) return match[1];
-      }
-    }
-
-    const listRes = await fetch("https://api.resend.com/emails", {
-      headers: { Authorization: `Bearer ${resendKey}` },
-    });
-    if (listRes.ok) {
-      const list = (await listRes.json()) as {
-        data?: { id: string; to?: string[] }[];
-      };
-      const row = list.data?.find((e) =>
-        e.to?.some((t) => normalizeEmail(t) === emailNormalized)
-      );
-      if (row?.id) {
-        const detail = await fetch(`https://api.resend.com/emails/${row.id}`, {
-          headers: { Authorization: `Bearer ${resendKey}` },
-        });
-        if (detail.ok) {
-          const data = (await detail.json()) as { text?: string; html?: string };
-          const body = `${data.text ?? ""}\n${data.html ?? ""}`;
-          const match = body.match(/\b(\d{6})\b/);
-          if (match?.[1]) return match[1];
-        }
-      }
-    }
-
-    await sleep(2_000);
-  }
-
-  fail(`Timed out waiting for Resend OTP (recipient redacted)`);
 }
 
 async function redactSensitiveText(page: Page) {
@@ -334,7 +214,12 @@ async function main() {
     sessionDurability: {} as Record<string, string>,
   };
 
-  const browser = await chromium.launch({ headless: true });
+  reportOtpEnvPresence();
+
+  const operatorAssisted = isOperatorAssistedOtpEnabled();
+  const browser = await chromium.launch({
+    headless: !operatorAssisted && process.env.C3_PREVIEW_HEADED !== "true",
+  });
   let context = await browser.newContext({
     extraHTTPHeaders: {
       ...automationBypassHeaders(),
@@ -384,7 +269,7 @@ async function main() {
     (report.evidence as unknown[]).push(preOtp);
     ok("Pre-OTP aggregate state verified");
 
-    const otp = await waitForPendingOtp(prisma, email);
+    const otp = hasOtpDerivationSecret() ? await deriveOtpFromPendingChallenge(prisma, email) : null;
 
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
@@ -400,9 +285,14 @@ async function main() {
     await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
       waitUntil: "networkidle",
     });
-    await page.fill("#code", otp);
-    await page.getByRole("button", { name: /verify email/i }).click();
-    await page.waitForURL(/\/login/, { timeout: 90_000 });
+
+    if (otp) {
+      await page.fill("#code", otp);
+      await page.getByRole("button", { name: /verify email/i }).click();
+      await page.waitForURL(/\/login/, { timeout: 90_000 });
+    } else {
+      await submitValidRegistrationOtp(page, prisma, email);
+    }
     await screenshot(page, "05-activation-success-login");
 
     const postOtp = await collectC3Evidence(prisma, email, "after-otp");
@@ -416,12 +306,15 @@ async function main() {
     if (page.url().includes("/login")) {
       await screenshot(page, "15-replayed-otp");
       report.security.replayedOtp = "active account redirected to login";
-    } else {
+    } else if (otp) {
       await page.fill("#code", otp);
       await page.getByRole("button", { name: /verify email/i }).click();
       await page.waitForTimeout(2_000);
       await screenshot(page, "15-replayed-otp");
       report.security.replayedOtp = "rejected";
+    } else {
+      await screenshot(page, "15-replayed-otp");
+      report.security.replayedOtp = "skipped-without-derived-otp";
     }
 
     await page.close();
@@ -491,7 +384,17 @@ async function main() {
     if (cookiesAfterSignOut.length > 0) {
       fail("Supabase auth cookies still present after sign-out");
     }
-    ok("Sign-out cleared Supabase auth cookies");
+    ok("Sign-out cleared Supabase auth cookies (POST)");
+    await page.goto(`${PREVIEW_BASE}/account`, { waitUntil: "networkidle" });
+    if (!page.url().includes("/login")) {
+      fail("Protected /account did not redirect to login after sign-out");
+    }
+    ok("Protected route denied after sign-out");
+    const getSignOut = await page.request.get(`${PREVIEW_BASE}/auth/signout`);
+    if (getSignOut.status() !== 405) {
+      fail(`GET /auth/signout expected 405, got ${getSignOut.status()}`);
+    }
+    ok("GET /auth/signout returns 405");
     await screenshot(page, "12-sign-out");
 
     await page.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });

@@ -16,6 +16,17 @@ import { assertPreviewHost } from "./lib/c3-preview-host-guard";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
 import {
+  ensureSessionFixturePassword,
+  expectedLandingPattern,
+  resolveSessionFixtureCredentials,
+  validateSessionFixtureAccount,
+} from "./lib/c3-preview-session-fixtures";
+import {
+  hasOtpDerivationSecret,
+  isOperatorAssistedOtpEnabled,
+  submitValidRegistrationOtp,
+} from "./lib/c3-preview-operator-otp";
+import {
   captureBrowserSignInTrace,
   formatComparisonTable,
   type SessionFlowTrace,
@@ -58,18 +69,8 @@ function cleanupTestEmail(email: string) {
 }
 
 function resolveControlledCredentials(): { email: string; password: string } {
-  const emailRaw =
-    process.env.C3_PREVIEW_SESSION_EMAIL?.trim() ||
-    process.env.C3_PROVIDER_TEST_EMAIL?.trim() ||
-    process.env.NOTIFICATION_TEST_EMAIL?.trim();
-  if (!emailRaw?.includes("@")) {
-    fail("Set C3_PREVIEW_SESSION_EMAIL or NOTIFICATION_TEST_EMAIL");
-  }
-  const [local, domain] = emailRaw.split("@");
-  const email = normalizeEmail(`${local.split("+")[0]}@${domain}`);
-  const password =
-    process.env.C3_PREVIEW_SESSION_PASSWORD?.trim() ?? "CrowSessionPv!9Controlled";
-  return { email, password };
+  const fixture = resolveSessionFixtureCredentials("requester");
+  return { email: fixture.email, password: fixture.password };
 }
 
 async function ensureControlledPassword(supabaseUserId: string, password: string) {
@@ -85,34 +86,6 @@ async function ensureControlledPassword(supabaseUserId: string, password: string
   if (error) fail(`Could not set controlled password: ${error.message}`);
 }
 
-function crackOtp(challengeId: string, codeHash: string): string | null {
-  const secret = process.env.EMAIL_VERIFICATION_CODE_SECRET?.trim();
-  if (!secret || secret.length < 16) return null;
-  for (let i = 0; i < 1_000_000; i += 1) {
-    const code = String(i).padStart(6, "0");
-    const hash = createHmac("sha256", secret).update(`${challengeId}:${code}`).digest("hex");
-    if (hash === codeHash) return code;
-  }
-  return null;
-}
-
-async function waitForOtp(prisma: PrismaClient, email: string): Promise<string> {
-  const account = await prisma.platformAccount.findFirst({
-    where: { emailNormalized: normalizeEmail(email) },
-    include: {
-      verificationChallenges: {
-        where: { purpose: "registration", status: "pending" },
-        orderBy: { createdAt: "desc" },
-        take: 1,
-      },
-    },
-  });
-  const challenge = account?.verificationChallenges[0];
-  if (!challenge?.codeHash) fail("No pending OTP challenge");
-  const otp = crackOtp(challenge.id, challenge.codeHash);
-  if (!otp) fail("Could not derive OTP (EMAIL_VERIFICATION_CODE_SECRET)");
-  return otp;
-}
 
 async function acceptAllLegalDocs(page: Page) {
   for (const docType of ["TERMS_OF_SERVICE", "PRIVACY_NOTICE", "ACCEPTABLE_USE_POLICY"]) {
@@ -171,10 +144,7 @@ async function runFreshRegistration(
       regPage.getByRole("button", { name: /continue to email verification/i }).click(),
     ]);
 
-    const otp = await waitForOtp(prisma, email);
-    await regPage.fill("#code", otp);
-    await regPage.getByRole("button", { name: /verify email/i }).click();
-    await regPage.waitForURL(/\/login/, { timeout: 90_000 });
+    await submitValidRegistrationOtp(regPage, prisma, email);
 
     const account = await prisma.platformAccount.findFirst({
       where: { emailNormalized: normalizeEmail(email) },
@@ -222,7 +192,7 @@ async function runControlledContextA(
       label: "controlled",
       email,
       password,
-      expectedLanding: /^\/(account|client)(\/|$)/,
+      expectedLanding: expectedLandingPattern("requester"),
     });
     assertTracePass(trace, "Controlled user");
     ok("Controlled user session trace passed");
@@ -290,7 +260,10 @@ async function runFreshContextB(
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   const prisma = new PrismaClient();
-  const browser = await chromium.launch({ headless: true });
+  const operatorAssisted = isOperatorAssistedOtpEnabled();
+  const browser = await chromium.launch({
+    headless: !operatorAssisted && process.env.C3_PREVIEW_HEADED !== "true",
+  });
 
   console.log(`\n=== C3.7C session differential (${PREVIEW_BASE}) ===\n`);
 
@@ -305,11 +278,16 @@ async function main() {
     if (!controlledAccount || controlledAccount.status !== "ACTIVE") {
       fail("Controlled ACTIVE user required for context A");
     }
-    await ensureControlledPassword(controlledAccount.supabaseUserId, controlled.password);
-    ok("Controlled user ready");
+    await ensureSessionFixturePassword(controlledAccount.supabaseUserId, controlled.password);
+    await validateSessionFixtureAccount(prisma, resolveSessionFixtureCredentials("requester"));
+    ok("SESSION_REQUESTER_FIXTURE ready");
 
     const freshEmail = buildFreshTestEmail();
     const freshPassword = `CrowPv-${Date.now().toString(36)}!9`;
+
+    if (!hasOtpDerivationSecret() && !isOperatorAssistedOtpEnabled()) {
+      fail("Fresh context B requires EMAIL_VERIFICATION_CODE_SECRET or C3_OPERATOR_ASSISTED_EMAIL_OTP=true");
+    }
 
     const traceA = await runControlledContextA(
       browser,

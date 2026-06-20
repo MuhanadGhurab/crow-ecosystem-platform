@@ -110,6 +110,11 @@ if (process.argv[1]?.replace(/\\/g, "/").endsWith("c3-preview-runtime-env.ts")) 
     const map = parseEnv(readFileSync(path, "utf8"));
     console.log(`C3_PREVIEW_BASE_URL=${map.get("C3_PREVIEW_BASE_URL")}`);
     console.log(`VERCEL_AUTOMATION_BYPASS_SECRET=(set, ${map.get("VERCEL_AUTOMATION_BYPASS_SECRET")?.length ?? 0} chars)`);
+    const manual = map.get("C3_MANUAL_BROWSER_SESSION_CERTIFIED")?.trim();
+    console.log(`C3_MANUAL_BROWSER_SESSION_CERTIFIED=${manual ? "recorded" : "unset"}`);
+    const otpSecret = map.get("EMAIL_VERIFICATION_CODE_SECRET")?.trim();
+    console.log(`EMAIL_VERIFICATION_CODE_SECRET_PRESENT=${Boolean(otpSecret && otpSecret.length >= 16)}`);
+    console.log(`C3_OPERATOR_ASSISTED_EMAIL_OTP=${map.get("C3_OPERATOR_ASSISTED_EMAIL_OTP") === "true"}`);
   } catch (err) {
     console.error(err instanceof Error ? err.message : err);
     process.exit(1);

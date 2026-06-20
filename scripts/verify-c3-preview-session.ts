@@ -14,6 +14,13 @@ import {
 } from "./lib/c3-preview-automation-bypass";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
+import {
+  assertFixtureLanding,
+  ensureSessionFixturePassword,
+  expectedLandingPattern,
+  resolveSessionFixtureCredentials,
+  validateSessionFixtureAccount,
+} from "./lib/c3-preview-session-fixtures";
 
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
@@ -34,41 +41,8 @@ function supabaseAuthCookiePrefix(): string {
 }
 
 function resolveSessionCredentials(): { email: string; password: string } {
-  const emailRaw =
-    process.env.C3_PREVIEW_SESSION_EMAIL?.trim() ||
-    process.env.C3_PROVIDER_TEST_EMAIL?.trim() ||
-    process.env.NOTIFICATION_TEST_EMAIL?.trim();
-
-  if (!emailRaw?.includes("@")) {
-    fail("Set C3_PREVIEW_SESSION_EMAIL or NOTIFICATION_TEST_EMAIL in .env.staging");
-  }
-
-  const [local, domain] = emailRaw.split("@");
-  const email = normalizeEmail(`${local.split("+")[0]}@${domain}`);
-  const password =
-    process.env.C3_PREVIEW_SESSION_PASSWORD?.trim() ?? "CrowSessionPv!9Controlled";
-
-  return { email, password };
-}
-
-async function ensureControlledSessionPassword(
-  supabaseUserId: string,
-  password: string
-): Promise<void> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  if (!supabaseUrl || !serviceKey) {
-    fail("SUPABASE_SERVICE_ROLE_KEY required to provision controlled session password");
-  }
-
-  const admin = createClient(supabaseUrl, serviceKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-  const { error } = await admin.auth.admin.updateUserById(supabaseUserId, { password });
-  if (error) {
-    fail(`Could not set controlled session password: ${error.message}`);
-  }
-  ok("Controlled session password provisioned for active test user");
+  const fixture = resolveSessionFixtureCredentials("requester");
+  return { email: fixture.email, password: fixture.password };
 }
 
 function isSupabaseAuthCookieName(name: string): boolean {
@@ -125,7 +99,11 @@ async function main() {
   }
   ok(`Controlled active test user exists (status=ACTIVE)`);
 
-  await ensureControlledSessionPassword(account.supabaseUserId, password);
+  await validateSessionFixtureAccount(prisma, resolveSessionFixtureCredentials("requester"));
+  ok("SESSION_REQUESTER_FIXTURE validated (no client crow_role)");
+
+  await ensureSessionFixturePassword(account.supabaseUserId, password);
+  ok("SESSION_REQUESTER_FIXTURE password provisioned");
 
   const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
     PREVIEW_BASE,
@@ -144,7 +122,7 @@ async function main() {
   if (locationUrl.host !== previewOrigin.host) {
     fail(`Location host mismatch: ${locationUrl.host} vs ${previewOrigin.host}`);
   }
-  const authenticatedDestinations = ["/account", "/client"];
+  const authenticatedDestinations = ["/account"];
   if (
     !authenticatedDestinations.some(
       (path) =>
@@ -152,7 +130,7 @@ async function main() {
     )
   ) {
     fail(
-      `Expected same-origin authenticated redirect (/account or /client), got ${locationUrl.pathname}`
+      `SESSION_REQUESTER_FIXTURE: expected /account redirect from POST /login/submit probe, got ${locationUrl.pathname}`
     );
   }
   ok(`Location is same-origin ${locationUrl.pathname}`);
@@ -171,12 +149,12 @@ async function main() {
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL(
-        (url) => url.pathname === "/account" || url.pathname === "/client",
-        { timeout: 90_000 }
-      ),
+      page.waitForURL((url) => expectedLandingPattern("requester").test(url.pathname), {
+        timeout: 90_000,
+      }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
+    await assertFixtureLanding(page.url(), "requester");
     if (page.url().includes("/login")) {
       fail("BROWSER_DOCUMENT_SESSION: form sign-in did not reach an authenticated route");
     }
@@ -228,11 +206,12 @@ async function main() {
     await page.fill("#email", email);
     await page.fill("#password", password);
     await Promise.all([
-      page.waitForURL((url) => url.pathname === "/account" || url.pathname === "/client", {
+      page.waitForURL((url) => expectedLandingPattern("requester").test(url.pathname), {
         timeout: 90_000,
       }),
       page.getByRole("button", { name: /sign in with email/i }).click(),
     ]);
+    await assertFixtureLanding(page.url(), "requester");
     const jarAfterSecondSignIn = await context.cookies();
     if (!jarAfterSecondSignIn.some((cookie) => isSupabaseAuthCookieName(cookie.name))) {
       fail("Second sign-in did not restore Supabase auth cookies");
