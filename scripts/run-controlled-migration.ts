@@ -21,11 +21,19 @@ import {
 } from "./lib/database-environment";
 import { maskDatabaseTarget } from "./lib/database-fingerprint";
 
-const C3_PENDING_MIGRATIONS = [
+/** C3.5 migrations already applied on hosted shared Supabase (C3.9C baseline). */
+const C3_5_APPLIED_MIGRATIONS = [
   "20260614140000_c3_account_registration",
   "20260614150000_c3_legal_agreement",
   "20260614160000_c3_public_schema_access_hardening",
-  "20260618140000_c3_dual_channel_onboarding",
+] as const;
+
+/** Single authorized pending migration after C3.5 apply (C3.8 dual-channel). */
+const C3_8_PENDING_MIGRATION = "20260618140000_c3_dual_channel_onboarding";
+
+const C3_FULL_STACK_PENDING = [
+  ...C3_5_APPLIED_MIGRATIONS,
+  C3_8_PENDING_MIGRATION,
 ] as const;
 
 /** Documented operator phrases (must match CONTROLLED_MIGRATION_PHRASES). */
@@ -81,38 +89,66 @@ function runPrisma(args: string[]) {
   return { status: result.status ?? 1, output: `${result.stdout ?? ""}${result.stderr ?? ""}` };
 }
 
+function extractPendingMigrationNames(output: string): string[] {
+  const marker = "Following migration have not yet been applied:";
+  const altMarker = "Following migrations have not yet been applied:";
+  const section =
+    output.split(marker)[1]?.split("\n\n")[0] ??
+    output.split(altMarker)[1]?.split("\n\n")[0] ??
+    "";
+
+  const pending: string[] = [];
+  for (const line of section.split("\n")) {
+    const match = line.trim().match(/^(\d{14}_[\w]+)/);
+    if (match) pending.push(match[1]);
+  }
+  return pending.sort();
+}
+
 function assertMigrationInventory(output: string, checkOnly: boolean): void {
   if (/failed migrations/i.test(output)) {
     console.error("Failed migrations detected in migrate status output.");
     process.exit(1);
   }
 
-  const pending = C3_PENDING_MIGRATIONS.filter((name) => output.includes(name));
-  const unexpected = output
-    .split("\n")
-    .filter((line) => line.includes("have not yet been applied"))
-  ;
+  const pending = extractPendingMigrationNames(output);
 
   if (checkOnly) {
-    if (pending.length !== C3_PENDING_MIGRATIONS.length) {
-      console.error(`Expected exactly ${C3_PENDING_MIGRATIONS.length} pending C3 migrations.`);
-      console.error(`Found: ${pending.join(", ") || "(none)"}`);
+    const onlyC38Pending =
+      pending.length === 1 && pending[0] === C3_8_PENDING_MIGRATION;
+    const fullStackPending =
+      pending.length === C3_FULL_STACK_PENDING.length &&
+      C3_FULL_STACK_PENDING.every((name) => pending.includes(name));
+
+    if (onlyC38Pending) {
+      console.log("\nPending migrations:");
+      console.log(`1. ${C3_8_PENDING_MIGRATION}`);
+    } else if (fullStackPending) {
+      console.error(
+        "C3.5 migrations appear pending on hosted DB — reconciliation required before apply."
+      );
+      console.error(`Pending: ${pending.join(", ")}`);
+      console.error(
+        "Classify as MIGRATION_HISTORY_DRIFT or WRONG_DATABASE_CONNECTION; do not apply."
+      );
+      process.exit(1);
+    } else {
+      console.error("Unexpected pending migration inventory.");
+      console.error(`Pending: ${pending.join(", ") || "(none)"}`);
       process.exit(1);
     }
-    for (const name of C3_PENDING_MIGRATIONS) {
-      if (!output.includes(name)) {
-        console.error(`Missing expected pending migration: ${name}`);
+
+    for (const applied of C3_5_APPLIED_MIGRATIONS) {
+      if (pending.includes(applied)) {
+        console.error(`C3.5 migration incorrectly pending: ${applied}`);
         process.exit(1);
       }
     }
+
     if (/DROP TABLE|DROP COLUMN|RENAME TO/i.test(output)) {
       console.error("Destructive SQL markers found in migration status context.");
       process.exit(1);
     }
-  }
-
-  if (unexpected.length > 0 && !checkOnly) {
-    return;
   }
 }
 

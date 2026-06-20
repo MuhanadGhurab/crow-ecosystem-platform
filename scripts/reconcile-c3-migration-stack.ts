@@ -13,15 +13,17 @@ import { maskDatabaseTarget } from "./lib/database-fingerprint";
 const ROOT = process.cwd();
 const C3_DUAL_CHANNEL = "20260618140000_c3_dual_channel_onboarding";
 
-const EXPECTED_C3_STACK = [
+const C3_5_APPLIED = [
   "20260614140000_c3_account_registration",
   "20260614150000_c3_legal_agreement",
   "20260614160000_c3_public_schema_access_hardening",
-  C3_DUAL_CHANNEL,
 ] as const;
 
+const EXPECTED_C3_STACK = [...C3_5_APPLIED, C3_DUAL_CHANNEL] as const;
+
 type MigrationClass =
-  | "EXPECTED_C3_8_MIGRATION"
+  | "EXPECTED_SINGLE_PENDING_C3_8_MIGRATION"
+  | "EXPECTED_ALREADY_APPLIED_C3_5"
   | "ALREADY_APPLIED_BUT_HISTORY_DRIFT"
   | "LEGITIMATE_PREVIOUS_PENDING_MIGRATION"
   | "UNEXPECTED_MIGRATION"
@@ -67,8 +69,9 @@ function extractPendingFromStatus(output: string): string[] {
 
 function classifyMigration(name: string, hostedRows: { migration_name: string; finished_at: Date | null; rolled_back_at: Date | null }[]): MigrationClass {
   const row = hostedRows.find((r) => r.migration_name === name);
-  if (name === C3_DUAL_CHANNEL) return "EXPECTED_C3_8_MIGRATION";
-  if (EXPECTED_C3_STACK.includes(name as (typeof EXPECTED_C3_STACK)[number])) {
+  if (name === C3_DUAL_CHANNEL) return "EXPECTED_SINGLE_PENDING_C3_8_MIGRATION";
+  if ((C3_5_APPLIED as readonly string[]).includes(name)) {
+    if (row?.finished_at && !row.rolled_back_at) return "EXPECTED_ALREADY_APPLIED_C3_5";
     return "LEGITIMATE_PREVIOUS_PENDING_MIGRATION";
   }
   if (row?.finished_at && !row.rolled_back_at) {

@@ -15,7 +15,7 @@ import {
   runPsqlQuery,
 } from "./lib/pg-backup-client";
 
-const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-pre-migration");
+const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-8-pre-migration");
 const RESTORE_DB = "crow_backup_validation";
 const LOCAL_ADMIN_URL = "postgresql://crow:crow_local_dev@127.0.0.1:5433/postgres";
 const LOCAL_RESTORE_URL = `postgresql://crow:crow_local_dev@127.0.0.1:5433/${RESTORE_DB}`;
@@ -91,7 +91,15 @@ function main() {
 
   const client = resolvePgBackupClient(manifest.serverMajor);
   const list = runPgRestoreList(archivePath, client);
-  const requiredMarkers = ["_prisma_migrations", "tenants", "enterprise_blueprint_versions"];
+  const requiredMarkers = [
+    "_prisma_migrations",
+    "platform_accounts",
+    "legal_documents",
+    "legal_document_versions",
+    "email_verification_challenges",
+    "tenants",
+    "enterprise_blueprint_versions",
+  ];
   for (const marker of requiredMarkers) {
     if (!list.includes(marker)) {
       console.error(`Archive list missing expected object: ${marker}`);
@@ -120,6 +128,8 @@ function main() {
   let migrationCount = "0";
   let tenantCount = "0";
   let blueprintCount = "0";
+  let platformAccountCount = "0";
+  let legalDocumentCount = "0";
   try {
     migrationCount = runPsqlQuery(
       LOCAL_RESTORE_URL,
@@ -132,6 +142,25 @@ function main() {
       "SELECT COUNT(*) FROM public.enterprise_blueprint_versions;",
       client
     );
+    platformAccountCount = runPsqlQuery(
+      LOCAL_RESTORE_URL,
+      "SELECT COUNT(*) FROM public.platform_accounts;",
+      client
+    );
+    legalDocumentCount = runPsqlQuery(
+      LOCAL_RESTORE_URL,
+      "SELECT COUNT(*) FROM public.legal_documents;",
+      client
+    );
+    const failedMigrations = runPsqlQuery(
+      LOCAL_RESTORE_URL,
+      "SELECT COUNT(*) FROM public._prisma_migrations WHERE finished_at IS NULL AND rolled_back_at IS NULL;",
+      client
+    );
+    if (Number.parseInt(failedMigrations, 10) > 0) {
+      console.error("Active failed migration rows present after restore.");
+      process.exit(1);
+    }
   } catch (error) {
     if (fatalLines.length > 0 || restore.status !== 0) {
       console.error("Disposable restore reported fatal errors:");
@@ -159,8 +188,13 @@ function main() {
   console.log("✓ Disposable restore completed");
   console.log(`  _prisma_migrations rows: ${migrationCount}`);
   console.log(`  tenants rows: ${tenantCount}`);
+  console.log(`  platform_accounts rows: ${platformAccountCount}`);
+  console.log(`  legal_documents rows: ${legalDocumentCount}`);
   console.log(`  enterprise_blueprint_versions rows: ${blueprintCount}`);
   console.log(`  Archive SHA-256: ${checksum}`);
+
+  runPsqlCommand(LOCAL_ADMIN_URL, `DROP DATABASE IF EXISTS ${RESTORE_DB};`, client);
+  console.log(`  dropped disposable database ${RESTORE_DB}`);
   console.log("\ndb:backup:verify PASSED\n");
 }
 

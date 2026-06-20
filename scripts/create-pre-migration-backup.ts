@@ -18,7 +18,7 @@ import {
   runPgDumpToFile,
 } from "./lib/pg-backup-client";
 
-const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-pre-migration");
+const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-8-pre-migration");
 
 function main() {
   const dbEnv = resolveDatabaseEnvironment() ?? "production";
