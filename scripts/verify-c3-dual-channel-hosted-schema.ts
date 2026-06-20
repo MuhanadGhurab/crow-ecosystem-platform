@@ -13,6 +13,7 @@ import {
   assertDisposableLocalDatabase,
   classifyDisposableLocalDatabase,
 } from "./lib/local-database-safety";
+import { fingerprintDatabaseUrl } from "./lib/database-fingerprint";
 
 const ROOT = process.cwd();
 const DUAL_CHANNEL_MIGRATION = join(
@@ -142,9 +143,105 @@ async function liveDisposableAudit(): Promise<boolean> {
   return passed;
 }
 
+async function liveHostedAudit(): Promise<boolean> {
+  const liveHosted = process.argv.includes("--live-hosted");
+  if (!liveHosted) {
+    console.log("\n(Skipping live hosted DB audit — pass --live-hosted with operator DATABASE_URL)\n");
+    return true;
+  }
+
+  const expected = process.env.EXPECTED_DATABASE_FINGERPRINT?.trim() ?? "0355c17692e2a90d";
+  const direct = process.env.DIRECT_URL?.trim() || process.env.DATABASE_URL?.trim();
+  if (!direct) {
+    fail("DIRECT_URL required for --live-hosted");
+    return false;
+  }
+
+  const fp = fingerprintDatabaseUrl(direct);
+  if (fp.targetHash !== expected || /127\.0\.0\.1|localhost/i.test(direct)) {
+    fail("live-hosted audit refused: not the verified shared Supabase target");
+    return false;
+  }
+
+  console.log(`\n=== Live hosted schema audit (${fp.supabaseProjectRef ?? "hosted"}) ===\n`);
+
+  const prisma = new PrismaClient();
+  let passed = true;
+  const check = (cond: boolean, label: string) => {
+    if (cond) ok(label);
+    else {
+      fail(label);
+      passed = false;
+    }
+  };
+
+  try {
+    for (const table of NEW_TABLES) {
+      const exists = await prisma.$queryRaw<{ reg: string | null }[]>`
+        SELECT to_regclass(${`public.${table}`})::text AS reg
+      `;
+      check(Boolean(exists[0]?.reg), `${table} exists (live)`);
+
+      const rows = await prisma.$queryRaw<{ relrowsecurity: boolean }[]>`
+        SELECT c.relrowsecurity
+        FROM pg_class c
+        JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE n.nspname = 'public' AND c.relname = ${table}
+      `;
+      check(rows[0]?.relrowsecurity === true, `${table} RLS enabled (live)`);
+
+      const grants = await prisma.$queryRaw<{ grantee: string }[]>`
+        SELECT grantee::text
+        FROM information_schema.role_table_grants
+        WHERE table_schema = 'public' AND table_name = ${table}
+          AND grantee IN ('anon', 'authenticated')
+      `;
+      check(grants.length === 0, `${table} no anon/authenticated grants (live)`);
+    }
+
+    const policies = await prisma.$queryRaw<{ tablename: string }[]>`
+      SELECT tablename FROM pg_policies
+      WHERE schemaname = 'public' AND tablename = ANY(${NEW_TABLES as unknown as string[]})
+    `;
+    check(policies.length === 0, "no RLS policies on new C3.8 tables (live)");
+
+    for (const col of PLATFORM_ACCOUNT_COLUMNS) {
+      const cols = await prisma.$queryRaw<{ column_name: string }[]>`
+        SELECT column_name FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'platform_accounts' AND column_name = ${col}
+      `;
+      check(cols.length === 1, `platform_accounts.${col} (live)`);
+    }
+
+    const fks = await prisma.$queryRaw<{ conname: string }[]>`
+      SELECT con.conname
+      FROM pg_constraint con
+      JOIN pg_class rel ON rel.oid = con.conrelid
+      JOIN pg_namespace n ON n.oid = rel.relnamespace
+      WHERE n.nspname = 'public'
+        AND rel.relname = ANY(${NEW_TABLES as unknown as string[]})
+        AND con.contype = 'f'
+    `;
+    check(fks.length >= 2, "foreign keys on new tables (live)");
+
+    const indexes = await prisma.$queryRaw<{ indexname: string }[]>`
+      SELECT indexname FROM pg_indexes
+      WHERE schemaname = 'public'
+        AND tablename = ANY(${NEW_TABLES as unknown as string[]})
+    `;
+    check(indexes.length >= 4, "indexes on new tables (live)");
+  } finally {
+    await prisma.$disconnect();
+  }
+
+  return passed;
+}
+
 async function main() {
   const staticOk = staticMigrationAudit();
-  const liveOk = await liveDisposableAudit();
+  const liveOk = process.argv.includes("--live-hosted")
+    ? await liveHostedAudit()
+    : await liveDisposableAudit();
   const passed = staticOk && liveOk;
   console.log(passed ? "\nc3-dual-channel:hosted-schema-verify PASSED\n" : "\nFAILED\n");
   process.exit(passed ? 0 : 1);

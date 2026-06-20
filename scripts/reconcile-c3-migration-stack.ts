@@ -150,8 +150,15 @@ async function main() {
     pending.length === EXPECTED_C3_STACK.length &&
     EXPECTED_C3_STACK.every((m) => pending.includes(m));
 
+  const zeroPending = pending.length === 0;
+  const activeFailed = hosted.filter((r) => !r.finished_at && !r.rolled_back_at);
+
   console.log("\nSummary:");
-  if (onlyDualChannelPending) {
+  if (zeroPending && activeFailed.length === 0) {
+    console.log("  NO PENDING MIGRATIONS — STACK CURRENT");
+    console.log(`  Pending migrations: ${pending.length}`);
+    console.log(`  Active failed migrations: ${activeFailed.length}`);
+  } else if (onlyDualChannelPending) {
     console.log("  EXACTLY ONE AUTHORIZED PENDING MIGRATION");
   } else if (fourStackPending) {
     console.log(

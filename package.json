@@ -160,6 +160,8 @@
     "c3-auth-canary:disable": "npx tsx scripts/sync-c3-auth-canary-flag.ts disable",
     "c3-dual-channel:verify": "npx tsx src/lib/account/c3-dual-channel-onboarding.test.ts && npx tsx src/lib/account/phone-normalize.test.ts && npx tsx src/lib/account/onboarding-generation.test.ts && npx tsx src/lib/phone/c3-hosted-sms-preflight.test.ts && npx tsx src/lib/phone/unifonic-sms-redaction.test.ts",
     "c3-dual-channel:hosted-schema-verify": "npx tsx scripts/verify-c3-dual-channel-hosted-schema.ts",
+    "c3-dual-channel:hosted-live-verify": "npx tsx --env-file=.env.preview.operator scripts/verify-c3-dual-channel-hosted-schema.ts --live-hosted",
+    "c3-post-apply:verify": "npx tsx --env-file=.env.preview.operator scripts/verify-c3-9d-post-apply.ts",
     "c3-hosted-sms:verify": "npx tsx scripts/verify-c3-hosted-sms-config.ts",
     "c3-preview:read-env": "npx tsx scripts/read-c3-preview-branch-env.ts",
     "c3-preview:lockdown": "npx tsx scripts/sync-c3-preview-lockdown.ts",
