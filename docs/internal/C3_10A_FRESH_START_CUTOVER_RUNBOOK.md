@@ -47,14 +47,18 @@ Preserve unless separately approved:
 
 **Never** use “first registered user becomes admin.”
 
+The product owner designates a target identity at **runtime only** via `PLATFORM_OWNER_DESIGNATED_EMAIL` (never commit the address or any password to the repository).
+
 Flow:
 
-1. User completes Google or email/password → legal → email OTP → phone OTP → ACTIVE generation-2 requester  
-2. Operator runs `platform-owner:bootstrap-plan` with `PLATFORM_OWNER_ACCOUNT_ID`  
-3. Step-up confirmation + audit event  
-4. Execute remains disabled until separate authorization (`platform-owner:bootstrap-execute`)
+1. User completes Google or email/password → legal → email OTP → phone OTP → ACTIVE generation-2 requester (least privilege only)
+2. Operator runs `npm run platform-owner:bootstrap-plan` with `PLATFORM_OWNER_DESIGNATED_EMAIL` set
+3. Plan resolves exactly one Supabase identity + one PlatformAccount, verifies legal/email/phone/generation, and outputs internal `platformAccountId` + `plan_digest`
+4. Execute: `npm run platform-owner:bootstrap-execute` (remains gated — authority grant disabled until later authorization)
 
-Requirements: ACTIVE, generation 2, verified email and phone, explicit account reference, single-owner policy unless `PLATFORM_OWNER_ALLOW_MULTIPLE=true`.
+Execute requires: internal account ID, authorization phrase, database fingerprint, matching plan digest, and `PLATFORM_OWNER_CONFIRM_DESIGNATION=true`.
+
+**C3.10B:** Use a separate disposable test identity for live dual-channel proof — not the designated Platform Owner account.
 
 ## Tooling
 

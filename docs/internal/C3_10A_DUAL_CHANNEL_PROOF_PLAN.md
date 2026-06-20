@@ -29,6 +29,12 @@ Run only after Unifonic credentials, sender ID, and explicit live Preview author
 - No admin / ProCrow / Business Portal access  
 - Normal requester access only  
 
+## C3.10B boundary
+
+Use a **separate controlled test identity** for the live Preview proof. Do **not** use the product-owner designated Platform Owner email for disposable proof runs.
+
+The designated owner account registers only after: live onboarding proof passes, legacy reset completes, generation-2 cutover is active, and registration opens for the controlled owner-enrollment window.
+
 ## Commands (when authorized)
 
 ```bash
