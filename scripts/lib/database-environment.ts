@@ -171,12 +171,22 @@ export function assertControlledMigrationPhrase(
 }
 
 export function assertControlledEnvironmentTarget(
-  environment: ControlledMigrationEnvironment
+  environment: ControlledMigrationEnvironment,
+  options?: { allowSharedProductionBackend?: boolean }
 ): void {
   const dbEnv = resolveDatabaseEnvironment();
   if (!dbEnv) {
     throw new Error("DATABASE_ENVIRONMENT must be set for controlled migration.");
   }
+
+  if (
+    options?.allowSharedProductionBackend &&
+    environment === "preview" &&
+    isSharedProductionBackendPairing()
+  ) {
+    return;
+  }
+
   if (dbEnv !== environment) {
     throw new Error(
       `DATABASE_ENVIRONMENT is ${dbEnv} but --environment ${environment} was requested.`

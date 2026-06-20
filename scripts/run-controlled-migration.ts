@@ -138,7 +138,7 @@ function main() {
   }
 
   try {
-    assertControlledEnvironmentTarget(environment);
+    assertControlledEnvironmentTarget(environment, { allowSharedProductionBackend });
     assertSharedProductionBackendAcknowledged(allowSharedProductionBackend);
     assertAppDatabaseEnvironmentAlignment({ allowSharedProductionBackend });
     if (allowSharedProductionBackend && isSharedProductionBackendPairing()) {

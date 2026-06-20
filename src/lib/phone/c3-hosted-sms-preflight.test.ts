@@ -23,6 +23,16 @@ function read(rel: string): string {
 }
 
 {
+  const resolver = read("src/lib/phone/hosted-sms-delivery.adapter.ts");
+  assert(resolver.includes("unifonic"), "unifonic provider routing");
+}
+
+{
+  const onboarding = read("src/lib/account/onboarding-generation.ts");
+  assert(onboarding.includes("CROW_DUAL_CHANNEL_ENROLLMENT_GENERATION"), "enrollment gen split");
+}
+
+{
   const failure = read("src/lib/phone/phone-delivery-failure.ts");
   assert(failure.includes("CONFIGURATION_MISSING"), "failure taxonomy present");
 }
