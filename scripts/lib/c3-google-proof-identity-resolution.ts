@@ -5,7 +5,6 @@ import { createClient, type User } from "@supabase/supabase-js";
 import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
 import { hasMandatoryLegalAcceptanceComplete } from "../../src/lib/legal/legal-acceptance.service";
-import { resolveRegistrationLocale } from "../../src/lib/legal/registration-locale";
 import { opaqueManifestRef } from "./identity-manifest";
 
 export type GoogleProofAccountRetention = "delete_after_proof" | "retain_after_proof";
