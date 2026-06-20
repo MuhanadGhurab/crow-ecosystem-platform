@@ -14,6 +14,7 @@ import { normalizeEmail } from "../src/lib/account/email-normalize";
 import { verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
 import { assertPreviewHost } from "./lib/c3-preview-host-guard";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
+import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
 import {
   captureBrowserSignInTrace,
   formatComparisonTable,
@@ -263,7 +264,7 @@ async function runFreshContextB(
     await loginPage.waitForSelector("#displayName", { timeout: 60_000 });
     ok("Fresh user: /account/profile loads");
 
-    await loginPage.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle" });
+    await postDocumentSignOut(loginPage, PREVIEW_BASE);
     await loginPage.goto(`${PREVIEW_BASE}/login`, { waitUntil: "networkidle" });
     await loginPage.fill("#email", email);
     await loginPage.fill("#password", password);

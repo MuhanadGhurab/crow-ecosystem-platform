@@ -1,6 +1,6 @@
 {
   "mission": "C3.10D",
-  "previewUrl": "https://crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+  "previewUrl": "https://crow-ecosystem-platform-quj033sxa-muhanadghurabs-projects.vercel.app",
   "deploymentId": "dpl_AFRHXELyesBQiALBjNtNb6vBBv5P",
   "automationBypassConfigured": true,
   "manualBrowserTest": {
@@ -24,13 +24,22 @@
     "vercelJwtPresent": true,
     "applicableCookieMeta": [
       {
-        "name": "sb-wbwnsndcxrgyqwppurms-auth-token",
-        "domain": "crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token.0",
+        "domain": "crow-ecosystem-platform-quj033sxa-muhanadghurabs-projects.vercel.app",
         "path": "/",
         "secure": false,
         "sameSite": "Lax",
         "httpOnly": false,
-        "expires": 1816525806.461979
+        "expires": 1816527731.930165
+      },
+      {
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token.1",
+        "domain": "crow-ecosystem-platform-quj033sxa-muhanadghurabs-projects.vercel.app",
+        "path": "/",
+        "secure": false,
+        "sameSite": "Lax",
+        "httpOnly": false,
+        "expires": 1816527731.930232
       }
     ],
     "documentCookieTable": [
@@ -45,14 +54,6 @@
       {
         "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/_next/static/css/b75fc3e2a933398e.css",
-        "pathname": "/_next/static/css/b75fc3e2a933398e.css",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": false,
@@ -99,14 +100,6 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
-        "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
         "requestLabel": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
         "pathname": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
         "supabaseCookieStored": true,
@@ -117,6 +110,14 @@
       {
         "requestLabel": "/_next/static/chunks/1018-74aa70de676403f4.js",
         "pathname": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
+        "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": false,
@@ -155,55 +156,47 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
-        "pathname": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "requestLabel": "/client",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account",
-        "pathname": "/account",
+        "requestLabel": "/client?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
         "pathname": "/request",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
@@ -211,40 +204,48 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
         "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
@@ -259,48 +260,104 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
-        "pathname": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "requestLabel": "/login?error=config",
+        "pathname": "/login",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/",
+        "requestLabel": "/client",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/account/legal",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client",
+        "pathname": "/client",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
@@ -318,13 +375,22 @@
     "vercelJwtPresent": true,
     "applicableCookieMeta": [
       {
-        "name": "sb-wbwnsndcxrgyqwppurms-auth-token",
-        "domain": "crow-ecosystem-platform-ne23ldhk5-muhanadghurabs-projects.vercel.app",
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token.0",
+        "domain": "crow-ecosystem-platform-quj033sxa-muhanadghurabs-projects.vercel.app",
         "path": "/",
         "secure": false,
         "sameSite": "Lax",
         "httpOnly": false,
-        "expires": 1816525806.461979
+        "expires": 1816527731.930165
+      },
+      {
+        "name": "sb-wbwnsndcxrgyqwppurms-auth-token.1",
+        "domain": "crow-ecosystem-platform-quj033sxa-muhanadghurabs-projects.vercel.app",
+        "path": "/",
+        "secure": false,
+        "sameSite": "Lax",
+        "httpOnly": false,
+        "expires": 1816527731.930232
       }
     ],
     "documentCookieTable": [
@@ -339,14 +405,6 @@
       {
         "requestLabel": "/login",
         "pathname": "/login",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/_next/static/css/b75fc3e2a933398e.css",
-        "pathname": "/_next/static/css/b75fc3e2a933398e.css",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": false,
@@ -393,14 +451,6 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
-        "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": false,
-        "blockedReasons": []
-      },
-      {
         "requestLabel": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
         "pathname": "/_next/static/chunks/44530001-ef2edd53e6cfdfa8.js",
         "supabaseCookieStored": true,
@@ -411,6 +461,14 @@
       {
         "requestLabel": "/_next/static/chunks/1018-74aa70de676403f4.js",
         "pathname": "/_next/static/chunks/1018-74aa70de676403f4.js",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": false,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
+        "pathname": "/_next/static/chunks/2619-3c9e02e22d10480a.js",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": false,
@@ -449,55 +507,47 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
-        "pathname": "/_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js",
+        "requestLabel": "/client",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account",
-        "pathname": "/account",
+        "requestLabel": "/client?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
-        "supabaseCookieStored": true,
-        "applicableToUrl": true,
-        "sentOnRequest": true,
-        "blockedReasons": []
-      },
-      {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
         "pathname": "/request",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
@@ -505,40 +555,48 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/",
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/requests?_rsc=TY6WIP4uJBgLWF7r",
-        "pathname": "/account/requests",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/request?_rsc=TY6WIP4uJBgLWF7r",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
         "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
@@ -553,48 +611,104 @@
         "blockedReasons": []
       },
       {
-        "requestLabel": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
-        "pathname": "/_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js",
+        "requestLabel": "/login?error=config",
+        "pathname": "/login",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/",
+        "requestLabel": "/client",
+        "pathname": "/client",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/account/legal",
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/profile",
-        "pathname": "/account/profile",
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/",
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
         "blockedReasons": []
       },
       {
-        "requestLabel": "/account/legal?_rsc=PrG7GbeEkqOCRqmJ",
-        "pathname": "/account/legal",
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client",
+        "pathname": "/client",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/requests?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/requests",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/proposals?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/proposals",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/onboarding?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/onboarding",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/request?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/request",
+        "supabaseCookieStored": true,
+        "applicableToUrl": true,
+        "sentOnRequest": true,
+        "blockedReasons": []
+      },
+      {
+        "requestLabel": "/client/profile?_rsc=ip3A3NT7xffdp3_B",
+        "pathname": "/client/profile",
         "supabaseCookieStored": true,
         "applicableToUrl": true,
         "sentOnRequest": true,
@@ -605,9 +719,9 @@
   "pathCFreshUser": {
     "error": "Path C requires EMAIL_VERIFICATION_CODE_SECRET in operator env for OTP derivation"
   },
-  "pathBDocumentCookieTable": "| Request | Supabase cookie stored | Applicable to URL | Sent on request | Blocked reason |\n| --- | ---: | ---: | ---: | --- |\n| /login | true | true | false | — |\n| /login | true | true | false | — |\n| /_next/static/css/b75fc3e2a933398e.css | true | true | false | — |\n| /_next/static/chunks/webpack-ba64637afeabee18.js | true | true | false | — |\n| /_next/static/chunks/4bd1b696-f785427dddbba9fb.js | true | true | false | — |\n| /_next/static/chunks/1255-c19248ef99aa5806.js | true | true | false | — |\n| /_next/static/chunks/main-app-5eb0d9c55a395822.js | true | true | false | — |\n| /_next/static/chunks/app/layout-effbe4a838665eeb.js | true | true | false | — |\n| /_next/static/chunks/2619-3c9e02e22d10480a.js | true | true | false | — |\n| /_next/static/chunks/44530001-ef2edd53e6cfdfa8.js | true | true | false | — |\n| /_next/static/chunks/1018-74aa70de676403f4.js | true | true | false | — |\n| /_next/static/chunks/app/login/page-62566416543f8713.js | true | true | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /login | true | true | false | — |\n| /_next/static/chunks/app/account/layout-45a9f8d97f2819f6.js | true | true | true | — |\n| /account | true | true | true | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/legal?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/requests?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /request?_rsc=TY6WIP4uJBgLWF7r | true | true | true | — |\n| /account/profile | true | true | true | — |\n| /_next/static/chunks/app/account/profile/page-fab2ba6428214ba7.js | true | true | true | — |\n| /?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/legal?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/profile | true | true | true | — |\n| /?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |\n| /account/legal?_rsc=PrG7GbeEkqOCRqmJ | true | true | true | — |",
+  "pathBDocumentCookieTable": "| Request | Supabase cookie stored | Applicable to URL | Sent on request | Blocked reason |\n| --- | ---: | ---: | ---: | --- |\n| /login | true | true | false | — |\n| /login | true | true | false | — |\n| /_next/static/chunks/webpack-ba64637afeabee18.js | true | true | false | — |\n| /_next/static/chunks/4bd1b696-f785427dddbba9fb.js | true | true | false | — |\n| /_next/static/chunks/1255-c19248ef99aa5806.js | true | true | false | — |\n| /_next/static/chunks/main-app-5eb0d9c55a395822.js | true | true | false | — |\n| /_next/static/chunks/app/layout-effbe4a838665eeb.js | true | true | false | — |\n| /_next/static/chunks/44530001-ef2edd53e6cfdfa8.js | true | true | false | — |\n| /_next/static/chunks/1018-74aa70de676403f4.js | true | true | false | — |\n| /_next/static/chunks/2619-3c9e02e22d10480a.js | true | true | false | — |\n| /_next/static/chunks/app/login/page-62566416543f8713.js | true | true | false | — |\n| /?_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /signup?next=%2Frequest&_rsc=j7s84HGI7papZ6oY | true | true | false | — |\n| /login | true | true | false | — |\n| /client | true | true | true | — |\n| /client?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/requests?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/proposals?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/onboarding?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /request?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/profile?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/requests?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/proposals?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/onboarding?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /request?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/profile?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /account/profile | true | true | true | — |\n| /login?error=config | true | true | true | — |\n| /client | true | true | true | — |\n| /client/requests?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/proposals?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/onboarding?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /request?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/profile?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client | true | true | true | — |\n| /client/requests?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/proposals?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/onboarding?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /request?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |\n| /client/profile?_rsc=ip3A3NT7xffdp3_B | true | true | true | — |",
   "pathB2DocumentCookieTable": null,
   "pathCDocumentCookieTable": null,
   "rootCauseClassification": "FAILED — SUPABASE SSR OR PREVIEW PLATFORM DEFECT",
-  "capturedAt": "2026-06-20T14:31:47.081Z"
+  "capturedAt": "2026-06-20T15:03:48.847Z"
 }

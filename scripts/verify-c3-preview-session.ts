@@ -13,6 +13,7 @@ import {
   verifyAutomationBypassReachable,
 } from "./lib/c3-preview-automation-bypass";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
+import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
 
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
@@ -213,7 +214,7 @@ async function main() {
     await page.waitForSelector("#displayName", { timeout: 60_000 });
     ok("/account/profile loads with authenticated session");
 
-    await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle" });
+    await postDocumentSignOut(page, PREVIEW_BASE);
     const jarAfterSignOut = await context.cookies();
     const authAfterSignOut = jarAfterSignOut.filter((cookie) =>
       isSupabaseAuthCookieName(cookie.name)

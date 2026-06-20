@@ -15,6 +15,7 @@ import { chromium, type BrowserContext, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
 import { evaluateTenantPlatformAccountAuthorization } from "../src/lib/account/tenant-platform-account-authorization";
 import { automationBypassHeaders, verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
+import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
 import {
   assertPostOtpEvidence,
   assertPreOtpEvidence,
@@ -345,7 +346,7 @@ async function main() {
   let page = await context.newPage();
 
   try {
-    await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle", timeout: 60_000 });
+    await postDocumentSignOut(page, PREVIEW_BASE);
 
     await page.goto(`${PREVIEW_BASE}/signup`, { waitUntil: "networkidle" });
     await screenshot(page, "01-signup");
@@ -485,7 +486,7 @@ async function main() {
     }
     ok("Portal denial paths exercised (pre-ERP)");
 
-    await page.goto(`${PREVIEW_BASE}/auth/signout`, { waitUntil: "networkidle" });
+    await postDocumentSignOut(page, PREVIEW_BASE);
     const cookiesAfterSignOut = await supabaseAuthCookies(context, PREVIEW_BASE);
     if (cookiesAfterSignOut.length > 0) {
       fail("Supabase auth cookies still present after sign-out");
