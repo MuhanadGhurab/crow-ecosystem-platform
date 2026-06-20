@@ -27,6 +27,12 @@ export const routes = {
     request: (id: string) => `/account/requests/${id}`,
     invitations: "/account/invitations",
   },
+  /** C3.8 — first-time onboarding gates (legal → email → phone). */
+  onboarding: {
+    legal: "/onboarding/legal",
+    verifyEmail: "/onboarding/verify-email",
+    verifyPhone: "/onboarding/verify-phone",
+  },
   portal: {
     home: "/portal",
     requests: "/portal/requests",

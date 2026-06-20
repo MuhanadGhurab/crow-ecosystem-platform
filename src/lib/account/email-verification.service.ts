@@ -5,9 +5,12 @@ import { prisma } from "@/lib/db";
 import { normalizeEmail } from "@/lib/account/email-normalize";
 import { generateOtpCode, hashOtpCode, verifyOtpCode } from "@/lib/account/otp-code";
 import {
-  activatePlatformAccount,
+  activatePlatformAccountIfReady,
+  recordEmailVerificationEvidence,
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/platform-account-activation";
+import { EMAIL_VERIFICATION_SOURCES } from "@/lib/account/verification-sources";
 import {
   confirmSupabaseUserEmail,
   isSupabaseUserEmailConfirmed,
@@ -200,13 +203,26 @@ async function finalizeActivationIfPending(
     });
   }
 
-  await activatePlatformAccount(account.id);
-  await recordPlatformAccountAudit(account.id, "account_activated", {
-    challengeId,
-    supabaseEmailConfirmed: true,
+  await recordEmailVerificationEvidence({
+    platformAccountId: account.id,
+    source: EMAIL_VERIFICATION_SOURCES.CROW_EMAIL_OTP,
   });
 
-  return { activated: true, legalIncomplete: false, confirmFailed: false };
+  const phoneRequired = isPhoneVerificationRequiredForAccount(account);
+  if (phoneRequired) {
+    return { activated: false, legalIncomplete: false, confirmFailed: false };
+  }
+
+  const activation = await activatePlatformAccountIfReady(account.id);
+  if (activation.ok && activation.activated) {
+    await recordPlatformAccountAudit(account.id, "account_activated", {
+      challengeId,
+      supabaseEmailConfirmed: true,
+    });
+    return { activated: true, legalIncomplete: false, confirmFailed: false };
+  }
+
+  return { activated: false, legalIncomplete: false, confirmFailed: false };
 }
 
 export async function verifyEmailVerificationCode(input: {

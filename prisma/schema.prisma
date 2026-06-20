@@ -1725,7 +1725,9 @@ model ClientOrganizationRequestLink {
 // --- C3 — Universal account registration, email verification, requester onboarding ---
 
 enum PlatformAccountStatus {
+  PENDING_LEGAL_ACCEPTANCE
   PENDING_EMAIL_VERIFICATION
+  PENDING_PHONE_VERIFICATION
   ACTIVE
   SUSPENDED
   LOCKED
@@ -1741,6 +1743,14 @@ model PlatformAccount {
   publicAccountId    String                @unique
   status             PlatformAccountStatus @default(PENDING_EMAIL_VERIFICATION)
   registrationSource String?
+  /// C3.8 — enrollment generation; protected routes require current generation.
+  onboardingGeneration Int               @default(2)
+  emailVerifiedAt      DateTime?
+  emailVerificationSource String?
+  phoneNormalized      String?            @unique
+  phoneMasked          String?
+  phoneVerifiedAt      DateTime?
+  phoneVerificationSource String?
   activatedAt        DateTime?
   lastVerifiedAt     DateTime?
   createdAt          DateTime              @default(now())
@@ -1748,6 +1758,8 @@ model PlatformAccount {
 
   profile                PlatformAccountProfile?
   verificationChallenges EmailVerificationChallenge[]
+  phoneVerificationChallenges PhoneVerificationChallenge[]
+  providerIdentities     PlatformProviderIdentity[]
   auditEvents            PlatformAccountAuditEvent[]
   legalAcceptances       AccountLegalAcceptance[]
   consentPreferences     AccountConsentPreference[]
@@ -1818,6 +1830,75 @@ model EmailVerificationChallenge {
   @@map("email_verification_challenges")
 }
 
+enum PhoneVerificationChallengeStatus {
+  pending
+  consumed
+  expired
+  revoked
+}
+
+enum PhoneVerificationPurpose {
+  registration
+  phone_change
+  reactivation
+}
+
+/// One-time phone verification codes (HMAC hash only).
+model PhoneVerificationChallenge {
+  id                String                           @id @default(cuid())
+  platformAccountId String
+  phoneNormalized   String
+  purpose           PhoneVerificationPurpose         @default(registration)
+  codeHash          String
+  status            PhoneVerificationChallengeStatus @default(pending)
+  attemptCount      Int                              @default(0)
+  maxAttempts       Int                              @default(5)
+  sendCount         Int                              @default(0)
+  expiresAt         DateTime
+  consumedAt        DateTime?
+  invalidatedAt     DateTime?
+  lastSentAt        DateTime?
+  deliveryChannel   String                           @default("sms")
+  deliveryStatus    String?
+  providerMessageId String?
+  createdAt         DateTime                         @default(now())
+  updatedAt         DateTime                         @updatedAt
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@index([platformAccountId, status])
+  @@index([phoneNormalized, purpose, status])
+  @@index([expiresAt])
+  @@map("phone_verification_challenges")
+}
+
+enum PlatformAuthProvider {
+  google
+  microsoft
+  apple
+  email_password
+}
+
+/// Verified OAuth / credential provider identities linked to one PlatformAccount.
+model PlatformProviderIdentity {
+  id                String               @id @default(cuid())
+  platformAccountId String
+  provider          PlatformAuthProvider
+  providerUserId    String
+  emailNormalized   String?
+  emailVerified     Boolean              @default(false)
+  linkedAt          DateTime             @default(now())
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  platformAccount PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@index([platformAccountId])
+  @@index([emailNormalized])
+  @@map("platform_provider_identities")
+}
+
 enum PlatformAccountAuditEventType {
   registration_started
   verification_code_sent
@@ -1830,6 +1911,11 @@ enum PlatformAccountAuditEventType {
   legal_acceptance_recorded
   consent_preference_updated
   reacceptance_required
+  phone_verification_code_sent
+  phone_verification_succeeded
+  phone_verification_failed
+  email_verification_recorded
+  provider_identity_linked
 }
 
 model PlatformAccountAuditEvent {

@@ -57,7 +57,7 @@ export default async function RegisterLegalPage({
   if (account && (await hasMandatoryLegalAcceptanceComplete(account.id, locale))) {
     const params = new URLSearchParams({ email: account.email });
     if (nextPath) params.set("next", nextPath);
-    redirect(`${routes.account.verifyEmail}?${params.toString()}`);
+    redirect(`${routes.onboarding.verifyEmail}?${params.toString()}`);
   }
 
   const documents = await loadMandatoryLegalDocumentsForRegistration(locale);

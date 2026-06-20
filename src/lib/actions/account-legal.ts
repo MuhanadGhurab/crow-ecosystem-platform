@@ -84,7 +84,7 @@ function c3DisabledState(ctx: RegistrationContext): LegalActionState {
 function buildVerifyEmailRedirect(email: string, next?: string): string {
   const params = new URLSearchParams({ email });
   if (next) params.set("next", next);
-  return `${routes.account.verifyEmail}?${params.toString()}`;
+  return `${routes.onboarding.verifyEmail}?${params.toString()}`;
 }
 
 function validatePasswordPair(password: string, passwordConfirm: string): string | null {

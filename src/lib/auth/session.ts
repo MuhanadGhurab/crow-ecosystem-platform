@@ -18,6 +18,7 @@ import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
+import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled } from "@/lib/supabase/env";
 import { countRequestsForEmail } from "@/lib/services/client-request-link.service";
@@ -155,8 +156,12 @@ export async function requireActivePlatformAccount(nextPath?: string): Promise<U
     redirect("/login?error=config");
   }
   const account = await findPlatformAccountBySupabaseUserId(user.id);
-  if (!account || !isPlatformAccountActive(account)) {
-    redirect(routes.account.verifyEmail);
+  if (
+    !account ||
+    !isPlatformAccountActive(account) ||
+    !isOnboardingGenerationCurrent(account.onboardingGeneration)
+  ) {
+    redirect(routes.onboarding.verifyEmail);
   }
   return user;
 }

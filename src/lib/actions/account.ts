@@ -94,7 +94,7 @@ export async function verifyEmailCode(
       case "blocked":
         return { error: "This account cannot be verified. Contact support." };
       case "legal_incomplete":
-        return { redirectPath: routes.account.registerLegal };
+        return { redirectPath: routes.onboarding.legal };
       case "confirm_failed":
         return {
           error:
@@ -105,7 +105,22 @@ export async function verifyEmailCode(
     }
   }
 
-  return { redirectPath: loginAfterVerificationPath(account.email, next) };
+  if (result.ok) {
+    if (result.activated) {
+      return { redirectPath: loginAfterVerificationPath(account.email, next) };
+    }
+    const phoneParams = new URLSearchParams();
+    if (next) phoneParams.set("next", next);
+    const qs = phoneParams.toString();
+    return {
+      redirectPath: qs
+        ? `${routes.onboarding.verifyPhone}?${qs}`
+        : routes.onboarding.verifyPhone,
+      message: "Email verified. Add your phone number to finish onboarding.",
+    };
+  }
+
+  return { error: "Verification failed. Try again." };
 }
 
 export async function submitVerifyEmailFormAction(formData: FormData): Promise<void> {
@@ -128,7 +143,7 @@ export async function resolveVerifyEmailSubmissionUrl(formData: FormData): Promi
   if (result?.message) params.set("message", result.message);
 
   const qs = params.toString();
-  return qs ? `${routes.account.verifyEmail}?${qs}` : routes.account.verifyEmail;
+  return qs ? `${routes.onboarding.verifyEmail}?${qs}` : routes.onboarding.verifyEmail;
 }
 
 export async function resendVerificationCode(
@@ -212,4 +227,112 @@ export async function updateAccountProfile(
 
   revalidatePath(routes.account.profile);
   return { message: "Profile saved." };
+}
+
+export async function submitPhoneCaptureAction(
+  _prev: AccountActionState,
+  formData: FormData
+): Promise<AccountActionState> {
+  if (!isAccountRegistrationEnabled()) {
+    return c3DisabledState();
+  }
+
+  const user = await requireAuth(routes.onboarding.verifyPhone);
+  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  if (!account) {
+    return { error: "Complete legal review first." };
+  }
+
+  const countryCode = String(formData.get("countryCode") ?? "").trim();
+  const nationalNumber = String(formData.get("phone") ?? "").trim();
+  const confirmed = formData.get("confirmPhone") === "on";
+
+  const { normalizePhoneToE164 } = await import("@/lib/account/phone-normalize");
+  const normalized = normalizePhoneToE164({ countryCode, nationalNumber });
+  if (!normalized.ok) {
+    return { error: "Enter a valid phone number for the selected country." };
+  }
+
+  if (!confirmed) {
+    return {
+      error: "Confirm the masked number before requesting a verification code.",
+      message: `We will send a code to ${normalized.masked}.`,
+    };
+  }
+
+  const { issuePhoneVerificationCode } = await import(
+    "@/lib/account/phone-verification.service"
+  );
+  const issued = await issuePhoneVerificationCode({
+    platformAccountId: account.id,
+    phoneNormalized: normalized.e164,
+    phoneMasked: normalized.masked,
+  });
+
+  if (!issued.ok) {
+    if (issued.reason === "duplicate") {
+      return { error: "This phone number cannot be used. Try another or contact support." };
+    }
+    if (issued.reason === "cooldown") {
+      return { error: "Please wait before requesting another code." };
+    }
+    return { error: "Could not send verification code. Try again shortly." };
+  }
+
+  return {
+    message: `Verification code sent to ${issued.maskedPhone}.`,
+    redirectPath: routes.onboarding.verifyPhone,
+  };
+}
+
+export async function submitPhoneOtpAction(
+  _prev: AccountActionState,
+  formData: FormData
+): Promise<AccountActionState> {
+  if (!isAccountRegistrationEnabled()) {
+    return c3DisabledState();
+  }
+
+  const user = await requireAuth(routes.onboarding.verifyPhone);
+  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  if (!account?.phoneNormalized) {
+    return { error: "Add your phone number first." };
+  }
+
+  const code = String(formData.get("code") ?? "").trim();
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+
+  if (!/^\d{6}$/.test(code)) {
+    return { error: "Enter the 6-digit code from your SMS." };
+  }
+
+  const { verifyPhoneVerificationCode } = await import(
+    "@/lib/account/phone-verification.service"
+  );
+  const result = await verifyPhoneVerificationCode({
+    platformAccountId: account.id,
+    phoneNormalized: account.phoneNormalized,
+    code,
+  });
+
+  if (!result.ok) {
+    switch (result.reason) {
+      case "invalid":
+        return { error: "Invalid code. Try again." };
+      case "expired":
+        return { error: "Code expired. Request a new one." };
+      case "max_attempts":
+        return { error: "Too many attempts. Request a new code." };
+      default:
+        return { error: "Verification failed. Try again." };
+    }
+  }
+
+  if (result.activated) {
+    const params = new URLSearchParams({ verified: "1" });
+    if (next) params.set("next", next);
+    return { redirectPath: `${routes.auth.login}?${params.toString()}` };
+  }
+
+  return { message: "Phone verified." };
 }

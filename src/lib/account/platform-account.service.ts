@@ -5,9 +5,14 @@ import type {
 } from "@prisma/client";
 import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mutation-guard";
 import { prisma } from "@/lib/db";
-import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 import { normalizeEmail } from "@/lib/account/email-normalize";
 import { generatePublicAccountId } from "@/lib/account/public-account-id";
+import { getCurrentEnrollmentGeneration } from "@/lib/account/onboarding-generation";
+import {
+  canActivatePlatformAccount,
+  isPhoneVerificationRequiredForAccount,
+} from "@/lib/account/platform-account-activation";
+import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 
 export type PlatformAccountRecord = PlatformAccount;
 
@@ -40,6 +45,7 @@ export async function createPendingPlatformAccount(input: {
       publicAccountId: generatePublicAccountId(),
       status: "PENDING_EMAIL_VERIFICATION",
       registrationSource: input.registrationSource,
+      onboardingGeneration: getCurrentEnrollmentGeneration(),
       profile: { create: { isPrivate: true } },
     },
   });
@@ -67,13 +73,58 @@ export async function ensurePlatformAccountForAuthUser(input: {
 export async function activatePlatformAccount(
   platformAccountId: string
 ): Promise<PlatformAccountRecord> {
-  await assertC2DatabaseEnvironmentSafe();
-  const legalComplete = await hasMandatoryLegalAcceptanceComplete(platformAccountId);
-  if (!legalComplete) {
-    throw new Error("Mandatory legal acceptances are incomplete.");
+  const result = await activatePlatformAccountIfReady(platformAccountId);
+  if (!result.ok) {
+    throw new Error(result.reason);
   }
+  const account = await prisma.platformAccount.findUniqueOrThrow({
+    where: { id: platformAccountId },
+  });
+  return account;
+}
+
+export type ActivateIfReadyResult =
+  | { ok: true; activated: boolean }
+  | {
+      ok: false;
+      reason:
+        | "not_found"
+        | "legal_incomplete"
+        | "email_unverified"
+        | "phone_unverified"
+        | "blocked";
+    };
+
+export async function activatePlatformAccountIfReady(
+  platformAccountId: string
+): Promise<ActivateIfReadyResult> {
+  await assertC2DatabaseEnvironmentSafe();
+  const account = await prisma.platformAccount.findUnique({
+    where: { id: platformAccountId },
+  });
+  if (!account) {
+    return { ok: false, reason: "not_found" };
+  }
+  if (isBlockedPlatformAccountStatus(account.status)) {
+    return { ok: false, reason: "blocked" };
+  }
+  if (account.status === "ACTIVE") {
+    return { ok: true, activated: false };
+  }
+
+  const readiness = await canActivatePlatformAccount(account);
+  if (!readiness.legalComplete) {
+    return { ok: false, reason: "legal_incomplete" };
+  }
+  if (!readiness.emailVerified) {
+    return { ok: false, reason: "email_unverified" };
+  }
+  if (!readiness.phoneVerified) {
+    return { ok: false, reason: "phone_unverified" };
+  }
+
   const now = new Date();
-  return prisma.platformAccount.update({
+  await prisma.platformAccount.update({
     where: { id: platformAccountId },
     data: {
       status: "ACTIVE",
@@ -81,6 +132,44 @@ export async function activatePlatformAccount(
       lastVerifiedAt: now,
     },
   });
+  await recordPlatformAccountAudit(platformAccountId, "account_activated", {
+    onboardingGeneration: account.onboardingGeneration,
+  });
+  return { ok: true, activated: true };
+}
+
+export async function recordEmailVerificationEvidence(input: {
+  platformAccountId: string;
+  source: string;
+}): Promise<PlatformAccountRecord> {
+  await assertC2DatabaseEnvironmentSafe();
+  const now = new Date();
+  const account = await prisma.platformAccount.findUniqueOrThrow({
+    where: { id: input.platformAccountId },
+  });
+
+  const phoneRequired = isPhoneVerificationRequiredForAccount(account);
+  const nextStatus = phoneRequired ? "PENDING_PHONE_VERIFICATION" : "ACTIVE";
+
+  const updated = await prisma.platformAccount.update({
+    where: { id: input.platformAccountId },
+    data: {
+      emailVerifiedAt: now,
+      emailVerificationSource: input.source,
+      lastVerifiedAt: now,
+      status: account.status === "ACTIVE" ? "ACTIVE" : nextStatus,
+    },
+  });
+
+  await recordPlatformAccountAudit(input.platformAccountId, "email_verification_recorded", {
+    source: input.source,
+  });
+
+  if (!phoneRequired) {
+    await activatePlatformAccountIfReady(input.platformAccountId);
+  }
+
+  return updated;
 }
 
 export async function recordPlatformAccountAudit(
@@ -95,11 +184,30 @@ export async function recordPlatformAccountAudit(
 }
 
 export function isPlatformAccountActive(account: PlatformAccountRecord): boolean {
-  return account.status === "ACTIVE";
+  return (
+    account.status === "ACTIVE" &&
+    isOnboardingGenerationCurrent(account.onboardingGeneration)
+  );
+}
+
+export function isPendingLegalAcceptance(account: PlatformAccountRecord): boolean {
+  return account.status === "PENDING_LEGAL_ACCEPTANCE";
 }
 
 export function isPendingEmailVerification(account: PlatformAccountRecord): boolean {
-  return account.status === "PENDING_EMAIL_VERIFICATION";
+  return (
+    account.status === "PENDING_EMAIL_VERIFICATION" ||
+    (account.status === "PENDING_PHONE_VERIFICATION" && !account.emailVerifiedAt)
+  );
+}
+
+export function isPendingPhoneVerification(account: PlatformAccountRecord): boolean {
+  return account.status === "PENDING_PHONE_VERIFICATION" || (
+    account.emailVerifiedAt != null &&
+    account.phoneVerifiedAt == null &&
+    isPhoneVerificationRequiredForAccount(account) &&
+    account.status !== "ACTIVE"
+  );
 }
 
 export function isBlockedPlatformAccountStatus(status: PlatformAccountStatus): boolean {
