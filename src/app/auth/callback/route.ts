@@ -8,6 +8,7 @@ import {
   gateAuthSessionForC3,
   isC3AuthEnabled,
 } from "@/lib/account/c3-auth-orchestration";
+import { resolvePlatformAccountForOAuthUser } from "@/lib/account/provider-identity.service";
 import { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
 import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
@@ -59,6 +60,14 @@ export async function GET(request: Request) {
       } = await supabase.auth.getUser();
 
       if (user && isC3AuthEnabled()) {
+        const oauthLink = await resolvePlatformAccountForOAuthUser(user, "google");
+        if (!oauthLink.ok) {
+          await supabase.auth.signOut();
+          return clearNextCookie(
+            NextResponse.redirect(`${origin}/login?error=forbidden`)
+          );
+        }
+
         const gate = await gateAuthSessionForC3(user, explicitNext);
         if (gate.action === "redirect") {
           return clearNextCookie(
