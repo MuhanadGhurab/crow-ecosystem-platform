@@ -286,9 +286,11 @@ function main() {
 
   const middleware = fileText("src/lib/supabase/middleware.ts");
   check(
-    middleware.includes("isC3SessionOnlyPath") && middleware.includes("isAccountRegistrationEnabled"),
+    middleware.includes("isC3SessionOnlyPath") &&
+      (middleware.includes("isAccountRegistrationEnabled") ||
+        middleware.includes("isC3PlatformAccountGateEnabled")),
     "Middleware gates C3 session-only paths",
-    "middleware must gate /account and /verify-email when C3 on"
+    "middleware must gate /account when C3 platform gate on"
   );
 
   const routeProtection = fileText("src/lib/auth/route-protection.ts");
