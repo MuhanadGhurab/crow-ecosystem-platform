@@ -165,13 +165,18 @@ function main() {
     "email-verification.service must surface legal_incomplete"
   );
 
-  const activateIdx = platformSvc.indexOf("export async function activatePlatformAccount");
-  const platformLegalIdx = platformSvc.indexOf("hasMandatoryLegalAcceptanceComplete");
-  check(platformLegalIdx >= 0, "activatePlatformAccount checks legal completeness", "platform-account.service must check legal");
   check(
-    activateIdx >= 0 && platformLegalIdx < platformSvc.indexOf('status: "ACTIVE"', activateIdx),
-    "activatePlatformAccount blocks without legal evidence",
-    "activatePlatformAccount must not set ACTIVE without legal acceptances"
+    platformSvc.includes("activatePlatformAccountIfReady") &&
+      fileText("src/lib/account/platform-account-activation.ts").includes(
+        "hasMandatoryLegalAcceptanceComplete"
+      ),
+    "activatePlatformAccountIfReady checks legal completeness",
+    "platform-account.service must check legal via activation helper"
+  );
+  check(
+    platformSvc.includes("export async function activatePlatformAccountIfReady"),
+    "activatePlatformAccountIfReady blocks without legal/email/phone evidence",
+    "activatePlatformAccount must not set ACTIVE without full evidence"
   );
 
   const accountLegal = fileText("src/lib/actions/account-legal.ts");
@@ -208,9 +213,9 @@ function main() {
     "c3-auth-orchestration must call hasMandatoryLegalAcceptanceComplete"
   );
   check(
-    orchestration.includes("registerLegalPath"),
-    "c3-auth-orchestration routes to legal registration gate",
-    "c3-auth-orchestration must define registerLegalPath"
+    orchestration.includes("routes.onboarding.legal"),
+    "c3-auth-orchestration routes to legal onboarding gate",
+    "c3-auth-orchestration must route to onboarding legal"
   );
   check(
     orchestration.includes("gateAuthSessionForC3"),
@@ -252,9 +257,9 @@ function main() {
     "login page must call resolveC3PostAuthLanding"
   );
   check(
-    auth.includes("routes.account.registerLegal"),
-    "auth.ts redirects signup to legal registration gate",
-    "auth.ts must redirect to /register/legal after signup"
+    auth.includes("routes.onboarding.legal"),
+    "auth.ts redirects signup to legal onboarding gate",
+    "auth.ts must redirect to onboarding legal after signup"
   );
   check(
     !auth.includes("bootstrapPlatformAccountOnSignUp"),

@@ -13,29 +13,33 @@ const platformSvc = readFileSync(
   join(process.cwd(), "src/lib/account/platform-account.service.ts"),
   "utf8"
 );
+const activationSvc = readFileSync(
+  join(process.cwd(), "src/lib/account/platform-account-activation.ts"),
+  "utf8"
+);
 
 const finalizeIdx = emailVerify.indexOf("async function finalizeActivationIfPending");
 const finalizeBody = emailVerify.slice(finalizeIdx);
 const legalIdx = finalizeBody.indexOf("hasMandatoryLegalAcceptanceComplete");
 const confirmIdx = finalizeBody.indexOf("confirmSupabaseUserEmail");
-const activateCallIdx = finalizeBody.indexOf("await activatePlatformAccount");
+const recordEmailIdx = finalizeBody.indexOf("recordEmailVerificationEvidence");
 assert(legalIdx >= 0, "finalize checks legal completeness");
 assert(confirmIdx >= 0, "finalize confirms Supabase email via admin");
-assert(activateCallIdx >= 0, "finalize calls activatePlatformAccount");
-assert(legalIdx < confirmIdx && confirmIdx < activateCallIdx, "legal → confirm → activate order");
+assert(recordEmailIdx >= 0, "finalize records email verification evidence");
+assert(legalIdx < confirmIdx && confirmIdx < recordEmailIdx, "legal → confirm → record order");
 
 assert(
   emailVerify.includes('"legal_incomplete"'),
   "email verification returns legal_incomplete reason"
 );
 
-const platformLegalIdx = platformSvc.indexOf("hasMandatoryLegalAcceptanceComplete");
-const platformActivateIdx = platformSvc.indexOf("export async function activatePlatformAccount");
-assert(platformLegalIdx >= 0, "platform service checks legal completeness");
-assert(platformActivateIdx >= 0, "activatePlatformAccount exists");
 assert(
-  platformLegalIdx < platformSvc.indexOf("status: \"ACTIVE\"", platformActivateIdx),
-  "activatePlatformAccount blocks without legal evidence"
+  platformSvc.includes("activatePlatformAccountIfReady"),
+  "platform service exposes activatePlatformAccountIfReady"
+);
+assert(
+  activationSvc.includes("canActivatePlatformAccount"),
+  "activation checks legal + email + phone readiness"
 );
 
 console.log("email-verification-legal-gate.test.ts: OK");
