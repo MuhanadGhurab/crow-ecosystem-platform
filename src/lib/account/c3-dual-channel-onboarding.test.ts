@@ -49,7 +49,7 @@ function readSrc(rel: string): string {
 {
   const plan = readSrc("scripts/identity-reset-plan.ts");
   assert(plan.includes('mode: "dry-run"'), "reset plan defaults to dry-run");
-  assert(plan.includes("execute is not authorized"), "execute blocked in C3.8");
+  assert(plan.includes("execute is not authorized"), "execute blocked in C3.10A");
 }
 
 console.log("c3-dual-channel-onboarding: all static checks passed");

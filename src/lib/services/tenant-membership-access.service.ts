@@ -10,6 +10,9 @@ import {
 import { prisma } from "@/lib/db";
 import { countRequestsForEmail } from "@/lib/services/client-request-link.service";
 import { getTenantBySlug } from "@/lib/services/tenant.service";
+import { getRequiredOnboardingGeneration } from "@/lib/account/onboarding-generation";
+import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { resolveTenantPlatformAccountAuthorization } from "@/lib/account/tenant-platform-account-authorization";
 import {
   TENANT_MEMBERSHIP_DISCLAIMERS,
   type TenantBusinessPortalAccessDecision,
@@ -234,6 +237,15 @@ export async function resolveTenantBusinessPortalAccess(
       source: "unavailable",
       blockedReason: "Verified tenant membership is required for this workspace.",
     };
+  }
+
+  const platformGate = await resolveTenantPlatformAccountAuthorization(user.id, {
+    requiredGeneration: getRequiredOnboardingGeneration(),
+    registrationFeatureEnabled: isAccountRegistrationEnabled(),
+    hasTenantMembership: Boolean(dbMembership) || metadataSlugMatch,
+  });
+  if (!platformGate.authorized) {
+    return blockedDecision(slug, user, platformGate.message, warnings);
   }
 
   const membershipRole = mapCrowRoleToMembershipRole(
