@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LegalReviewGate } from "@/components/account/legal-review-gate";
+import { OnboardingProgress } from "@/components/account/onboarding-progress";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
@@ -74,7 +75,8 @@ export default async function RegisterLegalPage({
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-2xl !p-6 sm:!p-8">
         <CrowMark href="/" size="sm" showTagline={false} />
-        <h1 className="cc-page-title mt-6">Review legal agreements</h1>
+        <OnboardingProgress current="legal" />
+        <h1 className="cc-page-title mt-2">Review legal agreements</h1>
         <p className="mt-2 text-xs text-slate-600">
           Before your platform account is created, you must review and accept
           Crow&apos;s mandatory legal documents. Email verification comes next.

@@ -2,7 +2,7 @@ import type { PlatformAccount } from "@prisma/client";
 
 import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 
-import { getRequiredOnboardingGeneration } from "@/lib/account/onboarding-generation";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 
 export type ActivationReadiness = {
   legalComplete: boolean;
@@ -12,9 +12,7 @@ export type ActivationReadiness = {
   ready: boolean;
 };
 
-export function isPhoneVerificationRequiredForAccount(account: PlatformAccount): boolean {
-  return account.onboardingGeneration >= getRequiredOnboardingGeneration();
-}
+export { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 
 export function assessActivationReadiness(account: PlatformAccount): ActivationReadiness {
   const phoneRequired = isPhoneVerificationRequiredForAccount(account);

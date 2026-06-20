@@ -9,7 +9,7 @@ import {
   recordEmailVerificationEvidence,
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
-import { isPhoneVerificationRequiredForAccount } from "@/lib/account/platform-account-activation";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 import { EMAIL_VERIFICATION_SOURCES } from "@/lib/account/verification-sources";
 import {
   confirmSupabaseUserEmail,

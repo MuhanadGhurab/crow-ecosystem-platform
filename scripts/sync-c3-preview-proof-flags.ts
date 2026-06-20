@@ -6,14 +6,17 @@ type FlagSpec = { name: string; value: string; sensitive: boolean };
 
 const DISABLE_FLAGS: FlagSpec[] = [
   { name: "ACCOUNT_REGISTRATION_ENABLED", value: "false", sensitive: false },
+  { name: "CROW_PHONE_VERIFICATION_REQUIRED", value: "false", sensitive: false },
   { name: "C3_REGISTRATION_DIAGNOSTICS", value: "false", sensitive: false },
   { name: "C3_SESSION_DIAGNOSTICS", value: "false", sensitive: false },
 ];
 
 const ENABLE_PROOF_FLAGS: FlagSpec[] = [
   { name: "ACCOUNT_REGISTRATION_ENABLED", value: "true", sensitive: false },
-  { name: "C3_REGISTRATION_DIAGNOSTICS", value: "true", sensitive: false },
-  { name: "C3_SESSION_DIAGNOSTICS", value: "true", sensitive: false },
+  { name: "CROW_PHONE_VERIFICATION_REQUIRED", value: "false", sensitive: false },
+  { name: "CROW_ONBOARDING_GENERATION_REQUIRED", value: "2", sensitive: false },
+  { name: "C3_REGISTRATION_DIAGNOSTICS", value: "false", sensitive: false },
+  { name: "C3_SESSION_DIAGNOSTICS", value: "false", sensitive: false },
 ];
 
 function runVercelEnvAdd(spec: FlagSpec) {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { VerifyEmailForm } from "@/components/account/verify-email-form";
+import { OnboardingProgress } from "@/components/account/onboarding-progress";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import {
   findPlatformAccountByEmailNormalized,
@@ -45,10 +46,11 @@ export default async function VerifyEmailPage({
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
         <CrowMark href="/" size="sm" showTagline={false} />
-        <h1 className="cc-page-title mt-6">Verify your email</h1>
+        <OnboardingProgress current="email" />
+        <h1 className="cc-page-title mt-2">Verify your email</h1>
         <p className="mt-2 text-xs text-slate-600">
-          One platform account per person. Email verification is required before Crow
-          access is granted.
+          One platform account per person. Email verification is required before your
+          account becomes active.
         </p>
 
         <div className="mt-6">

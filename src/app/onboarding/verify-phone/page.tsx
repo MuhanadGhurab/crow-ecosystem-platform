@@ -5,6 +5,7 @@ import { VerifyPhoneForm } from "@/components/account/verify-phone-form";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { gateAuthSessionForC3 } from "@/lib/account/c3-auth-orchestration";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { isPhoneVerificationRequired } from "@/lib/account/phone-verification-policy";
 import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
@@ -21,6 +22,10 @@ export default async function OnboardingVerifyPhonePage({
 }) {
   if (!isAccountRegistrationEnabled()) {
     redirect("/login?error=config");
+  }
+
+  if (!isPhoneVerificationRequired()) {
+    redirect(routes.onboarding.verifyEmail);
   }
 
   const { next, error: errorParam, message: messageParam } = await searchParams;

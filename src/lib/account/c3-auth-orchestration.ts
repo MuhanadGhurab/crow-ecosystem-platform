@@ -2,6 +2,7 @@ import type { User } from "@supabase/supabase-js";
 
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 import {
+  activatePlatformAccountIfReady,
   findPlatformAccountBySupabaseUserId,
   isBlockedPlatformAccountStatus,
   isPendingEmailVerification,
@@ -9,6 +10,7 @@ import {
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
 import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 import { linkRequestsForUser } from "@/lib/services/client-request-link.service";
 import {
   getPendingReacceptanceForAccount,
@@ -86,12 +88,25 @@ export async function gateAuthSessionForC3(
     return { action: "redirect", path: withNext(routes.onboarding.verifyEmail, next) };
   }
 
-  if (isPendingPhoneVerification(account)) {
+  let currentAccount = account;
+  if (
+    !isPhoneVerificationRequiredForAccount(currentAccount) &&
+    !isPlatformAccountActive(currentAccount)
+  ) {
+    await activatePlatformAccountIfReady(currentAccount.id);
+    currentAccount =
+      (await findPlatformAccountBySupabaseUserId(user.id)) ?? currentAccount;
+  }
+
+  if (
+    isPhoneVerificationRequiredForAccount(currentAccount) &&
+    isPendingPhoneVerification(currentAccount)
+  ) {
     return { action: "redirect", path: withNext(routes.onboarding.verifyPhone, next) };
   }
 
-  if (isPlatformAccountActive(account)) {
-    const pendingReaccept = await getPendingReacceptanceForAccount(account.id, locale);
+  if (isPlatformAccountActive(currentAccount)) {
+    const pendingReaccept = await getPendingReacceptanceForAccount(currentAccount.id, locale);
     if (pendingReaccept.length > 0) {
       return { action: "redirect", path: `${routes.account.legal}?reaccept=1` };
     }

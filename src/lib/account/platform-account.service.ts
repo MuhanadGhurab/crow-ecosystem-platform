@@ -155,7 +155,6 @@ export async function recordEmailVerificationEvidence(input: {
   });
 
   const phoneRequired = isPhoneVerificationRequiredForAccount(account);
-  const nextStatus = phoneRequired ? "PENDING_PHONE_VERIFICATION" : "ACTIVE";
 
   const updated = await prisma.platformAccount.update({
     where: { id: input.platformAccountId },
@@ -163,7 +162,11 @@ export async function recordEmailVerificationEvidence(input: {
       emailVerifiedAt: now,
       emailVerificationSource: input.source,
       lastVerifiedAt: now,
-      status: account.status === "ACTIVE" ? "ACTIVE" : nextStatus,
+      status: phoneRequired
+        ? "PENDING_PHONE_VERIFICATION"
+        : account.status === "ACTIVE"
+          ? "ACTIVE"
+          : account.status,
     },
   });
 
@@ -208,11 +211,14 @@ export function isPendingEmailVerification(account: PlatformAccountRecord): bool
 }
 
 export function isPendingPhoneVerification(account: PlatformAccountRecord): boolean {
-  return account.status === "PENDING_PHONE_VERIFICATION" || (
-    account.emailVerifiedAt != null &&
-    account.phoneVerifiedAt == null &&
-    isPhoneVerificationRequiredForAccount(account) &&
-    account.status !== "ACTIVE"
+  if (!isPhoneVerificationRequiredForAccount(account)) {
+    return false;
+  }
+  return (
+    account.status === "PENDING_PHONE_VERIFICATION" ||
+    (account.emailVerifiedAt != null &&
+      account.phoneVerifiedAt == null &&
+      account.status !== "ACTIVE")
   );
 }
 

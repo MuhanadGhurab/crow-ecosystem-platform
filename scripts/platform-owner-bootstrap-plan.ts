@@ -1,32 +1,66 @@
 #!/usr/bin/env npx tsx
 /**
- * C3.10A — Platform owner bootstrap dry-run plan (operator-only).
+ * Platform owner bootstrap dry-run plan (operator-only).
+ *
+ * Usage (designated email at runtime — never commit to repo):
+ *   PLATFORM_OWNER_DESIGNATED_EMAIL=<product-owner-email> npm run platform-owner:bootstrap-plan
  */
-import { planPlatformOwnerBootstrap } from "@/lib/platform/platform-owner-bootstrap.service";
+import { mergeStagingSupabaseEnvIfMissing } from "./lib/merge-staging-supabase-env";
+import {
+  countExistingPlatformOwners,
+  findAuthUsersByNormalizedEmail,
+} from "./lib/platform-owner-bootstrap-deps";
+import {
+  PLATFORM_OWNER_ACCOUNT_ID_ENV,
+  PLATFORM_OWNER_DESIGNATED_EMAIL_ENV,
+} from "@/lib/platform/platform-owner-bootstrap.constants";
+import {
+  planPlatformOwnerBootstrapByAccountId,
+  resolutionManifestDigest,
+  resolveDesignatedPlatformOwnerByEmail,
+} from "@/lib/platform/platform-owner-bootstrap.service";
 
-async function countExistingPlatformOwners(): Promise<number> {
-  // Future: dedicated platform_owner role table. For now count platform_admin metadata via audit placeholder.
-  return 0;
-}
+process.env.ALLOW_HOSTED_IDENTITY_CENSUS = "true";
+mergeStagingSupabaseEnvIfMissing();
 
 async function main() {
-  const accountId = process.env.PLATFORM_OWNER_ACCOUNT_ID?.trim();
-  if (!accountId) {
-    console.error("Set PLATFORM_OWNER_ACCOUNT_ID to the verified ACTIVE generation-2 platform account id.");
+  const deps = {
+    findAuthUsersByEmail: findAuthUsersByNormalizedEmail,
+    countExistingPlatformOwners,
+    locale: process.env.PLATFORM_OWNER_LEGAL_LOCALE?.trim() || "en-US",
+  };
+
+  const accountIdOverride = process.env[PLATFORM_OWNER_ACCOUNT_ID_ENV]?.trim();
+  const designatedEmail = process.env[PLATFORM_OWNER_DESIGNATED_EMAIL_ENV]?.trim();
+
+  if (!designatedEmail && !accountIdOverride) {
+    console.error(
+      `Set ${PLATFORM_OWNER_DESIGNATED_EMAIL_ENV} to the product-owner designated email (runtime only — do not commit).`
+    );
     process.exit(1);
   }
 
-  const result = await planPlatformOwnerBootstrap(
-    {
-      platformAccountId: accountId,
-      dryRun: true,
-      allowMultipleOwners: process.env.PLATFORM_OWNER_ALLOW_MULTIPLE === "true",
-      operatorConfirmationToken: process.env.PLATFORM_OWNER_CONFIRM_TOKEN?.trim(),
-    },
-    { countExistingPlatformOwners }
-  );
+  const result = accountIdOverride
+    ? await planPlatformOwnerBootstrapByAccountId(accountIdOverride, deps)
+    : await resolveDesignatedPlatformOwnerByEmail(designatedEmail!, deps);
 
-  console.log(JSON.stringify(result, null, 2));
+  const manifest = {
+    phase: "platform-owner-bootstrap-plan",
+    dryRun: true,
+    executeAuthorized: false,
+    platformAccountId: result.platformAccountId,
+    planDigest: resolutionManifestDigest(result),
+    ...result,
+  };
+
+  console.log(JSON.stringify(manifest, null, 2));
+  console.error(`\nplan_digest=${manifest.planDigest}`);
+  if (result.platformAccountId) {
+    console.error(
+      `resolved_platform_account_id=${result.platformAccountId} (use for execute after authorization)`
+    );
+  }
+
   if (!result.allowed) process.exit(2);
 }
 

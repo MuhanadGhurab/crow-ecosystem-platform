@@ -8,12 +8,15 @@ import {
   verifyEmailVerificationCode,
 } from "@/lib/account/email-verification.service";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 import {
   findPlatformAccountByEmailNormalized,
+  findPlatformAccountById,
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
 import { updatePlatformAccountProfile } from "@/lib/account/platform-account-profile.service";
+import { isPhoneVerificationRequired } from "@/lib/account/phone-verification-policy";
 import { requireAuth } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { checkC3VerificationRateLimit } from "@/lib/security/c3-registration-rate-limit";
@@ -109,15 +112,23 @@ export async function verifyEmailCode(
     if (result.activated) {
       return { redirectPath: loginAfterVerificationPath(account.email, next) };
     }
-    const phoneParams = new URLSearchParams();
-    if (next) phoneParams.set("next", next);
-    const qs = phoneParams.toString();
-    return {
-      redirectPath: qs
-        ? `${routes.onboarding.verifyPhone}?${qs}`
-        : routes.onboarding.verifyPhone,
-      message: "Email verified. Add your phone number to finish onboarding.",
-    };
+    const refreshed = await findPlatformAccountById(account.id);
+    if (
+      refreshed &&
+      isPhoneVerificationRequiredForAccount(refreshed) &&
+      !isPlatformAccountActive(refreshed)
+    ) {
+      const phoneParams = new URLSearchParams();
+      if (next) phoneParams.set("next", next);
+      const qs = phoneParams.toString();
+      return {
+        redirectPath: qs
+          ? `${routes.onboarding.verifyPhone}?${qs}`
+          : routes.onboarding.verifyPhone,
+        message: "Email verified. Add your phone number to finish onboarding.",
+      };
+    }
+    return { redirectPath: loginAfterVerificationPath(account.email, next) };
   }
 
   return { error: "Verification failed. Try again." };
@@ -237,6 +248,10 @@ export async function submitPhoneCaptureAction(
     return c3DisabledState();
   }
 
+  if (!isPhoneVerificationRequired()) {
+    return { error: "Phone verification is not required for your account." };
+  }
+
   const user = await requireAuth(routes.onboarding.verifyPhone);
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account) {
@@ -291,6 +306,10 @@ export async function submitPhoneOtpAction(
 ): Promise<AccountActionState> {
   if (!isAccountRegistrationEnabled()) {
     return c3DisabledState();
+  }
+
+  if (!isPhoneVerificationRequired()) {
+    return { error: "Phone verification is not required for your account." };
   }
 
   const user = await requireAuth(routes.onboarding.verifyPhone);

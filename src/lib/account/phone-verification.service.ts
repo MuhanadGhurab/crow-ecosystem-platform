@@ -9,6 +9,7 @@ import {
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
 import { isValidE164Phone } from "@/lib/account/phone-normalize";
+import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
 import { getPhoneVerificationDeliveryPort } from "@/lib/phone/get-phone-verification-port";
 import { isPreviewPhoneDestinationAllowed } from "@/lib/phone/preview-phone-allowlist";
 import { buildOtpSmsBody } from "@/lib/phone/otp-sms-templates";
@@ -84,6 +85,17 @@ export async function issuePhoneVerificationCode(input: {
   purpose?: PhoneVerificationPurpose;
 }): Promise<IssuePhoneVerificationResult> {
   await assertC2DatabaseEnvironmentSafe();
+
+  const accountForPolicy = await prisma.platformAccount.findUnique({
+    where: { id: input.platformAccountId },
+    select: { onboardingGeneration: true },
+  });
+  if (
+    !accountForPolicy ||
+    !isPhoneVerificationRequiredForAccount(accountForPolicy)
+  ) {
+    return { ok: false, reason: "no_account" };
+  }
 
   if (!isValidE164Phone(input.phoneNormalized)) {
     return { ok: false, reason: "invalid_phone" };
