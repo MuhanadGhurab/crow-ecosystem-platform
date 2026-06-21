@@ -5,13 +5,16 @@ import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
+import {
+  resolveAuthoritativeCrowAuth,
+  userWithAuthoritativeMetadata,
+} from "@/lib/auth/authoritative-crow-auth";
 import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
-import { getCrowAuth } from "@/lib/auth/roles";
 import { routes } from "@/lib/routes";
 
 /**
- * C3-aware post-auth landing. Active platform accounts without a crow_role
- * route to Account Home (least-privilege requester), not login?error=role_config.
+ * C3-aware post-auth landing. Active platform accounts without authoritative Crow role
+ * route to Account Home (least-privilege requester), not client portal via metadata alone.
  */
 export async function resolveC3PostAuthLanding(
   user: User,
@@ -23,11 +26,23 @@ export async function resolveC3PostAuthLanding(
 
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (account && isPlatformAccountActive(account)) {
-    const { role } = getCrowAuth(user);
-    if (!role) {
+    const auth = await resolveAuthoritativeCrowAuth(user);
+    if (!auth.role) {
       return routes.account.home;
     }
+    return resolvePostLoginDestination(
+      userWithAuthoritativeMetadata(user, auth),
+      explicitNext
+    );
   }
 
-  return resolvePostLoginDestination(user, explicitNext);
+  const auth = await resolveAuthoritativeCrowAuth(user);
+  if (!auth.role) {
+    return routes.account.home;
+  }
+
+  return resolvePostLoginDestination(
+    userWithAuthoritativeMetadata(user, auth),
+    explicitNext
+  );
 }
