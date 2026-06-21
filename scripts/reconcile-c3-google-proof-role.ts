@@ -30,7 +30,7 @@ async function main() {
 
     console.log(`\n  identityFingerprint: ${result.fingerprint}`);
     console.log(`  metadataAction: ${result.action}\n`);
-    console.log("PASS — STALE NON-AUTHORITATIVE CLIENT METADATA REMOVED FROM CLEAN REQUESTER\n");
+    console.log("PASS — STALE NON-AUTHORITATIVE CLIENT METADATA REMOVED FROM PROOF REQUESTER\n");
   } finally {
     await prisma.$disconnect();
   }

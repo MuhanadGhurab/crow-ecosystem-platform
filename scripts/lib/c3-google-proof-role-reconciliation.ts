@@ -41,7 +41,7 @@ async function countCurrentMandatoryLegal(
   prisma: PrismaClient,
   platformAccountId: string,
   locale: string
-): Promise<number> {
+): Promise<{ accepted: number; total: number }> {
   const versions = await prisma.legalDocumentVersion.findMany({
     where: {
       status: "published",
@@ -62,14 +62,15 @@ async function countCurrentMandatoryLegal(
   }
 
   const mandatoryIds = [...latestByType.values()];
-  if (mandatoryIds.length === 0) return 0;
+  if (mandatoryIds.length === 0) return { accepted: 0, total: 0 };
 
   const accepted = await prisma.accountLegalAcceptance.findMany({
     where: { platformAccountId },
     select: { legalDocumentVersionId: true },
   });
   const acceptedIds = new Set(accepted.map((row) => row.legalDocumentVersionId));
-  return mandatoryIds.filter((id) => acceptedIds.has(id)).length;
+  const acceptedCount = mandatoryIds.filter((id) => acceptedIds.has(id)).length;
+  return { accepted: acceptedCount, total: mandatoryIds.length };
 }
 
 async function countContactRequestsForEmail(
@@ -152,11 +153,17 @@ export async function reconcileStaleNonAuthoritativeClientMetadata(
     return { ok: false, reason: "PlatformAccount not linked to proof Auth user" };
   }
 
-  const legalCount = await countCurrentMandatoryLegal(prisma, account.id, locale);
-  if (legalCount !== 0) {
+  const legal = await countCurrentMandatoryLegal(prisma, account.id, locale);
+  const preLegalPhase = legal.accepted === 0;
+  const postLegalActivePhase =
+    legal.total > 0 &&
+    legal.accepted === legal.total &&
+    account.status === "ACTIVE";
+
+  if (!preLegalPhase && !postLegalActivePhase) {
     return {
       ok: false,
-      reason: `Expected current mandatory legal=0, found ${legalCount}`,
+      reason: `Reconcile not allowed at legal=${legal.accepted}/${legal.total} status=${account.status}`,
     };
   }
 
@@ -185,9 +192,9 @@ export async function reconcileStaleNonAuthoritativeClientMetadata(
   const crowRole = typeof meta.crow_role === "string" ? meta.crow_role : null;
 
   if (
+    preLegalPhase &&
     account.emailVerifiedAt &&
-    account.status === "PENDING_EMAIL_VERIFICATION" &&
-    legalCount === 0
+    account.status === "PENDING_EMAIL_VERIFICATION"
   ) {
     await prisma.platformAccount.update({
       where: { id: account.id },
@@ -230,7 +237,9 @@ export async function reconcileStaleNonAuthoritativeClientMetadata(
   }
 
   await recordReconcileAudit(prisma, account.id, {
-    reconciliation: "stale_non_authoritative_client_metadata_removed",
+    reconciliation: postLegalActivePhase
+      ? "post_legal_stale_non_authoritative_client_metadata_removed"
+      : "stale_non_authoritative_client_metadata_removed",
     identityFingerprint: fingerprint,
     priorCrowRole: "client",
   });
