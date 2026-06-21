@@ -12,13 +12,22 @@ import {
   type ClientDiscoveryPageModel,
   type ClientDiscoveryStep,
 } from "@/lib/client-portal/client-discovery-contract";
+import {
+  DISCOVERY_AUTHORITY_CONFIRMATION_TEXT,
+  DISCOVERY_AUTHORITY_CONFIRMATION_VERSION,
+  DISCOVERY_COMPLIANCE_BOUNDARY,
+  DISCOVERY_SENSITIVE_DATA_WARNING,
+} from "@/lib/legal/compliance-positioning";
 import { PROCROW_DISCOVERY_CLIENT_CHANGES_PREFIX } from "@/lib/procrow/procrow-discovery-review-contract";
 import { CLIENT_PORTAL_EMPLOYEE_BAND_OPTIONS } from "@/lib/client-portal/client-company-profile-fields";
 import type { ClientDiscoveryStageTemplateDef } from "@/lib/constants/client-discovery-stage-templates";
 import { CEM_MODULES } from "@/lib/constants/modules";
 import { moduleLabel } from "@/lib/catalog-labels";
 import { routes } from "@/lib/routes";
-import { discoveryStatusLabel } from "@/lib/client-portal/client-discovery-contract";
+import {
+  DISCOVERY_SECURITY_ADVISORY_DOMAINS,
+  DISCOVERY_SECURITY_READINESS_OPTIONS,
+} from "@/lib/constants/discovery-security-advisory";
 
 const initial: ClientDiscoveryActionResult | null = null;
 
@@ -292,18 +301,53 @@ export function ClientDiscoveryWizard({
         <section id="security" className="cc-glass-card scroll-mt-24 space-y-4">
           <SectionHeading step="security" title="Security & CyberCrow" />
           <p className="text-sm text-slate-400">
-            CyberCrow provides baseline protection and governance. This is a preference, not a compliance
-            certification.
+            Capture advisory security context for ProCrow review. Selections indicate alignment
+            targets and readiness — not certification or compliance verdicts.
           </p>
-          <textarea
-            name="security_preference"
-            rows={2}
-            defaultValue={
-              model.draft.securityPreference ?? rec?.security.join("; ") ?? ""
-            }
-            disabled={!model.canEdit}
-            className="input-cc w-full text-sm"
-          />
+          <p className="rounded-lg border border-violet-500/20 bg-violet-950/20 px-3 py-2 text-xs text-violet-100/90">
+            {DISCOVERY_COMPLIANCE_BOUNDARY}
+          </p>
+          <div className="space-y-4">
+            {DISCOVERY_SECURITY_ADVISORY_DOMAINS.map((domain) => (
+              <div key={domain.key}>
+                <label
+                  htmlFor={`security_advisory_${domain.key}`}
+                  className="block text-xs font-medium text-slate-500"
+                >
+                  {domain.label}
+                </label>
+                <p className="text-xs text-slate-600">{domain.prompt}</p>
+                <select
+                  id={`security_advisory_${domain.key}`}
+                  name={`security_advisory_${domain.key}`}
+                  defaultValue={model.draft.securityAdvisory[domain.key] ?? "Not assessed"}
+                  disabled={!model.canEdit}
+                  className="input-cc mt-1 max-w-md w-full text-sm"
+                >
+                  {DISCOVERY_SECURITY_READINESS_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
+          <div>
+            <label htmlFor="security_preference" className="block text-xs font-medium text-slate-500">
+              Additional security notes (optional)
+            </label>
+            <textarea
+              id="security_preference"
+              name="security_preference"
+              rows={2}
+              defaultValue={
+                model.draft.securityPreference ?? rec?.security.join("; ") ?? ""
+              }
+              disabled={!model.canEdit}
+              className="input-cc mt-1 w-full text-sm"
+            />
+          </div>
         </section>
 
         <section id="sarea" className="cc-glass-card scroll-mt-24 space-y-4">
@@ -346,6 +390,13 @@ export function ClientDiscoveryWizard({
           </div>
           <p className="text-xs text-slate-500">{model.pricingHonestyCopy}</p>
           <p className="text-xs text-amber-200/90">{CLIENT_DISCOVERY_SUBMIT_DISCLAIMER}</p>
+          <div className="rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-3 text-sm text-amber-100/90">
+            <p className="font-medium">Sensitive information</p>
+            <p className="mt-1 text-xs">{DISCOVERY_SENSITIVE_DATA_WARNING}</p>
+          </div>
+          <div className="rounded-lg border border-slate-600/50 bg-slate-900/40 px-3 py-3 text-sm text-slate-300">
+            <p className="text-xs">{DISCOVERY_COMPLIANCE_BOUNDARY}</p>
+          </div>
         </section>
 
         {model.canEdit && (
@@ -358,21 +409,37 @@ export function ClientDiscoveryWizard({
       </form>
 
       {model.canEdit && (
-        <form action={submitAction} className="cc-glass-card">
+        <form action={submitAction} className="cc-glass-card space-y-4">
           <input type="hidden" name="request_id" value={model.requestId} />
           <p className="text-sm text-slate-300">
             When you are ready, submit discovery for ProCrow review. This does not approve the blueprint
             or activate billing.
           </p>
+          <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-200">
+            <input
+              type="checkbox"
+              name="authority_confirmed"
+              value="true"
+              required
+              className="mt-1"
+            />
+            <span>
+              {DISCOVERY_AUTHORITY_CONFIRMATION_TEXT}
+              <span className="mt-1 block text-xs text-slate-500">
+                Confirmation version {DISCOVERY_AUTHORITY_CONFIRMATION_VERSION} · recorded with
+                submission timestamp.
+              </span>
+            </span>
+          </label>
           <button
             type="submit"
-            className="cc-btn-primary mt-4 text-sm"
+            className="cc-btn-primary text-sm"
             disabled={submitPending || model.missingSteps.length > 0}
           >
             {submitPending ? "Submitting…" : "Submit discovery for ProCrow review"}
           </button>
           {model.missingSteps.length > 0 && (
-            <p className="mt-2 text-xs text-amber-200/90">
+            <p className="text-xs text-amber-200/90">
               Complete required sections before submit:{" "}
               {model.missingSteps.map((s) => STEP_LABELS[s]).join(", ")}
             </p>

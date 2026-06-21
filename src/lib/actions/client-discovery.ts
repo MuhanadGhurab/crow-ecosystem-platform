@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireClientAccess } from "@/lib/auth/session";
 import { CLIENT_PORTAL_EMPLOYEE_BAND_VALUES } from "@/lib/client-portal/client-company-profile-fields";
+import {
+  DISCOVERY_SECURITY_ADVISORY_DOMAINS,
+  type DiscoverySecurityAdvisoryKey,
+} from "@/lib/constants/discovery-security-advisory";
 import { routes } from "@/lib/routes";
 import {
   saveClientDiscoveryDraft,
@@ -59,6 +63,14 @@ export async function saveClientDiscoveryDraftAction(
 
   const moduleKeys = formData.getAll("selected_modules").map(String).filter(Boolean);
 
+  const securityAdvisory: Partial<Record<DiscoverySecurityAdvisoryKey, string>> = {};
+  for (const domain of DISCOVERY_SECURITY_ADVISORY_DOMAINS) {
+    const raw = formData.get(`security_advisory_${domain.key}`);
+    if (typeof raw === "string" && raw.trim()) {
+      securityAdvisory[domain.key] = raw.trim();
+    }
+  }
+
   const parsed = draftSchema.safeParse({
     request_id: formData.get("request_id"),
     industry_template: formData.get("industry_template") || undefined,
@@ -92,6 +104,7 @@ export async function saveClientDiscoveryDraftAction(
       selectedRoles: data.selected_roles,
       selectedWorkflows: data.selected_workflows,
       securityPreference: data.security_preference,
+      securityAdvisory,
       sareaPreference: data.sarea_preference,
       notes: data.notes,
     });
@@ -110,7 +123,8 @@ export async function submitClientDiscoveryForReviewAction(
   const user = await requireClientAccess(routes.client.requestDiscovery(requestId));
 
   try {
-    await submitClientDiscoveryForReview(user, requestId);
+    const authorityConfirmed = formData.get("authority_confirmed") === "true";
+    await submitClientDiscoveryForReview(user, requestId, { authorityConfirmed });
     void notifyClientDiscoverySubmitted(requestId).catch(() => {});
     revalidateClientDiscovery(requestId);
     return { ok: true };

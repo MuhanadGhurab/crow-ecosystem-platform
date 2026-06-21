@@ -42,6 +42,8 @@ export type ClientDiscoveryRecommendation = {
   advisoryNote: string;
 };
 
+import type { DiscoverySecurityAdvisorySnapshot } from "@/lib/constants/discovery-security-advisory";
+
 export type ClientDiscoveryDraft = {
   requestId: string;
   status: ClientDiscoveryStatus;
@@ -54,9 +56,12 @@ export type ClientDiscoveryDraft = {
   selectedModules: string[];
   selectedWorkflows: string[];
   securityPreference: string | null;
+  securityAdvisory: DiscoverySecurityAdvisorySnapshot;
   sareaPreference: string | null;
   notes: string | null;
   submittedAt: string | null;
+  authorityConfirmationVersion: string | null;
+  authorityConfirmedAt: string | null;
   updatedAt: string | null;
 };
 
