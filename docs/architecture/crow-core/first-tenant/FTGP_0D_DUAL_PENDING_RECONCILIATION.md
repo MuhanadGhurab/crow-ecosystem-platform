@@ -246,9 +246,9 @@ Shared hosted Supabase database unchanged. No Supabase Auth metadata writes. No 
 BLOCKED — BACKUP OR PITR EVIDENCE REQUIRED
 ```
 
-Inventory is reconciled and the controlled wrapper enforces the exact two-migration allowlist. Controlled apply may proceed **only after** operator backup/PITR confirmation and explicit authorization phrase.
+Inventory is reconciled and the controlled wrapper enforces the exact two-migration allowlist. Controlled apply may proceed **only after** operator backup/PITR confirmation (see `docs/architecture/cloud/CROW_SUPABASE_PRO_FOUNDATION.md` §5) and explicit authorization phrase.
 
-When backup evidence is recorded, status becomes:
+When backup evidence is recorded in gitignored operator config (`MIGRATION_BACKUP_REFERENCE`, `MIGRATION_BACKUP_VERIFIED_AT`, `MIGRATION_RECOVERY_METHOD`), status becomes:
 
 ```text
 READY — DUAL-PENDING INVENTORY RECONCILED; CONTROLLED APPLY MAY BE AUTHORIZED
@@ -258,6 +258,8 @@ READY — DUAL-PENDING INVENTORY RECONCILED; CONTROLLED APPLY MAY BE AUTHORIZED
 
 ## Related documents
 
+- `CROW_SUPABASE_PRO_FOUNDATION.md` (CLOUD.0 Pro recovery gate)
 - `FTGP_0C_CONTROLLED_MIGRATION_REVIEW.md` (updated for 0D supersession of wrapper gaps)
 - `scripts/lib/controlled-migration-inventory.ts`
+- `docs/architecture/cloud/CROW_SUPABASE_PRO_FOUNDATION.md`
 - C2 controlled migration delivery docs
