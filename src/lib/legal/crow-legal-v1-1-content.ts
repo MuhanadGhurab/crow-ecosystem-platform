@@ -1,6 +1,7 @@
 /**
- * Crow Legal v1.1 — approved package bodies (placeholder contacts until counsel configures).
- * Do not paraphrase away material protections. Counsel review required before production release.
+ * Crow Legal v1.1 — approved package templates ({{placeholders}} until controlled publication).
+ * Final immutable bodies and hashes are created by legal-publication.service at publication time.
+ * Counsel and product-owner review required before hosted publication.
  */
 
 import type { LegalDocumentType, MandatoryClassification } from "@prisma/client";
