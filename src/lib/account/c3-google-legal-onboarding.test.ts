@@ -28,7 +28,12 @@ function readSrc(rel: string): string {
   );
   assert(callback.includes("exchangeCodeForSession"), "PKCE code exchange");
   assert(callback.includes("Cache-Control"), "no-store on OAuth response");
-  assert(!callback.includes("gateAuthSessionForC3"), "callback must not duplicate C3 gate");
+  assert(
+    callback.includes("isC3PlatformAccountGateEnabled") &&
+      callback.indexOf("gateAuthSessionForC3") >
+        callback.indexOf("isC3PlatformAccountGateEnabled"),
+    "non-Google C3 OAuth must use gate instead of legacy client bootstrap"
+  );
 }
 
 {

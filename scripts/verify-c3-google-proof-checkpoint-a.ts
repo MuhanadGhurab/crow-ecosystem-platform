@@ -3,7 +3,7 @@
  * Run after operator reaches /auth/resolving: npm run c3-google-proof-checkpoint-a:verify
  */
 import { PrismaClient } from "@prisma/client";
-import { EMAIL_VERIFICATION_SOURCES } from "../../src/lib/account/verification-sources";
+import { EMAIL_VERIFICATION_SOURCES } from "../src/lib/account/verification-sources";
 import {
   collectGoogleProofCheckpointEvidence,
   isPendingLegalCheckpointStatus,

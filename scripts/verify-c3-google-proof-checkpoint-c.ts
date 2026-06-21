@@ -4,7 +4,7 @@
  * npm run c3-google-proof-checkpoint-c:verify
  */
 import { PrismaClient } from "@prisma/client";
-import { EMAIL_VERIFICATION_SOURCES } from "../../src/lib/account/verification-sources";
+import { EMAIL_VERIFICATION_SOURCES } from "../src/lib/account/verification-sources";
 import {
   collectGoogleProofCheckpointEvidence,
   printCheckpointEvidence,

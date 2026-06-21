@@ -6,9 +6,39 @@ import type { LegalDocumentType, PrismaClient } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
 import { computeC3ProofIdentityFingerprint } from "../../src/lib/account/c3-proof-identity-fingerprint";
 import { EMAIL_VERIFICATION_SOURCES } from "../../src/lib/account/verification-sources";
-import { getCurrentPublishedMandatoryVersions } from "../../src/lib/legal/legal-document.service";
-import { getCrowAuth } from "../../src/lib/auth/roles";
 import { requireGoogleProofOperatorEnv } from "./c3-google-proof-identity-resolution";
+
+const MANDATORY_CLASSIFICATIONS = ["mandatory_contractual", "mandatory_notice"] as const;
+
+type CurrentMandatoryVersion = {
+  id: string;
+  documentType: LegalDocumentType;
+};
+
+async function listCurrentMandatoryVersions(
+  prisma: PrismaClient,
+  locale: string
+): Promise<CurrentMandatoryVersion[]> {
+  const versions = await prisma.legalDocumentVersion.findMany({
+    where: {
+      status: "published",
+      locale,
+      audience: "platform_requester",
+      mandatoryClassification: { in: [...MANDATORY_CLASSIFICATIONS] },
+    },
+    include: { legalDocument: true },
+    orderBy: [{ legalDocument: { documentType: "asc" } }, { versionNumber: "desc" }],
+  });
+
+  const latestByType = new Map<LegalDocumentType, CurrentMandatoryVersion>();
+  for (const version of versions) {
+    const documentType = version.legalDocument.documentType;
+    if (!latestByType.has(documentType)) {
+      latestByType.set(documentType, { id: version.id, documentType });
+    }
+  }
+  return [...latestByType.values()];
+}
 
 export type GoogleProofCheckpointEvidence = {
   identityFingerprint: string;
@@ -65,7 +95,7 @@ async function countCurrentMandatoryLegal(
   platformAccountId: string,
   locale: string
 ): Promise<number> {
-  const mandatory = await getCurrentPublishedMandatoryVersions({ locale });
+  const mandatory = await listCurrentMandatoryVersions(prisma, locale);
   if (mandatory.length === 0) return 0;
   const accepted = await prisma.accountLegalAcceptance.findMany({
     where: { platformAccountId },
@@ -81,8 +111,8 @@ async function hasCurrentAcceptanceForType(
   locale: string,
   documentType: LegalDocumentType
 ): Promise<boolean> {
-  const mandatory = await getCurrentPublishedMandatoryVersions({ locale });
-  const current = mandatory.find((v) => v.legalDocument.documentType === documentType);
+  const mandatory = await listCurrentMandatoryVersions(prisma, locale);
+  const current = mandatory.find((version) => version.documentType === documentType);
   if (!current) return false;
   const row = await prisma.accountLegalAcceptance.findFirst({
     where: {
@@ -142,7 +172,8 @@ export async function collectGoogleProofCheckpointEvidence(
   });
 
   const account = accounts.length === 1 ? accounts[0]! : null;
-  const mandatoryTotal = (await getCurrentPublishedMandatoryVersions({ locale })).length;
+  const mandatoryVersions = await listCurrentMandatoryVersions(prisma, locale);
+  const mandatoryTotal = mandatoryVersions.length;
   const legalCount = account
     ? await countCurrentMandatoryLegal(prisma, account.id, locale)
     : 0;
@@ -177,7 +208,10 @@ export async function collectGoogleProofCheckpointEvidence(
       })
     : 0;
 
-  const crowRole = getCrowAuth(authUser).role;
+  const crowRole =
+    typeof authUser.app_metadata?.crow_role === "string"
+      ? authUser.app_metadata.crow_role
+      : null;
 
   return {
     identityFingerprint,
