@@ -102,9 +102,16 @@ assert(blocked, "hosted publication blocked without explicit authorization");
 assert(!isExplicitLegalV11PublicationAuthorized(), "publication not authorized by env presence alone");
 
 const fidelity = buildLegalContentFidelitySummary();
+assert(fidelity.poSourceAvailable, "PO canonical source files must exist");
 assert(
-  fidelity.overallClassification === "PO_SOURCE_MISSING" || fidelity.poSourceAvailable,
-  "fidelity summary reports PO source availability"
+  fidelity.overallClassification === "EXACT_MATCH",
+  `expected EXACT_MATCH fidelity, got ${fidelity.overallClassification}`
 );
+for (const doc of fidelity.documents) {
+  assert(
+    doc.classification === "EXACT_MATCH",
+    `${doc.documentType} must EXACT_MATCH PO source (got ${doc.classification})`
+  );
+}
 
 console.log("legal-publication.service.test.ts: OK");

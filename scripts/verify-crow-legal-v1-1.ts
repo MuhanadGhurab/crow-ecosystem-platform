@@ -53,6 +53,10 @@ const REQUIRED_FILES = [
   "scripts/publish-crow-legal-v1-1-controlled.ts",
   "docs/legal/CROW_LEGAL_V1_1_ALIGNMENT_POSITION.md",
   "docs/legal/CROW_LEGAL_V1_1_PUBLICATION_PLAN.md",
+  "docs/legal/CROW_LEGAL_V1_1_PRODUCT_OWNER_DRAFT_APPROVAL.md",
+  "docs/legal/source/product-owner-v1-1/terms-of-service-v1-1.md",
+  "docs/legal/source/product-owner-v1-1/privacy-notice-v1-1.md",
+  "docs/legal/source/product-owner-v1-1/acceptable-use-policy-v1-1.md",
 ] as const;
 
 function ok(msg: string) {
@@ -167,12 +171,28 @@ function main() {
     }
   }
   check(
-    fidelity.overallClassification !== "MATERIAL_DIFFERENCES_REQUIRE_APPROVAL",
-    fidelity.poSourceAvailable
-      ? "No unresolved material PO diffs in committed templates"
-      : "PO canonical source files not yet deposited — fidelity gate documented",
-    "MATERIAL_DIFFERENCES_REQUIRE_APPROVAL — product owner must approve before publication"
+    fidelity.poSourceAvailable,
+    "PO canonical source files deposited",
+    "PO canonical source files missing under docs/legal/source/product-owner-v1-1/"
   );
+  check(
+    fidelity.overallClassification === "EXACT_MATCH",
+    "Committed templates EXACT_MATCH product-owner canonical source",
+    `Fidelity not EXACT_MATCH — got ${fidelity.overallClassification}`
+  );
+  for (const doc of fidelity.documents) {
+    const poSections = read(
+      `docs/legal/source/product-owner-v1-1/${doc.documentType === "TERMS_OF_SERVICE" ? "terms-of-service-v1-1.md" : doc.documentType === "PRIVACY_NOTICE" ? "privacy-notice-v1-1.md" : "acceptable-use-policy-v1-1.md"}`
+    )
+      .split("\n")
+      .filter((l) => /^##\s+/.test(l)).length;
+    const committedSections = doc.preservedSections.length + doc.newClauses.length;
+    check(
+      doc.classification === "EXACT_MATCH" && poSections === committedSections,
+      `${doc.documentType}: EXACT_MATCH (${poSections} sections)`,
+      `${doc.documentType}: ${doc.classification} (section count PO=${poSections} committed=${committedSections})`
+    );
+  }
 
   process.env.CROW_LEGAL_ENTITY_NAME = "Crow Test Entity";
   process.env.LEGAL_CONTACT_EMAIL = "legal@test.crow.local";
@@ -314,13 +334,24 @@ function main() {
     console.log(`  ${doc.documentType}: ${hashLegalDocumentContent(doc.contentBody)}`);
   }
 
+  console.log("\n--- Product-owner and publication status ---\n");
+  console.log(`  PRODUCT_OWNER_SOURCE=${fidelity.poSourceAvailable ? "AVAILABLE" : "MISSING"}`);
+  console.log("  PRODUCT_OWNER_DRAFT_APPROVED=true");
+  console.log("  COUNSEL_APPROVED=false");
+  console.log(
+    `  HOSTED_PUBLICATION_AUTHORIZED=${isExplicitLegalV11PublicationAuthorized() && isHostedLegalPublicationAllowed() ? "true" : "false"}`
+  );
+
   console.log("");
   if (passed) {
     console.log(
       "PASS — LEGAL V1.1 CONTENT, IMMUTABILITY AND PUBLICATION CONTROLS VERIFIED\n"
     );
     console.log(
-      "(Does not imply counsel approval, PO exact-text sign-off, or hosted publication authorization.)\n"
+      "PASSED — PRODUCT-OWNER LEGAL V1.1 SOURCE AND IMPLEMENTATION FIDELITY VERIFIED\n"
+    );
+    console.log(
+      "(Does not imply counsel approval or hosted publication authorization.)\n"
     );
     process.exit(0);
   } else {
