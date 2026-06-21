@@ -156,6 +156,8 @@
     "c3-google-legal-onboarding:verify": "npx tsx src/lib/account/c3-google-legal-onboarding.test.ts && npx tsx scripts/verify-c3-google-legal-onboarding.ts",
     "c3-role-neutral-onboarding:test": "npx tsx src/lib/account/c3-role-neutral-onboarding.test.ts",
     "ftgp-authority-boundaries:test": "npx tsx src/lib/auth/ftgp-authority-boundaries.test.ts",
+    "ftgp-migration-sql:verify": "npx tsx scripts/verify-ftgp-migration-sql.ts",
+    "ftgp-migration-preflight:hosted": "npx tsx --env-file=.env.staging.runtime --env-file=.env.preview.operator scripts/verify-ftgp-migration-preflight-hosted.ts",
     "c3-account-profile-lifecycle:test": "npx tsx src/lib/account/c3-account-profile-lifecycle.test.ts",
     "portal-public-header:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",
     "c3-public-header-session:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",
