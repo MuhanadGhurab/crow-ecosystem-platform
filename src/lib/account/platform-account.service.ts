@@ -7,12 +7,11 @@ import { assertC2DatabaseEnvironmentSafe } from "@/lib/crow-core/c2-database-mut
 import { prisma } from "@/lib/db";
 import { normalizeEmail } from "@/lib/account/email-normalize";
 import { generatePublicAccountId } from "@/lib/account/public-account-id";
-import { getCurrentEnrollmentGeneration } from "@/lib/account/onboarding-generation";
+import { getCurrentEnrollmentGeneration, getRequiredOnboardingGeneration, isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 import {
   canActivatePlatformAccount,
   isPhoneVerificationRequiredForAccount,
 } from "@/lib/account/platform-account-activation";
-import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 
 export type PlatformAccountRecord = PlatformAccount;
 
@@ -224,4 +223,16 @@ export function isPendingPhoneVerification(account: PlatformAccountRecord): bool
 
 export function isBlockedPlatformAccountStatus(status: PlatformAccountStatus): boolean {
   return status === "SUSPENDED" || status === "LOCKED" || status === "DEACTIVATED";
+}
+
+/** Bump legacy generation when current mandatory legal evidence is already complete. */
+export async function reconcileLegacyOnboardingGeneration(
+  platformAccountId: string
+): Promise<PlatformAccountRecord> {
+  await assertC2DatabaseEnvironmentSafe();
+  const required = getRequiredOnboardingGeneration();
+  return prisma.platformAccount.update({
+    where: { id: platformAccountId },
+    data: { onboardingGeneration: required },
+  });
 }

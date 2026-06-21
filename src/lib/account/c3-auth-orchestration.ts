@@ -8,6 +8,7 @@ import {
   isPendingEmailVerification,
   isPendingPhoneVerification,
   isPlatformAccountActive,
+  reconcileLegacyOnboardingGeneration,
 } from "@/lib/account/platform-account.service";
 import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generation";
 import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
@@ -57,7 +58,7 @@ export async function gateAuthSessionForC3(
 
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account) {
-    return { action: "redirect", path: withNext(routes.onboarding.legal, next) };
+    return { action: "redirect", path: withNext(routes.account.registerLegal, next) };
   }
 
   if (isBlockedPlatformAccountStatus(account.status)) {
@@ -67,46 +68,49 @@ export async function gateAuthSessionForC3(
     };
   }
 
+  const locale = await resolveRegistrationLocale();
+  const legalComplete = await hasMandatoryLegalAcceptanceComplete(account.id, locale);
+
   if (
     account.status === "ACTIVE" &&
     !isOnboardingGenerationCurrent(account.onboardingGeneration)
   ) {
-    return {
-      action: "error",
-      message: "This account must complete the current onboarding process.",
-    };
+    if (!legalComplete) {
+      return { action: "redirect", path: withNext(routes.account.registerLegal, next) };
+    }
+    await reconcileLegacyOnboardingGeneration(account.id);
   }
 
-  const locale = await resolveRegistrationLocale();
-  const legalComplete = await hasMandatoryLegalAcceptanceComplete(account.id, locale);
+  let currentAccount =
+    (await findPlatformAccountBySupabaseUserId(user.id)) ?? account;
 
   if (!legalComplete) {
-    return { action: "redirect", path: withNext(routes.onboarding.legal, next) };
+    return { action: "redirect", path: withNext(routes.account.registerLegal, next) };
   }
 
-  if (isPendingEmailVerification(account) || !account.emailVerifiedAt) {
+  if (isPendingEmailVerification(currentAccount) || !currentAccount.emailVerifiedAt) {
     return { action: "redirect", path: withNext(routes.onboarding.verifyEmail, next) };
   }
 
-  let currentAccount = account;
+  let workingAccount = currentAccount;
   if (
-    !isPhoneVerificationRequiredForAccount(currentAccount) &&
-    !isPlatformAccountActive(currentAccount)
+    !isPhoneVerificationRequiredForAccount(workingAccount) &&
+    !isPlatformAccountActive(workingAccount)
   ) {
-    await activatePlatformAccountIfReady(currentAccount.id);
-    currentAccount =
-      (await findPlatformAccountBySupabaseUserId(user.id)) ?? currentAccount;
+    await activatePlatformAccountIfReady(workingAccount.id);
+    workingAccount =
+      (await findPlatformAccountBySupabaseUserId(user.id)) ?? workingAccount;
   }
 
   if (
-    isPhoneVerificationRequiredForAccount(currentAccount) &&
-    isPendingPhoneVerification(currentAccount)
+    isPhoneVerificationRequiredForAccount(workingAccount) &&
+    isPendingPhoneVerification(workingAccount)
   ) {
     return { action: "redirect", path: withNext(routes.onboarding.verifyPhone, next) };
   }
 
-  if (isPlatformAccountActive(currentAccount)) {
-    const pendingReaccept = await getPendingReacceptanceForAccount(currentAccount.id, locale);
+  if (isPlatformAccountActive(workingAccount)) {
+    const pendingReaccept = await getPendingReacceptanceForAccount(workingAccount.id, locale);
     if (pendingReaccept.length > 0) {
       return { action: "redirect", path: `${routes.account.legal}?reaccept=1` };
     }

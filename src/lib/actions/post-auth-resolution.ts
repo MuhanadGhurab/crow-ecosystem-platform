@@ -9,6 +9,7 @@ import {
   oauthSessionLoginPath,
   resolveCrowPostAuthSession,
   type PostAuthResolutionResult,
+  type PostAuthResolutionSanitizedFailureClass,
   type PostAuthResolutionStage,
 } from "@/lib/auth/c3-post-auth-resolution";
 
@@ -24,10 +25,12 @@ export type PostAuthResolutionActionState =
       stages: PostAuthResolutionStage[];
     }
   | {
-      status: "timeout";
+      status: "resolver_error";
       message: string;
       supportRef: string;
       stages: PostAuthResolutionStage[];
+      failureStage: PostAuthResolutionStage;
+      failureClass?: PostAuthResolutionSanitizedFailureClass;
     }
   | {
       status: "no_session";
@@ -47,12 +50,19 @@ function mapResult(result: PostAuthResolutionResult): PostAuthResolutionActionSt
     };
   }
 
-  if (result.message === "We could not finish preparing your account.") {
+  const failureStage = result.failureStage ?? "account_checked";
+
+  if (
+    result.reason === "configuration" ||
+    result.failureClass === "RESOLUTION_TIMEOUT"
+  ) {
     return {
-      status: "timeout",
+      status: "resolver_error",
       message: result.message,
       supportRef: result.supportRef,
       stages: result.stages,
+      failureStage,
+      failureClass: result.failureClass,
     };
   }
 
