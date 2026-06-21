@@ -30,6 +30,7 @@ assert(
   "user-safe preparation failure copy"
 );
 assert(!resolver.includes("timeout"), "removed separate timeout phase with fake progress");
+assert(resolver.includes("CrowProofIdentityPanel"), "resolver integrates optional proof panel");
 
 assert(
   resolution.includes("failureStage"),

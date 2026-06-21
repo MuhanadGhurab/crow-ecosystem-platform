@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { CrowPostAuthResolver } from "@/components/auth/crow-post-auth-resolver";
+import { isC3ProofDiagnosticsEnabled } from "@/lib/account/c3-proof-identity-diagnostics";
 import { getSessionUser } from "@/lib/auth/session";
 import { oauthSessionLoginPath } from "@/lib/auth/c3-post-auth-resolution";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
@@ -19,5 +20,10 @@ export default async function AuthResolvingPage({
     redirect(oauthSessionLoginPath());
   }
 
-  return <CrowPostAuthResolver nextPath={nextPath} />;
+  return (
+    <CrowPostAuthResolver
+      nextPath={nextPath}
+      showProofPanel={isC3ProofDiagnosticsEnabled()}
+    />
+  );
 }

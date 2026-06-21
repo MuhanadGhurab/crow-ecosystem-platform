@@ -3,6 +3,7 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CrowMarkSvg } from "@/components/brand/crow-mark-svg";
+import { CrowProofIdentityPanel } from "@/components/auth/crow-proof-identity-panel";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import {
   runPostAuthResolutionAction,
@@ -44,13 +45,14 @@ type ResolverPhase = "running" | "failed";
 
 type Props = {
   nextPath?: string;
+  showProofPanel?: boolean;
 };
 
 function stageIndex(stage: PostAuthResolutionStage): number {
   return STAGE_ORDER.indexOf(stage);
 }
 
-export function CrowPostAuthResolver({ nextPath }: Props) {
+export function CrowPostAuthResolver({ nextPath, showProofPanel = false }: Props) {
   const router = useRouter();
   const [phase, setPhase] = useState<ResolverPhase>("running");
   const [completedStages, setCompletedStages] = useState<PostAuthResolutionStage[]>([]);
@@ -133,7 +135,7 @@ export function CrowPostAuthResolver({ nextPath }: Props) {
 
   if (phase === "failed") {
     return (
-      <ResolverShell>
+      <ResolverShell showProofPanel={showProofPanel}>
         <StageList
           completedStages={completedStages}
           failedStage={failedStage}
@@ -176,7 +178,7 @@ export function CrowPostAuthResolver({ nextPath }: Props) {
   }
 
   return (
-    <ResolverShell>
+    <ResolverShell showProofPanel={showProofPanel}>
       <StageList
         completedStages={completedStages}
         failedStage={null}
@@ -296,7 +298,13 @@ function StageMarker({
   );
 }
 
-function ResolverShell({ children }: { children: React.ReactNode }) {
+function ResolverShell({
+  children,
+  showProofPanel,
+}: {
+  children: React.ReactNode;
+  showProofPanel: boolean;
+}) {
   return (
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6">
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
@@ -312,6 +320,7 @@ function ResolverShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <div className="mt-8">{children}</div>
+        <CrowProofIdentityPanel enabled={showProofPanel} />
       </div>
     </div>
   );

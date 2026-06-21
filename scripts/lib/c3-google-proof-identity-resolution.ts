@@ -4,6 +4,7 @@
 import { createClient, type User } from "@supabase/supabase-js";
 import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
+import { computeC3ProofIdentityFingerprint } from "../../src/lib/account/c3-proof-identity-fingerprint";
 import { opaqueManifestRef } from "./identity-manifest";
 
 const MANDATORY_CLASSIFICATIONS = ["mandatory_contractual", "mandatory_notice"] as const;
@@ -67,7 +68,7 @@ export type GoogleProofIdentityResolution = {
   classification: GoogleProofIdentityClassification;
   retentionPolicy: GoogleProofAccountRetention | null;
   accountOpaque: string | null;
-  authOpaque: string | null;
+  identityFingerprint: string | null;
   emailOpaque: string | null;
   counts: {
     supabaseAuthUsers: number;
@@ -187,7 +188,7 @@ export async function resolveGoogleProofIdentity(
     classification,
     retentionPolicy: retention,
     accountOpaque: null,
-    authOpaque: null,
+    identityFingerprint: null,
     emailOpaque,
     counts: {
       supabaseAuthUsers: authUsers.length,
@@ -248,7 +249,7 @@ export async function resolveGoogleProofIdentity(
 
   if (authUser && !account) {
     return baseResolution("LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT", {
-      authOpaque: opaqueManifestRef("supabase-auth", authUser.id),
+      identityFingerprint: computeC3ProofIdentityFingerprint(authUser.id),
       stopReason: "Supabase Auth without PlatformAccount — reconcile on OAuth callback",
     });
   }
@@ -329,7 +330,7 @@ export async function resolveGoogleProofIdentity(
   };
 
   const accountOpaque = opaqueManifestRef("platform-account", account.id);
-  const authOpaque = opaqueManifestRef("supabase-auth", authUser.id);
+  const identityFingerprint = computeC3ProofIdentityFingerprint(authUser.id);
 
   const locale = process.env.CROW_REGISTRATION_LOCALE?.trim() || "en-US";
   const legalCurrent = await isCurrentMandatoryLegalComplete(prisma, account.id, locale);
@@ -337,7 +338,7 @@ export async function resolveGoogleProofIdentity(
   if (providerCollision) {
     return baseResolution("PROVIDER_COLLISION", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       stopReason: "Google provider identity linked to another platform account",
@@ -347,7 +348,7 @@ export async function resolveGoogleProofIdentity(
   if (account.onboardingGeneration < 2) {
     return baseResolution("LEGACY_IDENTITY", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       stopReason: "Legacy onboarding generation",
@@ -363,7 +364,7 @@ export async function resolveGoogleProofIdentity(
   ) {
     return baseResolution("PRIVILEGED_OR_OPERATIONAL_IDENTITY", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       stopReason: `Privileged crow_role=${crowRole}`,
@@ -376,7 +377,7 @@ export async function resolveGoogleProofIdentity(
       : "EXISTING_CLIENT_LEGAL_INCOMPLETE";
     return baseResolution(classification, {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       mayProceed: classification === "EXISTING_CLIENT_LEGAL_INCOMPLETE",
@@ -390,7 +391,7 @@ export async function resolveGoogleProofIdentity(
   if (tenantMemberships > 0 || operationalOwnershipRefs > 0) {
     return baseResolution("OPERATIONAL_OWNERSHIP_BLOCKER", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       stopReason: "Tenant membership or operational ownership present",
@@ -407,7 +408,7 @@ export async function resolveGoogleProofIdentity(
   if (isActiveOrdinary) {
     return baseResolution("ACTIVE_GOOGLE_REQUESTER", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
       stopReason: "Already ACTIVE — use for re-login session proof only",
@@ -423,7 +424,7 @@ export async function resolveGoogleProofIdentity(
   if (isPendingOrdinary) {
     return baseResolution("CONTROLLED_PENDING_GOOGLE_REQUESTER", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
     });
@@ -439,7 +440,7 @@ export async function resolveGoogleProofIdentity(
   if (incomplete) {
     return baseResolution("INCOMPLETE_GOOGLE_REQUESTER", {
       accountOpaque,
-      authOpaque,
+      identityFingerprint,
       counts,
       state,
     });
@@ -447,7 +448,7 @@ export async function resolveGoogleProofIdentity(
 
   return baseResolution("UNKNOWN", {
     accountOpaque,
-    authOpaque,
+    identityFingerprint,
     counts,
     state,
     stopReason: "Account state does not match controlled Google requester profile",
@@ -460,7 +461,9 @@ export function printGoogleProofResolution(resolution: GoogleProofIdentityResolu
   console.log(`  classification: ${resolution.classification}`);
   console.log(`  mayProceed: ${resolution.mayProceed}`);
   if (resolution.accountOpaque) console.log(`  accountOpaque: ${resolution.accountOpaque}`);
-  if (resolution.authOpaque) console.log(`  authOpaque: ${resolution.authOpaque}`);
+  if (resolution.identityFingerprint) {
+    console.log(`  identityFingerprint: ${resolution.identityFingerprint}`);
+  }
   if (resolution.emailOpaque) console.log(`  emailOpaque: ${resolution.emailOpaque}`);
   console.log("  counts:", JSON.stringify(resolution.counts));
   console.log("  state:", JSON.stringify(resolution.state));

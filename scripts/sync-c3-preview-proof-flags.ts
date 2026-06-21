@@ -56,6 +56,17 @@ async function main() {
     console.log(`  ✓ ${spec.name}`);
   }
 
+  const fingerprintSecret = process.env.C3_PROOF_IDENTITY_FINGERPRINT_SECRET?.trim();
+  if (mode === "enable-google-proof" && fingerprintSecret && fingerprintSecret.length >= 8) {
+    console.log("Setting C3_PROOF_IDENTITY_FINGERPRINT_SECRET=(redacted)…");
+    await vercelEnvAdd("C3_PROOF_IDENTITY_FINGERPRINT_SECRET", fingerprintSecret);
+    console.log("  ✓ C3_PROOF_IDENTITY_FINGERPRINT_SECRET");
+  } else if (mode === "enable-google-proof") {
+    console.warn(
+      "  ⚠ C3_PROOF_IDENTITY_FINGERPRINT_SECRET not set locally — browser/CLI fingerprints will diverge on Preview until synced"
+    );
+  }
+
   console.log(
     mode === "enable-google-proof"
       ? "Enabled C3.10O Google OAuth Preview proof flags on branch Preview."

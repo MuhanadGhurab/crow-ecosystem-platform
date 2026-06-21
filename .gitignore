@@ -62,6 +62,7 @@ skills-lock.json
 
 # C3 Preview env pulls and operator secrets (never commit)
 .env.staging.runtime
+.env.preview.proof-link
 .env.preview.*
 .env.preview.e2e
 
