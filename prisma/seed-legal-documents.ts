@@ -1,5 +1,13 @@
 import type { LegalDocumentType, MandatoryClassification, PrismaClient } from "@prisma/client";
 import { hashLegalDocumentContent } from "../src/lib/legal/legal-document-hash";
+import {
+  CROW_LEGAL_V1_1_DOCUMENTS,
+  CROW_LEGAL_V1_1_VERSION_NUMBER,
+} from "../src/lib/legal/crow-legal-v1-1-content";
+import {
+  assertNoExampleLegalContacts,
+  interpolateLegalContactPlaceholders,
+} from "../src/lib/legal/legal-contact-config";
 
 const LOCALE = "en-US";
 const AUDIENCE = "platform_requester" as const;
@@ -9,13 +17,17 @@ type SeedDoc = {
   title: string;
   mandatoryClassification: MandatoryClassification;
   contentBody: string;
+  versionNumber: number;
+  reacceptancePolicy: "none" | "required_before_protected_activity";
 };
 
-const SEED_DOCUMENTS: SeedDoc[] = [
+const V1_DOCUMENTS: SeedDoc[] = [
   {
     documentType: "TERMS_OF_SERVICE",
     title: "Crow Platform Terms of Service",
     mandatoryClassification: "mandatory_contractual",
+    versionNumber: 1,
+    reacceptancePolicy: "none",
     contentBody: `# Crow Platform Terms of Service
 
 **Version 1.0 — Effective upon publication**
@@ -46,13 +58,15 @@ To the maximum extent permitted by law, Crow provides the platform "as is" and l
 
 ## 7. Contact
 
-Questions about these terms: legal@cybercrow.example
+Questions about these terms: {{LEGAL_CONTACT_EMAIL}}
 `,
   },
   {
     documentType: "PRIVACY_NOTICE",
     title: "Crow Platform Privacy Notice",
     mandatoryClassification: "mandatory_notice",
+    versionNumber: 1,
+    reacceptancePolicy: "none",
     contentBody: `# Crow Platform Privacy Notice
 
 **Version 1.0 — Effective upon publication**
@@ -84,13 +98,15 @@ You may withdraw marketing consent from your account legal page without deactiva
 
 ## 6. Contact
 
-Privacy inquiries: privacy@cybercrow.example
+Privacy inquiries: {{PRIVACY_CONTACT_EMAIL}}
 `,
   },
   {
     documentType: "ACCEPTABLE_USE_POLICY",
     title: "Crow Acceptable Use Policy",
     mandatoryClassification: "mandatory_contractual",
+    versionNumber: 1,
+    reacceptancePolicy: "none",
     contentBody: `# Crow Acceptable Use Policy
 
 **Version 1.0 — Effective upon publication**
@@ -118,27 +134,102 @@ Violations may result in suspension or closure of your platform account.
 
 ## 5. Reporting
 
-Report abuse to abuse@cybercrow.example
+Report abuse to {{ABUSE_CONTACT_EMAIL}}
 `,
   },
 ];
 
+function prepareContent(body: string): string {
+  const interpolated = interpolateLegalContactPlaceholders(body);
+  assertNoExampleLegalContacts(interpolated, "seed legal document");
+  return interpolated;
+}
+
+async function seedVersion(
+  prisma: PrismaClient,
+  legalDocumentId: string,
+  doc: SeedDoc,
+  now: Date,
+  supersedesVersionId?: string
+): Promise<void> {
+  const existingVersion = await prisma.legalDocumentVersion.findFirst({
+    where: {
+      legalDocumentId,
+      versionNumber: doc.versionNumber,
+      locale: LOCALE,
+      audience: AUDIENCE,
+    },
+  });
+
+  if (existingVersion) {
+    console.log(`  skip ${doc.documentType} v${doc.versionNumber} (${LOCALE}) — already seeded`);
+    return;
+  }
+
+  const contentBody = prepareContent(doc.contentBody);
+  const contentSha256 = hashLegalDocumentContent(contentBody);
+
+  if (supersedesVersionId) {
+    await prisma.legalDocumentVersion.updateMany({
+      where: {
+        legalDocumentId,
+        id: supersedesVersionId,
+        status: "published",
+      },
+      data: { status: "superseded" },
+    });
+  }
+
+  await prisma.legalDocumentVersion.create({
+    data: {
+      legalDocumentId,
+      versionNumber: doc.versionNumber,
+      locale: LOCALE,
+      audience: AUDIENCE,
+      title: doc.title,
+      contentFormat: "markdown",
+      contentBody,
+      contentSchemaVersion: "1",
+      status: "published",
+      mandatoryClassification: doc.mandatoryClassification,
+      reacceptancePolicy: doc.reacceptancePolicy,
+      effectiveAt: now,
+      publishedAt: now,
+      contentSha256,
+      supersedesVersionId: supersedesVersionId ?? null,
+    },
+  });
+
+  console.log(`  seeded ${doc.documentType} v${doc.versionNumber} (${LOCALE})`);
+}
+
 export async function seedLegalDocuments(prisma: PrismaClient): Promise<void> {
   const now = new Date();
 
-  for (const doc of SEED_DOCUMENTS) {
+  for (const doc of V1_DOCUMENTS) {
     const legalDocument = await prisma.legalDocument.upsert({
       where: { documentType: doc.documentType },
       create: {
         documentType: doc.documentType,
         title: doc.title,
       },
-      update: {
-        title: doc.title,
-      },
+      update: {},
     });
 
-    const existingVersion = await prisma.legalDocumentVersion.findFirst({
+    await seedVersion(prisma, legalDocument.id, doc, now);
+  }
+
+  for (const doc of CROW_LEGAL_V1_1_DOCUMENTS) {
+    const legalDocument = await prisma.legalDocument.upsert({
+      where: { documentType: doc.documentType },
+      create: {
+        documentType: doc.documentType,
+        title: doc.title,
+      },
+      update: { title: doc.title },
+    });
+
+    const priorV1 = await prisma.legalDocumentVersion.findFirst({
       where: {
         legalDocumentId: legalDocument.id,
         versionNumber: 1,
@@ -147,32 +238,15 @@ export async function seedLegalDocuments(prisma: PrismaClient): Promise<void> {
       },
     });
 
-    if (existingVersion) {
-      console.log(`  skip ${doc.documentType} v1 (${LOCALE}) — already seeded`);
-      continue;
-    }
+    const v11Doc: SeedDoc = {
+      documentType: doc.documentType,
+      title: doc.title,
+      mandatoryClassification: doc.mandatoryClassification,
+      contentBody: doc.contentBody,
+      versionNumber: CROW_LEGAL_V1_1_VERSION_NUMBER,
+      reacceptancePolicy: "required_before_protected_activity",
+    };
 
-    const contentSha256 = hashLegalDocumentContent(doc.contentBody);
-
-    await prisma.legalDocumentVersion.create({
-      data: {
-        legalDocumentId: legalDocument.id,
-        versionNumber: 1,
-        locale: LOCALE,
-        audience: AUDIENCE,
-        title: doc.title,
-        contentFormat: "markdown",
-        contentBody: doc.contentBody,
-        contentSchemaVersion: "1",
-        status: "published",
-        mandatoryClassification: doc.mandatoryClassification,
-        reacceptancePolicy: "none",
-        effectiveAt: now,
-        publishedAt: now,
-        contentSha256,
-      },
-    });
-
-    console.log(`  seeded ${doc.documentType} v1 (${LOCALE})`);
+    await seedVersion(prisma, legalDocument.id, v11Doc, now, priorV1?.id);
   }
 }
