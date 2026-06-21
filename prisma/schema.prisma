@@ -1944,6 +1944,8 @@ enum LegalDocumentType {
 
 enum LegalDocumentVersionStatus {
   draft
+  reviewed
+  approved_for_publication
   published
   superseded
 }

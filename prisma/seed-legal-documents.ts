@@ -1,9 +1,6 @@
 import type { LegalDocumentType, MandatoryClassification, PrismaClient } from "@prisma/client";
 import { hashLegalDocumentContent } from "../src/lib/legal/legal-document-hash";
-import {
-  CROW_LEGAL_V1_1_DOCUMENTS,
-  CROW_LEGAL_V1_1_VERSION_NUMBER,
-} from "../src/lib/legal/crow-legal-v1-1-content";
+import { seedLegalV11DraftVersions } from "../src/lib/legal/legal-publication.service";
 import {
   assertNoExampleLegalContacts,
   interpolateLegalContactPlaceholders,
@@ -139,18 +136,17 @@ Report abuse to {{ABUSE_CONTACT_EMAIL}}
   },
 ];
 
-function prepareContent(body: string): string {
+function prepareV1Content(body: string): string {
   const interpolated = interpolateLegalContactPlaceholders(body);
-  assertNoExampleLegalContacts(interpolated, "seed legal document");
+  assertNoExampleLegalContacts(interpolated, "seed legal document v1.0");
   return interpolated;
 }
 
-async function seedVersion(
+async function seedPublishedVersion(
   prisma: PrismaClient,
   legalDocumentId: string,
   doc: SeedDoc,
-  now: Date,
-  supersedesVersionId?: string
+  now: Date
 ): Promise<void> {
   const existingVersion = await prisma.legalDocumentVersion.findFirst({
     where: {
@@ -166,19 +162,8 @@ async function seedVersion(
     return;
   }
 
-  const contentBody = prepareContent(doc.contentBody);
+  const contentBody = prepareV1Content(doc.contentBody);
   const contentSha256 = hashLegalDocumentContent(contentBody);
-
-  if (supersedesVersionId) {
-    await prisma.legalDocumentVersion.updateMany({
-      where: {
-        legalDocumentId,
-        id: supersedesVersionId,
-        status: "published",
-      },
-      data: { status: "superseded" },
-    });
-  }
 
   await prisma.legalDocumentVersion.create({
     data: {
@@ -196,13 +181,16 @@ async function seedVersion(
       effectiveAt: now,
       publishedAt: now,
       contentSha256,
-      supersedesVersionId: supersedesVersionId ?? null,
     },
   });
 
-  console.log(`  seeded ${doc.documentType} v${doc.versionNumber} (${LOCALE})`);
+  console.log(`  seeded ${doc.documentType} v${doc.versionNumber} (${LOCALE}) published`);
 }
 
+/**
+ * Idempotent local seed — publishes v1.0 only. v1.1 remains draft until controlled publication.
+ * Do not use for hosted shared-database publication of v1.1.
+ */
 export async function seedLegalDocuments(prisma: PrismaClient): Promise<void> {
   const now = new Date();
 
@@ -216,37 +204,9 @@ export async function seedLegalDocuments(prisma: PrismaClient): Promise<void> {
       update: {},
     });
 
-    await seedVersion(prisma, legalDocument.id, doc, now);
+    await seedPublishedVersion(prisma, legalDocument.id, doc, now);
   }
 
-  for (const doc of CROW_LEGAL_V1_1_DOCUMENTS) {
-    const legalDocument = await prisma.legalDocument.upsert({
-      where: { documentType: doc.documentType },
-      create: {
-        documentType: doc.documentType,
-        title: doc.title,
-      },
-      update: { title: doc.title },
-    });
-
-    const priorV1 = await prisma.legalDocumentVersion.findFirst({
-      where: {
-        legalDocumentId: legalDocument.id,
-        versionNumber: 1,
-        locale: LOCALE,
-        audience: AUDIENCE,
-      },
-    });
-
-    const v11Doc: SeedDoc = {
-      documentType: doc.documentType,
-      title: doc.title,
-      mandatoryClassification: doc.mandatoryClassification,
-      contentBody: doc.contentBody,
-      versionNumber: CROW_LEGAL_V1_1_VERSION_NUMBER,
-      reacceptancePolicy: "required_before_protected_activity",
-    };
-
-    await seedVersion(prisma, legalDocument.id, v11Doc, now, priorV1?.id);
-  }
+  await seedLegalV11DraftVersions(prisma);
+  console.log("  v1.1 templates seeded as draft only (not current)");
 }
