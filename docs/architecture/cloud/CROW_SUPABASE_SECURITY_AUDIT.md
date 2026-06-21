@@ -140,8 +140,39 @@ CLOUD.0 **did not** alter RLS, Auth settings, Storage, or database roles. All fi
 
 ---
 
+## 8. CLOUD.1B update (2026-06-21)
+
+**Mode:** Read-only repository audit + safe external probe — **no hosted remediation**.
+
+### Confirmed Supabase-side exposure
+
+| Finding | Value |
+|---------|------:|
+| `public` tables (live `pg_tables`) | 107 |
+| RLS disabled | 97 |
+| RLS enabled, zero policies (C3) | 10 |
+| anon/authenticated CRUD on RLS-disabled tables | 97 |
+| Repository business PostgREST dependencies | **0** |
+| External probe | `DATA_API_PUBLIC_EXPOSURE_CONFIRMED` |
+
+Aggregate reads succeeded under publishable key for: `implementation_requests`, `tenant_memberships`, `tenant_finance_entries`, `cybercrow_audit_logs`, `security_events`. `platform_accounts` denied (401) — C3 REVOKE pattern.
+
+### FTGP migration hardening (unapplied)
+
+Pre-fix classification: `SECURITY_INCOMPATIBLE_UNDER_CURRENT_DEFAULT_PRIVILEGES`. Migration updated with `ENABLE ROW LEVEL SECURITY` + `REVOKE ALL … FROM anon, authenticated` on `platform_internal_role_assignments`. New SHA-256: `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`.
+
+### Recommended containment
+
+**Path A:** remove `public` from Data API exposed schemas (see `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`).
+
+---
+
 ## Related documents
 
+- `CROW_DATA_API_DEPENDENCY_AUDIT.md`
+- `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`
+- `CROW_RLS_ACCESS_MODEL.md`
+- `CROW_RLS_ROLLOUT_PLAN.md`
 - `CROW_SUPABASE_PRO_FOUNDATION.md`
 - `CROW_CLOUD_FEATURE_ENABLEMENT_MATRIX.md`
 - `docs/architecture/crow-core/c2/C2_2_SHARED_DATABASE_INCIDENT_RECORD.md`

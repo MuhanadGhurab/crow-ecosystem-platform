@@ -71,7 +71,9 @@ Exact ordered allowlist (pinned in `scripts/lib/controlled-migration-inventory.t
 | Order | Migration | SQL SHA-256 | Risk | Apply mode |
 |-------|-----------|-------------|------|------------|
 | 1 | `20260618120000_c3_legal_publication_lifecycle` | `07678643967a72ee8965e54681e69def4c50561b4774e24100f0fc925e30c1ab` | `ENUM_ADDITION_LOW_RISK` | `schema_deploy` |
-| 2 | `20260621120000_ftgp_platform_internal_role_assignment` | `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e` | `SHARED_DATABASE_MIGRATION_SECURITY_AUTHORITY` | `schema_deploy` |
+| 2 | `20260621120000_ftgp_platform_internal_role_assignment` | `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed` | `SHARED_DATABASE_MIGRATION_SECURITY_AUTHORITY` | `schema_deploy` |
+
+**Invalidated hash:** `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e` (pre–CLOUD.1B fail-closed hardening). Controlled wrapper rejects old pin.
 
 **Hosted check-only (FTGP.0D):**
 
@@ -246,13 +248,20 @@ Shared hosted Supabase database unchanged. No Supabase Auth metadata writes. No 
 BLOCKED — BACKUP OR PITR EVIDENCE REQUIRED
 ```
 
-Inventory is reconciled and the controlled wrapper enforces the exact two-migration allowlist. Controlled apply may proceed **only after** operator backup/PITR confirmation (see `docs/architecture/cloud/CROW_SUPABASE_PRO_FOUNDATION.md` §5) and explicit authorization phrase.
+Inventory is reconciled and the controlled wrapper enforces the exact two-migration allowlist. Controlled apply may proceed **only after**:
 
-When backup evidence is recorded in gitignored operator config (`MIGRATION_BACKUP_REFERENCE`, `MIGRATION_BACKUP_VERIFIED_AT`, `MIGRATION_RECOVERY_METHOD`), status becomes:
+1. Operator backup/PITR confirmation (`CROW_SUPABASE_PRO_FOUNDATION.md` §5)
+2. **CLOUD.1B:** Data API containment path approved (`CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`)
+3. FTGP migration fail-closed hash repinned (`8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`)
+4. Explicit authorization phrase
+
+When all gates pass:
 
 ```text
 READY — DUAL-PENDING INVENTORY RECONCILED; CONTROLLED APPLY MAY BE AUTHORIZED
 ```
+
+**CLOUD.1B note:** Repository has **zero** business PostgREST dependencies — emergency removal of `public` from exposed schemas does not break Auth or Prisma routes.
 
 ---
 

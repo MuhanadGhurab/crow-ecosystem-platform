@@ -3,7 +3,8 @@
 **Branch:** `feat/first-tenant-golden-path`  
 **Review HEAD:** `00bc8ef6540c2ab2cd3f547f1ef6e178781a8198`  
 **Migration:** `20260621120000_ftgp_platform_internal_role_assignment`  
-**Migration SHA-256:** `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e`  
+**Migration SHA-256:** `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`  
+**Prior hash (invalidated):** `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e`  
 **Review date:** 2026-06-21  
 **Apply status:** **NOT APPLIED** — explicit operator authorization required for next task.
 
@@ -387,3 +388,24 @@ Migration review (FTGP.0C) ✓
 → grant candidate operator IMPLEMENTER
 → verify operator/requester separation
 ```
+
+---
+
+## CLOUD.1B — PostgREST fail-closed hardening (2026-06-21)
+
+Hosted default privileges grant full CRUD to `anon` and `authenticated` on new tables. The original migration SQL would have created an **exposed internal-authority table** (`SECURITY_INCOMPATIBLE_UNDER_CURRENT_DEFAULT_PRIVILEGES`).
+
+**Corrective DDL (same migration folder, unapplied):**
+
+```sql
+ALTER TABLE "platform_internal_role_assignments" ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE "platform_internal_role_assignments" FROM anon, authenticated;
+```
+
+- No RLS policies (server-only via Prisma/direct Postgres)
+- No JWT metadata policies
+- Sequence: table uses `TEXT` PK — no separate sequence grant required
+
+**Repinned SHA-256:** `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`
+
+Controlled apply remains blocked until recovery evidence + Data API containment approval (see `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`).

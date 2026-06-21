@@ -79,7 +79,7 @@ Approved pending inventory (exact allowlist enforced by `scripts/lib/controlled-
 | # | Migration | SHA-256 | Risk class |
 |---|-----------|---------|------------|
 | 1 | `20260618120000_c3_legal_publication_lifecycle` | `07678643967a72ee8965e54681e69def4c50561b4774e24100f0fc925e30c1ab` | ENUM addition (low) |
-| 2 | `20260621120000_ftgp_platform_internal_role_assignment` | `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e` | Security / authority |
+| 2 | `20260621120000_ftgp_platform_internal_role_assignment` | `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed` | Security / authority |
 
 **Gate re-run (2026-06-18):** All passed:
 
@@ -89,7 +89,9 @@ Approved pending inventory (exact allowlist enforced by `scripts/lib/controlled-
 - `npm run ftgp-migration-preflight:hosted` — PASS (0 existing internal role assignments)
 - `npm run c2-database-isolation:verify` — PASS
 
-**Apply authorization:** **Not issuable** until backup/PITR evidence is recorded (§5).
+**Apply authorization:** **Not issuable** until backup/PITR evidence is recorded (§5) **and** Data API containment path approved (CLOUD.1B).
+
+**CLOUD.1B (2026-06-21):** FTGP migration SQL repinned after fail-closed hardening (`REVOKE` + RLS, no policies). Previous hash `4868d172…` **invalidated**. See `CROW_DATA_API_DEPENDENCY_AUDIT.md`.
 
 ---
 
