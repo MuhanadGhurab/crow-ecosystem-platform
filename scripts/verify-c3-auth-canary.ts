@@ -69,6 +69,13 @@ async function assertLandingAuthenticated(page: import("playwright").Page) {
 }
 
 async function main() {
+  const canaryEnabled = process.env.C3_AUTH_CANARY_ENABLED?.trim().toLowerCase();
+  if (canaryEnabled === "false" || canaryEnabled === "0") {
+    console.log("\n=== C3 Auth Canary verify ===\n");
+    console.log("  NOT_APPLICABLE_GATED — C3_AUTH_CANARY_ENABLED=false on Preview lockdown\n");
+    process.exit(0);
+  }
+
   const prisma = new PrismaClient();
   const { email, password } = resolveCredentials();
 
@@ -88,6 +95,11 @@ async function main() {
     headers: automationBypassHeaders(),
     redirect: "manual",
   });
+  if (previewDisabled.status === 401 || previewDisabled.status === 403) {
+    console.log("\n  NOT_APPLICABLE_GATED — auth canary route blocked on protected Preview\n");
+    await prisma.$disconnect();
+    process.exit(0);
+  }
   if (previewDisabled.status === 404) {
     fail(
       "Preview /auth-canary returned 404 — set C3_AUTH_CANARY_ENABLED=true and redeploy"

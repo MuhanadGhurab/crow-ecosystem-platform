@@ -18,7 +18,7 @@ const GUARD_FLAGS = [
 async function main() {
   for (const spec of GUARD_FLAGS) {
     console.log(`Setting Preview ${spec.name}=…`);
-    await vercelEnvAdd(spec.name, spec.value, "preview-branch");
+    await vercelEnvAdd(spec.name, spec.value, { target: "preview-branch" });
     console.log(`  ✓ ${spec.name}`);
   }
   console.log(

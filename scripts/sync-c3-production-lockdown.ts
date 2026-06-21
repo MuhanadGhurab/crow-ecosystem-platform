@@ -3,7 +3,9 @@
  */
 import { spawnSync } from "node:child_process";
 
-import { vercelEnvAdd } from "./lib/vercel-env-add-with-timeout";
+import { vercelEnvAdd, type VercelEnvAddOptions } from "./lib/vercel-env-add-with-timeout";
+
+const PRODUCTION_TARGET: VercelEnvAddOptions = { target: "production" };
 
 const LOCKDOWN_FLAGS = [
   { name: "GOOGLE_SSO_ENABLED", value: "false" },
@@ -19,7 +21,7 @@ const LOCKDOWN_FLAGS = [
 async function main() {
   for (const spec of LOCKDOWN_FLAGS) {
     console.log(`Setting Production ${spec.name}=${spec.value}…`);
-    await vercelEnvAdd(spec.name, spec.value, "production");
+    await vercelEnvAdd(spec.name, spec.value, PRODUCTION_TARGET);
     console.log(`  ✓ ${spec.name}`);
   }
   console.log("Production lockdown flags applied (Google off, generation gate 1).");

@@ -1,6 +1,8 @@
 import { spawnSync } from "node:child_process";
 
-import { vercelEnvAdd } from "./lib/vercel-env-add-with-timeout";
+import { vercelEnvAdd, type VercelEnvAddOptions } from "./lib/vercel-env-add-with-timeout";
+
+const PRODUCTION_TARGET: VercelEnvAddOptions = { target: "production" };
 
 type FlagSpec = { name: string; value: string };
 
@@ -21,7 +23,7 @@ async function main() {
 
   for (const spec of ENABLE_GOOGLE_PROOF_FLAGS) {
     console.log(`Setting Production ${spec.name}=${spec.value}…`);
-    await vercelEnvAdd(spec.name, spec.value, "production");
+    await vercelEnvAdd(spec.name, spec.value, PRODUCTION_TARGET);
     console.log(`  ✓ ${spec.name}`);
   }
 

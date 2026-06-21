@@ -2,7 +2,9 @@
  * C3.10R — Configure Production C2 database guard env (pooler + direct fingerprints).
  * Run before any Production deploy that performs PlatformAccount mutations.
  */
-import { vercelEnvAdd } from "./lib/vercel-env-add-with-timeout";
+import { vercelEnvAdd, type VercelEnvAddOptions } from "./lib/vercel-env-add-with-timeout";
+
+const PRODUCTION_TARGET: VercelEnvAddOptions = { target: "production" };
 
 /** Matches DATABASE_URL pooler host/port (runtime Prisma). */
 const RUNTIME_POOLER_FINGERPRINT = "b7f801cfe5e30009";
@@ -19,7 +21,7 @@ const GUARD_FLAGS = [
 async function main() {
   for (const spec of GUARD_FLAGS) {
     console.log(`Setting Production ${spec.name}=…`);
-    await vercelEnvAdd(spec.name, spec.value, "production");
+    await vercelEnvAdd(spec.name, spec.value, PRODUCTION_TARGET);
     console.log(`  ✓ ${spec.name}`);
   }
   console.log(
