@@ -28,7 +28,7 @@ export const FTGP_APPROVED_MIGRATION_INVENTORY: readonly ControlledMigrationInve
   },
   {
     name: "20260621120000_ftgp_platform_internal_role_assignment",
-    sqlSha256: "4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e",
+    sqlSha256: "8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed",
     order: 2,
     riskClassification: "SHARED_DATABASE_MIGRATION_SECURITY_AUTHORITY",
     applyMode: "schema_deploy",
