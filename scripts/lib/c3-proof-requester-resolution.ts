@@ -5,12 +5,14 @@ import { createClient, type User } from "@supabase/supabase-js";
 import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
 import { opaqueManifestRef } from "./identity-manifest";
+import { assessGoogleProviderLinkage } from "./c3-proof-requester-provider-linkage";
 
 export type ProofAccountRetention = "delete_after_proof" | "retain_after_proof";
 
 export type ProofRequesterClassification =
   | "CONTROLLED_PENDING_REQUESTER"
   | "CONTROLLED_ACTIVE_REQUESTER"
+  | "ACTIVE_GOOGLE_REQUESTER"
   | "ACTIVE_PRIVILEGED_IDENTITY"
   | "PROVIDER_COLLISION"
   | "DUPLICATE_IDENTITY"
@@ -101,7 +103,8 @@ function retentionLabelFor(
 ): ProofRequesterRetentionLabel | null {
   if (
     classification !== "CONTROLLED_PENDING_REQUESTER" &&
-    classification !== "CONTROLLED_ACTIVE_REQUESTER"
+    classification !== "CONTROLLED_ACTIVE_REQUESTER" &&
+    classification !== "ACTIVE_GOOGLE_REQUESTER"
   ) {
     return null;
   }
@@ -272,9 +275,19 @@ export async function resolveProofRequester(
   const phoneChallenges = await prisma.phoneVerificationChallenge.count({
     where: { platformAccountId: account.id },
   });
-  const providerIdentities = await prisma.platformProviderIdentity.count({
+  const ownedProviderRows = await prisma.platformProviderIdentity.findMany({
     where: { platformAccountId: account.id },
+    select: {
+      platformAccountId: true,
+      provider: true,
+      providerUserId: true,
+      emailNormalized: true,
+    },
   });
+  const providerIdentities = ownedProviderRows.length;
+  const ownedGoogleProviderUserIds = ownedProviderRows
+    .filter((row) => row.provider === "google")
+    .map((row) => row.providerUserId);
   const tenantMemberships = await prisma.tenantMembership.count({
     where: { supabaseUserId: account.supabaseUserId },
   });
@@ -351,7 +364,45 @@ export async function resolveProofRequester(
     };
   }
 
-  if (providerIdentities > 0) {
+  const foreignGoogleRowForEmail = Boolean(
+    await prisma.platformProviderIdentity.findFirst({
+      where: {
+        provider: "google",
+        platformAccountId: { not: account.id },
+        emailNormalized: account.emailNormalized,
+      },
+      select: { id: true },
+    })
+  );
+
+  const foreignGoogleRowsForOwnedProviderUserIds =
+    ownedGoogleProviderUserIds.length > 0
+      ? await prisma.platformProviderIdentity.findMany({
+          where: {
+            provider: "google",
+            providerUserId: { in: ownedGoogleProviderUserIds },
+            platformAccountId: { not: account.id },
+          },
+          select: {
+            platformAccountId: true,
+            provider: true,
+            providerUserId: true,
+            emailNormalized: true,
+          },
+        })
+      : [];
+
+  const providerLinkage = assessGoogleProviderLinkage({
+    accountId: account.id,
+    emailNormalized: account.emailNormalized,
+    ownedProviderRows,
+    foreignGoogleRowForEmail,
+    foreignGoogleRowsForOwnedProviderUserIds,
+    authIdentities: authUser.identities,
+    ownedGoogleProviderUserIds,
+  });
+
+  if (!providerLinkage.ok) {
     return {
       classification: "PROVIDER_COLLISION",
       retentionLabel: null,
@@ -361,7 +412,7 @@ export async function resolveProofRequester(
       emailOpaque,
       counts,
       state,
-      stopReason: "Provider identity rows present",
+      stopReason: providerLinkage.detail,
     };
   }
 
@@ -411,7 +462,9 @@ export async function resolveProofRequester(
 
   let classification: ProofRequesterClassification;
   if (isPendingOrdinary) classification = "CONTROLLED_PENDING_REQUESTER";
-  else if (isActiveOrdinary) classification = "CONTROLLED_ACTIVE_REQUESTER";
+  else if (isActiveOrdinary && providerLinkage.googleLinked) {
+    classification = "ACTIVE_GOOGLE_REQUESTER";
+  } else if (isActiveOrdinary) classification = "CONTROLLED_ACTIVE_REQUESTER";
   else {
     return {
       classification: "ACTIVE_PRIVILEGED_IDENTITY",

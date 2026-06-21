@@ -141,6 +141,8 @@
     "c3-account-registration:verify": "npm run c3-account:verify",
     "c3-password-recovery:verify": "npx tsx src/lib/auth/password-recovery.test.ts && npx tsx scripts/verify-c3-password-recovery.ts",
     "c3-10j:preserved-identity:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-preserved-disposable-requester.ts",
+    "c3-proof-requester-provider-linkage:test": "npx tsx src/lib/account/c3-proof-requester-provider-linkage.test.ts",
+    "c3-preview:shareable-link:mint": "npx tsx scripts/lib/mint-c3-preview-shareable-link.ts",
     "c3-10k:pending-candidates:list": "npx tsx --env-file=.env.preview.operator scripts/list-c3-pending-proof-candidates.ts",
     "c3-10k:pending-requester:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-pending-proof-requester.ts",
     "c3-google-proof-identity:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-google-proof-identity.ts",

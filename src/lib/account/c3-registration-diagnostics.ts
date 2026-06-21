@@ -10,6 +10,7 @@ export type C3RegistrationDiagnosticStage =
   | "PLATFORM_ACCOUNT_CREATED"
   | "LEGAL_ACCEPTANCE_RECORDED"
   | "OTP_CHALLENGE_CREATED"
+  | "OTP_DELIVERY_CONFIG"
   | "OTP_DELIVERY_ACCEPTED"
   | "REGISTRATION_REDIRECT_ISSUED"
   | "LEGAL_INPUT_REJECTED"
@@ -62,4 +63,22 @@ export function sanitizeDiagnosticErrorClass(err: unknown): string {
     return err.name || "Error";
   }
   return "UnknownError";
+}
+
+/** Safe hosted email config marker — never logs OTP values, secrets, or recipient email. */
+export function emitC3OtpDeliveryConfigDiagnostic(input: {
+  keyConfigured: boolean;
+  keyLength: number;
+  keyDigestPrefix: string | null;
+  fromDomainSuffix: string;
+  outcome: C3RegistrationDiagnosticOutcome;
+}): void {
+  if (!isC3RegistrationDiagnosticsEnabled()) return;
+  emitC3RegistrationDiagnostic({
+    correlationId: "otp-delivery-config",
+    supportRef: "otp-delivery-config",
+    stage: "OTP_DELIVERY_CONFIG",
+    outcome: input.outcome,
+    durationMs: 0,
+  });
 }

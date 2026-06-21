@@ -11,6 +11,7 @@ import {
   CLIENT_DISCOVERY_SUBMIT_DISCLAIMER,
   type ClientDiscoveryPageModel,
   type ClientDiscoveryStep,
+  discoveryStatusLabel,
 } from "@/lib/client-portal/client-discovery-contract";
 import {
   DISCOVERY_AUTHORITY_CONFIRMATION_TEXT,

@@ -1,16 +1,27 @@
 /**
  * Mint a Vercel Shareable Link for a protected Preview deployment.
  * Writes URL to .env.preview.proof-link — never prints the URL or token.
+ *
+ * Usage:
+ *   C3_PREVIEW_DEPLOYMENT_ID=dpl_... C3_PREVIEW_DEPLOYMENT_HOST=host.vercel.app npx tsx scripts/lib/mint-c3-preview-shareable-link.ts
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-const DEPLOYMENT_ID = "dpl_BxDkM28qvy5GWocQynweFAd9ejyN";
-const DEPLOYMENT_HOST =
-  "crow-ecosystem-platform-by12e7s1m-muhanadghurabs-projects.vercel.app";
 const OUT_PATH = join(process.cwd(), ".env.preview.proof-link");
 const TTL_SECONDS = 60 * 60 * 24 * 14; // 14 days proof window
+
+function requireDeploymentTarget(): { id: string; host: string } {
+  const id = process.env.C3_PREVIEW_DEPLOYMENT_ID?.trim();
+  const host = process.env.C3_PREVIEW_DEPLOYMENT_HOST?.trim();
+  if (!id || !host) {
+    throw new Error(
+      "Set C3_PREVIEW_DEPLOYMENT_ID and C3_PREVIEW_DEPLOYMENT_HOST before minting a shareable link"
+    );
+  }
+  return { id, host };
+}
 
 function loadVercelToken(): string {
   const candidates = [
@@ -78,6 +89,7 @@ function buildLoginShareUrl(host: string, secret: string): string {
 }
 
 async function main() {
+  const { id: DEPLOYMENT_ID, host: DEPLOYMENT_HOST } = requireDeploymentTarget();
   const token = loadVercelToken();
   const attempts: Array<{ id: string; body: Record<string, unknown> }> = [
     { id: DEPLOYMENT_ID, body: { ttl: TTL_SECONDS } },
@@ -115,7 +127,6 @@ async function main() {
     process.exit(1);
   }
 
-  // Ensure share param present and host matches target deployment.
   let parsed: URL;
   try {
     parsed = new URL(shareUrl);
@@ -134,7 +145,6 @@ async function main() {
   }
 
   if (parsed.hostname !== DEPLOYMENT_HOST) {
-    // Rebuild on canonical host when API returns relative or alias host.
     const shareParam =
       parsed.searchParams.get("_vercel_share") ??
       parsed.searchParams.get("x-vercel-protection-bypass");
@@ -161,7 +171,7 @@ async function main() {
 
   writeFileSync(
     OUT_PATH,
-    `# C3 Preview proof shareable link — gitignored. Do not commit.\n# Deployment: ${DEPLOYMENT_ID}\n${shareUrl}\n`,
+    `# C3 Preview proof shareable link — gitignored. Do not commit.\n# Deployment: ${DEPLOYMENT_ID}\nC3_PREVIEW_SHAREABLE_LINK=${shareUrl}\n`,
     "utf8"
   );
 

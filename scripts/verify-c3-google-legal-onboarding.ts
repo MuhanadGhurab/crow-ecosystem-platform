@@ -62,14 +62,21 @@ function main() {
     "callback must redirect to /auth/resolving"
   );
   check(
-    !callback.includes("gateAuthSessionForC3"),
-    "callback does not duplicate gate logic",
-    "callback must not call gateAuthSessionForC3"
+    callback.includes("isGoogleSsoEnabled()") && callback.includes("routes.auth.resolving"),
+    "Google OAuth callback redirects to branded resolver",
+    "callback must redirect Google OAuth to /auth/resolving"
   );
   check(
-    !callback.includes("resolveC3PostAuthLanding"),
-    "callback does not choose landing directly",
-    "callback must not call resolveC3PostAuthLanding"
+    !callback.includes("gateAuthSessionForC3") ||
+      callback.indexOf("isGoogleSsoEnabled()") < callback.indexOf("gateAuthSessionForC3"),
+    "Google OAuth path returns before email-only C3 gate in callback",
+    "Google OAuth must not run inline C3 gate before resolver redirect"
+  );
+  check(
+    !callback.includes("resolveC3PostAuthLanding") ||
+      callback.indexOf("isGoogleSsoEnabled()") < callback.indexOf("resolveC3PostAuthLanding"),
+    "Google OAuth path returns before inline landing resolution",
+    "Google OAuth must not choose landing directly in callback"
   );
 
   const resolver = read("src/lib/auth/c3-post-auth-resolution.ts");

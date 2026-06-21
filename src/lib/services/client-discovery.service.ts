@@ -33,6 +33,7 @@ import {
   DISCOVERY_AUTHORITY_CONFIRMATION_VERSION,
 } from "@/lib/legal/compliance-positioning";
 import { buildClientDiscoveryRecommendations } from "@/lib/services/client-discovery-recommendations";
+import { upsertDiscoveryAnswer } from "@/lib/services/discovery.service";
 import {
   PROCROW_DISCOVERY_CHANGE_SECTION_ALLOWLIST,
   PROCROW_DISCOVERY_CLIENT_ACCEPTED_MESSAGE,
@@ -238,9 +239,12 @@ export async function buildClientDiscoveryPageModel(
       selectedModules: ["logistics", "finance", "crm"],
       selectedWorkflows: ["Dispatch coordination"],
       securityPreference: "Standard baseline",
+      securityAdvisory: {},
       sareaPreference: "Role-based dashboards",
       notes: null,
       submittedAt: null,
+      authorityConfirmationVersion: null,
+      authorityConfirmedAt: null,
       updatedAt: null,
     };
     return {

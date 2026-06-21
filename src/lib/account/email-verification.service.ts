@@ -91,21 +91,18 @@ export async function issueEmailVerificationCode(input: {
 
   if (isC3RegistrationDiagnosticsEnabled()) {
     const hostedConfig = resolveHostedEmailProviderConfig();
-    const fromDomain = hostedConfig?.fromAddress.match(/@([\w.-]+)/)?.[1] ?? "missing";
-    console.info(
-      "[c3-registration]",
-      JSON.stringify({
-        c3_registration: true,
-        stage: "OTP_DELIVERY_CONFIG",
-        outcome: hostedConfig ? "ok" : "failed",
-        keyConfigured: Boolean(hostedConfig?.apiKey),
-        keyLength: hostedConfig?.apiKey.length ?? 0,
-        keyDigestPrefix: hostedConfig?.apiKey
-          ? createHash("sha256").update(hostedConfig.apiKey).digest("hex").slice(0, 12)
-          : null,
-        fromDomainSuffix: fromDomain,
-      })
+    const { emitC3OtpDeliveryConfigDiagnostic } = await import(
+      "@/lib/account/c3-registration-diagnostics"
     );
+    emitC3OtpDeliveryConfigDiagnostic({
+      outcome: hostedConfig ? "ok" : "failed",
+      keyConfigured: Boolean(hostedConfig?.apiKey),
+      keyLength: hostedConfig?.apiKey.length ?? 0,
+      keyDigestPrefix: hostedConfig?.apiKey
+        ? createHash("sha256").update(hostedConfig.apiKey).digest("hex").slice(0, 12)
+        : null,
+      fromDomainSuffix: hostedConfig?.fromAddress.match(/@([\w.-]+)/)?.[1] ?? "missing",
+    });
   }
 
   const delivery = await getEmailDeliveryPort().send({

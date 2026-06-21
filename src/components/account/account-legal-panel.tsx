@@ -8,7 +8,15 @@ import {
   type LegalActionState,
 } from "@/lib/actions/account-legal";
 import { CyberCrowSecurityTrustPanel } from "@/components/trust/cybercrow-security-trust-panel";
-import { legalDocumentPublicPath } from "@/lib/legal/legal-urls";
+import type { LegalDocumentType } from "@prisma/client";
+import { LEGAL_DOCUMENT_SLUGS, legalDocumentPublicPath } from "@/lib/legal/legal-urls";
+
+function asLegalDocumentType(documentType: string): LegalDocumentType {
+  if (documentType in LEGAL_DOCUMENT_SLUGS) {
+    return documentType as LegalDocumentType;
+  }
+  throw new Error(`Unknown legal document type: ${documentType}`);
+}
 import { routes } from "@/lib/routes";
 import type { PendingReacceptance } from "@/lib/legal/legal-acceptance.service";
 import type { LegalContactPlaceholderKey } from "@/lib/legal/legal-contact-config";
@@ -154,7 +162,7 @@ export function AccountLegalPanel({
                     </p>
                   )}
                   <Link
-                    href={legalDocumentPublicPath(doc.documentType, doc.versionId)}
+                    href={legalDocumentPublicPath(asLegalDocumentType(doc.documentType), doc.versionId)}
                     className="mt-2 inline-block text-sm text-cyan-400 hover:text-cyan-300"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -195,7 +203,10 @@ export function AccountLegalPanel({
                     {formatDocType(item.documentType)} · v{item.versionNumber}
                   </p>
                   <Link
-                    href={legalDocumentPublicPath(item.documentType, item.currentVersionId)}
+                    href={legalDocumentPublicPath(
+                      asLegalDocumentType(item.documentType),
+                      item.currentVersionId
+                    )}
                     className="mt-1 inline-block text-sm text-cyan-400 hover:text-cyan-300"
                     target="_blank"
                     rel="noopener noreferrer"

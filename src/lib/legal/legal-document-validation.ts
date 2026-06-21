@@ -27,6 +27,7 @@ export function assertPublishedVersionImmutable(
   if (
     patch.publishedAt !== undefined &&
     existing.publishedAt &&
+    patch.publishedAt !== null &&
     patch.publishedAt.getTime() !== existing.publishedAt.getTime()
   ) {
     throw new Error("Published legal document publishedAt is immutable.");
