@@ -57,6 +57,13 @@ function parseEmailArg(): string {
 
 async function main() {
   const email = parseEmailArg();
+  const retention = process.env.C3_PROOF_ACCOUNT_RETENTION?.trim();
+  if (retention === "retain_after_proof") {
+    console.error(
+      "Cleanup refused: C3_PROOF_ACCOUNT_RETENTION=retain_after_proof — identity must not be deleted"
+    );
+    process.exit(1);
+  }
   const emailNormalized = normalizeEmail(email);
   const prisma = new PrismaClient();
 

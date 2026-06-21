@@ -102,6 +102,17 @@ export async function submitValidRegistrationOtp(
   prisma: PrismaClient,
   email: string
 ): Promise<void> {
+  if (isOperatorAssistedOtpEnabled()) {
+    console.log("\n=== OPERATOR CHECKPOINT 1 — Email OTP ===");
+    console.log("Enter the real OTP from your controlled inbox in the browser window.");
+    console.log("Submit verification; automation resumes after redirect to /login.\n");
+    console.log(`EMAIL_VERIFICATION_CODE_SECRET_PRESENT=${hasOtpDerivationSecret()}`);
+    console.log("C3_OPERATOR_ASSISTED_EMAIL_OTP=true\n");
+    await page.pause();
+    await page.waitForURL(/\/login/, { timeout: 600_000 });
+    return;
+  }
+
   if (hasOtpDerivationSecret()) {
     const otp = await deriveOtpFromPendingChallenge(prisma, email);
     await page.fill("#code", otp);
@@ -110,18 +121,13 @@ export async function submitValidRegistrationOtp(
     return;
   }
 
-  if (!isOperatorAssistedOtpEnabled()) {
-    throw new Error(
-      "OTP proof requires EMAIL_VERIFICATION_CODE_SECRET in hosted env or C3_OPERATOR_ASSISTED_EMAIL_OTP=true"
-    );
-  }
+  throw new Error(
+    "OTP proof requires EMAIL_VERIFICATION_CODE_SECRET in hosted env or C3_OPERATOR_ASSISTED_EMAIL_OTP=true"
+  );
+}
 
-  console.log("\n=== OPERATOR CHECKPOINT — enter the OTP from your controlled inbox in the browser ===");
-  console.log("Automation will continue after successful verification redirects to /login.\n");
-  console.log("EMAIL_VERIFICATION_CODE_SECRET_PRESENT=false");
-  console.log("C3_OPERATOR_ASSISTED_EMAIL_OTP=true\n");
-
-  await page.waitForURL(/\/login/, { timeout: 600_000 });
+export function shouldAutoDeriveOtp(): boolean {
+  return hasOtpDerivationSecret() && !isOperatorAssistedOtpEnabled();
 }
 
 export function reportOtpEnvPresence(): void {

@@ -16,11 +16,16 @@ import { automationBypassHeaders, verifyAutomationBypassReachable } from "./lib/
 import { postDocumentSignOut } from "./lib/c3-preview-post-sign-out";
 import {
   deriveOtpFromPendingChallenge,
-  hasOtpDerivationSecret,
   isOperatorAssistedOtpEnabled,
   reportOtpEnvPresence,
+  shouldAutoDeriveOtp,
   submitValidRegistrationOtp,
 } from "./lib/c3-preview-operator-otp";
+import {
+  assertLegalReviewReached,
+  reportLegalGateFailure,
+  waitForOperatorManualBrowserCertification,
+} from "./lib/c3-preview-operator-checkpoints";
 import {
   assertPostOtpEvidence,
   assertPreOtpEvidence,
@@ -240,7 +245,11 @@ async function main() {
     await page.fill("#password", password);
     await page.fill("#passwordConfirm", password);
     await page.getByRole("button", { name: "Continue", exact: true }).click();
-    await page.waitForURL(/\/register\/legal/, { timeout: 60_000 });
+    await page.waitForURL(/\/(register\/legal|verify-email)/, { timeout: 60_000 });
+    if (page.url().includes("/verify-email")) {
+      await reportLegalGateFailure(page, prisma, email);
+    }
+    await assertLegalReviewReached(page);
     await page.waitForSelector("h1:has-text('Review legal agreements')", { timeout: 30_000 });
     await assertOnboardingProgress(page, false);
     await screenshot(page, "02-legal-review");
@@ -259,7 +268,7 @@ async function main() {
     ]);
     if (!page.url().includes("/verify-email")) {
       await screenshot(page, "02b-legal-submit-failure");
-      fail(`Legal submit did not reach verify-email (url=${page.url()})`);
+      await reportLegalGateFailure(page, prisma, email);
     }
     await screenshot(page, "03-legal-accepted");
     await assertOnboardingProgress(page, false);
@@ -269,28 +278,30 @@ async function main() {
     (report.evidence as unknown[]).push(preOtp);
     ok("Pre-OTP aggregate state verified");
 
-    const otp = hasOtpDerivationSecret() ? await deriveOtpFromPendingChallenge(prisma, email) : null;
+    const otp = shouldAutoDeriveOtp() ? await deriveOtpFromPendingChallenge(prisma, email) : null;
 
-    await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
-      waitUntil: "networkidle",
-    });
+    if (!page.url().includes("/verify-email")) {
+      await page.goto(`${PREVIEW_BASE}/verify-email`, { waitUntil: "networkidle" });
+    }
+    await page.waitForSelector("#code", { state: "visible", timeout: 60_000 });
     await screenshot(page, "04-verify-email-otp-entry");
 
-    await page.fill("#code", "000000");
-    await page.getByRole("button", { name: /verify email/i }).click();
-    await page.waitForTimeout(2_000);
-    await screenshot(page, "14-invalid-otp");
-    report.security.invalidOtp = "generic error shown";
+    if (shouldAutoDeriveOtp() && otp) {
+      await page.fill("#code", "000000");
+      await page.getByRole("button", { name: /verify email/i }).click();
+      await page.waitForTimeout(2_000);
+      await screenshot(page, "14-invalid-otp");
+      report.security.invalidOtp = "generic error shown";
 
-    await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
-      waitUntil: "networkidle",
-    });
-
-    if (otp) {
+      await page.goto(`${PREVIEW_BASE}/verify-email`, { waitUntil: "networkidle" });
+      await page.waitForSelector("#code", { state: "visible", timeout: 60_000 });
       await page.fill("#code", otp);
       await page.getByRole("button", { name: /verify email/i }).click();
       await page.waitForURL(/\/login/, { timeout: 90_000 });
     } else {
+      report.security.invalidOtp = isOperatorAssistedOtpEnabled()
+        ? "operator-assisted (manual invalid OTP optional)"
+        : "skipped-without-derived-otp";
       await submitValidRegistrationOtp(page, prisma, email);
     }
     await screenshot(page, "05-activation-success-login");
@@ -300,9 +311,9 @@ async function main() {
     (report.evidence as unknown[]).push(postOtp);
     ok("legal=3 + verified email + generation 2 + phone policy disabled = ACTIVE requester account");
 
-    await page.goto(`${PREVIEW_BASE}/verify-email?email=${encodeURIComponent(email)}`, {
-      waitUntil: "networkidle",
-    });
+    await waitForOperatorManualBrowserCertification(PREVIEW_BASE);
+
+    await page.goto(`${PREVIEW_BASE}/verify-email`, { waitUntil: "networkidle" });
     if (page.url().includes("/login")) {
       await screenshot(page, "15-replayed-otp");
       report.security.replayedOtp = "active account redirected to login";
