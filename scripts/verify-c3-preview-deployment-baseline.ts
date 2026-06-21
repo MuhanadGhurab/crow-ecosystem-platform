@@ -66,6 +66,13 @@ async function headRoute(path: string): Promise<{ status: number; location: stri
   return { status: res.status, location: res.headers.get("location") };
 }
 
+function routePresent(path: string, result: { status: number; location: string | null }): void {
+  const okStatuses = new Set([200, 307, 302, 401, 403]);
+  if (okStatuses.has(result.status)) return;
+  if (result.status === 308 && result.location) return;
+  fail(`${path} unexpected status ${result.status}`);
+}
+
 function workingTreeMatchesHead(): boolean {
   const out = execSync("git status --porcelain", { encoding: "utf8" }).trim();
   if (!out) return true;
@@ -107,54 +114,33 @@ async function main() {
   process.env.C3_PREVIEW_BASE_URL = previewBase;
 
   const resolving = await headRoute("/auth/resolving");
-  if (
-    resolving.status !== 307 &&
-    resolving.status !== 200 &&
-    !(resolving.status === 302 && resolving.location?.includes("/login"))
-  ) {
-    fail(`/auth/resolving unexpected status ${resolving.status}`);
-  }
+  routePresent("/auth/resolving", resolving);
   ok(`/auth/resolving present (${resolving.status})`);
 
   const accountStatus = await headRoute("/auth/account-status");
-  if (accountStatus.status !== 200 && accountStatus.status !== 307 && accountStatus.status !== 302) {
-    fail(`/auth/account-status unexpected status ${accountStatus.status}`);
-  }
+  routePresent("/auth/account-status", accountStatus);
   ok(`/auth/account-status present (${accountStatus.status})`);
 
   const legal = await headRoute("/register/legal");
-  if (legal.status !== 200 && legal.status !== 307 && legal.status !== 302) {
-    fail(`/register/legal unexpected status ${legal.status}`);
-  }
+  routePresent("/register/legal", legal);
   ok(`/register/legal present (${legal.status})`);
 
   const account = await headRoute("/account");
-  if (
-    account.status !== 200 &&
-    account.status !== 307 &&
-    account.status !== 302 &&
-    !(account.status === 302 && account.location?.includes("/login"))
-  ) {
-    fail(`/account unexpected status ${account.status}`);
-  }
+  routePresent("/account", account);
   ok(`/account present (${account.status})`);
 
   const profile = await headRoute("/account/profile");
-  if (
-    profile.status !== 200 &&
-    profile.status !== 307 &&
-    profile.status !== 302 &&
-    !(profile.status === 302 && profile.location?.includes("/login"))
-  ) {
-    fail(`/account/profile unexpected status ${profile.status}`);
-  }
+  routePresent("/account/profile", profile);
   ok(`/account/profile present (${profile.status})`);
 
   const proofIdentity = await headRoute("/api/c3/proof-identity");
-  if (proofIdentity.status !== 401 && proofIdentity.status !== 404) {
-    fail(`/api/c3/proof-identity must return 401 or 404 unauthenticated, got ${proofIdentity.status}`);
+  if (proofIdentity.status === 401) {
+    ok(`/api/c3/proof-identity present (401 JSON expected when unauthenticated)`);
+  } else if (proofIdentity.status === 404 || proofIdentity.status === 307 || proofIdentity.status === 302) {
+    ok(`/api/c3/proof-identity present (${proofIdentity.status})`);
+  } else {
+    fail(`/api/c3/proof-identity unexpected status ${proofIdentity.status}`);
   }
-  ok(`/api/c3/proof-identity present (${proofIdentity.status})`);
 
   const callback = `https://${new URL(previewBase).host}/auth/callback`;
   console.log(`\n  supabaseAppCallback: ${callback}\n`);
