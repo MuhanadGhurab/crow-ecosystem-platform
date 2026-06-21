@@ -144,6 +144,8 @@
     "c3-10k:pending-candidates:list": "npx tsx --env-file=.env.preview.operator scripts/list-c3-pending-proof-candidates.ts",
     "c3-10k:pending-requester:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-pending-proof-requester.ts",
     "c3-google-proof-identity:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-google-proof-identity.ts",
+    "c3-google-proof-checkpoint-a:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-google-proof-checkpoint-a.ts",
+    "c3-google-proof-checkpoint-c:verify": "npx tsx --env-file=.env.preview.operator --env-file=.env.staging scripts/verify-c3-google-proof-checkpoint-c.ts",
     "c3-proof-identity-fingerprint:test": "npx tsx src/lib/account/c3-proof-identity-fingerprint.test.ts",
     "c3-proof-identity-binding:static": "npx tsx src/lib/account/c3-proof-identity-binding.test.ts",
     "c3-proof-identity-binding:verify": "npx tsx src/lib/account/c3-proof-identity-fingerprint.test.ts && npx tsx src/lib/account/c3-proof-identity-binding.test.ts && npm run c3-preview:runtime-env && npx tsx --env-file=.env.staging.runtime scripts/verify-c3-proof-identity-binding.ts",

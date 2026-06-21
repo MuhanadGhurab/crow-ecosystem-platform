@@ -122,6 +122,40 @@ async function main() {
   }
   ok(`/auth/account-status present (${accountStatus.status})`);
 
+  const legal = await headRoute("/register/legal");
+  if (legal.status !== 200 && legal.status !== 307 && legal.status !== 302) {
+    fail(`/register/legal unexpected status ${legal.status}`);
+  }
+  ok(`/register/legal present (${legal.status})`);
+
+  const account = await headRoute("/account");
+  if (
+    account.status !== 200 &&
+    account.status !== 307 &&
+    account.status !== 302 &&
+    !(account.status === 302 && account.location?.includes("/login"))
+  ) {
+    fail(`/account unexpected status ${account.status}`);
+  }
+  ok(`/account present (${account.status})`);
+
+  const profile = await headRoute("/account/profile");
+  if (
+    profile.status !== 200 &&
+    profile.status !== 307 &&
+    profile.status !== 302 &&
+    !(profile.status === 302 && profile.location?.includes("/login"))
+  ) {
+    fail(`/account/profile unexpected status ${profile.status}`);
+  }
+  ok(`/account/profile present (${profile.status})`);
+
+  const proofIdentity = await headRoute("/api/c3/proof-identity");
+  if (proofIdentity.status !== 401 && proofIdentity.status !== 404) {
+    fail(`/api/c3/proof-identity must return 401 or 404 unauthenticated, got ${proofIdentity.status}`);
+  }
+  ok(`/api/c3/proof-identity present (${proofIdentity.status})`);
+
   const callback = `https://${new URL(previewBase).host}/auth/callback`;
   console.log(`\n  supabaseAppCallback: ${callback}\n`);
   console.log("PASS — Preview deployment baseline verified\n");

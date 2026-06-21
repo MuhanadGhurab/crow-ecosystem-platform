@@ -30,11 +30,22 @@ async function main() {
     }
     try {
       const unauth = await fetch(`${base}/api/c3/proof-identity`, { headers });
+      const contentType = unauth.headers.get("content-type") ?? "";
       assert(
         unauth.status === 401 || unauth.status === 404,
         `unauthenticated proof-identity denied (${unauth.status})`
       );
-      console.log(`  ✓ unauthenticated Preview request denied (${unauth.status})`);
+      if (unauth.status === 401) {
+        assert(
+          contentType.includes("application/json"),
+          `unauthenticated proof-identity must return JSON 401, got ${contentType || "no content-type"}`
+        );
+        assert(
+          !contentType.includes("text/html"),
+          "unauthenticated proof-identity must not redirect to HTML login"
+        );
+      }
+      console.log(`  ✓ unauthenticated Preview request denied (${unauth.status}, ${contentType || "no body type"})`);
     } catch (error) {
       console.log(
         `  · skipped live Preview fetch (${error instanceof Error ? error.message : "network error"})`
