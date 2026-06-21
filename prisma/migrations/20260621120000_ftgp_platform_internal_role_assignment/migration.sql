@@ -54,3 +54,8 @@ ALTER TABLE "platform_internal_role_assignments" ADD CONSTRAINT "platform_intern
 
 -- AddForeignKey
 ALTER TABLE "platform_internal_role_assignments" ADD CONSTRAINT "platform_internal_role_assignments_revokedByPlatformAccountId_fkey" FOREIGN KEY ("revokedByPlatformAccountId") REFERENCES "platform_accounts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- CLOUD.1B — fail-closed PostgREST exposure (server-only via Prisma/direct Postgres)
+ALTER TABLE "platform_internal_role_assignments" ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON TABLE "platform_internal_role_assignments" FROM anon, authenticated;

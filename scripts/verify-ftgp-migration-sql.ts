@@ -91,6 +91,17 @@ function main() {
   }
   ok("Prisma schema aligns with migration intent");
 
+  const failClosed = [
+    'ENABLE ROW LEVEL SECURITY',
+    'REVOKE ALL ON TABLE "platform_internal_role_assignments" FROM anon, authenticated',
+  ];
+  for (const fragment of failClosed) {
+    if (!sql.includes(fragment)) {
+      fail(`Missing CLOUD.1B fail-closed fragment: ${fragment}`);
+    }
+  }
+  ok("Internal-role table is fail-closed for anon/authenticated PostgREST");
+
   console.log("\nPASS — FTGP MIGRATION SQL STATIC CHECKS\n");
 }
 
