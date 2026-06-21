@@ -25,6 +25,8 @@ const published = {
   status: "published" as const,
   contentBody: body,
   contentSha256: sha,
+  publishedAt: new Date("2026-01-01T00:00:00.000Z"),
+  effectiveAt: new Date("2026-01-01T00:00:00.000Z"),
 };
 
 let threw = false;
@@ -40,8 +42,28 @@ try {
 assert(threw, "assertPublishedVersionImmutable blocks content mutation");
 
 assertPublishedVersionImmutable(published, { status: "superseded" });
+
+let threwTimestamp = false;
+try {
+  assertPublishedVersionImmutable(published, {
+    publishedAt: new Date(published.publishedAt!.getTime() + 1000),
+  });
+} catch (e) {
+  threwTimestamp = true;
+  assert(
+    e instanceof Error && e.message.includes("publishedAt"),
+    "immutable guard throws on publishedAt change"
+  );
+}
+assert(threwTimestamp, "publishedAt is immutable on published versions");
 assertPublishedVersionImmutable(
-  { status: "draft" as const, contentBody: body, contentSha256: sha },
+  {
+    status: "draft" as const,
+    contentBody: body,
+    contentSha256: sha,
+    publishedAt: null,
+    effectiveAt: new Date(0),
+  },
   { contentBody: "# draft edit ok" }
 );
 

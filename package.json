@@ -217,7 +217,7 @@
     "auth-landing:verify": "npx tsx scripts/verify-auth-landing-redirect.ts",
     "architecture-simplification:verify": "npx tsx scripts/verify-architecture-simplification.ts",
     "crow-core-foundation:verify": "npx tsx scripts/verify-crow-core-foundation.ts",
-    "crow-legal-v1-1:verify": "npx tsx scripts/verify-crow-legal-v1-1.ts",
+    "crow-legal-v1-1:verify": "npx tsx src/lib/legal/legal-publication.service.test.ts && npx tsx scripts/verify-crow-legal-v1-1.ts",
     "c1-migration-gate:verify": "npx tsx scripts/verify-c1-migration-approval-gate.ts",
     "c2-blueprint-runtime:verify": "npx tsx scripts/verify-c2-blueprint-persistence-runtime.ts",
     "c2-preview-readiness:verify": "npx tsx scripts/verify-c2-preview-migration-readiness.ts",
