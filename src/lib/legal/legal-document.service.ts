@@ -18,6 +18,8 @@ export type PublishedLegalVersion = LegalDocumentVersion & {
   legalDocument: { documentType: LegalDocumentType };
 };
 
+/** Published versions return immutable stored contentBody — never re-interpolate env at render time. */
+
 const MANDATORY_CLASSIFICATIONS: MandatoryClassification[] = [
   "mandatory_contractual",
   "mandatory_notice",
