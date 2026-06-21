@@ -193,7 +193,11 @@ ALTER TYPE "LegalDocumentVersionStatus" ADD VALUE IF NOT EXISTS 'approved_for_pu
 
 Additive; no table changes. **`migrate deploy` applies pending migrations in chronological order** — both will run in one deploy unless history is reconciled.
 
-⚠️ **`scripts/run-controlled-migration.ts` inventory guards** still expect only `C3_8` or `C3_10I` pending. They do **not** recognize FTGP or dual pending state. **Update the controlled wrapper before operator apply** or check-only will exit with "Unexpected pending migration inventory."
+⚠️ **`scripts/run-controlled-migration.ts` inventory guards** were outdated at FTGP.0C review time (expected only legacy C3 pending sets). **FTGP.0D hardened the wrapper** — see `FTGP_0D_DUAL_PENDING_RECONCILIATION.md` and `scripts/lib/controlled-migration-inventory.ts`. Use:
+
+```bash
+npm run db:migrate:controlled:check-preview
+```
 
 ---
 
@@ -343,18 +347,25 @@ Shared hosted database unchanged. No Supabase metadata writes. No internal role 
 | FTGP objects absent pre-apply | PASS |
 | Backfill required | NO |
 | Single pending migration | **FAIL** — 2 pending (legal lifecycle + FTGP) |
-| Controlled wrapper recognizes inventory | **FAIL** — needs update |
+| Controlled wrapper recognizes inventory | **PASS** (FTGP.0D — exact two-migration allowlist) |
+| Legal lifecycle migration state | **TRULY_UNAPPLIED** (FTGP.0D read-only reconciliation) |
 | Backup/PITR confirmed | **NOT VERIFIED** |
 
-**Authorization recommendation:**
+**Authorization recommendation (post FTGP.0D):**
 
 ```text
-BLOCKED — MULTIPLE OR UNEXPECTED PENDING MIGRATIONS
+BLOCKED — BACKUP OR PITR EVIDENCE REQUIRED
 ```
 
-The FTGP migration SQL itself is production-compatible and ready for controlled apply **together with** `20260618120000_c3_legal_publication_lifecycle`, after:
+After operator backup/PITR confirmation:
 
-1. Updating `run-controlled-migration.ts` pending inventory guards
+```text
+READY — DUAL-PENDING INVENTORY RECONCILED; CONTROLLED APPLY MAY BE AUTHORIZED
+```
+
+The FTGP migration SQL is production-compatible and ready for controlled apply **together with** `20260618120000_c3_legal_publication_lifecycle` (TRULY_UNAPPLIED), after:
+
+1. ~~Updating `run-controlled-migration.ts` pending inventory guards~~ ✓ FTGP.0D
 2. Operator backup/PITR confirmation
 3. Explicit authorization phrase
 
@@ -366,7 +377,7 @@ Then: migrate → verify → push → Preview deploy → bootstrap → grant.
 
 ```text
 Migration review (FTGP.0C) ✓
-→ update controlled-migration inventory guards
+→ dual-pending reconciliation (FTGP.0D) ✓
 → operator backup + authorization
 → additive shared-DB migrate deploy (2 pending migrations)
 → database verification
