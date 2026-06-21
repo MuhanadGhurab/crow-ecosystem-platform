@@ -15,7 +15,10 @@ import {
   runPsqlQuery,
 } from "./lib/pg-backup-client";
 
-const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-8-pre-migration");
+const BACKUP_ROOT = join(
+  process.cwd(),
+  process.env.MIGRATION_BACKUP_ROOT?.trim() || ".backups/c3-10j-pre-migration"
+);
 const RESTORE_DB = "crow_backup_validation";
 const LOCAL_ADMIN_URL = "postgresql://crow:crow_local_dev@127.0.0.1:5433/postgres";
 const LOCAL_RESTORE_URL = `postgresql://crow:crow_local_dev@127.0.0.1:5433/${RESTORE_DB}`;

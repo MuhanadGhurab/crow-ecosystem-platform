@@ -68,7 +68,6 @@ skills-lock.json
 
 # Ad-hoc local debug / test artifacts
 tmp-legal.html
--X
 
 # Internal preview E2E evidence (local operator; keep out of public mirror)
 docs/internal/screenshots/c3-preview-e2e/

@@ -28,8 +28,11 @@ const C3_5_APPLIED_MIGRATIONS = [
   "20260614160000_c3_public_schema_access_hardening",
 ] as const;
 
-/** Single authorized pending migration after C3.5 apply (C3.8 dual-channel). */
+/** Single authorized pending migration after C3.8 apply (C3.8 dual-channel). */
 const C3_8_PENDING_MIGRATION = "20260618140000_c3_dual_channel_onboarding";
+
+/** C3.10I password recovery audit enum extension. */
+const C3_10I_PENDING_MIGRATION = "20260620120000_c3_password_recovery_audit";
 
 const C3_FULL_STACK_PENDING = [
   ...C3_5_APPLIED_MIGRATIONS,
@@ -105,7 +108,11 @@ function extractPendingMigrationNames(output: string): string[] {
   return pending.sort();
 }
 
-function assertMigrationInventory(output: string, checkOnly: boolean): void {
+function assertMigrationInventory(
+  output: string,
+  checkOnly: boolean,
+  expectedMigrationName?: string
+): void {
   if (/failed migrations/i.test(output)) {
     console.error("Failed migrations detected in migrate status output.");
     process.exit(1);
@@ -116,11 +123,21 @@ function assertMigrationInventory(output: string, checkOnly: boolean): void {
   if (checkOnly) {
     const onlyC38Pending =
       pending.length === 1 && pending[0] === C3_8_PENDING_MIGRATION;
+    const onlyC10IPending =
+      pending.length === 1 && pending[0] === C3_10I_PENDING_MIGRATION;
+    const noPendingAfterC10I =
+      pending.length === 0 &&
+      expectedMigrationName === C3_10I_PENDING_MIGRATION;
     const fullStackPending =
       pending.length === C3_FULL_STACK_PENDING.length &&
       C3_FULL_STACK_PENDING.every((name) => pending.includes(name));
 
-    if (onlyC38Pending) {
+    if (onlyC10IPending) {
+      console.log("\nPending migrations:");
+      console.log(`1. ${C3_10I_PENDING_MIGRATION}`);
+    } else if (noPendingAfterC10I) {
+      console.log("\nPending migrations: (none) — schema up to date");
+    } else if (onlyC38Pending) {
       console.log("\nPending migrations:");
       console.log(`1. ${C3_8_PENDING_MIGRATION}`);
     } else if (fullStackPending) {
@@ -226,9 +243,16 @@ function main() {
   else console.log("");
 
   const statusBefore = runPrisma(["migrate", "status"]);
-  assertMigrationInventory(statusBefore.output, checkOnly);
+  assertMigrationInventory(statusBefore.output, checkOnly, expectedMigrationName);
 
-  if (expectedMigrationName && !statusBefore.output.includes(expectedMigrationName)) {
+  const pendingBefore = extractPendingMigrationNames(statusBefore.output);
+  const schemaUpToDate = /Database schema is up to date!/i.test(statusBefore.output);
+
+  if (
+    expectedMigrationName &&
+    !statusBefore.output.includes(expectedMigrationName) &&
+    !(schemaUpToDate && pendingBefore.length === 0)
+  ) {
     console.error(`Expected migration name not found in migrate status: ${expectedMigrationName}`);
     process.exit(1);
   }

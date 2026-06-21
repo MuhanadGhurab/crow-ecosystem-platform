@@ -13,6 +13,15 @@ export const C3_RLS_MIGRATION_DIR = "20260614160000_c3_public_schema_access_hard
 
 export const C3_DUAL_CHANNEL_MIGRATION_DIR = "20260618140000_c3_dual_channel_onboarding";
 
+export const C3_PASSWORD_RECOVERY_MIGRATION_DIR =
+  "20260620120000_c3_password_recovery_audit";
+
+export function hasC3PasswordRecoveryMigration(root: string): boolean {
+  return existsSync(
+    join(root, "prisma/migrations", C3_PASSWORD_RECOVERY_MIGRATION_DIR, "migration.sql")
+  );
+}
+
 export function countMigrationSql(root: string): number {
   const dir = join(root, "prisma/migrations");
   if (!existsSync(dir)) return 0;
@@ -53,5 +62,6 @@ export function expectedMigrationBaseline(root: string): number {
   if (hasC3LegalMigration(root)) baseline += 1;
   if (hasC3RlsMigration(root)) baseline += 1;
   if (hasC3DualChannelMigration(root)) baseline += 1;
+  if (hasC3PasswordRecoveryMigration(root)) baseline += 1;
   return baseline;
 }

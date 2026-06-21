@@ -18,9 +18,13 @@ import {
   runPgDumpToFile,
 } from "./lib/pg-backup-client";
 
-const BACKUP_ROOT = join(process.cwd(), ".backups", "c3-8-pre-migration");
+const BACKUP_ROOT = join(
+  process.cwd(),
+  process.env.MIGRATION_BACKUP_ROOT?.trim() || ".backups/c3-10j-pre-migration"
+);
 
 function main() {
+  const dryRun = process.argv.includes("--dry-run");
   const dbEnv = resolveDatabaseEnvironment() ?? "production";
   if (dbEnv !== "production") {
     console.error(`DATABASE_ENVIRONMENT must be production (got ${dbEnv}).`);
@@ -48,14 +52,29 @@ function main() {
 
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
   const outDir = join(BACKUP_ROOT, stamp);
+
+  console.log("\n=== C3 pre-migration backup ===\n");
+  console.log(`Target: ${maskDatabaseTarget(directUrl)}`);
+  console.log(`Would output: ${outDir}`);
+
+  if (dryRun) {
+    console.log("\n[dry-run] Fingerprint verified — no backup artifacts written.\n");
+    process.exit(0);
+  }
+
+  if (process.env.MIGRATION_BACKUP_AUTHORIZED?.trim() !== "true") {
+    console.error(
+      "Refusing backup without MIGRATION_BACKUP_AUTHORIZED=true. Use --dry-run to inspect only."
+    );
+    process.exit(1);
+  }
+
   mkdirSync(outDir, { recursive: true });
 
   const archivePath = join(outDir, "shared-production.custom.dump");
   const schemaPath = join(outDir, "shared-production.schema.sql");
   const manifestPath = join(outDir, "manifest.json");
 
-  console.log("\n=== C3 pre-migration backup ===\n");
-  console.log(`Target: ${maskDatabaseTarget(directUrl)}`);
   console.log(`Output: ${outDir}`);
 
   const server = queryServerMajorVersion(directUrl);

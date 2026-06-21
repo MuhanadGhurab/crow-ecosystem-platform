@@ -71,6 +71,7 @@ jobs:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_ENVIRONMENT: ${{ inputs.environment }}
           EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+          MIGRATION_BACKUP_CHECKSUM: ${{ secrets.MIGRATION_BACKUP_CHECKSUM }}
           ALLOW_DATABASE_MIGRATION: "true"
           MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
           CONFIRMATION_PHRASE: ${{ inputs.confirmation_phrase }}
