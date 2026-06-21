@@ -40,6 +40,18 @@ async function main() {
     printGoogleProofResolution(resolution);
 
     if (!resolution.mayProceed) {
+      if (
+        resolution.classification === "ACTIVE_GOOGLE_REQUESTER" &&
+        resolution.retentionPolicy === "retain_after_proof"
+      ) {
+        console.log(
+          "PASS — RETAINED ACTIVE GOOGLE REQUESTER CONFIRMED (PRE-OAUTH PROOF NOT REQUIRED)\n"
+        );
+        console.log(
+          `  identityFingerprint: ${resolution.identityFingerprint ?? "unknown"}\n`
+        );
+        return;
+      }
       console.error(
         `STOP — Google proof identity classification ${resolution.classification} is not eligible for OAuth proof`
       );

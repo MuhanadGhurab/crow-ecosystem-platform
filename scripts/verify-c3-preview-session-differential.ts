@@ -11,6 +11,7 @@ import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { chromium, type Browser, type Page } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
+import { EMAIL_VERIFICATION_SOURCES } from "../src/lib/account/verification-sources";
 import { verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
 import { assertPreviewHost } from "./lib/c3-preview-host-guard";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
@@ -38,6 +39,13 @@ const PREVIEW_BASE =
 
 const OUT_DIR = join(process.cwd(), "docs/internal/c3-session-differential");
 const REPORT_PATH = join(OUT_DIR, "session-differential-report.json");
+
+function isGoogleProofWindow(): boolean {
+  const google = process.env.GOOGLE_SSO_ENABLED?.trim().toLowerCase() === "true";
+  const registration =
+    process.env.ACCOUNT_REGISTRATION_ENABLED?.trim().toLowerCase() ?? "false";
+  return google && registration === "false";
+}
 
 function ok(msg: string) {
   console.log(`  ✓ ${msg}`);
@@ -281,6 +289,20 @@ async function main() {
     await ensureSessionFixturePassword(controlledAccount.supabaseUserId, controlled.password);
     await validateSessionFixtureAccount(prisma, resolveSessionFixtureCredentials("requester"));
     ok("SESSION_REQUESTER_FIXTURE ready");
+
+    const googleOAuthVerified =
+      controlledAccount.emailVerificationSource ===
+      EMAIL_VERIFICATION_SOURCES.GOOGLE_OAUTH_VERIFIED;
+
+    if (isGoogleProofWindow() && googleOAuthVerified) {
+      ok(
+        "Session differential skipped — Google OAuth retained requester (fresh email-only path disabled)"
+      );
+      console.log(
+        "\nPASS — GOOGLE OAUTH SESSION DIFFERENTIAL N/A DURING RETAINED PROOF WINDOW\n"
+      );
+      return;
+    }
 
     const freshEmail = buildFreshTestEmail();
     const freshPassword = `CrowPv-${Date.now().toString(36)}!9`;

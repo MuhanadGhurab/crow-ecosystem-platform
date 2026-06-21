@@ -38,7 +38,7 @@ function loadVercelToken(): string {
   throw new Error("Vercel CLI token not found — run vercel login");
 }
 
-function extractShareUrl(payload: unknown): string | null {
+function extractShareUrl(payload: unknown, host: string): string | null {
   if (!payload || typeof payload !== "object") return null;
   const obj = payload as Record<string, unknown>;
   const candidates = [
@@ -50,9 +50,23 @@ function extractShareUrl(payload: unknown): string | null {
   for (const value of candidates) {
     if (typeof value === "string" && value.startsWith("http")) return value;
   }
+  if (typeof obj.secret === "string" && obj.secret.length > 0) {
+    return buildLoginShareUrl(host, obj.secret);
+  }
+  const bypass = obj.protectionBypass;
+  if (bypass && typeof bypass === "object") {
+    const nested = extractShareUrl(bypass, host);
+    if (nested) return nested;
+    const secretKeys = Object.keys(bypass as Record<string, unknown>).filter(
+      (key) => key.length >= 8 && !["createdAt", "expiresAt", "scope"].includes(key)
+    );
+    if (secretKeys.length === 1) {
+      return buildLoginShareUrl(host, secretKeys[0]!);
+    }
+  }
   const share = obj.share;
   if (share && typeof share === "object") {
-    const nested = extractShareUrl(share);
+    const nested = extractShareUrl(share, host);
     if (nested) return nested;
   }
   return null;
@@ -88,38 +102,77 @@ function buildLoginShareUrl(host: string, secret: string): string {
   return url.toString();
 }
 
+async function revokeShareableLink(): Promise<void> {
+  const { host: DEPLOYMENT_HOST } = requireDeploymentTarget();
+  const token = loadVercelToken();
+  await patchProtectionBypass(token, DEPLOYMENT_HOST, {
+    shareable: { scope: "alias-protection-override", action: "revoke" },
+  });
+  await patchProtectionBypass(token, "crow-ecosystem-platform", {
+    shareable: { scope: "alias-protection-override", action: "revoke" },
+  });
+  if (existsSync(OUT_PATH)) {
+    writeFileSync(
+      OUT_PATH,
+      `# C3 Preview proof shareable link — revoked\n# REVOKED_AT=${new Date().toISOString()}\n`,
+      "utf8"
+    );
+  }
+  console.log("REVOKE_OK");
+  console.log(`host=${DEPLOYMENT_HOST}`);
+}
+
 async function main() {
+  if (process.argv.includes("--revoke")) {
+    await revokeShareableLink();
+    return;
+  }
+
   const { id: DEPLOYMENT_ID, host: DEPLOYMENT_HOST } = requireDeploymentTarget();
   const token = loadVercelToken();
-  const attempts: Array<{ id: string; body: Record<string, unknown> }> = [
-    { id: DEPLOYMENT_ID, body: { ttl: TTL_SECONDS } },
-    { id: DEPLOYMENT_HOST, body: { ttl: TTL_SECONDS } },
-    { id: DEPLOYMENT_ID, body: {} },
-  ];
+
+  async function tryMint(id: string, body: Record<string, unknown>): Promise<string | null> {
+    const { status, payload } = await patchProtectionBypass(token, id, body);
+    let shareUrl = extractShareUrl(payload, DEPLOYMENT_HOST);
+    if (shareUrl) return shareUrl;
+    if (status === 409) {
+      await patchProtectionBypass(token, id, {
+        shareable: { scope: "alias-protection-override", action: "revoke" },
+      });
+      const remint = await patchProtectionBypass(token, id, { ttl: TTL_SECONDS });
+      shareUrl = extractShareUrl(remint.payload, DEPLOYMENT_HOST);
+      if (shareUrl) return shareUrl;
+    }
+    return null;
+  }
 
   let shareUrl: string | null = null;
   let lastStatus = 0;
 
-  for (const attempt of attempts) {
-    const { status, payload } = await patchProtectionBypass(token, attempt.id, attempt.body);
+  const mintTargets = [
+    DEPLOYMENT_HOST,
+    DEPLOYMENT_ID,
+    "crow-ecosystem-platform",
+  ];
+
+  for (const id of mintTargets) {
+    const { status, payload } = await patchProtectionBypass(token, id, { ttl: TTL_SECONDS });
     lastStatus = status;
-    shareUrl = extractShareUrl(payload);
+    shareUrl = extractShareUrl(payload, DEPLOYMENT_HOST);
     if (shareUrl) break;
 
-    if (status === 409 && payload && typeof payload === "object") {
-      const secret =
-        typeof (payload as { secret?: string }).secret === "string"
-          ? (payload as { secret: string }).secret
-          : null;
-      if (secret) {
-        const regen = await patchProtectionBypass(token, attempt.id, {
-          revoke: { secret, regenerate: true },
-        });
-        lastStatus = regen.status;
-        shareUrl = extractShareUrl(regen.payload);
-        if (shareUrl) break;
-      }
+    if (status === 409) {
+      shareUrl = await tryMint(id, { ttl: TTL_SECONDS });
+      if (shareUrl) break;
     }
+  }
+
+  if (!shareUrl && lastStatus === 409) {
+    const fallback = await patchProtectionBypass(token, "crow-ecosystem-platform", {
+      ttl: TTL_SECONDS,
+    });
+    lastStatus = fallback.status;
+    shareUrl = extractShareUrl(fallback.payload, DEPLOYMENT_HOST);
   }
 
   if (!shareUrl) {

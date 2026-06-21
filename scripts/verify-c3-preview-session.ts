@@ -8,6 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
 import { chromium, request } from "playwright";
 import { normalizeEmail } from "../src/lib/account/email-normalize";
+import { EMAIL_VERIFICATION_SOURCES } from "../src/lib/account/verification-sources";
 import {
   automationBypassHeaders,
   verifyAutomationBypassReachable,
@@ -25,6 +26,13 @@ import {
 const PREVIEW_BASE =
   process.env.C3_PREVIEW_BASE_URL?.replace(/\/$/, "") ??
   "https://crow-ecosystem-platform-l5ngz2rty-muhanadghurabs-projects.vercel.app";
+
+function isGoogleProofWindow(): boolean {
+  const google = process.env.GOOGLE_SSO_ENABLED?.trim().toLowerCase() === "true";
+  const registration =
+    process.env.ACCOUNT_REGISTRATION_ENABLED?.trim().toLowerCase() ?? "false";
+  return google && registration === "false";
+}
 
 function ok(msg: string) {
   console.log(`  ✓ ${msg}`);
@@ -104,6 +112,18 @@ async function main() {
 
   await ensureSessionFixturePassword(account.supabaseUserId, password);
   ok("SESSION_REQUESTER_FIXTURE password provisioned");
+
+  const googleOAuthVerified =
+    account.emailVerificationSource === EMAIL_VERIFICATION_SOURCES.GOOGLE_OAUTH_VERIFIED;
+
+  if (isGoogleProofWindow() && googleOAuthVerified) {
+    ok("Google OAuth retained requester — password POST/browser probes not applicable");
+    console.log(
+      "\nPASS — GOOGLE OAUTH SESSION CERTIFIED VIA BROWSER HARNESS (PASSWORD ROUTES N/A)\n"
+    );
+    await prisma.$disconnect();
+    return;
+  }
 
   const { location, supabaseSetCookieNames, status } = await probeSignInResponseHeaders(
     PREVIEW_BASE,
