@@ -10,21 +10,12 @@ import { getCurrentPublishedMandatoryVersions } from "@/lib/legal/legal-document
 import { verifyVersionContentHash } from "@/lib/legal/legal-document-validation";
 import { legalContactConfigurationStatus } from "@/lib/legal/legal-contact-config";
 import { resolveRegistrationLocale } from "@/lib/legal/registration-locale";
-import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
 
 type PageProps = {
   searchParams: Promise<{ reaccept?: string }>;
 };
 
 export default async function AccountLegalPage({ searchParams }: PageProps) {
-  if (!isAccountRegistrationEnabled()) {
-    return (
-      <div className="cc-glass-card rounded-xl border border-white/10 p-6">
-        <p className="text-white/70">Account legal management is not enabled.</p>
-      </div>
-    );
-  }
-
   const user = await requireActivePlatformAccount();
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account) {

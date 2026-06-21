@@ -507,15 +507,6 @@ export async function updateMarketingConsent(
   _prev: LegalActionState,
   formData: FormData
 ): Promise<LegalActionState> {
-  if (!isAccountRegistrationEnabled()) {
-    const ref = formatSupportReference(createRegistrationCorrelationId());
-    return {
-      errorCode: "registration_disabled",
-      supportRef: ref,
-      error: userMessageForRegistrationError("registration_disabled", ref),
-    };
-  }
-
   const granted = formData.get("granted") === "true";
   const user = await requireActivePlatformAccount();
   const account = await findPlatformAccountBySupabaseUserId(user.id);
@@ -537,15 +528,6 @@ export async function recordReacceptance(
   _prev: LegalActionState,
   formData: FormData
 ): Promise<LegalActionState> {
-  if (!isAccountRegistrationEnabled()) {
-    const ref = formatSupportReference(createRegistrationCorrelationId());
-    return {
-      errorCode: "registration_disabled",
-      supportRef: ref,
-      error: userMessageForRegistrationError("registration_disabled", ref),
-    };
-  }
-
   const versionId = String(formData.get("versionId") ?? "");
   if (!versionId) {
     return { error: "Missing document version." };

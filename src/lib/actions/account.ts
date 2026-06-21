@@ -17,7 +17,7 @@ import {
 } from "@/lib/account/platform-account.service";
 import { updatePlatformAccountProfile } from "@/lib/account/platform-account-profile.service";
 import { isPhoneVerificationRequired } from "@/lib/account/phone-verification-policy";
-import { requireAuth } from "@/lib/auth/session";
+import { requireActivePlatformAccount, requireAuth } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { checkC3VerificationRateLimit } from "@/lib/security/c3-registration-rate-limit";
 import { getClientIpFromHeaders } from "@/lib/security/client-ip";
@@ -27,7 +27,8 @@ export type AccountActionState =
   | { error?: string; message?: string; redirectPath?: string }
   | undefined;
 
-function c3DisabledState(): AccountActionState {
+/** Blocks new self-service registration flows only — not existing account profile access. */
+function registrationDisabledState(): AccountActionState {
   return { error: "Account registration is not enabled." };
 }
 
@@ -48,7 +49,7 @@ export async function verifyEmailCode(
   formData: FormData
 ): Promise<AccountActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    return registrationDisabledState();
   }
 
   const h = await headers();
@@ -162,7 +163,7 @@ export async function resendVerificationCode(
   formData: FormData
 ): Promise<AccountActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    return registrationDisabledState();
   }
 
   const h = await headers();
@@ -210,14 +211,10 @@ export async function updateAccountProfile(
   _prev: AccountActionState,
   formData: FormData
 ): Promise<AccountActionState> {
-  if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
-  }
-
-  const user = await requireAuth(routes.account.profile);
+  const user = await requireActivePlatformAccount(routes.account.profile);
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account || !isPlatformAccountActive(account)) {
-    return await redirectToAppPath(routes.account.verifyEmail);
+    return { error: "Your account is not active yet." };
   }
 
   try {
@@ -245,7 +242,7 @@ export async function submitPhoneCaptureAction(
   formData: FormData
 ): Promise<AccountActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    return registrationDisabledState();
   }
 
   if (!isPhoneVerificationRequired()) {
@@ -305,7 +302,7 @@ export async function submitPhoneOtpAction(
   formData: FormData
 ): Promise<AccountActionState> {
   if (!isAccountRegistrationEnabled()) {
-    return c3DisabledState();
+    return registrationDisabledState();
   }
 
   if (!isPhoneVerificationRequired()) {
