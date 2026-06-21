@@ -24,6 +24,9 @@ out/
 .env*.local
 .env.staging
 .env.production
+.env.production.runtime
+.env.production.operator
+.env.production.pulled.tmp
 .env.vercel
 
 # Prisma
