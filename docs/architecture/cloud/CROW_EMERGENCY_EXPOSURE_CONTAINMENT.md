@@ -1,8 +1,60 @@
 # Crow Emergency Data API Exposure Containment
 
-**Phase:** CLOUD.1B  
-**Classification:** `DATA_API_EXPOSURE_CONTROL` | `CONTROLLED_APPLY_REQUIRED` (Dashboard) | **NOT EXECUTED**  
-**Recommended path:** **Path A** — remove `public` from PostgREST exposed schemas
+**Phase:** CLOUD.1B (runbook) → **CLOUD.1C (applied + verified)**  
+**Classification:** `DATA_API_EXPOSURE_CONTROL` | **Path A applied** (Dashboard)  
+**Project:** `wbwnsndcxrgyqwppurms`  
+**Applied path:** **Path A** — remove `public` from PostgREST exposed schemas
+
+---
+
+## CLOUD.1C post-change status (2026-06-21)
+
+| Item | Result |
+|------|--------|
+| Operator change | Removed `public` from **Data API → Exposed schemas** only; saved |
+| Auth / keys / RLS / grants / migrations / rows | **Unchanged** |
+| Env file for verification | `.env.staging.runtime` (hosted; fingerprint `0355c17692e2a90d`) |
+| `npm run cloud-data-api-containment:verify` | `PUBLIC_SCHEMA_DATA_API_EXPOSURE_BLOCKED=PASS` |
+| `npm run cloud-containment-smoke:verify` | `SUPABASE_AUTH_UNAFFECTED=PASS`, `PRISMA_SERVER_ROUTES_UNAFFECTED=PASS` |
+| GraphQL introspection | `PUBLIC_SCHEMA_GRAPHQL_EXPOSURE_BLOCKED=PASS` |
+| Pending migrations | Exactly 2 unapplied (see §6) |
+| Production deployment | **Unchanged** (Dashboard-only containment) |
+
+**Verdict:** `PASSED — PUBLIC DATA API EXPOSURE CONTAINED; AUTH AND PRISMA RUNTIME UNAFFECTED`
+
+### Post-change REST probe (8 tables — no bodies or count headers logged)
+
+| Table | HTTP | Blocked |
+|-------|------|---------|
+| `implementation_requests` | 404 | yes |
+| `tenant_memberships` | 404 | yes |
+| `tenant_finance_entries` | 404 | yes |
+| `cybercrow_audit_logs` | 404 | yes |
+| `security_events` | 404 | yes |
+| `api_keys` | 404 | yes |
+| `webhook_events` | 404 | yes |
+| `platform_accounts` | 404 | yes |
+
+### Hosted read-only database checks (Supabase MCP)
+
+| Check | Post-change |
+|-------|-------------|
+| Direct fingerprint | `0355c17692e2a90d` |
+| `platform_internal_role_assignments` | **Absent** (no DDL) |
+| Pending migration rows | **Absent** from `_prisma_migrations` |
+| Sample row counts | `implementation_requests=7`, `tenant_memberships=3` (unchanged) |
+| Applied migration count | 21 |
+
+### Remaining security posture (honest)
+
+```text
+IMMEDIATE_DATA_API_EXPOSURE=CONTAINED
+PUBLIC_SCHEMA_GRANTS=STILL_UNSAFE
+DEFAULT_PRIVILEGES=STILL_UNSAFE
+RLS_ROLLOUT=STILL_REQUIRED
+CLOUD_EXPANSION=STILL_BLOCKED
+DUAL_MIGRATION=STILL_BLOCKED_ON_RECOVERY_EVIDENCE
+```
 
 ---
 
@@ -21,13 +73,13 @@ Full Data API disable is broader than necessary. **Removing `public` from expose
 
 ## 2. Pre-change checklist (operator)
 
-- [ ] Record completed automatic backup or PITR window (`MIGRATION_BACKUP_*` operator env — gitignored)
-- [ ] Capture logical dump outside repository; record SHA-256 in operator notes only
-- [ ] Document current **API → Exposed schemas** list from Dashboard (expect `public`)
-- [ ] Run baseline probe: `npm run cloud-data-api-exposure:probe` — save status table (no keys)
-- [ ] Run Production smoke baseline: `/`, `/login`, `/account` (authenticated requester), one Prisma-backed admin read
-- [ ] Confirm no in-flight controlled migration apply window
-- [ ] **Rollback decision point:** if Auth or `/account` fails post-change, revert exposed schemas before any migration apply
+- [x] Record completed automatic backup or PITR window (`MIGRATION_BACKUP_*` operator env — gitignored)
+- [x] Capture logical dump outside repository; record SHA-256 in operator notes only
+- [x] Document current **API → Exposed schemas** list from Dashboard (expect `public`)
+- [x] Run baseline probe: `npm run cloud-data-api-exposure:probe` — save status table (no keys)
+- [x] Run Production smoke baseline: `/`, `/login`, `/account` (authenticated requester), one Prisma-backed admin read
+- [x] Confirm no in-flight controlled migration apply window
+- [x] **Rollback decision point:** if Auth or `/account` fails post-change, revert exposed schemas before any migration apply
 
 ---
 
@@ -47,16 +99,17 @@ Full Data API disable is broader than necessary. **Removing `public` from expose
 
 ## 4. Post-change verification
 
-| Check | Expected |
-|-------|----------|
-| `npm run cloud-data-api-exposure:probe` | Sensitive tables **denied** (401/404) |
-| `/login` email/password | Functional |
-| Google OAuth (if enabled) | Functional |
-| Password recovery | Functional |
-| `/account` (role-neutral requester) | Functional |
-| Prisma server routes | Functional |
-| Production deployment | **Not required** for this change |
-| Customer/tenant data | **Unchanged** |
+| Check | Expected | CLOUD.1C result |
+|-------|----------|-----------------|
+| `npm run cloud-data-api-containment:verify` | Sensitive tables **denied** (401/404) | **PASS** (404, no count headers) |
+| `npm run cloud-containment-smoke:verify` | Auth + server routes OK | **PASS** |
+| `/login` email/password | Functional | 200 |
+| Password recovery | Functional | 200 (`/login?recovery=1`) |
+| `/account` (role-neutral requester) | Functional | 200 |
+| `/api/health` | Functional | 200 |
+| Prisma server routes | Functional | Parity + migrate status OK |
+| Production deployment | **Not required** for this change | Unchanged |
+| Customer/tenant data | **Unchanged** | Row counts stable |
 
 ---
 
@@ -74,20 +127,25 @@ Full Data API disable is broader than necessary. **Removing `public` from expose
 Dual migration remains blocked until:
 
 ```text
-RECOVERY_EVIDENCE_VERIFIED=true
+RECOVERY_EVIDENCE_VERIFIED=false
 DATA_API_CONTAINMENT_PATH_APPROVED=true
 FTGP_MIGRATION_FAIL_CLOSED=true
 MIGRATION_HASHES_REPINNED=true
 CONTROLLED_WRAPPER_TESTS_PASS=true
 ```
 
-Containment (Dashboard) is **independent** of SQL migration apply but should precede or accompany FTGP authority migration on shared Production DB.
+Containment (Dashboard) is **complete**. SQL migration apply remains blocked on recovery evidence.
+
+**Pending (unapplied) as of CLOUD.1C verification:**
+
+1. `20260618120000_c3_legal_publication_lifecycle`
+2. `20260621120000_ftgp_platform_internal_role_assignment`
 
 ---
 
-## 7. Explicit no-execution statement
+## 7. Execution record
 
-CLOUD.1B **prepared** this runbook only. No Dashboard changes were made during the audit task.
+CLOUD.1B prepared this runbook. **CLOUD.1C (2026-06-21):** operator applied Path A on project `wbwnsndcxrgyqwppurms`; post-change verification passed via `cloud-data-api-containment:verify` and `cloud-containment-smoke:verify` using `.env.staging.runtime`.
 
 ---
 

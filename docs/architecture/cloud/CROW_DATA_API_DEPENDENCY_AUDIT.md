@@ -88,6 +88,28 @@ C3 account tables with RLS + REVOKE deny anonymous aggregate reads. The remainin
 
 ---
 
+## 8. CLOUD.1C post-containment probe (2026-06-21)
+
+**Mode:** External REST probe after operator removed `public` from Data API exposed schemas.  
+**Env:** `.env.staging.runtime` (project `wbwnsndcxrgyqwppurms`; direct fingerprint `0355c17692e2a90d`).
+
+**Classification:** `DATA_API_PUBLIC_EXPOSURE_CONTAINED`
+
+| Table | HTTP status | Count header | Accessible |
+|-------|-------------|--------------|------------|
+| `implementation_requests` | 404 | absent | no |
+| `tenant_memberships` | 404 | absent | no |
+| `tenant_finance_entries` | 404 | absent | no |
+| `cybercrow_audit_logs` | 404 | absent | no |
+| `security_events` | 404 | absent | no |
+| `platform_accounts` | 404 | absent | no |
+
+Extended containment verifier (`cloud-data-api-containment:verify`) also confirms `api_keys` and `webhook_events` blocked (404).
+
+Auth + Prisma smoke against Production site URL: **PASS** — no application regression from containment.
+
+---
+
 ## 7. Explicit boundary (CLOUD.1B)
 
 This audit **did not:**

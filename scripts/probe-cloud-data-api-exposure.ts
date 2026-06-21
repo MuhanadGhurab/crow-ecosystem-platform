@@ -96,16 +96,21 @@ export async function runExternalDataApiProbe(): Promise<{
 
   const anyAccessible = results.some((r) => r.accessible);
   const allBlocked = results.every(
-    (r) => r.httpStatus === 401 || r.httpStatus === 403 || r.httpStatus === "error"
+    (r) =>
+      !r.accessible &&
+      (r.httpStatus === 401 ||
+        r.httpStatus === 403 ||
+        r.httpStatus === 404 ||
+        r.httpStatus === "error")
   );
 
   let classification: string;
   if (anyAccessible) {
     classification = "DATA_API_PUBLIC_EXPOSURE_CONFIRMED";
   } else if (allBlocked) {
-    classification = "DATA_API_PUBLIC_EXPOSURE_NOT_CONFIRMED";
+    classification = "DATA_API_PUBLIC_EXPOSURE_CONTAINED";
   } else {
-    classification = "DATA_API_PUBLIC_EXPOSURE_CONFIRMED";
+    classification = "DATA_API_PUBLIC_EXPOSURE_INCONCLUSIVE";
   }
 
   return { classification, results };

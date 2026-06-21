@@ -167,6 +167,25 @@ Pre-fix classification: `SECURITY_INCOMPATIBLE_UNDER_CURRENT_DEFAULT_PRIVILEGES`
 
 ---
 
+## 9. CLOUD.1C update (2026-06-21)
+
+**Mode:** Operator Dashboard change + automated post-change verification — **no SQL migration apply**.
+
+| Gate | Result |
+|------|--------|
+| `PUBLIC_SCHEMA_DATA_API_EXPOSURE_BLOCKED` | **PASS** |
+| `PUBLIC_SCHEMA_GRAPHQL_EXPOSURE_BLOCKED` | **PASS** |
+| `SUPABASE_AUTH_UNAFFECTED` | **PASS** |
+| `PRISMA_SERVER_ROUTES_UNAFFECTED` | **PASS** |
+
+**Immediate PostgREST exposure:** **CONTAINED** (404 on all probed tables; no count headers).
+
+**Underlying grants/RLS:** unchanged — 97 tables still RLS-disabled with default privileges; containment is **schema exposure removal**, not database hardening. RLS rollout and default-privilege migration remain required before re-exposing any business schema via Data API.
+
+**Dual migration:** still blocked (`RECOVERY_EVIDENCE_VERIFIED=false`, `BACKUP_REFERENCE_PRESENT=false`).
+
+---
+
 ## Related documents
 
 - `CROW_DATA_API_DEPENDENCY_AUDIT.md`
