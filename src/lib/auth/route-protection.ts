@@ -109,6 +109,9 @@ export function isPublicApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/c3/session-proof" && method === "GET") {
     return true;
   }
+  if (pathname === "/api/c3/proof-identity" && method === "GET") {
+    return true;
+  }
   /** L1 — ERP request intake requires an authenticated session (see implementation-requests POST). */
   if (pathname === "/api/billing/webhook" && method === "POST") {
     return true;

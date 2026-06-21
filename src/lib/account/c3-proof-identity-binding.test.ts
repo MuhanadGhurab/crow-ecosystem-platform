@@ -27,6 +27,10 @@ const panel = readFileSync(
   join(root, "src/components/auth/crow-proof-identity-panel.tsx"),
   "utf8"
 );
+const routeProtection = readFileSync(
+  join(root, "src/lib/auth/route-protection.ts"),
+  "utf8"
+);
 const googleResolution = readFileSync(
   join(root, "scripts/lib/c3-google-proof-identity-resolution.ts"),
   "utf8"
@@ -46,6 +50,10 @@ assert(!diagnostics.includes("email:"), "snapshot builder must not return email 
 assert(
   fingerprint.includes("C3_PROOF_IDENTITY_FINGERPRINT_SECRET"),
   "fingerprint uses server-only secret"
+);
+assert(
+  routeProtection.includes('pathname === "/api/c3/proof-identity"'),
+  "middleware allows proof-identity through for handler 401"
 );
 assert(
   googleResolution.includes("computeC3ProofIdentityFingerprint"),
