@@ -187,6 +187,7 @@
     "c3-preview-proof-flags:disable": "npx tsx scripts/sync-c3-preview-proof-flags.ts disable",
     "c3-preview-proof-flags:enable": "npx tsx scripts/sync-c3-preview-proof-flags.ts enable-proof",
     "c3-preview-google-proof-flags:enable": "npx tsx scripts/sync-c3-preview-proof-flags.ts enable-google-proof --deploy",
+    "c3-preview-database-guard:sync": "npx tsx scripts/sync-c3-preview-database-guard.ts",
     "c3-preview-google-proof-flags:verify": "npm run c3-preview:runtime-env && npx tsx scripts/verify-c3-preview-google-proof-flags.ts",
     "c3-production-proof-flags:enable": "npx tsx scripts/sync-c3-production-proof-flags.ts",
     "c3-production-proof-flags:deploy": "npx tsx scripts/sync-c3-production-proof-flags.ts --deploy",
