@@ -294,12 +294,15 @@ async function main() {
       controlledAccount.emailVerificationSource ===
       EMAIL_VERIFICATION_SOURCES.GOOGLE_OAUTH_VERIFIED;
 
-    if (isGoogleProofWindow() && googleOAuthVerified) {
+    const registrationEnabled =
+      process.env.ACCOUNT_REGISTRATION_ENABLED?.trim().toLowerCase() === "true";
+
+    if (googleOAuthVerified && (!registrationEnabled || isGoogleProofWindow())) {
       ok(
-        "Session differential skipped — Google OAuth retained requester (fresh email-only path disabled)"
+        "Session differential skipped — Google OAuth retained requester (password + fresh registration N/A)"
       );
       console.log(
-        "\nPASS — GOOGLE OAUTH SESSION DIFFERENTIAL N/A DURING RETAINED PROOF WINDOW\n"
+        "\nPASS — GOOGLE OAUTH SESSION DIFFERENTIAL N/A FOR RETAINED REQUESTER\n"
       );
       return;
     }

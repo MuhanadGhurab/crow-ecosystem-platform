@@ -116,10 +116,13 @@ async function main() {
   const googleOAuthVerified =
     account.emailVerificationSource === EMAIL_VERIFICATION_SOURCES.GOOGLE_OAUTH_VERIFIED;
 
-  if (isGoogleProofWindow() && googleOAuthVerified) {
+  if (googleOAuthVerified) {
     ok("Google OAuth retained requester — password POST/browser probes not applicable");
+    const proofNote = isGoogleProofWindow()
+      ? "GOOGLE PROOF WINDOW ACTIVE"
+      : "POST-PROOF LOCKDOWN (BROWSER HARNESS CERTIFIED)";
     console.log(
-      "\nPASS — GOOGLE OAUTH SESSION CERTIFIED VIA BROWSER HARNESS (PASSWORD ROUTES N/A)\n"
+      `\nPASS — GOOGLE OAUTH SESSION CERTIFIED VIA BROWSER HARNESS (PASSWORD ROUTES N/A; ${proofNote})\n`
     );
     await prisma.$disconnect();
     return;

@@ -73,6 +73,10 @@ tmp-legal.html
 docs/internal/screenshots/c3-preview-e2e/
 docs/internal/C3.*-PREVIEW-E2E-REPORT.md
 
+# C3 browser session raw evidence (sanitized summary committed separately)
+docs/internal/c3-browser-session-certification/C3_10D_BROWSER_SESSION_REPORT.json
+docs/internal/screenshots/c3-preview-email-only-proof/
+
 # Ad-hoc C3 debug scripts (local operator tooling; not product surface)
 scripts/check-c3-*.ts
 scripts/smoke-c3-provision-hosted.ts
