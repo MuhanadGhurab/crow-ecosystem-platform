@@ -28,6 +28,10 @@ const DEFAULT_CLIENT_HOME = routes.client.home;
 
 export type { AuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
 export { getAuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
+export {
+  resolveAuthenticatedPublicHeaderCta,
+  resolvePublicHeaderAuth,
+} from "@/lib/portal/public-header-auth";
 
 /** Client-only landing paths — must not override platform staff post-login. */
 function isClientPortalNext(path: string): boolean {
