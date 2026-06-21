@@ -12,6 +12,8 @@ import {
   canActivatePlatformAccount,
   isPhoneVerificationRequiredForAccount,
 } from "@/lib/account/platform-account-activation";
+import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
+import { resolveRegistrationLocale } from "@/lib/legal/registration-locale";
 
 export type PlatformAccountRecord = PlatformAccount;
 
@@ -154,6 +156,19 @@ export async function recordEmailVerificationEvidence(input: {
   });
 
   const phoneRequired = isPhoneVerificationRequiredForAccount(account);
+  const locale = await resolveRegistrationLocale();
+  const legalComplete = await hasMandatoryLegalAcceptanceComplete(
+    input.platformAccountId,
+    locale
+  );
+
+  const nextStatus: PlatformAccountStatus = phoneRequired
+    ? "PENDING_PHONE_VERIFICATION"
+    : legalComplete
+      ? account.status === "ACTIVE"
+        ? "ACTIVE"
+        : account.status
+      : "PENDING_LEGAL_ACCEPTANCE";
 
   const updated = await prisma.platformAccount.update({
     where: { id: input.platformAccountId },
@@ -161,11 +176,7 @@ export async function recordEmailVerificationEvidence(input: {
       emailVerifiedAt: now,
       emailVerificationSource: input.source,
       lastVerifiedAt: now,
-      status: phoneRequired
-        ? "PENDING_PHONE_VERIFICATION"
-        : account.status === "ACTIVE"
-          ? "ACTIVE"
-          : account.status,
+      status: nextStatus,
     },
   });
 
@@ -203,6 +214,9 @@ export function isPendingLegalAcceptance(account: PlatformAccountRecord): boolea
 }
 
 export function isPendingEmailVerification(account: PlatformAccountRecord): boolean {
+  if (account.emailVerifiedAt) {
+    return false;
+  }
   return (
     account.status === "PENDING_EMAIL_VERIFICATION" ||
     (account.status === "PENDING_PHONE_VERIFICATION" && !account.emailVerifiedAt)

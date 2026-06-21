@@ -10,6 +10,7 @@ import {
   PASSWORD_RECOVERY_NEXT_PATH,
 } from "@/lib/auth/password-recovery-session";
 import { isC3GoogleOAuthCallbackEligible } from "@/lib/account/provider-identity.service";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import {
   C3_OAUTH_PROVIDER_COOKIE,
@@ -125,6 +126,26 @@ export async function GET(request: Request) {
           ? `${routes.auth.resolving}?${params.toString()}`
           : routes.auth.resolving;
         return clearNextCookie(NextResponse.redirect(`${origin}${resolvingPath}`));
+      }
+
+      if (user && isC3PlatformAccountGateEnabled()) {
+        const { gateAuthSessionForC3 } = await import(
+          "@/lib/account/c3-auth-orchestration"
+        );
+        const { resolveC3PostAuthLanding } = await import(
+          "@/lib/auth/c3-post-auth-landing"
+        );
+        const gate = await gateAuthSessionForC3(user, explicitNext);
+        if (gate.action === "redirect") {
+          return clearNextCookie(NextResponse.redirect(`${origin}${gate.path}`));
+        }
+        if (gate.action === "error") {
+          return clearNextCookie(
+            NextResponse.redirect(`${origin}/login?error=account_blocked`)
+          );
+        }
+        const landing = await resolveC3PostAuthLanding(user, explicitNext);
+        return clearNextCookie(NextResponse.redirect(`${origin}${landing}`));
       }
 
       if (user) {
