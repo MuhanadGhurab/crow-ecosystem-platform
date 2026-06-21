@@ -54,11 +54,13 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          APP_ENVIRONMENT: preview
+          BACKEND_ISOLATION: shared
           EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
           MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
           EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
         run: |
-          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --check-only)
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --check-only --allow-shared-production-backend)
           if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
             ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
           fi
@@ -70,14 +72,19 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          APP_ENVIRONMENT: preview
+          BACKEND_ISOLATION: shared
           EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
           MIGRATION_BACKUP_CHECKSUM: ${{ secrets.MIGRATION_BACKUP_CHECKSUM }}
+          MIGRATION_BACKUP_REFERENCE: ${{ secrets.MIGRATION_BACKUP_REFERENCE }}
+          MIGRATION_BACKUP_VERIFIED_AT: ${{ secrets.MIGRATION_BACKUP_VERIFIED_AT }}
+          MIGRATION_RECOVERY_METHOD: ${{ secrets.MIGRATION_RECOVERY_METHOD }}
           ALLOW_DATABASE_MIGRATION: "true"
           MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
           CONFIRMATION_PHRASE: ${{ inputs.confirmation_phrase }}
           EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
         run: |
-          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --confirm "$CONFIRMATION_PHRASE")
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --confirm "$CONFIRMATION_PHRASE" --allow-shared-production-backend)
           if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
             ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
           fi
