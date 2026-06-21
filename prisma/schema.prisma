@@ -1763,10 +1763,52 @@ model PlatformAccount {
   auditEvents            PlatformAccountAuditEvent[]
   legalAcceptances       AccountLegalAcceptance[]
   consentPreferences     AccountConsentPreference[]
+  internalRoleAssignments PlatformInternalRoleAssignment[] @relation("InternalRoleSubject")
+  grantedInternalRoles   PlatformInternalRoleAssignment[] @relation("InternalRoleGrantor")
+  revokedInternalRoles   PlatformInternalRoleAssignment[] @relation("InternalRoleRevoker")
 
   @@index([email])
   @@index([status])
   @@map("platform_accounts")
+}
+
+/// FTGP — authoritative global ProCrow internal roles (not tenant membership).
+enum PlatformInternalRole {
+  PLATFORM_ADMIN
+  IMPLEMENTER
+  SALES
+  AUDITOR_READONLY
+}
+
+enum PlatformInternalRoleAssignmentStatus {
+  ACTIVE
+  REVOKED
+}
+
+model PlatformInternalRoleAssignment {
+  id                         String                               @id @default(cuid())
+  platformAccountId          String
+  role                       PlatformInternalRole
+  status                     PlatformInternalRoleAssignmentStatus @default(ACTIVE)
+  grantReason                String
+  grantCorrelationId         String
+  grantedAt                  DateTime                             @default(now())
+  grantedByPlatformAccountId String
+  revokedAt                  DateTime?
+  revokedByPlatformAccountId String?
+  revokeReason               String?
+  revokeCorrelationId        String?
+  createdAt                  DateTime                             @default(now())
+  updatedAt                  DateTime                             @updatedAt
+
+  platformAccount PlatformAccount @relation("InternalRoleSubject", fields: [platformAccountId], references: [id], onDelete: Cascade)
+  grantedBy       PlatformAccount @relation("InternalRoleGrantor", fields: [grantedByPlatformAccountId], references: [id], onDelete: Restrict)
+  revokedBy       PlatformAccount? @relation("InternalRoleRevoker", fields: [revokedByPlatformAccountId], references: [id], onDelete: SetNull)
+
+  @@index([platformAccountId, status])
+  @@index([role, status])
+  @@index([grantCorrelationId])
+  @@map("platform_internal_role_assignments")
 }
 
 /// Private self-service profile (not tenant-scoped Profile).
@@ -1919,6 +1961,8 @@ enum PlatformAccountAuditEventType {
   password_recovery_requested
   password_recovery_succeeded
   password_recovery_failed
+  platform_internal_role_granted
+  platform_internal_role_revoked
 }
 
 model PlatformAccountAuditEvent {
