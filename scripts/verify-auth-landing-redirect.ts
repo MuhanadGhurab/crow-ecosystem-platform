@@ -117,10 +117,19 @@ function main() {
 
   const header = fileText("src/components/public/public-header.tsx");
   const headerNav = fileText("src/components/public/public-header-nav.tsx");
+  const publicLayout = fileText("src/app/(public)/layout.tsx");
+  const headerAuth = fileText("src/lib/portal/public-header-auth.ts");
   check(
-    header.includes("getAuthenticatedPortalCta") && header.includes("getSessionUser"),
-    "Public header resolves session portal CTA",
-    "PublicHeader must be server-aware"
+    header.includes("PublicHeaderAuthResolver") &&
+      header.includes("Suspense") &&
+      headerAuth.includes("resolvePublicHeaderAuth"),
+    "Public header uses scoped Suspense auth resolver",
+    "PublicHeader must isolate session lookup from static marketing shell"
+  );
+  check(
+    !publicLayout.includes('dynamic = "force-dynamic"'),
+    "Public layout avoids global force-dynamic",
+    "Do not disable caching for entire public marketing surface"
   );
   check(
     !headerNav.includes("/admin") || headerNav.includes("portalCta"),

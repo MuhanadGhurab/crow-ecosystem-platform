@@ -153,6 +153,8 @@
     "c3-google-legal-onboarding:verify": "npx tsx src/lib/account/c3-google-legal-onboarding.test.ts && npx tsx scripts/verify-c3-google-legal-onboarding.ts",
     "c3-role-neutral-onboarding:test": "npx tsx src/lib/account/c3-role-neutral-onboarding.test.ts",
     "c3-account-profile-lifecycle:test": "npx tsx src/lib/account/c3-account-profile-lifecycle.test.ts",
+    "portal-public-header:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",
+    "c3-public-header-session:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",
     "c3-google-hosted-routing:verify": "npx tsx src/lib/account/c3-google-hosted-routing.test.ts && npx tsx scripts/verify-c3-google-hosted-routing.ts",
     "c3-10j:backup:create": "npx tsx --env-file=.env.preview.operator scripts/create-pre-migration-backup.ts",
     "c3-10j:backup:verify": "npx tsx scripts/verify-pre-migration-backup.ts",
