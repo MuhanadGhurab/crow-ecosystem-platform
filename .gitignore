@@ -24,6 +24,9 @@ out/
 .env*.local
 .env.staging
 .env.production
+.env.production.runtime
+.env.production.operator
+.env.production.pulled.tmp
 .env.vercel
 
 # Prisma
@@ -52,3 +55,34 @@ tsconfig.tsbuildinfo
 # Cursor / agent local state (repo policy: do not commit)
 .agents/
 skills-lock.json
+.vercel
+
+# C3 pre-migration backups (local operator artifacts; never commit)
+.backups/
+
+# C3 Preview env pulls and operator secrets (never commit)
+.env.staging.runtime
+.env.preview.proof-link
+.env.preview.*
+.env.preview.e2e
+
+# Ad-hoc local debug / test artifacts
+tmp-legal.html
+
+# Internal preview E2E evidence (local operator; keep out of public mirror)
+docs/internal/screenshots/c3-preview-e2e/
+docs/internal/C3.*-PREVIEW-E2E-REPORT.md
+
+# C3 browser session raw evidence (sanitized summary committed separately)
+docs/internal/c3-browser-session-certification/C3_10D_BROWSER_SESSION_REPORT.json
+docs/internal/screenshots/c3-preview-email-only-proof/
+
+# Ad-hoc C3 debug scripts (local operator tooling; not product surface)
+scripts/check-c3-*.ts
+scripts/smoke-c3-provision-hosted.ts
+scripts/smoke-supabase-admin-hosted.ts
+scripts/staging-resend-key-digest.ts
+scripts/sync-preview-resend-key.ts
+scripts/test-otp-crack.ts
+scripts/test-otp-email-send.ts
+scripts/test-preview-from-resend.ts

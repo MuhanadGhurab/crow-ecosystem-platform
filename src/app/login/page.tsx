@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
-import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import { redirectAuthenticatedSession } from "@/lib/auth/c3-authenticated-entry";
 import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
@@ -30,6 +30,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   config: "Supabase Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and anon key to .env.",
   auth_callback:
     "Sign-in could not be completed. Check Supabase redirect URLs (must include your app /auth/callback) and provider settings — see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md and docs/internal/ENTRA_SSO.md.",
+  oauth_session:
+    "Your sign-in session could not be established. Try Continue with Google again.",
   entra_start_failed:
     "Could not start Microsoft sign-in. Check Azure provider in Supabase Dashboard and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
   entra_not_configured:
@@ -47,17 +49,38 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{
+    next?: string;
+    error?: string;
+    verified?: string;
+    email?: string;
+    message?: string;
+    "password-reset"?: string;
+  }>;
 }) {
-  const { next, error } = await searchParams;
+  const {
+    next,
+    error,
+    verified,
+    email: emailParam,
+    message: messageParam,
+    "password-reset": passwordReset,
+  } = await searchParams;
   const nextPath = sanitizeAuthNextPathOptional(next);
+  const verifiedBanner = verified === "1";
+  const passwordResetBanner = passwordReset === "1";
+  const prefillEmail = typeof emailParam === "string" ? emailParam.trim() : "";
 
   const existingUser = await getSessionUser();
   if (existingUser) {
-    redirect(resolvePostAuthLanding(existingUser, nextPath));
+    await redirectAuthenticatedSession(existingUser, nextPath);
   }
 
-  const errorMessage = error ? (ERROR_MESSAGES[error] ?? "Sign-in failed.") : null;
+  const errorMessage = error
+    ? (ERROR_MESSAGES[error] ??
+        (typeof messageParam === "string" ? messageParam : undefined) ??
+        "Sign-in failed.")
+    : null;
   const configured = isSupabaseAuthConfigured();
   const entraEnabled = isEntraSsoEnabled();
   const googleEnabled = isGoogleSsoEnabled();
@@ -72,6 +95,18 @@ export default async function LoginPage({
 
         {errorMessage && <p className="cc-alert-warning mt-5">{errorMessage}</p>}
 
+        {verifiedBanner && (
+          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+            Email verified. Sign in with your password to continue.
+          </p>
+        )}
+
+        {passwordResetBanner && (
+          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+            Your password was changed successfully. Sign in with your new password.
+          </p>
+        )}
+
         {!configured ? (
           <p className="mt-6 text-sm text-slate-500">
             Set <span className="cc-kbd">NEXT_PUBLIC_SUPABASE_URL</span> and{" "}
@@ -85,6 +120,7 @@ export default async function LoginPage({
               nextPath={nextPath}
               entraEnabled={entraEnabled}
               googleEnabled={googleEnabled}
+              defaultEmail={prefillEmail || undefined}
             />
           </div>
         )}

@@ -101,9 +101,14 @@ function main(): boolean {
     "Controlled migration must document preview and production phrases"
   );
   check(
-    controlledSrc.includes("EXPECTED_DATABASE_FINGERPRINT"),
-    "Controlled migration requires fingerprint",
-    "Controlled migration must check EXPECTED_DATABASE_FINGERPRINT"
+    controlledSrc.includes("--allow-shared-production-backend"),
+    "Controlled migration supports shared production backend acknowledgement",
+    "Controlled migration must support --allow-shared-production-backend"
+  );
+  check(
+    existsSync(join(ROOT, "scripts/lib/database-environment.shared-backend.test.ts")),
+    "Shared-backend acknowledgement unit test present",
+    "Missing database-environment.shared-backend.test.ts"
   );
 
   const pkg = fileText("package.json");

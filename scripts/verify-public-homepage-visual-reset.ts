@@ -62,21 +62,20 @@ function main(): boolean {
   );
 
   const hero = fileText("src/components/public/hero-section.tsx");
+  const homepageConstants = fileText("src/lib/constants/homepage.ts");
   check(
     !hero.includes("EnterpriseOperatingModelCard"),
     "Hero side card (EnterpriseOperatingModelCard) removed from hero",
     "Remove EnterpriseOperatingModelCard from hero-section.tsx"
   );
-  check(
-    hero.includes("Start Enterprise Request"),
-    "Hero primary CTA: Start Enterprise Request",
-    "Add primary CTA to hero"
-  );
-  check(
-    hero.includes("Explore modules"),
-    "Hero secondary CTA: Explore modules",
-    "Add secondary CTA to hero"
-  );
+  const hasPrimaryCta =
+    hero.includes("Start Enterprise Request") ||
+    (hero.includes("HOMEPAGE_PRIMARY_CTA") && homepageConstants.includes("Start Enterprise Request"));
+  check(hasPrimaryCta, "Hero primary CTA: Start Enterprise Request", "Add primary CTA to hero");
+  const hasSecondaryCta =
+    hero.includes("Explore modules") ||
+    (hero.includes("HOMEPAGE_SECONDARY_CTA") && homepageConstants.includes("Explore modules"));
+  check(hasSecondaryCta, "Hero secondary CTA: Explore modules", "Add secondary CTA to hero");
   check(
     hero.includes("HOMEPAGE_HERO_HEADLINE"),
     "Hero uses centralized headline constant",

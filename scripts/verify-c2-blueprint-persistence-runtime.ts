@@ -10,6 +10,7 @@ import { join } from "node:path";
 import {
   C2_MIGRATION_DIR,
   countMigrationSql,
+  expectedMigrationBaseline,
   hasC2BlueprintMigration,
 } from "./lib/migration-baseline";
 
@@ -219,7 +220,12 @@ function main(): boolean {
   check(configProposal, "Configuration proposal model (no runtime deploy)", "Missing BlueprintConfigurationProposal");
 
   const migrationCount = countMigrationSql(ROOT);
-  check(migrationCount === 14, `Migration baseline 14 (${migrationCount})`, `Expected 14 migrations, got ${migrationCount}`);
+  const expectedMigrations = expectedMigrationBaseline(ROOT);
+  check(
+    migrationCount === expectedMigrations,
+    `Migration baseline ${expectedMigrations} (${migrationCount})`,
+    `Expected ${expectedMigrations} migrations, got ${migrationCount}`
+  );
 
   const status = fileText("docs/internal/PROJECT_STATUS.md");
   check(

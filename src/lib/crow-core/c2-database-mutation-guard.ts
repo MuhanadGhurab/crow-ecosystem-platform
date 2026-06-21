@@ -4,6 +4,8 @@ import {
   assertAppDatabaseEnvironmentAlignment,
   assertDatabaseFingerprintMatches,
   expectedDatabaseFingerprint,
+  isSharedProductionBackendPairing,
+  resolveBackendIsolation,
   resolveDatabaseEnvironment,
 } from "@/lib/crow-core/database-environment";
 
@@ -29,7 +31,9 @@ export async function assertC2DatabaseEnvironmentSafe(): Promise<void> {
   }
 
   try {
-    assertAppDatabaseEnvironmentAlignment();
+    const allowSharedProductionBackend =
+      isSharedProductionBackendPairing() && resolveBackendIsolation() === "shared";
+    assertAppDatabaseEnvironmentAlignment({ allowSharedProductionBackend });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new BlueprintAuthorizationError(message);

@@ -12,6 +12,12 @@ const BADGE_CLASS: Record<string, string> = {
   sarea: "cc-entity-badge--sarea",
 };
 
+const ECOSYSTEM_ACCENT: Record<string, string> = {
+  cem: "Operational fabric",
+  cybercrow: "Observation & protection",
+  sarea: "Adaptive intelligence",
+};
+
 export function HomepageRuntimeEngines() {
   const [featured, ...rest] = HOMEPAGE_RUNTIME_ENGINES;
 
@@ -31,6 +37,9 @@ export function HomepageRuntimeEngines() {
           <span className={`cc-entity-badge ${BADGE_CLASS[featured.id] ?? ""} w-fit`}>
             {featured.name}
           </span>
+          <p className="mt-2 text-[11px] font-medium uppercase tracking-wider text-cyan-500/70">
+            {ECOSYSTEM_ACCENT[featured.id]}
+          </p>
           <h3 className="mt-4 font-display text-xl font-bold text-white sm:text-2xl">
             {featured.fullName}
           </h3>
@@ -52,6 +61,9 @@ export function HomepageRuntimeEngines() {
             <span className={`cc-entity-badge ${BADGE_CLASS[engine.id] ?? ""} w-fit`}>
               {engine.name}
             </span>
+            <p className="mt-2 text-[10px] font-medium uppercase tracking-wider text-cyan-500/60">
+              {ECOSYSTEM_ACCENT[engine.id]}
+            </p>
             <h3 className="mt-3 font-display text-lg font-bold text-white">{engine.fullName}</h3>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{engine.summary}</p>
             <Link

@@ -15,6 +15,13 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "request",
   "login",
   "signup",
+  "register",
+  "verify-email",
+  "forgot-password",
+  "reset-password",
+  "onboarding",
+  "legal",
+  "account",
   "auth",
   "unauthorized",
   "about",
@@ -25,6 +32,7 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "case-studies",
   "access",
   "tenant-invite",
+  "auth-canary",
   "_next",
   "favicon.ico",
 ]);
@@ -43,11 +51,18 @@ const PUBLIC_PREFIXES = [
   "/case-studies",
   "/login",
   "/signup",
+  "/register",
+  "/verify-email",
+  "/forgot-password",
+  "/reset-password",
+  "/onboarding",
+  "/legal",
   "/auth/callback",
   "/auth/entra",
   "/proposal",
   "/unauthorized",
   "/access",
+  "/auth-canary",
 ] as const;
 
 const PLATFORM_PREFIXES = ["/admin", "/discovery", "/blueprints", "/sarea"] as const;
@@ -91,6 +106,12 @@ export function isPublicApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/health" && method === "GET") {
     return true;
   }
+  if (pathname === "/api/c3/session-proof" && method === "GET") {
+    return true;
+  }
+  if (pathname === "/api/c3/proof-identity" && method === "GET") {
+    return true;
+  }
   /** L1 — ERP request intake requires an authenticated session (see implementation-requests POST). */
   if (pathname === "/api/billing/webhook" && method === "POST") {
     return true;
@@ -102,6 +123,36 @@ export function isPublicApiPath(pathname: string, method: string): boolean {
  * Authenticated API routes that enforce authorization in the route handler.
  * Middleware requires a session but does not require platform staff (RC1 SEC-003).
  */
+/** C3 — email verification gate (session required; role optional). */
+export function isVerifyEmailPath(pathname: string): boolean {
+  return pathname === "/verify-email";
+}
+
+/** C3 — legal registration gate (session required; no ACTIVE account yet). */
+export function isC3LegalRegistrationPath(pathname: string): boolean {
+  return pathname === "/register/legal";
+}
+
+/** Public read-only legal document views (print/download). */
+export function isPublicLegalDocumentPath(pathname: string): boolean {
+  return pathname.startsWith("/legal/");
+}
+
+/** C3 — self-service account area (session required; ACTIVE enforced in pages). */
+export function isAccountSelfServicePath(pathname: string): boolean {
+  return pathname === "/account" || pathname.startsWith("/account/");
+}
+
+/**
+ * C3 — account self-service requires a Supabase session in middleware.
+ * `/register/legal` and `/verify-email` are auth-entry paths (see public-auth-paths)
+ * and stay reachable without a session when registration is enabled; pages enforce
+ * platform-account state server-side.
+ */
+export function isC3SessionOnlyPath(pathname: string): boolean {
+  return isAccountSelfServicePath(pathname);
+}
+
 export function isHandlerAuthorizedApiPath(pathname: string, method: string): boolean {
   if (pathname === "/api/billing/checkout" && method === "POST") {
     return true;

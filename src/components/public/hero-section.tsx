@@ -1,10 +1,13 @@
 import Link from "next/link";
 
+import { CrowHeroBackground } from "@/components/brand/crow-hero-background";
 import {
   HOMEPAGE_HERO_ACCOUNT_NOTE,
   HOMEPAGE_HERO_FEATURE_PILLS,
   HOMEPAGE_HERO_HEADLINE,
   HOMEPAGE_HERO_SUBHEADLINE,
+  HOMEPAGE_PRIMARY_CTA,
+  HOMEPAGE_SECONDARY_CTA,
 } from "@/lib/constants/homepage";
 
 function ArrowUpRightIcon() {
@@ -33,27 +36,16 @@ export function HeroSection() {
       />
 
       <div className="cc-hero-panel">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
-          aria-hidden
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-            `,
-            backgroundSize: "64px 64px",
-          }}
-        />
-        <div
-          className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-violet-600/10 blur-3xl"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -left-16 bottom-0 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl"
-          aria-hidden
+        <CrowHeroBackground
+          intensity="balanced"
+          position="center-right"
+          motion="ambient"
+          showNetwork
+          showGlow
+          className="crow-hero-panel-bg"
         />
 
-        <div className="relative mx-auto max-w-3xl text-center">
+        <div className="relative z-10 mx-auto max-w-3xl text-center">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {HOMEPAGE_HERO_FEATURE_PILLS.map((pill) => (
               <span key={pill.highlight} className="cc-hero-stat-pill">
@@ -76,17 +68,17 @@ export function HeroSection() {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/request" className="cc-btn-hero-light min-w-[14rem]">
-              Start Enterprise Request
+            <Link href={HOMEPAGE_PRIMARY_CTA.href} className="cc-btn-hero-light min-w-[14rem]">
+              {HOMEPAGE_PRIMARY_CTA.label}
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white">
                 <ArrowUpRightIcon />
               </span>
             </Link>
             <Link
-              href="/modules"
+              href={HOMEPAGE_SECONDARY_CTA.href}
               className="inline-flex min-h-[48px] min-w-[12rem] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/[0.08]"
             >
-              Explore modules
+              {HOMEPAGE_SECONDARY_CTA.label}
             </Link>
           </div>
 

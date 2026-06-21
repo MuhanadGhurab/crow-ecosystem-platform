@@ -1,9 +1,16 @@
 import Link from "next/link";
+
+import { CrowMarkSvg } from "@/components/brand/crow-mark-svg";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 
 export function PublicFooter() {
   return (
-    <footer className="relative z-10 mt-24 border-t border-cyan-500/10 bg-cc-elevated/50 backdrop-blur-sm">
+    <footer className="relative z-10 mt-24 overflow-hidden border-t border-cyan-500/10 bg-cc-elevated/50 backdrop-blur-sm">
+      <CrowMarkSvg
+        variant="watermark"
+        className="pointer-events-none absolute -right-8 top-8 h-32 w-32 opacity-[0.06]"
+        aria-hidden
+      />
       <div className="cc-safe-x mx-auto max-w-6xl py-10 sm:py-14">
         <div className="flex flex-wrap items-start justify-between gap-10">
           <div className="max-w-sm">

@@ -11,6 +11,8 @@ export {
   collectDatabaseEnvironmentWarnings,
   expectedDatabaseFingerprint,
   isMigrationExplicitlyAllowed,
+  isSharedProductionBackendPairing,
   resolveAppEnvironment,
+  resolveBackendIsolation,
   resolveDatabaseEnvironment,
 } from "../../../scripts/lib/database-environment";

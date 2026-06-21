@@ -8,8 +8,37 @@ export const routes = {
     signup: "/signup",
     signupWithNext: (nextPath: string) =>
       `/signup?next=${encodeURIComponent(nextPath)}`,
+    forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
     signOut: "/auth/signout",
     callback: "/auth/callback",
+    resolving: "/auth/resolving",
+    resolvingWithNext: (nextPath: string) =>
+      `/auth/resolving?next=${encodeURIComponent(nextPath)}`,
+    accountStatus: "/auth/account-status",
+    google: "/auth/google",
+  },
+  /** C3 — universal platform account (registration, verification, self-service). */
+  account: {
+    home: "/account",
+    register: "/register",
+    registerLegal: "/register/legal",
+    verifyEmail: "/verify-email",
+    legal: "/account/legal",
+    legalDocumentView: (slug: string, versionId: string) =>
+      `/legal/${slug}/${versionId}`,
+    profile: "/account/profile",
+    settings: "/account/settings",
+    sessions: "/account/sessions",
+    requests: "/account/requests",
+    request: (id: string) => `/account/requests/${id}`,
+    invitations: "/account/invitations",
+  },
+  /** C3.8 — first-time onboarding gates (legal → email → phone). */
+  onboarding: {
+    legal: "/onboarding/legal",
+    verifyEmail: "/onboarding/verify-email",
+    verifyPhone: "/onboarding/verify-phone",
   },
   portal: {
     home: "/portal",

@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import {
   googleOAuthOptions,
   isGoogleSsoEnabled,
+  oauthProviderCookieOptions,
 } from "@/lib/auth/google-sso";
 import {
   oauthNextCookieOptions,
 } from "@/lib/auth/entra-sso";
+import { sanitizeAuthNextPathWithDefault } from "@/lib/auth/sanitize-auth-next";
+import { routes } from "@/lib/routes";
 import { createClient } from "@/lib/supabase/server";
 
 /** Start Google OAuth — redirects to Google via Supabase Auth. */
@@ -17,9 +20,8 @@ export async function GET(request: Request) {
   }
 
   const { searchParams, origin } = new URL(request.url);
-  const next = searchParams.get("next") ?? "/admin/overview";
-  const nextPath =
-    next.startsWith("/") && !next.startsWith("//") ? next : "/admin/overview";
+  const next = searchParams.get("next");
+  const nextPath = sanitizeAuthNextPathWithDefault(next, routes.account.home);
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -38,6 +40,11 @@ export async function GET(request: Request) {
     oauthNextCookieOptions().name,
     nextPath,
     oauthNextCookieOptions()
+  );
+  response.cookies.set(
+    oauthProviderCookieOptions().name,
+    "google",
+    oauthProviderCookieOptions()
   );
   return response;
 }

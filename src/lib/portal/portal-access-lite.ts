@@ -17,6 +17,8 @@ import { routes } from "@/lib/routes";
 export type AuthenticatedPortalCta = {
   href: string;
   label: string;
+  /** Account-home CTA uses user icon; portal CTAs use grid icon. */
+  tone?: "portal" | "account";
 };
 
 function hasClientPortalAccess(role: CrowRole | null): boolean {

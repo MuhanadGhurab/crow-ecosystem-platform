@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Syne } from "next/font/google";
+
+import { CrowAppShell } from "@/components/brand/crow-app-shell";
 import "./globals.css";
 
 const fontSans = Plus_Jakarta_Sans({
@@ -31,7 +33,9 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={`${fontSans.variable} ${fontDisplay.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <CrowAppShell>{children}</CrowAppShell>
+      </body>
     </html>
   );
 }

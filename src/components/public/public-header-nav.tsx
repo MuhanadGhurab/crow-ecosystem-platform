@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CrowMark } from "@/components/public/brand/crow-mark";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { AuthenticatedPortalCta } from "@/lib/auth/post-login-redirect";
 import { routes } from "@/lib/routes";
 
@@ -53,7 +54,17 @@ function navLinkClass(active: boolean) {
   return active ? "cc-public-nav-link cc-public-nav-link-active" : "cc-public-nav-link";
 }
 
-export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalCta | null }) {
+export function PublicHeaderNav({
+  portalCta,
+  isAccountSession = false,
+  showSignOut = false,
+  authLoading = false,
+}: {
+  portalCta: AuthenticatedPortalCta | null;
+  isAccountSession?: boolean;
+  showSignOut?: boolean;
+  authLoading?: boolean;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -99,11 +110,29 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
 
         <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
           <div className="hidden items-center gap-1 md:flex">
+            {isAccountSession && (
+              <>
+                <Link href={routes.account.profile} className="cc-public-nav-link">
+                  Profile
+                </Link>
+                <Link href={routes.account.legal} className="cc-public-nav-link">
+                  Legal
+                </Link>
+              </>
+            )}
             {portalCta ? (
-              <Link href={portalCta.href} className="cc-btn-login-pill">
-                <GridIcon />
-                {portalCta.label}
+              <Link href={portalCta.href} className="cc-btn-login-pill max-w-[min(100%,14rem)] truncate">
+                {portalCta.tone === "account" ? <UserIcon /> : <GridIcon />}
+                <span className="truncate">{portalCta.label}</span>
               </Link>
+            ) : authLoading ? (
+              <span
+                className="cc-btn-login-pill max-w-[min(100%,8rem)] truncate opacity-60"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                Account…
+              </span>
             ) : (
               <>
                 <Link href={clientPortalHref} className="cc-btn-client-portal">
@@ -116,19 +145,30 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
                 </Link>
               </>
             )}
+            {showSignOut && (
+              <SignOutButton className="cc-public-nav-link !border-0 !bg-transparent !p-0" />
+            )}
           </div>
 
           <div className="flex items-center gap-1 md:hidden">
-            {!portalCta && (
+            {!portalCta && !authLoading && (
               <Link href={routes.auth.login} className="cc-btn-login-pill !min-h-[40px] !px-3 !text-xs">
                 <UserIcon />
                 Sign in
               </Link>
             )}
             {portalCta && (
-              <Link href={portalCta.href} className="cc-btn-client-portal !text-xs">
-                {portalCta.label}
+              <Link
+                href={portalCta.href}
+                className="cc-btn-client-portal max-w-[min(100%,10rem)] truncate !text-xs"
+              >
+                <span className="truncate">{portalCta.label}</span>
               </Link>
+            )}
+            {authLoading && (
+              <span className="cc-btn-login-pill !min-h-[40px] !px-3 !text-xs opacity-60" aria-busy="true">
+                …
+              </span>
             )}
             <button
               type="button"
@@ -169,6 +209,34 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
               </button>
             </div>
             <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
+              {isAccountSession && (
+                <>
+                  <Link
+                    href={routes.account.home}
+                    className="cc-nav-link !flex"
+                    onClick={() => setOpen(false)}
+                  >
+                    Account home
+                  </Link>
+                  <Link
+                    href={routes.account.profile}
+                    className="cc-nav-link !flex"
+                    onClick={() => setOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    href={routes.account.legal}
+                    className="cc-nav-link !flex"
+                    onClick={() => setOpen(false)}
+                  >
+                    Legal
+                  </Link>
+                  {showSignOut && (
+                    <SignOutButton className="cc-nav-link !flex w-full text-left" />
+                  )}
+                </>
+              )}
               {ALL_NAV.map((item) => (
                 <Link
                   key={item.href}
@@ -189,7 +257,7 @@ export function PublicHeaderNav({ portalCta }: { portalCta: AuthenticatedPortalC
                   className="cc-btn-login-pill justify-center"
                   onClick={() => setOpen(false)}
                 >
-                  <GridIcon />
+                  {portalCta.tone === "account" ? <UserIcon /> : <GridIcon />}
                   {portalCta.label}
                 </Link>
               ) : (

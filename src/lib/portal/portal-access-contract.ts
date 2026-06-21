@@ -36,10 +36,11 @@ export type CrowAccessGatewaySnapshot = {
 };
 
 export const PORTAL_GATEWAY_SAFETY_NOTES = [
-  "ProCrow is internal only — not shown to client accounts.",
-  "Business Portal requires verified tenant membership — Client Portal access alone is not enough.",
-  "Client Portal is for request owners — not the same as employee day-to-day runtime.",
-  "Production launch and billing remain F23-gated; no payment activation from these portals.",
+  "ProCrow is internal only.",
+  "Client Portal is for request owners.",
+  "Business Portal requires verified tenant membership.",
+  "Client Portal access does not grant employee runtime access.",
+  "Approval does not begin production, provisioning, or billing.",
 ] as const;
 
 export const CLIENT_PORTAL_DESCRIPTION =

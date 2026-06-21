@@ -2,30 +2,55 @@
 /**
  * Controlled migration delivery — fingerprint-verified migrate status/deploy.
  * Never invoked from Vercel build; use GitHub workflow_dispatch or local operator CLI.
- *
- * Requires EXPECTED_DATABASE_FINGERPRINT to match DATABASE_URL before any status/deploy.
- * Confirmation phrases (distinct per environment):
- *   preview:    APPLY PREVIEW DATABASE MIGRATIONS
- *   production: APPLY PRODUCTION DATABASE MIGRATIONS
  */
 import { spawnSync } from "node:child_process";
 import {
   type ControlledMigrationEnvironment,
   CONTROLLED_MIGRATION_PHRASES,
+  SHARED_PRODUCTION_BACKEND_WARNING,
   assertAppDatabaseEnvironmentAlignment,
   assertControlledEnvironmentTarget,
   assertControlledMigrationPhrase,
   assertDatabaseFingerprintMatches,
+  assertDirectDatabaseFingerprintMatches,
+  assertSharedProductionBackendAcknowledged,
   isMigrationExplicitlyAllowed,
+  isSharedProductionBackendPairing,
+  resolveBackendIsolation,
   resolveDatabaseEnvironment,
 } from "./lib/database-environment";
 import { maskDatabaseTarget } from "./lib/database-fingerprint";
+
+/** C3.5 migrations already applied on hosted shared Supabase (C3.9C baseline). */
+const C3_5_APPLIED_MIGRATIONS = [
+  "20260614140000_c3_account_registration",
+  "20260614150000_c3_legal_agreement",
+  "20260614160000_c3_public_schema_access_hardening",
+] as const;
+
+/** Single authorized pending migration after C3.8 apply (C3.8 dual-channel). */
+const C3_8_PENDING_MIGRATION = "20260618140000_c3_dual_channel_onboarding";
+
+/** C3.10I password recovery audit enum extension. */
+const C3_10I_PENDING_MIGRATION = "20260620120000_c3_password_recovery_audit";
+
+const C3_FULL_STACK_PENDING = [
+  ...C3_5_APPLIED_MIGRATIONS,
+  C3_8_PENDING_MIGRATION,
+] as const;
+
+/** Documented operator phrases (must match CONTROLLED_MIGRATION_PHRASES). */
+const PHRASE_DOCS = {
+  preview: "APPLY PREVIEW DATABASE MIGRATIONS",
+  production: "APPLY PRODUCTION DATABASE MIGRATIONS",
+} satisfies typeof CONTROLLED_MIGRATION_PHRASES;
 
 function parseArgs(argv: string[]) {
   let environment: ControlledMigrationEnvironment | null = null;
   let confirm: string | undefined;
   let checkOnly = false;
   let expectedMigrationName: string | undefined;
+  let allowSharedProductionBackend = false;
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
@@ -40,18 +65,20 @@ function parseArgs(argv: string[]) {
       confirm = argv[++i];
     } else if (arg === "--check-only") {
       checkOnly = true;
+    } else if (arg === "--allow-shared-production-backend") {
+      allowSharedProductionBackend = true;
     } else if (arg === "--expected-migration" && argv[i + 1]) {
       expectedMigrationName = argv[++i];
     } else if (arg === "--help" || arg === "-h") {
       console.log(`Usage:
-  npm run db:migrate:controlled -- --environment preview --check-only
-  npm run db:migrate:controlled -- --environment preview --confirm "${CONTROLLED_MIGRATION_PHRASES.preview}"
-  npm run db:migrate:controlled -- --environment production --confirm "${CONTROLLED_MIGRATION_PHRASES.production}"`);
+  npm run db:migrate:controlled -- --environment production --check-only --allow-shared-production-backend
+  npm run db:migrate:controlled -- --environment preview --confirm "${PHRASE_DOCS.preview}"
+  npm run db:migrate:controlled -- --environment production --confirm "${PHRASE_DOCS.production}"`);
       process.exit(0);
     }
   }
 
-  return { environment, confirm, checkOnly, expectedMigrationName };
+  return { environment, confirm, checkOnly, expectedMigrationName, allowSharedProductionBackend };
 }
 
 function runPrisma(args: string[]) {
@@ -62,25 +89,94 @@ function runPrisma(args: string[]) {
   });
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
-  return result.status ?? 1;
+  return { status: result.status ?? 1, output: `${result.stdout ?? ""}${result.stderr ?? ""}` };
 }
 
-function assertMigrationNamePresent(expectedName: string | undefined): void {
-  if (!expectedName) return;
-  const status = spawnSync("npx", ["prisma", "migrate", "status"], {
-    encoding: "utf8",
-    shell: process.platform === "win32",
-    env: process.env,
-  });
-  const output = `${status.stdout ?? ""}${status.stderr ?? ""}`;
-  if (!output.includes(expectedName)) {
-    console.error(`Expected migration name not found in migrate status: ${expectedName}`);
+function extractPendingMigrationNames(output: string): string[] {
+  const marker = "Following migration have not yet been applied:";
+  const altMarker = "Following migrations have not yet been applied:";
+  const section =
+    output.split(marker)[1]?.split("\n\n")[0] ??
+    output.split(altMarker)[1]?.split("\n\n")[0] ??
+    "";
+
+  const pending: string[] = [];
+  for (const line of section.split("\n")) {
+    const match = line.trim().match(/^(\d{14}_[\w]+)/);
+    if (match) pending.push(match[1]);
+  }
+  return pending.sort();
+}
+
+function assertMigrationInventory(
+  output: string,
+  checkOnly: boolean,
+  expectedMigrationName?: string
+): void {
+  if (/failed migrations/i.test(output)) {
+    console.error("Failed migrations detected in migrate status output.");
     process.exit(1);
+  }
+
+  const pending = extractPendingMigrationNames(output);
+
+  if (checkOnly) {
+    const onlyC38Pending =
+      pending.length === 1 && pending[0] === C3_8_PENDING_MIGRATION;
+    const onlyC10IPending =
+      pending.length === 1 && pending[0] === C3_10I_PENDING_MIGRATION;
+    const noPendingAfterC10I =
+      pending.length === 0 &&
+      expectedMigrationName === C3_10I_PENDING_MIGRATION;
+    const fullStackPending =
+      pending.length === C3_FULL_STACK_PENDING.length &&
+      C3_FULL_STACK_PENDING.every((name) => pending.includes(name));
+
+    if (onlyC10IPending) {
+      console.log("\nPending migrations:");
+      console.log(`1. ${C3_10I_PENDING_MIGRATION}`);
+    } else if (noPendingAfterC10I) {
+      console.log("\nPending migrations: (none) — schema up to date");
+    } else if (onlyC38Pending) {
+      console.log("\nPending migrations:");
+      console.log(`1. ${C3_8_PENDING_MIGRATION}`);
+    } else if (fullStackPending) {
+      console.error(
+        "C3.5 migrations appear pending on hosted DB — reconciliation required before apply."
+      );
+      console.error(`Pending: ${pending.join(", ")}`);
+      console.error(
+        "Classify as MIGRATION_HISTORY_DRIFT or WRONG_DATABASE_CONNECTION; do not apply."
+      );
+      process.exit(1);
+    } else {
+      console.error("Unexpected pending migration inventory.");
+      console.error(`Pending: ${pending.join(", ") || "(none)"}`);
+      process.exit(1);
+    }
+
+    for (const applied of C3_5_APPLIED_MIGRATIONS) {
+      if (pending.includes(applied)) {
+        console.error(`C3.5 migration incorrectly pending: ${applied}`);
+        process.exit(1);
+      }
+    }
+
+    if (/DROP TABLE|DROP COLUMN|RENAME TO/i.test(output)) {
+      console.error("Destructive SQL markers found in migration status context.");
+      process.exit(1);
+    }
   }
 }
 
 function main() {
-  const { environment, confirm, checkOnly, expectedMigrationName } = parseArgs(process.argv.slice(2));
+  const {
+    environment,
+    confirm,
+    checkOnly,
+    expectedMigrationName,
+    allowSharedProductionBackend,
+  } = parseArgs(process.argv.slice(2));
 
   if (!environment) {
     console.error("Missing required --environment (preview | production).");
@@ -88,15 +184,25 @@ function main() {
   }
 
   const url = process.env.DATABASE_URL?.trim();
+  const direct = process.env.DIRECT_URL?.trim();
   if (!url) {
     console.error("DATABASE_URL is not set.");
     process.exit(1);
   }
 
   try {
-    assertControlledEnvironmentTarget(environment);
-    assertAppDatabaseEnvironmentAlignment();
-    assertDatabaseFingerprintMatches();
+    assertControlledEnvironmentTarget(environment, { allowSharedProductionBackend });
+    assertSharedProductionBackendAcknowledged(allowSharedProductionBackend);
+    assertAppDatabaseEnvironmentAlignment({ allowSharedProductionBackend });
+    if (allowSharedProductionBackend && isSharedProductionBackendPairing()) {
+      console.warn(`\n${SHARED_PRODUCTION_BACKEND_WARNING}\n`);
+      if (!direct) {
+        throw new Error("DIRECT_URL is required for shared production backend check-only.");
+      }
+      assertDirectDatabaseFingerprintMatches();
+    } else {
+      assertDatabaseFingerprintMatches();
+    }
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
@@ -109,6 +215,15 @@ function main() {
       );
       process.exit(1);
     }
+    const backupChecksum = process.env.MIGRATION_BACKUP_CHECKSUM?.trim();
+    if (!backupChecksum) {
+      console.error(
+        "MIGRATION_BACKUP_CHECKSUM is required for apply mode. " +
+          "Record a fresh backup checksum before controlled migrate deploy."
+      );
+      process.exit(1);
+    }
+    console.log(`  backupChecksum: ${backupChecksum.slice(0, 8)}… (verified present)`);
     try {
       assertControlledMigrationPhrase(environment, confirm);
     } catch (error) {
@@ -121,18 +236,34 @@ function main() {
   console.log(`\nControlled migration (${checkOnly ? "check-only" : "apply"})`);
   console.log(`  environment: ${environment}`);
   console.log(`  databaseEnvironment: ${dbEnv}`);
-  console.log(`  target: ${maskDatabaseTarget(url)}\n`);
+  console.log(`  backendIsolation: ${resolveBackendIsolation() ?? "unset"}`);
+  console.log(`  appEnvironment: ${process.env.APP_ENVIRONMENT ?? "(from runtime)"}`);
+  console.log(`  target: ${maskDatabaseTarget(url)}`);
+  if (direct) console.log(`  directTarget: ${maskDatabaseTarget(direct)}\n`);
+  else console.log("");
 
   const statusBefore = runPrisma(["migrate", "status"]);
-  if (statusBefore !== 0) {
-    process.exit(statusBefore);
-  }
+  assertMigrationInventory(statusBefore.output, checkOnly, expectedMigrationName);
 
-  assertMigrationNamePresent(expectedMigrationName);
+  const pendingBefore = extractPendingMigrationNames(statusBefore.output);
+  const schemaUpToDate = /Database schema is up to date!/i.test(statusBefore.output);
+
+  if (
+    expectedMigrationName &&
+    !statusBefore.output.includes(expectedMigrationName) &&
+    !(schemaUpToDate && pendingBefore.length === 0)
+  ) {
+    console.error(`Expected migration name not found in migrate status: ${expectedMigrationName}`);
+    process.exit(1);
+  }
 
   if (checkOnly) {
     console.log("\nCheck-only complete — no migrate deploy executed.\n");
     process.exit(0);
+  }
+
+  if (statusBefore.status !== 0 && /failed migrations/i.test(statusBefore.output)) {
+    process.exit(statusBefore.status);
   }
 
   console.log("\nApplying migrations via controlled wrapper…\n");
@@ -146,7 +277,7 @@ function main() {
   }
 
   const statusAfter = runPrisma(["migrate", "status"]);
-  process.exit(statusAfter);
+  process.exit(statusAfter.status);
 }
 
 main();

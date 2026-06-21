@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PublicPageHeader } from "@/components/public/public-page-header";
-import { FULL_PLATFORM_LIFECYCLE } from "@/lib/constants/platform";
+import { FULL_PLATFORM_LIFECYCLE, PIPELINE_STATE_OWNERSHIP } from "@/lib/constants/platform";
 
 const SERVICES = [
   {
@@ -43,6 +43,10 @@ export default function ServicesPage() {
 
         <section>
           <h2 className="font-display text-lg font-semibold text-white">Delivery lifecycle</h2>
+          <p className="mt-2 max-w-3xl text-sm text-slate-400">
+            No request, discovery submission, or proposal approval automatically activates billing
+            or production runtime.
+          </p>
           <div className="cc-scroll-chips mt-4">
             <ol className="flex gap-2">
               {FULL_PLATFORM_LIFECYCLE.map((label, index) => (
@@ -55,6 +59,13 @@ export default function ServicesPage() {
               ))}
             </ol>
           </div>
+          <ul className="mt-6 space-y-3 text-sm text-slate-400">
+            {PIPELINE_STATE_OWNERSHIP.map((row) => (
+              <li key={row.phase}>
+                <span className="font-medium text-slate-300">{row.phase}:</span> {row.owner}
+              </li>
+            ))}
+          </ul>
         </section>
 
         <Link href="/request" className="cc-btn-primary inline-block">
