@@ -86,7 +86,6 @@ export const PLATFORM_ROLE_PERMISSIONS: Record<
   ],
   sales: [
     Permission["platform.requests.view"],
-    Permission["platform.requests.manage"],
     Permission["platform.discovery.view"],
     Permission["platform.blueprint.view"],
     Permission["portal.requests.view"],

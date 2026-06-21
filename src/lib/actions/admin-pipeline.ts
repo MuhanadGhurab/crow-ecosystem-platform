@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { requireActionPlatformStaff } from "@/lib/auth/action-guard";
+import { requireActionRequestReview } from "@/lib/auth/action-guard";
 import { routes } from "@/lib/routes";
 import {
   getImplementationRequest,
@@ -12,7 +12,7 @@ import { startDiscovery } from "@/lib/services/pipeline.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export async function adminStartDiscovery(requestId: string) {
-  await requireActionPlatformStaff();
+  await requireActionRequestReview();
   const request = await getImplementationRequest(requestId);
   if (!request) {
     throw new Error("Request not found");
@@ -29,7 +29,7 @@ export async function adminStartDiscovery(requestId: string) {
 }
 
 export async function adminRejectRequest(requestId: string, reason?: string) {
-  await requireActionPlatformStaff();
+  await requireActionRequestReview();
   const request = await getImplementationRequest(requestId);
   if (!request) {
     throw new Error("Request not found");

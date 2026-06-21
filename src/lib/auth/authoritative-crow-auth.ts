@@ -2,51 +2,61 @@ import type { User } from "@supabase/supabase-js";
 
 import { prisma } from "@/lib/db";
 import {
+  resolveAuthoritativeClientRole,
+  resolveAuthoritativePlatformRole,
+} from "@/lib/auth/authority-boundaries";
+import { gatherCustomerAccessEvidence } from "@/lib/auth/customer-access.service";
+import { listActiveInternalRolesForSupabaseUser } from "@/lib/auth/platform-internal-role.service";
+import {
   getCrowAuth,
   isPlatformConsoleRole,
   type CrowAuth,
+  type CrowRole,
 } from "@/lib/auth/roles";
-import { countRequestsForEmail } from "@/lib/services/client-request-link.service";
 
 /**
- * Crow role for routing/authorization — metadata alone must not grant client or tenant access.
- * Platform console roles still rely on metadata until DB-backed platform RBAC is authoritative.
+ * Crow role for routing/authorization — Supabase metadata alone must not grant access.
+ * Platform internal roles and customer relationships are resolved from the Crow database.
  */
 export async function resolveAuthoritativeCrowAuth(user: User): Promise<CrowAuth> {
   const meta = getCrowAuth(user);
-  if (!meta.role) {
-    return meta;
-  }
 
-  if (meta.role === "client") {
-    const linkedRequests =
-      user.email != null ? (await countRequestsForEmail(user.email)) > 0 : false;
-    const membershipCount = await prisma.tenantMembership.count({
-      where: { supabaseUserId: user.id },
-    });
-    if (!linkedRequests && membershipCount === 0) {
-      return { role: null, tenantSlugs: [] };
-    }
-    return meta;
-  }
-
-  if (meta.role === "tenant_admin" || meta.role === "tenant_user") {
-    const memberships = await prisma.tenantMembership.findMany({
+  const [internalRoles, customerEvidence, tenantMemberships] = await Promise.all([
+    listActiveInternalRolesForSupabaseUser(user.id),
+    gatherCustomerAccessEvidence(user.id),
+    prisma.tenantMembership.findMany({
       where: { supabaseUserId: user.id },
       select: { tenant: { select: { slug: true } } },
-    });
-    const dbSlugs = memberships.map((row) => row.tenant.slug);
-    if (dbSlugs.length === 0) {
-      return { role: null, tenantSlugs: [] };
-    }
+    }),
+  ]);
+
+  const platformRole = resolveAuthoritativePlatformRole(internalRoles, meta.role);
+  if (platformRole) {
+    return { role: platformRole, tenantSlugs: [] };
+  }
+
+  const clientRole = resolveAuthoritativeClientRole(customerEvidence, meta.role);
+  if (clientRole) {
+    return { role: clientRole, tenantSlugs: [] };
+  }
+
+  const dbSlugs = tenantMemberships.map((row) => row.tenant.slug);
+  if (
+    dbSlugs.length > 0 &&
+    (meta.role === "tenant_admin" || meta.role === "tenant_user")
+  ) {
     return { role: meta.role, tenantSlugs: dbSlugs };
   }
 
-  if (isPlatformConsoleRole(meta.role)) {
-    return meta;
+  if (meta.role && (meta.role === "client" || isPlatformConsoleRole(meta.role))) {
+    return { role: null, tenantSlugs: [] };
   }
 
-  return meta;
+  if (meta.role === "tenant_admin" || meta.role === "tenant_user") {
+    return { role: null, tenantSlugs: [] };
+  }
+
+  return meta.role ? { role: meta.role, tenantSlugs: meta.tenantSlugs } : meta;
 }
 
 /** User view with authoritative role applied for landing resolution only. */
@@ -63,4 +73,23 @@ export function userWithAuthoritativeMetadata(
     delete appMetadata.tenant_slugs;
   }
   return { ...user, app_metadata: appMetadata };
+}
+
+export type AuthoritativeCrowAuthContext = {
+  auth: CrowAuth;
+  user: User;
+};
+
+export async function resolveAuthoritativeCrowAuthContext(
+  user: User
+): Promise<AuthoritativeCrowAuthContext> {
+  const auth = await resolveAuthoritativeCrowAuth(user);
+  return {
+    auth,
+    user: userWithAuthoritativeMetadata(user, auth),
+  };
+}
+
+export function authoritativeRoleOrNull(role: CrowRole | null | undefined): CrowRole | null {
+  return role ?? null;
 }

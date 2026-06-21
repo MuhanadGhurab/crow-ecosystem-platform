@@ -6,6 +6,10 @@ import { resolveAuthoritativeCrowAuth } from "@/lib/auth/authoritative-crow-auth
 import { PUBLIC_SIGNUP_ALLOWED_ROLE } from "@/lib/auth/sanitize-auth-next";
 import { type CrowAppMetadata } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
+import {
+  clientCanAccessRequestAuthoritative,
+  listAuthoritativeClientRequestIds,
+} from "@/lib/auth/customer-access.service";
 import { getSupabaseUrl } from "@/lib/supabase/env";
 import { isUseMockData } from "@/lib/mock/env";
 
@@ -128,15 +132,11 @@ export async function ensureClientRoleForAuthenticatedIntake(
     return { ok: true };
   }
 
-  if (user.email) {
-    const requestCount = await countRequestsForEmail(user.email);
-    const submittedCount = await prisma.implementationRequest.count({
-      where: { submittedByUserId: user.id },
-    });
-    if (requestCount > 0 || submittedCount > 0) {
-      await linkRequestsForUser(user, { grantClientRole: false });
-      return { ok: true };
-    }
+  const submittedCount = await prisma.implementationRequest.count({
+    where: { submittedByUserId: user.id },
+  });
+  if (submittedCount > 0) {
+    return { ok: true };
   }
 
   if (isC3PlatformAccountGateEnabled()) {
@@ -148,7 +148,7 @@ export async function ensureClientRoleForAuthenticatedIntake(
       ok: false,
       status: 403,
       error:
-        "Complete Crow account registration before submitting a request, or sign in with the email on your implementation request.",
+        "Complete Crow account registration before submitting a request, or sign in with the account that owns your implementation request.",
     };
   }
 
@@ -210,13 +210,8 @@ async function syncLinkedRequestIds(userId: string, requestIds: string[]): Promi
   });
 }
 
-export async function listClientRequests(userId: string, email: string) {
-  const byEmail = await findRequestIdsByContactEmail(email);
-  const byUser = await prisma.implementationRequest.findMany({
-    where: { submittedByUserId: userId },
-    select: { id: true },
-  });
-  const ids = Array.from(new Set([...byEmail, ...byUser.map((r) => r.id)]));
+export async function listClientRequests(userId: string, _email: string) {
+  const ids = await listAuthoritativeClientRequestIds(userId);
   if (ids.length === 0) return [];
 
   return prisma.implementationRequest.findMany({
@@ -245,15 +240,8 @@ export async function listClientRequests(userId: string, email: string) {
 
 export async function clientCanAccessRequest(
   userId: string,
-  email: string,
+  _email: string,
   requestId: string
 ): Promise<boolean> {
-  const ids = await findRequestIdsByContactEmail(email);
-  if (ids.includes(requestId)) return true;
-
-  const row = await prisma.implementationRequest.findFirst({
-    where: { id: requestId, submittedByUserId: userId },
-    select: { id: true },
-  });
-  return Boolean(row);
+  return clientCanAccessRequestAuthoritative(userId, requestId);
 }

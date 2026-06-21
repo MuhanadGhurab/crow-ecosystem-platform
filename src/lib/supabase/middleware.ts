@@ -1,17 +1,5 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import {
-  canAccessPortalPath,
-  canAccessPlatformPath,
-  canAccessTenantPath,
-} from "@/lib/auth/permissions";
-import {
-  canAccessTenant,
-  getCrowAuth,
-  isClient,
-  isPlatformConsoleRole,
-} from "@/lib/auth/roles";
-import { routes } from "@/lib/routes";
 import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import {
   isAuthCanarySessionRefreshPath,
@@ -21,13 +9,11 @@ import {
   getTenantSlugFromPath,
   isAuthApiPath,
   isC3SessionOnlyPath,
-  isHandlerAuthorizedApiPath,
   isPlatformPath,
   isPortalPath,
   isPublicApiPath,
   isPublicPath,
-} from "@/lib/auth/route-protection";
-import {
+} from "@/lib/auth/route-protection";import {
   assertAuthNotDisabledInProduction,
   getSupabaseAnonKey,
   getSupabaseUrl,
@@ -228,51 +214,6 @@ export async function updateSession(request: NextRequest) {
     return response;
   }
 
-  const { role, tenantSlugs } = getCrowAuth(user);
-
-  if (isPlatformPath(pathname)) {
-    if (!canAccessPlatformPath(role, pathname)) {
-      return redirectToLogin(request, response, "forbidden");
-    }
-    return response;
-  }
-
-  if (isPortalPath(pathname)) {
-    if (role && !canAccessPortalPath(role) && !isClient(role)) {
-      return redirectToLogin(request, response, "forbidden");
-    }
-    if (
-      isPlatformConsoleRole(role) &&
-      request.nextUrl.searchParams.get("preview") !== "client"
-    ) {
-      const adminUrl = request.nextUrl.clone();
-      adminUrl.pathname = routes.admin.overview;
-      adminUrl.search = "";
-      return redirectWithSessionCookies(response, adminUrl);
-    }
-    return response;
-  }
-
-  if (tenantSlug) {
-    if (!canAccessTenant(role, tenantSlugs, tenantSlug)) {
-      return redirectToLogin(request, response, "forbidden");
-    }
-    if (!canAccessTenantPath(role, pathname, tenantSlug)) {
-      return redirectToLogin(request, response, "forbidden");
-    }
-    return response;
-  }
-
-  if (pathname.startsWith("/api/")) {
-    if (isHandlerAuthorizedApiPath(pathname, request.method)) {
-      return response;
-    }
-    if (!canAccessPlatformPath(role, "/admin/overview")) {
-      const forbidden = NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      copySupabaseResponseCookies(response, forbidden);
-      return withNoStore(forbidden);
-    }
-  }
-
+  // FTGP — middleware validates session presence only; route layouts/actions enforce authority.
   return response;
 }

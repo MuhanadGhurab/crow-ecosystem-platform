@@ -5,7 +5,8 @@ import { CrowMark } from "@/components/public/brand/crow-mark";
 import { StaffPreviewNav } from "@/components/portal/staff-preview-nav";
 import { UserMenu } from "@/components/portal/auth/user-menu";
 import { CLIENT_PORTAL_UTILITY_LINKS } from "@/lib/constants/client-portal-nav";
-import { getCrowAuth, isPlatformConsoleRole } from "@/lib/auth/roles";
+import { resolveAuthoritativeCrowAuth } from "@/lib/auth/authoritative-crow-auth";
+import { isPlatformConsoleRole } from "@/lib/auth/roles";
 import { routes } from "@/lib/routes";
 
 type Props = {
@@ -13,8 +14,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function ClientPortalShell({ user, children }: Props) {
-  const { role, tenantSlugs } = getCrowAuth(user);
+export async function ClientPortalShell({ user, children }: Props) {
+  const { role, tenantSlugs } = await resolveAuthoritativeCrowAuth(user);
   const staffConsolePreview = isPlatformConsoleRole(role);
 
   return (
