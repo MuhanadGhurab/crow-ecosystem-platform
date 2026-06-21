@@ -334,12 +334,37 @@ function main() {
     console.log(`  ${doc.documentType}: ${hashLegalDocumentContent(doc.contentBody)}`);
   }
 
+  const approvalRecord = read("docs/legal/CROW_LEGAL_V1_1_PRODUCT_OWNER_DRAFT_APPROVAL.md");
+  const implementationFidelityApproved =
+    fidelity.overallClassification === "EXACT_MATCH" && fidelity.poSourceAvailable;
+  check(
+    approvalRecord.includes("IMPLEMENTATION_FIDELITY_APPROVED=true"),
+    "Product-owner approval record documents implementation fidelity approval",
+    "Approval record missing IMPLEMENTATION_FIDELITY_APPROVED=true"
+  );
+  check(
+    approvalRecord.includes("PRODUCT_OWNER_DRAFT_APPROVED=true"),
+    "Product-owner approval record documents draft approval",
+    "Approval record missing PRODUCT_OWNER_DRAFT_APPROVED=true"
+  );
+
+  const hostedPublicationAuthorized =
+    isExplicitLegalV11PublicationAuthorized() && isHostedLegalPublicationAllowed();
+  const hostedV10Unchanged =
+    !hostedPublicationAuthorized &&
+    !isProductionLegalV11CodeCompatible() &&
+    seedText.includes("seedLegalV11DraftVersions");
+
   console.log("\n--- Product-owner and publication status ---\n");
   console.log(`  PRODUCT_OWNER_SOURCE=${fidelity.poSourceAvailable ? "AVAILABLE" : "MISSING"}`);
   console.log("  PRODUCT_OWNER_DRAFT_APPROVED=true");
-  console.log("  COUNSEL_APPROVED=false");
   console.log(
-    `  HOSTED_PUBLICATION_AUTHORIZED=${isExplicitLegalV11PublicationAuthorized() && isHostedLegalPublicationAllowed() ? "true" : "false"}`
+    `  IMPLEMENTATION_FIDELITY_APPROVED=${implementationFidelityApproved ? "true" : "false"}`
+  );
+  console.log("  COUNSEL_APPROVED=false");
+  console.log(`  HOSTED_PUBLICATION_AUTHORIZED=${hostedPublicationAuthorized ? "true" : "false"}`);
+  console.log(
+    `  PRODUCTION_LEGAL_V11_CODE_COMPATIBLE=${isProductionLegalV11CodeCompatible() ? "true" : "false"}`
   );
 
   console.log("");
@@ -350,8 +375,15 @@ function main() {
     console.log(
       "PASSED — PRODUCT-OWNER LEGAL V1.1 SOURCE AND IMPLEMENTATION FIDELITY VERIFIED\n"
     );
+    console.log(`PRODUCT_OWNER_DRAFT_APPROVAL_RECORDED=${passed ? "PASS" : "FAIL"}`);
     console.log(
-      "(Does not imply counsel approval or hosted publication authorization.)\n"
+      `CANONICAL_SOURCE_FIDELITY=${implementationFidelityApproved ? "PASS" : "FAIL"}`
+    );
+    console.log("COUNSEL_APPROVED=false");
+    console.log(`HOSTED_PUBLICATION_AUTHORIZED=${hostedPublicationAuthorized ? "true" : "false"}`);
+    console.log(`HOSTED_V1_0_UNCHANGED=${hostedV10Unchanged ? "PASS" : "FAIL"}`);
+    console.log(
+      "\n(Does not imply counsel approval or hosted publication authorization.)\n"
     );
     process.exit(0);
   } else {
