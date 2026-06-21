@@ -55,10 +55,12 @@ jobs:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_ENVIRONMENT: ${{ inputs.environment }}
           EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+          MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
+          EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
         run: |
-          ARGS=(--environment "${{ inputs.environment }}" --check-only)
-          if [ -n "${{ inputs.expected_migration_name }}" ]; then
-            ARGS+=(--expected-migration "${{ inputs.expected_migration_name }}")
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --check-only)
+          if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
+            ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
           fi
           npm run db:migrate:controlled -- "${ARGS[@]}"
 
@@ -70,9 +72,12 @@ jobs:
           DATABASE_ENVIRONMENT: ${{ inputs.environment }}
           EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
           ALLOW_DATABASE_MIGRATION: "true"
+          MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
+          CONFIRMATION_PHRASE: ${{ inputs.confirmation_phrase }}
+          EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
         run: |
-          ARGS=(--environment "${{ inputs.environment }}" --confirm "${{ inputs.confirmation_phrase }}")
-          if [ -n "${{ inputs.expected_migration_name }}" ]; then
-            ARGS+=(--expected-migration "${{ inputs.expected_migration_name }}")
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --confirm "$CONFIRMATION_PHRASE")
+          if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
+            ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
           fi
           npm run db:migrate:controlled -- "${ARGS[@]}"
