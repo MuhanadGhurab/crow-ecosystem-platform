@@ -152,6 +152,7 @@
     "c3-proof-identity-binding:verify": "npx tsx src/lib/account/c3-proof-identity-fingerprint.test.ts && npx tsx src/lib/account/c3-proof-identity-binding.test.ts && npm run c3-preview:runtime-env && npx tsx --env-file=.env.staging.runtime scripts/verify-c3-proof-identity-binding.ts",
     "c3-google-legal-onboarding:verify": "npx tsx src/lib/account/c3-google-legal-onboarding.test.ts && npx tsx scripts/verify-c3-google-legal-onboarding.ts",
     "c3-role-neutral-onboarding:test": "npx tsx src/lib/account/c3-role-neutral-onboarding.test.ts",
+    "c3-account-profile-lifecycle:test": "npx tsx src/lib/account/c3-account-profile-lifecycle.test.ts",
     "c3-google-hosted-routing:verify": "npx tsx src/lib/account/c3-google-hosted-routing.test.ts && npx tsx scripts/verify-c3-google-hosted-routing.ts",
     "c3-10j:backup:create": "npx tsx --env-file=.env.preview.operator scripts/create-pre-migration-backup.ts",
     "c3-10j:backup:verify": "npx tsx scripts/verify-pre-migration-backup.ts",
