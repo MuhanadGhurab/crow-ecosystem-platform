@@ -1,7 +1,12 @@
 ﻿import Link from "next/link";
 import { PublicPageHeader } from "@/components/public/public-page-header";
+import { CyberCrowSecurityTrustPanel } from "@/components/trust/cybercrow-security-trust-panel";
 import { SECURITY_PACKAGES } from "@/lib/constants/security-packages";
 import { PLATFORM_IDENTITIES } from "@/lib/constants/platform";
+import {
+  COMPLIANCE_ALIGNMENT_DISCLAIMER,
+  COMPLIANCE_ALIGNMENT_STATEMENT,
+} from "@/lib/legal/compliance-positioning";
 
 const NCA_BLOCKS = [
   {
@@ -51,11 +56,17 @@ export default function SecurityPage() {
   return (
     <div className="cc-entity-cybercrow min-h-screen">
       <PublicPageHeader
-        badge="CyberCrow · NCA-aligned readiness"
+        badge="CyberCrow · Security & trust positioning"
         title="Security packages"
-        description="CyberCrow is your trust and security posture layer — evidence readiness, audit visibility, and GRC/risk advisory. Client-friendly visibility, not a SIEM replacement or compliance certificate."
+        description="CyberCrow is your trust and security posture layer — evidence readiness, audit visibility, and GRC/risk advisory. Designed with reference to recognized standards; not a SIEM replacement or compliance certificate."
       />
       <div className="cc-public-section space-y-14">
+        <section className="cc-glass-card border-violet-500/15 p-5 sm:p-6">
+          <p className="text-sm font-medium text-violet-200">{COMPLIANCE_ALIGNMENT_STATEMENT}</p>
+          <p className="mt-2 text-sm text-slate-400">{COMPLIANCE_ALIGNMENT_DISCLAIMER}</p>
+        </section>
+
+        <CyberCrowSecurityTrustPanel />
         <div className="grid gap-4 md:grid-cols-3">
           {NCA_BLOCKS.map((block) => (
             <article key={block.title} className="cc-glass-card border-violet-500/15 p-5 sm:p-6">
