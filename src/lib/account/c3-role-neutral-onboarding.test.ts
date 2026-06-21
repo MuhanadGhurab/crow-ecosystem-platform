@@ -18,8 +18,9 @@ function readSrc(rel: string): string {
     "assignDefaultClientRoleOnSignUp must no-op under C3 platform gate"
   );
   assert(
-    link.includes("grantClientRole: false"),
-    "deferred onboarding must not grant client metadata role"
+    link.includes("grantClientRole") &&
+      link.includes("!isC3PlatformAccountGateEnabled()"),
+    "deferred onboarding must not grant client metadata role under C3 gate"
   );
   assert(
     link.includes("resolveAuthoritativeCrowAuth"),

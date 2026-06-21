@@ -155,6 +155,7 @@
     "c3-proof-identity-binding:verify": "npx tsx src/lib/account/c3-proof-identity-fingerprint.test.ts && npx tsx src/lib/account/c3-proof-identity-binding.test.ts && npm run c3-preview:runtime-env && npx tsx --env-file=.env.staging.runtime scripts/verify-c3-proof-identity-binding.ts",
     "c3-google-legal-onboarding:verify": "npx tsx src/lib/account/c3-google-legal-onboarding.test.ts && npx tsx scripts/verify-c3-google-legal-onboarding.ts",
     "c3-role-neutral-onboarding:test": "npx tsx src/lib/account/c3-role-neutral-onboarding.test.ts",
+    "ftgp-authority-boundaries:test": "npx tsx src/lib/auth/ftgp-authority-boundaries.test.ts",
     "c3-account-profile-lifecycle:test": "npx tsx src/lib/account/c3-account-profile-lifecycle.test.ts",
     "portal-public-header:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",
     "c3-public-header-session:test": "npx tsx src/lib/portal/c3-public-header-session.test.ts",

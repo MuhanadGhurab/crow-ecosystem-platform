@@ -54,10 +54,14 @@ assert(
   "header auth must use authoritative crow auth before portal CTA"
 );
 assert(
-  authoritative.includes('meta.role === "client"') &&
-    authoritative.includes("membershipCount === 0") &&
+  authoritative.includes("resolveAuthoritativeClientRole") &&
     authoritative.includes("return { role: null"),
   "stale crow_role=client without ownership must not grant client authority"
+);
+assert(
+  authoritative.includes("resolveAuthoritativePlatformRole") ||
+    authoritative.includes("listActiveInternalRolesForSupabaseUser"),
+  "platform console requires DB internal role assignments"
 );
 
 // 7. TenantMembership required before Business Portal navigation
@@ -68,7 +72,8 @@ assert(
 );
 assert(
   authoritative.includes("tenant_admin") &&
-    authoritative.includes("dbSlugs.length === 0"),
+    authoritative.includes("tenantMembership") &&
+    authoritative.includes("return { role: null"),
   "tenant roles without membership must not grant business portal authority"
 );
 
