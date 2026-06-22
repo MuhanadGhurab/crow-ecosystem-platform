@@ -1,4 +1,4 @@
-import "server-only";
+import "@/lib/server-only-guard";
 
 /**
  * FTGP controlled bootstrap for the first database-backed Platform Admin.
