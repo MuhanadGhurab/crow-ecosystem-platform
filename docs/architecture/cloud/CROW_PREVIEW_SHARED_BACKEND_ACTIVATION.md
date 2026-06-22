@@ -3,7 +3,8 @@
 **Phase:** CLOUD.1F  
 **Branch:** `feat/first-tenant-golden-path`  
 **Date:** 2026-06-22  
-**Verdict:** `BLOCKED — PREVIEW IS PUBLIC WHILE USING SHARED PRODUCTION BACKEND`
+**Verdict (CLOUD.1F):** `BLOCKED — PREVIEW IS PUBLIC WHILE USING SHARED PRODUCTION BACKEND`  
+**Superseded by CLOUD.1G:** Preview protection enabled — see `CROW_PREVIEW_PROTECTION_AND_ALIAS_RECONCILIATION.md`
 
 ---
 
@@ -15,10 +16,10 @@
 | Preview URL | `https://crow-ecosystem-platform-8xcd7np22-muhanadghurabs-projects.vercel.app` |
 | Branch alias | `https://crow-ecosystem-platform-git-feat-2491ce-muhanadghurabs-projects.vercel.app` |
 | Source branch | `feat/first-tenant-golden-path` |
-| Local HEAD pushed | `20415f3d68e4f8427a7a4766ab245ce4b8bfb21a` |
+| Local HEAD pushed | `57cf590547cf955d65d7abc33a660113d25974ee` |
 | Build status | **READY** |
-| Production alias | **Unchanged** (`https://crow-ecosystem-platform.vercel.app`) |
-| Production deployment | **Unchanged** (no promotion) |
+| Production alias | **Unchanged** (`https://crow-ecosystem-platform.vercel.app` → `dpl_8NeFiYQ4TSumt9kQSMGfv1WTiDM4`) |
+| Production deployment (live alias) | `dpl_8NeFiYQ4TSumt9kQSMGfv1WTiDM4` (see CLOUD.1G alias reconciliation) |
 
 Vercel build command (verified): `node scripts/vercel-build-guard.mjs && npm run db:generate && npm run build` — **no** `prisma migrate deploy`, seed, bootstrap, or role-grant scripts.
 
@@ -42,13 +43,22 @@ Vercel build command (verified): `node scripts/vercel-build-guard.mjs && npm run
 
 ## 3. Deployment protection
 
+**Updated CLOUD.1G:** Operator enabled Vercel Authentication for Preview.
+
+```text
+PREVIEW_DEPLOYMENT_PROTECTED=true
+PREVIEW_PUBLIC_APPLICATION_ACCESS=false
+```
+
+See `CROW_PREVIEW_PROTECTION_AND_ALIAS_RECONCILIATION.md` for full CLOUD.1G verification.
+
+### CLOUD.1F baseline (pre-protection)
+
 ```text
 PREVIEW_DEPLOYMENT_PROTECTED=false
 ```
 
-Unauthenticated `GET /api/health` and marketing routes return **200** without Vercel protection bypass. Protected app routes redirect unauthenticated callers to `/login` as designed, but the deployment surface is **publicly reachable**.
-
-**Operator action required before authenticated Preview testing:** enable Vercel Deployment Protection (or restrict Preview to team-only) while shared-backend posture remains.
+Unauthenticated routes returned **200** before operator enabled protection.
 
 ---
 
@@ -169,4 +179,6 @@ PRISMA_SERVER_ROUTES_UNAFFECTED=PASS
 - `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md` (CLOUD.1C / 1E)
 - `FTGP_0E_CONTROLLED_MIGRATION_APPLY.md`
 - `CROW_ENVIRONMENT_SEPARATION_PLAN.md`
+- `CROW_PREVIEW_PROTECTION_AND_ALIAS_RECONCILIATION.md` (CLOUD.1G)
 - `scripts/verify-cloud-1f-preview-activation.ts`
+- `scripts/verify-cloud-1g-preview-protection.ts`
