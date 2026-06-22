@@ -220,7 +220,53 @@ Preview remains on **shared Production Postgres** (`BACKEND_ISOLATION=shared`). 
 
 - `CROW_PREVIEW_SHARED_BACKEND_ACTIVATION.md` (CLOUD.1F baseline)
 - `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`
+- `docs/architecture/crow-core/first-tenant/FTGP_0F_PLATFORM_ADMIN_BOOTSTRAP_READINESS.md` (CLOUD.1H)
 - `docs/internal/C3_10S_PRODUCTION_RESOLVER_INCIDENT.md`
 - `scripts/verify-cloud-1f-preview-activation.ts`
 - `scripts/verify-cloud-1g-preview-protection.ts`
+- `scripts/verify-cloud-1h-protected-authenticated-session.ts`
 - `scripts/lib/vercel-curl-head.ts`
+
+---
+
+## 11. CLOUD.1H — Authenticated session proof & bootstrap readiness
+
+**Date:** 2026-06-22  
+**Verdict:** `BLOCKED — DEDICATED PLATFORM ADMIN TARGET REQUIRED`
+
+### Protected access (recheck)
+
+| Check | Result |
+|-------|--------|
+| `PREVIEW_REMAINS_PUBLICLY_BLOCKED` | **PASS** |
+| `VERCEL_PROTECTED_BROWSER_ACCESS` | **PASS** (operator Vercel CLI session) |
+
+### Authenticated boundaries (operator-certified)
+
+| Check | Result |
+|-------|--------|
+| Retained requester session | `/account`; internal + tenant authority **denied** |
+| Candidate pre-grant session | `/account`; internal authority **denied**; no auto-assignment |
+| Session separation | **PASS** |
+| DB baseline pre/post | **unchanged** |
+
+Certification: `C3_MANUAL_BROWSER_SESSION_CERTIFIED` (no cookies stored in repository).
+
+### Dedicated Platform Admin target
+
+```text
+DEDICATED_PLATFORM_ADMIN_TARGET=AMBIGUOUS
+```
+
+More than one eligible account after excluding requester and IMPLEMENTER candidate. Operator must designate `PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID` before bootstrap dry-run or execute.
+
+### Bootstrap readiness
+
+| Check | Result |
+|-------|--------|
+| Implementation audit | **PASS** |
+| Dry-run (zero writes) | **skipped** (target not `READY`) |
+| Security gate suite (§12) | **PASS** |
+
+Verifier: `npm run cloud-1h-preview:verify`
+
