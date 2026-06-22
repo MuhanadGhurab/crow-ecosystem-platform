@@ -22,7 +22,9 @@ export type PlatformInternalRoleBootstrapRefusal =
   | "execute_not_authorized";
 
 export function detectPlatformInternalRoleBootstrapRefusal(): PlatformInternalRoleBootstrapRefusal | null {
-  if (process.env.VERCEL === "1") {
+  const bootstrapEnabled =
+    process.env[PLATFORM_INTERNAL_ROLE_BOOTSTRAP_ENV.enabled] === "true";
+  if (process.env.VERCEL === "1" && bootstrapEnabled) {
     return "vercel_runtime_forbidden";
   }
   if (process.env.APP_ENVIRONMENT === "production") {

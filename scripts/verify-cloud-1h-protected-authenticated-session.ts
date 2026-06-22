@@ -374,7 +374,7 @@ function runSecurityGate(script: string): void {
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.preview.operator"],
+    supplementalEnvFiles: [".env.preview.operator", ".env.platform-bootstrap.operator"],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({
@@ -426,7 +426,15 @@ async function main() {
     ok("no internal-role grant audit event created");
     ok("migration history unchanged");
 
-    if (adminTarget.status === "READY" && adminTarget.platformAccountId) {
+    const operatorDesignatedTargetId =
+      process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
+
+    if (operatorDesignatedTargetId) {
+      console.log(`\n  DEDICATED_PLATFORM_ADMIN_TARGET=OPERATOR_DESIGNATED`);
+      console.log("\n=== §10 Bootstrap dry-run (operator-designated target) ===\n");
+      runSecurityGate("ftgp-platform-admin-target:verify");
+      runSecurityGate("ftgp-platform-admin-bootstrap:dry-run");
+    } else if (adminTarget.status === "READY" && adminTarget.platformAccountId) {
       process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID =
         adminTarget.platformAccountId;
       console.log("\n=== §10 Bootstrap dry-run ===\n");
@@ -464,6 +472,15 @@ async function main() {
   }
 
   console.log("\nPASS — CLOUD.1H VERIFICATION COMPLETE\n");
+
+  const operatorDesignatedTargetId =
+    process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
+  if (operatorDesignatedTargetId) {
+    console.log(
+      "READY — AUTHENTICATED BOUNDARIES VERIFIED; PLATFORM ADMIN BOOTSTRAP MAY BE AUTHORIZED\n"
+    );
+    return;
+  }
 
   if (!adminTarget || adminTarget.status === "MISSING" || adminTarget.status === "AMBIGUOUS") {
     block("BLOCKED — DEDICATED PLATFORM ADMIN TARGET REQUIRED");

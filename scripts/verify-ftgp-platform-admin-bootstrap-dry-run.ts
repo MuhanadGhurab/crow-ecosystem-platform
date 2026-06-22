@@ -42,7 +42,7 @@ function blocked(msg: string): never {
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.preview.operator"],
+    supplementalEnvFiles: [".env.preview.operator", ".env.platform-bootstrap.operator"],
   });
   assertHostedEnvNotLocalhost(envLoad);
 

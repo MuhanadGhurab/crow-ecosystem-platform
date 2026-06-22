@@ -68,6 +68,11 @@ skills-lock.json
 .env.migration.recovery
 .migration-apply-manifest
 
+# FTGP Platform Admin bootstrap operator artifacts (never commit)
+.ftgp-platform-admin-candidates.local.json
+.ftgp-platform-admin-bootstrap-manifest
+.env.platform-bootstrap.operator
+
 # Ad-hoc local debug / test artifacts
 tmp-legal.html
 
