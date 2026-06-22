@@ -75,9 +75,10 @@ Exact ordered allowlist (pinned in `scripts/lib/controlled-migration-inventory.t
 
 **Invalidated hash:** `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e` (pre–CLOUD.1B fail-closed hardening). Controlled wrapper rejects old pin.
 
-**Hosted check-only (FTGP.0D):**
+**Hosted check-only (FTGP.0D / CLOUD.1D re-run 2026-06-22):**
 
 ```text
+TARGET_DATABASE_FINGERPRINT=0355c17692e2a90d
 EXPECTED_PENDING_MIGRATIONS=20260618120000_c3_legal_publication_lifecycle,20260621120000_ftgp_platform_internal_role_assignment
 ACTUAL_PENDING_MIGRATIONS=20260618120000_c3_legal_publication_lifecycle,20260621120000_ftgp_platform_internal_role_assignment
 APPLIED_MIGRATION_COUNT=21
@@ -86,6 +87,8 @@ DIRECT_POOLER_TARGET_MATCH=true
 BACKUP_REFERENCE_PRESENT=false
 APPLY_AUTHORIZED=false
 ```
+
+**CLOUD.1D:** Logical dump created and validated (`DISPOSABLE_RESTORE_PASSED`). Operator recovery file (`.env.migration.recovery`) still **unset** — dual apply remains blocked.
 
 ---
 

@@ -107,7 +107,7 @@ Before any controlled apply to the shared hosted database, operator must verify 
 4. Restore window is **valid** for rollback planning.
 5. If PITR is enabled, note recovery window and prefer `MIGRATION_RECOVERY_METHOD=PITR` when appropriate.
 
-Record **only** in gitignored operator configuration (e.g. `.env.preview.operator`):
+Record **only** in gitignored operator configuration (copy from `.env.migration.recovery.example` → `.env.migration.recovery`):
 
 ```env
 MIGRATION_BACKUP_REFERENCE=<opaque non-secret reference, e.g. dashboard backup id or operator ticket>
@@ -115,15 +115,34 @@ MIGRATION_BACKUP_VERIFIED_AT=<ISO-8601 timestamp>
 MIGRATION_RECOVERY_METHOD=BACKUP|PITR
 ```
 
-Also prepare a **logical database dump outside the repository** and record its SHA-256 in operator notes (not committed):
+Validate with:
 
 ```bash
-# Example — adjust connection via operator env; never commit output
-pg_dump --format=custom --no-owner --no-acl "$DIRECT_URL" > ../crow-backups/wbwnsndcxrgyqwppurms-pre-dual-migration.dump
-sha256sum ../crow-backups/wbwnsndcxrgyqwppurms-pre-dual-migration.dump
+npm run migration-recovery:verify
 ```
 
-Controlled wrapper reads `MIGRATION_BACKUP_REFERENCE` and `MIGRATION_BACKUP_VERIFIED_AT` at apply time. Check-only correctly reports `BACKUP_REFERENCE_PRESENT=false` today.
+Also create a **logical database dump outside the repository** (never under the repo):
+
+```bash
+npm run hosted-logical-dump:create
+```
+
+The script writes a manifest outside the repository (operator home backup directory) with SHA-256 and disposable-restore validation. Controlled wrapper reads recovery vars from `.env.migration.recovery` (supplemental to `.env.staging.runtime`). Check-only reports `BACKUP_REFERENCE_PRESENT=false` until operator attestation is recorded.
+
+### CLOUD.1D recovery gate status (2026-06-22)
+
+| Item | Result |
+|------|--------|
+| Hosted env | `.env.staging.runtime` (fingerprint `0355c17692e2a90d`) |
+| Operator recovery file | `.env.migration.recovery` — **not present** |
+| `npm run migration-recovery:verify` | `RECOVERY_EVIDENCE_VERIFIED=false` |
+| Logical dump | **Created** — SHA-256 `9e22ce3ed69124050ccee33f730dedc00d1c060aee93a512124d8859b0b572f9`; validation `DISPOSABLE_RESTORE_PASSED` |
+| Hosted env precedence | **Fixed** — localhost cannot override hosted `DIRECT_URL` |
+| Data API containment re-check | **PASS** (CLOUD.1C posture unchanged) |
+| Controlled check-only | Inventory + hashes **PASS**; `BACKUP_REFERENCE_PRESENT=false` |
+| Apply authorization | **Not issuable** — recovery attestation required |
+
+**Verdict:** `BLOCKED — BACKUP OR PITR EVIDENCE INVALID` (operator must populate `.env.migration.recovery` and re-run verify + check-only).
 
 ---
 

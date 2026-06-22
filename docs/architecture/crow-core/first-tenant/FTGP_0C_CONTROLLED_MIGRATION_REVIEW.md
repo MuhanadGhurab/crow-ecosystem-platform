@@ -409,3 +409,29 @@ REVOKE ALL ON TABLE "platform_internal_role_assignments" FROM anon, authenticate
 **Repinned SHA-256:** `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`
 
 Controlled apply remains blocked until recovery evidence + Data API containment approval (see `CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`).
+
+---
+
+## CLOUD.1D — Recovery evidence gate (2026-06-22)
+
+| Check | Result |
+|-------|--------|
+| Data API containment re-verify | PASS |
+| Hosted logical dump | PASS — SHA-256 `9e22ce3ed69124050ccee33f730dedc00d1c060aee93a512124d8859b0b572f9` |
+| Operator `.env.migration.recovery` | **Missing** |
+| `migration-recovery:verify` | FAIL |
+| Controlled check-only (inventory + hashes) | PASS |
+| Hosted pre-apply: `platform_internal_role_assignments` | Absent |
+| Legal lifecycle enum labels | Absent (`reviewed`, `approved_for_publication` not present) |
+
+**Authorization recommendation:**
+
+```text
+BLOCKED — BACKUP OR PITR EVIDENCE INVALID
+```
+
+After operator attestation in `.env.migration.recovery`:
+
+```text
+READY — RECOVERY EVIDENCE VERIFIED; DUAL MIGRATION CONTROLLED APPLY MAY BE AUTHORIZED
+```

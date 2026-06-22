@@ -58,6 +58,22 @@ DUAL_MIGRATION=STILL_BLOCKED_ON_RECOVERY_EVIDENCE
 
 ---
 
+## CLOUD.1D recovery gate (2026-06-22)
+
+Data API containment remains **PASS** after re-verification. Dual migration apply remains **blocked** on operator recovery attestation:
+
+| Gate | Status |
+|------|--------|
+| `cloud-data-api-containment:verify` | PASS |
+| `cloud-containment-smoke:verify` | PASS |
+| `hosted-logical-dump:create` | PASS (`DISPOSABLE_RESTORE_PASSED`) |
+| `migration-recovery:verify` | **FAIL** — `.env.migration.recovery` unset |
+| `db:migrate:controlled:check-preview` | Inventory/hashes PASS; `BACKUP_REFERENCE_PRESENT=false` |
+
+No migrations applied. No Dashboard rollback of Path A containment.
+
+---
+
 ## 1. Why containment is authorized (engineering)
 
 | Check | Result |
