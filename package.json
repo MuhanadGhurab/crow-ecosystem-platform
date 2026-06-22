@@ -172,6 +172,7 @@
     "migration-apply-manifest:write": "npx tsx scripts/write-migration-apply-manifest.ts",
     "migration-apply-manifest:write-applied": "npx tsx scripts/write-migration-apply-manifest.ts --applied-verified",
     "cloud-1e-post-apply:verify": "npx tsx --env-file=.env.staging.runtime --env-file=.env.migration.recovery scripts/verify-cloud-1e-dual-migration-post-apply.ts",
+    "cloud-1f-preview:verify": "npx tsx --env-file=.env.staging.runtime --env-file=.env.preview.operator scripts/verify-cloud-1f-preview-activation.ts",
     "ftgp-dual-migration:rehearse-local": "npx tsx scripts/rehearse-ftgp-dual-migration-local.ts",
     "ftgp-legal-migration:inspect-hosted": "npx tsx --env-file=.env.staging.runtime --env-file=.env.preview.operator scripts/inspect-legal-lifecycle-migration-state.ts",
     "c3-account-profile-lifecycle:test": "npx tsx src/lib/account/c3-account-profile-lifecycle.test.ts",
