@@ -1,9 +1,11 @@
 # FTGP 0F — Platform Admin Bootstrap Readiness (CLOUD.1H)
 
-**Phase:** CLOUD.1H / FTGP.0F.3  
+**Phase:** CLOUD.1H / FTGP.0F.4 (post-execute)  
 **Date:** 2026-06-22  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `READY — DEDICATED PLATFORM ADMIN TARGET VERIFIED; BOOTSTRAP EXECUTION MAY BE AUTHORIZED`
+**Verdict:** `PASSED — FIRST AUTHORITATIVE PLATFORM ADMIN BOOTSTRAPPED AND VERIFIED`
+
+See `FTGP_0F2_PLATFORM_ADMIN_BOOTSTRAP_EXECUTION.md` for execution record.
 
 ---
 
@@ -13,7 +15,7 @@ Read-only verification and bootstrap **preparation** on protected Vercel Preview
 
 **Authorized:** protected access proof, session separation proof, implementation audit, zero-write dry-run, documentation.
 
-**Not authorized:** bootstrap execute, internal role grant, migrations, Production changes, merge to `main`.
+**Not authorized:** second Platform Admin, IMPLEMENTER grant, migrations, Production changes, merge to `main`.
 
 ---
 
@@ -39,8 +41,8 @@ Protected deployment: `dpl_28xNJNkpdHPX7qyUVZXZqKupQEq2`.
 | `platform_accounts` | 11 |
 | `client_organization_members` | 0 |
 | `platform_provider_identities` | 4 |
-| Active internal role assignments | 0 |
-| Internal-role grant audit events | 0 |
+| Active internal role assignments | 1 |
+| Internal-role grant audit events | 1 |
 
 No grant audit event created. Aggregate counts unchanged pre/post.
 
@@ -84,19 +86,19 @@ AUTOMATIC_BOOTSTRAP_ON_DEPLOY=false
 
 Verifier: `npm run ftgp-bootstrap-implementation:audit`
 
-Execute gates remain disabled (`executeAuthorized: false`).
+Execute gates completed (`grantExecuted: true`). Post-bootstrap dry-run is idempotent (no second write).
 
 ---
 
-## 7. Bootstrap dry-run (zero writes)
+## 7. Bootstrap dry-run / idempotency (post-execute)
 
 ```text
 PLATFORM_ADMIN_BOOTSTRAP_DRY_RUN=PASS
-BOOTSTRAP_WRITES_EXECUTED=false
-INTERNAL_ASSIGNMENTS=0
+BOOTSTRAP_WRITES_EXECUTED=true
+INTERNAL_ASSIGNMENTS=1
+PLATFORM_ADMIN_BOOTSTRAP_IDEMPOTENCY=PASS
+EXPECTED_SECOND_EXECUTION_DELTA=0
 ```
-
-Expected post-execute: one active `PLATFORM_ADMIN`, one `platform_internal_role_granted` audit event, zero customer/tenant/Auth metadata deltas.
 
 ---
 
@@ -119,11 +121,13 @@ Re-run via `npm run cloud-1h-preview:verify` includes full FTGP/C3/C2 gate suite
 
 ## 10. Explicit non-actions
 
-No bootstrap execute, no `platform_internal_role_assignments` insert, no Production promotion, no migrations, no session cookies in git.
+No second bootstrap execute, no IMPLEMENTER grant, no Production promotion, no migrations, no session cookies in git.
 
 ---
 
 ## Related
+
+- `docs/architecture/crow-core/first-tenant/FTGP_0F2_PLATFORM_ADMIN_BOOTSTRAP_EXECUTION.md`
 
 - `docs/architecture/crow-core/first-tenant/FTGP_0F1_PLATFORM_ADMIN_TARGET_DESIGNATION.md`
 - `docs/architecture/cloud/CROW_PREVIEW_PROTECTION_AND_ALIAS_RECONCILIATION.md`
