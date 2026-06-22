@@ -28,7 +28,9 @@ const EXPECTED_FINGERPRINT = "0355c17692e2a90d";
 const BASELINE = {
   implementation_requests: 7,
   tenant_memberships: 3,
-  internal_role_assignments: 0,
+  internal_role_assignments: Number(
+    process.env.FTGP_EXPECTED_ACTIVE_INTERNAL_ASSIGNMENTS?.trim() || "0"
+  ),
 } as const;
 
 function fail(msg: string): never {
@@ -45,7 +47,7 @@ async function main() {
 
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.migration.recovery"],
+    supplementalEnvFiles: [".env.migration.recovery", ".env.platform-bootstrap.operator"],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({

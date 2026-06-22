@@ -20,6 +20,7 @@ import {
   resolveProofRequester,
 } from "./lib/c3-proof-requester-resolution";
 import { vercelCurlHead } from "./lib/vercel-curl-head";
+import { CLOUD_1H_BASELINE_EXPECTED } from "./lib/cloud-1h-database-baseline";
 
 const PREVIEW_BASE = (
   process.env.C3_PREVIEW_BASE_URL ??
@@ -110,10 +111,13 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
   const internalCount = await prisma.platformInternalRoleAssignment.count({
     where: { status: "ACTIVE" },
   });
-  if (internalCount !== 0) fail(`INTERNAL_ASSIGNMENTS expected 0, got ${internalCount}`);
+  const expectedInternal = CLOUD_1H_BASELINE_EXPECTED.internalRoleAssignments;
+  if (internalCount !== expectedInternal) {
+    fail(`INTERNAL_ASSIGNMENTS expected ${expectedInternal}, got ${internalCount}`);
+  }
 
   ok("RETAINED_REQUESTER_ROLE_NEUTRAL=PASS (authoritative DB census)");
-  ok("INTERNAL_ASSIGNMENTS=0");
+  ok(`INTERNAL_ASSIGNMENTS=${expectedInternal}`);
 
   const platformDenied = resolveAuthoritativePlatformRole([], "implementer");
   const clientDenied = resolveAuthoritativeClientRole(
@@ -208,7 +212,7 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.preview.operator"],
+    supplementalEnvFiles: [".env.preview.operator", ".env.platform-bootstrap.operator"],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({

@@ -19,6 +19,11 @@ import {
   findAuthUsersByNormalizedEmail,
 } from "./lib/platform-owner-bootstrap-deps";
 import { requireProofOperatorEnv } from "./lib/c3-proof-requester-resolution";
+import {
+  EXPECTED_MANIFEST_CORRELATION_ID,
+  isPostBootstrapInternalRoleState,
+  loadBootstrapManifest,
+} from "./lib/ftgp-platform-admin-bootstrap-manifest";
 
 const TARGET_ENV = "PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID";
 
@@ -119,6 +124,30 @@ async function main() {
     if (requests > 0) blocked("request ownership present");
     if (clientMembers > 0) blocked("client membership present");
     if (tenantMemberships > 0) blocked("tenant membership present");
+
+    const postBootstrap = isPostBootstrapInternalRoleState();
+    if (postBootstrap) {
+      const assignment = await prisma.platformInternalRoleAssignment.findFirst({
+        where: {
+          platformAccountId: account.id,
+          role: "PLATFORM_ADMIN",
+          status: "ACTIVE",
+          grantCorrelationId: EXPECTED_MANIFEST_CORRELATION_ID,
+        },
+      });
+      if (!assignment) blocked("expected PLATFORM_ADMIN assignment missing");
+      if (internalRoles !== 1) blocked(`expected 1 active internal role, got ${internalRoles}`);
+      ok("request ownership count = 0");
+      ok("client membership count = 0");
+      ok("tenant membership count = 0");
+      ok("active PLATFORM_ADMIN assignment verified");
+      console.log("  TARGET_CUSTOMER_AUTHORITY=false");
+      console.log("  TARGET_TENANT_AUTHORITY=false");
+      console.log("\nDEDICATED_PLATFORM_ADMIN_TARGET=VERIFIED_POST_BOOTSTRAP");
+      console.log("\nPASS — FTGP PLATFORM ADMIN TARGET VERIFIED (post-bootstrap)\n");
+      return;
+    }
+
     if (internalRoles > 0) blocked("active internal role present");
     ok("request ownership count = 0");
     ok("client membership count = 0");

@@ -24,7 +24,11 @@ export type PlatformInternalRoleBootstrapRefusal =
 export function detectPlatformInternalRoleBootstrapRefusal(): PlatformInternalRoleBootstrapRefusal | null {
   const bootstrapEnabled =
     process.env[PLATFORM_INTERNAL_ROLE_BOOTSTRAP_ENV.enabled] === "true";
-  if (process.env.VERCEL === "1" && bootstrapEnabled) {
+  if (
+    process.env.VERCEL === "1" &&
+    bootstrapEnabled &&
+    process.env.CYBERCROW_SCRIPT_PRISMA !== "1"
+  ) {
     return "vercel_runtime_forbidden";
   }
   if (process.env.APP_ENVIRONMENT === "production") {

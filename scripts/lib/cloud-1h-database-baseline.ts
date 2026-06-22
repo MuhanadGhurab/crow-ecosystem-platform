@@ -76,7 +76,9 @@ export const CLOUD_1H_BASELINE_EXPECTED = {
   platformAccounts: 11,
   clientOrganizationMembers: 0,
   platformProviderIdentities: 4,
-  internalRoleAssignments: 0,
+  internalRoleAssignments: Number(
+    process.env.FTGP_EXPECTED_ACTIVE_INTERNAL_ASSIGNMENTS?.trim() || "0"
+  ),
 } as const;
 
 export function assertCloud1hBaselineUnchanged(

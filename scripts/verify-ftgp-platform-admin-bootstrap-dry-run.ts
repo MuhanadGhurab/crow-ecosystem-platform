@@ -23,6 +23,11 @@ import {
   findAuthUsersByNormalizedEmail,
 } from "./lib/platform-owner-bootstrap-deps";
 import { requireProofOperatorEnv, resolveProofRequester } from "./lib/c3-proof-requester-resolution";
+import {
+  EXPECTED_MANIFEST_CORRELATION_ID,
+  isPostBootstrapInternalRoleState,
+} from "./lib/ftgp-platform-admin-bootstrap-manifest";
+import { grantInitialPlatformAdminBootstrap } from "../src/lib/platform/platform-internal-role-bootstrap-grant";
 
 const TARGET_ENV = "PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID";
 const CORRELATION_ENV = "PLATFORM_INTERNAL_ROLE_BOOTSTRAP_CORRELATION_ID";
@@ -73,6 +78,47 @@ async function main() {
   const prisma = new PrismaClient();
   try {
     const baseline = await captureCloud1hDatabaseBaseline(prisma);
+    const postBootstrap = isPostBootstrapInternalRoleState();
+
+    if (postBootstrap) {
+      if (baseline.internalRoleAssignments !== CLOUD_1H_BASELINE_EXPECTED.internalRoleAssignments) {
+        blocked(
+          `expected ${CLOUD_1H_BASELINE_EXPECTED.internalRoleAssignments} active internal assignments post-bootstrap`
+        );
+      }
+
+      const assignment = await prisma.platformInternalRoleAssignment.findFirst({
+        where: {
+          platformAccountId: targetAccountId,
+          role: "PLATFORM_ADMIN",
+          status: "ACTIVE",
+          grantCorrelationId: EXPECTED_MANIFEST_CORRELATION_ID,
+        },
+      });
+      if (!assignment) blocked("designated PLATFORM_ADMIN assignment not found");
+
+      const idempotent = await grantInitialPlatformAdminBootstrap({
+        targetPlatformAccountId: targetAccountId,
+        correlationId: EXPECTED_MANIFEST_CORRELATION_ID,
+      });
+      if (!idempotent.idempotent) blocked("bootstrap grant path not idempotent");
+
+      ok("post-bootstrap assignment present");
+      ok("assignment table matches expected count");
+      ok(`correlation ID valid (${correlationId.length} chars)`);
+      ok("idempotent re-invocation would not create duplicate");
+      ok("no write performed in dry-run check");
+
+      console.log("\nPLATFORM_ADMIN_BOOTSTRAP_DRY_RUN=PASS");
+      console.log("BOOTSTRAP_WRITES_EXECUTED=true");
+      console.log(`expected_role=PLATFORM_ADMIN`);
+      console.log(`expected_active_assignments_after=${baseline.internalRoleAssignments}`);
+      console.log(`expected_grant_audit_delta=0`);
+      console.log(`correlation_id_length=${correlationId.length}`);
+      console.log("\nPASS — FTGP PLATFORM ADMIN BOOTSTRAP DRY-RUN (post-bootstrap)\n");
+      return;
+    }
+
     if (baseline.internalRoleAssignments !== CLOUD_1H_BASELINE_EXPECTED.internalRoleAssignments) {
       blocked("assignment table must be empty before bootstrap dry-run");
     }

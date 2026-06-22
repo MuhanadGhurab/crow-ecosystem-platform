@@ -20,6 +20,7 @@ import {
 } from "./lib/cloud-1h-database-baseline";
 import { resolveCloud1hCandidateOperator } from "./lib/cloud-1h-candidate-resolution";
 import { resolveDedicatedPlatformAdminTarget } from "./lib/cloud-1h-dedicated-admin-target";
+import { isPostBootstrapInternalRoleState } from "./lib/ftgp-platform-admin-bootstrap-manifest";
 import {
   clearCrowSession,
   ensureVercelProtectedAccess,
@@ -421,9 +422,13 @@ async function main() {
     assertCloud1hBaselineUnchanged(postBaseline, "post-test");
 
     if (postBaseline.internalRoleGrantAuditEvents !== preBaseline.internalRoleGrantAuditEvents) {
-      fail("internal-role grant audit event count changed");
+      fail("internal-role grant audit event count changed during verification");
     }
-    ok("no internal-role grant audit event created");
+    if (isPostBootstrapInternalRoleState()) {
+      ok("post-bootstrap grant audit baseline stable during verification");
+    } else {
+      ok("no internal-role grant audit event created");
+    }
     ok("migration history unchanged");
 
     const operatorDesignatedTargetId =
@@ -431,9 +436,13 @@ async function main() {
 
     if (operatorDesignatedTargetId) {
       console.log(`\n  DEDICATED_PLATFORM_ADMIN_TARGET=OPERATOR_DESIGNATED`);
-      console.log("\n=== §10 Bootstrap dry-run (operator-designated target) ===\n");
+      console.log("\n=== §10 Bootstrap verification (operator-designated target) ===\n");
       runSecurityGate("ftgp-platform-admin-target:verify");
       runSecurityGate("ftgp-platform-admin-bootstrap:dry-run");
+      if (isPostBootstrapInternalRoleState()) {
+        runSecurityGate("ftgp-platform-admin-bootstrap:idempotency:verify");
+        runSecurityGate("ftgp-platform-admin-runtime:verify");
+      }
     } else if (adminTarget.status === "READY" && adminTarget.platformAccountId) {
       process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID =
         adminTarget.platformAccountId;
@@ -475,6 +484,12 @@ async function main() {
 
   const operatorDesignatedTargetId =
     process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
+  if (operatorDesignatedTargetId && isPostBootstrapInternalRoleState()) {
+    console.log(
+      "PASSED — AUTHENTICATED BOUNDARIES VERIFIED; FIRST PLATFORM ADMIN BOOTSTRAP COMPLETE\n"
+    );
+    return;
+  }
   if (operatorDesignatedTargetId) {
     console.log(
       "READY — AUTHENTICATED BOUNDARIES VERIFIED; PLATFORM ADMIN BOOTSTRAP MAY BE AUTHORIZED\n"
