@@ -58,6 +58,30 @@ DUAL_MIGRATION=STILL_BLOCKED_ON_RECOVERY_EVIDENCE
 
 ---
 
+## CLOUD.1E post-apply status (2026-06-22)
+
+Dual migration apply **completed and verified**. Data API containment remains **PASS**. Pending migration inventory is **empty**.
+
+| Gate | Status |
+|------|--------|
+| Controlled dual migration apply | **PASS** |
+| `cloud-1e-post-apply:verify` | **PASS** |
+| `cloud-data-api-containment:verify` | **PASS** (9/9 tables blocked, incl. `platform_internal_role_assignments`) |
+| `cloud-containment-smoke:verify` | **PASS** |
+| Production deployment | **Unchanged** (`dpl_EJiL9z1NnfvneHCR72JfoGE5NXmh`) |
+
+```text
+IMMEDIATE_DATA_API_EXPOSURE=CONTAINED
+DUAL_MIGRATION_APPLY=VERIFIED
+PUBLIC_SCHEMA_GRANTS=STILL_UNSAFE
+RLS_ROLLOUT=STILL_REQUIRED
+BRANCH_PUSH=NOT_AUTHORIZED (separate approval)
+PREVIEW_DEPLOY=NOT_AUTHORIZED
+ROLE_BOOTSTRAP=NOT_AUTHORIZED
+```
+
+---
+
 ## CLOUD.1D recovery gate (2026-06-22)
 
 Data API containment remains **PASS** after re-verification. Dual migration apply remains **blocked** on operator recovery attestation:

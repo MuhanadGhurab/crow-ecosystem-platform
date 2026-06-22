@@ -3,7 +3,7 @@
 **Branch:** `feat/first-tenant-golden-path`  
 **Task HEAD (pre-0D commits):** `1966882`  
 **Review date:** 2026-06-18  
-**Apply status:** **NOT APPLIED** — no migration apply, resolve, or mark during FTGP.0D.
+**Apply status:** **APPLIED** (CLOUD.1E 2026-06-22) — controlled dual migration verified. See `FTGP_0E_CONTROLLED_MIGRATION_APPLY.md`.
 
 ---
 
@@ -248,21 +248,14 @@ Shared hosted Supabase database unchanged. No Supabase Auth metadata writes. No 
 ## Authorization recommendation
 
 ```text
-BLOCKED — BACKUP OR PITR EVIDENCE REQUIRED
+PASSED — CONTROLLED DUAL MIGRATION APPLIED AND VERIFIED; BRANCH PUSH MAY BE CONSIDERED
 ```
 
-Inventory is reconciled and the controlled wrapper enforces the exact two-migration allowlist. Controlled apply may proceed **only after**:
+Inventory was reconciled; controlled apply completed 2026-06-22 under CLOUD.1E operator authorization. **Separate authorization required** for:
 
-1. Operator backup/PITR confirmation (`CROW_SUPABASE_PRO_FOUNDATION.md` §5)
-2. **CLOUD.1B:** Data API containment path approved (`CROW_EMERGENCY_EXPOSURE_CONTAINMENT.md`)
-3. FTGP migration fail-closed hash repinned (`8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`)
-4. Explicit authorization phrase
-
-When all gates pass:
-
-```text
-READY — DUAL-PENDING INVENTORY RECONCILED; CONTROLLED APPLY MAY BE AUTHORIZED
-```
+1. Push `feat/first-tenant-golden-path`
+2. Preview deploy (FTGP code queries `platform_internal_role_assignments`)
+3. Platform Admin bootstrap and candidate `IMPLEMENTER` grant
 
 **CLOUD.1B note:** Repository has **zero** business PostgREST dependencies — emergency removal of `public` from exposed schemas does not break Auth or Prisma routes.
 

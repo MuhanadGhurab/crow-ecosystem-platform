@@ -28,7 +28,7 @@ Document verified Supabase Pro platform posture for project `wbwnsndcxrgyqwppurm
 | Direct database fingerprint | **Verified** | `0355c17692e2a90d` |
 | Pooler fingerprint | **Verified** | `b7f801cfe5e30009` (host/port differ — expected) |
 | Pooler ↔ direct ref agreement | **Verified** | Same project ref and database name |
-| Applied migrations (hosted) | **Verified** | 21 finished; 2 pending (see §4) |
+| Applied migrations (hosted) | **Verified** | **23 finished** (CLOUD.1E applied 2026-06-22); 0 pending |
 | Failed migrations (blocking) | **Verified** | 0 |
 | Edge Functions deployed | **Verified** | 0 |
 | Storage buckets | **Verified** | 0 rows in `storage.buckets` |
@@ -74,7 +74,9 @@ Upgrading to **Pro** unlocks capabilities Crow will use in later waves, but CLOU
 
 ## 4. Controlled migration inventory (shared hosted DB)
 
-Approved pending inventory (exact allowlist enforced by `scripts/lib/controlled-migration-inventory.ts`):
+**CLOUD.1E (2026-06-22):** Both approved migrations applied and verified on shared hosted database. See `FTGP_0E_CONTROLLED_MIGRATION_APPLY.md`.
+
+Historical inventory (exact allowlist enforced by `scripts/lib/controlled-migration-inventory.ts`):
 
 | # | Migration | SHA-256 | Risk class |
 |---|-----------|---------|------------|
@@ -89,7 +91,7 @@ Approved pending inventory (exact allowlist enforced by `scripts/lib/controlled-
 - `npm run ftgp-migration-preflight:hosted` — PASS (0 existing internal role assignments)
 - `npm run c2-database-isolation:verify` — PASS
 
-**Apply authorization:** **Not issuable** until backup/PITR evidence is recorded (§5) **and** Data API containment path approved (CLOUD.1B).
+**Apply authorization:** **Completed** (CLOUD.1E). Push/deploy/bootstrap remain **not authorized** without separate operator approval.
 
 **CLOUD.1B (2026-06-21):** FTGP migration SQL repinned after fail-closed hardening (`REVOKE` + RLS, no policies). Previous hash `4868d172…` **invalidated**. See `CROW_DATA_API_DEPENDENCY_AUDIT.md`.
 
@@ -129,20 +131,19 @@ npm run hosted-logical-dump:create
 
 The script writes a manifest outside the repository (operator home backup directory) with SHA-256 and disposable-restore validation. Controlled wrapper reads recovery vars from `.env.migration.recovery` (supplemental to `.env.staging.runtime`). Check-only reports `BACKUP_REFERENCE_PRESENT=false` until operator attestation is recorded.
 
-### CLOUD.1D recovery gate status (2026-06-22)
+### CLOUD.1D / CLOUD.1E recovery and apply status (2026-06-22)
 
 | Item | Result |
 |------|--------|
 | Hosted env | `.env.staging.runtime` (fingerprint `0355c17692e2a90d`) |
-| Operator recovery file | `.env.migration.recovery` — **not present** |
-| `npm run migration-recovery:verify` | `RECOVERY_EVIDENCE_VERIFIED=false` |
-| Logical dump | **Created** — SHA-256 `9e22ce3ed69124050ccee33f730dedc00d1c060aee93a512124d8859b0b572f9`; validation `DISPOSABLE_RESTORE_PASSED` |
-| Hosted env precedence | **Fixed** — localhost cannot override hosted `DIRECT_URL` |
-| Data API containment re-check | **PASS** (CLOUD.1C posture unchanged) |
-| Controlled check-only | Inventory + hashes **PASS**; `BACKUP_REFERENCE_PRESENT=false` |
-| Apply authorization | **Not issuable** — recovery attestation required |
+| Operator recovery file | `.env.migration.recovery` — **present** (`BACKUP`) |
+| `npm run migration-recovery:verify` | `RECOVERY_EVIDENCE_VERIFIED=true` |
+| Logical dump | SHA-256 `9e22ce3ed69124050ccee33f730dedc00d1c060aee93a512124d8859b0b572f9`; validation `DISPOSABLE_RESTORE_PASSED` |
+| Data API containment | **PASS** (CLOUD.1C posture; includes `platform_internal_role_assignments`) |
+| Controlled dual migration apply | **PASS** (CLOUD.1E) |
+| Branch push / Preview deploy | **Not authorized** |
 
-**Verdict:** `BLOCKED — BACKUP OR PITR EVIDENCE INVALID` (operator must populate `.env.migration.recovery` and re-run verify + check-only).
+**Verdict:** `PASSED — CONTROLLED DUAL MIGRATION APPLIED AND VERIFIED; BRANCH PUSH MAY BE CONSIDERED`
 
 ---
 

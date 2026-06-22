@@ -6,7 +6,7 @@
 **Migration SHA-256:** `8f66dcd89ca5d353864630d088a0dfb2af415e039c472cd54f5bc4e4c58191ed`  
 **Prior hash (invalidated):** `4868d172cc2b100e54970e83977e3d9f9212d06c916258aa70df2b66f3f7bd5e`  
 **Review date:** 2026-06-21  
-**Apply status:** **NOT APPLIED** — explicit operator authorization required for next task.
+**Apply status:** **APPLIED** (CLOUD.1E 2026-06-22) — see `FTGP_0E_CONTROLLED_MIGRATION_APPLY.md`.
 
 ---
 
