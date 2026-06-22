@@ -65,6 +65,8 @@ skills-lock.json
 .env.preview.proof-link
 .env.preview.*
 .env.preview.e2e
+.env.migration.recovery
+.migration-apply-manifest
 
 # Ad-hoc local debug / test artifacts
 tmp-legal.html

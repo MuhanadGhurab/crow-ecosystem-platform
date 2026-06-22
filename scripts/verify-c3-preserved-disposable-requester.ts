@@ -4,6 +4,11 @@
  * Run: npm run c3-10j:preserved-identity:verify
  */
 import { PrismaClient } from "@prisma/client";
+import { assertHostedVerificationTarget } from "./lib/assert-hosted-verification-target";
+import {
+  assertHostedEnvNotLocalhost,
+  loadHostedOperatorEnv,
+} from "./lib/hosted-operator-env";
 import {
   printProofResolution,
   requireProofOperatorEnv,
@@ -21,6 +26,20 @@ function fail(msg: string): never {
 }
 
 async function main() {
+  const envLoad = loadHostedOperatorEnv({
+    primaryEnvFile: ".env.staging.runtime",
+    supplementalEnvFiles: [".env.preview.operator"],
+  });
+  assertHostedEnvNotLocalhost(envLoad);
+  const hosted = assertHostedVerificationTarget({
+    envFile: envLoad.primaryEnvFile,
+    requireDatabaseUrls: true,
+  });
+  console.log(`\n=== Hosted identity verification ===`);
+  console.log(`env_file=${hosted.envFile}`);
+  console.log(`target_project_ref=${hosted.supabaseProjectRef}`);
+  console.log(`direct_fingerprint=${hosted.directFingerprint}\n`);
+
   const { retention } = requireProofOperatorEnv();
   const expectedLabel: ProofRequesterRetentionLabel =
     retention === "delete_after_proof"

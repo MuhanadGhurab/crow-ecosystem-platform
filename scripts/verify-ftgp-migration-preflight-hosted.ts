@@ -12,6 +12,11 @@ import { join } from "node:path";
 
 import { queryServerMajorVersion, resolvePgBackupClient, runPsqlQuery } from "./lib/pg-backup-client";
 import { fingerprintDatabaseUrl, maskDatabaseTarget } from "./lib/database-fingerprint";
+import { assertHostedVerificationTarget } from "./lib/assert-hosted-verification-target";
+import {
+  assertHostedEnvNotLocalhost,
+  loadHostedOperatorEnv,
+} from "./lib/hosted-operator-env";
 
 const FTGP_MIGRATION = "20260621120000_ftgp_platform_internal_role_assignment";
 const MIGRATION_SQL_PATH = join(
@@ -30,12 +35,23 @@ function q(url: string, sql: string, client: ReturnType<typeof resolvePgBackupCl
 }
 
 function main() {
+  const envLoad = loadHostedOperatorEnv({
+    primaryEnvFile: ".env.staging.runtime",
+    supplementalEnvFiles: [".env.migration.recovery"],
+  });
+  assertHostedEnvNotLocalhost(envLoad);
+
   const url = directUrl();
   const server = queryServerMajorVersion(url);
   const client = resolvePgBackupClient(server.major);
   const fp = fingerprintDatabaseUrl(url);
 
   console.log("\n=== FTGP hosted migration preflight (read-only) ===\n");
+  const hosted = assertHostedVerificationTarget({
+    envFile: envLoad.primaryEnvFile,
+    requireDatabaseUrls: true,
+  });
+  console.log(`  env_file=${hosted.envFile}`);
   console.log(`  target: ${maskDatabaseTarget(url)}`);
   console.log(`  fingerprint: ${fp.targetHash} (${fp.maskedHost} / ${fp.maskedDatabase})`);
 

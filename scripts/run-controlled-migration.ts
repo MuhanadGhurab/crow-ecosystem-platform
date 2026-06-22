@@ -21,6 +21,10 @@ import {
 } from "./lib/database-environment";
 import { fingerprintDatabaseUrl, maskDatabaseTarget } from "./lib/database-fingerprint";
 import {
+  assertHostedEnvNotLocalhost,
+  loadHostedOperatorEnv,
+} from "./lib/hosted-operator-env";
+import {
   FTGP_APPROVED_MIGRATION_INVENTORY,
   assertBackupReferencePresent,
   assertExactPendingInventory,
@@ -95,6 +99,26 @@ function assertApprovedInventoryConfigured(): void {
   }
 }
 
+function bootstrapHostedOperatorEnvironment(allowSharedProductionBackend: boolean): void {
+  try {
+    const result = loadHostedOperatorEnv({
+      primaryEnvFile: ".env.staging.runtime",
+      supplementalEnvFiles: [".env.migration.recovery"],
+    });
+    if (allowSharedProductionBackend) {
+      assertHostedEnvNotLocalhost(result);
+      console.log(
+        `Hosted env: primary=${result.primaryEnvFile} classification=${result.targetClassification} files=${result.loadedFiles.join(",")}`
+      );
+    }
+  } catch (error) {
+    if (allowSharedProductionBackend) {
+      console.error(error instanceof Error ? error.message : String(error));
+      process.exit(1);
+    }
+  }
+}
+
 function main() {
   const {
     environment,
@@ -108,6 +132,8 @@ function main() {
     console.error("Missing required --environment (preview | production).");
     process.exit(1);
   }
+
+  bootstrapHostedOperatorEnvironment(Boolean(allowSharedProductionBackend));
 
   const url = process.env.DATABASE_URL?.trim();
   const direct = process.env.DIRECT_URL?.trim();
