@@ -20,6 +20,7 @@ import {
   requireProofOperatorEnv,
   resolveProofRequester,
 } from "./lib/c3-proof-requester-resolution";
+import { vercelCurlHead } from "./lib/vercel-curl-head";
 
 const PREVIEW_BASE = (
   process.env.C3_PREVIEW_BASE_URL ??
@@ -97,39 +98,58 @@ async function probeProtection(base: string): Promise<"true" | "false"> {
   return "false";
 }
 
-async function verifyUnauthenticatedSmoke(base: string): Promise<void> {
+function isVercelProtectionStatus(status: number): boolean {
+  return status === 401 || status === 403;
+}
+
+/** Unauthenticated callers must hit Vercel protection — not the Crow application. */
+async function verifyUnauthenticatedProtection(base: string): Promise<void> {
+  const routes = ["/", "/login", "/account", "/client", "/admin", "/api/health"];
+
+  console.log("\n=== Unauthenticated Preview protection gate ===\n");
+  for (const path of routes) {
+    const { status } = await headRoute(base, path, {});
+    if (!isVercelProtectionStatus(status)) {
+      fail(
+        `${path} expected Vercel protection denial (401/403), got ${status} — Crow app may be public`
+      );
+    }
+    console.log(`  ${path} → ${status} (Vercel protection)`);
+  }
+  ok("PREVIEW_DEPLOYMENT_PROTECTED=true");
+  ok("PREVIEW_PUBLIC_APPLICATION_ACCESS=false");
+}
+
+async function verifyProtectedApplicationSmoke(base: string): Promise<void> {
   const routes: Array<{ path: string; accept: (s: number, loc: string | null) => boolean }> = [
     { path: "/", accept: (s) => s === 200 },
     { path: "/login", accept: (s) => s === 200 },
     { path: "/login?recovery=1", accept: (s) => s === 200 },
-    { path: "/auth/callback", accept: (s) => s !== 0 && s < 500 },
     {
       path: "/account",
-      accept: (s, loc) =>
-        s === 307 || s === 302 || s === 308 || (s === 401 && loc === null),
+      accept: (s, loc) => s === 307 && Boolean(loc?.includes("/login")),
     },
     {
       path: "/client",
-      accept: (s, loc) =>
-        s === 307 || s === 302 || s === 308 || (s === 401 && loc === null),
+      accept: (s, loc) => s === 307 && Boolean(loc?.includes("/login")),
     },
     {
       path: "/admin",
-      accept: (s, loc) =>
-        s === 307 || s === 302 || s === 308 || (s === 401 && loc === null),
+      accept: (s, loc) => s === 307 && Boolean(loc?.includes("/login")),
     },
-    { path: "/api/health", accept: (s) => s === 200 },
+    { path: "/api/health", accept: (s, loc) => s === 200 || (s === 307 && Boolean(loc?.includes("/login"))) },
   ];
 
-  console.log("\n=== Unauthenticated Preview route smoke ===\n");
+  console.log("\n=== Protected Preview application smoke (Vercel CLI auth) ===\n");
   for (const route of routes) {
-    const { status, location } = await headRoute(base, route.path, bypassHeaders());
+    const { status, location } = vercelCurlHead(`${base}${route.path}`);
     if (!route.accept(status, location)) {
       fail(`${route.path} unexpected status=${status} location=${location ?? "none"}`);
     }
     console.log(`  ${route.path} → ${status}${location ? ` → ${location}` : ""}`);
   }
-  ok("Unauthenticated route smoke");
+  ok("Protected Preview application routes verified via Vercel CLI session");
+  console.log("  PROTECTED_PREVIEW_TEST_ACCESS=VERCEL_AUTHENTICATED_BROWSER");
 }
 
 async function verifyFtgpRuntimeQuery(prisma: PrismaClient, supabaseUserId: string): Promise<void> {
@@ -264,7 +284,15 @@ async function main() {
   console.log(`  hostedFingerprint=${hosted.directFingerprint}`);
   console.log(`  PREVIEW_DEPLOYMENT_PROTECTED=${protection}`);
 
-  await verifyUnauthenticatedSmoke(previewBase);
+  if (protection === "false") {
+    console.log(
+      "\nBLOCKED — PREVIEW IS PUBLIC WHILE USING SHARED PRODUCTION BACKEND\n"
+    );
+    process.exit(2);
+  }
+
+  await verifyUnauthenticatedProtection(previewBase);
+  await verifyProtectedApplicationSmoke(previewBase);
 
   const prisma = new PrismaClient();
   try {
@@ -288,16 +316,6 @@ async function main() {
     ok(`tenantMemberships=${requester.counts.tenantMemberships}`);
     ok(`internalRoles table empty globally (verified by cloud-1e)`);
     ok("Retained requester pre-grant state unchanged (no grant during activation)");
-
-    if (protection === "false") {
-      console.log(
-        "\nBLOCKED — PREVIEW IS PUBLIC WHILE USING SHARED PRODUCTION BACKEND\n"
-      );
-      console.log(
-        "  Document exposure risk; enable Vercel Deployment Protection before authenticated Preview testing.\n"
-      );
-      process.exit(2);
-    }
 
     console.log("\nPASS — CLOUD.1F PREVIEW ACTIVATION VERIFICATION\n");
   } finally {
