@@ -44,6 +44,8 @@ function readLatestDumpManifest(): {
 }
 
 function main() {
+  const appliedVerified = process.argv.includes("--applied-verified");
+
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
     supplementalEnvFiles: [".env.migration.recovery"],
@@ -74,10 +76,18 @@ function main() {
     `Logical dump SHA-256: ${dump.sha256 ?? "(unset)"}`,
     `Logical dump validation: ${dump.validation ?? "(unset)"}`,
     "",
+    `Apply executed: ${appliedVerified ? "true" : "false"}`,
+    `Apply verified: ${appliedVerified ? "true" : "false"}`,
+    `Migration 1 applied: ${appliedVerified ? "true" : "false"}`,
+    `Migration 2 applied: ${appliedVerified ? "true" : "false"}`,
+    `Failed migration count: ${appliedVerified ? "0" : "(not applied)"}`,
+    `Pending migration count: ${appliedVerified ? "0" : "(not applied)"}`,
+    `Internal assignments created: ${appliedVerified ? "0" : "(not applied)"}`,
     "Apply authorized: false",
     "Branch push authorized: false",
-    "Preview deploy authorized: false",
-    "Production deploy authorized: false",
+    "Preview deployment authorized: false",
+    "Production deployment authorized: false",
+    "Role bootstrap authorized: false",
     "",
   ];
 

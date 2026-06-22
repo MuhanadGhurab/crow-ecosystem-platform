@@ -13,6 +13,7 @@ const CONTAINMENT_PROBE_TABLES = [
   "api_keys",
   "webhook_events",
   "platform_accounts",
+  "platform_internal_role_assignments",
 ] as const;
 
 const SENSITIVE_GRAPHQL_TYPE_HINTS = [

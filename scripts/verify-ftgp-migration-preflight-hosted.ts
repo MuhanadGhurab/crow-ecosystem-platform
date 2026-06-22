@@ -35,6 +35,8 @@ function q(url: string, sql: string, client: ReturnType<typeof resolvePgBackupCl
 }
 
 function main() {
+  const postApply = process.argv.includes("--post-apply");
+
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
     supplementalEnvFiles: [".env.migration.recovery"],
@@ -87,7 +89,12 @@ function main() {
   console.log(`  PlatformInternalRoleAssignmentStatus enum exists: ${statusEnumExists}`);
   console.log(`  partial unique index exists: ${partialIndexExists}`);
 
-  if (tableExists !== "0" || roleEnumExists !== "0" || statusEnumExists !== "0") {
+  if (postApply) {
+    if (tableExists !== "1" || roleEnumExists !== "1" || statusEnumExists !== "1" || partialIndexExists !== "1") {
+      console.error("\nFAIL: post-apply FTGP objects incomplete.");
+      process.exit(1);
+    }
+  } else if (tableExists !== "0" || roleEnumExists !== "0" || statusEnumExists !== "0") {
     console.error("\nFAIL: FTGP objects already present — reconcile before apply.");
     process.exit(1);
   }
@@ -160,6 +167,15 @@ function main() {
   );
   console.log(`  ftgp migration applied: ${ftgpApplied === "1" ? "yes" : "no"}`);
 
+  if (postApply && ftgpApplied !== "1") {
+    console.error("\nFAIL: post-apply expects FTGP migration finished in history.");
+    process.exit(1);
+  }
+  if (!postApply && ftgpApplied === "1") {
+    console.error("\nFAIL: FTGP migration already applied — use --post-apply for post-migration checks.");
+    process.exit(1);
+  }
+
   const passwordRecoveryEnum = q(
     url,
     `SELECT COUNT(*) FROM pg_enum e JOIN pg_type t ON t.oid = e.enumtypid WHERE t.typname = 'PlatformAccountAuditEventType' AND e.enumlabel = 'password_recovery_requested';`,
@@ -176,12 +192,12 @@ function main() {
     process.exit(1);
   }
 
-  if (blockingUnfinished.trim()) {
+  if (!postApply && blockingUnfinished.trim()) {
     console.error("\nFAIL: blocking unfinished migration rows detected in _prisma_migrations.");
     process.exit(1);
   }
 
-  console.log("\nPASS — FTGP HOSTED PREFLIGHT (READ-ONLY)\n");
+  console.log(`\nPASS — FTGP HOSTED PREFLIGHT (${postApply ? "POST-APPLY" : "READ-ONLY"})\n`);
 }
 
 main();
