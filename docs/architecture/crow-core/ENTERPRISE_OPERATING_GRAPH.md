@@ -1,6 +1,6 @@
 # Enterprise Operating Graph
 
-**Status:** CURRENT
+**Status:** CURRENT (MODEL.3)
 
 ## Types
 
@@ -8,7 +8,9 @@
 
 ## Builder
 
-`buildOperatingGraph()`, `validateOperatingGraph()`, `filterGraph()` — `src/lib/model-forge/graph/operating-graph.ts`
+`buildOperatingGraph()`, `validateOperatingGraph()`, `filterGraph()`, `filterGraphByLayerPreset()` — `src/lib/model-forge/graph/operating-graph.ts`
+
+`analyzeOperatingGraphCompleteness()`, `auditGraphNodeTypeCoverage()` — `graph-completeness.ts`
 
 ## Node types (17)
 
