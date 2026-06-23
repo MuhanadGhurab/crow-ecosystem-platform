@@ -1,0 +1,88 @@
+import type { EntityDefinition, EntityPackDefinition } from "../domain-types";
+
+const entity = (
+  key: string,
+  displayName: string,
+  lifecycle: string[],
+  sensitivity: EntityDefinition["sensitivityClassification"] = "internal",
+): EntityDefinition => ({
+  key,
+  displayName,
+  description: `${displayName} business object definition.`,
+  status: "PLANNED",
+  version: "1.0.0",
+  provenance: "crow_core",
+  lifecycle,
+  ownerPersonaRecommendations: [],
+  relatedWorkflowKeys: [],
+  relationships: [],
+  sensitivityClassification: sensitivity,
+  evidenceRequirementKeys: [],
+  auditRequirementKeys: [],
+  retentionConsideration: "policy_defined",
+  cyberCrowPolicyPackKeys: ["baseline_identity_trust"],
+});
+
+export const CORE_ENTITIES: readonly EntityDefinition[] = [
+  { ...entity("request", "Request", ["draft", "submitted", "closed"]), ownerPersonaRecommendations: ["workflow_coordinator"] },
+  { ...entity("case", "Case", ["open", "resolved", "closed"]), ownerPersonaRecommendations: ["case_lead"], relatedWorkflowKeys: ["case_resolution"] },
+  { ...entity("project", "Project", ["planning", "active", "closed"]), ownerPersonaRecommendations: ["project_controller"] },
+  { ...entity("task", "Task", ["queued", "done"]), ownerPersonaRecommendations: ["workflow_coordinator"] },
+  { ...entity("work_order", "Work order", ["queued", "completed"]), ownerPersonaRecommendations: ["field_coordinator"] },
+  { ...entity("customer", "Customer", ["prospect", "active"], "confidential"), ownerPersonaRecommendations: ["relationship_owner"], cyberCrowPolicyPackKeys: ["customer_data_protection"] },
+  { ...entity("supplier", "Supplier", ["qualified", "active"]), ownerPersonaRecommendations: ["supplier_risk_liaison"] },
+  { ...entity("contract", "Contract", ["draft", "executed"], "confidential") },
+  { ...entity("document", "Document", ["draft", "published"]), evidenceRequirementKeys: ["approval_rationale"] },
+  { ...entity("evidence_item", "Evidence item", ["collected", "verified"]), ownerPersonaRecommendations: ["evidence_custodian"], sensitivityClassification: "restricted" },
+  { ...entity("approval", "Approval", ["pending", "granted", "rejected"]), auditRequirementKeys: ["approval_rationale"] },
+  { ...entity("incident", "Incident", ["reported", "closed"]), ownerPersonaRecommendations: ["incident_commander"] },
+  { ...entity("inspection", "Inspection", ["scheduled", "completed"]), ownerPersonaRecommendations: ["quality_reviewer"] },
+  { ...entity("asset", "Asset", ["registered", "retired"]), ownerPersonaRecommendations: ["resource_allocator"] },
+  { ...entity("location", "Location", ["active", "inactive"]) },
+  { ...entity("inventory_item", "Inventory item", ["in_stock", "depleted"]) },
+  { ...entity("shipment", "Shipment", ["pending", "delivered"]) },
+  { ...entity("delivery", "Delivery", ["assigned", "completed"]) },
+  { ...entity("booking", "Booking", ["booked", "completed"]) },
+  { ...entity("membership", "Membership", ["applied", "active"]) },
+  { ...entity("invoice_record", "Invoice record", ["draft", "approved"], "confidential"), cyberCrowPolicyPackKeys: ["financial_approval_protection"] },
+  { ...entity("expense_request", "Expense request", ["submitted", "reimbursed"]) },
+  { ...entity("campaign", "Campaign", ["planned", "completed"]) },
+  { ...entity("content_asset", "Content asset", ["draft", "published"]), evidenceRequirementKeys: ["asset_version_history"] },
+  { ...entity("service_engagement", "Service engagement", ["scoped", "completed"]) },
+] as const;
+
+export const SPECIALIST_ENTITIES: readonly EntityDefinition[] = [
+  { ...entity("legal_matter", "Legal matter", ["intake", "closed"], "restricted"), ownerPersonaRecommendations: ["legal_matter_intake_coordinator"], relatedWorkflowKeys: ["matter_intake_and_conflict_check"] },
+  { ...entity("conflict_check", "Conflict check", ["pending", "cleared"], "restricted"), evidenceRequirementKeys: ["conflict_check_record"] },
+  { ...entity("game_build", "Game build", ["dev", "released"]), ownerPersonaRecommendations: ["release_coordinator"] },
+  { ...entity("release", "Release", ["planning", "live"]), relatedWorkflowKeys: ["release_readiness"] },
+  { ...entity("player_incident", "Player incident", ["reported", "resolved"]), ownerPersonaRecommendations: ["live_game_operations_coordinator"] },
+  { ...entity("production_project", "Production project", ["pre", "wrap"]), ownerPersonaRecommendations: ["creative_production_asset_coordinator"] },
+  { ...entity("rights_clearance", "Rights clearance", ["requested", "cleared"]), ownerPersonaRecommendations: ["rights_clearance_coordinator"] },
+  { ...entity("media_asset", "Media asset", ["ingest", "cleared"]), evidenceRequirementKeys: ["rights_documentation"] },
+  { ...entity("research_sample_record", "Research sample record", ["collected", "archived"], "restricted"), ownerPersonaRecommendations: ["research_evidence_custodian"], evidenceRequirementKeys: ["lab_notebook"] },
+  { ...entity("equipment_booking", "Equipment booking", ["booked", "returned"]) },
+  { ...entity("rental_contract", "Rental contract", ["active", "returned"]) },
+  { ...entity("property_listing", "Property listing", ["draft", "active"]) },
+  { ...entity("maintenance_visit", "Maintenance visit", ["scheduled", "completed"]) },
+  { ...entity("training_cohort", "Training cohort", ["forming", "completed"]) },
+  { ...entity("event_program", "Event program", ["planning", "completed"]), ownerPersonaRecommendations: ["event_readiness_controller"] },
+  { ...entity("talent_engagement", "Talent engagement", ["shortlisted", "engaged"]) },
+  { ...entity("translation_project", "Translation project", ["scoped", "delivered"]) },
+  { ...entity("customs_submission", "Customs submission", ["prepared", "cleared"], "restricted") },
+  { ...entity("casting_record", "Casting record", ["audition", "booked"]) },
+  { ...entity("crew_member", "Crew member", ["onboarding", "active"]) },
+  { ...entity("location_permit", "Location permit", ["applied", "approved"]) },
+  { ...entity("live_event", "Live event", ["scheduled", "completed"]) },
+  { ...entity("production_day", "Production day", ["planned", "wrapped"]) },
+  { ...entity("court_deadline", "Court deadline", ["scheduled", "met"], "restricted") },
+] as const;
+
+export const ENTITY_PACK_CATALOG: readonly EntityPackDefinition[] = [
+  { key: "core_operating", displayName: "Core operating", description: "Universal business objects.", status: "CURRENT", version: "1.0.0", provenance: "crow_core", coreEntityKeys: CORE_ENTITIES.map((e) => e.key), specialistEntityKeys: [] },
+  { key: "legal_matter_pack", displayName: "Legal matter pack", description: "Legal operations entities.", status: "PLANNED", version: "1.0.0", provenance: "crow_core", coreEntityKeys: ["case", "document", "approval"], specialistEntityKeys: ["legal_matter", "conflict_check", "court_deadline"] },
+  { key: "media_production_pack", displayName: "Media production pack", description: "Production and rights entities.", status: "PLANNED", version: "1.0.0", provenance: "crow_core", coreEntityKeys: ["project", "document"], specialistEntityKeys: ["production_project", "media_asset", "rights_clearance", "crew_member"] },
+  { key: "field_service_pack", displayName: "Field service pack", description: "Field operations entities.", status: "PLANNED", version: "1.0.0", provenance: "crow_core", coreEntityKeys: ["work_order", "asset", "location"], specialistEntityKeys: ["maintenance_visit", "equipment_booking"] },
+] as const;
+
+export const ALL_ENTITIES: readonly EntityDefinition[] = [...CORE_ENTITIES, ...SPECIALIST_ENTITIES];
