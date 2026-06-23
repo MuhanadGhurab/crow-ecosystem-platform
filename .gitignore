@@ -71,7 +71,9 @@ skills-lock.json
 # FTGP first-request operator artifacts (never commit)
 .ftgp-first-request-candidates.local.json
 .env.ftgp-first-request.operator
+.env.ftgp-first-client.operator
 .ftgp-first-request-review-manifest
+.ftgp-request-owner-provenance.local.json
 
 # FTGP IMPLEMENTER grant operator artifacts (never commit)
 .ftgp-implementer-grant-manifest

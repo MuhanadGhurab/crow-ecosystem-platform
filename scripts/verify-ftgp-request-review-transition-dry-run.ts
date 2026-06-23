@@ -21,7 +21,13 @@ import {
   FTGP_PROCROW_REVIEW_TO_STATUS,
 } from "../src/lib/ftgp/ftgp-procrow-review-transition.constants";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
-import { resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
+import {
+  CANDIDATE_07_FINGERPRINT,
+  CANDIDATE_07_LABEL,
+  resolveDesignatedFirstClientAccountId,
+  resolveRequestOwnerPlatformAccount,
+  assessFtgpClientOwnerEligibility,
+} from "./lib/ftgp-first-client-resolution";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 import {
   captureCloud1hDatabaseBaseline,
@@ -29,8 +35,8 @@ import {
 } from "./lib/cloud-1h-database-baseline";
 
 const MANIFEST_PATH = ".ftgp-first-request-review-manifest";
-const EXPECTED_FINGERPRINT = "9439dd8cc806696e";
-const EXPECTED_LABEL = "FTGP-REQUEST-CANDIDATE-07";
+const EXPECTED_FINGERPRINT = CANDIDATE_07_FINGERPRINT;
+const EXPECTED_LABEL = CANDIDATE_07_LABEL;
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -51,6 +57,7 @@ async function main() {
       ".env.platform-bootstrap.operator",
       ".env.ftgp-implementer-grant.operator",
       ".env.ftgp-first-request.operator",
+      ".env.ftgp-first-client.operator",
     ],
   });
   assertHostedEnvNotLocalhost(envLoad);
@@ -68,6 +75,11 @@ async function main() {
   const fingerprint = requestFingerprint(requestId);
   if (fingerprint !== EXPECTED_FINGERPRINT) {
     blocked(`request fingerprint=${fingerprint} (expected ${EXPECTED_FINGERPRINT})`);
+  }
+
+  const clientAccountId = resolveDesignatedFirstClientAccountId();
+  if (!clientAccountId) {
+    blocked("FTGP_FIRST_CLIENT_ACCOUNT_ID required (designated client actor)");
   }
 
   const actorAccountId = process.env.FTGP_IMPLEMENTER_TARGET_ACCOUNT_ID?.trim() || null;
@@ -99,14 +111,19 @@ async function main() {
     });
     if (!request) blocked("request does not exist");
 
-    const requester = await resolveProofRequesterPlatformAccount(prisma);
-    if (!requester) {
-      blocked("retained requester PlatformAccount not resolved");
+    const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
+    if (!owner) blocked("authoritative request owner missing");
+    if (owner.id !== clientAccountId) {
+      blocked("designated client does not match request owner");
     }
-    if (!request.submittedByUserId) blocked("no authoritative owner");
-    if (requester.supabaseUserId !== request.submittedByUserId) {
-      blocked("request owner is not retained requester");
+    const clientEligibility = await assessFtgpClientOwnerEligibility(prisma, clientAccountId);
+    if (!clientEligibility.eligible) {
+      blocked(`client owner ineligible: ${clientEligibility.refusal ?? "unknown"}`);
     }
+    if (actorAccountId === clientAccountId) {
+      blocked("IMPLEMENTER and client owner must differ");
+    }
+    console.log("  DESIGNATED_CLIENT_IMPLEMENTER_COLLISION=false");
 
     if (request.status !== FTGP_PROCROW_REVIEW_FROM_STATUS) {
       blocked(`request status=${request.status} (expected ${FTGP_PROCROW_REVIEW_FROM_STATUS})`);
@@ -152,6 +169,7 @@ async function main() {
     ok("request exists");
     ok(`request fingerprint = ${EXPECTED_FINGERPRINT}`);
     ok("request owner authoritative");
+    ok("designated client matches owner = true");
     ok(`request current status = ${FTGP_PROCROW_REVIEW_FROM_STATUS}`);
     ok("request eligible for ProCrow Review = true");
     ok("actor exists");

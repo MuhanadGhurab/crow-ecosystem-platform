@@ -1,18 +1,20 @@
 #!/usr/bin/env tsx
 /**
- * FTGP.1A — Operator-only first-request candidate matrix (read-only).
+ * FTGP.1C — Operator-only first-request candidate matrix (read-only).
  * Run: npm run ftgp-first-request-candidates:list
  */
-import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { PrismaClient } from "@prisma/client";
 
-import { hasMandatoryLegalAcceptanceComplete } from "../src/lib/legal/legal-acceptance.service";
 import { FTGP_PROCROW_REVIEW_FROM_STATUS } from "../src/lib/ftgp/ftgp-procrow-review-transition.constants";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
 import { resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
+import {
+  assessFtgpClientOwnerEligibility,
+  ownerFingerprint,
+} from "./lib/ftgp-first-client-resolution";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 
 const OUTPUT = ".ftgp-first-request-candidates.local.json";
@@ -24,6 +26,7 @@ type CandidateRow = {
   ownerAccountFingerprint: string;
   ownerLifecycleState: string;
   ownerLegalState: "current" | "incomplete" | "unknown";
+  ownerDiffersFromRetainedFixture: boolean;
   requestStatus: string;
   submittedAt: string;
   clientOrganizationLinkCount: number;
@@ -40,10 +43,6 @@ function operatorLabel(index: number): string {
   return `FTGP-REQUEST-CANDIDATE-${String(index + 1).padStart(2, "0")}`;
 }
 
-function ownerFingerprint(accountId: string): string {
-  return createHash("sha256").update(`ftgp-owner:${accountId}`).digest("hex").slice(0, 16);
-}
-
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
@@ -55,14 +54,9 @@ async function main() {
   });
   assertHostedEnvNotLocalhost(envLoad);
 
-  const locale = process.env.PLATFORM_OWNER_LEGAL_LOCALE?.trim() || "en-US";
   const prisma = new PrismaClient();
   try {
-    const requesterAccount = await resolveProofRequesterPlatformAccount(prisma);
-    const requesterSupabaseUserId = requesterAccount?.supabaseUserId ?? null;
-    if (!requesterSupabaseUserId) {
-      throw new Error("retained proof requester could not be resolved");
-    }
+    const retained = await resolveProofRequesterPlatformAccount(prisma);
 
     const requests = await prisma.implementationRequest.findMany({
       orderBy: { createdAt: "asc" },
@@ -87,13 +81,13 @@ async function main() {
       let ownerAccountFingerprint = "unknown";
       let ownerLifecycleState = "unknown";
       let ownerLegalState: CandidateRow["ownerLegalState"] = "unknown";
+      let ownerDiffersFromRetainedFixture = false;
 
       if (!req.submittedByUserId) {
         rejectionReasons.push("no authoritative owner (submittedByUserId)");
-      } else if (req.submittedByUserId !== requesterSupabaseUserId) {
-        rejectionReasons.push("owner is not retained requester");
       }
 
+      let ownerId: string | null = null;
       if (req.submittedByUserId) {
         const owner = await prisma.platformAccount.findFirst({
           where: { supabaseUserId: req.submittedByUserId },
@@ -102,12 +96,16 @@ async function main() {
         if (!owner) {
           rejectionReasons.push("owner PlatformAccount missing");
         } else {
+          ownerId = owner.id;
           ownerAccountFingerprint = ownerFingerprint(owner.id);
           ownerLifecycleState = owner.status;
-          if (owner.status !== "ACTIVE") rejectionReasons.push("owner not ACTIVE");
-          const legalOk = await hasMandatoryLegalAcceptanceComplete(owner.id, locale);
-          ownerLegalState = legalOk ? "current" : "incomplete";
-          if (!legalOk) rejectionReasons.push("owner legal incomplete");
+          ownerDiffersFromRetainedFixture = Boolean(retained && retained.id !== owner.id);
+
+          const eligibility = await assessFtgpClientOwnerEligibility(prisma, owner.id);
+          ownerLegalState = eligibility.legalCurrent ? "current" : "incomplete";
+          if (!eligibility.eligible) {
+            rejectionReasons.push(eligibility.refusal ?? "owner ineligible");
+          }
         }
       }
 
@@ -127,14 +125,7 @@ async function main() {
         rejectionReasons.push(`proposal status=${blueprint.proposalStatus}`);
       }
 
-      const tenantMemberships = req.submittedByUserId
-        ? await prisma.tenantMembership.count({
-            where: { supabaseUserId: req.submittedByUserId },
-          })
-        : 0;
-      if (tenantMemberships > 0) rejectionReasons.push("owner has tenant membership");
-
-      const eligible = rejectionReasons.length === 0;
+      const eligible = rejectionReasons.length === 0 && ownerId !== null;
       if (eligible) eligibleCount += 1;
 
       rows.push({
@@ -144,6 +135,7 @@ async function main() {
         ownerAccountFingerprint,
         ownerLifecycleState,
         ownerLegalState,
+        ownerDiffersFromRetainedFixture,
         requestStatus: req.status,
         submittedAt: req.createdAt.toISOString(),
         clientOrganizationLinkCount: req.clientOrganizationRequestLinks.length,
@@ -168,6 +160,8 @@ async function main() {
       hostedDatabaseFingerprint: "0355c17692e2a90d",
       requestCount: requests.length,
       eligibleFirstRequestCount: eligibleCount,
+      clientPolicy: "EXPLICIT_AUTHORITATIVE_OWNER",
+      retainedRequesterFixtureDecoupled: true,
       statusDistribution,
       selectionMode: "EXPLICIT_IMMUTABLE_REQUEST_ID",
       candidates: rows.map(({ requestId: _id, ...rest }) => rest),
@@ -179,6 +173,7 @@ async function main() {
     console.log(`\nWrote ${OUTPUT}`);
     console.log(`  request_count=${requests.length}`);
     console.log(`  ELIGIBLE_FIRST_REQUEST_COUNT=${eligibleCount}`);
+    console.log(`  FTGP_CLIENT_POLICY=EXPLICIT_AUTHORITATIVE_OWNER`);
     for (const row of rows.filter((r) => r.firstFtgpEligibility === "eligible")) {
       console.log(`  ${row.operatorLabel} fingerprint=${row.requestFingerprint}`);
     }

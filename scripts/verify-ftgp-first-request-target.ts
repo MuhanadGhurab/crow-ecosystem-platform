@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * FTGP.1B — Verify designated first-request target (read-only).
+ * FTGP.1C — Verify designated first-request target (read-only).
  * Run: npm run ftgp-first-request-target:verify
  */
 import { readFileSync, existsSync } from "node:fs";
@@ -8,19 +8,26 @@ import { join } from "node:path";
 
 import { PrismaClient } from "@prisma/client";
 
-import { hasMandatoryLegalAcceptanceComplete } from "../src/lib/legal/legal-acceptance.service";
 import {
   FTGP_PROCROW_REVIEW_FROM_STATUS,
   FTGP_PROCROW_REVIEW_TO_STATUS,
 } from "../src/lib/ftgp/ftgp-procrow-review-transition.constants";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
-import { requireProofOperatorEnv, resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
+import { resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
+import {
+  CANDIDATE_07_FINGERPRINT,
+  CANDIDATE_07_LABEL,
+  CANDIDATE_07_OWNER_FINGERPRINT,
+  FTGP_FIRST_CLIENT_ENV,
+  assessFtgpClientOwnerEligibility,
+  ownerFingerprint,
+  resolveDesignatedFirstClientAccountId,
+  resolveRequestOwnerPlatformAccount,
+} from "./lib/ftgp-first-client-resolution";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 
 const OPERATOR_ENV = ".env.ftgp-first-request.operator";
 const CANDIDATE_MATRIX = ".ftgp-first-request-candidates.local.json";
-const EXPECTED_LABEL = "FTGP-REQUEST-CANDIDATE-07";
-const EXPECTED_FINGERPRINT = "9439dd8cc806696e";
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -45,9 +52,11 @@ function loadCandidateMatrix(): {
 }
 
 async function main() {
-  const operatorPath = join(process.cwd(), OPERATOR_ENV);
-  if (!existsSync(operatorPath)) {
+  if (!existsSync(join(process.cwd(), OPERATOR_ENV))) {
     blocked(`${OPERATOR_ENV} missing`);
+  }
+  if (!existsSync(join(process.cwd(), FTGP_FIRST_CLIENT_ENV))) {
+    blocked(`${FTGP_FIRST_CLIENT_ENV} missing`);
   }
 
   const envLoad = loadHostedOperatorEnv({
@@ -57,6 +66,7 @@ async function main() {
       ".env.platform-bootstrap.operator",
       ".env.ftgp-implementer-grant.operator",
       ".env.ftgp-first-request.operator",
+      ".env.ftgp-first-client.operator",
     ],
   });
   assertHostedEnvNotLocalhost(envLoad);
@@ -65,7 +75,9 @@ async function main() {
 
   const requestId = process.env.FTGP_FIRST_REQUEST_ID?.trim();
   const purpose = process.env.FTGP_FIRST_REQUEST_PURPOSE?.trim();
+  const clientAccountId = resolveDesignatedFirstClientAccountId();
   if (!requestId) blocked("FTGP_FIRST_REQUEST_ID not set");
+  if (!clientAccountId) blocked("FTGP_FIRST_CLIENT_ACCOUNT_ID not set");
   if (purpose !== "FIRST_TENANT_GOLDEN_PATH") {
     blocked(`FTGP_FIRST_REQUEST_PURPOSE=${purpose ?? "missing"}`);
   }
@@ -74,8 +86,11 @@ async function main() {
   }
 
   const fingerprint = requestFingerprint(requestId);
-  if (fingerprint !== EXPECTED_FINGERPRINT) {
-    blocked(`fingerprint=${fingerprint} (expected ${EXPECTED_FINGERPRINT})`);
+  if (fingerprint !== CANDIDATE_07_FINGERPRINT) {
+    blocked(`fingerprint=${fingerprint} (expected ${CANDIDATE_07_FINGERPRINT})`);
+  }
+  if (ownerFingerprint(clientAccountId) !== CANDIDATE_07_OWNER_FINGERPRINT) {
+    blocked("designated client fingerprint mismatch");
   }
 
   const matrix = loadCandidateMatrix();
@@ -83,17 +98,20 @@ async function main() {
     const idx = matrix.localOnlyRequestIds.indexOf(requestId);
     if (idx < 0) blocked("request ID not in local candidate matrix");
     const label = matrix.candidates[idx]?.operatorLabel;
-    if (label !== EXPECTED_LABEL) {
-      blocked(`matrix label=${label ?? "missing"} (expected ${EXPECTED_LABEL})`);
+    if (label !== CANDIDATE_07_LABEL) {
+      blocked(`matrix label=${label ?? "missing"} (expected ${CANDIDATE_07_LABEL})`);
     }
-    ok(`matrix maps to ${EXPECTED_LABEL}`);
+    ok(`matrix maps to ${CANDIDATE_07_LABEL}`);
   }
 
+  console.log(`  FTGP_CLIENT_POLICY=EXPLICIT_AUTHORITATIVE_OWNER`);
+  console.log(`  C3_RETAINED_REQUESTER_FIXTURE_DECOUPLED=true`);
+  console.log(`  REQUEST_OWNERSHIP_ENFORCEMENT_WEAKENED=false`);
   console.log(`  REQUEST_SELECTION_MODE=EXPLICIT_IMMUTABLE_REQUEST_ID`);
-  console.log(`  SELECTED_REQUEST_LABEL=${EXPECTED_LABEL}`);
-  console.log(`  SELECTED_REQUEST_FINGERPRINT=${EXPECTED_FINGERPRINT}`);
-  console.log(`  SELECTED_REQUEST_COUNT=1`);
-  console.log(`  REQUEST_TRANSITION_EXECUTION_AUTHORIZED=false`);
+  console.log(`  CLIENT_SELECTION_MODE=EXPLICIT_IMMUTABLE_PLATFORM_ACCOUNT_ID`);
+  console.log(`  SELECTED_REQUEST_LABEL=${CANDIDATE_07_LABEL}`);
+  console.log(`  SELECTED_REQUEST_FINGERPRINT=${CANDIDATE_07_FINGERPRINT}`);
+  console.log(`  DESIGNATED_CLIENT_FINGERPRINT=${CANDIDATE_07_OWNER_FINGERPRINT}`);
 
   const prisma = new PrismaClient();
   try {
@@ -112,7 +130,7 @@ async function main() {
     });
     if (!request) blocked("request does not exist");
     ok("request exists");
-    ok(`request fingerprint = ${EXPECTED_FINGERPRINT}`);
+    ok(`request fingerprint = ${CANDIDATE_07_FINGERPRINT}`);
 
     if (request.status !== FTGP_PROCROW_REVIEW_FROM_STATUS) {
       blocked(`status=${request.status}`);
@@ -120,82 +138,43 @@ async function main() {
     ok(`current status = ${FTGP_PROCROW_REVIEW_FROM_STATUS}`);
     ok(`intended target status = ${FTGP_PROCROW_REVIEW_TO_STATUS}`);
 
-    const archived = request.status === "REJECTED" || request.status === "CANCELLED";
-    if (archived) blocked("archived or cancelled");
-    ok("archived = false");
-    ok("cancelled = false");
-
-    const requester = await resolveProofRequesterPlatformAccount(prisma);
-    if (!requester) blocked("retained requester PlatformAccount not resolved");
-    if (!request.submittedByUserId) blocked("no submittedByUserId");
-    if (requester.supabaseUserId !== request.submittedByUserId) {
-      console.log("  REQUEST_OWNER_COLLISION=true");
-      blocked("owner is not retained requester");
+    const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
+    if (!owner) blocked("authoritative request owner missing");
+    if (owner.id !== clientAccountId) {
+      blocked("designated client does not match request owner");
     }
-    ok("authoritative owner = retained requester");
-    console.log("  REQUEST_OWNER_COLLISION=false");
+    ok("REQUEST_OWNER_AUTHORITATIVE=true");
+    ok("DESIGNATED_CLIENT_MATCHES_REQUEST_OWNER=true");
 
-    const locale = process.env.PLATFORM_OWNER_LEGAL_LOCALE?.trim() || "en-US";
-    if (requester.status !== "ACTIVE") blocked("owner not ACTIVE");
-    ok("owner PlatformAccount = ACTIVE");
-    const legalOk = await hasMandatoryLegalAcceptanceComplete(requester.id, locale);
-    if (!legalOk) blocked("owner legal incomplete");
-    ok("owner legal acceptance = current");
+    const retained = await resolveProofRequesterPlatformAccount(prisma);
+    const differsFromFixture = Boolean(retained && retained.id !== owner.id);
+    console.log(`  REQUEST_OWNER_COLLISION_WITH_RETAINED_FIXTURE=${differsFromFixture}`);
+    if (differsFromFixture) {
+      ok("retained requester fixture decoupled from FTGP client actor");
+    }
+
+    const eligibility = await assessFtgpClientOwnerEligibility(prisma, clientAccountId);
+    if (!eligibility.eligible) blocked(eligibility.refusal ?? "owner ineligible");
+    ok(`REQUEST_OWNER_INTERNAL_ROLE_COUNT=${eligibility.activeInternalRoleCount}`);
 
     const blueprint =
       request.enterpriseBlueprint ?? request.discoveryProfile?.enterpriseBlueprint;
-    const tenantLinks = blueprint?.tenantId ? 1 : 0;
-    const discoveryCompleted = request.discoveryProfile?.status === "COMPLETED" ? 1 : 0;
-    const blueprintApproved =
-      blueprint && blueprint.proposalStatus !== "DRAFT" ? 1 : 0;
-    const pricingApproved = blueprintApproved;
-
-    if (tenantLinks > 0) {
-      console.log("  REQUEST_TENANT_COLLISION=true");
-      blocked("tenant linked");
-    }
-    if (discoveryCompleted > 0) {
-      console.log("  REQUEST_DISCOVERY_COLLISION=true");
-      blocked("discovery completed");
-    }
-    if (blueprintApproved > 0) {
-      console.log("  REQUEST_BLUEPRINT_COLLISION=true");
-      blocked("approved blueprint");
-    }
-    if (pricingApproved > 0) {
-      console.log("  REQUEST_PRICING_COLLISION=true");
-      blocked("approved pricing");
+    if (blueprint?.tenantId) blocked("tenant linked");
+    if (request.discoveryProfile?.status === "COMPLETED") blocked("discovery completed");
+    if (blueprint && blueprint.proposalStatus !== "DRAFT") {
+      blocked("pricing/proposal not draft-only");
     }
 
-    const laterStatuses = [
-      "UNDER_DISCOVERY",
-      "BLUEPRINT_BUILD",
-      "CLIENT_REVIEW",
-      "GO_LIVE",
-    ] as const;
-    if ((laterStatuses as readonly string[]).includes(request.status)) {
-      console.log("  REQUEST_ALREADY_IN_REVIEW_OR_LATER=true");
-      blocked("already in review or later");
+    ok("tenant collision = false");
+    ok("Discovery collision = false");
+    ok("Blueprint collision = false");
+    ok("pricing collision = false");
+
+    const implementerId = process.env.FTGP_IMPLEMENTER_TARGET_ACCOUNT_ID?.trim();
+    if (implementerId && implementerId === clientAccountId) {
+      blocked("client owner is IMPLEMENTER");
     }
-
-    ok("tenant links = 0");
-    ok("completed Discovery records = 0");
-    ok("approved Blueprint records = 0");
-    ok("approved pricing/proposal records = 0");
-    console.log("  REQUEST_TENANT_COLLISION=false");
-    console.log("  REQUEST_DISCOVERY_COLLISION=false");
-    console.log("  REQUEST_BLUEPRINT_COLLISION=false");
-    console.log("  REQUEST_PRICING_COLLISION=false");
-    console.log("  REQUEST_ALREADY_IN_REVIEW_OR_LATER=false");
-    console.log("  conflicting lifecycle process = false");
-
-    console.log(`  client_organization_links=${request.clientOrganizationRequestLinks.length}`);
-    console.log(`  discovery_profile_count=${request.discoveryProfile ? 1 : 0}`);
-    console.log(`  lifecycle_audit_answers=${
-      request.discoveryProfile?.answers.filter(
-        (a) => a.sectionKey === "ftgp_lifecycle_audit"
-      ).length ?? 0
-    }`);
+    console.log("  DESIGNATED_CLIENT_IMPLEMENTER_COLLISION=false");
 
     console.log("\nFIRST_TENANT_REQUEST_TARGET=READY");
     console.log("\nPASS — FTGP FIRST REQUEST TARGET VERIFIED\n");

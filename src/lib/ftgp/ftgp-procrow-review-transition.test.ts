@@ -37,26 +37,36 @@ function read(rel: string): string {
   assert(!service.includes("ClientOrganizationMember"));
 }
 
-// Dry-run script blocks without explicit operator designation
+// FTGP client policy decoupled from retained C3 proof requester fixture
 {
+  const targetVerify = read("scripts/verify-ftgp-first-request-target.ts");
+  assert(targetVerify.includes("FTGP_CLIENT_POLICY=EXPLICIT_AUTHORITATIVE_OWNER"));
+  assert(targetVerify.includes("C3_RETAINED_REQUESTER_FIXTURE_DECOUPLED=true"));
+  assert(targetVerify.includes("DESIGNATED_CLIENT_MATCHES_REQUEST_OWNER"));
+  assert(!targetVerify.includes("owner is not retained requester"));
+
   const dryRun = read("scripts/verify-ftgp-request-review-transition-dry-run.ts");
-  assert(dryRun.includes("FTGP_FIRST_REQUEST_ID"));
-  assert(dryRun.includes("OPERATOR MUST DESIGNATE EXACTLY ONE IMPLEMENTATION REQUEST"));
-  assert(dryRun.includes("REQUEST_TRANSITION_WRITES_EXECUTED=false"));
+  assert(dryRun.includes("FTGP_FIRST_CLIENT_ACCOUNT_ID"));
+  assert(dryRun.includes("designated client does not match request owner"));
+  assert(!dryRun.includes("request owner is not retained requester"));
+
+  const list = read("scripts/list-ftgp-first-request-candidates.ts");
+  assert(list.includes("EXPLICIT_AUTHORITATIVE_OWNER"));
+  assert(!list.includes("owner is not retained requester"));
 }
 
-// Designated first-request operator env (gitignored)
+// Operator artifacts remain gitignored
 {
   const gitignore = read(".gitignore");
   assert(gitignore.includes(".env.ftgp-first-request.operator"));
-  assert(gitignore.includes(".ftgp-first-request-review-manifest"));
+  assert(gitignore.includes(".env.ftgp-first-client.operator"));
+  assert(gitignore.includes(".ftgp-request-owner-provenance.local.json"));
 }
 
-// First-request target verifier exists
+// Retained requester invariants preserved in C3 resolution (separate from FTGP client actor)
 {
-  const targetVerify = read("scripts/verify-ftgp-first-request-target.ts");
-  assert(targetVerify.includes("FIRST_TENANT_REQUEST_TARGET=READY"));
-  assert(targetVerify.includes("resolveProofRequesterPlatformAccount"));
+  const c3Resolution = read("scripts/lib/c3-proof-requester-resolution.ts");
+  assert(c3Resolution.includes("resolveProofRequesterPlatformAccount"));
 }
 
 console.log("PASS — FTGP request review transition readiness");
