@@ -45,11 +45,18 @@ function read(rel: string): string {
   assert(dryRun.includes("REQUEST_TRANSITION_WRITES_EXECUTED=false"));
 }
 
-// Candidate matrix is operator-local and gitignored
+// Designated first-request operator env (gitignored)
 {
   const gitignore = read(".gitignore");
-  assert(gitignore.includes(".ftgp-first-request-candidates.local.json"));
   assert(gitignore.includes(".env.ftgp-first-request.operator"));
+  assert(gitignore.includes(".ftgp-first-request-review-manifest"));
+}
+
+// First-request target verifier exists
+{
+  const targetVerify = read("scripts/verify-ftgp-first-request-target.ts");
+  assert(targetVerify.includes("FIRST_TENANT_REQUEST_TARGET=READY"));
+  assert(targetVerify.includes("resolveProofRequesterPlatformAccount"));
 }
 
 console.log("PASS — FTGP request review transition readiness");

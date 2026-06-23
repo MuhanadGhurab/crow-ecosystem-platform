@@ -492,6 +492,27 @@ export async function resolveProofRequester(
   };
 }
 
+/** Resolve the operator-designated retained requester PlatformAccount (read-only). */
+export async function resolveProofRequesterPlatformAccount(
+  prisma: PrismaClient
+): Promise<Pick<PlatformAccount, "id" | "supabaseUserId" | "status"> | null> {
+  const { preservedAccountId, emailNormalized } = requireProofOperatorEnv();
+  if (preservedAccountId) {
+    return prisma.platformAccount.findUnique({
+      where: { id: preservedAccountId },
+      select: { id: true, supabaseUserId: true, status: true },
+    });
+  }
+  if (emailNormalized) {
+    const accounts = await prisma.platformAccount.findMany({
+      where: { emailNormalized },
+      select: { id: true, supabaseUserId: true, status: true },
+    });
+    return accounts.length === 1 ? accounts[0]! : null;
+  }
+  return null;
+}
+
 export function printProofResolution(resolution: ProofRequesterResolution): void {
   console.log("\n=== C3.10K proof requester resolution ===\n");
   console.log(`  retentionPolicy: ${resolution.retentionPolicy ?? "unset"}`);

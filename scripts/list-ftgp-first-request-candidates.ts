@@ -12,7 +12,7 @@ import { PrismaClient } from "@prisma/client";
 import { hasMandatoryLegalAcceptanceComplete } from "../src/lib/legal/legal-acceptance.service";
 import { FTGP_PROCROW_REVIEW_FROM_STATUS } from "../src/lib/ftgp/ftgp-procrow-review-transition.constants";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
-import { requireProofOperatorEnv } from "./lib/c3-proof-requester-resolution";
+import { resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 
 const OUTPUT = ".ftgp-first-request-candidates.local.json";
@@ -55,18 +55,13 @@ async function main() {
   });
   assertHostedEnvNotLocalhost(envLoad);
 
-  const { preservedAccountId } = requireProofOperatorEnv();
   const locale = process.env.PLATFORM_OWNER_LEGAL_LOCALE?.trim() || "en-US";
-
   const prisma = new PrismaClient();
   try {
-    let requesterSupabaseUserId: string | null = null;
-    if (preservedAccountId) {
-      const requester = await prisma.platformAccount.findUnique({
-        where: { id: preservedAccountId },
-        select: { supabaseUserId: true, status: true },
-      });
-      requesterSupabaseUserId = requester?.supabaseUserId ?? null;
+    const requesterAccount = await resolveProofRequesterPlatformAccount(prisma);
+    const requesterSupabaseUserId = requesterAccount?.supabaseUserId ?? null;
+    if (!requesterSupabaseUserId) {
+      throw new Error("retained proof requester could not be resolved");
     }
 
     const requests = await prisma.implementationRequest.findMany({
@@ -95,7 +90,7 @@ async function main() {
 
       if (!req.submittedByUserId) {
         rejectionReasons.push("no authoritative owner (submittedByUserId)");
-      } else if (requesterSupabaseUserId && req.submittedByUserId !== requesterSupabaseUserId) {
+      } else if (req.submittedByUserId !== requesterSupabaseUserId) {
         rejectionReasons.push("owner is not retained requester");
       }
 
