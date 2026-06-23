@@ -49,6 +49,38 @@ export function applyLayoutModeOffset(mode: GraphLayoutMode, x: number, y: numbe
   return { x: x + o.dx, y: y + o.dy };
 }
 
+export const GRAPH_LAYER_PRESETS = [
+  { key: "ORGANIZATION", label: "Organization" },
+  { key: "OPERATIONS", label: "Operations" },
+  { key: "INFORMATION", label: "Information" },
+  { key: "AUTHORITY", label: "Authority" },
+  { key: "EXPERIENCE", label: "Experience" },
+  { key: "TRUST", label: "Trust" },
+  { key: "INTEGRATIONS", label: "Integrations" },
+  { key: "COMPLIANCE", label: "Compliance" },
+  { key: "FULL_BLUEPRINT", label: "Full blueprint" },
+] as const;
+
+export const COMPILATION_PHASES = [
+  "normalize input",
+  "resolve industry and domains",
+  "resolve domain packs",
+  "resolve departments",
+  "resolve capabilities",
+  "resolve entities",
+  "resolve personas",
+  "resolve workflows",
+  "resolve outcomes and KPIs",
+  "resolve evidence",
+  "resolve authority proposals",
+  "resolve SAREA",
+  "resolve CyberCrow",
+  "resolve integrations",
+  "resolve compliance",
+  "validate",
+  "compile draft",
+] as const;
+
 export const GRAPH_LAYOUT_MODES: readonly { key: GraphLayoutMode; label: string }[] = [
   { key: "OPERATING_MODEL", label: "Operating model" },
   { key: "PERSONA_WORKFLOW", label: "Persona & workflow" },
