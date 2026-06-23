@@ -38,6 +38,14 @@ export function pickHighestInternalCrowRole(
   return internalRoleToCrowRole(sorted[0]!);
 }
 
+/** True when a specific internal role is independently active (not implied by another role). */
+export function includesActiveInternalRole(
+  activeRoles: readonly PlatformInternalRole[],
+  role: PlatformInternalRole
+): boolean {
+  return activeRoles.includes(role);
+}
+
 export type CustomerAccessEvidence = {
   submittedRequestCount: number;
   activeOrganizationMembershipCount: number;
