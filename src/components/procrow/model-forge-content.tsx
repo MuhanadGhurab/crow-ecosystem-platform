@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PersonaCard } from "@/components/procrow/studio/persona-card";
 import { ModelDnaSummary } from "@/components/procrow/studio/model-dna-summary";
 import { ScaleDimensionProfile } from "@/components/procrow/studio/scale-radar";
@@ -46,10 +47,13 @@ import {
   type DraftWorkPersona,
   type DraftWorkflow,
 } from "@/lib/model-forge";
+import { compileEnterpriseBlueprintPreview } from "@/lib/model-forge/blueprint/blueprint-compiler";
+import { saveCompileInputToSession, saveBlueprintPreviewToSession } from "@/lib/model-forge/blueprint/blueprint-session";
 import { listIndustryArchetypes, listOrganizationalOverlays } from "@/lib/tenant-composition";
 import { routes } from "@/lib/routes";
 
 export function ModelForgeContent() {
+  const router = useRouter();
   const industries = listIndustryArchetypes();
   const specialists = listSpecialistDomains();
   const topologies = listOrganizationalTopologies();
@@ -170,6 +174,21 @@ export function ModelForgeContent() {
     2,
   );
 
+  function compileBlueprintPreview() {
+    const input = {
+      primaryIndustry,
+      secondaryIndustries,
+      specialistDomains,
+      organizationalOverlays: selectedOverlays,
+      scalePreset,
+      topology,
+    };
+    saveCompileInputToSession(input);
+    const preview = compileEnterpriseBlueprintPreview(input);
+    saveBlueprintPreviewToSession(preview);
+    router.push(routes.admin.blueprintStudio);
+  }
+
   const catalogRail = (
     <StudioPanel title="Composition" description="Catalog-driven controls.">
       <label className="mb-1 block text-xs text-white/50">Primary industry</label>
@@ -191,6 +210,13 @@ export function ModelForgeContent() {
           </label>
         ))}
       </div>
+      <button
+        type="button"
+        className="mb-3 w-full rounded-md bg-cyan-600/80 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-500"
+        onClick={compileBlueprintPreview}
+      >
+        Compile Blueprint Preview
+      </button>
       <label className="mb-1 block text-xs text-white/50">Hybrid reference</label>
       <select
         value={referenceKey}
@@ -500,6 +526,8 @@ export function ModelForgeContent() {
         <Link href={routes.admin.overview} className="text-cyan-400 hover:text-cyan-300">← Overview</Link>
         <span className="text-white/20">|</span>
         <Link href={routes.admin.tenantStudio} className="text-white/50 hover:text-cyan-300">Tenant Studio</Link>
+        <span className="text-white/20">|</span>
+        <Link href={routes.admin.blueprintStudio} className="text-white/50 hover:text-cyan-300">Blueprint Studio</Link>
         <span className="text-white/20">|</span>
         <span className="text-violet-300">Model Forge</span>
       </nav>
