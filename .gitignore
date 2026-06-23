@@ -79,6 +79,7 @@ skills-lock.json
 .ftgp-discovery-interview-plan.local.json
 .ftgp-discovery-client-answer-manifest
 .ftgp-discovery-implementer-observation-manifest
+.ftgp-client-owner-browser-proof.local.json
 
 # FTGP IMPLEMENTER grant operator artifacts (never commit)
 .ftgp-implementer-grant-manifest
