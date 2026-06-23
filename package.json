@@ -233,6 +233,7 @@
     "ftgp-certification-host-gate:test": "npx tsx src/lib/ftgp/ftgp-certification-host-gate.test.ts",
     "ftgp-certification-production:deploy": "npx tsx scripts/deploy-ftgp-certification-production.ts",
     "metadata-crow-role-classification:test": "npx tsx src/lib/auth/metadata-crow-role-classification.test.ts",
+    "tenant-composition:test": "npx tsx src/lib/tenant-composition/tenant-composition.test.ts",
     "ftgp-discovery-interview-packet:generate": "npx tsx scripts/generate-ftgp-discovery-interview-packet.ts",
     "ftgp-request-review-boundaries:verify": "node --env-file=.env.staging.runtime --env-file=.env.preview.operator --env-file=.env.platform-bootstrap.operator --env-file=.env.ftgp-implementer-grant.operator scripts/run-with-script-prisma.mjs scripts/verify-ftgp-request-review-boundaries.ts",
     "ftgp-request-review-transition:test": "npx tsx src/lib/ftgp/ftgp-procrow-review-transition.test.ts",
