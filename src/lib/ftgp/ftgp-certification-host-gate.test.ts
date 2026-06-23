@@ -49,7 +49,8 @@ function withCertificationEnv(
 }
 
 withCertificationEnv(null, () => {
-  assert.equal(evaluateFtgpCertificationHostGate(ALLOWED), "deny");
+  assert.equal(evaluateFtgpCertificationHostGate(ALLOWED), "allow");
+  assert.equal(evaluateFtgpCertificationHostGate(FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST), "deny");
 });
 
 withCertificationEnv(ALLOWED, () => {
@@ -60,12 +61,19 @@ withCertificationEnv(ALLOWED, () => {
     ),
     "allow"
   );
+  assert.equal(
+    evaluateFtgpCertificationHostGate(
+      "crow-ftgp-certification-1pki92fhl-muhanadghurabs-projects.vercel.app"
+    ),
+    "allow"
+  );
   assert.equal(evaluateFtgpCertificationHostGate(FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST), "deny");
   assert.equal(
     evaluateFtgpCertificationHostGate("crow-ftgp-certification-unknown-muhanadghurabs-projects.vercel.app"),
-    "deny"
+    "allow"
   );
   assert.equal(evaluateFtgpCertificationHostGate("host1,host2"), "deny");
+  assert.equal(evaluateFtgpCertificationHostGate("crow-ecosystem-platform.vercel.app"), "deny");
 });
 
 delete process.env[FTGP_CERTIFICATION_MODE_ENV];

@@ -7,6 +7,15 @@ export const FTGP_CERTIFICATION_SOURCE_COMMIT_ENV = "FTGP_CERTIFICATION_SOURCE_C
 
 export const FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST = "crow-ftgp-certification.vercel.app";
 
+const DENIED_CERTIFICATION_ALIAS_HOSTS = new Set([
+  FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST,
+  "crow-ftgp-certification-muhanadghurabs-projects.vercel.app",
+  "crow-ftgp-certification-muhanadghurab-muhanadghurabs-projects.vercel.app",
+]);
+
+const PROTECTED_DEPLOYMENT_HOST_PATTERN =
+  /^crow-ftgp-certification-[a-z0-9]+-muhanadghurabs-projects\.vercel\.app$/;
+
 export type FtgpCertificationHostGateDecision = "inactive" | "allow" | "deny";
 
 /** Normalize Host header: lowercase, strip default ports, reject multi-value. */
@@ -36,10 +45,17 @@ export function normalizeRequestHost(raw: string | null | undefined): string | n
 export function normalizeAllowedHost(raw: string | null | undefined): string | null {
   const normalized = normalizeRequestHost(raw ?? null);
   if (!normalized) return null;
-  if (normalized === FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST) return null;
-  if (!normalized.includes("crow-ftgp-certification-")) return null;
-  if (!normalized.endsWith(".vercel.app")) return null;
+  if (DENIED_CERTIFICATION_ALIAS_HOSTS.has(normalized)) return null;
+  if (!isProtectedCertificationDeploymentHost(normalized)) return null;
   return normalized;
+}
+
+export function isProtectedCertificationDeploymentHost(host: string): boolean {
+  const normalized = normalizeRequestHost(host);
+  if (!normalized || DENIED_CERTIFICATION_ALIAS_HOSTS.has(normalized)) {
+    return false;
+  }
+  return PROTECTED_DEPLOYMENT_HOST_PATTERN.test(normalized);
 }
 
 export function isFtgpCertificationHostGateEnabled(): boolean {
@@ -57,13 +73,21 @@ export function evaluateFtgpCertificationHostGate(
     return "inactive";
   }
 
-  const allowed = resolveFtgpCertificationAllowedHost();
   const host = normalizeRequestHost(requestHost);
-  if (!allowed || !host) {
+  if (!host) {
     return "deny";
   }
 
-  return host === allowed ? "allow" : "deny";
+  const pinned = resolveFtgpCertificationAllowedHost();
+  if (pinned && host === pinned) {
+    return "allow";
+  }
+
+  if (isProtectedCertificationDeploymentHost(host)) {
+    return "allow";
+  }
+
+  return "deny";
 }
 
 export function certificationHostDeniedResponse(): NextResponse {

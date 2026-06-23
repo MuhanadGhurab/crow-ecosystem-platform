@@ -70,16 +70,12 @@ function main() {
   addEnv("FTGP_CERTIFICATION_ALLOWED_HOST", allowedHost);
   addEnv("NEXT_PUBLIC_SITE_URL", deploymentUrl);
   console.log(`  allowedHost=${allowedHost}`);
-
-  console.log("  redeploying once to apply host/origin env...");
-  run("npx vercel deploy --prod --yes");
-
-  const finalUrl = resolveLatestCertificationDeploymentUrl() ?? deploymentUrl;
+  console.log("  host gate allows protected deployment URL pattern; pinned host documents OAuth origin");
   writeFileSync(
     join(process.cwd(), FTGP_CERTIFICATION_OPERATOR_ENV),
     [
       "# FTGP.1H.3 — private certification deployment (gitignored)",
-      `${FTGP_CERTIFICATION_BASE_URL_ENV}=${finalUrl}`,
+      `${FTGP_CERTIFICATION_BASE_URL_ENV}=${deploymentUrl}`,
       "",
     ].join("\n"),
     "utf8"

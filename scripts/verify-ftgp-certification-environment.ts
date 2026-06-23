@@ -178,7 +178,7 @@ async function main() {
     if (!deployedCommit.startsWith(EXPECTED_FEATURE_HEAD) && !localHead.startsWith(EXPECTED_FEATURE_HEAD)) {
       console.log(`    expectedPrefix=${EXPECTED_FEATURE_HEAD}`);
     }
-    if (deployedShort !== localHead) {
+    if (!deployedCommit.startsWith(localHead) && !localHead.startsWith(deployedShort)) {
       fail(`deployment commit ${deployedShort} does not match local HEAD ${localHead}`);
     }
     ok("CERTIFICATION_DEPLOYMENT_COMMIT_PROOF=PASS");
