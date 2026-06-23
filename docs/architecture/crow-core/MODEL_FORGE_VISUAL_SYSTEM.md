@@ -1,19 +1,26 @@
 # Model Forge Visual System
 
-**Status:** CURRENT — Tenant Studio + Model Forge shared studio components
+**Status:** CURRENT (MODEL.2 refinement)
 
-## Components
+## Studio components
 
-`src/components/procrow/studio/` — StudioPanel, PersonaCard, ScaleDimensionProfile, ModelDnaSummary
+| Component | Path |
+|-----------|------|
+| StudioShell | `src/components/procrow/studio/studio-shell.tsx` |
+| StudioModeSwitcher | `studio-mode-switcher.tsx` |
+| StudioGraphCanvas | `studio-graph-canvas.tsx` |
+| StudioScenarioDiff / StudioInspector | `studio-scenario-diff.tsx` |
 
 ## Visual language
 
-Deep neutral surfaces, controlled glass (`studio-surface`), cyan/violet accents, compact status chips, readable typography.
+- Deep neutral backgrounds (`#0d1117`, `#080c12`)
+- Controlled glass surfaces, cyan/violet highlights
+- Clean borders, soft shadows, strong text contrast
 
 ## Motion
 
-CSS keyframes in `globals.css` — 120–380ms transitions; `prefers-reduced-motion` disables animation. No heavy motion dependency added.
+`studio-motion.ts` — feedback 140ms, panel 200ms, layout 360ms. `prefers-reduced-motion` respected.
 
-## Accessibility
+## Workspace modes
 
-Semantic labels, keyboard-focusable persona cards, contrast-compliant chips, responsive grid layouts.
+Compose, Graph, Personas, Workflows, Entities, Scenario Compare, Validation, Export.
