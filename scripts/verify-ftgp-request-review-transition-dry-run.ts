@@ -68,9 +68,17 @@ async function main() {
   if (!requestId) {
     blocked("OPERATOR MUST DESIGNATE EXACTLY ONE IMPLEMENTATION REQUEST");
   }
-  if (process.env.FTGP_FIRST_REQUEST_TRANSITION_EXECUTE_AUTHORIZED === "true") {
+  const expectedStatus =
+    process.env.FTGP_EXPECTED_SELECTED_REQUEST_STATUS?.trim() ||
+    FTGP_PROCROW_REVIEW_FROM_STATUS;
+  if (
+    process.env.FTGP_FIRST_REQUEST_TRANSITION_EXECUTE_AUTHORIZED === "true" &&
+    expectedStatus === FTGP_PROCROW_REVIEW_FROM_STATUS
+  ) {
     blocked("execution authorization must not be enabled in operator env");
   }
+
+  const postTransitionComplete = expectedStatus === FTGP_PROCROW_REVIEW_TO_STATUS;
 
   const fingerprint = requestFingerprint(requestId);
   if (fingerprint !== EXPECTED_FINGERPRINT) {
@@ -125,8 +133,8 @@ async function main() {
     }
     console.log("  DESIGNATED_CLIENT_IMPLEMENTER_COLLISION=false");
 
-    if (request.status !== FTGP_PROCROW_REVIEW_FROM_STATUS) {
-      blocked(`request status=${request.status} (expected ${FTGP_PROCROW_REVIEW_FROM_STATUS})`);
+    if (request.status !== expectedStatus) {
+      blocked(`request status=${request.status} (expected ${expectedStatus})`);
     }
 
     const preLifecycleAuditCount =
@@ -135,6 +143,10 @@ async function main() {
           a.sectionKey === FTGP_PROCROW_REVIEW_AUDIT_SECTION &&
           a.questionKey === FTGP_PROCROW_REVIEW_AUDIT_KEY
       ).length ?? 0;
+
+    if (postTransitionComplete && preLifecycleAuditCount < 1) {
+      blocked("post-transition audit event missing");
+    }
 
     const actor = await prisma.platformAccount.findUnique({
       where: { id: actorAccountId },
@@ -170,16 +182,28 @@ async function main() {
     ok(`request fingerprint = ${EXPECTED_FINGERPRINT}`);
     ok("request owner authoritative");
     ok("designated client matches owner = true");
-    ok(`request current status = ${FTGP_PROCROW_REVIEW_FROM_STATUS}`);
-    ok("request eligible for ProCrow Review = true");
+    ok(`request current status = ${expectedStatus}`);
+    ok(
+      postTransitionComplete
+        ? "request ProCrow review transition already completed"
+        : "request eligible for ProCrow Review = true"
+    );
     ok("actor exists");
     ok("actor ACTIVE");
     ok("actor role = IMPLEMENTER");
     ok("actor permission platform.requests.manage = true");
     ok("PROCROW_REVIEW_ACTOR_ELIGIBLE=PASS");
     console.log("  PROCROW_REVIEW_ACTOR_AUTHORITY_SOURCE=DATABASE_INTERNAL_ROLE_ASSIGNMENT");
-    ok("expected request status delta = exactly 1");
-    ok("expected lifecycle audit-event delta = +1");
+    ok(
+      postTransitionComplete
+        ? "expected request status delta = 0 (already transitioned)"
+        : "expected request status delta = exactly 1"
+    );
+    ok(
+      postTransitionComplete
+        ? "expected lifecycle audit-event delta = 0"
+        : "expected lifecycle audit-event delta = +1"
+    );
     ok("expected ownership delta = 0");
     ok("expected Discovery delta = 0");
     ok("expected Blueprint delta = 0");
@@ -207,7 +231,7 @@ async function main() {
       where: { id: requestId },
       select: { status: true },
     });
-    if (postRequest?.status !== FTGP_PROCROW_REVIEW_FROM_STATUS) {
+    if (postRequest?.status !== expectedStatus) {
       blocked("selected request status changed during dry-run");
     }
 

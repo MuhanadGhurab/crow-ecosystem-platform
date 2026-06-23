@@ -60,7 +60,18 @@ function read(rel: string): string {
   const gitignore = read(".gitignore");
   assert(gitignore.includes(".env.ftgp-first-request.operator"));
   assert(gitignore.includes(".env.ftgp-first-client.operator"));
+  assert(gitignore.includes(".env.ftgp-first-request-transition.operator"));
+  assert(gitignore.includes(".ftgp-first-request-review-manifest"));
   assert(gitignore.includes(".ftgp-request-owner-provenance.local.json"));
+}
+
+// Audited execute entrypoint and audit source
+{
+  const constants = read("src/lib/ftgp/ftgp-procrow-review-transition.constants.ts");
+  assert(constants.includes('FTGP_PROCROW_REVIEW_AUDIT_SOURCE = "implementer_procrow_review"'));
+  const execute = read("scripts/ftgp-request-review-transition-execute.ts");
+  assert(execute.includes("transitionImplementationRequestToProCrowReview"));
+  assert(execute.includes("ftgp-request-review-transition-execute-gates"));
 }
 
 // Retained requester invariants preserved in C3 resolution (separate from FTGP client actor)

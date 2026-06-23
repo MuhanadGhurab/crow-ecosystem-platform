@@ -1,4 +1,4 @@
-import "server-only";
+import "@/lib/server-only-guard";
 
 import type { PlatformInternalRole } from "@prisma/client";
 import { Prisma } from "@prisma/client";

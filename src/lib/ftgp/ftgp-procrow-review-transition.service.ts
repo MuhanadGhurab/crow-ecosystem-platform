@@ -13,14 +13,16 @@ import { prisma, prismaTransaction } from "@/lib/db";
 import {
   FTGP_PROCROW_REVIEW_AUDIT_KEY,
   FTGP_PROCROW_REVIEW_AUDIT_SECTION,
+  FTGP_PROCROW_REVIEW_AUDIT_SOURCE,
   FTGP_PROCROW_REVIEW_FROM_STATUS,
   FTGP_PROCROW_REVIEW_TO_STATUS,
+  FTGP_PROCROW_REVIEW_TRANSITION_EXECUTE_REASON,
 } from "@/lib/ftgp/ftgp-procrow-review-transition.constants";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
 import { resolveSectorTemplateKey } from "@/lib/org-intelligence/resolve-sector";
 
 export const FTGP_PROCROW_REVIEW_TRANSITION_REASON =
-  "FTGP first-tenant ProCrow review transition";
+  FTGP_PROCROW_REVIEW_TRANSITION_EXECUTE_REASON;
 
 export type TransitionProCrowReviewInput = {
   requestId: string;
@@ -249,6 +251,7 @@ export async function transitionImplementationRequestToProCrowReview(
           actorPlatformAccountId: input.actorPlatformAccountId,
           fromStatus: FTGP_PROCROW_REVIEW_FROM_STATUS,
           toStatus: FTGP_PROCROW_REVIEW_TO_STATUS,
+          source: FTGP_PROCROW_REVIEW_AUDIT_SOURCE,
           reason: input.reason?.trim() || FTGP_PROCROW_REVIEW_TRANSITION_REASON,
           at: new Date().toISOString(),
         } as Prisma.InputJsonValue,
@@ -259,6 +262,7 @@ export async function transitionImplementationRequestToProCrowReview(
           actorPlatformAccountId: input.actorPlatformAccountId,
           fromStatus: FTGP_PROCROW_REVIEW_FROM_STATUS,
           toStatus: FTGP_PROCROW_REVIEW_TO_STATUS,
+          source: FTGP_PROCROW_REVIEW_AUDIT_SOURCE,
           reason: input.reason?.trim() || FTGP_PROCROW_REVIEW_TRANSITION_REASON,
           at: new Date().toISOString(),
         } as Prisma.InputJsonValue,

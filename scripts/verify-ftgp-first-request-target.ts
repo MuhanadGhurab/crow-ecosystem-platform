@@ -81,7 +81,13 @@ async function main() {
   if (purpose !== "FIRST_TENANT_GOLDEN_PATH") {
     blocked(`FTGP_FIRST_REQUEST_PURPOSE=${purpose ?? "missing"}`);
   }
-  if (process.env.FTGP_FIRST_REQUEST_TRANSITION_EXECUTE_AUTHORIZED === "true") {
+  const expectedStatus =
+    process.env.FTGP_EXPECTED_SELECTED_REQUEST_STATUS?.trim() ||
+    FTGP_PROCROW_REVIEW_FROM_STATUS;
+  if (
+    process.env.FTGP_FIRST_REQUEST_TRANSITION_EXECUTE_AUTHORIZED === "true" &&
+    expectedStatus === FTGP_PROCROW_REVIEW_FROM_STATUS
+  ) {
     blocked("execution authorization must not be enabled");
   }
 
@@ -132,11 +138,15 @@ async function main() {
     ok("request exists");
     ok(`request fingerprint = ${CANDIDATE_07_FINGERPRINT}`);
 
-    if (request.status !== FTGP_PROCROW_REVIEW_FROM_STATUS) {
-      blocked(`status=${request.status}`);
+    if (request.status !== expectedStatus) {
+      blocked(`status=${request.status} (expected ${expectedStatus})`);
     }
-    ok(`current status = ${FTGP_PROCROW_REVIEW_FROM_STATUS}`);
-    ok(`intended target status = ${FTGP_PROCROW_REVIEW_TO_STATUS}`);
+    ok(`current status = ${expectedStatus}`);
+    if (expectedStatus === FTGP_PROCROW_REVIEW_TO_STATUS) {
+      ok(`post-transition status = ${FTGP_PROCROW_REVIEW_TO_STATUS}`);
+    } else {
+      ok(`intended target status = ${FTGP_PROCROW_REVIEW_TO_STATUS}`);
+    }
 
     const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
     if (!owner) blocked("authoritative request owner missing");
@@ -165,8 +175,13 @@ async function main() {
       blocked("pricing/proposal not draft-only");
     }
 
+    const postTransition = expectedStatus === FTGP_PROCROW_REVIEW_TO_STATUS;
+    if (!postTransition && request.discoveryProfile) {
+      blocked("unexpected discovery profile before transition");
+    }
+
     ok("tenant collision = false");
-    ok("Discovery collision = false");
+    ok(postTransition ? "Discovery shell = audited transition plumbing only" : "Discovery collision = false");
     ok("Blueprint collision = false");
     ok("pricing collision = false");
 

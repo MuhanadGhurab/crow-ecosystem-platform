@@ -72,6 +72,7 @@ skills-lock.json
 .ftgp-first-request-candidates.local.json
 .env.ftgp-first-request.operator
 .env.ftgp-first-client.operator
+.env.ftgp-first-request-transition.operator
 .ftgp-first-request-review-manifest
 .ftgp-request-owner-provenance.local.json
 
