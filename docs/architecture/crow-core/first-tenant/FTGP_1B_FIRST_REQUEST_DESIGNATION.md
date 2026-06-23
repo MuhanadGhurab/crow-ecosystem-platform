@@ -3,7 +3,9 @@
 **Phase:** FTGP.1B  
 **Date:** 2026-06-23  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `BLOCKED — SELECTED REQUEST IS NO LONGER ELIGIBLE`
+**Verdict:** `SUPERSEDED — see FTGP.1C` ([FTGP_1B_FIRST_REQUEST_DESIGNATION.md](./FTGP_1B_FIRST_REQUEST_DESIGNATION.md))
+
+> FTGP.1B blocked designation due to retained-requester coupling (since corrected in FTGP.1C). Owner fingerprint `876863fe8c15c5c3` is the legitimate authoritative client actor for Candidate 07.
 
 ---
 
