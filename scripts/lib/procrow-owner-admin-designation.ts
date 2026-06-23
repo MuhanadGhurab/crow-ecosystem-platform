@@ -117,10 +117,8 @@ export async function resolveProcrowOwnerAdminDesignation(
 
   const resolution = await resolveDesignatedPlatformOwnerByEmail(operator.emailNormalized, {
     findAuthUsersByEmail: findAuthUsersByNormalizedEmail,
-    countExistingPlatformOwners: async () =>
-      prisma.platformInternalRoleAssignment.count({
-        where: { role: "PLATFORM_ADMIN", status: "ACTIVE" },
-      }),
+    // Transfer designation: an existing sole PLATFORM_ADMIN is expected; do not apply bootstrap single-owner refusal.
+    countExistingPlatformOwners: async () => 0,
   });
 
   if (!resolution.allowed || !resolution.platformAccountId) {
@@ -206,6 +204,7 @@ export async function resolveProcrowOwnerAdminDesignation(
   else if (!legalCurrent) refusal = "legal_incomplete";
   else if (candidate07Collision) refusal = "candidate_07_collision";
   else if (retainedRequesterCollision) refusal = "retained_requester_collision";
+  // IMPLEMENTER on the same account is reported but not blocking: transfer adds PLATFORM_ADMIN only.
 
   const ok = !refusal && resolution.allowed;
 

@@ -68,6 +68,13 @@ export function procrowOwnerAdminAssignmentFingerprint(assignmentId: string): st
     .slice(0, 16);
 }
 
+export function operatorEmailFingerprint(normalizedEmail: string): string {
+  return createHash("sha256")
+    .update(`procrow-owner-admin-email:${normalizedEmail}`)
+    .digest("hex")
+    .slice(0, 16);
+}
+
 export function loadProcrowOwnerAdminOperatorConfig(
   repoRoot = process.cwd()
 ): ProcrowOwnerAdminOperatorConfig {
