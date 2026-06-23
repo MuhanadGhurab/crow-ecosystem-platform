@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ProductPageHeader } from "@/components/product/product-page-header";
 import { ProductSection } from "@/components/product/product-section";
 import { ProductStatusCard } from "@/components/product/product-status-card";
+import { StudioPanel, StudioStatusChip } from "@/components/procrow/studio/studio-panel";
+import { studioMotion } from "@/components/procrow/studio/studio-motion";
 import {
   composeTenantBlueprint,
   listCapabilities,
@@ -91,11 +93,17 @@ export function TenantStudioContent() {
 
   return (
     <div className="space-y-10 pb-16">
-      <Link href={routes.admin.overview} className="text-sm text-cyan-400 hover:text-cyan-300">
-        ← Control tower overview
-      </Link>
+      <nav className="flex flex-wrap items-center gap-3 text-sm">
+        <Link href={routes.admin.overview} className="text-cyan-400 hover:text-cyan-300">
+          ← Control tower overview
+        </Link>
+        <span className="text-slate-600">|</span>
+        <Link href={routes.admin.modelForge} className="text-slate-400 hover:text-violet-300">
+          Model Forge
+        </Link>
+      </nav>
 
-      <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-50">
+      <div className={`rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-50 ${studioMotion.panelEnter}`}>
         Tenant Studio — internal composition surface. Draft recommendations only; no tenant provisioning or hosted
         mutations. PLATFORM_ADMIN only.
       </div>

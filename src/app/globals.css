@@ -1136,3 +1136,56 @@ body {
     @apply border-white/10 bg-white/[0.03] text-slate-500;
   }
 }
+
+@keyframes studioFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes studioSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes studioDraw {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-panel-enter,
+  .studio-tab-content,
+  .studio-connector,
+  .studio-warning {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.studio-surface {
+  @apply rounded-xl border border-slate-700/80 bg-slate-950/70 backdrop-blur-sm;
+}
+
+.studio-chip {
+  @apply rounded-md bg-slate-800/90 px-2 py-0.5 text-[11px] text-cyan-100 ring-1 ring-cyan-500/10;
+}
+
+.studio-chip-violet {
+  @apply rounded-md bg-violet-950/50 px-2 py-0.5 text-[11px] text-violet-100 ring-1 ring-violet-500/20;
+}
