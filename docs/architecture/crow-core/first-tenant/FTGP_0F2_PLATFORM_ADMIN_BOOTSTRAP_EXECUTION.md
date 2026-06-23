@@ -17,6 +17,8 @@ One-time audited `PLATFORM_ADMIN` bootstrap on shared Supabase `wbwnsndcxrgyqwpp
 
 IMPLEMENTER grant completed in FTGP.0G — see `FTGP_0G_IMPLEMENTER_GRANT_EXECUTION.md`.
 
+**Later owner-admin transfer:** PROCROW.ADMIN.1 moves sole `PLATFORM_ADMIN` to the project owner's personal Gmail via `.env.procrow-owner-admin.operator` — see `PROCROW_OWNER_ADMIN_TRANSFER.md`. This is distinct from the one-time FTGP.0F bootstrap executed here.
+
 ---
 
 ## 2. Execution entrypoint
