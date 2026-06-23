@@ -37,7 +37,9 @@ function main() {
   });
 
   addEnv("NEXT_PUBLIC_SITE_URL", deploymentUrl);
-  console.log("  synced NEXT_PUBLIC_SITE_URL to protected deployment origin");
+  addEnv("FTGP_CERTIFICATION_ALLOWED_HOST", new URL(deploymentUrl).host);
+  addEnv("FTGP_CERTIFICATION_MODE", "true");
+  console.log("  synced NEXT_PUBLIC_SITE_URL and FTGP_CERTIFICATION_ALLOWED_HOST");
 
   writeFileSync(
     join(process.cwd(), FTGP_CERTIFICATION_OPERATOR_ENV),

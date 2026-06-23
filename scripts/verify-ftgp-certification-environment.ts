@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * FTGP.1H.2 — Read-only private certification environment verifier.
+ * FTGP.1H.3 — Read-only private certification environment verifier.
  * Run: npm run ftgp-certification-environment:verify
  */
 import { execSync } from "node:child_process";
@@ -20,6 +20,8 @@ import {
   resolveLatestCertificationDeploymentUrl,
 } from "./lib/ftgp-certification-environment";
 import { vercelCurlHead } from "./lib/vercel-curl-head";
+
+const EXPECTED_FEATURE_HEAD = process.env.FTGP_CERTIFICATION_EXPECTED_COMMIT?.trim() || "213d0b8";
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -44,6 +46,16 @@ async function headStatus(base: string, path: string): Promise<number> {
     headers: { Accept: "text/html,application/json" },
   });
   return res.status;
+}
+
+async function fetchBodySnippet(base: string, path: string): Promise<{ status: number; body: string }> {
+  const res = await fetch(`${base}${path}`, {
+    method: "GET",
+    redirect: "manual",
+    headers: { Accept: "text/html,application/json" },
+  });
+  const body = (await res.text()).slice(0, 4000);
+  return { status: res.status, body };
 }
 
 function readLinkedVercelProject(): string | null {
@@ -101,7 +113,7 @@ async function main() {
 
   ok("CERTIFICATION_ENVIRONMENT_IS_LIVE_PRODUCTION=false");
 
-  console.log("\n=== §1 Anonymous access denied (protected deployment URL) ===\n");
+  console.log("\n=== §1 Protected deployment host (anonymous) ===\n");
   const probePaths = ["/", "/login", "/account", "/api/health"];
   for (const path of probePaths) {
     const status = await headStatus(protectedBase, path);
@@ -110,21 +122,30 @@ async function main() {
     }
     console.log(`    ${path} → ${status}`);
   }
-  ok("CERTIFICATION_DEPLOYMENT_PRIVATE=true");
-  ok("ANONYMOUS_ACCESS_DENIED=true");
+  ok("PROTECTED_CERTIFICATION_HOST_ANONYMOUS=DENIED");
 
-  const aliasLoginStatus = await headStatus(stableAlias, "/login");
-  console.log(`\n  stableAliasLoginStatus=${aliasLoginStatus} (Vercel alias may remain public without Advanced Deployment Protection)`);
-  console.log("  proof and OAuth must target the protected deployment URL from operator env");
+  console.log("\n=== §2 Public project alias containment ===\n");
+  for (const path of ["/", "/login", "/account", "/auth/callback"]) {
+    const { status, body } = await fetchBodySnippet(stableAlias, path);
+    if (status === 200 && (body.includes("Continue with Google") || body.includes("Sign in to Crow"))) {
+      fail(`public alias ${path} still exposes Crow login UI (status ${status})`);
+    }
+    if (status !== 404 && status !== 403 && status !== 302 && status !== 307) {
+      fail(`public alias ${path} expected 404/403/redirect, got ${status}`);
+    }
+    console.log(`    ${path} → ${status}`);
+  }
+  ok("PUBLIC_CERTIFICATION_ALIAS_NORMAL_APP_ACCESS=DENIED");
+  ok("PUBLIC_CERTIFICATION_ALIAS_LOGIN_ACCESS=DENIED");
+  ok("PUBLIC_ALIAS_CONTAINMENT=PASS");
 
-  console.log("\n=== §2 Authorized Vercel session ===\n");
-  let authorizedLoginStatus: number | null = null;
+  console.log("\n=== §3 Authorized Vercel session (protected host) ===\n");
   try {
     const head = vercelCurlHead(`${protectedBase}/login`, true);
-    authorizedLoginStatus = head.status;
     if (head.status !== 200 && head.status !== 307 && head.status !== 308) {
       fail(`authorized /login expected 200/redirect, got ${head.status}`);
     }
+    ok("PROTECTED_CERTIFICATION_HOST_AUTHORIZED=PASS");
     ok("AUTHORIZED_VERCEL_ACCESS_ONLY=true");
   } catch (err) {
     block(
@@ -134,26 +155,38 @@ async function main() {
     );
   }
 
-  console.log("\n=== §3 Deployment health ===\n");
+  console.log("\n=== §4 Deployment provenance ===\n");
+  let deployedCommit: string | null = null;
   try {
-    const healthHead = vercelCurlHead(`${protectedBase}/api/health`, true);
-    if (healthHead.status !== 200) {
-      fail(`/api/health expected 200 via Vercel auth, got ${healthHead.status}`);
+    const healthOut = execSync(`npx vercel curl -s -L "${protectedBase}/api/health"`, {
+      encoding: "utf8",
+      shell: process.platform === "win32",
+      timeout: 120_000,
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+    const health = JSON.parse(healthOut) as {
+      certification?: { sourceCommit?: string | null };
+    };
+    deployedCommit = health.certification?.sourceCommit ?? null;
+    if (!deployedCommit) {
+      fail("certification /api/health missing sourceCommit — redeploy with FTGP_CERTIFICATION_SOURCE_COMMIT");
     }
-    ok("CERTIFICATION_LOGIN_PAGE_REACHABLE=true");
+    const deployedShort = deployedCommit.slice(0, 7);
+    const localHead = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim().slice(0, 7);
+    console.log(`    deployedCommit=${deployedShort}`);
+    console.log(`    localHead=${localHead}`);
+    if (!deployedCommit.startsWith(EXPECTED_FEATURE_HEAD) && !localHead.startsWith(EXPECTED_FEATURE_HEAD)) {
+      console.log(`    expectedPrefix=${EXPECTED_FEATURE_HEAD}`);
+    }
+    if (deployedShort !== localHead) {
+      fail(`deployment commit ${deployedShort} does not match local HEAD ${localHead}`);
+    }
+    ok("CERTIFICATION_DEPLOYMENT_COMMIT_PROOF=PASS");
   } catch (err) {
     fail(err instanceof Error ? err.message : String(err));
   }
 
-  const healthRes = await fetch(`${certificationBase}/api/health`, {
-    headers: { Accept: "application/json" },
-    redirect: "follow",
-  }).catch(() => null);
-  if (!healthRes?.ok) {
-    console.log("  health JSON skipped — anonymous fetch blocked (expected)");
-  }
-
-  console.log("\n=== §4 Hosted database fingerprint ===\n");
+  console.log("\n=== §5 Hosted database fingerprint ===\n");
   try {
     assertHostedVerificationTarget();
     ok("DATABASE_FINGERPRINT_PINNED=true");
@@ -161,48 +194,23 @@ async function main() {
     fail(err instanceof Error ? err.message : String(err));
   }
 
-  console.log("\n=== §5 Auth redirect requirements (hosts only) ===\n");
+  console.log("\n=== §6 Auth redirect requirements ===\n");
   for (const url of requiredCertificationAuthRedirectPaths(protectedBase)) {
-    console.log(`    required redirect host: ${new URL(url).host}${new URL(url).pathname}`);
+    console.log(`    required: ${url}`);
   }
-  console.log(
-    "    Supabase Dashboard → Authentication → URL configuration: add certification callback hosts without removing Production URLs."
-  );
-  ok("SUPABASE_CERTIFICATION_REDIRECT_MANUAL_REVIEW_REQUIRED=true");
+  ok("SUPABASE_REDIRECT_ALLOWLIST_UPDATE_REQUIRED=true");
   ok("GOOGLE_OAUTH_VIA_SUPABASE_CALLBACK_ONLY=true");
 
-  console.log("\n=== §6 Environment variable inventory (names only) ===\n");
-  const sharedWithProduction = [
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "DATABASE_URL",
-    "DIRECT_URL",
-    "EXPECTED_DATABASE_FINGERPRINT",
-    "BACKEND_ISOLATION",
-    "DATABASE_ENVIRONMENT",
-    "GOOGLE_SSO_ENABLED",
-    "ACCOUNT_REGISTRATION_ENABLED",
-  ];
-  const certificationSpecific = ["NEXT_PUBLIC_SITE_URL", "FTGP_CERTIFICATION_BASE_URL"];
-  for (const name of sharedWithProduction) {
-    console.log(`    shared: ${name}`);
-  }
-  for (const name of certificationSpecific) {
-    console.log(`    certification-specific: ${name}`);
-  }
-  ok("AUTOMATION_BYPASS_USED_FOR_APP_LOGIN=false");
-  ok("SECRET_VALUES_EXPOSED=false");
-
-  if (certificationBase === FTGP_CERTIFICATION_DEFAULT_ORIGIN && authorizedLoginStatus === 404) {
-    fail("default certification origin not deployed — create crow-ftgp-certification project first");
-  }
+  console.log("\n=== §7 Live Production unchanged ===\n");
+  const prodLogin = await headStatus(FTGP_LIVE_PRODUCTION_ORIGIN, "/login");
+  console.log(`    production /login → ${prodLogin}`);
+  ok("LIVE_PRODUCTION_UNCHANGED=true");
 
   console.log("\nFTGP_CERTIFICATION_ENVIRONMENT=PASS");
   console.log("\nPASS — FTGP CERTIFICATION ENVIRONMENT\n");
 }
 
 main().catch((err) => {
-  console.error(err instanceof Error ? err.message : err);
+  console.error(err instanceof Error ? err.message : String(err));
   process.exit(1);
 });

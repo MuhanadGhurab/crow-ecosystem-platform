@@ -41,6 +41,9 @@ const CERTIFICATION_ENV_NAMES = [
   "RESEND_API_KEY",
   "EMAIL_VERIFICATION_CODE_SECRET",
   "NOTIFICATION_FROM_EMAIL",
+  "FTGP_CERTIFICATION_MODE",
+  "FTGP_CERTIFICATION_ALLOWED_HOST",
+  "FTGP_CERTIFICATION_SOURCE_COMMIT",
 ];
 
 function run(cmd: string, input?: string): number {
@@ -82,6 +85,7 @@ function main() {
     APP_ENVIRONMENT: "certification",
     AUTH_DISABLED: "false",
     USE_MOCK_DATA: "false",
+    FTGP_CERTIFICATION_MODE: "true",
   };
 
   let synced = 0;
