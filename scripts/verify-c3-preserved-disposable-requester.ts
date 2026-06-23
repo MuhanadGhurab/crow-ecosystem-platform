@@ -79,7 +79,11 @@ async function main() {
     );
     ok("provider identity collisions: 0");
     ok("TenantMemberships: 0");
-    ok("crow_role: none");
+    ok(
+      resolution.state.crowRole === "client"
+        ? "crow_role: client (metadata-only; DB authority denied)"
+        : "crow_role: none"
+    );
     ok("Not platform-admin designation");
     ok("Platform Owner: false");
     ok("client authority: false");

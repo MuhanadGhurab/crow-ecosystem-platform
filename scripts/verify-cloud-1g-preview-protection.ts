@@ -6,6 +6,7 @@
 import { execSync } from "node:child_process";
 import { PrismaClient } from "@prisma/client";
 
+import { isPrivilegedMetadataCrowRole } from "../src/lib/auth/metadata-crow-role";
 import {
   resolveAuthoritativeClientRole,
   resolveAuthoritativePlatformRole,
@@ -105,7 +106,7 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
   if (requester.counts.tenantMemberships !== 0) {
     fail(`Retained requester tenantMemberships expected 0, got ${requester.counts.tenantMemberships}`);
   }
-  if (requester.state.crowRole) {
+  if (isPrivilegedMetadataCrowRole(requester.state.crowRole)) {
     fail("Retained requester crow_role must be absent/non-authoritative");
   }
 

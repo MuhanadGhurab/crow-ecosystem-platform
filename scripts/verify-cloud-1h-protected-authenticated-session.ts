@@ -37,6 +37,7 @@ import {
   resolveProofRequester,
 } from "./lib/c3-proof-requester-resolution";
 import { runDocumentLoginSessionProof } from "./lib/c3-preview-browser-session-diagnostics";
+import { isPrivilegedMetadataCrowRole } from "../src/lib/auth/metadata-crow-role";
 import { vercelCurlHead } from "./lib/vercel-curl-head";
 
 const PREVIEW_BASE = (
@@ -331,7 +332,7 @@ async function verifyDbAuthorityCorroboration(prisma: PrismaClient): Promise<{
   if (requester.counts.tenantMemberships !== 0) {
     fail("retained requester must have zero tenant memberships");
   }
-  if (requester.state.crowRole && requester.state.crowRole !== "none") {
+  if (isPrivilegedMetadataCrowRole(requester.state.crowRole)) {
     fail("retained requester crow_role must be non-authoritative");
   }
 

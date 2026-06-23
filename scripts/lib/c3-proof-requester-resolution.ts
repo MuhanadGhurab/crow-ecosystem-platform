@@ -6,6 +6,7 @@ import { PrismaClient, type PlatformAccount } from "@prisma/client";
 import { normalizeEmail } from "../../src/lib/account/email-normalize";
 import { opaqueManifestRef } from "./identity-manifest";
 import { assessGoogleProviderLinkage } from "./c3-proof-requester-provider-linkage";
+import { isPrivilegedMetadataCrowRole, isMetadataNeutralCrowRole } from "../../src/lib/auth/metadata-crow-role";
 
 export type ProofAccountRetention = "delete_after_proof" | "retain_after_proof";
 
@@ -416,7 +417,7 @@ export async function resolveProofRequester(
     };
   }
 
-  if (crowRole === "client" || crowRole === "admin" || crowRole === "platform_admin") {
+  if (isPrivilegedMetadataCrowRole(crowRole)) {
     return {
       classification: "ACTIVE_PRIVILEGED_IDENTITY",
       retentionLabel: null,
@@ -450,7 +451,7 @@ export async function resolveProofRequester(
     legalAcceptances === 3 &&
     !account.emailVerifiedAt &&
     phoneChallenges === 0 &&
-    (!crowRole || crowRole === "none");
+    isMetadataNeutralCrowRole(crowRole);
 
   const isActiveOrdinary =
     account.status === "ACTIVE" &&
@@ -458,7 +459,7 @@ export async function resolveProofRequester(
     legalAcceptances === 3 &&
     Boolean(account.emailVerifiedAt) &&
     phoneChallenges === 0 &&
-    (!crowRole || crowRole === "none");
+    isMetadataNeutralCrowRole(crowRole);
 
   let classification: ProofRequesterClassification;
   if (isPendingOrdinary) classification = "CONTROLLED_PENDING_REQUESTER";
