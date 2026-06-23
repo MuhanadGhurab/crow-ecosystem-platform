@@ -7,11 +7,19 @@ export const FTGP_CLIENT_OWNER_BROWSER_PROOF_ARTIFACT =
 
 export const FTGP_OWNER_PROOF_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
+export type FtgpOwnerProofEnvironment =
+  | "PRIVATE_VERCEL_CERTIFICATION"
+  | "PROTECTED_PREVIEW";
+
 export type FtgpClientOwnerBrowserProofArtifact = {
   requestFingerprint: string;
   ownerFingerprint: string;
   profileFingerprint: string;
+  ownerProofEnvironment: FtgpOwnerProofEnvironment;
+  deploymentPrivate: boolean;
+  /** @deprecated use deploymentPrivate — retained for artifact compatibility */
   previewProtected: boolean;
+  legalGateVerified: boolean;
   normalGoogleAuthenticationCompleted: boolean;
   resolvedPlatformAccountMatchesOwner: boolean;
   postAuthLanding: string;
@@ -34,6 +42,7 @@ export function computeProofArtifactIntegrity(
     requestFingerprint: fields.requestFingerprint,
     ownerFingerprint: fields.ownerFingerprint,
     profileFingerprint: fields.profileFingerprint,
+    ownerProofEnvironment: fields.ownerProofEnvironment,
     proofTimestamp: fields.proofTimestamp,
     resolvedPlatformAccountMatchesOwner: fields.resolvedPlatformAccountMatchesOwner,
   });

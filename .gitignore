@@ -84,6 +84,8 @@ skills-lock.json
 # FTGP IMPLEMENTER grant operator artifacts (never commit)
 .ftgp-implementer-grant-manifest
 .env.ftgp-implementer-grant.operator
+.env.ftgp-certification.operator
+.env.ftgp-certification.vercel.pull
 
 # FTGP Platform Admin bootstrap operator artifacts (never commit)
 .ftgp-platform-admin-candidates.local.json

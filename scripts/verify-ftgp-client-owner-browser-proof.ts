@@ -24,7 +24,10 @@ import {
   validateProofArtifactFreshness,
   validateProofArtifactIntegrity,
 } from "./lib/ftgp-client-owner-browser-proof-artifact";
-import { discoveryProfileFingerprint } from "./lib/ftgp-discovery-fingerprints";
+import {
+  FTGP_CERTIFICATION_CLASSIFICATION,
+  isFtgpCertificationMode,
+} from "./lib/ftgp-certification-environment";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 
 function ok(msg: string) {
@@ -47,6 +50,7 @@ async function main() {
   loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
     supplementalEnvFiles: [
+      ".env.ftgp-certification.operator",
       ".env.preview.operator",
       ".env.ftgp-first-request.operator",
       ".env.ftgp-first-client.operator",
@@ -75,7 +79,20 @@ async function main() {
   if (artifact.ownerFingerprint !== CANDIDATE_07_OWNER_FINGERPRINT) {
     fail("artifact owner fingerprint mismatch");
   }
-  if (!artifact.previewProtected) fail("preview not protected");
+
+  const certificationMode = isFtgpCertificationMode();
+  if (certificationMode) {
+    if (artifact.ownerProofEnvironment !== "PRIVATE_VERCEL_CERTIFICATION") {
+      fail("artifact must record PRIVATE_VERCEL_CERTIFICATION environment");
+    }
+    if (!artifact.deploymentPrivate) fail("certification deployment must be private");
+  } else if (artifact.ownerProofEnvironment === "PRIVATE_VERCEL_CERTIFICATION") {
+    fail("FTGP_CERTIFICATION_BASE_URL required when artifact records certification environment");
+  }
+
+  if (!artifact.previewProtected && !artifact.deploymentPrivate) {
+    fail("deployment not protected");
+  }
   if (!artifact.normalGoogleAuthenticationCompleted) fail("google auth not completed");
   if (!artifact.resolvedPlatformAccountMatchesOwner) fail("session owner mismatch");
   if (artifact.clientAnswerSaveExecuted) fail("client answer save executed");
@@ -123,6 +140,11 @@ async function main() {
     ok("OWNER_BROWSER_PROOF_ACCOUNT_MATCH=true");
     ok("OWNER_BROWSER_PROOF_INTERNAL_ACTOR=false");
     ok("OWNER_BROWSER_PROOF_FRESH=true");
+    if (certificationMode) {
+      ok(`OWNER_PROOF_ENVIRONMENT=${FTGP_CERTIFICATION_CLASSIFICATION}`);
+      ok("OWNER_PROOF_USED_NORMAL_GOOGLE_LOGIN=true");
+      ok("OWNER_PROOF_LEGAL_GATE_VERIFIED=true");
+    }
 
     if (CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE !== true) {
       fail("owner proof gate disabled");

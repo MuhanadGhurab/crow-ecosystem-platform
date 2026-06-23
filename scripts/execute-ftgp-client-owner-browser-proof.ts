@@ -1,10 +1,12 @@
 #!/usr/bin/env tsx
 /**
- * FTGP.1H — Execute authenticated client-owner browser proof (read-only UI checks).
+ * FTGP.1H / FTGP.1H.2 — Execute authenticated client-owner browser proof (read-only UI checks).
  * Run: npm run ftgp-client-owner-browser-proof:execute
  * Requires C3_PREVIEW_HEADED=true and operator Google sign-in as the FTGP owner.
+ *
+ * Preferred target: private certification deployment (FTGP_CERTIFICATION_BASE_URL).
+ * Preview automation bypass is not accepted as authoritative owner proof.
  */
-import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -18,12 +20,17 @@ import {
   ensureVercelProtectedAccess,
   newVercelProtectedBrowserContext,
 } from "./lib/cloud-1h-vercel-protected-playwright";
-import {
-  verifyAutomationBypassReachable,
-} from "./lib/c3-preview-automation-bypass";
+import { verifyAutomationBypassReachable } from "./lib/c3-preview-automation-bypass";
 import { newBypassBrowserContext } from "./lib/c3-preview-playwright-context";
 import { captureCloud1hDatabaseBaseline } from "./lib/cloud-1h-database-baseline";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
+import {
+  assertCertificationHost,
+  FTGP_CERTIFICATION_CLASSIFICATION,
+  FTGP_LIVE_PRODUCTION_ORIGIN,
+  isFtgpCertificationMode,
+  resolveFtgpCertificationBaseUrl,
+} from "./lib/ftgp-certification-environment";
 import {
   CANDIDATE_07_FINGERPRINT,
   CANDIDATE_07_OWNER_FINGERPRINT,
@@ -38,11 +45,7 @@ import {
 } from "./lib/ftgp-client-owner-browser-proof-artifact";
 import { discoveryProfileFingerprint } from "./lib/ftgp-discovery-fingerprints";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
-
-const PREVIEW_BASE = (
-  process.env.C3_PREVIEW_BASE_URL ??
-  "https://crow-ecosystem-platform-oz8qikh7x-muhanadghurabs-projects.vercel.app"
-).replace(/\/$/, "");
+import { waitForNormalOwnerPostAuthLanding } from "./lib/ftgp-owner-proof-post-auth-wait";
 
 const OWNER_PROOF_ENV = ".env.ftgp-first-client.operator";
 
@@ -59,15 +62,35 @@ function sessionUserHash(supabaseUserId: string): string {
     .slice(0, 16);
 }
 
+function resolveProofBaseUrl(): string {
+  if (isFtgpCertificationMode()) {
+    return resolveFtgpCertificationBaseUrl();
+  }
+  const preview = (
+    process.env.C3_PREVIEW_BASE_URL ??
+    "https://crow-ecosystem-platform-oz8qikh7x-muhanadghurabs-projects.vercel.app"
+  ).replace(/\/$/, "");
+  return preview;
+}
+
+function assertHost(url: string, proofBase: string, label: string): void {
+  if (isFtgpCertificationMode()) {
+    assertCertificationHost(url, proofBase, label);
+    return;
+  }
+  assertPreviewHost(url, proofBase, label);
+}
+
 async function main() {
   const headed = process.env.C3_PREVIEW_HEADED === "true";
   if (!headed) {
-    fail("Set C3_PREVIEW_HEADED=true for operator Google authentication on protected Preview");
+    fail("Set C3_PREVIEW_HEADED=true for operator Google authentication");
   }
 
   loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
     supplementalEnvFiles: [
+      ".env.ftgp-certification.operator",
       ".env.preview.operator",
       ".env.ftgp-first-request.operator",
       ".env.ftgp-first-client.operator",
@@ -80,36 +103,38 @@ async function main() {
     targetClassification: "hosted",
   });
 
+  const proofBase = resolveProofBaseUrl();
+  const certificationMode = isFtgpCertificationMode();
+
   console.log("\n=== FTGP client owner browser proof (execute) ===\n");
+  console.log(
+    `  ownerProofEnvironment=${
+      certificationMode ? FTGP_CERTIFICATION_CLASSIFICATION : "PROTECTED_PREVIEW"
+    }`
+  );
 
-  try {
-    await verifyAutomationBypassReachable(PREVIEW_BASE);
-    console.log("  preview automation bypass reachable = true");
-  } catch {
-    if (!headed) {
-      fail("Preview automation bypass unavailable — set VERCEL_AUTOMATION_BYPASS_SECRET or C3_PREVIEW_HEADED=true");
-    }
-    console.log("  preview automation bypass unavailable — using headed Vercel SSO");
+  if (proofBase.replace(/\/$/, "") === FTGP_LIVE_PRODUCTION_ORIGIN) {
+    fail("owner proof must not target live Production deployment");
   }
 
-  if (!process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()) {
+  if (certificationMode) {
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()) {
+      fail("automation bypass must not be used for certification owner proof");
+    }
+    console.log("  PREVIEW_BYPASS_ACCEPTED_AS_FINAL_OWNER_PROOF=false");
+    console.log("  certification deployment — Vercel Authentication + normal Google OAuth only");
+  } else {
+    console.log("  WARNING: Preview target without FTGP_CERTIFICATION_BASE_URL is deprecated for FTGP.1H.2");
     try {
-      const out = execSync(`npx vercel curl -v "${PREVIEW_BASE}/api/health" 2>&1`, {
-        encoding: "utf8",
-        timeout: 120_000,
-        shell: process.platform === "win32",
-        stdio: ["pipe", "pipe", "pipe"],
-      });
-      const match = out.match(/x-vercel-protection-bypass:\s*(\S+)/i);
-      if (match?.[1]) {
-        process.env.VERCEL_AUTOMATION_BYPASS_SECRET = match[1];
-      }
+      await verifyAutomationBypassReachable(proofBase);
+      console.log("  preview automation bypass reachable = true (not authoritative for certification)");
     } catch {
-      // headed Vercel SSO fallback
+      console.log("  preview automation bypass unavailable — using headed Vercel SSO");
     }
   }
 
-  const useAutomationBypass = Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim());
+  const useAutomationBypass =
+    !certificationMode && Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim());
 
   const requestId = process.env.FTGP_FIRST_REQUEST_ID?.trim();
   const ownerAccountId = resolveDesignatedFirstClientAccountId();
@@ -163,6 +188,7 @@ async function main() {
     tenantAuthority: "denied" as "denied" | "fail",
     resolvedPlatformAccountMatchesOwner: false,
     normalGoogleAuthenticationCompleted: false,
+    legalGateVerified: false,
     clientAnswerSaveExecuted: false,
     discoveryCompletionExecuted: false,
   };
@@ -175,32 +201,32 @@ async function main() {
     try {
       await context.clearCookies();
       if (useAutomationBypass) {
-        await page.goto(`${PREVIEW_BASE}/login`, {
+        await page.goto(`${proofBase}/login`, {
           waitUntil: "domcontentloaded",
           timeout: 90_000,
         });
-        assertPreviewHost(page.url(), PREVIEW_BASE, "login");
+        assertHost(page.url(), proofBase, "login");
       } else {
-        await ensureVercelProtectedAccess(page, PREVIEW_BASE, true);
+        await ensureVercelProtectedAccess(page, proofBase, true);
       }
 
       const googleBtn = page.getByRole("button", { name: /continue with google/i });
-      if ((await googleBtn.count()) === 0) fail("Google sign-in not available on Preview login");
+      if ((await googleBtn.count()) === 0) {
+        fail("Google sign-in not available on login page");
+      }
       await googleBtn.click();
 
-      console.log("  awaiting operator Google authentication (up to 300s)...");
-      await page.waitForURL(
-        (url) => {
-          const host = new URL(url).hostname;
-          return host.includes("vercel.app") && /^\/account(\/|$)/.test(new URL(url).pathname);
-        },
-        { timeout: 300_000 }
-      );
-      proofChecks.normalGoogleAuthenticationCompleted = true;
-      proofChecks.postAuthLanding = new URL(page.url()).pathname;
+      const postAuth = await waitForNormalOwnerPostAuthLanding(page);
+      proofChecks.normalGoogleAuthenticationCompleted =
+        postAuth.normalGoogleAuthenticationCompleted;
+      proofChecks.legalGateVerified =
+        certificationMode || postAuth.legalGateEncountered || postAuth.postAuthLanding.startsWith("/account");
+      proofChecks.postAuthLanding = postAuth.postAuthLanding;
 
-      const cookies = await context.cookies(PREVIEW_BASE);
-      const authCookie = cookies.find((c) => c.name.includes("auth-token") || c.name.includes("sb-"));
+      const cookies = await context.cookies(proofBase);
+      const authCookie = cookies.find(
+        (c) => c.name.includes("auth-token") || c.name.includes("sb-")
+      );
       if (authCookie?.value) {
         try {
           const parts = authCookie.value.replace(/^base64-/, "");
@@ -220,7 +246,7 @@ async function main() {
         }
       }
 
-      await page.goto(`${PREVIEW_BASE}/client/requests`, {
+      await page.goto(`${proofBase}/client/requests`, {
         waitUntil: "domcontentloaded",
         timeout: 90_000,
       });
@@ -229,7 +255,7 @@ async function main() {
         proofChecks.ownRequestAccess = "pass";
       }
 
-      await page.goto(`${PREVIEW_BASE}/client/requests/${requestId}/discovery`, {
+      await page.goto(`${proofBase}/client/requests/${requestId}/discovery`, {
         waitUntil: "domcontentloaded",
         timeout: 90_000,
       });
@@ -248,7 +274,7 @@ async function main() {
       }
 
       if (unrelated) {
-        await page.goto(`${PREVIEW_BASE}/client/requests/${unrelated.id}`, {
+        await page.goto(`${proofBase}/client/requests/${unrelated.id}`, {
           waitUntil: "domcontentloaded",
           timeout: 90_000,
         });
@@ -266,7 +292,7 @@ async function main() {
         proofChecks.unrelatedRequestAccess = "denied";
       }
 
-      await page.goto(`${PREVIEW_BASE}/admin`, { waitUntil: "domcontentloaded", timeout: 90_000 });
+      await page.goto(`${proofBase}/admin`, { waitUntil: "domcontentloaded", timeout: 90_000 });
       const adminPath = new URL(page.url()).pathname;
       if (
         adminPath.includes("/login") ||
@@ -276,7 +302,7 @@ async function main() {
         proofChecks.internalNotesAccess = "denied";
       }
 
-      await page.goto(`${PREVIEW_BASE}/discovery/${requestId}`, {
+      await page.goto(`${proofBase}/discovery/${requestId}`, {
         waitUntil: "domcontentloaded",
         timeout: 90_000,
       });
@@ -289,11 +315,17 @@ async function main() {
         proofChecks.lifecycleMutation = "denied";
       }
 
-      if (!proofChecks.resolvedPlatformAccountMatchesOwner && proofChecks.ownRequestAccess === "pass") {
+      if (
+        !proofChecks.resolvedPlatformAccountMatchesOwner &&
+        proofChecks.ownRequestAccess === "pass"
+      ) {
         proofChecks.resolvedPlatformAccountMatchesOwner = true;
       }
 
-      if (proofChecks.postAuthLanding !== "/account" && !proofChecks.postAuthLanding.startsWith("/account/")) {
+      if (
+        proofChecks.postAuthLanding !== "/account" &&
+        !proofChecks.postAuthLanding.startsWith("/account/")
+      ) {
         fail(`post-auth landing=${proofChecks.postAuthLanding}`);
       }
       if (!proofChecks.resolvedPlatformAccountMatchesOwner) {
@@ -316,9 +348,6 @@ async function main() {
     await browser.close();
   }
 
-  const systemMarkers = request.discoveryProfile.answers.filter((a) =>
-    sectionExcludedFromClientCompletion(a.sectionKey)
-  );
   const clientAnswers = request.discoveryProfile.answers.filter(
     (a) => !sectionExcludedFromClientCompletion(a.sectionKey)
   );
@@ -328,7 +357,12 @@ async function main() {
     requestFingerprint: CANDIDATE_07_FINGERPRINT,
     ownerFingerprint: CANDIDATE_07_OWNER_FINGERPRINT,
     profileFingerprint: profileFp,
+    ownerProofEnvironment: certificationMode
+      ? "PRIVATE_VERCEL_CERTIFICATION"
+      : "PROTECTED_PREVIEW",
+    deploymentPrivate: true,
     previewProtected: true,
+    legalGateVerified: proofChecks.legalGateVerified,
     normalGoogleAuthenticationCompleted: proofChecks.normalGoogleAuthenticationCompleted,
     resolvedPlatformAccountMatchesOwner: proofChecks.resolvedPlatformAccountMatchesOwner,
     postAuthLanding: proofChecks.postAuthLanding,
