@@ -1,9 +1,9 @@
 # FTGP 1H.2 — Private Vercel Certification Environment
 
-**Phase:** FTGP.1H.2  
+**Phase:** FTGP.1H.2 (superseded for access model by FTGP.1H.3)  
 **Date:** 2026-06-23  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `READY WITH GAPS — PRIVATE CERTIFICATION ENVIRONMENT DEPLOYED; SPECIFIED OAUTH OR LEGAL PROOF REMAINS`
+**Verdict:** `SUPERSEDED BY FTGP.1H.3 — see FTGP_1H_3_CERTIFICATION_DEPLOYMENT_HARDENING.md`
 
 ---
 
@@ -39,7 +39,7 @@ LIVE_PRODUCTION_REPLACEMENT_REQUIRED=false
 
 Vercel SSO protection applies to **production deployment URLs** (`crow-ftgp-certification-<hash>-muhanadghurabs-projects.vercel.app`). Anonymous requests receive `302` to Vercel SSO.
 
-The stable alias `crow-ftgp-certification.vercel.app` remains world-reachable on the current Vercel plan (same pattern as `crow-ecosystem-platform.vercel.app`). Advanced Deployment Protection is not enabled on the team, so password protection is unavailable.
+The stable alias `crow-ftgp-certification.vercel.app` remains world-reachable on the current Vercel plan. **FTGP.1H.3** added a fail-closed certification host gate so the alias returns `404` before Crow login renders; only SSO-protected deployment URLs serve the application.
 
 **Authoritative proof target:** the SSO-protected deployment URL recorded in gitignored `.env.ftgp-certification.operator` as `FTGP_CERTIFICATION_BASE_URL`. Refresh after each production deploy:
 

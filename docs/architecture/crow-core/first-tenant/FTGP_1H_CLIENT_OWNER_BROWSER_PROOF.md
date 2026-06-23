@@ -3,9 +3,9 @@
 **Phase:** FTGP.1H  
 **Date:** 2026-06-23  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `BLOCKED — LEGITIMATE CLIENT OWNER SESSION UNAVAILABLE` (see FTGP.1H.2 for certification environment)
+**Verdict:** `BLOCKED — LEGITIMATE CLIENT OWNER SESSION UNAVAILABLE` (certification environment hardened in FTGP.1H.3)
 
-> **FTGP.1H.2 update:** Preview automation bypass is no longer the authoritative proof target. Use the private certification deployment documented in `FTGP_1H_2_PRIVATE_VERCEL_CERTIFICATION_ENVIRONMENT.md`.
+> **FTGP.1H.3 update:** Public alias containment and deployment provenance are documented in `FTGP_1H_3_CERTIFICATION_DEPLOYMENT_HARDENING.md`. Supabase redirect URLs for the current protected host must be added before owner proof execute.
 
 ---
 
