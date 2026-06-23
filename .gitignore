@@ -87,7 +87,10 @@ skills-lock.json
 .env.ftgp-certification.operator
 .env.ftgp-certification.vercel.pull
 
-# FTGP Platform Admin bootstrap operator artifacts (never commit)
+# PROCROW owner-admin transfer operator artifacts (never commit)
+.env.procrow-owner-admin.operator
+.procrow-owner-admin-designation.local.json
+
 .ftgp-platform-admin-candidates.local.json
 .ftgp-platform-admin-bootstrap-manifest
 .env.platform-bootstrap.operator
