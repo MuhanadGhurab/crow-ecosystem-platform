@@ -3,9 +3,9 @@
 **Phase:** CLOUD.1H / FTGP.0F.4 (post-execute)  
 **Date:** 2026-06-22  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `PASSED — FIRST AUTHORITATIVE PLATFORM ADMIN BOOTSTRAPPED AND VERIFIED`
+**Verdict:** `PASSED — FIRST AUTHORITATIVE IMPLEMENTER GRANTED AND VERIFIED`
 
-See `FTGP_0F2_PLATFORM_ADMIN_BOOTSTRAP_EXECUTION.md` for execution record.
+See `FTGP_0G_IMPLEMENTER_GRANT_EXECUTION.md` for IMPLEMENTER grant record.
 
 ---
 
@@ -41,8 +41,8 @@ Protected deployment: `dpl_28xNJNkpdHPX7qyUVZXZqKupQEq2`.
 | `platform_accounts` | 11 |
 | `client_organization_members` | 0 |
 | `platform_provider_identities` | 4 |
-| Active internal role assignments | 1 |
-| Internal-role grant audit events | 1 |
+| Active internal role assignments | 2 |
+| Internal-role grant audit events | 2 |
 
 No grant audit event created. Aggregate counts unchanged pre/post.
 

@@ -13,7 +13,9 @@ One-time audited `PLATFORM_ADMIN` bootstrap on shared Supabase `wbwnsndcxrgyqwpp
 
 **Authorized:** preflight, single grant, audit event, post-execution verification, documentation, feature-branch commits.
 
-**Not authorized:** IMPLEMENTER grant, second Platform Admin, requester/candidate mutation, customer/tenant authority, Auth metadata changes, migrations, Production promotion, merge to `main`.
+**Not authorized:** second Platform Admin, additional internal roles beyond documented FTGP path, customer/tenant authority, Auth metadata changes, migrations, Production promotion, merge to `main`.
+
+IMPLEMENTER grant completed in FTGP.0G — see `FTGP_0G_IMPLEMENTER_GRANT_EXECUTION.md`.
 
 ---
 
