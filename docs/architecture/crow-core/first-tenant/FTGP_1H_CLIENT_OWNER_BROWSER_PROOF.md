@@ -3,7 +3,9 @@
 **Phase:** FTGP.1H  
 **Date:** 2026-06-23  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `BLOCKED — LEGITIMATE CLIENT OWNER SESSION UNAVAILABLE` (operator Google sign-in required during execute)
+**Verdict:** `BLOCKED — LEGITIMATE CLIENT OWNER SESSION UNAVAILABLE` (see FTGP.1H.2 for certification environment)
+
+> **FTGP.1H.2 update:** Preview automation bypass is no longer the authoritative proof target. Use the private certification deployment documented in `FTGP_1H_2_PRIVATE_VERCEL_CERTIFICATION_ENVIRONMENT.md`.
 
 ---
 
@@ -27,13 +29,16 @@ Authenticated browser proof for Candidate 07 owner fingerprint `876863fe8c15c5c3
 
 ## 3. Authentication method
 
-Protected Preview via Vercel Deployment Protection (automation bypass for Playwright when `VERCEL_AUTOMATION_BYPASS_SECRET` resolves, else headed Vercel SSO). Crow session via **Continue with Google** on `/login` — owner account uses Google provider (`authProvider=google`).
+Protected certification deployment via Vercel Authentication on the SSO-protected production deployment URL (`FTGP_CERTIFICATION_BASE_URL` in `.env.ftgp-certification.operator`). Crow session via **Continue with Google** on `/login` — owner account uses Google provider (`authProvider=google`).
+
+Preview automation bypass is **not** accepted as final owner proof (FTGP.1H.2).
 
 ```text
 CANDIDATE_07_OWNER_AUTHENTICATED_CLIENT_PROOF=UNAVAILABLE
+OWNER_PROOF_ENVIRONMENT=PRIVATE_VERCEL_CERTIFICATION
 ```
 
-Execute script opened Google OAuth but operator completion is required within the headed browser window:
+Execute against certification (operator completes Vercel SSO, Google OAuth, and legal gate when required):
 
 ```bash
 C3_PREVIEW_HEADED=true npm run ftgp-client-owner-browser-proof:execute
