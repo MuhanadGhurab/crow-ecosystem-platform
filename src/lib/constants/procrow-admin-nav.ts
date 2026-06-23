@@ -66,6 +66,11 @@ export const PROCROW_ADMIN_NAV_GROUPS: ProcrowAdminNavGroup[] = [
         label: "Tenant Studio",
         permission: Permission["platform.admin.view"],
       },
+      {
+        href: routes.admin.modelForge,
+        label: "Model Forge",
+        permission: Permission["platform.admin.view"],
+      },
     ],
   },
 ];
