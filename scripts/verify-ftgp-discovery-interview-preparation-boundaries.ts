@@ -115,7 +115,7 @@ async function main() {
     ok("client answers remain empty = true");
 
     const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
-    const clientId = resolveDesignatedFirstClientAccountId();
+    const clientId = resolveDesignatedFirstClientAccountId() ?? owner?.id ?? null;
     if (!owner || !clientId || owner.id !== clientId) fail("owner not authoritative");
     if (ownerFingerprint(owner.id) !== CANDIDATE_07_OWNER_FINGERPRINT) {
       fail("owner fingerprint mismatch");

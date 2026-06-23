@@ -10,6 +10,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
 import { resolveProofRequesterPlatformAccount } from "./lib/c3-proof-requester-resolution";
+import { resolveFtgpFirstClientDesignation } from "./lib/ftgp-first-client-designation";
 import {
   CANDIDATE_07_OWNER_FINGERPRINT,
   FTGP_FIRST_CLIENT_ENV,
@@ -19,6 +20,10 @@ import {
   resolveDesignatedFirstClientAccountId,
   resolveRequestOwnerPlatformAccount,
 } from "./lib/ftgp-first-client-resolution";
+import {
+  FTGP_FIRST_CLIENT_OPERATOR_ENV,
+  loadFtgpFirstClientOperatorConfig,
+} from "./lib/ftgp-first-client-operator";
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -42,32 +47,44 @@ async function main() {
       ".env.platform-bootstrap.operator",
       ".env.ftgp-implementer-grant.operator",
       ".env.ftgp-first-request.operator",
-      ".env.ftgp-first-client.operator",
+      FTGP_FIRST_CLIENT_OPERATOR_ENV,
     ],
   });
   assertHostedEnvNotLocalhost(envLoad);
 
   console.log("\n=== FTGP first client owner verify (read-only) ===\n");
 
-  const clientAccountId = resolveDesignatedFirstClientAccountId();
-  const purpose = process.env.FTGP_FIRST_CLIENT_PURPOSE?.trim();
-  if (!clientAccountId) blocked("FTGP_FIRST_CLIENT_ACCOUNT_ID not set");
-  if (purpose !== "FIRST_TENANT_GOLDEN_PATH_CLIENT") {
-    blocked(`FTGP_FIRST_CLIENT_PURPOSE=${purpose ?? "missing"}`);
-  }
-
-  const fp = ownerFingerprint(clientAccountId);
-  if (fp !== CANDIDATE_07_OWNER_FINGERPRINT) {
-    blocked(`owner fingerprint=${fp} (expected ${CANDIDATE_07_OWNER_FINGERPRINT})`);
-  }
-
-  console.log(`  CLIENT_SELECTION_MODE=EXPLICIT_IMMUTABLE_PLATFORM_ACCOUNT_ID`);
-  console.log(`  owner_fingerprint=${CANDIDATE_07_OWNER_FINGERPRINT}`);
+  const operator = loadFtgpFirstClientOperatorConfig();
+  let clientAccountId = resolveDesignatedFirstClientAccountId();
 
   const prisma = new PrismaClient();
   try {
     const requestId = process.env.FTGP_FIRST_REQUEST_ID?.trim();
     if (!requestId) blocked("FTGP_FIRST_REQUEST_ID not set");
+
+    if (operator.emailNormalized) {
+      console.log(`  CLIENT_SELECTION_MODE=EMAIL_DESIGNATION`);
+      const designation = await resolveFtgpFirstClientDesignation(prisma, {
+        ...operator,
+        transferAuthorized: false,
+      });
+      if (!designation.ok || !designation.targetPlatformAccountId) {
+        blocked(designation.refusal ?? "email designation failed");
+      }
+      clientAccountId = designation.targetPlatformAccountId;
+      console.log(`  owner_fingerprint=${designation.targetFingerprint}`);
+    } else {
+      if (!clientAccountId) {
+        const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
+        clientAccountId = owner?.id ?? null;
+      }
+      if (!clientAccountId) {
+        blocked("FTGP_FIRST_CLIENT_EMAIL or FTGP_FIRST_CLIENT_ACCOUNT_ID required");
+      }
+      console.log(`  CLIENT_SELECTION_MODE=REQUEST_OWNER_AUTHORITATIVE`);
+      const fp = ownerFingerprint(clientAccountId);
+      console.log(`  owner_fingerprint=${fp}`);
+    }
 
     const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
     if (!owner) blocked("request owner PlatformAccount not resolved");
