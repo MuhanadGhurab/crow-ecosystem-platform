@@ -47,7 +47,11 @@ async function main() {
 
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.migration.recovery", ".env.platform-bootstrap.operator"],
+    supplementalEnvFiles: [
+      ".env.migration.recovery",
+      ".env.platform-bootstrap.operator",
+      ".env.ftgp-implementer-grant.operator",
+    ],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({

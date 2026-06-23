@@ -21,6 +21,7 @@ import {
 } from "./lib/c3-proof-requester-resolution";
 import { vercelCurlHead } from "./lib/vercel-curl-head";
 import { CLOUD_1H_BASELINE_EXPECTED } from "./lib/cloud-1h-database-baseline";
+import { isPostImplementerGrantState } from "./lib/ftgp-implementer-grant-manifest";
 
 const PREVIEW_BASE = (
   process.env.C3_PREVIEW_BASE_URL ??
@@ -149,6 +150,21 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
   });
 
   let candidateOk = false;
+  const implementerTargetId = process.env.FTGP_IMPLEMENTER_TARGET_ACCOUNT_ID?.trim() || null;
+
+  if (implementerTargetId && isPostImplementerGrantState()) {
+    const implementerRoles = await prisma.platformInternalRoleAssignment.count({
+      where: {
+        platformAccountId: implementerTargetId,
+        role: "IMPLEMENTER",
+        status: "ACTIVE",
+      },
+    });
+    if (implementerRoles === 1) {
+      candidateOk = true;
+      ok("CANDIDATE_IMPLEMENTER_AUTHORITY=VERIFIED_POST_GRANT");
+    }
+  } else {
   for (const account of accounts) {
     if (requesterAccountId && account.id === requesterAccountId) continue;
     const [requests, clientMembers, tenantMemberships, internalRoles, legalCount] =
@@ -180,8 +196,11 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
       break;
     }
   }
-  if (!candidateOk) fail("Candidate operator pre-grant census not found");
-  ok("CANDIDATE_PRE_GRANT_INTERNAL_AUTHORITY=DENIED");
+  }
+  if (!candidateOk) fail("Candidate operator census not found");
+  if (!implementerTargetId || !isPostImplementerGrantState()) {
+    ok("CANDIDATE_PRE_GRANT_INTERNAL_AUTHORITY=DENIED");
+  }
 
   const probeUserId = requesterAccountId
     ? (
@@ -212,7 +231,11 @@ async function verifyDbAuthorityBoundaries(prisma: PrismaClient): Promise<void> 
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.preview.operator", ".env.platform-bootstrap.operator"],
+    supplementalEnvFiles: [
+      ".env.preview.operator",
+      ".env.platform-bootstrap.operator",
+      ".env.ftgp-implementer-grant.operator",
+    ],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({

@@ -21,6 +21,7 @@ import {
 import { resolveCloud1hCandidateOperator } from "./lib/cloud-1h-candidate-resolution";
 import { resolveDedicatedPlatformAdminTarget } from "./lib/cloud-1h-dedicated-admin-target";
 import { isPostBootstrapInternalRoleState } from "./lib/ftgp-platform-admin-bootstrap-manifest";
+import { isPostImplementerGrantState } from "./lib/ftgp-implementer-grant-manifest";
 import {
   clearCrowSession,
   ensureVercelProtectedAccess,
@@ -375,7 +376,11 @@ function runSecurityGate(script: string): void {
 async function main() {
   const envLoad = loadHostedOperatorEnv({
     primaryEnvFile: ".env.staging.runtime",
-    supplementalEnvFiles: [".env.preview.operator", ".env.platform-bootstrap.operator"],
+    supplementalEnvFiles: [
+      ".env.preview.operator",
+      ".env.platform-bootstrap.operator",
+      ".env.ftgp-implementer-grant.operator",
+    ],
   });
   assertHostedEnvNotLocalhost(envLoad);
   const hosted = assertHostedVerificationTarget({
@@ -449,6 +454,17 @@ async function main() {
       console.log("\n=== §10 Bootstrap dry-run ===\n");
       runSecurityGate("ftgp-platform-admin-bootstrap:dry-run");
     }
+
+    const implementerTargetId = process.env.FTGP_IMPLEMENTER_TARGET_ACCOUNT_ID?.trim() || null;
+    if (implementerTargetId) {
+      console.log("\n=== §11 IMPLEMENTER grant verification ===\n");
+      runSecurityGate("ftgp-implementer-target:verify");
+      runSecurityGate("ftgp-implementer-grant:dry-run");
+      if (isPostImplementerGrantState()) {
+        runSecurityGate("ftgp-implementer-grant:idempotency:verify");
+        runSecurityGate("ftgp-implementer-runtime:verify");
+      }
+    }
   } finally {
     await prisma.$disconnect();
   }
@@ -484,6 +500,12 @@ async function main() {
 
   const operatorDesignatedTargetId =
     process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
+  if (operatorDesignatedTargetId && isPostImplementerGrantState()) {
+    console.log(
+      "PASSED — AUTHENTICATED BOUNDARIES VERIFIED; FIRST IMPLEMENTER GRANT COMPLETE\n"
+    );
+    return;
+  }
   if (operatorDesignatedTargetId && isPostBootstrapInternalRoleState()) {
     console.log(
       "PASSED — AUTHENTICATED BOUNDARIES VERIFIED; FIRST PLATFORM ADMIN BOOTSTRAP COMPLETE\n"

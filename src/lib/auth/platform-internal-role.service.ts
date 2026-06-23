@@ -18,6 +18,7 @@ export type GrantInternalPlatformRoleInput = {
   grantorPlatformAccountId: string;
   reason: string;
   correlationId: string;
+  auditSource?: string;
 };
 
 export type RevokeInternalPlatformRoleInput = {
@@ -170,6 +171,7 @@ export async function grantInternalPlatformRole(
       grantCorrelationId: input.correlationId,
       grantedByPlatformAccountId: input.grantorPlatformAccountId,
       crowRole: internalRoleToCrowRole(input.role),
+      ...(input.auditSource ? { source: input.auditSource } : {}),
     });
 
     return { assignmentId: created.id, idempotent: false };

@@ -68,6 +68,10 @@ skills-lock.json
 .env.migration.recovery
 .migration-apply-manifest
 
+# FTGP IMPLEMENTER grant operator artifacts (never commit)
+.ftgp-implementer-grant-manifest
+.env.ftgp-implementer-grant.operator
+
 # FTGP Platform Admin bootstrap operator artifacts (never commit)
 .ftgp-platform-admin-candidates.local.json
 .ftgp-platform-admin-bootstrap-manifest
