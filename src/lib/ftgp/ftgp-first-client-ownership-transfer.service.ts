@@ -4,13 +4,13 @@
 import type { Prisma } from "@prisma/client";
 
 import { findPlatformAccountById } from "@/lib/account/platform-account.service";
-import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
-import { prisma } from "@/lib/db";
+import { prisma, prismaTransaction } from "@/lib/db";
 import {
   FTGP_FIRST_CLIENT_OWNERSHIP_TRANSFER_CORRELATION_ID,
   FTGP_FIRST_CLIENT_OWNERSHIP_TRANSFER_REASON,
   FTGP_FIRST_CLIENT_OWNERSHIP_TRANSFER_SOURCE,
 } from "@/lib/ftgp/ftgp-first-client-ownership.constants";
+import { hasMandatoryLegalAcceptanceComplete } from "@/lib/legal/legal-acceptance.service";
 import { createHash } from "node:crypto";
 
 export type FtgpFirstClientOwnershipTransferType =
@@ -185,7 +185,7 @@ export async function executeFtgpFirstClientOwnershipTransfer(input: {
     };
   }
 
-  await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+  await prismaTransaction(async (tx: Prisma.TransactionClient) => {
     const locked = await tx.implementationRequest.findUnique({
       where: { id: plan.requestId },
       select: { id: true, submittedByUserId: true, status: true },

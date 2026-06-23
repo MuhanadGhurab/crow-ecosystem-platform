@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import type { PrismaClient } from "@prisma/client";
 
 import { hasMandatoryLegalAcceptanceComplete } from "../../src/lib/legal/legal-acceptance.service";
+import { findActivePlatformAdminAssignment } from "../../src/lib/platform/procrow-owner-admin-transfer.service";
 import { resolveProofRequesterPlatformAccount } from "./c3-proof-requester-resolution";
 
 export const FTGP_FIRST_CLIENT_ENV = ".env.ftgp-first-client.operator";
@@ -10,7 +11,8 @@ export const FTGP_FIRST_REQUEST_ENV = ".env.ftgp-first-request.operator";
 
 export const CANDIDATE_07_LABEL = "FTGP-REQUEST-CANDIDATE-07";
 export const CANDIDATE_07_FINGERPRINT = "9439dd8cc806696e";
-export const CANDIDATE_07_OWNER_FINGERPRINT = "876863fe8c15c5c3";
+export const CANDIDATE_07_OWNER_FINGERPRINT = "faf26007ce4a55b9";
+export const CANDIDATE_07_PREVIOUS_OWNER_FINGERPRINT = "876863fe8c15c5c3";
 export const RETAINED_REQUESTER_FINGERPRINT = "faf26007ce4a55b9";
 
 export type OwnershipProvenanceClassification =
@@ -80,9 +82,6 @@ export async function assessFtgpClientOwnerEligibility(
   ownerAccountId: string
 ): Promise<FtgpClientOwnerEligibility> {
   const locale = process.env.PLATFORM_OWNER_LEGAL_LOCALE?.trim() || "en-US";
-  const platformAdminId =
-    process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
-  const implementerId = process.env.FTGP_IMPLEMENTER_TARGET_ACCOUNT_ID?.trim() || null;
 
   const account = await prisma.platformAccount.findUnique({
     where: { id: ownerAccountId },
@@ -114,11 +113,19 @@ export async function assessFtgpClientOwnerEligibility(
   const ownerRetainedFixtureCollision = Boolean(
     retained && retained.id === ownerAccountId
   );
+
+  const [activePlatformAdmin, activeImplementer] = await Promise.all([
+    findActivePlatformAdminAssignment(),
+    prisma.platformInternalRoleAssignment.findFirst({
+      where: { role: "IMPLEMENTER", status: "ACTIVE" },
+      select: { platformAccountId: true },
+    }),
+  ]);
   const ownerPlatformAdminCollision = Boolean(
-    platformAdminId && platformAdminId === ownerAccountId
+    activePlatformAdmin && activePlatformAdmin.platformAccountId === ownerAccountId
   );
   const ownerImplementerCollision = Boolean(
-    implementerId && implementerId === ownerAccountId
+    activeImplementer && activeImplementer.platformAccountId === ownerAccountId
   );
 
   const [
