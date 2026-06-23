@@ -9,6 +9,10 @@ import {
   resolveAuthoritativeCrowAuth,
   userWithAuthoritativeMetadata,
 } from "@/lib/auth/authoritative-crow-auth";
+import {
+  isAuthoritativeClientOnlyScope,
+  resolveClientOnlyLifecycleDestination,
+} from "@/lib/auth/client-only-lifecycle-landing";
 import { resolvePostLoginDestination } from "@/lib/auth/post-login-redirect";
 import { routes } from "@/lib/routes";
 
@@ -29,6 +33,9 @@ export async function resolveC3PostAuthLanding(
     const auth = await resolveAuthoritativeCrowAuth(user);
     if (!auth.role) {
       return routes.account.home;
+    }
+    if (!explicitNext && (await isAuthoritativeClientOnlyScope(user.id))) {
+      return resolveClientOnlyLifecycleDestination(user.id);
     }
     return resolvePostLoginDestination(
       userWithAuthoritativeMetadata(user, auth),
