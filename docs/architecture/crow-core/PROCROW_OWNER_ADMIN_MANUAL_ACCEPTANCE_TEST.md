@@ -1,10 +1,8 @@
-# PROCROW.ADMIN.2B — Manual Owner Acceptance Test Handoff
+# PROCROW owner-admin manual acceptance
 
-**Phase:** PROCROW.ADMIN.2B  
-**Date:** 2026-06-23  
-**Branch:** `feat/first-tenant-golden-path`  
-**Deployed commit:** `9b280081d4e9826173fea6e3d3acb9aad7324fad` (`9b28008`)  
-**Verdict:** `READY WITH MANUAL ACTION — DEPLOYMENT READY; SUPABASE REDIRECT URL MUST BE ADDED BEFORE OWNER LOGIN`
+**Current milestone:** PROCROW.ADMIN.2D — acceptance recorded, certification closed  
+**Final verdict:** `PROCROW.ADMIN.2C = PASSED`  
+**Date closed:** 2026-06-23
 
 ---
 
@@ -246,5 +244,94 @@ After the access-gateway fix is deployed, the owner should retest:
 | 10 | Do **not** expect `/admin/users` or `/admin/roles` (not implemented) |
 
 **Not in scope:** `/admin/users`, `/admin/roles`
+
+---
+
+## PROCROW.ADMIN.2D — Final manual acceptance (authoritative)
+
+**Manual test date:** 2026-06-23  
+**Environment:** Private certification (`crow-ftgp-certification`)  
+**Deployment ID:** `dpl_7h8nuh4eixnP4znDHtixTy5MCSCM`  
+**Deployed commit:** `db513fda8820e1a08e8fa5288aad12246cc1abfd` (`db513fd`)  
+**Protected host reference:** `crow-ftgp-certification-3tbzcy61o-…vercel.app`  
+**Origin fingerprint:** `91841eaa6a500db8`  
+**Account:** Designated ProCrow owner-admin (redacted; fingerprint `832287cbd374fb83`)
+
+Evidence source: **owner manual browser test** (not Cursor, not Playwright).
+
+| Check | Result |
+|-------|--------|
+| Private Vercel SSO | PASS |
+| Google authentication | PASS |
+| First post-login route | `/admin/overview` |
+| Legal page shown | **No** — current legal acceptance already valid |
+| `/access` loaded | **Yes** |
+| ProCrow card visible | **Yes** |
+| ProCrow card destination | `/admin/overview` |
+| `/admin/overview` loaded | **Yes** |
+| Platform Admin badge visible | **Yes** |
+| Unexpected errors | None reported |
+
+**Manual acceptance result:** `PASS`
+
+### Proven on certification runtime
+
+| Capability | Status |
+|------------|--------|
+| Personal ProCrow owner-admin authority | **PROVEN** |
+| Private ProCrow access | **PROVEN** |
+| `/access` ProCrow gateway | **PROVEN** |
+| `/admin/overview` | **PROVEN** |
+| Database-backed `PLATFORM_ADMIN` resolution | **PROVEN** |
+| Legal gate (current-acceptance path) | **PROVEN** |
+
+### Not proven / not implemented
+
+| Item | Status |
+|------|--------|
+| `/admin/users` | **NOT IMPLEMENTED** |
+| `/admin/roles` | **NOT IMPLEMENTED** |
+| Full ProCrow control tower | **PLANNED** |
+| Tenant provisioning UI | **PLANNED** |
+| User-management UI | **PLANNED** |
+| Permission-management UI | **PLANNED** |
+| CyberCrow posture UI | **PLANNED** |
+
+### Current proven ProCrow surface
+
+```text
+/access
+/admin/overview
+Platform Admin navigation and badge on overview
+```
+
+---
+
+## ProCrow admin milestone status
+
+| Phase | Status |
+|-------|--------|
+| PROCROW.ADMIN.1 | Owner-admin transfer tooling prepared |
+| PROCROW.ADMIN.2 | Personal owner account transferred to sole `PLATFORM_ADMIN` |
+| PROCROW.ADMIN.2A | Dual-role `PLATFORM_ADMIN` + `IMPLEMENTER` authority reconciled |
+| PROCROW.ADMIN.2B | Latest committed runtime deployed for manual test |
+| PROCROW.ADMIN.2C | **Manual owner acceptance PASSED** |
+| PROCROW.ADMIN.2D | **Acceptance evidence recorded; milestone closed** |
+
+---
+
+## Next project step
+
+**FTGP.1H.4b — Candidate 07 Client Owner Journey**
+
+Important separation:
+
+```text
+ProCrow owner-admin identity ≠ Candidate 07 client-owner identity
+```
+
+The designated ProCrow owner-admin account **must not** be used as Candidate 07 owner proof. Candidate 07 remains `UNDER_DISCOVERY` with owner internal roles `0`.
+
+Do not execute FTGP.1H.4b in PROCROW.ADMIN tasks. Do not merge PR #10 solely on this acceptance closure.
 
 ---

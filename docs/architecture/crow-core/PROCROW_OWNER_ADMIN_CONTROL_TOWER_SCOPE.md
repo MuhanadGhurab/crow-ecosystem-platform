@@ -133,10 +133,14 @@ Designed as an engaging control tower, not a static link list:
 
 ## Current authoritative surfaces (owner admin)
 
-These routes and actions resolve authority via `PlatformInternalRoleAssignment`, not email:
+These routes resolve authority via `PlatformInternalRoleAssignment`, not email:
 
-- `/admin` and nested admin surfaces
-- `/admin/users`, `/admin/roles`
-- Platform Admin–only server actions
+- `/access` — ProCrow gateway card (**PROVEN** on certification, PROCROW.ADMIN.2C)
+- `/admin/overview` — primary command surface (**PROVEN**)
+- Nested admin surfaces under `/admin/*` (requests, discovery, tenants, etc.) — **PARTIAL**
+- `/admin/users`, `/admin/roles` — **NOT IMPLEMENTED** (documented intent only)
+- Platform Admin–only server actions — **PARTIAL**
 
-After PROCROW.ADMIN.1 transfer, the designated personal Gmail holder receives the same authoritative access through database role resolution.
+After PROCROW.ADMIN.2 transfer and PROCROW.ADMIN.2C manual acceptance, the designated personal Gmail holder receives authoritative ProCrow access through database role resolution on the **certification** runtime. Live Production (`main`) remains without FTGP feature code until PR #10 merge.
+
+---

@@ -1,7 +1,25 @@
 # PROCROW personal owner-admin transfer
 
 **Task:** PROCROW.ADMIN.1 / PROCROW.ADMIN.2  
-**Status:** Authoritative transfer executed on hosted database `0355c17692e2a90d`.
+**Status:** Authoritative transfer executed on hosted database `0355c17692e2a90d`.  
+**Certification:** Manual owner acceptance **PASSED** (PROCROW.ADMIN.2C / 2D, 2026-06-23). See `PROCROW_OWNER_ADMIN_MANUAL_ACCEPTANCE_TEST.md`.
+
+## Milestone summary
+
+| Phase | Outcome |
+|-------|---------|
+| PROCROW.ADMIN.1 | Owner-admin transfer tooling prepared |
+| PROCROW.ADMIN.2 | Personal owner account transferred to sole `PLATFORM_ADMIN` |
+| PROCROW.ADMIN.2A | Dual-role `PLATFORM_ADMIN` + `IMPLEMENTER` reconciled |
+| PROCROW.ADMIN.2B | Certification runtime deployed for manual test |
+| PROCROW.ADMIN.2C | **Manual owner acceptance PASSED** |
+| PROCROW.ADMIN.2D | **Acceptance recorded; ProCrow admin certification closed** |
+
+**Proven:** personal owner-admin authority, private certification access, `/access` ProCrow gateway, `/admin/overview`, Platform Admin badge.
+
+**Not implemented:** `/admin/users`, `/admin/roles`, full control tower.
+
+**Next track:** FTGP.1H.4b — Candidate 07 client owner journey (separate identity from ProCrow owner-admin).
 
 ## Executed transfer record (PROCROW.ADMIN.2)
 
