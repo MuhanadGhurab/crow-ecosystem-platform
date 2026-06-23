@@ -23,6 +23,28 @@
 | Auth metadata | Unchanged |
 | Browser proof command | `C3_PREVIEW_HEADED=true npm run procrow-owner-admin:browser-proof:execute` |
 
+See also: `PROCROW_OWNER_ADMIN_DUAL_ROLE_DEVELOPMENT_MODEL.md` for owner-authorized dual-role semantics.
+
+## Fingerprint schemes
+
+| Scheme | Prefix | Use |
+|--------|--------|-----|
+| FTGP.0F bootstrap | `ftgp-pa-target:{accountId}` | Bootstrap manifest designation |
+| ProCrow owner-admin | `procrow-owner-admin-target:{accountId}` | Transfer target / sole admin verification |
+| ProCrow assignment row | `procrow-pa-assignment:{assignmentId}` | Specific assignment identity |
+
+These are **not interchangeable** across schemes.
+
+## Dual-role development phase (PROCROW.ADMIN.2A)
+
+The designated owner account may also hold active `IMPLEMENTER` (separate assignment row). This is owner-authorized for the current certification phase — not implicit inheritance.
+
+| Metric | Value |
+|--------|-------|
+| Total assignment rows | 3 |
+| Active rows | 2 |
+| Revoked rows | 1 |
+
 Physical mutations:
 
 1. `PlatformInternalRoleAssignment` CREATE — target `PLATFORM_ADMIN` ACTIVE  

@@ -10,7 +10,7 @@ import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import { chromium } from "playwright";
 
-import { resolveAuthoritativePlatformRole } from "../src/lib/auth/authority-boundaries";
+import { resolveAuthoritativePlatformRole, includesActiveInternalRole } from "../src/lib/auth/authority-boundaries";
 import { findActivePlatformAdminAssignment } from "../src/lib/platform/procrow-owner-admin-transfer.service";
 import {
   ensureVercelProtectedAccess,
@@ -19,9 +19,11 @@ import {
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
 import {
   assertCertificationHost,
+  FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST,
   FTGP_LIVE_PRODUCTION_ORIGIN,
   resolveFtgpCertificationBaseUrl,
 } from "./lib/ftgp-certification-environment";
+import { assertCertificationOwnerProofBypassPolicy } from "./lib/ftgp-owner-browser-proof-bypass";
 import {
   loadProcrowOwnerAdminOperatorConfig,
   PROCROW_OWNER_ADMIN_DESIGNATION_ARTIFACT,
@@ -98,6 +100,16 @@ async function main() {
   if (proofBase.includes(FTGP_LIVE_PRODUCTION_ORIGIN)) {
     fail("Live Production must not be used for owner-admin browser proof");
   }
+  if (new URL(proofBase).hostname === FTGP_CERTIFICATION_PUBLIC_ALIAS_HOST) {
+    fail("Public certification alias must not be used for browser proof");
+  }
+  assertCertificationOwnerProofBypassPolicy({
+    certificationMode: true,
+    bypassSecretPresent: Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()),
+    activeBypassUsage: false,
+  });
+  ok("PROCROW_BROWSER_PROOF_TARGET=PRIVATE_CERTIFICATION");
+  ok("PROCROW_BROWSER_PROOF_AUTOMATION_BYPASS=false");
 
   const prisma = new PrismaClient();
   try {
@@ -110,14 +122,20 @@ async function main() {
       where: { platformAccountId: activeAdmin.platformAccountId, status: "ACTIVE" },
       select: { role: true },
     });
-    const crowRole = resolveAuthoritativePlatformRole(
-      roles.map((r) => r.role),
-      null
-    );
+    const roleNames = roles.map((r) => r.role);
+    const crowRole = resolveAuthoritativePlatformRole(roleNames, null);
     if (crowRole !== "platform_admin") {
       fail("Database role resolution is not platform_admin for designated owner");
     }
+    if (!includesActiveInternalRole(roleNames, "PLATFORM_ADMIN")) {
+      fail("PLATFORM_ADMIN assignment not active on designated owner");
+    }
+    if (!includesActiveInternalRole(roleNames, "IMPLEMENTER")) {
+      fail("IMPLEMENTER assignment not active on designated owner");
+    }
     ok("server-side role resolution=PLATFORM_ADMIN");
+    ok("PROCROW_PLATFORM_ADMIN_RESOLUTION=PASS");
+    ok("PROCROW_IMPLEMENTER_RESOLUTION=PASS");
   } finally {
     await prisma.$disconnect();
   }
@@ -130,7 +148,9 @@ async function main() {
   try {
     const context = await newVercelProtectedBrowserContext(browser);
     const page = await context.newPage();
-    await ensureVercelProtectedAccess(page, proofBase, true);
+    await ensureVercelProtectedAccess(page, proofBase, true, {
+      instructionVariant: "procrow_owner_admin",
+    });
     await page.goto(`${proofBase}/login`, { waitUntil: "networkidle", timeout: 120_000 });
 
     console.log("\n  Operator: complete Vercel SSO and Google sign-in with the designated Gmail.");
@@ -163,6 +183,8 @@ async function main() {
       routesVerified: [...ADMIN_ROUTES],
       proofTimestamp: new Date().toISOString(),
       authoritySource: "PlatformInternalRoleAssignment",
+      platformAdminResolution: true,
+      implementerResolution: true,
     };
     writeFileSync(
       join(process.cwd(), PROCROW_OWNER_ADMIN_BROWSER_PROOF_ARTIFACT),

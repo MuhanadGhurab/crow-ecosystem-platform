@@ -91,8 +91,15 @@ export function assertApprovedProofReturnUrl(url: string, protectedBase: string)
   }
 }
 
-export function printVercelSsoOperatorInstructions(): void {
+export function printVercelSsoOperatorInstructions(
+  variant: "ftgp_client_owner" | "procrow_owner_admin" = "ftgp_client_owner"
+): void {
   console.log("  Complete Vercel Authentication in the opened browser.");
+  if (variant === "procrow_owner_admin") {
+    console.log("  After Crow /login appears, continue with the designated personal owner Google account.");
+    console.log("  Do not use the former bootstrap admin, Candidate 07 owner, or retained C3 requester.");
+    return;
+  }
   console.log("  After Crow /login appears, continue with the Candidate 07 owner Google account.");
   console.log("  Do not use PLATFORM_ADMIN, IMPLEMENTER, or the retained C3 requester.");
 }

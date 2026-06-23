@@ -19,9 +19,10 @@ export async function newVercelProtectedBrowserContext(
 
 async function waitForOperatorVercelAuthentication(
   page: Page,
-  protectedBase: string
+  protectedBase: string,
+  instructionVariant: "ftgp_client_owner" | "procrow_owner_admin" = "ftgp_client_owner"
 ): Promise<void> {
-  printVercelSsoOperatorInstructions();
+  printVercelSsoOperatorInstructions(instructionVariant);
   console.log(`  vercelOperatorWaitMs=${VERCEL_OPERATOR_AUTH_WAIT_MS}`);
 
   await page
@@ -50,7 +51,8 @@ async function waitForOperatorVercelAuthentication(
 export async function ensureVercelProtectedAccess(
   page: Page,
   previewBase: string,
-  headed: boolean
+  headed: boolean,
+  options?: { instructionVariant?: "ftgp_client_owner" | "procrow_owner_admin" }
 ): Promise<void> {
   const base = previewBase.replace(/\/$/, "");
   const response = await page.goto(`${base}/login`, {
@@ -75,7 +77,11 @@ export async function ensureVercelProtectedAccess(
         "Vercel Authentication blocked headless access — set C3_PREVIEW_HEADED=true for operator browser SSO"
       );
     }
-    await waitForOperatorVercelAuthentication(page, previewBase);
+    await waitForOperatorVercelAuthentication(
+      page,
+      previewBase,
+      options?.instructionVariant ?? "ftgp_client_owner"
+    );
     phase = classifyProtectedPageLocation(page.url(), previewBase);
   }
 
@@ -95,7 +101,11 @@ export async function ensureVercelProtectedAccess(
         "Vercel Authentication blocked headless access — set C3_PREVIEW_HEADED=true for operator browser SSO"
       );
     }
-    await waitForOperatorVercelAuthentication(page, previewBase);
+    await waitForOperatorVercelAuthentication(
+      page,
+      previewBase,
+      options?.instructionVariant ?? "ftgp_client_owner"
+    );
   }
 
   assertApprovedProofReturnUrl(page.url(), previewBase);
