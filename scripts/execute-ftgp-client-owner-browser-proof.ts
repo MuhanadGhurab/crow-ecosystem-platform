@@ -44,6 +44,11 @@ import {
   writeClientOwnerBrowserProofArtifact,
 } from "./lib/ftgp-client-owner-browser-proof-artifact";
 import { discoveryProfileFingerprint } from "./lib/ftgp-discovery-fingerprints";
+import {
+  assertCertificationOwnerProofBypassPolicy,
+  isAutomationBypassActivelyUsed,
+  shouldUsePreviewAutomationBypassContext,
+} from "./lib/ftgp-owner-browser-proof-bypass";
 import { requestFingerprint } from "./lib/ftgp-procrow-review-transition-manifest";
 import { waitForNormalOwnerPostAuthLanding } from "./lib/ftgp-owner-proof-post-auth-wait";
 
@@ -118,11 +123,16 @@ async function main() {
   }
 
   if (certificationMode) {
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()) {
-      fail("automation bypass must not be used for certification owner proof");
-    }
+    assertCertificationOwnerProofBypassPolicy({
+      certificationMode: true,
+      bypassSecretPresent: Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()),
+      activeBypassUsage: false,
+    });
     console.log("  PREVIEW_BYPASS_ACCEPTED_AS_FINAL_OWNER_PROOF=false");
     console.log("  certification deployment — Vercel Authentication + normal Google OAuth only");
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim()) {
+      console.log("  bypassSecretPresentInOperatorEnv=true (unused for certification)");
+    }
   } else {
     console.log("  WARNING: Preview target without FTGP_CERTIFICATION_BASE_URL is deprecated for FTGP.1H.2");
     try {
@@ -133,8 +143,17 @@ async function main() {
     }
   }
 
-  const useAutomationBypass =
-    !certificationMode && Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim());
+  const useAutomationBypass = shouldUsePreviewAutomationBypassContext(
+    certificationMode,
+    Boolean(process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim())
+  );
+
+  if (
+    certificationMode &&
+    isAutomationBypassActivelyUsed({ useBypassBrowserContext: useAutomationBypass })
+  ) {
+    fail("automation bypass must not be used for certification owner proof");
+  }
 
   const requestId = process.env.FTGP_FIRST_REQUEST_ID?.trim();
   const ownerAccountId = resolveDesignatedFirstClientAccountId();

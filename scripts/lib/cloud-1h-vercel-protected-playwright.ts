@@ -1,6 +1,14 @@
 import type { Browser, BrowserContext, Page } from "playwright";
 
-const VERCEL_AUTH_WAIT_MS = 180_000;
+import {
+  VERCEL_OPERATOR_AUTH_WAIT_MS,
+  assertApprovedProofReturnUrl,
+  classifyInitialHttpGateStatus,
+  classifyProtectedPageLocation,
+  isCrowApplicationReadyPhase,
+  printVercelSsoOperatorInstructions,
+  requiresVercelOperatorWait,
+} from "./ftgp-vercel-sso-state-machine";
 
 /** Playwright context without automation bypass — requires Vercel Authentication. */
 export async function newVercelProtectedBrowserContext(
@@ -9,8 +17,35 @@ export async function newVercelProtectedBrowserContext(
   return browser.newContext();
 }
 
+async function waitForOperatorVercelAuthentication(
+  page: Page,
+  protectedBase: string
+): Promise<void> {
+  printVercelSsoOperatorInstructions();
+  console.log(`  vercelOperatorWaitMs=${VERCEL_OPERATOR_AUTH_WAIT_MS}`);
+
+  await page
+    .waitForURL(
+      (url) => {
+        const phase = classifyProtectedPageLocation(url.toString(), protectedBase);
+        return isCrowApplicationReadyPhase(phase);
+      },
+      { timeout: VERCEL_OPERATOR_AUTH_WAIT_MS }
+    )
+    .catch(() => {
+      throw new Error("Timed out waiting for operator Vercel Authentication on protected deployment");
+    });
+
+  const phase = classifyProtectedPageLocation(page.url(), protectedBase);
+  if (phase === "unauthorized_host") {
+    throw new Error(
+      `Operator returned to unauthorized host after Vercel SSO: ${new URL(page.url()).hostname}`
+    );
+  }
+}
+
 /**
- * Navigate to Preview origin; wait for operator Vercel SSO when headed, or fail fast when headless.
+ * Navigate to protected origin; wait for operator Vercel SSO when headed, or fail fast when headless.
  */
 export async function ensureVercelProtectedAccess(
   page: Page,
@@ -24,26 +59,52 @@ export async function ensureVercelProtectedAccess(
   });
   const status = response?.status() ?? 0;
 
-  if (status === 401 || status === 403) {
+  let phase = classifyProtectedPageLocation(page.url(), previewBase);
+  const statusPhase = classifyInitialHttpGateStatus(status);
+  if (phase === "crow_login_ready" && statusPhase === "vercel_sso_redirect") {
+    phase = "vercel_sso_redirect";
+  }
+
+  if (phase === "unauthorized_host") {
+    throw new Error(`Unauthorized proof host: ${new URL(page.url()).hostname}`);
+  }
+
+  if (requiresVercelOperatorWait(phase)) {
     if (!headed) {
       throw new Error(
         "Vercel Authentication blocked headless access — set C3_PREVIEW_HEADED=true for operator browser SSO"
       );
     }
-    await page.waitForURL(
-      (url) => {
-        const host = url.hostname;
-        return host.includes("vercel.app") && !url.pathname.startsWith("/login");
-      },
-      { timeout: VERCEL_AUTH_WAIT_MS }
-    ).catch(() => {
-      throw new Error("Timed out waiting for operator Vercel Authentication on Preview");
-    });
-    await page.goto(`${base}/login`, { waitUntil: "networkidle", timeout: 60_000 });
+    await waitForOperatorVercelAuthentication(page, previewBase);
+    phase = classifyProtectedPageLocation(page.url(), previewBase);
   }
 
-  const finalStatus = await page.evaluate(() => document.title.length);
-  if (finalStatus === 0 && page.url().includes("vercel.com")) {
+  if (phase === "crow_application_ready") {
+    assertApprovedProofReturnUrl(page.url(), previewBase);
+    return;
+  }
+
+  if (!isCrowApplicationReadyPhase(phase)) {
+    await page.goto(`${base}/login`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    phase = classifyProtectedPageLocation(page.url(), previewBase);
+  }
+
+  if (requiresVercelOperatorWait(phase)) {
+    if (!headed) {
+      throw new Error(
+        "Vercel Authentication blocked headless access — set C3_PREVIEW_HEADED=true for operator browser SSO"
+      );
+    }
+    await waitForOperatorVercelAuthentication(page, previewBase);
+  }
+
+  assertApprovedProofReturnUrl(page.url(), previewBase);
+
+  const finalPhase = classifyProtectedPageLocation(page.url(), previewBase);
+  if (finalPhase === "unauthorized_host") {
+    throw new Error(`Unauthorized proof host after Vercel gate: ${new URL(page.url()).hostname}`);
+  }
+  if (requiresVercelOperatorWait(finalPhase)) {
     throw new Error("Still on Vercel SSO — operator Vercel Authentication incomplete");
   }
 }
