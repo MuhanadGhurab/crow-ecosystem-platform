@@ -207,6 +207,6 @@ Preview and Production share Supabase `wbwnsndcxrgyqwppurms`. Schema and authori
 
 ## 11. Next authorization
 
-1. Operator designates `FTGP_FIRST_REQUEST_ID` for `FTGP-REQUEST-CANDIDATE-07` in `.env.ftgp-first-request.operator`.
-2. Re-run `npm run ftgp-request-review-transition:dry-run` until `PROCROW_REVIEW_TRANSITION_DRY_RUN=PASS`.
-3. Separate Production deployment and rollback plan approval before merging Draft PR to `main`.
+FTGP.1D completed the first ProCrow review transition (`PENDING_REVIEW` → `UNDER_DISCOVERY`). See `FTGP_1D_PROCROW_REVIEW_TRANSITION_EXECUTION.md`.
+
+Post-transition: `FTGP_EXPECTED_SELECTED_REQUEST_STATUS=UNDER_DISCOVERY`. Client owner browser proof remains pending before client approval or proposal acceptance. PR #10 remains draft and unmerged. Do not begin Discovery interviews until explicitly authorized.

@@ -3,7 +3,7 @@
 **Phase:** FTGP.1C  
 **Date:** 2026-06-23  
 **Branch:** `feat/first-tenant-golden-path`  
-**Verdict:** `READY — AUTHORITATIVE CLIENT OWNER VERIFIED; CANDIDATE 07 REVIEW TRANSITION MAY BE AUTHORIZED`
+**Verdict (post-1D):** `EXECUTED — CANDIDATE 07 UNDER_DISCOVERY` (see `FTGP_1D_PROCROW_REVIEW_TRANSITION_EXECUTION.md`)
 
 ---
 
@@ -133,12 +133,12 @@ Expected deltas on authorized execution: status +1, lifecycle audit +1; ownershi
 
 ## 9. Hosted-state preservation
 
-All read-only audits confirmed: 7 requests, Candidate 07 `PENDING_REVIEW`, owner fingerprint unchanged, internal assignments 2, no ownership or lifecycle mutations.
+Pre-FTGP.1D audits confirmed: 7 requests, Candidate 07 `PENDING_REVIEW`, owner fingerprint unchanged, internal assignments 2, no ownership or lifecycle mutations prior to transition.
+
+FTGP.1D executed one audited transition; Candidate 07 is now `UNDER_DISCOVERY` with owner fingerprint unchanged. See `FTGP_1D_PROCROW_REVIEW_TRANSITION_EXECUTION.md`.
 
 ---
 
 ## 10. Next authorization
 
-1. Optional: protected Preview authenticated session for owner fingerprint `876863fe8c15c5c3`.
-2. Separate authorization for `transitionImplementationRequestToProCrowReview` execution (not merge, not Production).
-3. PR #10 remains draft and unmerged.
+Client owner authenticated browser proof (`CLIENT_OWNER_BROWSER_PROOF_PENDING=true`). Do not merge PR #10 or promote Production without separate authorization.

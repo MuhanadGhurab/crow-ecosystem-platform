@@ -143,10 +143,4 @@ Direct reversal from `UNDER_DISCOVERY` to `PENDING_REVIEW` is **not** part of th
 
 ## 8. Next authorization
 
-Before ProCrow review transition execution may be authorized, the operator must resolve the owner collision. Options (separate authorization each):
-
-1. **Re-designate** a request owned by the retained proof requester (none currently exist in `PENDING_REVIEW`).
-2. **Authorize ownership reconciliation** so the designated `PENDING_REVIEW` request’s `submittedByUserId` matches the retained requester (hosted write — not in FTGP.1B scope).
-3. **Revise FTGP eligibility policy** with explicit stakeholder approval if a non-proof requester is intended for the golden path.
-
-After eligibility is restored: re-run `ftgp-first-request-target:verify` and `ftgp-request-review-transition:dry-run` until both pass with zero writes.
+FTGP.1C resolved owner policy; FTGP.1D executed the ProCrow review transition for Candidate 07 (`9439dd8cc806696e`). See `FTGP_1D_PROCROW_REVIEW_TRANSITION_EXECUTION.md`. Client owner browser proof remains pending. PR #10 remains draft and unmerged.
