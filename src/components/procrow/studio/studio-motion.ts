@@ -6,4 +6,7 @@ export const studioMotion = {
   connectorDraw: "studio-connector motion-safe:animate-[studioDraw_320ms_ease-out]",
   warningReveal: "studio-warning motion-safe:animate-[studioSlideUp_240ms_ease-out]",
   reducedMotion: "motion-reduce:transition-none motion-reduce:animate-none",
+  feedback: 140,
+  panel: 200,
+  layout: 360,
 } as const;
