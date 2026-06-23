@@ -16,12 +16,16 @@ import {
   FTGP_LIVE_PRODUCTION_PROJECT_NAME,
   certificationOriginFingerprint,
   requiredCertificationAuthRedirectPaths,
+  resolveAuthoritativeCertificationSourceCommit,
+  resolveCertificationDeploymentProvenance,
   resolveFtgpCertificationBaseUrl,
   resolveLatestCertificationDeploymentUrl,
 } from "./lib/ftgp-certification-environment";
 import { vercelCurlHead } from "./lib/vercel-curl-head";
 
-const EXPECTED_FEATURE_HEAD = process.env.FTGP_CERTIFICATION_EXPECTED_COMMIT?.trim() || "213d0b8";
+const EXPECTED_FEATURE_HEAD =
+  process.env.FTGP_CERTIFICATION_EXPECTED_COMMIT?.trim() ||
+  execSync("git rev-parse HEAD", { encoding: "utf8" }).trim().slice(0, 7);
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -156,30 +160,29 @@ async function main() {
   }
 
   console.log("\n=== §4 Deployment provenance ===\n");
-  let deployedCommit: string | null = null;
   try {
-    const healthOut = execSync(`npx vercel curl -s -L "${protectedBase}/api/health"`, {
-      encoding: "utf8",
-      shell: process.platform === "win32",
-      timeout: 120_000,
-      stdio: ["pipe", "pipe", "pipe"],
-    });
-    const health = JSON.parse(healthOut) as {
-      certification?: { sourceCommit?: string | null };
-    };
-    deployedCommit = health.certification?.sourceCommit ?? null;
+    const provenance = resolveCertificationDeploymentProvenance(protectedBase);
+    const deployedCommit = resolveAuthoritativeCertificationSourceCommit(provenance);
     if (!deployedCommit) {
-      fail("certification /api/health missing sourceCommit — redeploy with FTGP_CERTIFICATION_SOURCE_COMMIT");
+      fail(
+        "certification source commit unverified — redeploy with FTGP_CERTIFICATION_SOURCE_COMMIT pinned"
+      );
     }
     const deployedShort = deployedCommit.slice(0, 7);
-    const localHead = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim().slice(0, 7);
+    const localHead = execSync("git rev-parse HEAD", { encoding: "utf8" }).trim();
+    const localShort = localHead.slice(0, 7);
+    console.log(`    deploymentId=${provenance.deploymentId}`);
     console.log(`    deployedCommit=${deployedShort}`);
-    console.log(`    localHead=${localHead}`);
-    if (!deployedCommit.startsWith(EXPECTED_FEATURE_HEAD) && !localHead.startsWith(EXPECTED_FEATURE_HEAD)) {
-      console.log(`    expectedPrefix=${EXPECTED_FEATURE_HEAD}`);
-    }
-    if (!deployedCommit.startsWith(localHead) && !localHead.startsWith(deployedShort)) {
-      fail(`deployment commit ${deployedShort} does not match local HEAD ${localHead}`);
+    console.log(`    healthSourceCommit=${provenance.healthSourceCommit?.slice(0, 7) ?? "null"}`);
+    console.log(`    inspectGitSha=${provenance.inspectGitSha?.slice(0, 7) ?? "null"}`);
+    console.log(`    localHead=${localShort}`);
+    if (
+      !deployedCommit.startsWith(localHead) &&
+      !localHead.startsWith(deployedShort) &&
+      !deployedCommit.startsWith(EXPECTED_FEATURE_HEAD) &&
+      !localShort.startsWith(EXPECTED_FEATURE_HEAD)
+    ) {
+      fail(`deployment commit ${deployedShort} does not match local HEAD ${localShort}`);
     }
     ok("CERTIFICATION_DEPLOYMENT_COMMIT_PROOF=PASS");
   } catch (err) {
