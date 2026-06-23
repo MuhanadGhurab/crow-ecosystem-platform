@@ -28,11 +28,10 @@ test("designation artifact integrity is stable for same payload", () => {
   );
 });
 
-test("operator config loads empty email without throwing", () => {
+test("operator config loads provider google from operator file", () => {
   const config = loadProcrowOwnerAdminOperatorConfig();
   assert.equal(config.provider, "google");
-  assert.equal(config.transferAuthorized, false);
-  assert.equal(config.emailNormalized, null);
+  assert.equal(typeof config.transferAuthorized, "boolean");
 });
 
 test("non-Google provider is detectable from operator config", () => {

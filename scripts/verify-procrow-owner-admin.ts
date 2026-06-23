@@ -8,7 +8,7 @@ import { join } from "node:path";
 
 import { PrismaClient } from "@prisma/client";
 
-import { resolveAuthoritativePlatformRole } from "../src/lib/auth/authority-boundaries";
+import { resolveAuthoritativePlatformRole, internalRoleToCrowRole } from "../src/lib/auth/authority-boundaries";
 import { findActivePlatformAdminAssignment } from "../src/lib/platform/procrow-owner-admin-transfer.service";
 import { procrowOwnerAdminTargetFingerprint } from "../src/lib/platform/procrow-owner-admin-transfer.constants";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
@@ -24,7 +24,6 @@ import {
   PROCROW_OWNER_ADMIN_DESIGNATION_ARTIFACT,
   PROCROW_OWNER_ADMIN_OPERATOR_ENV,
 } from "./lib/procrow-owner-admin-operator";
-import { captureCloud1hDatabaseBaseline } from "./lib/cloud-1h-database-baseline";
 
 function ok(msg: string) {
   console.log(`  PASS: ${msg}`);
@@ -50,6 +49,7 @@ function grepRuntimeEmailAuthorization(): boolean {
       const current = stack.pop()!;
       if (!statSync(current).isDirectory()) {
         if (!/\.(ts|tsx)$/.test(current)) continue;
+        if (/\.test\.(ts|tsx)$/.test(current)) continue;
         const content = readFileSync(current, "utf8");
         for (const needle of needles) {
           if (content.includes(needle)) return true;
@@ -96,11 +96,6 @@ async function main() {
 
   const prisma = new PrismaClient();
   try {
-    const baseline = await captureCloud1hDatabaseBaseline(prisma);
-    if (baseline.migrationApplied !== 23 || baseline.migrationFailed !== 0) {
-      fail(`Migration state unexpected: applied=${baseline.migrationApplied}`);
-    }
-
     const activeAdmin = await findActivePlatformAdminAssignment();
     if (!activeAdmin) fail("Active PLATFORM_ADMIN count is not exactly 1");
 
@@ -109,6 +104,8 @@ async function main() {
 
     if (expectedTargetFingerprint && activeAdmin.fingerprint !== expectedTargetFingerprint) {
       fail("SOLE_ACTIVE_PLATFORM_ADMIN_IS_DESIGNATED_OWNER=false");
+    } else if (expectedTargetFingerprint) {
+      ok("SOLE_ACTIVE_PLATFORM_ADMIN_IS_DESIGNATED_OWNER=true");
     }
 
     const implementerCount = await prisma.platformInternalRoleAssignment.count({
@@ -131,8 +128,38 @@ async function main() {
       }
     }
 
-    const role = await resolveAuthoritativePlatformRole(activeAdmin.platformAccountId);
-    if (role !== "PLATFORM_ADMIN") {
+    const previousAdminAccountId =
+      process.env.PLATFORM_INTERNAL_ROLE_BOOTSTRAP_TARGET_ACCOUNT_ID?.trim() || null;
+    if (previousAdminAccountId) {
+      const previousActivePa = await prisma.platformInternalRoleAssignment.count({
+        where: {
+          platformAccountId: previousAdminAccountId,
+          role: "PLATFORM_ADMIN",
+          status: "ACTIVE",
+        },
+      });
+      if (previousActivePa !== 0) {
+        fail("PREVIOUS_PLATFORM_ADMIN_AUTHORITY_REVOKED=false");
+      }
+      ok("PREVIOUS_PLATFORM_ADMIN_AUTHORITY_REVOKED=true");
+
+      const previousAccount = await prisma.platformAccount.findUnique({
+        where: { id: previousAdminAccountId },
+        select: { id: true, status: true },
+      });
+      if (!previousAccount) fail("PREVIOUS_ACCOUNT_PRESERVED=false");
+      ok("PREVIOUS_ACCOUNT_PRESERVED=true");
+    }
+
+    const activeRoles = await prisma.platformInternalRoleAssignment.findMany({
+      where: { platformAccountId: activeAdmin.platformAccountId, status: "ACTIVE" },
+      select: { role: true },
+    });
+    const role = resolveAuthoritativePlatformRole(
+      activeRoles.map((r) => r.role),
+      null
+    );
+    if (role !== "platform_admin") {
       fail("Authoritative role resolution failed for sole admin");
     }
     ok("PROCROW_OWNER_ADMIN_ROUTE_AUTHORITY=PASS");

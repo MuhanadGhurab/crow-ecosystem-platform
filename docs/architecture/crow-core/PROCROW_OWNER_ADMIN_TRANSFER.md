@@ -1,7 +1,34 @@
 # PROCROW personal owner-admin transfer
 
-**Task:** PROCROW.ADMIN.1  
-**Status:** Tooling prepared; transfer executes only after operator designation and authorization.
+**Task:** PROCROW.ADMIN.1 / PROCROW.ADMIN.2  
+**Status:** Authoritative transfer executed on hosted database `0355c17692e2a90d`.
+
+## Executed transfer record (PROCROW.ADMIN.2)
+
+| Field | Value |
+|-------|-------|
+| Transfer date | 2026-06-23 |
+| Transfer type | `ATOMIC_SINGLE_ADMIN_TRANSFER` |
+| Target fingerprint | `832287cbd374fb83` |
+| Previous admin fingerprint (procrow scheme) | `49fb3f94bcce3a93` |
+| Previous bootstrap fingerprint (FTGP.0F scheme) | `b3ee2ec185cf9893` |
+| Grant correlation ID | `procrow-owner-admin-transfer-authoritative-v1` |
+| Assignment creates | 1 |
+| Assignment revokes | 1 |
+| Audit events | 2 |
+| Final sole `PLATFORM_ADMIN` count | 1 |
+| Previous account preserved | Yes |
+| `IMPLEMENTER` preserved | Yes (same account holds `IMPLEMENTER` + `PLATFORM_ADMIN`) |
+| Candidate 07 / Discovery | Unchanged |
+| Auth metadata | Unchanged |
+| Browser proof command | `C3_PREVIEW_HEADED=true npm run procrow-owner-admin:browser-proof:execute` |
+
+Physical mutations:
+
+1. `PlatformInternalRoleAssignment` CREATE — target `PLATFORM_ADMIN` ACTIVE  
+2. `PlatformAccountAuditEvent` — `platform_internal_role_granted`  
+3. `PlatformInternalRoleAssignment` UPDATE — previous assignment REVOKED  
+4. `PlatformAccountAuditEvent` — `platform_internal_role_revoked`
 
 This document distinguishes **initial Platform Admin bootstrap** (FTGP.0F) from the **later personal owner-admin transfer** controlled by the gitignored operator file.
 

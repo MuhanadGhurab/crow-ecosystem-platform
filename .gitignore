@@ -90,6 +90,7 @@ skills-lock.json
 # PROCROW owner-admin transfer operator artifacts (never commit)
 .env.procrow-owner-admin.operator
 .procrow-owner-admin-designation.local.json
+.procrow-owner-admin-browser-proof.local.json
 
 .ftgp-platform-admin-candidates.local.json
 .ftgp-platform-admin-bootstrap-manifest
