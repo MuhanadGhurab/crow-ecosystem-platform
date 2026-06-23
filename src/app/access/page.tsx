@@ -4,6 +4,7 @@ import { TenantAccessBlockedPanel } from "@/components/tenant/tenant-access-bloc
 
 export const dynamic = "force-dynamic";
 import { ProductPageHeader } from "@/components/product/product-page-header";
+import { resolveAuthoritativeCrowAuthContext } from "@/lib/auth/authoritative-crow-auth";
 import { getSessionUser } from "@/lib/auth/session";
 import { buildCrowAccessGatewaySnapshot } from "@/lib/services/portal-access.service";
 import { routes } from "@/lib/routes";
@@ -14,7 +15,10 @@ export default async function AccessGatewayPage({
   searchParams: Promise<{ reason?: string; tenant?: string; message?: string }>;
 }) {
   const { reason, tenant, message } = await searchParams;
-  const user = await getSessionUser();
+  const sessionUser = await getSessionUser();
+  const user = sessionUser
+    ? (await resolveAuthoritativeCrowAuthContext(sessionUser)).user
+    : null;
   const snapshot = await buildCrowAccessGatewaySnapshot(user);
   const showBlocked = reason === "business_portal_blocked";
 
