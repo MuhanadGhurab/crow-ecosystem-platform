@@ -161,4 +161,12 @@ PR #10 remains open, draft, unmerged. Production unchanged.
 
 ## 13. Next authorization
 
-Internal interview preparation may proceed (question templates, IMPLEMENTER workspace review, zero-write dry runs). **Authenticated client owner browser proof** required before client answer capture or Discovery completion.
+FTGP.1G completed internal interview preparation (catalog, provenance gates, zero-write dry runs). See [FTGP_1G_INTERNAL_DISCOVERY_INTERVIEW_PREPARATION.md](./FTGP_1G_INTERNAL_DISCOVERY_INTERVIEW_PREPARATION.md).
+
+**Authenticated client owner browser proof** required before client answer capture or Discovery completion.
+
+```text
+FTGP_1D_CONTRACT_DEFECT_DOCUMENTED=true
+DISCOVERY_SHELL_ROLLBACK_REQUIRED=false
+FUTURE_TRANSITION_TEMPLATES_INCLUDE_ATOMIC_SHELL=true
+```

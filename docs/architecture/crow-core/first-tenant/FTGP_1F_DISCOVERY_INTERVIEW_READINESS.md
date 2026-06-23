@@ -40,7 +40,9 @@ CLIENT_OWNER_PROOF_REQUIRED_FOR_INTERNAL_PREPARATION=false
 
 ## 4. Question groups
 
-### Required groups
+FTGP.1G reconciled the catalog to **17 groups** with stable keys in `src/lib/ftgp/ftgp-discovery-question-catalog.ts` (version `ftgp-first-tenant-discovery-v1.0.0`). Group **17 — Constraints, risks, budget, and timeline** is distinct from company-size fields in group 05. See [FTGP_1G_INTERNAL_DISCOVERY_INTERVIEW_PREPARATION.md](./FTGP_1G_INTERNAL_DISCOVERY_INTERVIEW_PREPARATION.md).
+
+### Required groups (completion-weighted)
 
 1. Organization identity  
 2. Industry and business model  
@@ -52,15 +54,16 @@ CLIENT_OWNER_PROOF_REQUIRED_FOR_INTERNAL_PREPARATION=false
 8. Current systems and integrations  
 9. Security and compliance requirements  
 10. Data classification  
+14. CEM module requirements  
+15. CyberCrow trust requirements  
+16. SAREA experience requirements  
+17. Constraints, risks, budget, and timeline  
 
-### Optional groups
+### Optional groups (completion-weighted)
 
 11. Infrastructure preferences  
 12. Reporting and analytics needs  
-13. SAREA experience requirements  
-14. CEM module requirements  
-15. CyberCrow trust requirements  
-16. Constraints, risks, and timeline  
+13. Data classification (supplemental) — *group 11 data classification questions may satisfy regulated industries*
 
 ---
 
