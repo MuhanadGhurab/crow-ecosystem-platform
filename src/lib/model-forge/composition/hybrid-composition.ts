@@ -9,17 +9,18 @@ import type {
   TenantScaleProfile,
 } from "../types";
 import { composeTenantBlueprint } from "@/lib/tenant-composition/registry";
-import { SPECIALIST_DOMAIN_CATALOG } from "../specialist-domains/specialist-domain-catalog";
-import { WORK_PERSONA_CATALOG } from "../work-personas/work-persona-catalog";
-import { WORKFLOW_TEMPLATE_CATALOG } from "../workflows/workflow-template-catalog";
+import { listSpecialistDomains } from "../specialist-domains/index";
+import { listWorkPersonas } from "../work-personas/index";
+import { listWorkflowTemplates } from "../workflows/index";
+import { DEPARTMENT_ARCHETYPE_CATALOG } from "../departments/department-archetype-catalog";
 import { ORGANIZATIONAL_TOPOLOGY_CATALOG } from "../topology/organizational-topology";
 import { buildScaleProfile, recommendApprovalDepth, scaleAffectsPersonaGranularity } from "../scale/tenant-scale";
 import { KPI_CATALOG, EVIDENCE_CATALOG, AUDIT_RECOMMENDATION_CATALOG, TRUST_CONTROL_CATALOG } from "../metrics/kpi-outcomes";
 import { createAuthorityProposal, validateAuthorityProposal } from "../authority-proposals/authority-proposal";
 
-const specialistByKey = new Map(SPECIALIST_DOMAIN_CATALOG.map((d) => [d.key, d]));
-const personaByKey = new Map(WORK_PERSONA_CATALOG.map((p) => [p.key, p]));
-const workflowByKey = new Map(WORKFLOW_TEMPLATE_CATALOG.map((w) => [w.key, w]));
+const specialistByKey = new Map(listSpecialistDomains().map((d) => [d.key, d]));
+const personaByKey = new Map(listWorkPersonas().map((p) => [p.key, p]));
+const workflowByKey = new Map(listWorkflowTemplates().map((w) => [w.key, w]));
 
 function uniqueSorted(values: Iterable<string>): string[] {
   return [...new Set(values)].sort();
@@ -98,11 +99,13 @@ export function buildOrganizationalModelDNA(
 ): OrganizationalModelDNA {
   const topology = input.topologies?.[0] ?? "DEPARTMENTAL_HIERARCHY";
   const scale = input.scaleProfile ?? buildScaleProfile("GROWING_ORGANIZATION");
+  const departmentKeys = deriveDepartmentKeys(input, scale);
   const provenance: OrganizationalModelDNA["provenance"] = [
     { field: "primaryIndustry", source: input.primaryIndustry },
     ...input.specialistDomains?.map((d) => ({ field: "specialistDomain", source: d })) ?? [],
     { field: "scalePreset", source: scale.preset },
     { field: "topology", source: topology },
+    ...departmentKeys.map((d) => ({ field: "department", source: d })),
   ];
   return {
     primaryIndustry: input.primaryIndustry,
@@ -120,8 +123,34 @@ export function buildOrganizationalModelDNA(
       "Hybrid composition from industry archetypes, specialist domains, scale, and topology",
       "All recommendations are advisory and require human blueprint approval",
     ],
+    departmentKeys,
     provenance,
   };
+}
+
+function deriveDepartmentKeys(input: HybridCompositionInput, scale: TenantScaleProfile): string[] {
+  const keys = new Set<string>(["executive_office", "operations"]);
+  if (scale.preset === "ENTERPRISE" || scale.preset === "MULTI_DEPARTMENT") {
+    keys.add("finance_operations");
+    keys.add("human_resources");
+    keys.add("technology");
+  }
+  if (scale.preset === "MICRO" || scale.preset === "SOLO") {
+    return ["operations", "customer_service"];
+  }
+  for (const sk of input.specialistDomains ?? []) {
+    if (sk.includes("legal")) keys.add("legal");
+    if (sk.includes("pharmacy") || sk.includes("clinic") || sk.includes("veterinary")) keys.add("compliance");
+    if (sk.includes("warehouse") || sk.includes("logistics") || sk.includes("delivery")) keys.add("supply_chain");
+    if (sk.includes("creative") || sk.includes("photography") || sk.includes("esports")) keys.add("creative");
+  }
+  for (const dept of DEPARTMENT_ARCHETYPE_CATALOG) {
+    if (keys.has(dept.key)) continue;
+    if (dept.recommendedWorkPersonaKeys.some((p) => input.specialistDomains?.length)) {
+      /* keep minimal set */
+    }
+  }
+  return uniqueSorted(keys);
 }
 
 /** Deterministic enterprise model draft — no provisioning, no authority grants. */
@@ -162,7 +191,7 @@ export function composeEnterpriseModel(input: HybridCompositionInput): Enterpris
     personaSet.add("workflow_coordinator");
     personaSet.add("outcome_owner");
   } else if (scaleAffectsPersonaGranularity(scale) === "split") {
-    for (const p of WORK_PERSONA_CATALOG.slice(0, 12)) personaSet.add(p.key);
+    for (const p of listWorkPersonas().slice(0, 12)) personaSet.add(p.key);
   } else {
     personaSet.add("workflow_coordinator");
     personaSet.add("case_lead");
@@ -218,17 +247,7 @@ export function composeEnterpriseModel(input: HybridCompositionInput): Enterpris
   return draft;
 }
 
-export function listSpecialistDomains() {
-  return [...SPECIALIST_DOMAIN_CATALOG];
-}
-
-export function listWorkPersonas() {
-  return [...WORK_PERSONA_CATALOG];
-}
-
-export function listWorkflowTemplates() {
-  return [...WORKFLOW_TEMPLATE_CATALOG];
-}
+export { listSpecialistDomains, listWorkPersonas, listWorkflowTemplates };
 
 export function listOrganizationalTopologies() {
   return [...ORGANIZATIONAL_TOPOLOGY_CATALOG];

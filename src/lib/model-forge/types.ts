@@ -210,6 +210,7 @@ export type OrganizationalModelDNA = {
   trustProfile: readonly string[];
   experienceStrategy: readonly string[];
   modelRationale: readonly string[];
+  departmentKeys: readonly string[];
   provenance: readonly { field: string; source: string }[];
 };
 

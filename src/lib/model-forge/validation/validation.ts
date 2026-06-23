@@ -1,11 +1,11 @@
-import { SPECIALIST_DOMAIN_CATALOG } from "../specialist-domains/specialist-domain-catalog";
-import { WORK_PERSONA_CATALOG } from "../work-personas/work-persona-catalog";
-import { WORKFLOW_TEMPLATE_CATALOG } from "../workflows/workflow-template-catalog";
+import { listSpecialistDomains } from "../specialist-domains/index";
+import { listWorkPersonas } from "../work-personas/index";
+import { listWorkflowTemplates } from "../workflows/index";
 import { KPI_CATALOG, EVIDENCE_CATALOG } from "../metrics/kpi-outcomes";
 import { resolveCatalogKey } from "@/lib/tenant-composition/registry";
 
 export function validateWorkflowTemplate(templateKey: string): { valid: boolean; errors: string[] } {
-  const t = WORKFLOW_TEMPLATE_CATALOG.find((w) => w.key === templateKey);
+  const t = listWorkflowTemplates().find((w) => w.key === templateKey);
   if (!t) return { valid: false, errors: [`Unknown template: ${templateKey}`] };
   const errors: string[] = [];
   if (t.states.length === 0) errors.push("Template must have states");
@@ -21,12 +21,15 @@ export function validateWorkflowTemplate(templateKey: string): { valid: boolean;
 
 export function validateSpecialistDomainReferences(): string[] {
   const errors: string[] = [];
-  for (const d of SPECIALIST_DOMAIN_CATALOG) {
+  for (const d of listSpecialistDomains()) {
     for (const cap of d.recommendedCapabilityKeys) {
       if (!resolveCatalogKey("capability", cap)) errors.push(`${d.key} → capability ${cap}`);
     }
     for (const p of d.personaSuggestionKeys) {
-      if (!WORK_PERSONA_CATALOG.some((x) => x.key === p)) errors.push(`${d.key} → persona ${p}`);
+      if (!listWorkPersonas().some((x) => x.key === p)) errors.push(`${d.key} → persona ${p}`);
+    }
+    for (const wf of d.workflowFamilyKeys) {
+      if (!listWorkflowTemplates().some((x) => x.key === wf)) errors.push(`${d.key} → workflow ${wf}`);
     }
   }
   return errors;
@@ -37,4 +40,5 @@ export const MODEL_FORGE_BOUNDARY = {
   tenantCompositionPath: "src/lib/tenant-composition/",
   broadMoveExecuted: false,
   destructiveChangesExecuted: false,
+  targetedRefoundationExecuted: true,
 } as const;
