@@ -115,7 +115,7 @@ npm run ftgp-client-owner-browser-proof:verify
 npm run ftgp-discovery-client-answer:dry-run
 ```
 
-**Current state:** artifact absent — operator must complete Google OAuth and any required legal acceptance in the headed browser against the protected certification URL.
+**Current state:** artifact absent — operator must complete Google OAuth and any required legal acceptance in the headed browser against the protected certification URL. FTGP.1H.4a repaired executor tooling (unused bypass secret + Vercel SSO 302 wait).
 
 ---
 

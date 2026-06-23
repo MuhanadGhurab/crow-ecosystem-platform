@@ -5,7 +5,7 @@
 **Branch:** `feat/first-tenant-golden-path`  
 **Verdict:** `BLOCKED — LEGITIMATE CLIENT OWNER SESSION UNAVAILABLE` (certification environment hardened in FTGP.1H.3)
 
-> **FTGP.1H.3 update:** Public alias containment and deployment provenance are documented in `FTGP_1H_3_CERTIFICATION_DEPLOYMENT_HARDENING.md`. Supabase redirect URLs for the current protected host must be added before owner proof execute.
+> **FTGP.1H.4a update:** Browser-proof tooling repaired — certification execute no longer aborts on unused bypass secret; Vercel SSO `302` operator wait added. See `FTGP_1H_4A_BROWSER_PROOF_TOOLING_REPAIR.md`. Re-run execute after tooling repair.
 
 ---
 
@@ -38,11 +38,14 @@ CANDIDATE_07_OWNER_AUTHENTICATED_CLIENT_PROOF=UNAVAILABLE
 OWNER_PROOF_ENVIRONMENT=PRIVATE_VERCEL_CERTIFICATION
 ```
 
-Execute against certification (operator completes Vercel SSO, Google OAuth, and legal gate when required):
+Operator-assisted execute (after FTGP.1H.4a tooling repair):
 
 ```bash
 C3_PREVIEW_HEADED=true npm run ftgp-client-owner-browser-proof:execute
+npm run ftgp-client-owner-browser-proof:tooling-test
 ```
+
+The executor waits for Vercel SSO when the protected host returns `302`, then for Crow Google OAuth and legal acceptance when required.
 
 ---
 
