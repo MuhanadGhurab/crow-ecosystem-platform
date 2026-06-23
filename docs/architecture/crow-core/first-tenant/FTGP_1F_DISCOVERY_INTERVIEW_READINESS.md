@@ -27,10 +27,9 @@ Establish authoritative organizational, operational, security, and module requir
 
 ```text
 CANDIDATE_07_OWNER_AUTHENTICATED_CLIENT_PROOF=UNAVAILABLE
-CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE=true
-CLIENT_OWNER_PROOF_REQUIRED_FOR_DISCOVERY_COMPLETION=true
-CLIENT_OWNER_PROOF_REQUIRED_FOR_INTERNAL_PREPARATION=false
 ```
+
+Artifact-backed proof: `npm run ftgp-client-owner-browser-proof:execute` then `:verify`. See [FTGP_1H_CLIENT_OWNER_BROWSER_PROOF.md](./FTGP_1H_CLIENT_OWNER_BROWSER_PROOF.md).
 
 **Allowed before owner proof:** read-only structure review, template preparation, zero-write dry runs, permission verification.
 

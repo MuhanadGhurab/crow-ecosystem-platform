@@ -110,7 +110,7 @@ CANDIDATE_07_OWNER_AUTHENTICATED_CLIENT_PROOF=UNAVAILABLE
 CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE=true
 ```
 
-Owner fingerprint `876863fe8c15c5c3` is authoritative in the database. Browser proof requires a legitimate owner Google/Supabase session (`FTGP_OWNER_BROWSER_PROOF=verified`); operator env does not fabricate sessions.
+Artifact-backed proof gate: [FTGP_1H_CLIENT_OWNER_BROWSER_PROOF.md](./FTGP_1H_CLIENT_OWNER_BROWSER_PROOF.md) (`ftgp-client-owner-browser-proof:execute` / `:verify`).
 
 ---
 
