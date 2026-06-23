@@ -5,7 +5,9 @@
 **Branch:** `feat/first-tenant-golden-path`  
 **Hosted database fingerprint:** `0355c17692e2a90d`  
 **Protected Preview:** `dpl_28xNJNkpdHPX7qyUVZXZqKupQEq2`  
-**Verdict:** `BLOCKED — OPERATOR MUST DESIGNATE EXACTLY ONE IMPLEMENTATION REQUEST`
+**Verdict:** `BLOCKED — OPERATOR MUST DESIGNATE EXACTLY ONE IMPLEMENTATION REQUEST` (superseded by FTGP.1B — see [FTGP_1B_FIRST_REQUEST_DESIGNATION.md](./FTGP_1B_FIRST_REQUEST_DESIGNATION.md))
+
+> **FTGP.1B correction:** After hardening proof-requester resolution, `ELIGIBLE_FIRST_REQUEST_COUNT=0`. The sole `PENDING_REVIEW` request (`FTGP-REQUEST-CANDIDATE-07`, fingerprint `9439dd8cc806696e`) is **not** owned by the retained C3 proof requester. Operator designation of that request is blocked by `REQUEST_OWNER_COLLISION=true`.
 
 ---
 
@@ -59,10 +61,10 @@ Operator-local file: `.ftgp-first-request-candidates.local.json` (gitignored, un
 | FTGP-REQUEST-CANDIDATE-04 | `bd688c1334d8b42b` | `BLUEPRINT_BUILD` | rejected |
 | FTGP-REQUEST-CANDIDATE-05 | `9f82f88d4a7607a3` | `BLUEPRINT_BUILD` | rejected |
 | FTGP-REQUEST-CANDIDATE-06 | `89aaff9d0d1eb632` | `BLUEPRINT_BUILD` | rejected |
-| FTGP-REQUEST-CANDIDATE-07 | `9439dd8cc806696e` | `PENDING_REVIEW` | **eligible** |
+| FTGP-REQUEST-CANDIDATE-07 | `9439dd8cc806696e` | `PENDING_REVIEW` | rejected (owner is not retained requester) |
 
 ```text
-ELIGIBLE_FIRST_REQUEST_COUNT=1
+ELIGIBLE_FIRST_REQUEST_COUNT=0
 REQUEST_SELECTION_MODE=EXPLICIT_IMMUTABLE_REQUEST_ID
 EXPLICIT_REQUEST_DESIGNATED=false
 ```
