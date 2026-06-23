@@ -97,6 +97,8 @@ export const routes = {
     tenantStudio: "/admin/tenant-studio",
     /** CROW.MODEL.1 — Enterprise model forge (PLATFORM_ADMIN only, draft, no provisioning). */
     modelForge: "/admin/model-forge",
+    /** CROW.MODEL.3 — Blueprint compiler preview studio (PLATFORM_ADMIN only, ephemeral). */
+    blueprintStudio: "/admin/blueprint-studio",
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,
