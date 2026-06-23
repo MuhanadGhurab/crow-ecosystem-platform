@@ -68,6 +68,10 @@ skills-lock.json
 .env.migration.recovery
 .migration-apply-manifest
 
+# FTGP first-request operator artifacts (never commit)
+.ftgp-first-request-candidates.local.json
+.env.ftgp-first-request.operator
+
 # FTGP IMPLEMENTER grant operator artifacts (never commit)
 .ftgp-implementer-grant-manifest
 .env.ftgp-implementer-grant.operator
