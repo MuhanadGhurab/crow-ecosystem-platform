@@ -61,6 +61,11 @@ export const PROCROW_ADMIN_NAV_GROUPS: ProcrowAdminNavGroup[] = [
         label: "Architecture Lab",
         permission: Permission["platform.admin.view"],
       },
+      {
+        href: routes.admin.tenantStudio,
+        label: "Tenant Studio",
+        permission: Permission["platform.admin.view"],
+      },
     ],
   },
 ];

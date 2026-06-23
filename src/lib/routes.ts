@@ -93,6 +93,8 @@ export const routes = {
     notifications: "/admin/notifications",
     /** C0 — Architecture Lab reference prototype (mock data, platform-console only). */
     architectureLab: "/admin/architecture-lab",
+    /** CROW.TENANT.1 — Tenant composition studio (PLATFORM_ADMIN only, draft, no provisioning). */
+    tenantStudio: "/admin/tenant-studio",
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,
