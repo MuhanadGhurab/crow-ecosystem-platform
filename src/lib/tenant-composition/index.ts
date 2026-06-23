@@ -9,4 +9,5 @@ export * from "./industry-archetype-catalog";
 export * from "./registry";
 export * from "./reference-compositions";
 export * from "./discovery-integration";
+export * from "./legacy-adapters";
 export { listSpecialistDomains, SPECIALIST_DOMAIN_CATALOG } from "@/lib/model-forge";
