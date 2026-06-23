@@ -214,10 +214,12 @@ export async function resolveProcrowOwnerAdminDesignation(
     accountStatus: account?.status ?? null,
     legalCurrent,
     emailVerified: Boolean(account?.emailVerifiedAt),
+    googleProviderPresent,
     currentAdminMatch,
     candidate07Collision,
     retainedRequesterCollision,
     implementerCollision,
+    currentAdminFingerprint,
     designationTimestamp,
   };
 
