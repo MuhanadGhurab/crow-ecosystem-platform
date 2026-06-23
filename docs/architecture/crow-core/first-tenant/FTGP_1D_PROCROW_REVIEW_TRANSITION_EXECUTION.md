@@ -159,4 +159,13 @@ Production deployment authorized=false
 
 ## 10. Next authorization
 
-Authorize **client owner authenticated browser proof** before client approval or proposal acceptance. Do not begin Discovery interviews or merge PR #10 until explicitly authorized.
+FTGP.1E reconciled the Discovery shell — see `FTGP_1E_DISCOVERY_SHELL_RECONCILIATION.md`.
+
+```text
+DISCOVERY_SHELL_PROVENANCE=AUTHORIZED_ATOMIC_DISCOVERY_INITIALIZATION
+FTGP_1D_SCOPE_MATCH=false
+```
+
+Authorization text stated `0 Discovery records`; the audited transaction also created one `IN_PROGRESS` DiscoveryProfile shell and two system `DiscoveryAnswer` markers (lifecycle audit + sector template). This is required by `UNDER_DISCOVERY_REQUIRES_ONE_IN_PROGRESS_PROFILE` — a reporting/contract defect, not an unauthorized mutation.
+
+Internal interview preparation may proceed. **Authenticated client owner browser proof** remains required before client answer capture. Do not merge PR #10 until explicitly authorized.
