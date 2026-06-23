@@ -28,8 +28,14 @@ const EXPECTED_FINGERPRINT = "0355c17692e2a90d";
 const BASELINE = {
   implementation_requests: 7,
   tenant_memberships: 3,
-  internal_role_assignments: Number(
-    process.env.FTGP_EXPECTED_ACTIVE_INTERNAL_ASSIGNMENTS?.trim() || "0"
+  internal_role_assignments_total: Number(
+    process.env.FTGP_EXPECTED_TOTAL_INTERNAL_ASSIGNMENTS?.trim() || "3"
+  ),
+  internal_role_assignments_active: Number(
+    process.env.FTGP_EXPECTED_ACTIVE_INTERNAL_ASSIGNMENTS?.trim() || "2"
+  ),
+  internal_role_assignments_revoked: Number(
+    process.env.FTGP_EXPECTED_REVOKED_INTERNAL_ASSIGNMENTS?.trim() || "1"
   ),
 } as const;
 
@@ -272,13 +278,47 @@ async function main() {
     }
     ok(`tenant_memberships=${BASELINE.tenant_memberships}`);
 
-    const internalAssignments = await prisma.$queryRaw<{ count: bigint }[]>`
+    const internalAssignmentsTotal = await prisma.$queryRaw<{ count: bigint }[]>`
       SELECT COUNT(*)::bigint AS count FROM platform_internal_role_assignments
     `;
-    if (Number(internalAssignments[0]?.count ?? 0) !== BASELINE.internal_role_assignments) {
-      fail(`internal role assignments=${internalAssignments[0]?.count ?? 0}`);
+    const internalAssignmentsActive = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM platform_internal_role_assignments WHERE status = 'ACTIVE'
+    `;
+    const internalAssignmentsRevoked = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM platform_internal_role_assignments WHERE status = 'REVOKED'
+    `;
+    const total = Number(internalAssignmentsTotal[0]?.count ?? 0);
+    const active = Number(internalAssignmentsActive[0]?.count ?? 0);
+    const revoked = Number(internalAssignmentsRevoked[0]?.count ?? 0);
+    if (total !== BASELINE.internal_role_assignments_total) {
+      fail(`internal role assignments total=${total}`);
     }
-    ok(`internal role assignments=${BASELINE.internal_role_assignments}`);
+    if (active !== BASELINE.internal_role_assignments_active) {
+      fail(`internal role assignments active=${active}`);
+    }
+    if (revoked !== BASELINE.internal_role_assignments_revoked) {
+      fail(`internal role assignments revoked=${revoked}`);
+    }
+    ok(`internal role assignments total=${total}`);
+    ok(`internal role assignments active=${active}`);
+    ok(`internal role assignments revoked=${revoked}`);
+
+    const activePlatformAdmins = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM platform_internal_role_assignments
+      WHERE status = 'ACTIVE' AND role = 'PLATFORM_ADMIN'
+    `;
+    const activeImplementers = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM platform_internal_role_assignments
+      WHERE status = 'ACTIVE' AND role = 'IMPLEMENTER'
+    `;
+    if (Number(activePlatformAdmins[0]?.count ?? 0) !== 1) {
+      fail(`active PLATFORM_ADMIN count=${activePlatformAdmins[0]?.count ?? 0}`);
+    }
+    if (Number(activeImplementers[0]?.count ?? 0) !== 1) {
+      fail(`active IMPLEMENTER count=${activeImplementers[0]?.count ?? 0}`);
+    }
+    ok("active PLATFORM_ADMIN count=1");
+    ok("active IMPLEMENTER count=1");
 
     const platformAccounts = await prisma.$queryRaw<{ count: bigint }[]>`
       SELECT COUNT(*)::bigint AS count FROM platform_accounts
@@ -298,7 +338,7 @@ async function main() {
     console.log(
       `  platform_provider_identities=${providerIdentities[0]?.count ?? 0} (baseline unchanged expected)`
     );
-    ok("no internal platform authority granted");
+    ok("revoked assignments not counted as active authority");
   } finally {
     await prisma.$disconnect();
   }

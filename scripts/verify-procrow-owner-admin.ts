@@ -114,6 +114,14 @@ async function main() {
     if (implementerCount !== 1) fail(`IMPLEMENTER count=${implementerCount}`);
     ok("IMPLEMENTER_COUNT=1");
 
+    const implementer = await prisma.platformInternalRoleAssignment.findFirst({
+      where: { role: "IMPLEMENTER", status: "ACTIVE" },
+      select: { platformAccountId: true },
+    });
+    if (implementer && implementer.platformAccountId === activeAdmin.platformAccountId) {
+      ok("PROCROW_OWNER_DUAL_ROLE_ACCOUNT_MATCH=true");
+    }
+
     const requestId = process.env.FTGP_FIRST_REQUEST_ID?.trim();
     if (requestId) {
       const owner = await resolveRequestOwnerPlatformAccount(prisma, requestId);
