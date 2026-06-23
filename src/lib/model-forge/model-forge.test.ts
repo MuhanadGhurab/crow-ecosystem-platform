@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
-  SPECIALIST_DOMAIN_CATALOG,
+  listSpecialistDomains,
   WORK_PERSONA_CATALOG,
   WORKFLOW_TEMPLATE_CATALOG,
   HYBRID_REFERENCE_MODELS,
@@ -21,8 +21,9 @@ import { FORBIDDEN_PLATFORM_BUNDLE_KEYS } from "@/lib/tenant-composition/permiss
 
 assert.equal(MODEL_FORGE_BOUNDARY.broadMoveExecuted, false);
 assert.equal(MODEL_FORGE_BOUNDARY.destructiveChangesExecuted, false);
+assert.equal(MODEL_FORGE_BOUNDARY.targetedRefoundationExecuted, true);
 
-const specialistKeys = SPECIALIST_DOMAIN_CATALOG.map((d) => d.key);
+const specialistKeys = listSpecialistDomains().map((d) => d.key);
 assert.equal(new Set(specialistKeys).size, specialistKeys.length, "specialist domain keys unique");
 assert.ok(specialistKeys.length >= 25, "minimum specialist domains");
 
