@@ -12,6 +12,12 @@ import {
   FTGP_DISCOVERY_CLIENT_ANSWER_SECTION,
   FTGP_DISCOVERY_SYSTEM_ANSWER_SECTIONS,
 } from "@/lib/ftgp/ftgp-discovery-invariant.constants";
+import {
+  CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE,
+  FTGP_DISCOVERY_PROVENANCE,
+} from "@/lib/ftgp/ftgp-discovery-provenance.constants";
+import { assertCatalogQuestionVersion, findCatalogQuestion } from "@/lib/ftgp/ftgp-discovery-question-catalog";
+import { isReservedSystemMarkerSection } from "@/lib/ftgp/ftgp-discovery-system-marker.constants";
 import { FTGP_PROCROW_REVIEW_TO_STATUS } from "@/lib/ftgp/ftgp-procrow-review-transition.constants";
 
 export type PlanDiscoveryAnswerWriteInput = {
@@ -20,8 +26,13 @@ export type PlanDiscoveryAnswerWriteInput = {
   actorPlatformAccountId: string;
   sectionKey: string;
   questionKey: string;
+  questionVersion: string;
   correlationId: string;
   provenance: "client_owner" | "implementer_internal" | "system_derived";
+  /** Required for client_owner when CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE. */
+  ownerBrowserProofVerified?: boolean;
+  /** Optimistic concurrency — expected profile updatedAt ISO string when supplied. */
+  expectedProfileUpdatedAt?: string | null;
 };
 
 export type PlanDiscoveryAnswerWriteResult = {
@@ -62,6 +73,42 @@ export async function planDiscoveryAnswerWrite(
     return { allowed: false, refusal: "client_cannot_write_system_section", idempotent: false };
   }
 
+  if (
+    input.provenance === "client_owner" &&
+    isReservedSystemMarkerSection(input.sectionKey)
+  ) {
+    return { allowed: false, refusal: "client_cannot_write_system_section", idempotent: false };
+  }
+
+  const catalogQuestion = findCatalogQuestion(input.sectionKey, input.questionKey);
+  if (!catalogQuestion && input.provenance !== "system_derived") {
+    return { allowed: false, refusal: "unknown_question_key", idempotent: false };
+  }
+  if (
+    catalogQuestion &&
+    !assertCatalogQuestionVersion(
+      input.sectionKey,
+      input.questionKey,
+      input.questionVersion
+    )
+  ) {
+    return { allowed: false, refusal: "question_version_mismatch", idempotent: false };
+  }
+  if (catalogQuestion) {
+    if (
+      input.provenance === "client_owner" &&
+      catalogQuestion.answerProvenance !== FTGP_DISCOVERY_PROVENANCE.CLIENT_PROVIDED
+    ) {
+      return { allowed: false, refusal: "provenance_actor_mismatch", idempotent: false };
+    }
+    if (
+      input.provenance === "implementer_internal" &&
+      catalogQuestion.answerProvenance !== FTGP_DISCOVERY_PROVENANCE.IMPLEMENTER_OBSERVATION
+    ) {
+      return { allowed: false, refusal: "provenance_actor_mismatch", idempotent: false };
+    }
+  }
+
   const [request, profile, actor, actorRoles] = await Promise.all([
     prisma.implementationRequest.findUnique({
       where: { id: input.requestId },
@@ -100,8 +147,17 @@ export async function planDiscoveryAnswerWrite(
   }
 
   if (input.provenance === "client_owner") {
+    if (actorRoles.length > 0) {
+      return { allowed: false, refusal: "internal_actor_cannot_client_provide", idempotent: false };
+    }
     if (actor.supabaseUserId !== request.submittedByUserId) {
       return { allowed: false, refusal: "actor_not_request_owner", idempotent: false };
+    }
+    if (
+      CLIENT_OWNER_PROOF_REQUIRED_FOR_ANSWER_CAPTURE &&
+      !input.ownerBrowserProofVerified
+    ) {
+      return { allowed: false, refusal: "owner_browser_proof_required", idempotent: false };
     }
   } else if (input.provenance === "implementer_internal") {
     if (!actorMayWriteDiscovery(actorRoles)) {
@@ -109,6 +165,13 @@ export async function planDiscoveryAnswerWrite(
     }
   } else if (input.provenance !== "system_derived") {
     return { allowed: false, refusal: "invalid_provenance", idempotent: false };
+  }
+
+  if (
+    input.expectedProfileUpdatedAt &&
+    profile.updatedAt.toISOString() !== input.expectedProfileUpdatedAt
+  ) {
+    return { allowed: false, refusal: "profile_version_conflict", idempotent: false };
   }
 
   return { allowed: true, refusal: null, idempotent: false };
@@ -159,6 +222,7 @@ export async function writeDiscoveryAnswerAudited(
             : { value: input.valueJson }) as object),
           correlationId: input.correlationId,
           provenance: input.provenance,
+          questionVersion: input.questionVersion,
           actorPlatformAccountId: input.actorPlatformAccountId,
           at: new Date().toISOString(),
         } as Prisma.InputJsonValue,
@@ -170,6 +234,7 @@ export async function writeDiscoveryAnswerAudited(
             : { value: input.valueJson }) as object),
           correlationId: input.correlationId,
           provenance: input.provenance,
+          questionVersion: input.questionVersion,
           actorPlatformAccountId: input.actorPlatformAccountId,
           at: new Date().toISOString(),
         } as Prisma.InputJsonValue,

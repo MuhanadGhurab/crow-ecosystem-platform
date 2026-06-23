@@ -44,6 +44,10 @@ function main() {
   assertIncludes(service, "FTGP_PROCROW_REVIEW_TO_STATUS", "request status gate");
   assertIncludes(service, "prismaTransaction", "transaction boundary");
   assertIncludes(service, "actor_not_request_owner", "owner check");
+  assertIncludes(service, "questionVersion", "question version");
+  assertIncludes(service, "owner_browser_proof_required", "owner proof gate");
+  assertIncludes(service, "internal_actor_cannot_client_provide", "implementer impersonation block");
+  assertIncludes(service, "unknown_question_key", "catalog lookup");
   assertIncludes(service, "actor_forbidden", "implementer gate");
   ok("DISCOVERY_ANSWER_WRITE_FAIL_CLOSED=PASS");
 

@@ -29,7 +29,22 @@ function read(rel: string): string {
   assert(answerWrite.includes("planDiscoveryAnswerWrite"));
   assert(answerWrite.includes("writeDiscoveryAnswerAudited"));
   assert(answerWrite.includes("actor_not_request_owner"));
+  assert(answerWrite.includes("owner_browser_proof_required"));
+  assert(answerWrite.includes("internal_actor_cannot_client_provide"));
   assert(!answerWrite.includes("completeDiscovery"));
+}
+
+{
+  const catalog = read("src/lib/ftgp/ftgp-discovery-question-catalog.ts");
+  assert(catalog.includes("17_constraints_risks_budget_timeline"));
+  assert(catalog.includes("FTGP_DISCOVERY_QUESTION_CATALOG_VERSION"));
+}
+
+{
+  const provenance = read("src/lib/ftgp/ftgp-discovery-provenance.constants.ts");
+  assert(provenance.includes("CLIENT_PROVIDED"));
+  assert(provenance.includes("IMPLEMENTER_OBSERVATION"));
+  assert(provenance.includes("SYSTEM_LIFECYCLE_MARKER"));
 }
 
 {
@@ -41,6 +56,9 @@ function read(rel: string): string {
 {
   const gitignore = read(".gitignore");
   assert(gitignore.includes(".ftgp-discovery-readiness-manifest"));
+  assert(gitignore.includes(".ftgp-discovery-interview-plan.local.json"));
+  assert(gitignore.includes(".ftgp-discovery-client-answer-manifest"));
+  assert(gitignore.includes(".ftgp-discovery-implementer-observation-manifest"));
 }
 
 console.log("PASS — FTGP Discovery readiness");

@@ -129,9 +129,14 @@ async function main() {
     ok("IMPLEMENTER permission valid = true");
     console.log("  IMPLEMENTER authority source = DATABASE_INTERNAL_ROLE_ASSIGNMENT");
 
-    console.log("  client owner authenticated proof = unavailable");
+    const browserProof =
+      process.env.FTGP_OWNER_BROWSER_PROOF?.trim().toLowerCase() === "verified";
+    console.log(
+      `  client owner authenticated proof = ${browserProof ? "pass" : "unavailable"}`
+    );
     ok("internal preparation allowed = true");
     ok("client answer capture allowed = false");
+    ok("IMPLEMENTER observation capture allowed = false");
     ok("Discovery completion allowed = false");
 
     ok("expected request status delta = 0");
@@ -170,6 +175,7 @@ async function main() {
     console.log("\nDISCOVERY_SESSION_DRY_RUN=PASS");
     console.log("DISCOVERY_WRITES_EXECUTED=false");
     console.log("CLIENT_ANSWER_CAPTURE_AUTHORIZED=false");
+    console.log("IMPLEMENTER_OBSERVATION_CAPTURE_AUTHORIZED=false");
     console.log("DISCOVERY_COMPLETION_AUTHORIZED=false");
     console.log("\nPASS — FTGP DISCOVERY SESSION DRY-RUN\n");
   } finally {
