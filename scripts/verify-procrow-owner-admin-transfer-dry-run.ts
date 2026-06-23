@@ -18,6 +18,7 @@ import {
   loadProcrowOwnerAdminOperatorConfig,
   PROCROW_OWNER_ADMIN_DESIGNATION_ARTIFACT,
   PROCROW_OWNER_ADMIN_OPERATOR_ENV,
+  verifyDesignationArtifactIntegrity,
 } from "./lib/procrow-owner-admin-operator";
 import { countActivePlatformAdmins } from "./lib/platform-owner-bootstrap-deps";
 
@@ -76,22 +77,12 @@ async function main() {
       stop(`Designation invalid: ${designation.refusal}`);
     }
 
-    const recomputedHash = designationArtifactIntegrity({
-      targetFingerprint: designation.targetFingerprint,
-      provider: designation.provider,
-      accountStatus: designation.accountStatus,
-      legalCurrent: designation.legalCurrent,
-      emailVerified: designation.emailVerified,
-      googleProviderPresent: designation.googleProviderPresent,
-      currentAdminMatch: designation.currentAdminMatch,
-      candidate07Collision: designation.candidate07Collision,
-      retainedRequesterCollision: designation.retainedRequesterCollision,
-      implementerCollision: designation.implementerCollision,
-      currentAdminFingerprint: designation.currentAdminFingerprint,
-      designationTimestamp: designation.designationTimestamp,
-    });
-    if (artifact.integrityHash !== recomputedHash) {
+    if (!verifyDesignationArtifactIntegrity(artifact)) {
       stop("Designation artifact integrity hash mismatch — rerun designate");
+    }
+
+    if (artifact.targetFingerprint !== designation.targetFingerprint) {
+      stop("Designation artifact target fingerprint stale — rerun designate");
     }
 
     const activeAdmins = await countActivePlatformAdmins();

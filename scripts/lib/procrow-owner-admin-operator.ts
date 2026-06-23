@@ -102,3 +102,11 @@ export function designationArtifactIntegrity(payload: Record<string, unknown>): 
     .digest("hex")
     .slice(0, 16);
 }
+
+export function verifyDesignationArtifactIntegrity(
+  artifact: Record<string, unknown>
+): boolean {
+  const { integrityHash, databaseFingerprint: _db, ...payload } = artifact;
+  if (typeof integrityHash !== "string") return false;
+  return designationArtifactIntegrity(payload) === integrityHash;
+}
