@@ -6,9 +6,15 @@ export type DatabaseFingerprint = {
   maskedDatabase: string;
   schema: string;
   port: string;
+  /** Stable hash of host|database|schema|port — target identity only; does NOT change when schema changes. */
   targetHash: string;
   supabaseProjectRef: string | null;
 };
+
+/** Human-readable label for reports — avoids implying schema-structure fingerprinting. */
+export function targetIdentityFingerprintLabel(): string {
+  return "target_identity_fingerprint";
+}
 
 function maskSegment(value: string, keepStart = 2, keepEnd = 2): string {
   if (value.length <= keepStart + keepEnd + 1) return "***";
@@ -70,5 +76,5 @@ export function maskId(id: string): string {
 export function maskDatabaseTarget(url: string): string {
   const fp = fingerprintDatabaseUrl(url);
   const ref = fp.supabaseProjectRef ? ` ref=${maskId(fp.supabaseProjectRef)}` : "";
-  return `${fp.provider} host=${fp.maskedHost} db=${fp.maskedDatabase} schema=${fp.schema} port=${fp.port}${ref} hash=${fp.targetHash}`;
+  return `${fp.provider} host=${fp.maskedHost} db=${fp.maskedDatabase} schema=${fp.schema} port=${fp.port}${ref} target_identity_fingerprint=${fp.targetHash}`;
 }

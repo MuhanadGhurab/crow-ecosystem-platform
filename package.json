@@ -172,6 +172,7 @@
     "migration-apply-manifest:write": "npx tsx scripts/write-migration-apply-manifest.ts",
     "migration-apply-manifest:write-applied": "npx tsx scripts/write-migration-apply-manifest.ts --applied-verified",
     "cloud-1e-post-apply:verify": "npx tsx --env-file=.env.staging.runtime --env-file=.env.migration.recovery scripts/verify-cloud-1e-dual-migration-post-apply.ts",
+    "blueprint-1b-migration:verify": "npx tsx --env-file=.env.staging.runtime scripts/verify-blueprint-1b-migration-reconciliation.ts",
     "cloud-1f-preview:verify": "npx tsx --env-file=.env.staging.runtime --env-file=.env.preview.operator scripts/verify-cloud-1f-preview-activation.ts",
     "cloud-1g-preview:verify": "npx tsx --env-file=.env.staging.runtime --env-file=.env.preview.operator --env-file=.env.platform-bootstrap.operator --env-file=.env.ftgp-implementer-grant.operator scripts/verify-cloud-1g-preview-protection.ts",
     "cloud-1h-preview:verify": "node --env-file=.env.staging.runtime --env-file=.env.preview.operator --env-file=.env.platform-bootstrap.operator --env-file=.env.ftgp-implementer-grant.operator scripts/run-with-script-prisma.mjs scripts/verify-cloud-1h-protected-authenticated-session.ts",

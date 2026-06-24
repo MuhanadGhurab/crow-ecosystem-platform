@@ -15,7 +15,12 @@ import {
   FTGP_APPROVED_MIGRATION_INVENTORY,
   assertRepositoryMigrationHashesMatchInventory,
 } from "./lib/controlled-migration-inventory";
-import { fingerprintDatabaseUrl, maskDatabaseTarget } from "./lib/database-fingerprint";
+import {
+  fingerprintDatabaseUrl,
+  maskDatabaseTarget,
+  targetIdentityFingerprintLabel,
+} from "./lib/database-fingerprint";
+import { countMigrationSql } from "./lib/migration-baseline";
 import {
   assertHostedEnvNotLocalhost,
   loadHostedOperatorEnv,
@@ -76,7 +81,7 @@ async function main() {
   console.log("\n=== CLOUD.1E dual-migration post-apply verification ===\n");
   console.log(`  env_file=${hosted.envFile}`);
   console.log(`  target=${maskDatabaseTarget(directUrl)}`);
-  console.log(`  fingerprint=${fp.targetHash}`);
+  console.log(`  ${targetIdentityFingerprintLabel()}=${fp.targetHash} (host/db/schema/port identity; unchanged by schema migrations)`);
 
   for (const entry of FTGP_APPROVED_MIGRATION_INVENTORY) {
     const diskHash = createHash("sha256")
@@ -114,6 +119,19 @@ async function main() {
     }
     ok("FAILED_MIGRATION_COUNT=0");
     ok("pending migration count=0");
+
+    const successfulMigrations = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM "_prisma_migrations"
+      WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL
+    `;
+    const repoMigrationFolders = countMigrationSql(process.cwd());
+    const ledgerSuccessful = Number(successfulMigrations[0]?.count ?? 0);
+    if (ledgerSuccessful !== repoMigrationFolders) {
+      fail(
+        `migration ledger count ${ledgerSuccessful} != repository folders ${repoMigrationFolders}`
+      );
+    }
+    ok(`successful_migration_count=${ledgerSuccessful} (matches repository folders)`);
 
     const enumLabels = await prisma.$queryRaw<{ enumlabel: string }[]>`
       SELECT e.enumlabel FROM pg_enum e
