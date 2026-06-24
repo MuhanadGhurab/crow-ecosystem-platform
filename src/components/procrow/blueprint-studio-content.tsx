@@ -9,6 +9,8 @@ import { StudioPanel, StudioStatusChip, StudioEmptyState } from "@/components/pr
 import { StudioGraphCanvas, StudioGraphControls } from "@/components/procrow/studio/studio-graph-canvas";
 import { StudioProvenanceDrawer } from "@/components/procrow/studio/studio-provenance-drawer";
 import { StudioCompilationTimeline } from "@/components/procrow/studio/studio-compilation-timeline";
+import { StudioDecisionTimeline } from "@/components/procrow/studio/studio-decision-timeline";
+import { StudioRelationshipRulesView } from "@/components/procrow/studio/studio-relationship-rules";
 import { StudioValidationList } from "@/components/procrow/studio/studio-graph-canvas";
 import { studioMotion } from "@/components/procrow/studio/studio-motion";
 import { saveCompileInputToSession, saveBlueprintPreviewToSession, loadBlueprintPreviewFromSession, loadCompileInputFromSession } from "@/lib/model-forge/blueprint/blueprint-session";
@@ -34,12 +36,20 @@ import {
   GRAPH_LAYER_PRESETS,
   HYBRID_REFERENCE_MODELS,
   buildScaleProfile,
+  synchronizeStudioSelection,
+  assessBlueprintReviewReadiness,
+  buildReviewSummary,
+  compositionInputFromBlueprintScenario,
+  compareScenarioGraphs,
+  analyzeBlueprintDecisionImpact,
+  applyDecisionToSessionDraft,
+  revertSessionDecision,
   type EnterpriseBlueprintDraft,
   type BlueprintCompileInput,
 } from "@/lib/model-forge";
 import { routes } from "@/lib/routes";
 
-type BlueprintMode = ForgeMode | "overview" | "organization" | "information" | "authority" | "experience" | "trust" | "decisions" | "compare";
+type BlueprintMode = ForgeMode | "overview" | "organization" | "information" | "authority" | "experience" | "trust" | "decisions" | "compare" | "relationships";
 
 const MODES: { key: BlueprintMode; label: string }[] = [
   { key: "overview", label: "Overview" },
@@ -53,6 +63,7 @@ const MODES: { key: BlueprintMode; label: string }[] = [
   { key: "validation", label: "Validation" },
   { key: "decisions", label: "Decisions" },
   { key: "compare", label: "Compare" },
+  { key: "relationships", label: "Relationships" },
   { key: "graph", label: "Graph" },
   { key: "export", label: "Export" },
 ];
@@ -77,6 +88,8 @@ export function BlueprintStudioContent() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const [timelinePhase, setTimelinePhase] = useState(0);
+  const [selectedBlueprintPath, setSelectedBlueprintPath] = useState<string | null>(null);
+  const [decisionTimeline, setDecisionTimeline] = useState<{ decisionKey: string; reverted?: boolean }[]>([]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -126,7 +139,7 @@ export function BlueprintStudioContent() {
 
   const graph = useMemo(() => {
     if (!modelDraft) return null;
-    const g = buildOperatingGraph(modelDraft, "OPERATING_MODEL", [...(compileInput.specialistDomains ?? [])]);
+    const g = buildOperatingGraph(modelDraft, "OPERATING_MODEL", [...(compileInput.specialistDomains ?? [])], { registerProvenance: false });
     return filterGraphByLayerPreset(g, layerPreset);
   }, [modelDraft, compileInput, layerPreset]);
 
@@ -135,7 +148,40 @@ export function BlueprintStudioContent() {
     return analyzeOperatingGraphCompleteness(graph, modelDraft, [...(compileInput.specialistDomains ?? [])]);
   }, [graph, modelDraft, compileInput]);
 
-  const readiness = useMemo(() => (blueprint ? buildCompilerReadinessMatrix(blueprint) : null), [blueprint]);
+  const readiness = useMemo(() => {
+    if (!blueprint || !modelDraft) return null;
+    const ci = compositionInputFromBlueprintScenario(blueprint, compileInput.primaryIndustry, compileInput.specialistDomains ? [...compileInput.specialistDomains] : undefined);
+    return assessBlueprintReviewReadiness(blueprint, graph ?? undefined, ci);
+  }, [blueprint, modelDraft, graph, compileInput]);
+
+  const reviewSummary = useMemo(() => (readiness && blueprint ? buildReviewSummary(readiness, blueprint) : null), [readiness, blueprint]);
+
+  const scenarioGraphDiff = useMemo(() => {
+    if (!blueprint) return null;
+    return compareScenarioGraphs(
+      {
+        primaryIndustry: compileInput.primaryIndustry,
+        specialistDomains: compileInput.specialistDomains,
+        scaleProfile: buildScaleProfile((compileInput.scalePreset ?? "GROWING_ORGANIZATION") as never),
+        topologies: [(compileInput.topology ?? "DEPARTMENTAL_HIERARCHY") as never],
+        organizationSignals: { approval_complexity: "medium" },
+      },
+      "MICRO",
+      "ENTERPRISE",
+      [...(compileInput.specialistDomains ?? [])],
+    );
+  }, [blueprint, compileInput]);
+
+  const handleGraphSelect = useCallback((nodeId: string | null) => {
+    setSelectedNodeId(nodeId);
+    if (!nodeId) return;
+    const sync = synchronizeStudioSelection({ source: "GRAPH", target: { graphNodeId: nodeId }, timestamp: Date.now() });
+    if (sync.blueprintMode) setMode(sync.blueprintMode as BlueprintMode);
+    if (sync.blueprintPath) setSelectedBlueprintPath(sync.blueprintPath);
+  }, []);
+
+  const compilerReadiness = useMemo(() => (blueprint ? buildCompilerReadinessMatrix(blueprint) : null), [blueprint]);
+  void compilerReadiness;
 
   const blueprintB = useMemo(() => compileEnterpriseBlueprintPreview(variantBInput), [variantBInput]);
   const blueprintDiff = useMemo(
@@ -144,9 +190,9 @@ export function BlueprintStudioContent() {
   );
 
   const provenanceChain = useMemo(() => {
-    if (selectedNodeId) return buildProvenanceChain(`graph:${selectedNodeId}`);
-    return blueprint ? buildProvenanceChain("blueprint.organization.primary") : null;
-  }, [selectedNodeId, blueprint]);
+    const path = selectedBlueprintPath ?? (selectedNodeId ? `graph:${selectedNodeId}` : "blueprint.organization.primary");
+    return blueprint ? buildProvenanceChain(path.startsWith("graph:") ? path : path) : null;
+  }, [selectedNodeId, selectedBlueprintPath, blueprint]);
 
   const connectedIds = useMemo(
     () => (graph && selectedNodeId ? getConnectedNodeIds(graph, selectedNodeId) : undefined),
@@ -190,6 +236,9 @@ export function BlueprintStudioContent() {
       {readiness && (
         <p className="mb-2 text-xs text-cyan-200">{readiness.overallStatus.replace(/_/g, " ")}</p>
       )}
+      {reviewSummary && (
+        <p className="mb-2 text-[10px] text-white/40">Provenance: {reviewSummary.provenanceCoverage}</p>
+      )}
       <button type="button" className="mb-2 w-full rounded bg-violet-600/80 px-2 py-1.5 text-xs text-white" onClick={() => compile(compileInput)}>
         Recompile preview
       </button>
@@ -222,6 +271,14 @@ export function BlueprintStudioContent() {
         <div className="space-y-3">
           <p className="text-sm text-white/80">{blueprint.executiveSummary}</p>
           <StudioStatusChip label={blueprint.metadata.previewClassification} tone="advisory" />
+          {reviewSummary && (
+            <div className="rounded border border-cyan-500/20 bg-cyan-500/5 p-3 text-xs text-white/70">
+              <p className="font-medium text-cyan-100">Review readiness: {reviewSummary.readiness}</p>
+              <p>Blocking issues: {reviewSummary.blockingIssues}</p>
+              <p>Unresolved decisions: {reviewSummary.unresolvedDecisions}</p>
+              <p className="text-white/40">Hash: {reviewSummary.contentHash}</p>
+            </div>
+          )}
           <p className="text-xs text-white/50">Content hash: {blueprint.metadata.contentHash}</p>
           <StudioCompilationTimeline completedPhaseCount={timelinePhase} reducedMotion={reducedMotion} />
         </div>
@@ -281,11 +338,54 @@ export function BlueprintStudioContent() {
       )}
       {mode === "validation" && <StudioValidationList findings={blueprint.validation.findings.map((f) => ({ ...f, severity: f.severity }))} />}
       {mode === "decisions" && (
-        <ul className="space-y-2 text-sm">
-          {blueprint.unresolvedDecisions.map((d) => (
-            <li key={d.key} className="rounded border border-white/10 p-2 text-white/70">{d.question}</li>
-          ))}
-        </ul>
+        <div className="space-y-3">
+          <StudioDecisionTimeline
+            entries={(blueprint?.unresolvedDecisions ?? []).map((d) => ({
+              decision: d,
+              impact: d.draftSelection ? analyzeBlueprintDecisionImpact(blueprint!, d, d.draftSelection) : undefined,
+              reverted: decisionTimeline.find((t) => t.decisionKey === d.key)?.reverted,
+            }))}
+            reducedMotion={reducedMotion}
+          />
+          <ul className="space-y-2 text-sm">
+            {blueprint.unresolvedDecisions.map((d) => (
+              <li key={d.key} className="rounded border border-white/10 p-2 text-white/70">
+                <p>{d.question}</p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {d.options.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      className="rounded border border-white/15 px-2 py-0.5 text-xs hover:border-cyan-400/40"
+                      onClick={() => {
+                        const next = applyDecisionToSessionDraft(blueprint, d.key, opt);
+                        setBlueprint(next);
+                        saveBlueprintPreviewToSession(next);
+                        setDecisionTimeline((t) => [...t.filter((x) => x.decisionKey !== d.key), { decisionKey: d.key }]);
+                      }}
+                    >
+                      Preview: {opt}
+                    </button>
+                  ))}
+                  {d.draftSelection && (
+                    <button
+                      type="button"
+                      className="rounded border border-amber-500/30 px-2 py-0.5 text-xs text-amber-200"
+                      onClick={() => {
+                        const next = revertSessionDecision(blueprint, d.key);
+                        setBlueprint(next);
+                        saveBlueprintPreviewToSession(next);
+                        setDecisionTimeline((t) => [...t, { decisionKey: d.key, reverted: true }]);
+                      }}
+                    >
+                      Revert
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
       {mode === "compare" && (
         <div className="space-y-2">
@@ -298,11 +398,32 @@ export function BlueprintStudioContent() {
             <option value="ENTERPRISE">ENTERPRISE</option>
           </select>
           <ul className="max-h-64 overflow-y-auto text-xs">
-            {blueprintDiff.filter((d) => d.change !== "UNCHANGED").slice(0, 30).map((d, i) => (
+            {blueprintDiff.filter((d) => d.change !== "UNCHANGED").slice(0, 20).map((d, i) => (
               <li key={`${d.key}-${i}`} className="text-white/60">{d.change}: {d.key}</li>
             ))}
           </ul>
+          {scenarioGraphDiff && (
+            <div className="mt-3 border-t border-white/10 pt-2">
+              <p className="text-xs text-white/40">Graph scenario diff (MICRO → ENTERPRISE)</p>
+              <ul className="max-h-40 overflow-y-auto text-xs">
+                {scenarioGraphDiff.nodeDiffs.filter((d) => d.change !== "UNCHANGED").slice(0, 15).map((d) => (
+                  <li key={`${d.nodeType}-${d.key}`} className="text-white/60">
+                    {d.change}: {d.whatChanged}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-1 text-[10px] text-white/40">Edge changes: {scenarioGraphDiff.edgeDiffs.length}</p>
+            </div>
+          )}
         </div>
+      )}
+      {mode === "relationships" && (
+        <StudioRelationshipRulesView
+          reducedMotion={reducedMotion}
+          onSelectRule={(ruleKey) => {
+            synchronizeStudioSelection({ source: "RELATIONSHIP_RULE", target: { relationshipRuleKey: ruleKey }, timestamp: Date.now() });
+          }}
+        />
       )}
       {mode === "graph" && graph && (
         <div>
@@ -325,7 +446,7 @@ export function BlueprintStudioContent() {
             viewport={viewport}
             selectedNodeId={selectedNodeId}
             connectedIds={connectedIds}
-            onSelectNode={setSelectedNodeId}
+            onSelectNode={handleGraphSelect}
             reducedMotion={reducedMotion}
           />
           {completeness && (
