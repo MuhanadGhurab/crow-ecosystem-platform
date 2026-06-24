@@ -53,6 +53,8 @@ export const routes = {
     requests: "/client/requests",
     request: (id: string) => `/client/requests/${id}`,
     requestDiscovery: (id: string) => `/client/requests/${id}/discovery`,
+    requestBlueprint: (requestId: string) => `/client/requests/${requestId}/blueprint`,
+    requestBlueprintReview: (requestId: string) => `/client/requests/${requestId}/blueprint/review`,
     proposals: "/client/proposals",
     proposal: (id: string) => `/client/proposals/${id}`,
     blueprint: (id: string) => `/client/blueprints/${id}`,
@@ -99,6 +101,10 @@ export const routes = {
     modelForge: "/admin/model-forge",
     /** CROW.MODEL.3 — Blueprint compiler preview studio (PLATFORM_ADMIN only, ephemeral). */
     blueprintStudio: "/admin/blueprint-studio",
+    persistentBlueprint: (blueprintId: string) => `/admin/blueprints/${blueprintId}`,
+    persistentBlueprintVersion: (blueprintId: string, versionNumber: number) =>
+      `/admin/blueprints/${blueprintId}/versions/${versionNumber}`,
+    persistentBlueprintReview: (blueprintId: string) => `/admin/blueprints/${blueprintId}/review`,
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,

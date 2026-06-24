@@ -48,6 +48,18 @@ import {
   type BlueprintCompileInput,
 } from "@/lib/model-forge";
 import { routes } from "@/lib/routes";
+import { BlueprintStudioPersistencePanel } from "@/components/procrow/blueprint-studio-persistence-panel";
+
+type PersistRequest = {
+  id: string;
+  referenceCode: string;
+  organizationName: string;
+  enterpriseBlueprint: { id: string } | null;
+};
+
+type BlueprintStudioContentProps = {
+  persistRequests?: PersistRequest[];
+};
 
 type BlueprintMode = ForgeMode | "overview" | "organization" | "information" | "authority" | "experience" | "trust" | "decisions" | "compare" | "relationships";
 
@@ -76,7 +88,7 @@ const DEFAULT_INPUT: BlueprintCompileInput = {
   organizationalOverlays: ["mid_market"],
 };
 
-export function BlueprintStudioContent() {
+export function BlueprintStudioContent({ persistRequests = [] }: BlueprintStudioContentProps) {
   const router = useRouter();
   const [mode, setMode] = useState<BlueprintMode>("overview");
   const [compileInput, setCompileInput] = useState<BlueprintCompileInput>(DEFAULT_INPUT);
@@ -280,6 +292,7 @@ export function BlueprintStudioContent() {
             </div>
           )}
           <p className="text-xs text-white/50">Content hash: {blueprint.metadata.contentHash}</p>
+          <BlueprintStudioPersistencePanel draft={blueprint} requests={persistRequests} />
           <StudioCompilationTimeline completedPhaseCount={timelinePhase} reducedMotion={reducedMotion} />
         </div>
       )}

@@ -1,15 +1,14 @@
-import { redirect } from "next/navigation";
+import { BlueprintStudioPersistencePanel } from "@/components/procrow/blueprint-studio-persistence-panel";
+import { listPersistableRequestsForStudio } from "@/lib/actions/persistent-blueprint";
+import { requireBlueprintPlatformAdmin } from "@/lib/auth/blueprint-engine-guard";
 import { BlueprintStudioContent } from "@/components/procrow/blueprint-studio-content";
-import { requireAuthoritativeCrowAuth } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 
 export const dynamic = "force-dynamic";
 
-/** ProCrow Blueprint Studio — PLATFORM_ADMIN only; ephemeral preview, no persistence. */
+/** ProCrow Blueprint Studio — PLATFORM_ADMIN only; compile preview and optional internal draft persistence. */
 export default async function AdminBlueprintStudioPage() {
-  const { auth } = await requireAuthoritativeCrowAuth(routes.admin.blueprintStudio);
-  if (auth.role !== "platform_admin") {
-    redirect("/unauthorized?reason=platform_admin_only");
-  }
-  return <BlueprintStudioContent />;
+  await requireBlueprintPlatformAdmin(routes.admin.blueprintStudio);
+  const persistRequests = await listPersistableRequestsForStudio();
+  return <BlueprintStudioContent persistRequests={persistRequests} />;
 }
