@@ -81,6 +81,12 @@ export function getMockEnterpriseBlueprint(
     title: null,
     currentApprovedVersionId: null,
     activeDraftVersionId: null,
+    currentVersionId: null,
+    platformFinalizedVersionId: null,
+    lifecycleState: "DRAFT_INTERNAL",
+    clientVisibilityState: "NOT_SHARED",
+    sharedWithClientVersionNumber: null,
+    rowVersion: 1,
     createdAt: now,
     updatedAt: now,
     modules: [

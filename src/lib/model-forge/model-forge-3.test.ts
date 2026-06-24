@@ -87,7 +87,7 @@ assert.ok(diff.some((d) => d.change !== "UNCHANGED"));
 assert.ok(listAllProvenanceRecords().length >= 1);
 
 const page = readFileSync(join(process.cwd(), "src/app/admin/blueprint-studio/page.tsx"), "utf8");
-assert.ok(page.includes('auth.role !== "platform_admin"'));
+assert.ok(page.includes("requireBlueprintPlatformAdmin") || page.includes('auth.role !== "platform_admin"'));
 
 const forgePage = readFileSync(join(process.cwd(), "src/app/admin/model-forge/page.tsx"), "utf8");
 assert.ok(forgePage.includes("platform_admin"));

@@ -127,6 +127,6 @@ const mapped = graphNodeIdToBlueprintPath("persona:test_key");
 assert.ok(mapped?.path.startsWith("blueprint.workPersonas."));
 
 const page = readFileSync(join(process.cwd(), "src/app/admin/blueprint-studio/page.tsx"), "utf8");
-assert.ok(page.includes('auth.role !== "platform_admin"'));
+assert.ok(page.includes("requireBlueprintPlatformAdmin") || page.includes('auth.role !== "platform_admin"'));
 
 console.log("model-forge-4: PASS");
