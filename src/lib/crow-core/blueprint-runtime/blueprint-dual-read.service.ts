@@ -49,7 +49,7 @@ export function mapPersistedVersionToSnapshot(
     ...baseDocument.ref,
     blueprintId: row.blueprintId,
     version: versionLabel,
-    tenantId: row.tenantId,
+    tenantId: row.tenantId ?? "",
     status: approvalStatus,
     createdAtIso: row.createdAt.toISOString(),
     approvedAtIso: row.approvedAt?.toISOString() ?? null,

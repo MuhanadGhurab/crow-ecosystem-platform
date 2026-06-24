@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { type TenantScope, tenantWhereClause } from "./tenant-scope";
 
 export type AppendTraceEventInput = {
-  tenantId: string;
+  tenantId?: string | null;
   blueprintId: string;
   blueprintVersionId?: string | null;
   resourceType: string;
@@ -27,7 +27,7 @@ export type AppendTraceEventInput = {
 export async function appendBlueprintTraceEvent(input: AppendTraceEventInput) {
   return prisma.blueprintTraceEvent.create({
     data: {
-      tenantId: input.tenantId,
+      tenantId: input.tenantId ?? null,
       blueprintId: input.blueprintId,
       blueprintVersionId: input.blueprintVersionId ?? null,
       resourceType: input.resourceType,

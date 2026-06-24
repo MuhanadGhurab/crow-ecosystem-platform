@@ -113,6 +113,9 @@ export async function saveDraftVersion(params: {
   contentHash: string;
   schemaVersion: string;
 }) {
+  throw new Error(
+    "Blueprint version updates are forbidden — enterprise_blueprint_versions is append-only. Create a new immutable version instead.",
+  );
   return prismaTransaction(async (tx) => {
     const current = await tx.enterpriseBlueprintVersion.findUnique({
       where: { id: params.versionId },

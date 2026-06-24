@@ -73,7 +73,9 @@ export async function approveBlueprintVersion(input: ApproveVersionInput) {
 
     const approval = await tx.blueprintApproval.create({
       data: {
-        tenantId: version.tenantId,
+        tenantId: version.tenantId ?? (() => {
+          throw new Error("Legacy blueprint approval requires tenant scope");
+        })(),
         blueprintId: version.blueprintId,
         blueprintVersionId: version.id,
         contentHash: version.contentHash,
