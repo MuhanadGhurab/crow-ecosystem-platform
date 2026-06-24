@@ -42,6 +42,32 @@ export default async function ClientPortalHomePage() {
       <ClientPortalTrustStrip />
 
       <ClientNextActionPanel snapshot={snapshot} />
+
+      <section className="cc-glass-card space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Enterprise design
+        </h2>
+        <p className="text-sm text-slate-400">
+          Start or continue a guided design journey attached to your implementation request.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link href={routes.public.request} className="cc-btn-primary text-sm">
+            Start a new enterprise design
+          </Link>
+          {snapshot.requests[0] && (
+            <Link
+              href={routes.client.requestDiscoveryDesign(snapshot.requests[0].requestId)}
+              className="cc-btn-secondary text-sm"
+            >
+              Continue existing design
+            </Link>
+          )}
+          <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
+            View current requests
+          </Link>
+        </div>
+      </section>
+
       <ClientJourneySummary />
       <CommercialLifecycleMini variant="client" />
 
