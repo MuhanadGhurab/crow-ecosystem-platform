@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
 import { AdminProcrowDiscoveryReviewPanel } from "@/components/admin/admin-procrow-discovery-review-panel";
+import { AdminClientEnterpriseDesignPanel } from "@/components/admin/admin-client-enterprise-design-panel";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
@@ -243,6 +244,7 @@ export default async function AdminRequestDetailPage({
       <ProCrowWorkbenchSection title="Client interaction" description="Portal linkage, onboarding, feedback.">
         <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
         <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
+        <AdminClientEnterpriseDesignPanel requestId={requestId} />
         <AdminClientReviewFeedbackPanel requestId={requestId} />
       </ProCrowWorkbenchSection>
 

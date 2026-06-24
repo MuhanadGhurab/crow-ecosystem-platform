@@ -51,8 +51,25 @@ import { compileEnterpriseBlueprintPreview } from "@/lib/model-forge/blueprint/b
 import { saveCompileInputToSession, saveBlueprintPreviewToSession } from "@/lib/model-forge/blueprint/blueprint-session";
 import { listIndustryArchetypes, listOrganizationalOverlays } from "@/lib/tenant-composition";
 import { routes } from "@/lib/routes";
+import type { ClientEnterpriseDesignSnapshot } from "@/lib/client-enterprise-design/types";
 
-export function ModelForgeContent() {
+type ClientDesignHandoff = {
+  requestId: string;
+  snapshot: ClientEnterpriseDesignSnapshot;
+  clientSelections: {
+    field: string | null;
+    domains: string[];
+    primaryPurpose: string | null;
+    currentScale: string | null;
+    targetScale: string | null;
+  };
+};
+
+export function ModelForgeContent({
+  clientDesignHandoff = null,
+}: {
+  clientDesignHandoff?: ClientDesignHandoff | null;
+}) {
   const router = useRouter();
   const industries = listIndustryArchetypes();
   const specialists = listSpecialistDomains();
@@ -86,6 +103,34 @@ export function ModelForgeContent() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  useEffect(() => {
+    if (!clientDesignHandoff) return;
+    const draft = clientDesignHandoff.snapshot;
+    const field = clientDesignHandoff.clientSelections.field;
+    const industry = industries.find((i) => i.displayName === field || i.key === field);
+    if (industry) setPrimaryIndustry(industry.key);
+    const domainKeys = clientDesignHandoff.snapshot.recommendedPersonaKeys.length
+      ? specialists
+          .filter((d) => clientDesignHandoff.clientSelections.domains.includes(d.displayName))
+          .map((d) => d.key)
+      : [];
+    if (domainKeys.length) setSpecialistDomains(domainKeys);
+    const scale = clientDesignHandoff.clientSelections.targetScale;
+    const allowed: TenantScalePreset[] = [
+      "SOLO",
+      "MICRO",
+      "SMALL_TEAM",
+      "GROWING_ORGANIZATION",
+      "MULTI_DEPARTMENT",
+      "MULTI_BRANCH",
+      "ENTERPRISE",
+      "GROUP_OR_ECOSYSTEM",
+    ];
+    if (scale && allowed.includes(scale as TenantScalePreset)) {
+      setScalePreset(scale as TenantScalePreset);
+    }
+  }, [clientDesignHandoff, industries, specialists]);
 
   const scaleProfile = useMemo(() => buildScaleProfile(scalePreset), [scalePreset]);
 
@@ -531,6 +576,12 @@ export function ModelForgeContent() {
         <span className="text-white/20">|</span>
         <span className="text-violet-300">Model Forge</span>
       </nav>
+      {clientDesignHandoff && (
+        <section className="rounded-lg border border-violet-500/40 bg-violet-950/30 px-4 py-3 text-sm text-violet-100">
+          Client design handoff from request {clientDesignHandoff.requestId.slice(0, 8)}… — selections
+          preserved; no Discovery answers modified.
+        </section>
+      )}
 
       <div className="rounded-lg border border-violet-500/30 bg-violet-500/10 px-4 py-3 text-sm text-violet-50">
         Enterprise Operating Graph laboratory — draft invention only. No provisioning, no permission grants, no hosted writes.
