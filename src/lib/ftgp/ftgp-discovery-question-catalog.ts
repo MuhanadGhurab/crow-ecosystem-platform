@@ -1,5 +1,8 @@
 import { FTGP_DISCOVERY_PROVENANCE } from "./ftgp-discovery-provenance.constants";
-import { FTGP_DISCOVERY_CLIENT_ANSWER_SECTION } from "./ftgp-discovery-invariant.constants";
+import {
+  FTGP_DISCOVERY_CLIENT_ANSWER_SECTION,
+  FTGP_CLIENT_ENTERPRISE_DESIGN_SECTION,
+} from "./ftgp-discovery-invariant.constants";
 
 export const FTGP_DISCOVERY_QUESTION_CATALOG_VERSION =
   "ftgp-first-tenant-discovery-v1.0.0" as const;
@@ -71,6 +74,7 @@ export type FtgpDiscoveryGroupDef = {
 };
 
 const CLIENT = FTGP_DISCOVERY_CLIENT_ANSWER_SECTION;
+const ENTERPRISE_DESIGN = FTGP_CLIENT_ENTERPRISE_DESIGN_SECTION;
 const IMPLEMENTER_SECTION = "implementer_discovery" as const;
 const V = FTGP_DISCOVERY_QUESTION_CATALOG_VERSION;
 
@@ -83,6 +87,22 @@ function clientQ(
   return {
     ...partial,
     sectionKey: CLIENT,
+    actorType: "client",
+    answerProvenance: FTGP_DISCOVERY_PROVENANCE.CLIENT_PROVIDED,
+    questionVersion: V,
+    blueprintRelevance: "informational",
+  };
+}
+
+function enterpriseDesignQ(
+  partial: Omit<
+    FtgpDiscoveryQuestionDef,
+    "sectionKey" | "actorType" | "answerProvenance" | "questionVersion" | "blueprintRelevance"
+  >
+): FtgpDiscoveryQuestionDef {
+  return {
+    ...partial,
+    sectionKey: ENTERPRISE_DESIGN,
     actorType: "client",
     answerProvenance: FTGP_DISCOVERY_PROVENANCE.CLIENT_PROVIDED,
     questionVersion: V,
@@ -721,6 +741,58 @@ export const FTGP_DISCOVERY_QUESTION_CATALOG: readonly FtgpDiscoveryQuestionDef[
     clientVisibility: "internal",
     internalVisibility: "internal",
     evidenceAllowed: true,
+    completionWeight: null,
+  }),
+  enterpriseDesignQ({
+    questionKey: "v1.draft_snapshot",
+    groupKey: "02_industry_business_model",
+    label: "Client enterprise design draft snapshot",
+    required: false,
+    answerDataType: "text",
+    validation: "json_snapshot",
+    sensitiveDataClass: "confidential",
+    clientVisibility: "client",
+    internalVisibility: "internal",
+    evidenceAllowed: false,
+    completionWeight: null,
+  }),
+  enterpriseDesignQ({
+    questionKey: "v1.design_status",
+    groupKey: "02_industry_business_model",
+    label: "Client enterprise design status",
+    required: false,
+    answerDataType: "enum",
+    validation: "design_status_enum",
+    sensitiveDataClass: "internal",
+    clientVisibility: "client",
+    internalVisibility: "internal",
+    evidenceAllowed: false,
+    completionWeight: null,
+  }),
+  enterpriseDesignQ({
+    questionKey: "v1.submitted_at",
+    groupKey: "02_industry_business_model",
+    label: "Client enterprise design submitted at",
+    required: false,
+    answerDataType: "text",
+    validation: "iso_timestamp_optional",
+    sensitiveDataClass: "internal",
+    clientVisibility: "client",
+    internalVisibility: "internal",
+    evidenceAllowed: false,
+    completionWeight: null,
+  }),
+  enterpriseDesignQ({
+    questionKey: "v1.snapshot_hash",
+    groupKey: "02_industry_business_model",
+    label: "Client enterprise design snapshot hash",
+    required: false,
+    answerDataType: "text",
+    validation: "hash_16",
+    sensitiveDataClass: "none",
+    clientVisibility: "internal",
+    internalVisibility: "internal",
+    evidenceAllowed: false,
     completionWeight: null,
   }),
 ] as const;

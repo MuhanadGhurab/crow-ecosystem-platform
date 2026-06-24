@@ -9,7 +9,9 @@ import { listActiveInternalPlatformRoles } from "@/lib/auth/platform-internal-ro
 import { Permission, hasPermission } from "@/lib/auth/permissions";
 import { prisma, prismaTransaction } from "@/lib/db";
 import {
+  FTGP_CLIENT_DISCOVERY_ANSWER_SECTIONS,
   FTGP_DISCOVERY_CLIENT_ANSWER_SECTION,
+  FTGP_CLIENT_ENTERPRISE_DESIGN_SECTION,
   FTGP_DISCOVERY_SYSTEM_ANSWER_SECTIONS,
 } from "@/lib/ftgp/ftgp-discovery-invariant.constants";
 import {
@@ -64,7 +66,7 @@ export async function planDiscoveryAnswerWrite(
 
   if (
     input.provenance === "client_owner" &&
-    input.sectionKey !== FTGP_DISCOVERY_CLIENT_ANSWER_SECTION
+    !(FTGP_CLIENT_DISCOVERY_ANSWER_SECTIONS as readonly string[]).includes(input.sectionKey)
   ) {
     return { allowed: false, refusal: "client_provenance_section_mismatch", idempotent: false };
   }
