@@ -40,9 +40,9 @@ function edge(
   source: string,
   target: string,
   reason: string,
-  provenance = "crow_core",
+  ruleKey: string,
 ): EnterpriseGraphEdge {
-  return { id, type, source, target, reason, provenance, advisory: true };
+  return { id, type, source, target, reason, provenance: `rule:${ruleKey}`, advisory: true };
 }
 
 const LAYOUT_COLUMNS: Record<GraphLayoutMode, number> = {
@@ -119,7 +119,7 @@ export function buildOperatingGraph(
   for (const s of sk) {
     const spec = listSpecialistDomains().find((d) => d.key === s);
     const id = ensureNode(nodes, `specialist:${s}`, "SPECIALIST_DOMAIN", s, spec?.displayName ?? s, idx, cols, "specialist");
-    edges.push(edge(`e-ind-sp-${s}`, "CONTAINS", industryId, id, "Industry contains specialist domain"));
+    edges.push(edge(`e-ind-sp-${s}`, "CONTAINS", industryId, id, "Industry contains specialist domain", "industry_contains_specialist_domain"));
   }
 
   for (const pk of sources.domainPackKeys) {
@@ -127,7 +127,7 @@ export function buildOperatingGraph(
     for (const s of sk) {
       const spId = `specialist:${s}`;
       if (nodes.some((n) => n.id === spId)) {
-        edges.push(edge(`e-sp-dp-${s}-${pk}`, "DEPENDS_ON", spId, id, "Specialist domain recommends domain pack", `domain_pack:${pk}`));
+        edges.push(edge(`e-sp-dp-${s}-${pk}`, "DEPENDS_ON", spId, id, "Specialist domain recommends domain pack", "specialist_recommends_domain_pack"));
       }
     }
   }
@@ -135,17 +135,17 @@ export function buildOperatingGraph(
   for (const dept of sources.departmentKeys) {
     const deptDef = DEPARTMENT_ARCHETYPE_CATALOG.find((d) => d.key === dept);
     const id = ensureNode(nodes, `dept:${dept}`, "DEPARTMENT", dept, getDepartmentLabel(dept), idx, cols, "department");
-    edges.push(edge(`e-org-dept-${dept}`, "CONTAINS", industryId, id, "Organization contains department"));
+    edges.push(edge(`e-org-dept-${dept}`, "CONTAINS", industryId, id, "Organization contains department", "organization_contains_department"));
     for (const wf of deptDef?.workflowOwnership ?? []) {
       const wfId = `workflow:${wf}`;
       if (nodes.some((n) => n.id === wfId)) {
-        edges.push(edge(`e-dept-own-wf-${dept}-${wf}`, "OWNS", id, wfId, "Department owns workflow"));
+        edges.push(edge(`e-dept-own-wf-${dept}-${wf}`, "OWNS", id, wfId, "Department owns workflow", "department_owns_workflow"));
       }
     }
     for (const ent of deptDef?.entityOwnership ?? []) {
       const entId = `entity:${ent}`;
       if (nodes.some((n) => n.id === entId)) {
-        edges.push(edge(`e-dept-own-ent-${dept}-${ent}`, "OWNS", id, entId, "Department owns entity"));
+        edges.push(edge(`e-dept-own-ent-${dept}-${ent}`, "OWNS", id, entId, "Department owns entity", "department_owns_entity"));
       }
     }
   }
@@ -155,7 +155,7 @@ export function buildOperatingGraph(
     for (const pk of sources.domainPackKeys) {
       const dpId = `domain_pack:${pk}`;
       if (nodes.some((n) => n.id === dpId)) {
-        edges.push(edge(`e-dp-cap-${pk}-${cap}`, "CONTAINS", dpId, id, "Domain pack contains capability"));
+        edges.push(edge(`e-dp-cap-${pk}-${cap}`, "CONTAINS", dpId, id, "Domain pack contains capability", "domain_pack_contains_capability"));
       }
     }
   }
@@ -166,13 +166,13 @@ export function buildOperatingGraph(
     for (const wf of ent?.relatedWorkflowKeys ?? []) {
       const wfId = `workflow:${wf}`;
       if (nodes.some((n) => n.id === wfId)) {
-        edges.push(edge(`e-wf-consume-${wf}-${ek}`, "CONSUMES", wfId, id, "Workflow consumes entity"));
+        edges.push(edge(`e-wf-consume-${wf}-${ek}`, "CONSUMES", wfId, id, "Workflow consumes entity", "workflow_consumes_entity"));
       }
     }
     for (const pol of ent?.cyberCrowPolicyPackKeys ?? []) {
       const polId = `cybercrow:${pol}`;
       if (nodes.some((n) => n.id === polId)) {
-        edges.push(edge(`e-ent-prot-${ek}-${pol}`, "PROTECTED_BY", id, polId, "Entity protected by CyberCrow policy"));
+        edges.push(edge(`e-ent-prot-${ek}-${pol}`, "PROTECTED_BY", id, polId, "Entity protected by CyberCrow policy", "entity_protected_by_cybercrow"));
       }
     }
   }
@@ -182,12 +182,12 @@ export function buildOperatingGraph(
     const wfs = persona.workflowParticipation.length > 0 ? persona.workflowParticipation : draft.workflowTemplates.slice(0, 1).map((w) => w.key);
     for (const wf of wfs.slice(0, 5)) {
       const wfId = ensureNode(nodes, `workflow:${wf}`, "WORKFLOW", wf, wf.replace(/_/g, " "), idx, cols, "workflow");
-      edges.push(edge(`e-pw-${persona.key}-${wf}`, "PARTICIPATES_IN", id, wfId, "Persona participates in workflow"));
+      edges.push(edge(`e-pw-${persona.key}-${wf}`, "PARTICIPATES_IN", id, wfId, "Persona participates in workflow", persona.workflowParticipation.length > 0 ? "persona_participates_workflow" : "legacy_persona_default_workflow"));
       if (persona.workflowPositions.includes("COORDINATOR")) {
-        edges.push(edge(`e-pc-${persona.key}-${wf}`, "COORDINATES", id, wfId, "Persona coordinates workflow"));
+        edges.push(edge(`e-pc-${persona.key}-${wf}`, "COORDINATES", id, wfId, "Persona coordinates workflow", "persona_coordinates_workflow"));
       }
       if (persona.workflowPositions.includes("REVIEWER") || persona.workflowPositions.includes("APPROVER")) {
-        edges.push(edge(`e-pr-${persona.key}-${wf}`, "REVIEWS", id, wfId, "Persona reviews workflow"));
+        edges.push(edge(`e-pr-${persona.key}-${wf}`, "REVIEWS", id, wfId, "Persona reviews workflow", "persona_reviews_workflow"));
       }
     }
     if (persona.recommendedSareaPatternKey) {
@@ -201,7 +201,7 @@ export function buildOperatingGraph(
         cols,
         "sarea",
       );
-      edges.push(edge(`e-ps-${persona.key}-${persona.recommendedSareaPatternKey}`, "PRESENTED_THROUGH", id, sareaId, "Persona presented through SAREA"));
+      edges.push(edge(`e-ps-${persona.key}-${persona.recommendedSareaPatternKey}`, "PRESENTED_THROUGH", id, sareaId, "Persona presented through SAREA", "persona_presented_through_sarea"));
     }
   }
 
@@ -209,25 +209,25 @@ export function buildOperatingGraph(
     const wfId = ensureNode(nodes, `workflow:${wf.key}`, "WORKFLOW", wf.key, wf.displayName, idx, cols, wf.key);
     wf.states.forEach((state, si) => {
       const stageId = ensureNode(nodes, `stage:${wf.key}:${state}`, "WORKFLOW_STAGE", state, state, idx, cols, wf.key);
-      edges.push(edge(`e-ws-${wf.key}-${state}`, "CONTAINS", wfId, stageId, "Workflow contains stage"));
+      edges.push(edge(`e-ws-${wf.key}-${state}`, "CONTAINS", wfId, stageId, "Workflow contains stage", "workflow_contains_stage"));
       if (si === wf.states.length - 1) {
         const outId = ensureNode(nodes, `outcome:${wf.key}`, "OUTCOME", wf.key, `${wf.displayName} outcome`, idx, cols, "outcome");
-        edges.push(edge(`e-wf-out-${wf.key}`, "PRODUCES", stageId, outId, "Workflow produces outcome"));
-        edges.push(edge(`e-wf-gov-${wf.key}`, "GOVERNS", wfId, outId, "Workflow governs outcome"));
+        edges.push(edge(`e-wf-out-${wf.key}`, "PRODUCES", stageId, outId, "Workflow produces outcome", "workflow_produces_outcome"));
+        edges.push(edge(`e-wf-gov-${wf.key}`, "GOVERNS", wfId, outId, "Workflow governs outcome", "workflow_governs_outcome"));
       }
     });
     for (const evKey of wf.evidenceRequirementKeys) {
       const evId = ensureNode(nodes, `evidence:${evKey}`, "EVIDENCE", evKey, evKey.replace(/_/g, " "), idx, cols, "evidence");
-      edges.push(edge(`e-wf-ev-${wf.key}-${evKey}`, "REQUIRES_EVIDENCE", wfId, evId, "Workflow requires evidence"));
-      edges.push(edge(`e-wf-prod-ev-${wf.key}-${evKey}`, "PRODUCES", wfId, evId, "Workflow produces evidence artifacts"));
+      edges.push(edge(`e-wf-ev-${wf.key}-${evKey}`, "REQUIRES_EVIDENCE", wfId, evId, "Workflow requires evidence", "workflow_requires_evidence"));
+      edges.push(edge(`e-wf-prod-ev-${wf.key}-${evKey}`, "PRODUCES", wfId, evId, "Workflow produces evidence artifacts", "workflow_produces_evidence"));
     }
     for (const k of wf.kpiKeys) {
       const kpiId = ensureNode(nodes, `kpi:${k}`, "KPI", k, k.replace(/_/g, " "), idx, cols, "kpi");
-      edges.push(edge(`e-kpi-${wf.key}-${k}`, "MEASURED_BY", wfId, kpiId, "Workflow measured by KPI"));
+      edges.push(edge(`e-kpi-${wf.key}-${k}`, "MEASURED_BY", wfId, kpiId, "Workflow measured by KPI", "workflow_measured_by_kpi"));
     }
     for (const pol of wf.cyberCrowCheckKeys) {
       const polId = ensureNode(nodes, `cybercrow:${pol}`, "CYBERCROW_POLICY", pol, getCyberCrowLabel(pol), idx, cols, "cybercrow");
-      edges.push(edge(`e-wf-pol-${wf.key}-${pol}`, "PROTECTED_BY", wfId, polId, "Workflow protected by CyberCrow"));
+      edges.push(edge(`e-wf-pol-${wf.key}-${pol}`, "PROTECTED_BY", wfId, polId, "Workflow protected by CyberCrow", "workflow_protected_by_cybercrow"));
     }
   }
 
@@ -241,11 +241,11 @@ export function buildOperatingGraph(
 
   for (const proposal of draft.authorityProposals) {
     const id = ensureNode(nodes, `authority:${proposal.key}`, "AUTHORITY_PROPOSAL", proposal.key, proposal.displayName, idx, cols, "authority");
-    edges.push(edge(`e-auth-gov-${proposal.key}`, "GOVERNS", id, industryId, "Advisory authority proposal governs operating model"));
+    edges.push(edge(`e-auth-gov-${proposal.key}`, "GOVERNS", id, industryId, "Advisory authority proposal governs operating model", "authority_governs_persona_position"));
     for (const p of draft.workPersonas.slice(0, 2)) {
       const pId = `persona:${p.key}`;
       if (nodes.some((n) => n.id === pId)) {
-        edges.push(edge(`e-auth-persona-${proposal.key}-${p.key}`, "GOVERNS", id, pId, "Authority proposal governs persona-workflow position"));
+        edges.push(edge(`e-auth-persona-${proposal.key}-${p.key}`, "GOVERNS", id, pId, "Authority proposal governs persona-workflow position", "authority_governs_persona_position"));
       }
     }
   }
@@ -263,7 +263,7 @@ export function buildOperatingGraph(
     for (const wf of draft.workflowTemplates.slice(0, 3)) {
       const wfId = `workflow:${wf.key}`;
       if (nodes.some((n) => n.id === wfId)) {
-        edges.push(edge(`e-wf-int-${wf.key}-${ik}`, "INTEGRATES_WITH", wfId, id, "Workflow integrates with external system"));
+        edges.push(edge(`e-wf-int-${wf.key}-${ik}`, "INTEGRATES_WITH", wfId, id, "Workflow integrates with external system", "legacy_workflow_integration_slice"));
       }
     }
   }
@@ -273,13 +273,13 @@ export function buildOperatingGraph(
     for (const ek of sources.entityKeys.slice(0, 5)) {
       const entId = `entity:${ek}`;
       if (nodes.some((n) => n.id === entId)) {
-        edges.push(edge(`e-comp-ent-${ck}-${ek}`, "GOVERNS", id, entId, "Compliance overlay governs entity"));
+        edges.push(edge(`e-comp-ent-${ck}-${ek}`, "GOVERNS", id, entId, "Compliance overlay governs entity", "legacy_compliance_entity_slice"));
       }
     }
     for (const wf of draft.workflowTemplates.slice(0, 3)) {
       const wfId = `workflow:${wf.key}`;
       if (nodes.some((n) => n.id === wfId)) {
-        edges.push(edge(`e-comp-wf-${ck}-${wf.key}`, "GOVERNS", id, wfId, "Compliance overlay governs workflow"));
+        edges.push(edge(`e-comp-wf-${ck}-${wf.key}`, "GOVERNS", id, wfId, "Compliance overlay governs workflow", "compliance_governs_workflow"));
       }
     }
   }
