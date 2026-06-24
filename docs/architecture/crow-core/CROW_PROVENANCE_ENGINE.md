@@ -31,4 +31,4 @@ Registry is in-memory per compile/graph build; cleared at each `compileEnterpris
 
 ## Limits
 
-Catalog-only references may cite themselves. Full provenance for every generated persona/workflow item is **PARTIAL** — capabilities and graph nodes are primary coverage in MODEL.3.
+Catalog-only references may cite themselves. **MODEL.4:** `registerAllBlueprintProvenance()` — `UNEXPLAINED_GENERATED_ITEM_COUNT=0` for compiler output.
