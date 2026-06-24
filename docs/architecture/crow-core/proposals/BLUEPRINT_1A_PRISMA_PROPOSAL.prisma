@@ -1,0 +1,109 @@
+// BLUEPRINT.1A — PROPOSED Prisma extensions (NOT APPLIED)
+// Owner review required. Do not merge into prisma/schema.prisma until 1B approval.
+// Baseline: existing EnterpriseBlueprint + EnterpriseBlueprintVersion from C1/C2.
+
+enum BlueprintRootLifecycleState {
+  DRAFT_INTERNAL
+  READY_FOR_INTERNAL_REVIEW
+  CHANGES_REQUESTED_INTERNAL
+  READY_TO_SHARE
+  SHARED_WITH_CLIENT
+  CLIENT_REVIEWING
+  CLIENT_CHANGES_REQUESTED
+  CLIENT_ACCEPTED
+  PLATFORM_FINALIZED
+  SUPERSEDED
+  WITHDRAWN
+}
+
+enum BlueprintClientVisibilityState {
+  NOT_SHARED
+  SHARED_EXACT_VERSION
+  CLIENT_REVIEW_CLOSED
+}
+
+enum BlueprintReviewAudience {
+  INTERNAL
+  CLIENT
+}
+
+enum BlueprintReviewCycleState {
+  OPEN
+  CHANGES_REQUESTED
+  ACCEPTED
+  CLOSED
+  SUPERSEDED
+}
+
+// --- Extensions to existing EnterpriseBlueprint ---
+// model EnterpriseBlueprint {
+//   lifecycleState               BlueprintRootLifecycleState @default(DRAFT_INTERNAL)
+//   clientVisibilityState        BlueprintClientVisibilityState @default(NOT_SHARED)
+//   sharedWithClientVersionNumber Int?
+//   platformFinalizedVersionId   String? @unique
+//   rowVersion                   Int     @default(1)
+//   platformFinalizedVersion     EnterpriseBlueprintVersion? @relation("PlatformFinalizedVersion", fields: [platformFinalizedVersionId], references: [id], onDelete: Restrict)
+//   reviewCycles                 BlueprintReviewCycle[]
+// }
+
+// --- Extensions to existing EnterpriseBlueprintVersion ---
+// model EnterpriseBlueprintVersion {
+//   sourceModelKey            String?
+//   sourceModelHash           String?
+//   compilerVersion           String?
+//   validationJson            Json?
+//   decisionRegisterJson      Json?
+//   provenanceJson            Json?
+//   scenarioProfileJson       Json?
+//   reviewReadinessJson       Json?
+//   createdByPlatformAccountId String?
+//   reviewCycles              BlueprintReviewCycle[]
+//   reviewActions             BlueprintReviewAction[]
+// }
+
+model BlueprintReviewCycle {
+  id                 String                    @id @default(cuid())
+  blueprintId        String
+  blueprintVersionId String
+  versionNumber      Int
+  cycleNumber        Int
+  audience           BlueprintReviewAudience
+  state              BlueprintReviewCycleState @default(OPEN)
+  openedAt           DateTime                  @default(now())
+  closedAt           DateTime?
+  supersededByCycleId String?
+  initiatedByPlatformAccountId String?
+
+  blueprint        EnterpriseBlueprint        @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+  actions          BlueprintReviewAction[]
+
+  @@unique([blueprintId, cycleNumber])
+  @@unique([blueprintId, blueprintVersionId, audience, cycleNumber])
+  @@index([blueprintId, versionNumber])
+  @@map("blueprint_review_cycles")
+}
+
+model BlueprintReviewAction {
+  id                       String   @id @default(cuid())
+  reviewCycleId            String
+  blueprintVersionId       String
+  actorPlatformAccountId   String
+  actorAuthorityClass      String
+  action                   String
+  reason                   String?
+  contentHashAtAction      String
+  createdAt                DateTime @default(now())
+
+  reviewCycle      BlueprintReviewCycle       @relation(fields: [reviewCycleId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+
+  @@index([reviewCycleId, createdAt])
+  @@index([blueprintVersionId])
+  @@map("blueprint_review_actions")
+}
+
+// Audit: reuse BlueprintTraceEvent — no new BlueprintAuditEvent table required.
+// Map lifecycle events to BlueprintTraceEvent.action with safe metadata JSON.
+
+// NOTE: tenantId on EnterpriseBlueprintVersion remains owner decision for pre-provision phase.
