@@ -286,6 +286,39 @@ enum ProposalStatus {
   DECLINED
 }
 
+enum BlueprintRootLifecycleState {
+  DRAFT_INTERNAL
+  READY_FOR_INTERNAL_REVIEW
+  CHANGES_REQUESTED_INTERNAL
+  READY_TO_SHARE
+  SHARED_WITH_CLIENT
+  CLIENT_REVIEWING
+  CLIENT_CHANGES_REQUESTED
+  CLIENT_ACCEPTED
+  PLATFORM_FINALIZED
+  SUPERSEDED
+  WITHDRAWN
+}
+
+enum BlueprintClientVisibilityState {
+  NOT_SHARED
+  SHARED_EXACT_VERSION
+  CLIENT_REVIEW_CLOSED
+}
+
+enum BlueprintReviewAudience {
+  INTERNAL
+  CLIENT
+}
+
+enum BlueprintReviewCycleState {
+  OPEN
+  CHANGES_REQUESTED
+  ACCEPTED
+  CLOSED
+  SUPERSEDED
+}
+
 model EnterpriseBlueprint {
   id                       String          @id @default(cuid())
   requestId                String          @unique
@@ -305,6 +338,13 @@ model EnterpriseBlueprint {
   /// C2 — pointers to versioned snapshots (enforced one-draft / one-approved via partial indexes)
   currentApprovedVersionId String?         @unique
   activeDraftVersionId     String?         @unique
+  /// BLUEPRINT.1B — governed lifecycle pointers (nullable to avoid circular FK on create)
+  currentVersionId             String? @unique
+  platformFinalizedVersionId   String? @unique
+  lifecycleState               BlueprintRootLifecycleState    @default(DRAFT_INTERNAL)
+  clientVisibilityState        BlueprintClientVisibilityState @default(NOT_SHARED)
+  sharedWithClientVersionNumber Int?
+  rowVersion                   Int                            @default(1)
   createdAt                DateTime        @default(now())
   updatedAt                DateTime        @updatedAt
 
@@ -323,6 +363,9 @@ model EnterpriseBlueprint {
   blueprintVersions       EnterpriseBlueprintVersion[]
   currentApprovedVersion  EnterpriseBlueprintVersion?      @relation("CurrentApprovedVersion", fields: [currentApprovedVersionId], references: [id], onDelete: Restrict)
   activeDraftVersion      EnterpriseBlueprintVersion?      @relation("ActiveDraftVersion", fields: [activeDraftVersionId], references: [id], onDelete: Restrict)
+  currentVersion          EnterpriseBlueprintVersion?      @relation("CurrentVersion", fields: [currentVersionId], references: [id], onDelete: Restrict)
+  platformFinalizedVersion EnterpriseBlueprintVersion?     @relation("PlatformFinalizedVersion", fields: [platformFinalizedVersionId], references: [id], onDelete: Restrict)
+  reviewCycles            BlueprintReviewCycle[]
   blueprintApprovals      BlueprintApproval[]
   blueprintTraceEvents    BlueprintTraceEvent[]
   blueprintChangeRequests BlueprintChangeRequest[]
@@ -517,7 +560,8 @@ enum SowSectionProvenance {
 
 model EnterpriseBlueprintVersion {
   id                String                     @id @default(cuid())
-  tenantId          String
+  /// Nullable pre-provision — authority derives from request ownership on Blueprint root
+  tenantId          String?
   blueprintId       String
   versionNumber     Int
   parentVersionId   String?
@@ -525,6 +569,16 @@ model EnterpriseBlueprintVersion {
   schemaVersion     String                     @default("1.0.0")
   contentSnapshot   Json
   contentHash       String
+  /// MODEL.4 compiler artifacts (immutable after insert)
+  sourceModelKey            String?
+  sourceModelHash           String?
+  compilerVersion           String?
+  validationJson            Json?
+  decisionRegisterJson      Json?
+  provenanceJson            Json?
+  scenarioProfileJson       Json?
+  reviewReadinessJson       Json?
+  createdByPlatformAccountId String?
   revision          Int                        @default(1)
   isActiveDraft     Boolean                    @default(false)
   isCurrentApproved Boolean                    @default(false)
@@ -538,7 +592,7 @@ model EnterpriseBlueprintVersion {
   supersededAt      DateTime?
   archivedAt        DateTime?
 
-  tenant                  Tenant                           @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  tenant                  Tenant?                          @relation(fields: [tenantId], references: [id], onDelete: Restrict)
   blueprint               EnterpriseBlueprint              @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
   parentVersion           EnterpriseBlueprintVersion?      @relation("VersionLineage", fields: [parentVersionId], references: [id], onDelete: Restrict)
   childVersions           EnterpriseBlueprintVersion[]     @relation("VersionLineage")
@@ -550,11 +604,60 @@ model EnterpriseBlueprintVersion {
   sowVersions             SowVersion[]
   currentForBlueprint     EnterpriseBlueprint?             @relation("CurrentApprovedVersion")
   activeDraftForBlueprint EnterpriseBlueprint?             @relation("ActiveDraftVersion")
+  currentVersionForBlueprint EnterpriseBlueprint?        @relation("CurrentVersion")
+  platformFinalizedForBlueprint EnterpriseBlueprint?     @relation("PlatformFinalizedVersion")
+  reviewCycles            BlueprintReviewCycle[]
+  reviewActions           BlueprintReviewAction[]
 
   @@unique([blueprintId, versionNumber])
   @@index([tenantId, blueprintId, createdAt(sort: Desc)])
   @@index([blueprintId, status])
+  @@index([blueprintId, versionNumber])
+  @@index([contentHash])
+  @@index([createdByPlatformAccountId])
   @@map("enterprise_blueprint_versions")
+}
+
+model BlueprintReviewCycle {
+  id                           String                    @id @default(cuid())
+  blueprintId                  String
+  blueprintVersionId           String
+  versionNumber                Int
+  cycleNumber                  Int
+  audience                     BlueprintReviewAudience
+  state                        BlueprintReviewCycleState @default(OPEN)
+  initiatedByPlatformAccountId String?
+  openedAt                     DateTime                  @default(now())
+  closedAt                     DateTime?
+  supersededByCycleId          String?
+
+  blueprint        EnterpriseBlueprint        @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+  actions          BlueprintReviewAction[]
+
+  @@unique([blueprintId, cycleNumber])
+  @@index([blueprintId, versionNumber])
+  @@map("blueprint_review_cycles")
+}
+
+model BlueprintReviewAction {
+  id                     String   @id @default(cuid())
+  reviewCycleId          String
+  blueprintVersionId     String
+  actorPlatformAccountId String
+  actorAuthorityClass    String
+  action                 String
+  contentHashAtAction    String
+  reasonCode             String?
+  comment                String?
+  createdAt              DateTime @default(now())
+
+  reviewCycle      BlueprintReviewCycle       @relation(fields: [reviewCycleId], references: [id], onDelete: Restrict)
+  blueprintVersion EnterpriseBlueprintVersion @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
+
+  @@index([reviewCycleId, createdAt])
+  @@index([blueprintVersionId])
+  @@map("blueprint_review_actions")
 }
 
 model BlueprintApproval {
@@ -584,7 +687,8 @@ model BlueprintApproval {
 
 model BlueprintTraceEvent {
   id                 String                  @id @default(cuid())
-  tenantId           String
+  /// Nullable pre-provision — Blueprint root may lack tenant
+  tenantId           String?
   blueprintId        String
   blueprintVersionId String?
   resourceType       String
@@ -603,7 +707,7 @@ model BlueprintTraceEvent {
   metadata           Json?
   createdAt          DateTime                @default(now())
 
-  tenant           Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Restrict)
+  tenant           Tenant?                     @relation(fields: [tenantId], references: [id], onDelete: Restrict)
   blueprint        EnterpriseBlueprint         @relation(fields: [blueprintId], references: [id], onDelete: Restrict)
   blueprintVersion EnterpriseBlueprintVersion? @relation(fields: [blueprintVersionId], references: [id], onDelete: Restrict)
 
