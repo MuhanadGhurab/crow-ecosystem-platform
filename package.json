@@ -237,6 +237,7 @@
     "model-forge:test": "npx tsx src/lib/model-forge/model-forge.test.ts",
     "model-forge-2:test": "npx tsx src/lib/model-forge/model-forge-2.test.ts",
     "model-forge-3:test": "npx tsx src/lib/model-forge/model-forge-3.test.ts",
+    "model-forge-4:test": "npx tsx src/lib/model-forge/model-forge-4.test.ts",
     "ftgp-discovery-interview-packet:generate": "npx tsx scripts/generate-ftgp-discovery-interview-packet.ts",
     "ftgp-request-review-boundaries:verify": "node --env-file=.env.staging.runtime --env-file=.env.preview.operator --env-file=.env.platform-bootstrap.operator --env-file=.env.ftgp-implementer-grant.operator scripts/run-with-script-prisma.mjs scripts/verify-ftgp-request-review-boundaries.ts",
     "ftgp-request-review-transition:test": "npx tsx src/lib/ftgp/ftgp-procrow-review-transition.test.ts",
