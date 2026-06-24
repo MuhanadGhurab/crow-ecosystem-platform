@@ -4,19 +4,28 @@ import { hashBlueprintContent } from "./blueprint-hash";
 import { buildScaleProfile } from "../scale/tenant-scale";
 import { composeEnterpriseModel } from "../composition/hybrid-composition";
 import { buildOperatingGraph } from "../graph/operating-graph";
-import { resolveGraphSources, getEntityDefinition, getCapabilityLabel, getSareaLabel, getCyberCrowLabel, getIntegrationLabel, getComplianceLabel } from "../graph/graph-sources";
 import {
-  clearProvenanceRegistry,
-  createProvenanceRecord,
-  listAllProvenanceRecords,
-  countUnexplainedTargets,
-} from "../provenance/provenance-engine";
+  resolveGraphSources,
+  getEntityDefinition,
+  getCapabilityLabel,
+  getSareaLabel,
+  getCyberCrowLabel,
+  getIntegrationLabel,
+  getComplianceLabel,
+} from "../graph/graph-sources";
+import { clearProvenanceRegistry, listAllProvenanceRecords, countUnexplainedTargets } from "../provenance/provenance-engine";
+import { registerAllBlueprintProvenance } from "../provenance/provenance-registration";
 import { validateEnterpriseBlueprintDraft } from "./blueprint-validation";
 import { buildBlueprintDecisionRegister } from "./blueprint-decisions";
+import { assessBlueprintReviewReadiness, compositionInputFromBlueprintScenario } from "./blueprint-review-readiness";
 import type { OrganizationalTopologyKey, TenantScalePreset } from "../types";
 
 function section<T>(key: string, displayName: string, items: T[], paths: string[]): EnterpriseBlueprintSection<T> {
   return { key, displayName, items, provenancePaths: paths };
+}
+
+function entityDisplayName(key: string): string {
+  return getEntityDefinition(key)?.displayName ?? key;
 }
 
 export function compileEnterpriseBlueprintPreview(input: BlueprintCompileInput): EnterpriseBlueprintDraft {
@@ -40,19 +49,20 @@ export function compileEnterpriseBlueprintPreview(input: BlueprintCompileInput):
   const graph = buildOperatingGraph(draft, "OPERATING_MODEL", specialistKeys, { registerProvenance: true });
   const sources = resolveGraphSources(draft, specialistKeys);
 
+  const expectedPaths = registerAllBlueprintProvenance(draft, sources, input, {
+    capability: getCapabilityLabel,
+    entity: entityDisplayName,
+    sarea: getSareaLabel,
+    cyber: getCyberCrowLabel,
+    integration: getIntegrationLabel,
+    compliance: getComplianceLabel,
+  });
+
   const capabilityItems = sources.capabilityKeys.map((key) => ({
     key,
     displayName: getCapabilityLabel(key),
     advisory: true as const,
   }));
-  for (const c of capabilityItems) {
-    createProvenanceRecord(
-      { kind: "capability", key: c.key, path: `blueprint.capabilities.${c.key}` },
-      c.displayName,
-      "Resolved from specialist domains and domain packs",
-      { sources: ["SPECIALIST_DOMAIN", "DOMAIN_PACK"], catalogRefs: [c.key], strength: "RECOMMENDED" },
-    );
-  }
 
   const entityItems = sources.entityKeys.slice(0, 32).map((key) => {
     const ent = getEntityDefinition(key);
@@ -113,14 +123,7 @@ export function compileEnterpriseBlueprintPreview(input: BlueprintCompileInput):
     advisory: true as const,
   }));
 
-  const expectedPaths = [
-    "blueprint.organization.primary",
-    ...capabilityItems.map((c) => `blueprint.capabilities.${c.key}`),
-    ...personaItems.map((p) => `blueprint.workPersonas.${p.key}`),
-  ];
-
-  const unexplained = countUnexplainedTargets(expectedPaths.filter((p) => p !== "blueprint.organization.primary"));
-
+  const unexplained = countUnexplainedTargets(expectedPaths);
   const unresolvedDecisions = buildBlueprintDecisionRegister(draft, input);
 
   const previewBase = {
@@ -137,15 +140,15 @@ export function compileEnterpriseBlueprintPreview(input: BlueprintCompileInput):
     },
     executiveSummary: `Advisory Blueprint preview for ${draft.dna.primaryIndustry} with ${specialistKeys.length} specialist domain(s). Requires human blueprint review before any tenant build.`,
     modelDNA: draft.dna,
-    organization: section("organization", "Organization", [{ primaryIndustry: draft.dna.primaryIndustry, topology: draft.dna.operatingTopology }], ["blueprint.organization"]),
+    organization: section("organization", "Organization", [{ primaryIndustry: draft.dna.primaryIndustry, topology: draft.dna.operatingTopology }], ["blueprint.organization.primary", "blueprint.organization.topology"]),
     departments: section("departments", "Departments", departmentItems, departmentItems.map((d) => `blueprint.departments.${d.key}`)),
     capabilities: section("capabilities", "Capabilities", capabilityItems, capabilityItems.map((c) => `blueprint.capabilities.${c.key}`)),
     entities: section("entities", "Entities", entityItems, entityItems.map((e) => `blueprint.entities.${e.key}`)),
     workPersonas: section("workPersonas", "Work Personas", personaItems, personaItems.map((p) => `blueprint.workPersonas.${p.key}`)),
     workflows: section("workflows", "Workflows", workflowItems, workflowItems.map((w) => `blueprint.workflows.${w.key}`)),
-    outcomes: section("outcomes", "Outcomes", workflowItems.map((w) => ({ workflowKey: w.key, outcome: `${w.displayName} outcome` })), []),
-    kpis: section("kpis", "KPIs", draft.kpiRecommendations.map((k) => ({ key: k.key, displayName: k.displayName })), []),
-    evidence: section("evidence", "Evidence", draft.evidenceRequirements.map((e) => ({ key: e.key, displayName: e.displayName })), []),
+    outcomes: section("outcomes", "Outcomes", workflowItems.map((w) => ({ workflowKey: w.key, outcome: `${w.displayName} outcome` })), workflowItems.map((w) => `blueprint.outcomes.${w.key}`)),
+    kpis: section("kpis", "KPIs", draft.kpiRecommendations.map((k) => ({ key: k.key, displayName: k.displayName })), draft.kpiRecommendations.map((k) => `blueprint.kpis.${k.key}`)),
+    evidence: section("evidence", "Evidence", draft.evidenceRequirements.map((e) => ({ key: e.key, displayName: e.displayName })), draft.evidenceRequirements.map((e) => `blueprint.evidence.${e.key}`)),
     authorityProposals: section(
       "authorityProposals",
       "Authority proposals",
@@ -180,6 +183,13 @@ export function compileEnterpriseBlueprintPreview(input: BlueprintCompileInput):
   };
 
   full.validation = validateEnterpriseBlueprintDraft(full);
-  void graph;
+  const readiness = assessBlueprintReviewReadiness(full, graph, compositionInput);
+  if (readiness.overallStatus === "BLOCKED" && unexplained.length > 0) {
+    full.warnings = [
+      ...full.warnings,
+      { code: "PROVENANCE_GAP", message: `${unexplained.length} items lack provenance — review blocked`, severity: "WARNING" },
+    ];
+  }
+  void readiness;
   return full;
 }
