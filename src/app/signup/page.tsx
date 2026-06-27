@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
+import { AuthBackNavigation } from "@/components/auth/auth-back-navigation";
 import { SignUpForm } from "@/components/portal/auth/sign-up-form";
 import { redirectAuthenticatedSession } from "@/lib/auth/c3-authenticated-entry";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
@@ -32,6 +33,7 @@ export default async function SignUpPage({
   return (
     <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
       <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
+        <AuthBackNavigation />
         <CrowMark href="/" size="sm" showTagline={false} />
         <h1 className="cc-page-title mt-6">Create your Crow account</h1>
         <p className="mt-2 text-sm leading-relaxed text-slate-400">{SIGNUP_CLIENT_PURPOSE}</p>
