@@ -17,6 +17,7 @@ import {
   CLIENT_DESIGN_ANSWER_KEYS,
   draftToInput,
   emptyClientEnterpriseDesignDraft,
+  normalizeClientEnterpriseDesignDraft,
   sanitizeDraftForPersistence,
 } from "./constants";
 import { hashDraftSnapshot } from "./snapshot-hash.server";
@@ -46,7 +47,10 @@ export async function loadClientEnterpriseDesignDraft(
   if (!validated.ok) {
     return { draft: emptyClientEnterpriseDesignDraft(requestId), profileUpdatedAt: profile.updatedAt.toISOString() };
   }
-  return { draft: validated.draft, profileUpdatedAt: profile.updatedAt.toISOString() };
+  return {
+    draft: normalizeClientEnterpriseDesignDraft(validated.draft),
+    profileUpdatedAt: profile.updatedAt.toISOString(),
+  };
 }
 
 export async function assertClientEnterpriseDesignWrite(args: {

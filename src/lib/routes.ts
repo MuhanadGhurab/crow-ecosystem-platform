@@ -56,6 +56,9 @@ export const routes = {
     requestDiscoveryDesign: (id: string) => `/client/requests/${id}/discovery/design`,
     requestDiscoveryCompare: (id: string) => `/client/requests/${id}/discovery/compare`,
     requestDiscoverySummary: (id: string) => `/client/requests/${id}/discovery/summary`,
+    /** CROW.DISCOVERY.2B — lean quick intake (alias to design journey) */
+    requestQuickIntake: (id: string) => `/client/requests/${id}/discovery/design?flow=quick&step=field`,
+    requestFieldFinder: (id: string) => `/client/requests/${id}/discovery/design?step=field`,
     requestBlueprint: (requestId: string) => `/client/requests/${requestId}/blueprint`,
     requestBlueprintReview: (requestId: string) => `/client/requests/${requestId}/blueprint/review`,
     proposals: "/client/proposals",

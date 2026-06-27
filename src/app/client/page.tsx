@@ -48,19 +48,28 @@ export default async function ClientPortalHomePage() {
           Enterprise design
         </h2>
         <p className="text-sm text-slate-400">
-          Start or continue a guided design journey attached to your implementation request.
+          Tell Crow what business you are building — field, purpose, and team size. Crow recommends the
+          rest. No ERP expertise required.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link href={routes.public.request} className="cc-btn-primary text-sm">
-            Start a new enterprise design
+            Start a tenant request
           </Link>
           {snapshot.requests[0] && (
-            <Link
-              href={routes.client.requestDiscoveryDesign(snapshot.requests[0].requestId)}
-              className="cc-btn-secondary text-sm"
-            >
-              Continue existing design
-            </Link>
+            <>
+              <Link
+                href={routes.client.requestQuickIntake(snapshot.requests[0].requestId)}
+                className="cc-btn-primary text-sm"
+              >
+                Quick request intake
+              </Link>
+              <Link
+                href={routes.client.requestDiscoveryDesign(snapshot.requests[0].requestId)}
+                className="cc-btn-secondary text-sm"
+              >
+                Continue existing design
+              </Link>
+            </>
           )}
           <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
             View current requests

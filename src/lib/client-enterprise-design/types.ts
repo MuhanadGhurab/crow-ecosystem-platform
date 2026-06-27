@@ -29,6 +29,17 @@ export type ClientOperatingModelVariantKey = "STARTER" | "GROWTH" | "ENTERPRISE"
 
 export type ClientEnterpriseDesignStatus = "DRAFT" | "READY_FOR_REVIEW" | "SUBMITTED";
 
+export type ClientConfigurationMode =
+  | "RECOMMEND_EVERYTHING"
+  | "GUIDE_ME"
+  | "EXPERT_CONFIGURATION";
+
+export type BusinessFieldResolutionStatus =
+  | "CATALOG_MATCH"
+  | "CUSTOM_UNRESOLVED"
+  | "CUSTOM_MATCHED"
+  | "HYBRID";
+
 export type ClientDesignGuardrail =
   | "SUPPORTED"
   | "SUPPORTED_WITH_WARNING"
@@ -60,6 +71,20 @@ export type ClientEnterpriseDesignDraft = {
   customizations: ClientDesignCustomization[];
   unresolvedDecisions: string[];
   clientNotes: string | null;
+  /** CROW.DISCOVERY.2B — client configuration mode */
+  configurationMode: ClientConfigurationMode;
+  /** Primary business field catalog key (universal taxonomy) */
+  primaryBusinessFieldKey: string | null;
+  secondaryBusinessFieldKeys: string[];
+  customFieldDescription: string | null;
+  fieldResolutionStatus: BusinessFieldResolutionStatus | null;
+  customFieldSuggestedMatches: string[];
+  requiresProcrowFieldReview: boolean;
+  /** Friendly team range — maps to currentScale */
+  teamSizeRange: string | null;
+  growthIntention: string | null;
+  customPurposeDescription: string | null;
+  letProcrowDecideTechnical: boolean;
   recommendationSnapshot: ClientEnterpriseDesignSnapshot | null;
   updatedAt: string | null;
   submittedAt: string | null;
@@ -100,6 +125,15 @@ export type ClientEnterpriseDesignInput = {
   riskPreferences?: string[];
   selectedModelVariant: ClientOperatingModelVariantKey;
   customizations?: ClientDesignCustomization[];
+  configurationMode?: ClientConfigurationMode;
+  primaryBusinessFieldKey?: string | null;
+  secondaryBusinessFieldKeys?: string[];
+  customFieldDescription?: string | null;
+  fieldResolutionStatus?: BusinessFieldResolutionStatus | null;
+  teamSizeRange?: string | null;
+  growthIntention?: string | null;
+  customPurposeDescription?: string | null;
+  letProcrowDecideTechnical?: boolean;
 };
 
 export type LeanResponsibleOperatingModel = {

@@ -9,32 +9,56 @@ import {
   submitClientEnterpriseDesignAction,
 } from "@/lib/actions/client-enterprise-design";
 import {
-  analyzeClientDesignImpact,
   composeClientEnterpriseDesign,
   draftToInput,
   projectLeanModel,
   projectOperatingPriority,
   CLIENT_ENTERPRISE_DESIGN_SCHEMA_VERSION,
+  type ClientConfigurationMode,
   type ClientEnterpriseDesignDraft,
   type ClientOperatingPriority,
 } from "@/lib/client-enterprise-design";
+import {
+  CLIENT_GROWTH_INTENTION_OPTIONS,
+  CLIENT_TEAM_SIZE_OPTIONS,
+  growthToTargetScale,
+  teamSizeToCurrentScale,
+} from "@/lib/business-field-catalog/team-scale";
+import {
+  applyBusinessFieldToDraft,
+  applyCustomFieldFallback,
+  friendlyCapabilityLabel,
+} from "@/lib/client-enterprise-design/intake/field-resolution";
+import {
+  stepHelp,
+  stepLabel,
+  stepsForConfigurationMode,
+  type QuickIntakeStep,
+} from "@/lib/client-enterprise-design/intake/quick-intake-steps";
+import { purposesForFieldSelection } from "@/lib/services/client-enterprise-design-page.service";
 import type { ClientDesignPageModel } from "@/lib/services/client-enterprise-design-page.service";
+import { BusinessFieldFinder } from "@/components/client-enterprise-design/business-field-finder";
+import { PendingButton } from "@/components/ui/pending-button";
+import { SaveStatusIndicator, type SaveStatus } from "@/components/ui/save-status-indicator";
 import { routes } from "@/lib/routes";
 
-const STEPS = [
-  "field",
-  "purpose",
-  "scale",
-  "capabilities",
-  "priority",
-  "compare",
-  "workforce",
-  "workflows",
-  "customize",
-  "review",
-] as const;
-
-type Step = (typeof STEPS)[number];
+const CONFIG_MODE_OPTIONS: Array<{ key: ClientConfigurationMode; label: string; description: string }> = [
+  {
+    key: "RECOMMEND_EVERYTHING",
+    label: "Recommend everything for me",
+    description: "Crow recommends capabilities, roles, and workflows. Best for most businesses.",
+  },
+  {
+    key: "GUIDE_ME",
+    label: "Guide me through the important choices",
+    description: "See recommendations and adjust key capabilities with guidance.",
+  },
+  {
+    key: "EXPERT_CONFIGURATION",
+    label: "I know what I need",
+    description: "Advanced configuration for IT, security, and operations specialists.",
+  },
+];
 
 export function ClientDesignJourney({
   model,
@@ -45,7 +69,12 @@ export function ClientDesignJourney({
 }) {
   const router = useRouter();
   const [draft, setDraft] = useState<ClientEnterpriseDesignDraft>(model.draft);
-  const [step, setStep] = useState<Step>(STEPS.includes(initialStep as Step) ? (initialStep as Step) : "field");
+  const steps = useMemo(() => stepsForConfigurationMode(draft.configurationMode), [draft.configurationMode]);
+  const [step, setStep] = useState<QuickIntakeStep>(
+    steps.includes(initialStep as QuickIntakeStep) ? (initialStep as QuickIntakeStep) : "field",
+  );
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("unsaved");
+  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [profileUpdatedAt, setProfileUpdatedAt] = useState(model.profileUpdatedAt);
@@ -55,131 +84,141 @@ export function ClientDesignJourney({
     [draft],
   );
 
-  const stepIndex = STEPS.indexOf(step);
+  const filteredPurposes = useMemo(() => {
+    const fromField = purposesForFieldSelection(draft.primaryIndustry, draft.specialistDomains);
+    const list = fromField.length > 0 ? fromField : model.purposes;
+    return list.filter((p): p is NonNullable<(typeof list)[number]> => Boolean(p));
+  }, [draft.primaryIndustry, draft.specialistDomains, model.purposes]);
 
-  function go(next: Step) {
+  const stepIndex = steps.indexOf(step);
+  const lean = projectLeanModel(snapshot.leanModel);
+
+  function go(next: QuickIntakeStep) {
     setStep(next);
     router.replace(`${routes.client.requestDiscoveryDesign(model.requestId)}?step=${next}`);
   }
 
   function updateDraft(patch: Partial<ClientEnterpriseDesignDraft>) {
+    setSaveStatus("unsaved");
     setDraft((d) => ({ ...d, ...patch, designVersion: CLIENT_ENTERPRISE_DESIGN_SCHEMA_VERSION }));
   }
 
   function saveDraft() {
+    setSaveStatus("saving");
     startTransition(async () => {
       const fd = new FormData();
       fd.set("requestId", model.requestId);
       fd.set("draftJson", JSON.stringify(draft));
       if (profileUpdatedAt) fd.set("expectedProfileUpdatedAt", profileUpdatedAt);
       const res = await saveClientEnterpriseDesignAction(null, fd);
-      if (!res.ok) setMessage(res.error);
-      else {
-        setMessage("Draft saved.");
+      if (!res.ok) {
+        setSaveStatus(res.error?.includes("updated elsewhere") ? "conflict" : "failed");
+        setMessage(res.error);
+      } else {
+        setSaveStatus("saved");
         if (res.profileUpdatedAt) setProfileUpdatedAt(res.profileUpdatedAt);
       }
     });
   }
 
   function submitDesign() {
+    setSubmitStatus("Submitting your request…");
     startTransition(async () => {
       const fd = new FormData();
       fd.set("requestId", model.requestId);
       fd.set("draftJson", JSON.stringify({ ...draft, status: "SUBMITTED" }));
       if (profileUpdatedAt) fd.set("expectedProfileUpdatedAt", profileUpdatedAt);
       const res = await submitClientEnterpriseDesignAction(null, fd);
-      if (!res.ok) setMessage(res.error);
-      else {
-        setMessage("Design submitted to Discovery for ProCrow review.");
+      if (!res.ok) {
+        setSubmitStatus(null);
+        setMessage(res.error);
+      } else {
+        setSubmitStatus("Submitted");
         router.push(routes.client.requestDiscoverySummary(model.requestId));
       }
     });
   }
 
-  const lean = projectLeanModel(snapshot.leanModel);
+  function canAdvanceFromCurrentStep(): boolean {
+    switch (step) {
+      case "field":
+        return Boolean(
+          draft.primaryBusinessFieldKey ||
+            draft.customFieldDescription?.trim() ||
+            draft.primaryIndustry,
+        );
+      case "purpose":
+        return Boolean(draft.primaryPurposeKey || draft.customPurposeDescription?.trim());
+      case "team":
+        return Boolean(draft.teamSizeRange);
+      case "mode":
+        return Boolean(draft.configurationMode);
+      default:
+        return true;
+    }
+  }
 
   return (
     <div className="space-y-6 motion-safe:transition-opacity motion-reduce:transition-none">
-      <nav aria-label="Design journey progress" className="flex flex-wrap gap-2">
-        {STEPS.map((s, i) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => go(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium ${
-              s === step ? "bg-violet-600 text-white" : "bg-slate-800 text-slate-300"
-            }`}
-          >
-            {i + 1}. {s}
-          </button>
-        ))}
-      </nav>
+      <header className="space-y-2">
+        <p className="text-xs uppercase tracking-wider text-slate-500">
+          Step {stepIndex + 1} of {steps.length}
+        </p>
+        <h2 className="text-lg font-semibold text-white">{stepLabel(step)}</h2>
+        <p className="text-sm text-slate-400">{stepHelp(step)}</p>
+      </header>
 
+      <SaveStatusIndicator status={saveStatus} />
+      {submitStatus && (
+        <p role="status" aria-live="polite" className="text-sm text-cyan-300">
+          {submitStatus}
+        </p>
+      )}
       {message && (
-        <p className="rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2 text-sm text-slate-200">
+        <p className="rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2 text-sm text-slate-200" role="alert">
           {message}
         </p>
       )}
 
       {step === "field" && (
-        <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Choose your field</h2>
-          <p className="text-sm text-slate-400">Select a primary industry and optional specialist domains.</p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {model.industries.map((ind) => (
-              <button
-                key={ind.key}
-                type="button"
-                onClick={() => updateDraft({ primaryIndustry: ind.key })}
-                className={`rounded-xl border p-4 text-left motion-safe:transition-colors ${
-                  draft.primaryIndustry === ind.key
-                    ? "border-violet-500 bg-violet-950/40"
-                    : "border-slate-700 hover:border-slate-500"
-                }`}
-              >
-                <p className="font-medium text-white">{ind.displayName}</p>
-                <p className="mt-1 text-xs text-slate-400">{ind.commonOperatingModel}</p>
-              </button>
-            ))}
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {model.domains.slice(0, 12).map((d) => (
-              <label key={d.key} className="flex items-start gap-2 text-sm text-slate-300">
-                <input
-                  type="checkbox"
-                  checked={draft.specialistDomains.includes(d.key)}
-                  onChange={(e) => {
-                    const next = e.target.checked
-                      ? [...draft.specialistDomains, d.key]
-                      : draft.specialistDomains.filter((k) => k !== d.key);
-                    updateDraft({ specialistDomains: next });
-                  }}
-                />
-                <span>{d.displayName}</span>
-              </label>
-            ))}
-          </div>
+        <section className="cc-glass-card">
+          <BusinessFieldFinder
+            selectedPrimaryKey={draft.primaryBusinessFieldKey}
+            selectedSecondaryKeys={draft.secondaryBusinessFieldKeys}
+            customDescription={draft.customFieldDescription}
+            showCustomFallback={draft.fieldResolutionStatus === "CUSTOM_UNRESOLVED"}
+            onSelectPrimary={(key) => updateDraft(applyBusinessFieldToDraft(draft, key))}
+            onToggleSecondary={(key) => updateDraft(applyBusinessFieldToDraft(draft, key, true))}
+            onCustomFallback={(desc, suggested) =>
+              updateDraft(applyCustomFieldFallback(draft, desc, suggested))
+            }
+            onClearCustom={() =>
+              updateDraft({
+                customFieldDescription: null,
+                fieldResolutionStatus: null,
+                requiresProcrowFieldReview: false,
+              })
+            }
+          />
         </section>
       )}
 
       {step === "purpose" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Define your purpose</h2>
           <div className="grid gap-3 sm:grid-cols-2">
-            {model.purposes.map((p) => (
+            {filteredPurposes.map((p) => (
               <button
                 key={p.key}
                 type="button"
                 onClick={() =>
                   updateDraft({
-                    businessPurposes: draft.businessPurposes.includes(p.key)
-                      ? draft.businessPurposes
-                      : [...draft.businessPurposes, p.key],
-                    primaryPurposeKey: draft.primaryPurposeKey ?? p.key,
+                    businessPurposes: [p.key],
+                    primaryPurposeKey: p.key,
+                    customPurposeDescription: null,
                   })
                 }
                 className={`rounded-xl border p-4 text-left ${
-                  draft.businessPurposes.includes(p.key) ? "border-cyan-500" : "border-slate-700"
+                  draft.primaryPurposeKey === p.key ? "border-cyan-500" : "border-slate-700"
                 }`}
               >
                 <p className="font-medium text-white">{p.displayName}</p>
@@ -187,77 +226,135 @@ export function ClientDesignJourney({
               </button>
             ))}
           </div>
+          <details className="rounded-xl border border-slate-700 p-4">
+            <summary className="cursor-pointer text-sm font-medium text-amber-400">
+              My purpose is not listed
+            </summary>
+            <textarea
+              className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900 p-3 text-sm"
+              rows={2}
+              placeholder="Describe what your business is trying to accomplish…"
+              value={draft.customPurposeDescription ?? ""}
+              onChange={(e) =>
+                updateDraft({
+                  customPurposeDescription: e.target.value,
+                  primaryPurposeKey: e.target.value ? "custom_purpose" : draft.primaryPurposeKey,
+                  businessPurposes: e.target.value ? ["custom_purpose"] : draft.businessPurposes,
+                })
+              }
+            />
+          </details>
         </section>
       )}
 
-      {step === "scale" && (
-        <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Current and target scale</h2>
-          <label className="block text-sm text-slate-300">
-            Current scale
-            <select
-              className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2"
-              value={draft.currentScale ?? "SMALL_TEAM"}
-              onChange={(e) => updateDraft({ currentScale: e.target.value })}
-            >
-              {["SOLO", "MICRO", "SMALL_TEAM", "GROWING_ORGANIZATION", "ENTERPRISE"].map((s) => (
-                <option key={s} value={s}>
-                  {s.replace(/_/g, " ")}
-                </option>
+      {step === "team" && (
+        <section className="cc-glass-card space-y-6">
+          <fieldset>
+            <legend className="text-sm font-medium text-white">How many people are currently involved?</legend>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {CLIENT_TEAM_SIZE_OPTIONS.map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() =>
+                    updateDraft({
+                      teamSizeRange: opt.key,
+                      currentScale: teamSizeToCurrentScale(opt.key),
+                    })
+                  }
+                  className={`rounded-xl border p-3 text-left text-sm ${
+                    draft.teamSizeRange === opt.key ? "border-violet-500" : "border-slate-700"
+                  }`}
+                >
+                  {opt.label}
+                </button>
               ))}
-            </select>
-          </label>
-          <label className="block text-sm text-slate-300">
-            Target scale
-            <select
-              className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 p-2"
-              value={draft.targetScale ?? "GROWING_ORGANIZATION"}
-              onChange={(e) => updateDraft({ targetScale: e.target.value })}
-            >
-              {["SMALL_TEAM", "GROWING_ORGANIZATION", "MULTI_BRANCH", "ENTERPRISE"].map((s) => (
-                <option key={s} value={s}>
-                  {s.replace(/_/g, " ")}
-                </option>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="text-sm font-medium text-white">Do you expect the organization to grow?</legend>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {CLIENT_GROWTH_INTENTION_OPTIONS.map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() =>
+                    updateDraft({
+                      growthIntention: opt.key,
+                      targetScale: growthToTargetScale(opt.key),
+                    })
+                  }
+                  className={`rounded-xl border p-3 text-left text-sm ${
+                    draft.growthIntention === opt.key ? "border-violet-500" : "border-slate-700"
+                  }`}
+                >
+                  {opt.label}
+                </button>
               ))}
-            </select>
-          </label>
+            </div>
+          </fieldset>
+        </section>
+      )}
+
+      {step === "mode" && (
+        <section className="cc-glass-card space-y-3">
+          {CONFIG_MODE_OPTIONS.map((opt) => (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() =>
+                updateDraft({
+                  configurationMode: opt.key,
+                  letProcrowDecideTechnical: opt.key === "RECOMMEND_EVERYTHING" ? true : draft.letProcrowDecideTechnical,
+                })
+              }
+              className={`block w-full rounded-xl border p-4 text-left ${
+                draft.configurationMode === opt.key ? "border-violet-500 bg-violet-950/30" : "border-slate-700"
+              }`}
+            >
+              <p className="font-medium text-white">{opt.label}</p>
+              <p className="mt-1 text-sm text-slate-400">{opt.description}</p>
+              {opt.key === "EXPERT_CONFIGURATION" && (
+                <p className="mt-2 text-xs text-amber-400">Advanced configuration · Recommended for IT or system specialists</p>
+              )}
+            </button>
+          ))}
         </section>
       )}
 
       {step === "capabilities" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Operating capabilities</h2>
+          <p className="text-sm text-slate-400">Recommended capabilities appear first. Add or remove as needed.</p>
           <div className="grid gap-2 sm:grid-cols-2">
-            {model.capabilities.slice(0, 24).map((c) => (
-              <label key={c.key} className="flex gap-2 text-sm text-slate-300">
-                <input
-                  type="checkbox"
-                  checked={
-                    draft.selectedCapabilities.includes(c.key) ||
-                    snapshot.recommendedCapabilities.includes(c.key)
-                  }
-                  onChange={(e) => {
-                    const next = e.target.checked
-                      ? [...new Set([...draft.selectedCapabilities, c.key])]
-                      : draft.selectedCapabilities.filter((k) => k !== c.key);
-                    updateDraft({ selectedCapabilities: next });
-                  }}
-                />
-                <span>
-                  {c.displayName}
-                  {snapshot.recommendedCapabilities.includes(c.key) && (
-                    <span className="ml-2 text-xs text-violet-400">Recommended</span>
-                  )}
-                </span>
-              </label>
-            ))}
+            {model.capabilities.slice(0, 24).map((c) => {
+              const recommended = snapshot.recommendedCapabilities.includes(c.key);
+              const checked = draft.selectedCapabilities.includes(c.key) || recommended;
+              return (
+                <label key={c.key} className="flex gap-2 text-sm text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => {
+                      const next = e.target.checked
+                        ? [...new Set([...draft.selectedCapabilities, c.key])]
+                        : draft.selectedCapabilities.filter((k) => k !== c.key);
+                      updateDraft({ selectedCapabilities: next, letProcrowDecideTechnical: false });
+                    }}
+                  />
+                  <span>
+                    {friendlyCapabilityLabel(c.key)}
+                    {recommended && <span className="ml-2 text-xs text-violet-400">Recommended</span>}
+                  </span>
+                </label>
+              );
+            })}
           </div>
         </section>
       )}
 
       {step === "priority" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Operating priority</h2>
+          <p className="text-xs text-amber-400">Advanced configuration</p>
           {(["LEAN_RESPONSIBLE", "BALANCED_GROWTH", "CONTROL_FIRST", "AUTOMATION_FORWARD"] as ClientOperatingPriority[]).map(
             (p) => {
               const proj = projectOperatingPriority(p);
@@ -281,7 +378,6 @@ export function ClientDesignJourney({
 
       {step === "compare" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Compare operating models</h2>
           <div className="grid gap-4 lg:grid-cols-3">
             {snapshot.variants
               .filter((v) => v.key !== "CUSTOM")
@@ -298,43 +394,14 @@ export function ClientDesignJourney({
                   <p className="mt-2 text-sm text-slate-300">
                     Team range: {v.estimatedCoreTeamRange.min}–{v.estimatedCoreTeamRange.max}
                   </p>
-                  <p className="text-xs text-slate-500">
-                    Workflow {v.workflowDepth} · Approvals {v.approvalDepth}
-                  </p>
                 </button>
               ))}
           </div>
         </section>
       )}
 
-      {step === "workforce" && (
-        <section className="cc-glass-card space-y-3">
-          <h2 className="text-lg font-semibold text-white">Lean responsible workforce</h2>
-          <p className="text-2xl font-semibold text-cyan-300">{lean.estimatedTeamRange}</p>
-          <p className="text-xs text-slate-500">{lean.disclaimer}</p>
-          <ul className="list-disc space-y-1 pl-5 text-sm text-slate-300">
-            {lean.assumptions.map((a) => (
-              <li key={a}>{a}</li>
-            ))}
-          </ul>
-          <h3 className="text-sm font-medium text-white">May combine</h3>
-          <ul className="list-disc pl-5 text-sm text-slate-400">
-            {lean.merges.map((m) => (
-              <li key={m}>{m}</li>
-            ))}
-          </ul>
-          <h3 className="text-sm font-medium text-white">Keep separate</h3>
-          <ul className="list-disc pl-5 text-sm text-slate-400">
-            {lean.separations.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
       {step === "workflows" && (
         <section className="cc-glass-card space-y-3">
-          <h2 className="text-lg font-semibold text-white">Workflows</h2>
           {snapshot.workflowSummaries.map((w) => (
             <article key={w.key} className="rounded-lg border border-slate-800 p-4">
               <p className="font-medium text-white">{w.displayName}</p>
@@ -347,73 +414,137 @@ export function ClientDesignJourney({
 
       {step === "customize" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Customize</h2>
-          <button
-            type="button"
-            className="rounded-lg border border-slate-600 px-3 py-2 text-sm"
-            onClick={() => {
-              const impact = analyzeClientDesignImpact({
-                baselineInput: draftToInput(draft),
-                action: {
-                  id: "demo-add-crm",
-                  kind: "add_capability",
-                  targetKey: "crm",
-                },
-              });
-              setMessage(impact.simpleSummary);
-            }}
-          >
-            Preview adding CRM (impact panel)
-          </button>
+          <p className="text-xs text-amber-400">Advanced configuration · Expert mode</p>
+          <p className="text-sm text-slate-400">
+            Security policies, integrations, and workflow topology can be decided by ProCrow unless you specify
+            preferences here in a future release.
+          </p>
+          <label className="flex items-center gap-2 text-sm text-slate-300">
+            <input
+              type="checkbox"
+              checked={draft.letProcrowDecideTechnical}
+              onChange={(e) => updateDraft({ letProcrowDecideTechnical: e.target.checked })}
+            />
+            Let ProCrow choose the technical configuration
+          </label>
+        </section>
+      )}
+
+      {step === "recommendations" && (
+        <section className="cc-glass-card space-y-6">
+          <div>
+            <h3 className="text-sm font-semibold text-white">Essential now</h3>
+            <ul className="mt-2 list-disc pl-5 text-sm text-slate-300">
+              {snapshot.recommendedCapabilities.slice(0, 5).map((k) => (
+                <li key={k}>{friendlyCapabilityLabel(k)}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Who handles what</h3>
+            <p className="mt-1 text-2xl font-semibold text-cyan-300">{lean.estimatedTeamRange}</p>
+            <ul className="mt-2 list-disc pl-5 text-sm text-slate-400">
+              {lean.merges.slice(0, 3).map((m) => (
+                <li key={m}>{m}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Key workflows</h3>
+            <ul className="mt-2 space-y-2 text-sm text-slate-300">
+              {snapshot.workflowSummaries.slice(0, 3).map((w) => (
+                <li key={w.key}>{w.displayName}</li>
+              ))}
+            </ul>
+          </div>
+          <label className="flex items-start gap-2 rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4 text-sm text-slate-200">
+            <input
+              type="checkbox"
+              checked={draft.letProcrowDecideTechnical}
+              onChange={(e) => updateDraft({ letProcrowDecideTechnical: e.target.checked })}
+            />
+            <span>
+              Let ProCrow choose security policies, integrations, permission bundles, and workflow topology.
+            </span>
+          </label>
         </section>
       )}
 
       {step === "review" && (
         <section className="cc-glass-card space-y-4">
-          <h2 className="text-lg font-semibold text-white">Review and submit</h2>
           <p className="text-sm text-slate-400">
-            This is an enterprise-design Discovery submission. It is not a final contract, does not
-            provision software, and does not grant authority. ProCrow will review before Blueprint
-            finalization.
+            This submits your design for ProCrow review. No tenant or Blueprint is created automatically.
           </p>
-          <ul className="text-sm text-slate-300">
-            <li>Field: {draft.primaryIndustry ?? "—"}</li>
-            <li>Purposes: {draft.businessPurposes.join(", ") || "—"}</li>
-            <li>Variant: {draft.selectedModelVariant}</li>
-            <li>Team range: {lean.estimatedTeamRange}</li>
+          <ul className="space-y-1 text-sm text-slate-300">
+            <li>Field: {draft.primaryBusinessFieldKey ?? draft.customFieldDescription ?? draft.primaryIndustry ?? "—"}</li>
+            <li>
+              Secondary: {draft.secondaryBusinessFieldKeys.join(", ") || "—"}
+            </li>
+            <li>Purpose: {draft.primaryPurposeKey ?? draft.customPurposeDescription ?? "—"}</li>
+            <li>Team: {draft.teamSizeRange ?? "—"} · Growth: {draft.growthIntention ?? "—"}</li>
+            <li>Mode: {draft.configurationMode.replace(/_/g, " ")}</li>
+            <li>ProCrow decides technical: {draft.letProcrowDecideTechnical ? "Yes" : "No"}</li>
           </ul>
           <textarea
             className="w-full rounded-lg border border-slate-700 bg-slate-900 p-3 text-sm"
-            placeholder="Client notes (optional)"
+            placeholder="Optional notes in plain language"
             value={draft.clientNotes ?? ""}
             onChange={(e) => updateDraft({ clientNotes: e.target.value })}
           />
         </section>
       )}
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
           disabled={stepIndex <= 0}
-          onClick={() => go(STEPS[stepIndex - 1]!)}
+          onClick={() => go(steps[stepIndex - 1]!)}
           className="cc-btn-secondary"
         >
           Back
         </button>
-        {stepIndex < STEPS.length - 1 ? (
-          <button type="button" onClick={() => go(STEPS[stepIndex + 1]!)} className="cc-btn-primary">
+        {stepIndex < steps.length - 1 ? (
+          <PendingButton
+            pending={pending}
+            pendingLabel="Loading…"
+            disabled={!canAdvanceFromCurrentStep()}
+            onClick={() => {
+              saveDraft();
+              go(steps[stepIndex + 1]!);
+            }}
+          >
             Continue
-          </button>
+          </PendingButton>
         ) : (
-          <button type="button" disabled={pending || !model.canEdit} onClick={submitDesign} className="cc-btn-primary">
+          <PendingButton
+            pending={pending}
+            pendingLabel="Submitting your request…"
+            disabled={!model.canEdit}
+            onClick={submitDesign}
+          >
             Submit to Discovery
+          </PendingButton>
+        )}
+        <PendingButton
+          pending={pending && saveStatus === "saving"}
+          pendingLabel="Saving your design…"
+          disabled={!model.canEdit}
+          onClick={saveDraft}
+          className="cc-btn-secondary"
+        >
+          Save draft
+        </PendingButton>
+        {draft.configurationMode !== "RECOMMEND_EVERYTHING" && (
+          <button
+            type="button"
+            className="text-sm text-cyan-400 hover:underline"
+            onClick={() => updateDraft({ configurationMode: "RECOMMEND_EVERYTHING", letProcrowDecideTechnical: true })}
+          >
+            Switch to recommendations
           </button>
         )}
-        <button type="button" disabled={pending || !model.canEdit} onClick={saveDraft} className="cc-btn-secondary">
-          Save draft
-        </button>
-        <Link href={routes.client.requestDiscoveryCompare(model.requestId)} className="cc-btn-secondary">
-          Open comparison view
+        <Link href={routes.client.request(model.requestId)} className="cc-btn-secondary">
+          Save and return later
         </Link>
       </div>
     </div>

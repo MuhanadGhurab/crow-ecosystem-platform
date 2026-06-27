@@ -13,6 +13,11 @@ import type {
 } from "../types";
 import { CLIENT_ENTERPRISE_DESIGN_SCHEMA_VERSION } from "../types";
 import { buildLeanResponsibleOperatingModel } from "../lean-model/build-lean-responsible-model";
+import { resolveIndustryFromBusinessField } from "../intake/field-resolution";
+
+function resolvePrimaryIndustry(input: ClientEnterpriseDesignInput): string | null {
+  return input.primaryIndustry ?? resolveIndustryFromBusinessField(input.primaryBusinessFieldKey ?? null);
+}
 
 function stableSort(keys: string[]): string[] {
   return [...keys].sort();
@@ -119,16 +124,18 @@ function buildProvenance(
 export function composeClientEnterpriseDesign(
   input: ClientEnterpriseDesignInput,
 ): ClientEnterpriseDesignSnapshot {
+  const resolvedIndustry = resolvePrimaryIndustry(input);
   const purposes =
     input.businessPurposes.length > 0
       ? input.businessPurposes
       : resolveRecommendedPurposes({
-          primaryIndustry: input.primaryIndustry,
+          primaryIndustry: resolvedIndustry,
           specialistDomains: input.specialistDomains,
         });
 
   const normalized: ClientEnterpriseDesignInput = {
     ...input,
+    primaryIndustry: resolvedIndustry,
     businessPurposes: stableSort(purposes),
     specialistDomains: stableSort(input.specialistDomains),
     secondaryIndustries: stableSort(input.secondaryIndustries),
@@ -189,7 +196,9 @@ export function composeClientEnterpriseDesign(
   });
 
   const warnings: string[] = [];
-  if (!normalized.primaryIndustry) warnings.push("Select a primary field to sharpen recommendations.");
+  if (!normalized.primaryIndustry && !normalized.primaryBusinessFieldKey && !normalized.customFieldDescription) {
+    warnings.push("Select a primary field to sharpen recommendations.");
+  }
   if (!normalized.primaryPurposeKey) warnings.push("Select a primary business purpose.");
   if (normalized.operatingPriority === "LEAN_RESPONSIBLE") {
     warnings.push("Lean models trade specialization for efficiency — review segregation of duties.");

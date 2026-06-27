@@ -36,6 +36,17 @@ export function emptyClientEnterpriseDesignDraft(requestId: string): ClientEnter
     customizations: [],
     unresolvedDecisions: [],
     clientNotes: null,
+    configurationMode: "RECOMMEND_EVERYTHING",
+    primaryBusinessFieldKey: null,
+    secondaryBusinessFieldKeys: [],
+    customFieldDescription: null,
+    fieldResolutionStatus: null,
+    customFieldSuggestedMatches: [],
+    requiresProcrowFieldReview: false,
+    teamSizeRange: null,
+    growthIntention: null,
+    customPurposeDescription: null,
+    letProcrowDecideTechnical: false,
     recommendationSnapshot: null,
     updatedAt: null,
     submittedAt: null,
@@ -71,6 +82,17 @@ export function draftFromInput(
     customizations: input.customizations ?? [],
     unresolvedDecisions: snapshot.unresolvedDecisions,
     clientNotes: null,
+    configurationMode: input.configurationMode ?? "RECOMMEND_EVERYTHING",
+    primaryBusinessFieldKey: input.primaryBusinessFieldKey ?? null,
+    secondaryBusinessFieldKeys: input.secondaryBusinessFieldKeys ?? [],
+    customFieldDescription: input.customFieldDescription ?? null,
+    fieldResolutionStatus: input.fieldResolutionStatus ?? null,
+    customFieldSuggestedMatches: [],
+    requiresProcrowFieldReview: false,
+    teamSizeRange: input.teamSizeRange ?? null,
+    growthIntention: input.growthIntention ?? null,
+    customPurposeDescription: input.customPurposeDescription ?? null,
+    letProcrowDecideTechnical: input.letProcrowDecideTechnical ?? false,
     recommendationSnapshot: snapshot,
     updatedAt: new Date().toISOString(),
     submittedAt: status === "SUBMITTED" ? new Date().toISOString() : null,
@@ -83,6 +105,23 @@ export function sanitizeDraftForPersistence(draft: ClientEnterpriseDesignDraft):
   delete (clone as { supabaseUserId?: string }).supabaseUserId;
   delete (clone as { email?: string }).email;
   return clone;
+}
+
+export function normalizeClientEnterpriseDesignDraft(
+  draft: ClientEnterpriseDesignDraft,
+): ClientEnterpriseDesignDraft {
+  const base = emptyClientEnterpriseDesignDraft(draft.requestId);
+  return {
+    ...base,
+    ...draft,
+    designVersion: CLIENT_ENTERPRISE_DESIGN_SCHEMA_VERSION,
+    secondaryIndustries: draft.secondaryIndustries ?? [],
+    secondaryBusinessFieldKeys: draft.secondaryBusinessFieldKeys ?? [],
+    customFieldSuggestedMatches: draft.customFieldSuggestedMatches ?? [],
+    configurationMode: draft.configurationMode ?? "RECOMMEND_EVERYTHING",
+    letProcrowDecideTechnical: draft.letProcrowDecideTechnical ?? false,
+    requiresProcrowFieldReview: draft.requiresProcrowFieldReview ?? false,
+  };
 }
 
 export function draftToInput(draft: ClientEnterpriseDesignDraft): ClientEnterpriseDesignInput {
@@ -103,5 +142,14 @@ export function draftToInput(draft: ClientEnterpriseDesignDraft): ClientEnterpri
     riskPreferences: draft.riskPreferences,
     selectedModelVariant: draft.selectedModelVariant,
     customizations: draft.customizations,
+    configurationMode: draft.configurationMode,
+    primaryBusinessFieldKey: draft.primaryBusinessFieldKey,
+    secondaryBusinessFieldKeys: draft.secondaryBusinessFieldKeys,
+    customFieldDescription: draft.customFieldDescription,
+    fieldResolutionStatus: draft.fieldResolutionStatus,
+    teamSizeRange: draft.teamSizeRange,
+    growthIntention: draft.growthIntention,
+    customPurposeDescription: draft.customPurposeDescription,
+    letProcrowDecideTechnical: draft.letProcrowDecideTechnical,
   };
 }

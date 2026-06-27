@@ -14,15 +14,30 @@ export function validateClientEnterpriseDesignDraft(
   if (!d.status || !["DRAFT", "READY_FOR_REVIEW", "SUBMITTED"].includes(d.status)) {
     errors.push("invalid status");
   }
-  if (d.status === "SUBMITTED" && !d.primaryIndustry) errors.push("primaryIndustry required for submission");
-  if (d.status === "SUBMITTED" && !d.primaryPurposeKey) errors.push("primaryPurposeKey required for submission");
+  if (d.status === "SUBMITTED") {
+    const hasField =
+      d.primaryIndustry ||
+      d.primaryBusinessFieldKey ||
+      (d.customFieldDescription && d.fieldResolutionStatus !== "CATALOG_MATCH");
+    if (!hasField) errors.push("business field required for submission");
+    if (!d.primaryPurposeKey && !d.customPurposeDescription) {
+      errors.push("primaryPurposeKey or customPurposeDescription required for submission");
+    }
+  }
   if (errors.length) return { ok: false, errors };
   return { ok: true, draft: d as ClientEnterpriseDesignDraft };
 }
 
 export function hasStructuralContradictions(draft: ClientEnterpriseDesignDraft): string[] {
   const issues: string[] = [];
-  if (draft.selectedCapabilities.length === 0 && draft.status === "SUBMITTED") {
+  const recommendMode = draft.configurationMode === "RECOMMEND_EVERYTHING";
+  const procrowDecides = draft.letProcrowDecideTechnical;
+  if (
+    draft.selectedCapabilities.length === 0 &&
+    draft.status === "SUBMITTED" &&
+    !recommendMode &&
+    !procrowDecides
+  ) {
     issues.push("No operating capabilities selected.");
   }
   if (
