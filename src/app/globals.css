@@ -320,6 +320,26 @@ body {
     }
   }
 
+  .route-progress-bar {
+    transform: scaleX(0);
+    animation: route-progress-indeterminate 0.8s var(--cc-ease) forwards;
+  }
+
+  @keyframes route-progress-indeterminate {
+    0% {
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    50% {
+      transform: scaleX(0.6);
+      transform-origin: left;
+    }
+    100% {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
   .crow-resolver-glow::before {
     content: "";
     position: absolute;
