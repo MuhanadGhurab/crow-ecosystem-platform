@@ -12,10 +12,8 @@ import {
 } from "@/lib/business-field-catalog/team-scale";
 import type { ClientConfigurationMode } from "@/lib/client-enterprise-design/types";
 import { listBusinessPurposes } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
-import {
-  buildDefaultRequestBrief,
-  buildPreliminaryRequestRecommendation,
-} from "@/lib/client-service-request";
+import { buildDefaultRequestBrief } from "@/lib/client-service-request/constants";
+import { buildPreliminaryRequestRecommendation } from "@/lib/client-service-request/preliminary-recommendation";
 import type {
   ClientServiceRequestBrief,
   ClientServiceRequestBriefInput,

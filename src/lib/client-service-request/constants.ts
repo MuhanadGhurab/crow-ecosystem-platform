@@ -1,7 +1,12 @@
-import { randomUUID } from "node:crypto";
-
 import type { ClientServiceRequestBrief, ClientServiceRequestBriefInput } from "./types";
 import { CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION } from "./types";
+
+function newIdempotencyKey(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `req-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
 
 export const REQUEST_BRIEF_NOTES_MARKER = "__CROW_REQUEST_BRIEF_v1__";
 
@@ -31,7 +36,7 @@ export function buildDefaultRequestBrief(
 ): ClientServiceRequestBrief {
   return {
     schemaVersion: CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION,
-    idempotencyKey: partial.idempotencyKey ?? randomUUID(),
+    idempotencyKey: partial.idempotencyKey ?? newIdempotencyKey(),
     submittedAt: null,
     primaryBusinessFieldKey: partial.primaryBusinessFieldKey ?? null,
     secondaryBusinessFieldKeys: partial.secondaryBusinessFieldKeys ?? [],
