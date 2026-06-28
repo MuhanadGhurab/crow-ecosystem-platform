@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 
 import { CrowAppShell } from "@/components/brand/crow-app-shell";
 import { RouteProgressBar } from "@/components/ui/route-progress-bar";
+import { CertificationEnvironmentLabel } from "@/components/public/certification-environment-label";
 import "./globals.css";
 
 const fontSans = Plus_Jakarta_Sans({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased">
         <RouteProgressBar />
         <CrowAppShell>{children}</CrowAppShell>
+        <CertificationEnvironmentLabel />
       </body>
     </html>
   );

@@ -85,7 +85,7 @@ export function BusinessFieldFinder({
         <button
           type="button"
           onClick={() => setCategoryKey(null)}
-          className={`rounded-full px-3 py-1 text-xs ${!categoryKey ? "bg-violet-600 text-white" : "bg-slate-800 text-slate-300"}`}
+          className={`min-h-[44px] rounded-full px-3 py-2 text-xs ${!categoryKey ? "bg-violet-600 text-white" : "bg-slate-800 text-slate-300"}`}
         >
           All categories
         </button>
@@ -95,7 +95,7 @@ export function BusinessFieldFinder({
             type="button"
             role="listitem"
             onClick={() => setCategoryKey(cat.key)}
-            className={`rounded-full px-3 py-1 text-xs ${
+            className={`min-h-[44px] rounded-full px-3 py-2 text-xs ${
               categoryKey === cat.key ? "bg-violet-600 text-white" : "bg-slate-800 text-slate-300"
             }`}
           >
@@ -143,15 +143,19 @@ export function BusinessFieldFinder({
       </div>
 
       <div className="border-t border-slate-800 pt-4">
+        <button
+          type="button"
+          onClick={() => setCustomOpen(true)}
+          className="cc-btn-secondary min-h-[44px] w-full text-sm sm:w-auto"
+        >
+          I cannot find my business
+        </button>
         {!customOpen ? (
-          <button
-            type="button"
-            onClick={() => setCustomOpen(true)}
-            className="text-sm font-medium text-amber-400 hover:text-amber-300"
-          >
-            I cannot find my business
-          </button>
-        ) : (
+          <p className="mt-2 text-xs text-slate-500">
+            Describe your activity in your own words — you never need to pick the wrong catalog field.
+          </p>
+        ) : null}
+        {customOpen ? (
           <div className="space-y-3 rounded-xl border border-amber-500/30 bg-amber-950/20 p-4">
             <p className="text-sm font-medium text-amber-200">Describe what your business does</p>
             <textarea
@@ -193,7 +197,7 @@ export function BusinessFieldFinder({
               You can continue without accepting a catalog match. ProCrow will review your description.
             </p>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
