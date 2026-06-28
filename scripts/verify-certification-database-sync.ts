@@ -62,7 +62,11 @@ async function main() {
       { finished_at: Date | null; rolled_back_at: Date | null }[]
     >`SELECT finished_at, rolled_back_at FROM "_prisma_migrations"`;
     const successful = ledger.filter((r) => r.finished_at && !r.rolled_back_at).length;
-    const failed = ledger.filter((r) => !r.finished_at).length;
+    const failedRows = await prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(*)::bigint AS count FROM "_prisma_migrations"
+      WHERE finished_at IS NULL AND rolled_back_at IS NULL
+    `;
+    const failed = Number(failedRows[0]?.count ?? 0);
     if (failed > 0) fail(`FAILED_MIGRATION_COUNT=${failed}`);
     ok(`successful_migration_count=${successful}`);
     if (successful !== repoMigrations) {
