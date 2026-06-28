@@ -84,15 +84,38 @@ function scoreField(
   if (normalizedQuery && normalizedName === normalizedQuery) {
     return { score: 100, reason: "exact name match" };
   }
-  if (normalizedQuery && normalizedName.includes(normalizedQuery)) {
-    score += 60;
+  if (normalizedQuery && field.aliasesEn.some((a) => normalize(a) === normalizedQuery)) {
+    return { score: 150, reason: "exact English alias" };
+  }
+  if (normalizedQuery && field.aliasesAr.some((a) => normalize(a) === normalizedQuery)) {
+    return { score: 150, reason: "exact Arabic alias" };
+  }
+  const firstWord = normalizedName.split(" ")[0] ?? "";
+  if (normalizedQuery && firstWord === normalizedQuery) {
+    score += 75;
+    reason = "first word match";
+  } else if (normalizedQuery && normalizedName.includes(normalizedQuery)) {
+    score += 35;
     reason = "name contains query";
   }
 
   for (const alias of [...field.aliasesEn, ...field.aliasesAr, ...field.misspellings]) {
     const na = normalize(alias);
-    if (na === normalizedQuery) return { score: 90, reason: "alias match" };
-    if (normalizedQuery && na.includes(normalizedQuery)) score += 40;
+    if (na === normalizedQuery) return { score: 95, reason: "exact alias match" };
+    if (normalizedQuery && na.includes(normalizedQuery)) {
+      score += 45;
+      reason = "alias contains query";
+    }
+  }
+
+  for (const kw of field.searchKeywords) {
+    const nk = normalize(kw);
+    if (nk === normalizedQuery) {
+      score += 70;
+      reason = "keyword exact match";
+    } else if (normalizedQuery && nk.includes(normalizedQuery)) {
+      score += 25;
+    }
   }
 
   for (const qt of queryTokens) {
@@ -105,6 +128,20 @@ function scoreField(
     }
   }
 
+  // Multi-token queries: reward fields matching more distinct query tokens in name/aliases
+  if (queryTokens.length > 1) {
+    let tokenHits = 0;
+    for (const qt of queryTokens) {
+      const inName = normalizedName.includes(qt);
+      const inAlias = [...field.aliasesEn, ...field.aliasesAr].some((a) => normalize(a).includes(qt));
+      if (inName || inAlias) tokenHits += 1;
+    }
+    score += tokenHits * 12;
+    if (tokenHits < queryTokens.length && queryTokens.includes("law") && !normalizedName.includes("law") && !field.aliasesEn.some((a) => normalize(a).includes("law"))) {
+      score -= 20;
+    }
+  }
+
   // Minor misspelling tolerance against name
   if (normalizedQuery.length >= 4) {
     const dist = levenshtein(normalizedQuery, normalizedName);
@@ -114,10 +151,50 @@ function scoreField(
     }
     for (const ms of field.misspellings) {
       if (normalize(ms) === normalizedQuery) {
-        score += 50;
+        score += 55;
         reason = "misspelling alias";
       }
     }
+  }
+
+  // Deprioritize overly broad retail when query signals specialist intent
+  const specialistSignals = [
+    "game",
+    "gaming",
+    "esport",
+    "clinic",
+    "dental",
+    "veterinary",
+    "legal",
+    "law",
+    "cyber",
+    "security",
+    "construction",
+    "contractor",
+    "restaurant",
+    "cafe",
+    "hotel",
+    "travel",
+    "umrah",
+    "hajj",
+    "laboratory",
+    "lab",
+    "gym",
+    "salon",
+    "car wash",
+    "warehouse",
+    "delivery",
+    "content creator",
+    "influencer",
+  ];
+  const genericKeys = new Set(["retail_store", "software_saas", "management_consulting"]);
+  if (genericKeys.has(field.key) && specialistSignals.some((s) => normalizedQuery.includes(s))) {
+    score -= 30;
+  }
+
+  // Boost specialist categories over parent roll-ups when tokens align
+  if (field.parentFieldKey && queryTokens.length > 0) {
+    score += 8;
   }
 
   return score > 0 ? { score, reason } : null;

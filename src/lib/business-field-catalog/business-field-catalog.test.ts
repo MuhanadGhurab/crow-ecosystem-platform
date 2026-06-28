@@ -6,10 +6,12 @@ import {
   buildBusinessFieldSearchIndex,
   countArabicAliases,
   countSearchableAliases,
+  resetBusinessFieldSearchIndexCache,
   searchBusinessFields,
   suggestMatchesForCustomDescription,
 } from "./search";
 import { CROSSWALK_REGISTRY, TAXONOMY_SOURCES } from "./crosswalk";
+import { officialMajorSectionCoveragePercent } from "./isic-major-sections";
 
 function test(name: string, fn: () => void) {
   try {
@@ -95,8 +97,13 @@ test("hybrid fields supported via secondary selection model", () => {
 });
 
 test("catalog index precomputes", () => {
+  resetBusinessFieldSearchIndexCache();
   const index = buildBusinessFieldSearchIndex();
   assert.equal(index.length, BUSINESS_FIELD_CATALOG.length);
+});
+
+test("ISIC major section coverage", () => {
+  assert.equal(officialMajorSectionCoveragePercent(), 100);
 });
 
 console.log("business-field-catalog:test PASS");
