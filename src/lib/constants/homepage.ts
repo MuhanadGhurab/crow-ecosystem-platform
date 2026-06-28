@@ -13,7 +13,7 @@ export const HOMEPAGE_HERO_ACCOUNT_NOTE =
   "Account required to submit — sign in to start your request. Public pages remain open to browse." as const;
 
 export const HOMEPAGE_PRIMARY_CTA = {
-  label: "Start Enterprise Request",
+  label: "Start a Service Request",
   href: "/request",
 } as const;
 

@@ -3,6 +3,10 @@ import { getCrowAuth, isPlatformStaff } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled, isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import {
+  LEGACY_IMPLEMENTATION_REQUEST_INTAKE_MESSAGE,
+  LEGACY_IMPLEMENTATION_REQUEST_INTAKE_DISABLED,
+} from "@/lib/client-service-request/legacy-intake-guard";
+import {
   runPublicIntakeGuards,
   unexpectedIntakeFailure,
 } from "@/lib/security/public-intake-guard";
@@ -10,6 +14,9 @@ import { ensureClientRoleForAuthenticatedIntake } from "@/lib/services/client-re
 import { createImplementationRequest, listImplementationRequests } from "@/lib/services/implementation-request.service";
 
 export async function POST(request: Request) {
+  if (LEGACY_IMPLEMENTATION_REQUEST_INTAKE_DISABLED) {
+    return NextResponse.json({ error: LEGACY_IMPLEMENTATION_REQUEST_INTAKE_MESSAGE }, { status: 410 });
+  }
   try {
     const body = await request.json();
     const guard = await runPublicIntakeGuards({ request, body });

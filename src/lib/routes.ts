@@ -51,6 +51,8 @@ export const routes = {
     profile: "/client/profile",
     company: "/client/company",
     requests: "/client/requests",
+    requestNew: "/client/requests/new",
+    requestConfirmation: (id: string) => `/client/requests/${id}/confirmation`,
     request: (id: string) => `/client/requests/${id}`,
     requestDiscovery: (id: string) => `/client/requests/${id}/discovery`,
     requestDiscoveryDesign: (id: string) => `/client/requests/${id}/discovery/design`,
