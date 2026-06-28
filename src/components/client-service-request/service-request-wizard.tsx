@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import { BusinessFieldFinder } from "@/components/client-enterprise-design/business-field-finder";
@@ -14,6 +14,11 @@ import type { ClientConfigurationMode } from "@/lib/client-enterprise-design/typ
 import { listBusinessPurposes } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
 import { buildDefaultRequestBrief } from "@/lib/client-service-request/constants";
 import { buildPreliminaryRequestRecommendation } from "@/lib/client-service-request/preliminary-recommendation";
+import {
+  clearRequestWizardDraft,
+  loadRequestWizardDraft,
+  saveRequestWizardDraft,
+} from "@/lib/client-service-request/draft-storage";
 import type {
   ClientServiceRequestBrief,
   ClientServiceRequestBriefInput,
@@ -49,13 +54,33 @@ const ORG_CONTEXT: Array<{ key: OrganizationContextKind; label: string }> = [
   { key: "NEW_DIVISION", label: "A new division or branch" },
 ];
 
-export function ServiceRequestWizard() {
+export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: string }) {
   const router = useRouter();
   const [step, setStep] = useState<Step>("field");
   const [brief, setBrief] = useState<ClientServiceRequestBrief>(() => buildDefaultRequestBrief());
+  const [draftNotice, setDraftNotice] = useState<"resume" | "saved" | null>(null);
+  const [allowDraftSave, setAllowDraftSave] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const existing = loadRequestWizardDraft(accountScopeKey);
+    if (existing) {
+      setDraftNotice("resume");
+    } else {
+      setAllowDraftSave(true);
+    }
+  }, [accountScopeKey]);
+
+  useEffect(() => {
+    if (!allowDraftSave) return;
+    const t = window.setTimeout(() => {
+      saveRequestWizardDraft(accountScopeKey, { step, brief });
+      setDraftNotice("saved");
+    }, 500);
+    return () => window.clearTimeout(t);
+  }, [accountScopeKey, step, brief, allowDraftSave]);
 
   const stepIndex = STEPS.indexOf(step);
   const purposes = listBusinessPurposes();
@@ -137,12 +162,60 @@ export function ServiceRequestWizard() {
         setSubmitting(false);
         return;
       }
+      clearRequestWizardDraft(accountScopeKey);
       router.push(routes.client.requestConfirmation(res.requestId));
     });
   }
 
   return (
-    <div className="space-y-6">
+    <div className="cc-wizard-shell space-y-6">
+      <p className="rounded-lg border border-cyan-500/20 bg-cyan-950/20 px-4 py-3 text-sm text-cyan-100/90">
+        Start by telling Crow what your business does. You do not need to know which ERP modules you need — Crow and
+        ProCrow can recommend the technical configuration during Discovery.
+      </p>
+
+      {draftNotice === "resume" && (
+        <div className="cc-glass-card flex flex-wrap items-center justify-between gap-3" role="status" aria-live="polite">
+          <p className="text-sm text-slate-300">Draft saved on this device — resume where you left off?</p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="cc-btn-primary text-sm"
+              onClick={() => {
+                const existing = loadRequestWizardDraft(accountScopeKey);
+                if (existing) {
+                  setBrief(existing.brief);
+                  setStep(existing.step as Step);
+                }
+                setAllowDraftSave(true);
+                setDraftNotice(null);
+              }}
+            >
+              Resume draft
+            </button>
+            <button
+              type="button"
+              className="cc-btn-secondary text-sm"
+              onClick={() => {
+                clearRequestWizardDraft(accountScopeKey);
+                setBrief(buildDefaultRequestBrief());
+                setStep("field");
+                setAllowDraftSave(true);
+                setDraftNotice(null);
+              }}
+            >
+              Discard draft
+            </button>
+          </div>
+        </div>
+      )}
+
+      {draftNotice === "saved" && (
+        <p className="text-xs text-slate-500" role="status" aria-live="polite">
+          Draft saved on this device (not stored on Crow servers).
+        </p>
+      )}
+
       <header>
         <p className="text-xs uppercase tracking-wider text-slate-500">
           Step {stepIndex + 1} of {STEPS.length}
@@ -396,7 +469,7 @@ export function ServiceRequestWizard() {
         </section>
       )}
 
-      <div className="flex flex-wrap gap-3">
+      <div className="cc-wizard-actions flex flex-wrap gap-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <button
           type="button"
           disabled={stepIndex <= 0}

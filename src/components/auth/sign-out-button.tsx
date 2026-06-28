@@ -1,6 +1,7 @@
 "use client";
 
 import { routes } from "@/lib/routes";
+import { clearAllClientScopedStorage } from "@/lib/client-state/scoped-storage";
 
 type SignOutButtonProps = {
   className?: string;
@@ -14,7 +15,11 @@ export function SignOutButton({
 }: SignOutButtonProps) {
   return (
     <form action={routes.auth.signOut} method="post">
-      <button type="submit" className={className}>
+      <button
+        type="submit"
+        className={className}
+        onClick={() => clearAllClientScopedStorage()}
+      >
         {label}
       </button>
     </form>
