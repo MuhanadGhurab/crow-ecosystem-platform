@@ -13,6 +13,10 @@ import { assertHostedVerificationTarget } from "./lib/assert-hosted-verification
 import { fingerprintDatabaseUrl, maskDatabaseTarget } from "./lib/database-fingerprint";
 import { assertHostedEnvNotLocalhost, loadHostedOperatorEnv } from "./lib/hosted-operator-env";
 import { countMigrationSql } from "./lib/migration-baseline";
+import {
+  assertRequestBaselineInvariants,
+  verifyRequestBaselineInvariants,
+} from "./lib/request-baseline-invariants";
 
 const BLUEPRINT_MIGRATION = "20260624120000_blueprint_persistent_review_lifecycle";
 const EXPECTED_CHECKSUM = "9405aa150bd3fd1f99622666025ce61fbac2e94bfbd31767ab2176e72b9cf7ff";
@@ -276,8 +280,9 @@ async function main() {
         (SELECT COUNT(*)::bigint FROM tenant_memberships) AS tm
     `;
     const c = counts[0]!;
-    if (Number(c.ir) !== 7) fail(`implementation_requests=${c.ir}`);
-    ok("implementation_requests=7 unchanged");
+    const baseline = await verifyRequestBaselineInvariants(prisma);
+    assertRequestBaselineInvariants(baseline);
+    ok(`implementation_requests=${Number(c.ir)} with invariant baseline preserved`);
     ok(`enterprise_blueprints=${Number(c.eb)} (business delta 0 expected)`);
     ok(`blueprint_review_cycles=${Number(c.rc)} (business delta 0 expected)`);
     ok(`blueprint_review_actions=${Number(c.ra)} (business delta 0 expected)`);

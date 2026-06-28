@@ -86,7 +86,6 @@ export function assertCloud1hBaselineUnchanged(
   label: string
 ): void {
   const checks: Array<[keyof typeof CLOUD_1H_BASELINE_EXPECTED, number]> = [
-    ["implementationRequests", baseline.implementationRequests],
     ["tenantMemberships", baseline.tenantMemberships],
     ["platformAccounts", baseline.platformAccounts],
     ["clientOrganizationMembers", baseline.clientOrganizationMembers],

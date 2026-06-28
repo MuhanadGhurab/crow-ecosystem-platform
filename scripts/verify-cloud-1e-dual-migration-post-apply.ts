@@ -25,13 +25,16 @@ import {
   assertHostedEnvNotLocalhost,
   loadHostedOperatorEnv,
 } from "./lib/hosted-operator-env";
+import {
+  assertRequestBaselineInvariants,
+  verifyRequestBaselineInvariants,
+} from "./lib/request-baseline-invariants";
 
 const LEGAL_MIGRATION = "20260618120000_c3_legal_publication_lifecycle";
 const FTGP_MIGRATION = "20260621120000_ftgp_platform_internal_role_assignment";
 const EXPECTED_FINGERPRINT = "0355c17692e2a90d";
 
 const BASELINE = {
-  implementation_requests: 7,
   tenant_memberships: 3,
   internal_role_assignments_total: Number(
     process.env.FTGP_EXPECTED_TOTAL_INTERNAL_ASSIGNMENTS?.trim() || "3"
@@ -283,10 +286,9 @@ async function main() {
     const implRequests = await prisma.$queryRaw<{ count: bigint }[]>`
       SELECT COUNT(*)::bigint AS count FROM implementation_requests
     `;
-    if (Number(implRequests[0]?.count ?? 0) !== BASELINE.implementation_requests) {
-      fail(`implementation_requests=${implRequests[0]?.count ?? 0}`);
-    }
-    ok(`implementation_requests=${BASELINE.implementation_requests}`);
+    const requestBaseline = await verifyRequestBaselineInvariants(prisma);
+    assertRequestBaselineInvariants(requestBaseline);
+    ok(`implementation_requests=${Number(implRequests[0]?.count ?? 0)} invariant baseline preserved`);
 
     const memberships = await prisma.$queryRaw<{ count: bigint }[]>`
       SELECT COUNT(*)::bigint AS count FROM tenant_memberships
