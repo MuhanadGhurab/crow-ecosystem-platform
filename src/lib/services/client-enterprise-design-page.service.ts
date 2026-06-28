@@ -11,6 +11,8 @@ import {
 } from "@/lib/client-enterprise-design/persistence/constants";
 import { loadClientEnterpriseDesignDraft } from "@/lib/client-enterprise-design/persistence/client-design-discovery.service";
 import { composeClientEnterpriseDesign } from "@/lib/client-enterprise-design/recommendations/compose-client-enterprise-design";
+import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
+import { prefillDesignDraftFromRequestBrief } from "@/lib/client-service-request/discovery-prefill";
 import {
   recommendedPurposesForIndustry,
   recommendedPurposesForSpecialistDomain,
@@ -48,7 +50,9 @@ export async function buildClientDesignPageModel(
   });
   if (!request) return null;
 
-  const { draft, profileUpdatedAt } = await loadClientEnterpriseDesignDraft(requestId);
+  const { draft: loadedDraft, profileUpdatedAt } = await loadClientEnterpriseDesignDraft(requestId);
+  const brief = parseRequestBriefFromNotes(request.notes);
+  const draft = brief ? prefillDesignDraftFromRequestBrief(requestId, brief, loadedDraft) : loadedDraft;
   const input = draftToInput(draft);
   const snapshot =
     draft.recommendationSnapshot ?? (draft.primaryIndustry ? composeClientEnterpriseDesign(input) : null);
@@ -56,9 +60,9 @@ export async function buildClientDesignPageModel(
   const status = request.status;
   const canEdit =
     request.submittedByUserId === user.id &&
-    status === "UNDER_DISCOVERY" &&
-    request.discoveryProfile?.status === "IN_PROGRESS" &&
-    draft.status !== "SUBMITTED";
+    (status === "PENDING_REVIEW" || status === "UNDER_DISCOVERY") &&
+    draft.status !== "SUBMITTED" &&
+    (status === "PENDING_REVIEW" || request.discoveryProfile?.status === "IN_PROGRESS");
 
   return {
     requestId,

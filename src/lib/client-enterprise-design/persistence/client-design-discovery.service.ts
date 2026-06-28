@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 
 import type { Prisma } from "@prisma/client";
 
+import { ensureDiscoveryProfileForDesignSave } from "@/lib/services/client-service-request.service";
 import { FTGP_CLIENT_ENTERPRISE_DESIGN_SECTION } from "@/lib/ftgp/ftgp-discovery-invariant.constants";
 import { FTGP_DISCOVERY_QUESTION_CATALOG_VERSION } from "@/lib/ftgp/ftgp-discovery-question-catalog";
 import {
@@ -66,14 +67,20 @@ export async function assertClientEnterpriseDesignWrite(args: {
     where: { id: args.requestId },
     select: { submittedByUserId: true, status: true, discoveryProfile: true },
   });
-  if (!request?.discoveryProfile) throw new Error("Discovery profile missing.");
+  if (!request) throw new Error("Request not found.");
   if (request.submittedByUserId !== args.supabaseUserId) {
     throw new Error("Only the authoritative request owner may write client design answers.");
   }
-  return {
-    profileId: request.discoveryProfile.id,
-    profileUpdatedAt: request.discoveryProfile.updatedAt.toISOString(),
-  };
+
+  let profileId = request.discoveryProfile?.id;
+  let profileUpdatedAt = request.discoveryProfile?.updatedAt.toISOString();
+  if (!profileId) {
+    profileId = await ensureDiscoveryProfileForDesignSave(args.requestId);
+    const profile = await prisma.discoveryProfile.findUniqueOrThrow({ where: { id: profileId } });
+    profileUpdatedAt = profile.updatedAt.toISOString();
+  }
+
+  return { profileId, profileUpdatedAt: profileUpdatedAt! };
 }
 
 async function writeDesignAnswer(args: {

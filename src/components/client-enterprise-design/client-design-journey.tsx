@@ -92,6 +92,7 @@ export function ClientDesignJourney({
 
   const stepIndex = steps.indexOf(step);
   const lean = projectLeanModel(snapshot.leanModel);
+  const prefilledFromRequest = draft.organizationalPreferences?.prefilledFromRequestBrief === true;
 
   function go(next: QuickIntakeStep) {
     setStep(next);
@@ -177,6 +178,12 @@ export function ClientDesignJourney({
       {message && (
         <p className="rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2 text-sm text-slate-200" role="alert">
           {message}
+        </p>
+      )}
+
+      {prefilledFromRequest && (
+        <p className="rounded-lg border border-cyan-500/20 bg-cyan-950/20 px-4 py-2 text-sm text-cyan-200/90" role="status">
+          Provided during your request — you may update these answers during Discovery.
         </p>
       )}
 
