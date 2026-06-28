@@ -3,9 +3,7 @@ import { redirect } from "next/navigation";
 import { CrowMark } from "@/components/public/brand/crow-mark";
 import { AuthBackNavigation } from "@/components/auth/auth-back-navigation";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
-import { EntraOpsPanel } from "@/components/tenant/entra-ops-panel";
 import { redirectAuthenticatedSession } from "@/lib/auth/c3-authenticated-entry";
-import { isEntraSsoEnabled } from "@/lib/auth/entra-sso";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
 import { getSessionUser } from "@/lib/auth/session";
 import { isSupabaseAuthConfigured } from "@/lib/supabase/env";
@@ -15,32 +13,18 @@ import {
   LOGIN_CLIENT_PURPOSE,
   LOGIN_INTERNAL_NOTE,
 } from "@/lib/constants/public-client-ux";
-import type { TenantSecuritySettings } from "@/lib/services/tenant-security-settings.service";
-
-const LOGIN_ENTRA_DEFAULTS: TenantSecuritySettings = {
-  mfaRequired: true,
-  mfaLabel: "Required for admins (platform default)",
-  idpPreference: "entra_id",
-  idpLabel: "Microsoft Entra ID (SSO)",
-  ssoNotes: null,
-  source: "default",
-};
 
 const ERROR_MESSAGES: Record<string, string> = {
   forbidden: "You do not have permission to access that area.",
   config: "Supabase Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and anon key to .env.",
   auth_callback:
-    "Sign-in could not be completed. Check Supabase redirect URLs (must include your app /auth/callback) and provider settings — see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md and docs/internal/ENTRA_SSO.md.",
+    "Sign-in could not be completed. Try again, or use email and password if the problem continues.",
   oauth_session:
     "Your sign-in session could not be established. Try Continue with Google again.",
-  entra_start_failed:
-    "Could not start Microsoft sign-in. Check Azure provider in Supabase Dashboard and AZURE_SSO_ENABLED / NEXT_PUBLIC_AZURE_TENANT_ID in .env.",
-  entra_not_configured:
-    "Microsoft SSO is not enabled. Set AZURE_SSO_ENABLED=true, NEXT_PUBLIC_AZURE_TENANT_ID, and configure Azure in Supabase.",
   google_start_failed:
-    "Could not start Google sign-in. Enable the Google provider in Supabase Dashboard and set GOOGLE_SSO_ENABLED=true in .env.",
+    "Could not start Google sign-in. Try again in a moment or use email and password.",
   google_not_configured:
-    "Google sign-in is not enabled. Set GOOGLE_SSO_ENABLED=true and configure Google in Supabase (see docs/internal/F18_GOOGLE_SIGNIN_SETUP.md).",
+    "Google sign-in is not available right now. Use email and password to sign in.",
   no_role:
     "Your account signed in successfully, but no Crow access is assigned yet. Use the same email as your implementation request to track it, or ask a platform administrator.",
   role_config:
@@ -83,7 +67,6 @@ export default async function LoginPage({
         "Sign-in failed.")
     : null;
   const configured = isSupabaseAuthConfigured();
-  const entraEnabled = isEntraSsoEnabled();
   const googleEnabled = isGoogleSsoEnabled();
 
   return (
@@ -120,7 +103,6 @@ export default async function LoginPage({
           <div className="mt-6">
             <SignInForm
               nextPath={nextPath}
-              entraEnabled={entraEnabled}
               googleEnabled={googleEnabled}
               defaultEmail={prefillEmail || undefined}
             />
@@ -132,14 +114,6 @@ export default async function LoginPage({
             <p>Platform access is role-based.</p>
             <p>RBAC controls access. SAREA controls experience.</p>
           </div>
-        )}
-
-        {configured && entraEnabled && (
-          <EntraOpsPanel
-            security={LOGIN_ENTRA_DEFAULTS}
-            showEntraNarrative
-            variant="login"
-          />
         )}
 
         <p className="mt-6 text-center text-sm text-slate-500">

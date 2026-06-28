@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { submitSignInFormAction } from "@/lib/actions/auth";
 import { routes } from "@/lib/routes";
-import { SignInWithEntra } from "@/components/portal/auth/sign-in-with-entra";
 import { SignInWithGoogle } from "@/components/portal/auth/sign-in-with-google";
 
 interface SignInFormProps {
   nextPath?: string;
-  entraEnabled?: boolean;
   googleEnabled?: boolean;
   defaultEmail?: string;
 }
@@ -30,28 +28,21 @@ function SignInSubmitButton() {
 
 export function SignInForm({
   nextPath,
-  entraEnabled = false,
   googleEnabled = false,
   defaultEmail,
 }: SignInFormProps) {
-  const showProviders = entraEnabled || googleEnabled;
-
   return (
     <div className="space-y-6">
-      {showProviders && (
+      {googleEnabled && (
         <div className="space-y-3">
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
-            Enterprise sign-in
+            Quick sign-in
           </p>
-          {entraEnabled && <SignInWithEntra nextPath={nextPath} />}
-          {googleEnabled && <SignInWithGoogle nextPath={nextPath} />}
-        </div>
-      )}
-
-      {showProviders && (
-        <div className="relative py-1 text-center text-xs text-slate-500">
-          <span className="relative z-10 bg-cc-elevated/90 px-3">or email & password</span>
-          <span className="absolute inset-x-0 top-1/2 border-t border-cyan-500/10" aria-hidden />
+          <SignInWithGoogle nextPath={nextPath} />
+          <div className="relative py-1 text-center text-xs text-slate-500">
+            <span className="relative z-10 bg-cc-elevated/90 px-3">or email & password</span>
+            <span className="absolute inset-x-0 top-1/2 border-t border-cyan-500/10" aria-hidden />
+          </div>
         </div>
       )}
 
