@@ -63,6 +63,8 @@ export type ClientServiceRequestBrief = {
   };
   /** Immutable client statement captured at submission */
   originalClientStatement?: string | null;
+  /** ProCrow internal field resolution — does not replace client statement */
+  procrowFieldResolution?: ProcrowFieldResolution | null;
 };
 
 export type ClientServiceRequestBriefInput = Omit<

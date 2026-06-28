@@ -55,6 +55,7 @@ import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procro
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
+import { listBusinessFields } from "@/lib/business-field-catalog/fields";
 import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
@@ -246,7 +247,13 @@ export default async function AdminRequestDetailPage({
 
       <ProCrowWorkbenchSection title="Client interaction" description="Portal linkage, onboarding, feedback.">
         <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
-        {requestBrief && <AdminRequestBriefPanel brief={requestBrief} />}
+        {requestBrief && (
+          <AdminRequestBriefPanel
+            brief={requestBrief}
+            requestId={requestId}
+            fieldOptions={listBusinessFields().map((f) => ({ key: f.key, label: f.displayNameEn }))}
+          />
+        )}
         <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
         <AdminClientEnterpriseDesignPanel requestId={requestId} />
         <AdminClientReviewFeedbackPanel requestId={requestId} />

@@ -1,8 +1,17 @@
 import { getBusinessField } from "@/lib/business-field-catalog/fields";
 import { getBusinessPurpose } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
 import type { ClientServiceRequestBrief } from "@/lib/client-service-request/types";
+import { AdminFieldResolutionPanel } from "@/components/admin/admin-field-resolution-panel";
 
-export function AdminRequestBriefPanel({ brief }: { brief: ClientServiceRequestBrief }) {
+export function AdminRequestBriefPanel({
+  brief,
+  requestId,
+  fieldOptions = [],
+}: {
+  brief: ClientServiceRequestBrief;
+  requestId?: string;
+  fieldOptions?: Array<{ key: string; label: string }>;
+}) {
   const fieldLabel =
     (brief.primaryBusinessFieldKey && getBusinessField(brief.primaryBusinessFieldKey)?.displayNameEn) ||
     brief.customFieldDescription ||
@@ -86,6 +95,10 @@ export function AdminRequestBriefPanel({ brief }: { brief: ClientServiceRequestB
         <p className="text-xs text-slate-500">
           Original client statement preserved: {brief.originalClientStatement}
         </p>
+      )}
+
+      {requestId && (
+        <AdminFieldResolutionPanel requestId={requestId} brief={brief} fieldOptions={fieldOptions} />
       )}
     </section>
   );

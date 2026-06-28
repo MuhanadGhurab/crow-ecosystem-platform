@@ -146,3 +146,46 @@ export async function ensureDiscoveryProfileForDesignSave(requestId: string): Pr
   });
   return profile.id;
 }
+
+export async function applyProcrowFieldResolution(
+  requestId: string,
+  resolution: {
+    reviewedCanonicalFieldKey: string;
+    reviewedSecondaryFieldKeys?: string[];
+    reviewerNote?: string | null;
+    resolvedByPlatformAccountId: string;
+    originalClientDescription: string;
+    suggestedCatalogMatches: string[];
+  },
+): Promise<ClientServiceRequestBrief | null> {
+  const request = await prisma.implementationRequest.findUnique({
+    where: { id: requestId },
+    select: { notes: true },
+  });
+  if (!request) return null;
+
+  const brief = parseRequestBriefFromNotes(request.notes);
+  if (!brief) return null;
+
+  const updated: ClientServiceRequestBrief = {
+    ...brief,
+    procrowFieldResolution: {
+      reviewedCanonicalFieldKey: resolution.reviewedCanonicalFieldKey,
+      reviewerNote: resolution.reviewerNote ?? null,
+      resolvedAt: new Date().toISOString(),
+      resolvedByPlatformAccountId: resolution.resolvedByPlatformAccountId,
+      originalClientDescription: resolution.originalClientDescription,
+      suggestedCatalogMatches: resolution.suggestedCatalogMatches,
+    },
+  };
+
+  await prisma.implementationRequest.update({
+    where: { id: requestId },
+    data: {
+      industry: resolution.reviewedCanonicalFieldKey,
+      notes: serializeRequestBriefToNotes(updated),
+    },
+  });
+
+  return updated;
+}
