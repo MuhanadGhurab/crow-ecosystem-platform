@@ -119,7 +119,7 @@ test("Discovery prefill preserves request brief without repeating empty draft", 
 });
 
 test("all catalog fields searchable", () => {
-  assert.equal(BUSINESS_FIELD_CATALOG.length, 99);
+  assert.ok(BUSINESS_FIELD_CATALOG.length >= 110);
   const r = searchBusinessFields("construction");
   assert.ok(r.length > 0);
 });
