@@ -74,7 +74,7 @@ async function main() {
     }
     ok("PRISMA_MIGRATION_LEDGER_MATCH=true");
 
-    const sqlCount = countMigrationSql();
+    const sqlCount = countMigrationSql(process.cwd());
     if (sqlCount !== repoMigrations) {
       fail(`migration SQL count mismatch ${sqlCount}`);
     }
