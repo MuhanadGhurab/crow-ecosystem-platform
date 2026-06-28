@@ -44,36 +44,30 @@ export default async function ClientPortalHomePage() {
       <ClientNextActionPanel snapshot={snapshot} />
 
       <section className="cc-glass-card space-y-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-          Enterprise design
-        </h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">Service requests</h2>
         <p className="text-sm text-slate-400">
-          Tell Crow what business you are building — field, purpose, and team size. Crow recommends the
-          rest. No ERP expertise required.
+          Start with a short business-intent brief. Crow and ProCrow develop the operating model during Discovery.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link href={routes.public.request} className="cc-btn-primary text-sm">
-            Start a tenant request
+          <Link href={routes.client.requestNew} className="cc-btn-primary text-sm">
+            Start a new request
+          </Link>
+          <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
+            View submitted requests
           </Link>
           {snapshot.requests[0] && (
             <>
               <Link
-                href={routes.client.requestQuickIntake(snapshot.requests[0].requestId)}
-                className="cc-btn-primary text-sm"
-              >
-                Quick request intake
-              </Link>
-              <Link
                 href={routes.client.requestDiscoveryDesign(snapshot.requests[0].requestId)}
                 className="cc-btn-secondary text-sm"
               >
-                Continue existing design
+                Continue Discovery
+              </Link>
+              <Link href={routes.client.request(snapshot.requests[0].requestId)} className="cc-btn-secondary text-sm">
+                View request status
               </Link>
             </>
           )}
-          <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
-            View current requests
-          </Link>
         </div>
       </section>
 

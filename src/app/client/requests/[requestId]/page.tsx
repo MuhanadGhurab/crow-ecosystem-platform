@@ -26,6 +26,8 @@ import {
 } from "@/lib/services/client-review-notes.service";
 import { buildPricingPackageEstimateForRequest } from "@/lib/services/pricing-package-recommendation.service";
 import { ClientPricingPackagePanel } from "@/components/client-portal/client-pricing-package-panel";
+import { ClientRequestBriefSummary } from "@/components/client-service-request/client-request-brief-summary";
+import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function ClientRequestDetailPage({
@@ -59,6 +61,8 @@ export default async function ClientRequestDetailPage({
   const request = await getImplementationRequest(requestId).catch(() => null);
   if (!request) notFound();
 
+  const requestBrief = parseRequestBriefFromNotes(request.notes);
+
   const { links } = await buildClientRequestReviewLinks(user, requestId);
   const discovery = await buildClientDiscoveryPageModel(user, requestId).catch(() => null);
 
@@ -70,6 +74,7 @@ export default async function ClientRequestDetailPage({
       requestId={requestId}
       reviewLinks={links}
       discovery={discovery}
+      requestBrief={requestBrief}
     />
   );
 }
@@ -81,6 +86,7 @@ async function RequestDetail({
   requestId,
   reviewLinks,
   discovery,
+  requestBrief,
 }: {
   referenceCode: string;
   organizationName: string;
@@ -88,6 +94,7 @@ async function RequestDetail({
   requestId: string;
   reviewLinks: Awaited<ReturnType<typeof buildClientRequestReviewLinks>>["links"];
   discovery?: Awaited<ReturnType<typeof buildClientDiscoveryPageModel>> | null;
+  requestBrief?: ReturnType<typeof parseRequestBriefFromNotes>;
 }) {
   const user = await requireClientAccess(routes.client.request(requestId));
   const [profileHints, onboardingTracker, feedbackEligibility, feedbackNotes, packageEstimate] =
@@ -114,6 +121,8 @@ async function RequestDetail({
       </div>
 
       <LifecycleStrip status={status} />
+
+      {requestBrief && <ClientRequestBriefSummary brief={requestBrief} />}
 
       <ClientPortalStatusCard
         title="Your status"

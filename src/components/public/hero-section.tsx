@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CrowHeroBackground } from "@/components/brand/crow-hero-background";
+import { HomepageAuthenticatedActions } from "@/components/public/homepage-authenticated-actions";
 import {
   HOMEPAGE_HERO_ACCOUNT_NOTE,
   HOMEPAGE_HERO_FEATURE_PILLS,
@@ -9,6 +10,7 @@ import {
   HOMEPAGE_PRIMARY_CTA,
   HOMEPAGE_SECONDARY_CTA,
 } from "@/lib/constants/homepage";
+import { routes } from "@/lib/routes";
 
 function ArrowUpRightIcon() {
   return (
@@ -24,7 +26,7 @@ function ArrowUpRightIcon() {
   );
 }
 
-export function HeroSection() {
+export function HeroSection({ authenticated = false }: { authenticated?: boolean }) {
   return (
     <section
       className="relative px-3 pb-16 pt-24 sm:px-4 sm:pb-20 sm:pt-28 lg:px-6 lg:pb-24 lg:pt-32"
@@ -67,27 +69,36 @@ export function HeroSection() {
             {HOMEPAGE_HERO_SUBHEADLINE}
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-            <Link href={HOMEPAGE_PRIMARY_CTA.href} className="cc-btn-hero-light min-w-[14rem]">
-              {HOMEPAGE_PRIMARY_CTA.label}
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white">
-                <ArrowUpRightIcon />
-              </span>
-            </Link>
-            <Link
-              href={HOMEPAGE_SECONDARY_CTA.href}
-              className="inline-flex min-h-[48px] min-w-[12rem] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/[0.08]"
-            >
-              {HOMEPAGE_SECONDARY_CTA.label}
-            </Link>
-          </div>
+          {authenticated ? (
+            <HomepageAuthenticatedActions />
+          ) : (
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+              <Link
+                href={routes.auth.loginWithNext(routes.client.requestNew)}
+                className="cc-btn-hero-light min-w-[14rem]"
+              >
+                {HOMEPAGE_PRIMARY_CTA.label}
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white">
+                  <ArrowUpRightIcon />
+                </span>
+              </Link>
+              <Link
+                href={HOMEPAGE_SECONDARY_CTA.href}
+                className="inline-flex min-h-[48px] min-w-[12rem] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/[0.08]"
+              >
+                {HOMEPAGE_SECONDARY_CTA.label}
+              </Link>
+            </div>
+          )}
 
-          <p className="mx-auto mt-6 max-w-md text-xs leading-relaxed text-slate-500 sm:text-sm">
-            {HOMEPAGE_HERO_ACCOUNT_NOTE}{" "}
-            <Link href="/login" className="text-violet-400/90 hover:text-violet-300">
-              Sign in
-            </Link>
-          </p>
+          {!authenticated && (
+            <p className="mx-auto mt-6 max-w-md text-xs leading-relaxed text-slate-500 sm:text-sm">
+              {HOMEPAGE_HERO_ACCOUNT_NOTE}{" "}
+              <Link href="/login" className="text-violet-400/90 hover:text-violet-300">
+                Sign in
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </section>
