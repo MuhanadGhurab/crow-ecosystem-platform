@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
-/** Vercel standard builders: 8 GB RAM — avoid worker + large heap exceeding cgroup. */
+/** Production builds: limit parallelism to stay within Node heap on 16 GB dev machines. */
 const isVercelBuild = process.env.VERCEL === "1";
+const isProductionBuild = process.env.NODE_ENV === "production" || process.argv.includes("build");
+const lowMemoryBuild = isVercelBuild || isProductionBuild;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -11,18 +13,16 @@ const nextConfig: NextConfig = {
     webpackMemoryOptimizations: true,
     serverSourceMaps: false,
     preloadEntriesOnStart: false,
-    ...(isVercelBuild
+    ...(lowMemoryBuild
       ? {
           cpus: 1,
           webpackBuildWorker: false,
           staticGenerationMaxConcurrency: 1,
         }
-      : {
-          webpackBuildWorker: true,
-        }),
+      : {}),
   },
   webpack: (config, { dev }) => {
-    if (!dev && isVercelBuild) {
+    if (!dev && lowMemoryBuild) {
       config.cache = false;
       config.parallelism = 1;
     }

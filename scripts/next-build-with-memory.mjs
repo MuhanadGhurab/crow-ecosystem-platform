@@ -11,11 +11,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const nextBin = join(ROOT, "node_modules", "next", "dist", "bin", "next");
 
 const isVercel = process.env.VERCEL === "1";
-/** Lower heap on Vercel so webpack + OS stay under 8 GB cgroup. */
-const heapMb = isVercel ? 3072 : 6144;
+/** Local certification build: 8192 MB with single-threaded webpack. Vercel: 3072 MB split compile/generate. */
+const heapMb = isVercel ? 3072 : 8192;
 
 function buildEnv() {
-  const env = { ...process.env };
+  const env = { ...process.env, NODE_ENV: "production" };
   if (!env.NODE_OPTIONS?.includes("max-old-space-size")) {
     const existing = env.NODE_OPTIONS?.trim();
     env.NODE_OPTIONS = existing
