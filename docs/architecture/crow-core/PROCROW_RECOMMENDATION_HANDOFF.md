@@ -1,16 +1,14 @@
 # ProCrow Recommendation Handoff
 
-When `letProcrowDecideTechnical: true`, the client defers:
+When `letProcrowDecideTechnical` is true, the client design records:
 
-- Security policies and CyberCrow policy packs
-- Technical integrations
-- Permission bundles
-- Workflow topology and SAREA patterns
+- Security policies → ProCrow recommendation required
+- Technical integrations → ProCrow recommendation required
+- Permission bundles → ProCrow recommendation required
+- Workflow topology → ProCrow recommendation required
+- SAREA patterns → ProCrow recommendation required
+- CyberCrow policies → ProCrow recommendation required
 
-ProCrow review surfaces:
+Custom field descriptions with `requiresProcrowFieldReview` appear in admin review panel alongside catalog selections and Crow-generated recommendations (distinct provenance).
 
-- Catalog field vs custom field description (`requiresProcrowFieldReview`)
-- Client selections vs Crow recommendations (distinct in admin review panel)
-- Unresolved custom field/purpose text
-
-No automatic Blueprint or tenant provisioning on submit.
+No Blueprint or tenant provisioning occurs on client submit.

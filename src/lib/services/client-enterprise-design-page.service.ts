@@ -14,6 +14,7 @@ import { composeClientEnterpriseDesign } from "@/lib/client-enterprise-design/re
 import {
   recommendedPurposesForIndustry,
   recommendedPurposesForSpecialistDomain,
+  purposesForFieldSelection,
 } from "@/lib/client-enterprise-design/purposes/industry-purpose-mappings";
 import { getBusinessPurpose, listBusinessPurposes } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
 import { DOMAIN_CATEGORY_MAP } from "@/lib/client-enterprise-design/references/field-explorer-groups";
@@ -80,13 +81,4 @@ export async function buildClientDesignPageModel(
   };
 }
 
-export function purposesForFieldSelection(primaryIndustry: string | null, domains: string[]) {
-  const keys = new Set<string>();
-  if (primaryIndustry) {
-    for (const k of recommendedPurposesForIndustry(primaryIndustry)) keys.add(k);
-  }
-  for (const d of domains) {
-    for (const k of recommendedPurposesForSpecialistDomain(d)) keys.add(k);
-  }
-  return [...keys].map((k) => getBusinessPurpose(k)).filter(Boolean);
-}
+export { purposesForFieldSelection };

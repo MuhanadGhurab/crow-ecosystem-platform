@@ -78,6 +78,19 @@ export function resolveRecommendedPurposes(input: {
   return [...keys];
 }
 
+export function purposesForFieldSelection(primaryIndustry: string | null, domains: string[]) {
+  const keys = new Set<string>();
+  if (primaryIndustry) {
+    for (const k of recommendedPurposesForIndustry(primaryIndustry)) keys.add(k);
+  }
+  for (const d of domains) {
+    for (const k of recommendedPurposesForSpecialistDomain(d)) keys.add(k);
+  }
+  return [...keys]
+    .map((k) => getBusinessPurpose(k))
+    .filter((p): p is NonNullable<ReturnType<typeof getBusinessPurpose>> => Boolean(p));
+}
+
 export function assertIndustryPurposeCoverage(): { industries: number; domains: number; gaps: string[] } {
   const gaps: string[] = [];
   for (const industry of listIndustryArchetypes()) {

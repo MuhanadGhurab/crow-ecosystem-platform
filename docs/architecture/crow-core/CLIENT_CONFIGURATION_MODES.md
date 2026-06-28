@@ -1,24 +1,19 @@
 # Client Configuration Modes
 
-## 1. Recommend Everything (default)
+## RECOMMEND_EVERYTHING (default)
 
-Crow recommends capabilities, responsibilities, and workflows. Client may opt in to **Let ProCrow choose the technical configuration**.
+Client provides: field, purpose, team, growth, optional notes.
 
-## 2. Guide Me
+Crow recommends: capabilities, responsibilities, workflows. Client may opt into `letProcrowDecideTechnical` for security, integrations, permission bundles, SAREA, CyberCrow.
 
-Adds controlled capability customization with recommendations shown first.
+## GUIDE_ME
 
-## 3. Expert Configuration
+Adds capability step with recommendations first; client may add/remove with consequence hints.
 
-Exposes priority, model comparison, workflows, and advanced customization. Clearly labeled for IT/security specialists.
+## EXPERT_CONFIGURATION
 
-Clients can switch back to recommendations without losing field, purpose, or team selections.
+Exposes priority, model compare, workflows, and customize. Labeled "Advanced configuration · Recommended for IT or system specialists."
 
-## Persistence
+Clients can switch back to recommendations without losing field/purpose/team selections.
 
-Stored in `client_enterprise_design` draft JSON:
-
-- `configurationMode`
-- `letProcrowDecideTechnical`
-
-No migration required.
+Stored in `ClientEnterpriseDesignDraft.configurationMode` — no migration required.

@@ -35,7 +35,7 @@ import {
   stepsForConfigurationMode,
   type QuickIntakeStep,
 } from "@/lib/client-enterprise-design/intake/quick-intake-steps";
-import { purposesForFieldSelection } from "@/lib/services/client-enterprise-design-page.service";
+import { purposesForFieldSelection } from "@/lib/client-enterprise-design/purposes/industry-purpose-mappings";
 import type { ClientDesignPageModel } from "@/lib/services/client-enterprise-design-page.service";
 import { BusinessFieldFinder } from "@/components/client-enterprise-design/business-field-finder";
 import { PendingButton } from "@/components/ui/pending-button";

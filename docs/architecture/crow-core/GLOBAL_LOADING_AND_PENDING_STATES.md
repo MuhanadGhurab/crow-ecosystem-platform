@@ -1,31 +1,25 @@
 # Global Loading and Pending States
 
-## Route-level
+## Route loading
 
-- `RouteProgressBar` in root layout — top progress line on navigation
-- `loading.tsx` on login, client, requests, and discovery design/compare/summary routes
-- Skeleton via `ClientRouteLoading` with `aria-busy` and `role="status"`
+`loading.tsx` boundaries on login, client portal, requests, and discovery design/compare/summary routes. Skeleton via `ClientRouteLoading` with `aria-busy` and `aria-live`.
+
+## Route transition
+
+`RouteProgressBar` in root layout — top progress line on pathname change (reduced-motion safe).
 
 ## Button pending
 
-- `PendingButton` — spinner, label change, duplicate click blocked
-- Sign-in: `Signing in…`
-- Design journey: `Saving your design…`, `Submitting your request…`
+`PendingButton` — immediate label change, spinner, `aria-busy`, disabled duplicate clicks, preserved min-width.
 
-## Save status
+## Save/submit status
 
-`SaveStatusIndicator`: Unsaved → Saving → Saved / Failed / Conflict (`aria-live="polite"`)
+`SaveStatusIndicator` — unsaved / saving / saved / failed / conflict with `aria-live="polite"`.
 
-## Duration model
+## Timing model
 
 - 0–300ms: local pending on click
-- 300ms+: route skeleton / progress bar
-- Extended: message via save/submit status
+- 300ms+: route skeleton
+- Extended: status message on submit/save
 
-## Reduced motion
-
-Spinners respect `motion-reduce:animate-none`. Route progress bar hidden under reduced motion via CSS.
-
-## Tests
-
-`npm run client-loading-feedback:test`
+No fake percentage progress bars.

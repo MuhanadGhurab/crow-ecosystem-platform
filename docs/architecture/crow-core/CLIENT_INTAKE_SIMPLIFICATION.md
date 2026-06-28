@@ -1,38 +1,38 @@
 # Client Intake Simplification (CROW.DISCOVERY.2B)
 
-## Problem statement
+## Problem
 
-Real user testing found: too many questions, poor field discovery, forced inaccurate selections, and missing loading feedback.
+Real user testing found excessive questions, poor field discovery, forced inaccurate field selection, and missing navigation/loading feedback.
 
-## Correction
+## Solution
 
-Normal clients now provide only:
+Lean quick intake separates essential client questions from ProCrow Discovery:
 
-- Business field (search-first catalog or custom description)
-- Business purpose (catalog or custom text)
-- Current team size range
-- Growth intention
-- Configuration mode (default: Recommend Everything)
+1. Business field (search-first universal catalog)
+2. Business purpose
+3. Team size and growth intention
+4. Configuration mode (Recommend / Guide / Expert)
+5. Crow recommendations (read-only in normal mode)
+6. Review and submit
 
-Crow and ProCrow infer ERP capabilities, workflows, security, and integrations.
+## Question classification
 
-## Quick intake flow
-
-`Field → Purpose → Team and growth → Configuration mode → Recommendations → Review → Submit`
-
-Expert and guided steps are deferred until the client selects a higher configuration mode.
-
-## Question classifications
-
-| Classification | Examples removed from normal path |
-|----------------|-----------------------------------|
+| Class | Examples |
+|-------|----------|
 | ESSENTIAL_INITIAL | field, purpose, team, mode |
 | OPTIONAL_INITIAL | client notes |
 | GUIDED_ONLY | capability checkboxes |
 | EXPERT_ONLY | priority, compare, customize |
-| PROCROW_DISCOVERY | branch count, regulatory depth |
-| REMOVE | legacy 10-step always-visible nav |
+| PROCROW_DISCOVERY | branches, security packs, integrations |
+| REMOVE | legacy 10-step always-visible ERP builder |
+| DEFERRED | approval depth, SAREA, CyberCrow policy packs |
 
-## Post-submit
+Normal mode: **6 steps**. Expert mode adds controlled/advanced steps.
 
-No Blueprint, tenant, or authority side effects. ProCrow reviews client-provided design answers.
+## Custom field fallback
+
+"I cannot find my business" stores plain-language description, suggested matches, and `requiresProcrowFieldReview` without blocking progress.
+
+## No side effects
+
+Initial submission does not create Blueprint, tenant, membership, or authority grants.

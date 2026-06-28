@@ -1,28 +1,15 @@
 # Authentication Navigation Standard
 
-Every gated auth screen must offer an understandable next action.
+## Login / signup
 
-## Login / Signup
+- Visible **Back to Home** button (`AuthBackNavigation`)
+- **Go Back** when browser history exists
+- Logo remains clickable to `/`
+- Keyboard focus ring on controls
+- OAuth flows unchanged — navigation is outside provider forms
 
-- **Back to Home** — visible labeled link to `/`
-- **Go Back** — safe browser history when available
-- Logo remains clickable to home
-- Keyboard focus visible on controls
+## Other auth screens
 
-## Implemented on
+Forgot password, reset password, verify email, auth resolving, account status should offer Back, Home, Retry, Continue, or Sign out as applicable.
 
-- `/login`
-- `/signup`
-
-## Related pages to audit manually
-
-- `/auth/resolving`
-- `/auth/account-status`
-- `/onboarding/*`
-- `/access`
-
-Component: `AuthBackNavigation`
-
-## Tests
-
-`npm run client-login-navigation:test`
+Component: `src/components/auth/auth-back-navigation.tsx`

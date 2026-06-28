@@ -2,9 +2,12 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-import { emptyClientEnterpriseDesignDraft } from "./persistence/constants";
-import { stepsForConfigurationMode } from "./intake/quick-intake-steps";
-import { validateClientEnterpriseDesignDraft, hasStructuralContradictions } from "./validation/validate-draft";
+import { emptyClientEnterpriseDesignDraft } from "@/lib/client-enterprise-design/persistence/constants";
+import { stepsForConfigurationMode } from "@/lib/client-enterprise-design/intake/quick-intake-steps";
+import {
+  validateClientEnterpriseDesignDraft,
+  hasStructuralContradictions,
+} from "@/lib/client-enterprise-design/validation/validate-draft";
 
 function test(name: string, fn: () => void) {
   try {
@@ -88,8 +91,8 @@ test("loading boundaries exist for key routes", () => {
 
 test("login navigation component exists", () => {
   const nav = readFileSync(join(process.cwd(), "src", "components", "auth", "auth-back-navigation.tsx"), "utf8");
-  assert.ok(nav.includes("Back to Home"));
   const loginPage = readFileSync(join(process.cwd(), "src", "app", "login", "page.tsx"), "utf8");
+  assert.ok(nav.includes("Back to Home"));
   assert.ok(loginPage.includes("AuthBackNavigation"));
 });
 

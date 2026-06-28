@@ -1,27 +1,24 @@
 # Business Field Search and Aliases
 
-## Search implementation
-
-- Precomputed normalized token index (`buildBusinessFieldSearchIndex`)
-- Local search only — no database queries per keystroke
-- Debounced input (120ms) in UI
-- Bounded result sets (default limit 24)
-
-## Supported matching
+## Search features
 
 - English and Arabic aliases
-- Common business phrases and example businesses
-- Partial-word and prefix matching
-- Minor misspellings (Levenshtein distance ≤ 2 on names; explicit misspelling list)
+- Partial-word matching on precomputed tokens
+- Minor misspelling tolerance (Levenshtein ≤ 2 on names)
+- Category browse filter
+- Bounded result sets (default 24)
+- Local in-memory search — no per-keystroke database queries
 
-## Custom-field fallback
+## Result display
 
-**I cannot find my business** opens a plain-language description field. Client may continue without accepting a catalog match. Suggested matches are optional.
+Each result shows: name, description, category, example businesses. Classification codes only in expandable advanced details.
 
-## Hybrid fields
+## Custom fallback
 
-One primary field plus optional secondary fields via checkbox on result cards.
+`I cannot find my business` → plain description → optional suggested matches → continue without forced catalog match.
 
-## Tests
+## Hybrid businesses
 
-`npm run business-field-catalog:test`
+Primary + secondary field keys supported; secondary industries and specialist domains derived from selections.
+
+Implementation: `src/lib/business-field-catalog/search.ts`, `src/components/client-enterprise-design/business-field-finder.tsx`
