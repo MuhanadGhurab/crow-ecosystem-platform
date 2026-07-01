@@ -1,4 +1,4 @@
-/** CROW.STORY.P1A — Architect's Map story types (no database enums). */
+/** CROW.STORY — Architect's Map story types (no database enums). */
 
 export type JourneyKind = "NEW" | "TRANSFORM";
 
@@ -16,13 +16,21 @@ export type CrowStoryChapterKey =
 export type CrowCrowPose =
   | "hidden"
   | "entering"
+  | "perched"
   | "perch"
+  | "observing-new"
+  | "observing-transform"
   | "observer"
   | "center-choice"
+  | "signal-travel"
   | "signal-hop"
+  | "persona-observer"
   | "land-personas"
   | "workflow-trace"
+  | "trust-sentinel"
   | "trust-silhouette"
+  | "blueprint-observer"
+  | "runtime-glyph"
   | "glyph";
 
 export type CrowDeviceMode =
@@ -38,9 +46,17 @@ export type CrowMapNodeKind =
   | "OUTCOME"
   | "SIGNAL"
   | "PERSONA"
+  | "JOB_TITLE"
+  | "AUTHORIZED_ROLE"
+  | "WORK_PERSONA"
   | "WORKFLOW"
+  | "TRIGGER"
+  | "DECISION"
+  | "EVIDENCE"
   | "CAPABILITY"
   | "WATCH"
+  | "ATTENTION"
+  | "BLOCKED"
   | "PATH_NEW"
   | "PATH_TRANSFORM"
   | "FRICTION";
@@ -62,27 +78,67 @@ export type CrowMapEdge = {
   y1: number;
   x2: number;
   y2: number;
-  kind: "STRUCTURAL" | "WORKFLOW" | "FRICTION" | "PATH";
+  kind: "STRUCTURAL" | "WORKFLOW" | "FRICTION" | "PATH" | "RESPONSIBILITY";
   opacity: number;
   dashed?: boolean;
+  drawProgress?: number;
+};
+
+export type CrowWatchPoint = {
+  id: string;
+  type: "identity" | "approval" | "boundary" | "sod" | "audit" | "risk";
+  x: number;
+  y: number;
+  opacity: number;
+};
+
+export type SareaRoleLens =
+  | "unified"
+  | "executive"
+  | "manager"
+  | "specialist"
+  | "frontline"
+  | "analyst";
+
+export type CrowRuntimeItem = {
+  id: string;
+  kind: "attention" | "decision" | "blocked" | "evidence" | "outcome";
+  x: number;
+  y: number;
+  opacity: number;
 };
 
 export type CrowVisualState = {
   chapterKey: CrowStoryChapterKey;
   chapterProgress: number;
+  atmosphereOpacity: number;
   gridOpacity: number;
   nodes: CrowMapNode[];
   edges: CrowMapEdge[];
+  watchPoints: CrowWatchPoint[];
+  sareaLens: SareaRoleLens;
+  sareaLensOpacity: number;
+  workflowPathProgress: number;
+  workflowPathD: string;
+  capabilityOpacity: number;
+  blueprintProgress: number;
+  blueprintFrame: "none" | "forming" | "complete";
+  blueprintLabels: Array<{ id: string; text: string; x: number; y: number; opacity: number }>;
+  runtimeActivity: boolean;
+  runtimeItems: CrowRuntimeItem[];
+  signalCoreProgress: number;
+  outcomeRingOpacity: number;
   crowPose: CrowCrowPose;
   crowX: number;
   crowY: number;
   crowScale: number;
   crowRotation: number;
+  crowHeadRotation: number;
   crowOpacity: number;
+  crowWingAdjust: number;
   newPathEmphasis: number;
   transformPathEmphasis: number;
-  blueprintFrame: "none" | "forming" | "complete";
-  runtimeActivity: boolean;
+  caption?: string;
 };
 
 export type CrowStoryBeat = {
@@ -136,4 +192,23 @@ export type CrowStoryDecision = {
 export type CrowAccessibilitySummary = {
   chapterKey: CrowStoryChapterKey;
   plainSummary: string;
+};
+
+export type StoryProgressMap = Partial<Record<CrowStoryChapterKey, number>>;
+
+export type ProjectCrowStoryInput = {
+  progressByChapter: StoryProgressMap;
+  activeChapterKey: CrowStoryChapterKey;
+  journey: JourneyKind | null;
+  deviceMode: CrowDeviceMode;
+  motionMode: CrowMotionMode;
+};
+
+/** Legacy single-chapter projection input (tests). */
+export type LegacyProjectInput = {
+  chapterKey: CrowStoryChapterKey;
+  chapterProgress: number;
+  journey: JourneyKind | null;
+  deviceMode: CrowDeviceMode;
+  motionMode: CrowMotionMode;
 };
