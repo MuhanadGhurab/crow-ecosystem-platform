@@ -1,8 +1,7 @@
 "use client";
 
-import { CrowMarkSvg } from "@/components/brand/crow-mark-svg";
 import type { CrowCrowPose } from "@/lib/crow-story/types";
-import { CROW_STORY_EASE, CROW_STORY_MOTION } from "@/lib/crow-story/motion-tokens";
+import { CrowStoryCrowSvg } from "./crow-story-crow-svg";
 
 export type CrowStoryActorProps = {
   pose: CrowCrowPose;
@@ -10,21 +9,10 @@ export type CrowStoryActorProps = {
   y: number;
   scale?: number;
   rotation?: number;
+  headRotation?: number;
+  wingAdjust?: number;
   opacity?: number;
-  reducedMotion?: boolean;
-};
-
-const POSE_VARIANT: Record<CrowCrowPose, "primary" | "hero" | "motion" | "monochrome"> = {
-  hidden: "primary",
-  entering: "motion",
-  perch: "hero",
-  observer: "hero",
-  "center-choice": "hero",
-  "signal-hop": "hero",
-  "land-personas": "hero",
-  "workflow-trace": "motion",
-  "trust-silhouette": "monochrome",
-  glyph: "primary",
+  scrubbed?: boolean;
 };
 
 export function CrowStoryActor({
@@ -33,44 +21,38 @@ export function CrowStoryActor({
   y,
   scale = 1,
   rotation = 0,
+  headRotation = 0,
+  wingAdjust = 0,
   opacity = 1,
-  reducedMotion = false,
+  scrubbed = true,
 }: CrowStoryActorProps) {
   if (pose === "hidden" || opacity <= 0.01) return null;
 
-  const isGlyph = pose === "glyph";
-  const size = isGlyph ? 48 : 160;
-  const duration =
-    pose === "entering" && !reducedMotion ? CROW_STORY_MOTION.crowEnterMs : CROW_STORY_MOTION.selectMs;
+  const isGlyph = pose === "glyph" || pose === "runtime-glyph";
+  const isTrust = pose === "trust-silhouette" || pose === "trust-sentinel";
+  const crowScale = isGlyph ? scale * 0.45 : scale;
+  const offsetX = isGlyph ? 0 : -100;
+  const offsetY = isGlyph ? 0 : -90;
 
   return (
     <g
       aria-hidden="true"
       opacity={opacity}
+      transform={`translate(${x},${y}) rotate(${rotation}) scale(${crowScale})`}
       style={{
-        transition: reducedMotion ? "opacity 200ms ease" : `opacity 280ms ease`,
+        willChange: scrubbed ? "transform, opacity" : undefined,
+        transition: scrubbed ? undefined : "opacity 220ms ease",
       }}
     >
-      <foreignObject
-        x={x - size / 2}
-        y={y - size / 2}
-        width={size}
-        height={size}
-        style={{
-          transition: reducedMotion
-            ? undefined
-            : `transform ${duration}ms ${CROW_STORY_EASE}`,
-          transform: `rotate(${rotation}deg) scale(${scale})`,
-          transformOrigin: "center center",
-        }}
-      >
-        <div className="flex h-full w-full items-center justify-center">
-          <CrowMarkSvg
-            variant={POSE_VARIANT[pose]}
-            className={`h-full w-full ${pose === "trust-silhouette" ? "[&_.crow-armor-eye]:fill-amber-400" : ""}`}
-          />
-        </div>
-      </foreignObject>
+      <g transform={`translate(${offsetX},${offsetY})`}>
+        <CrowStoryCrowSvg
+          pose={pose}
+          wingAdjust={wingAdjust}
+          headRotation={headRotation}
+          monochrome={isTrust}
+          glyph={isGlyph}
+        />
+      </g>
     </g>
   );
 }
