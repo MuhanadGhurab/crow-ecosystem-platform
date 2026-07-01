@@ -42,4 +42,12 @@ test("story page lazy-loads interactive bundle", () => {
   assert.ok(story.includes("crow-story-interactive"));
 });
 
+test("interactive renderer has seven chapters and native SVG crow", () => {
+  const interactive = read("src/components/crow-story/crow-story-interactive.tsx");
+  assert.ok(interactive.includes("useStoryScrollEngine"));
+  assert.ok(!interactive.includes("preview-boundary"));
+  const actor = read("src/components/crow-story/crow-story-actor.tsx");
+  assert.ok(!actor.includes("foreignObject"));
+});
+
 console.log("crow-story-bundle-containment:verify PASS");

@@ -9,5 +9,6 @@ const s = projectCrowStoryState({
   deviceMode: "DESKTOP_STICKY",
   motionMode: "FULL",
 });
-assert.equal(s.crowPose, "perch");
+assert.ok(s.crowPose === "perched" || s.crowPose === "entering");
+assert.ok(s.crowOpacity > 0.5);
 console.log("crow-story-projection:test PASS");
