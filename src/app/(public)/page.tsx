@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/public/hero-section";
+import { HomepageArchitectsMapPreview } from "@/components/crow-story/homepage-architects-map-preview";
 import { HomepageBuiltFor } from "@/components/public/homepage-built-for";
 import { HomepageDiscoveryBlueprint } from "@/components/public/homepage-discovery-blueprint";
 import { HomepageExploreRow } from "@/components/public/homepage-explore-row";
@@ -16,6 +17,8 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection authenticated={Boolean(user)} />
+
+      <HomepageArchitectsMapPreview />
 
       <HomepageHowItWorks />
 
