@@ -10,12 +10,14 @@ export function CrowStoryNavigation({
   manualReduced,
   onToggleReduced,
   onSkip,
+  onChapterSelect,
 }: {
   activeIndex: number;
   total: number;
   manualReduced: boolean;
   onToggleReduced: () => void;
   onSkip: () => void;
+  onChapterSelect?: (index: number) => void;
 }) {
   const chapters = CROW_STORY_DEFINITION.chapters;
 
@@ -35,13 +37,14 @@ export function CrowStoryNavigation({
 
         <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Chapter progress">
           {chapters.map((ch, i) => (
-            <a
+            <button
               key={ch.key}
-              href={`#story-chapter-${ch.key === "idea" || ch.key === "choice" ? ch.key : "preview-boundary"}`}
+              type="button"
               role="tab"
               aria-selected={i === activeIndex}
               aria-current={i === activeIndex ? "step" : undefined}
               aria-label={`Chapter ${i + 1}: ${ch.title}`}
+              onClick={() => onChapterSelect?.(i)}
               className={`h-2.5 w-2.5 rounded-full motion-reduce:transition-none ${
                 i === activeIndex ? "bg-cyan-400" : i < activeIndex ? "bg-violet-500/60" : "bg-slate-700"
               }`}

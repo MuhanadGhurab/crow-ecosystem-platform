@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { CROW_STORY_DEFINITION } from "@/lib/crow-story/definition";
@@ -17,8 +17,9 @@ import {
   writeCrowStorySession,
 } from "@/lib/crow-story/journey-state";
 import { deviceModeUsesStickyStage, resolveStoryDeviceMode } from "@/lib/crow-story/breakpoints";
-import { motionModeFromPreference, projectCrowStoryState } from "@/lib/crow-story/projection";
-import type { CrowStoryChapterKey, JourneyKind } from "@/lib/crow-story/types";
+import { motionModeFromPreference, projectFullStoryState } from "@/lib/crow-story/projection";
+import type { JourneyKind } from "@/lib/crow-story/types";
+import { useStoryScrollEngine } from "@/lib/crow-story/use-story-scroll-engine";
 import { routes } from "@/lib/routes";
 import { CrowStoryDecision } from "./crow-story-decision";
 import { CrowStoryJourneyLabel } from "./crow-story-journey-label";
@@ -26,49 +27,15 @@ import { CrowStoryNavigation } from "./crow-story-navigation";
 import { CrowStoryOperatingMap } from "./crow-story-operating-map";
 import { CrowStoryVisualReviewPanel } from "./crow-story-visual-review-panel";
 
-const P1A_ACTIVE_CHAPTERS: CrowStoryChapterKey[] = ["idea", "choice"];
-
-function useChapterProgress(ref: React.RefObject<HTMLElement | null>) {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const total = rect.height - vh;
-      if (total <= 0) {
-        setProgress(0);
-        return;
-      }
-      const scrolled = Math.min(Math.max(-rect.top, 0), total);
-      setProgress(scrolled / total);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [ref]);
-  return progress;
-}
-
 export function CrowStoryInteractive() {
   const searchParams = useSearchParams();
   const [initError, setInitError] = useState(false);
   const [manualReduced, setManualReduced] = useState(false);
   const [journey, setJourney] = useState<JourneyKind | null>(null);
-  const [activeChapter, setActiveChapter] = useState(0);
   const [liveMessage, setLiveMessage] = useState("");
-
-  const ideaRef = useRef<HTMLElement>(null);
-  const choiceRef = useRef<HTMLElement>(null);
-  const ideaProgress = useChapterProgress(ideaRef);
-  const choiceProgress = useChapterProgress(choiceRef);
-
   const [viewport, setViewport] = useState({ width: 1280, height: 800 });
+
+  const scroll = useStoryScrollEngine();
 
   useEffect(() => {
     try {
@@ -104,57 +71,38 @@ export function CrowStoryInteractive() {
   const sticky = deviceModeUsesStickyStage(deviceMode);
   const simplified = deviceMode === "COMPACT" || deviceMode === "IPAD_PORTRAIT";
 
-  const mapState = useMemo(() => {
-    const chapterProgressMap: Record<string, number> = {
-      idea: ideaProgress,
-      choice: choiceProgress,
-    };
-    const key: CrowStoryChapterKey =
-      activeChapter === 0 ? "idea" : activeChapter === 1 ? "choice" : "signals";
-    return projectCrowStoryState({
-      chapterKey: key,
-      chapterProgress: chapterProgressMap[key] ?? 0,
-      journey,
-      deviceMode,
-      motionMode,
-    });
-  }, [activeChapter, ideaProgress, choiceProgress, journey, deviceMode, motionMode]);
+  const mapState = useMemo(
+    () =>
+      projectFullStoryState({
+        progressByChapter: scroll.progressByChapter,
+        activeChapterKey: scroll.activeChapterKey,
+        journey,
+        deviceMode,
+        motionMode,
+      }),
+    [scroll.progressByChapter, scroll.activeChapterKey, journey, deviceMode, motionMode],
+  );
 
   useEffect(() => {
-    const chapters = [ideaRef, choiceRef];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
-            const idx = chapters.findIndex((r) => r.current === entry.target);
-            if (idx >= 0) {
-              setActiveChapter(idx);
-              const session = readCrowStorySession();
-              writeCrowStorySession({
-                journey: journey ?? session?.journey ?? null,
-                committed: session?.committed ?? false,
-                chapterIndex: idx,
-              });
-            }
-          }
-        }
-      },
-      { threshold: [0.35, 0.55] },
-    );
-    chapters.forEach((r) => {
-      if (r.current) observer.observe(r.current);
+    const session = readCrowStorySession();
+    writeCrowStorySession({
+      journey: journey ?? session?.journey ?? null,
+      committed: session?.committed ?? false,
+      chapterIndex: scroll.activeChapterIndex,
     });
-    return () => observer.disconnect();
-  }, [journey]);
+  }, [journey, scroll.activeChapterIndex]);
 
-  const onSoftSelect = useCallback((kind: JourneyKind) => {
-    setJourney(kind);
-    persistSoftJourney(kind, activeChapter);
-    setLiveMessage(journeyLabel(kind));
-    const url = new URL(window.location.href);
-    url.searchParams.set("journey", kind === "NEW" ? "new" : "transform");
-    window.history.replaceState({}, "", url.toString());
-  }, [activeChapter]);
+  const onSoftSelect = useCallback(
+    (kind: JourneyKind) => {
+      setJourney(kind);
+      persistSoftJourney(kind, scroll.activeChapterIndex);
+      setLiveMessage(journeyLabel(kind));
+      const url = new URL(window.location.href);
+      url.searchParams.set("journey", kind === "NEW" ? "new" : "transform");
+      window.history.replaceState({}, "", url.toString());
+    },
+    [scroll.activeChapterIndex],
+  );
 
   const onResetJourney = useCallback(() => {
     resetJourneySelection();
@@ -167,10 +115,10 @@ export function CrowStoryInteractive() {
 
   const onCommit = useCallback(
     (kind: JourneyKind) => {
-      persistCommittedJourney(kind, activeChapter);
+      persistCommittedJourney(kind, scroll.activeChapterIndex);
       window.location.href = buildSignupHandoffUrl(kind);
     },
-    [activeChapter],
+    [scroll.activeChapterIndex],
   );
 
   if (initError) {
@@ -190,19 +138,18 @@ export function CrowStoryInteractive() {
   }
 
   const chapters = CROW_STORY_DEFINITION.chapters;
-  const idea = chapters[0]!;
-  const choice = chapters[1]!;
 
   return (
     <div className="crow-story-interactive">
       <CrowStoryNavigation
-        activeIndex={activeChapter}
+        activeIndex={scroll.activeChapterIndex}
         total={chapters.length}
         manualReduced={manualReduced}
         onToggleReduced={() => setManualReduced((v) => !v)}
         onSkip={() => {
           window.location.href = routes.story.start;
         }}
+        onChapterSelect={scroll.jumpToChapter}
       />
 
       <div
@@ -215,18 +162,14 @@ export function CrowStoryInteractive() {
         <div
           className={
             sticky
-              ? "sticky top-20 z-10 h-[min(52vh,480px)] self-start"
+              ? "sticky top-20 z-10 h-[min(52vh,520px)] self-start"
               : simplified
-                ? "h-[min(38dvh,360px)]"
-                : "h-[min(28dvh,280px)]"
+                ? "h-[min(38dvh,400px)]"
+                : "h-[min(32dvh,320px)]"
           }
         >
-          <div className="cc-glass-card h-full overflow-hidden p-2 sm:p-3">
-            <CrowStoryOperatingMap
-              state={mapState}
-              reducedMotion={reduced}
-              simplified={simplified}
-            />
+          <div className="cc-glass-card h-full overflow-hidden border border-white/[0.08] p-1 sm:p-2">
+            <CrowStoryOperatingMap state={mapState} simplified={simplified} />
           </div>
         </div>
 
@@ -239,99 +182,100 @@ export function CrowStoryInteractive() {
             <CrowStoryJourneyLabel journey={journey} onChangePath={onResetJourney} />
           ) : null}
 
-          <section
-            ref={ideaRef}
-            id="story-chapter-idea"
-            aria-labelledby="story-heading-idea"
-            style={{ minHeight: sticky ? `${idea.scrollHeightVhDesktop}vh` : undefined }}
-            className="scroll-mt-24 py-10"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wider text-violet-400/90">
-              Chapter 1
-            </p>
-            <h2 id="story-heading-idea" className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">
-              {idea.headline}
-            </h2>
-            <p className="mt-4 max-w-prose text-lg leading-relaxed text-slate-400">{idea.supporting}</p>
-            {idea.detail ? (
-              <p className="mt-3 max-w-prose text-sm leading-relaxed text-slate-500">{idea.detail}</p>
-            ) : null}
-          </section>
-
-          <section
-            ref={choiceRef}
-            id="story-chapter-choice"
-            aria-labelledby="story-heading-choice"
-            style={{ minHeight: sticky ? `${choice.scrollHeightVhDesktop}vh` : undefined }}
-            className="scroll-mt-24 border-t border-white/[0.06] py-10"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wider text-violet-400/90">
-              Chapter 2
-            </p>
-            <h2 id="story-heading-choice" className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">
-              {choice.headline}
-            </h2>
-            <p className="mt-4 max-w-prose text-lg leading-relaxed text-slate-400">{choice.supporting}</p>
-            {choice.detail ? (
-              <p className="mt-3 max-w-prose text-sm leading-relaxed text-slate-500">{choice.detail}</p>
-            ) : null}
-            {choice.helper ? (
-              <p className="mt-4 text-sm text-slate-500">{choice.helper}</p>
-            ) : null}
-
-            <CrowStoryDecision
-              selected={journey}
-              onSelect={onSoftSelect}
-              className="mt-8"
-            />
-          </section>
-
-          <section
-            id="story-preview-boundary"
-            className="scroll-mt-24 border-t border-amber-500/20 py-10"
-            aria-labelledby="story-preview-heading"
-          >
-            <h2 id="story-preview-heading" className="font-display text-xl font-semibold text-white">
-              Additional chapters — certification preview
-            </h2>
-            <p className="mt-3 max-w-prose text-sm leading-relaxed text-slate-400">
-              Chapters 3–7 (Signals, People and Work Personas, Work and Foundation, Trust and
-              Blueprint, Runtime) are defined in the authoritative story model and will activate
-              after owner visual-direction approval. You can continue to account creation or path
-              selection now.
-            </p>
-            <ul className="mt-4 list-inside list-disc space-y-1 text-sm text-slate-500">
-              {chapters.slice(2).map((ch) => (
-                <li key={ch.key}>
-                  {ch.title} — {ch.headline}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <button
-                type="button"
-                className="cc-btn-primary min-h-[48px] text-sm"
-                disabled={!journey}
-                onClick={() => journey && onCommit(journey)}
+          {chapters.map((chapter, index) => {
+            const isChoice = chapter.key === "choice";
+            const isRuntime = chapter.key === "runtime";
+            return (
+              <section
+                key={chapter.key}
+                ref={scroll.chapterRefs[index]}
+                id={`story-chapter-${chapter.key}`}
+                aria-labelledby={`story-heading-${chapter.key}`}
+                style={{
+                  minHeight: sticky ? `${chapter.scrollHeightVhDesktop}vh` : undefined,
+                }}
+                className="scroll-mt-24 border-t border-white/[0.06] py-10 first:border-t-0"
               >
-                {journey === "TRANSFORM"
-                  ? "Transform an Existing Organization"
-                  : journey === "NEW"
-                    ? "Build a New Organization"
-                    : "Choose a path above to continue"}
-              </button>
-              <Link href={routes.auth.login} className="cc-btn-secondary min-h-[48px] text-sm">
-                Sign In
-              </Link>
-              <Link href={routes.story.start} className="cc-btn-secondary min-h-[48px] text-sm">
-                Start Designing
-              </Link>
-            </div>
-          </section>
+                <p className="text-xs font-semibold uppercase tracking-wider text-violet-400/90">
+                  Chapter {index + 1}
+                </p>
+                <h2
+                  id={`story-heading-${chapter.key}`}
+                  className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl"
+                >
+                  {chapter.headline}
+                </h2>
+                <p className="mt-4 max-w-prose text-lg leading-relaxed text-slate-400">
+                  {chapter.supporting}
+                </p>
+                {chapter.detail ? (
+                  <p className="mt-3 max-w-prose text-sm leading-relaxed text-slate-500">
+                    {chapter.detail}
+                  </p>
+                ) : null}
+                {chapter.helper ? (
+                  <p className="mt-4 text-sm text-slate-500">{chapter.helper}</p>
+                ) : null}
+
+                {isChoice ? (
+                  <CrowStoryDecision
+                    selected={journey}
+                    onSelect={onSoftSelect}
+                    className="mt-8"
+                  />
+                ) : null}
+
+                {isRuntime ? (
+                  <div className="mt-8 space-y-4">
+                    <ul className="list-inside list-disc space-y-1 text-sm text-slate-400">
+                      <li>What needs my attention?</li>
+                      <li>What am I responsible for?</li>
+                      <li>Which decisions are waiting?</li>
+                      <li>What is blocked?</li>
+                      <li>What evidence is missing?</li>
+                      <li>What outcome am I contributing to?</li>
+                    </ul>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                      <button
+                        type="button"
+                        className="cc-btn-primary min-h-[48px] text-sm"
+                        disabled={!journey}
+                        onClick={() => journey && onCommit(journey)}
+                      >
+                        {journey === "TRANSFORM"
+                          ? "Transform an Existing Organization"
+                          : journey === "NEW"
+                            ? "Build a New Organization"
+                            : "Choose a path in Chapter 2 to continue"}
+                      </button>
+                      <Link href={routes.auth.login} className="cc-btn-secondary min-h-[48px] text-sm">
+                        Sign In
+                      </Link>
+                      <Link href={routes.story.start} className="cc-btn-secondary min-h-[48px] text-sm">
+                        Start Designing
+                      </Link>
+                    </div>
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
         </div>
       </div>
 
-      <CrowStoryVisualReviewPanel />
+      <CrowStoryVisualReviewPanel
+        activeChapterKey={scroll.activeChapterKey}
+        chapterProgress={mapState.chapterProgress}
+        journey={journey}
+        crowPose={mapState.crowPose}
+        deviceMode={deviceMode}
+        manualReduced={manualReduced}
+        onJumpToChapter={scroll.jumpToChapter}
+        onPreviewProgress={scroll.setPreviewProgress}
+        onClearPreview={scroll.clearPreviewOverride}
+        onToggleReduced={() => setManualReduced((v) => !v)}
+        onSetJourney={(k) => onSoftSelect(k)}
+      />
     </div>
   );
 }
