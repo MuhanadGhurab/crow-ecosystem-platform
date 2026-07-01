@@ -2,6 +2,7 @@
 
 import { routes } from "@/lib/routes";
 import { clearAllClientScopedStorage } from "@/lib/client-state/scoped-storage";
+import { clearCrowStoryState } from "@/lib/crow-story/journey-state";
 
 type SignOutButtonProps = {
   className?: string;
@@ -18,7 +19,10 @@ export function SignOutButton({
       <button
         type="submit"
         className={className}
-        onClick={() => clearAllClientScopedStorage()}
+        onClick={() => {
+          clearAllClientScopedStorage();
+          clearCrowStoryState();
+        }}
       >
         {label}
       </button>

@@ -80,6 +80,13 @@ export const routes = {
     pricing: "/pricing",
     request: "/request",
     proposal: (token: string) => `/proposal/${token}`,
+    start: "/start",
+  },
+  /** CROW.STORY.P1A — Architect's Map public story routes */
+  story: {
+    architectsMap: "/experience/architects-map",
+    architectsMapArticle: "/experience/architects-map/article",
+    start: "/start",
   },
   admin: {
     overview: "/admin/overview",

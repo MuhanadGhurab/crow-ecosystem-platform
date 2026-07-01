@@ -4,6 +4,11 @@ import { requireClientAccess } from "@/lib/auth/session";
 import { deriveAccountScopeKey } from "@/lib/client-state/scoped-storage";
 import { findPlatformAccountBySupabaseUserId } from "@/lib/account/platform-account.service";
 import { routes } from "@/lib/routes";
+import { Suspense } from "react";
+
+function RequestWizardLoader({ accountScopeKey }: { accountScopeKey: string }) {
+  return <ServiceRequestWizard accountScopeKey={accountScopeKey} />;
+}
 
 export default async function ClientNewServiceRequestPage() {
   const user = await requireClientAccess(routes.client.requestNew);
@@ -22,7 +27,9 @@ export default async function ClientNewServiceRequestPage() {
         title="Start a service request"
         description="Five focused steps — field, purpose, team, guidance, and submit. Crow handles the technical operating model during Discovery."
       />
-      <ServiceRequestWizard accountScopeKey={accountScopeKey} />
+      <Suspense fallback={<p className="text-sm text-slate-500">Loading request wizard…</p>}>
+        <RequestWizardLoader accountScopeKey={accountScopeKey} />
+      </Suspense>
     </div>
   );
 }

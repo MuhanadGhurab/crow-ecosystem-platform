@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { BusinessFieldFinder } from "@/components/client-enterprise-design/business-field-finder";
 import { PendingButton } from "@/components/ui/pending-button";
@@ -25,6 +25,11 @@ import type {
   OrganizationContextKind,
 } from "@/lib/client-service-request/types";
 import { routes } from "@/lib/routes";
+import {
+  clearCrowStoryState,
+  defaultOrganizationContextForJourney,
+  parseJourneyUrlParam,
+} from "@/lib/crow-story/journey-state";
 
 const STEPS = ["field", "purpose", "team", "mode", "understanding", "review"] as const;
 type Step = (typeof STEPS)[number];
@@ -56,6 +61,7 @@ const ORG_CONTEXT: Array<{ key: OrganizationContextKind; label: string }> = [
 
 export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("field");
   const [brief, setBrief] = useState<ClientServiceRequestBrief>(() => buildDefaultRequestBrief());
   const [draftNotice, setDraftNotice] = useState<"resume" | "saved" | null>(null);
@@ -72,6 +78,13 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
       setAllowDraftSave(true);
     }
   }, [accountScopeKey]);
+
+  useEffect(() => {
+    const journey = parseJourneyUrlParam(searchParams.get("journey"));
+    if (!journey) return;
+    const defaultCtx = defaultOrganizationContextForJourney(journey) as OrganizationContextKind;
+    setBrief((b) => (b.organizationContext ? b : { ...b, organizationContext: defaultCtx }));
+  }, [searchParams]);
 
   useEffect(() => {
     if (!allowDraftSave) return;
@@ -163,6 +176,7 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
         return;
       }
       clearRequestWizardDraft(accountScopeKey);
+      clearCrowStoryState();
       router.push(routes.client.requestConfirmation(res.requestId));
     });
   }
