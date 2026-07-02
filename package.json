@@ -262,6 +262,8 @@
     "crow-story-visual-state:test": "npx tsx src/lib/crow-story/crow-story-visual-state.test.ts",
     "crow-story-scroll-engine:test": "npx tsx src/lib/crow-story/crow-story-scroll-engine.test.ts",
     "crow-story-seven-chapter-readiness:test": "npx tsx src/lib/crow-story/crow-story-seven-chapter-readiness.test.ts",
+    "public-v2-preview-readiness:test": "npx tsx src/lib/public-v2/public-v2-preview-readiness.test.ts",
+    "public-v2-bundle-containment:verify": "npx tsx scripts/verify-public-v2-bundle-containment.ts",
     "certification-release-readiness:test": "npx tsx src/lib/certification/certification-release-readiness.test.ts",
     "certification-route-manifest:verify": "npx tsx src/lib/certification/certification-release-readiness.test.ts",
     "request-baseline-invariants:verify": "node --env-file=.env.staging.runtime scripts/run-with-script-prisma.mjs scripts/verify-request-baseline-invariants.ts",
