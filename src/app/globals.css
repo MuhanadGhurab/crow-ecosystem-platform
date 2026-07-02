@@ -73,6 +73,11 @@ body {
   }
 }
 
+/* CROW.PUBLIC.WEB.1A — certification homepage preview shell */
+.public-v2-shell {
+  overflow-x: hidden;
+}
+
 :focus-visible {
   outline: 2px solid var(--cc-cyan);
   outline-offset: 3px;
