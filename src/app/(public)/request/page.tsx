@@ -8,6 +8,7 @@ import { PublicClientJourneySteps } from "@/components/public-site/public-client
 import { getSessionUser } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 export const metadata = {
   title: "Discuss Your Organization — Crow",
@@ -53,7 +54,7 @@ export default async function RequestEntryPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href={routes.auth.signupWithNext(routes.client.requestNew)}
-            className={`pv2-btn-primary text-sm ${PUBLIC_V2_MOTION_CLASS.button}`}
+            className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} text-sm ${PUBLIC_V2_MOTION_CLASS.button}`}
           >
             Create account &amp; begin secure request
           </Link>

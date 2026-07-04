@@ -5,6 +5,7 @@ import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_SECTION_IDS } from "@/lib/public-v2/routes";
 import { routes } from "@/lib/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 export function PublicFinalCtaSection() {
   return (
@@ -18,7 +19,7 @@ export function PublicFinalCtaSection() {
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link
           href={publicRoutes.newOrganization}
-          className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}
+          className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} ${PUBLIC_V2_MOTION_CLASS.button}`}
         >
           Build a New Organization
         </Link>

@@ -275,7 +275,7 @@ export function PublicPreviewNavigation() {
             </Link>
             <Link
               href="#public-v2-journey-new"
-              className="pv2-btn-primary mt-2 justify-center text-center"
+              className="pv2-btn-secondary mt-2 justify-center text-center"
               onClick={() => setMobileOpen(false)}
             >
               Start Designing

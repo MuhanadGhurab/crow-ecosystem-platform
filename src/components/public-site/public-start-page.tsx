@@ -10,6 +10,7 @@ import { PublicClientJourneySteps } from "@/components/public-site/public-client
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 const JOURNEYS = [
   {
@@ -75,7 +76,7 @@ export function StartPageContent() {
               >
                 Explore journey
               </Link>
-              <Link href={j.cta} className={`pv2-btn-primary text-center ${PUBLIC_V2_MOTION_CLASS.button}`}>
+              <Link href={j.cta} className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} text-center ${PUBLIC_V2_MOTION_CLASS.button}`}>
                 {j.ctaLabel}
               </Link>
             </div>

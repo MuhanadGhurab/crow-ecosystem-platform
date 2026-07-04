@@ -38,4 +38,5 @@ export const publicV2Amber = publicV2Gold;
 export const publicV2Border = "rgba(148, 163, 184, 0.18)";
 export const publicV2Shadow =
   "0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 36px rgba(0, 0, 0, 0.28)";
-export const publicV2Radius = "14px";
+/** Journey / conversion CTA class — muted amber on semi-dark shell (CROW.PUBLIC.7). */
+export const PUBLIC_V2_JOURNEY_CTA_CLASS = "pv2-btn-journey" as const;

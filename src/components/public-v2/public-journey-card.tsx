@@ -4,6 +4,7 @@ import { PUBLIC_JOURNEY_DEFINITIONS } from "@/lib/public-v2/journey-definitions"
 import { buildSignupHandoffUrl, PUBLIC_JOURNEY_PAGES } from "@/lib/public/journey-handoff";
 import type { PublicJourneyKind } from "@/lib/public-v2/types";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 const KIND_ANCHOR: Record<PublicJourneyKind, string> = {
   NEW: "public-v2-journey-new",
@@ -39,7 +40,7 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
             <span
               className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
                 kind === "NEW"
-                  ? "bg-[var(--pv2-cyan-soft)] text-[#0e7490]"
+                  ? "bg-[var(--pv2-gold-soft)] text-[var(--pv2-gold)]"
                   : "bg-[var(--pv2-violet-soft)] text-[var(--pv2-violet)]"
               }`}
               aria-hidden
@@ -60,7 +61,7 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
         </Link>
         <Link
           href={buildSignupHandoffUrl(kind)}
-          className={`pv2-btn-primary flex-1 text-center ${PUBLIC_V2_MOTION_CLASS.button}`}
+          className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} flex-1 text-center ${PUBLIC_V2_MOTION_CLASS.button}`}
         >
           {journey.ctaLabel}
         </Link>

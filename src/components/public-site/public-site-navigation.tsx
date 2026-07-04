@@ -266,7 +266,7 @@ export function PublicSiteNavigation() {
             </Link>
             <Link
               href={publicRoutes.start}
-              className="pv2-btn-primary mt-2 justify-center text-center"
+              className="pv2-btn-secondary mt-2 justify-center text-center"
               onClick={() => setMobileOpen(false)}
             >
               Start Designing

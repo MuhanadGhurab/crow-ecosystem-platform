@@ -8,6 +8,7 @@ import {
 import { PublicFoundationDiagram } from "@/components/public-v2/public-foundation-diagram";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 function PlatformLinkCard({
   title,
@@ -263,7 +264,7 @@ export function IndustriesPageContent() {
       <p className="text-sm text-[var(--pv2-text-muted)]">
         Representative sectors only — no fabricated client logos or case studies.
       </p>
-      <Link href={publicRoutes.newOrganization} className={`pv2-btn-primary mt-4 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
+      <Link href={publicRoutes.newOrganization} className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} mt-4 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
         Build a New Organization
       </Link>
     </PublicContentPage>
@@ -302,7 +303,7 @@ export function PricingPageContent() {
         No public prices are published here — scope is determined through the governed lifecycle, not
         self-serve checkout.
       </p>
-      <Link href={publicRoutes.request} className={`pv2-btn-primary mt-4 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
+      <Link href={publicRoutes.request} className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} mt-4 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
         Discuss Your Organization
       </Link>
     </PublicContentPage>
@@ -319,7 +320,7 @@ export function CaseStudiesDeferredPageContent() {
       <p className="text-sm text-[var(--pv2-text-secondary)]">
         Until then, explore how Crow works through the lifecycle and operating-model journey pages.
       </p>
-      <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-primary mt-6 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
+      <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-secondary mt-6 inline-flex ${PUBLIC_V2_MOTION_CLASS.button}`}>
         How Crow Works
       </Link>
     </PublicContentPage>

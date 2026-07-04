@@ -12,6 +12,7 @@ import { PublicClientJourneySteps } from "@/components/public-site/public-client
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
+import { PUBLIC_V2_JOURNEY_CTA_CLASS } from "@/lib/public-v2/tokens";
 
 function GateCard({
   title,
@@ -161,7 +162,7 @@ export function HowCrowWorksPageContent() {
       />
 
       <CtaRow>
-        <Link href={publicRoutes.start} className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}>
+        <Link href={publicRoutes.start} className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}>
           Start Designing
         </Link>
         <Link href={publicRoutes.enterpriseBlueprint} className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}>
@@ -218,7 +219,7 @@ export function NewOrganizationPageContent() {
       </PublicContentSection>
 
       <CtaRow>
-        <Link href={buildSignupHandoffUrl("NEW")} className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}>
+        <Link href={buildSignupHandoffUrl("NEW")} className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} ${PUBLIC_V2_MOTION_CLASS.button}`}>
           Start Building New
         </Link>
         <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}>
@@ -270,7 +271,7 @@ export function TransformExistingPageContent() {
       </PublicContentSection>
 
       <CtaRow>
-        <Link href={buildSignupHandoffUrl("TRANSFORM")} className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}>
+        <Link href={buildSignupHandoffUrl("TRANSFORM")} className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} ${PUBLIC_V2_MOTION_CLASS.button}`}>
           Start Transforming
         </Link>
         <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}>
@@ -340,7 +341,7 @@ export function EnterpriseBlueprintPageContent() {
       </PublicContentSection>
 
       <CtaRow>
-        <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}>
+        <Link href={publicRoutes.howCrowWorks} className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}>
           See the full lifecycle
         </Link>
       </CtaRow>
