@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CrowMark } from "@/components/public/brand/crow-mark";
 import { AuthBackNavigation } from "@/components/auth/auth-back-navigation";
+import { PublicAuthFrame } from "@/components/public-site/public-auth-frame";
 import { SignInForm } from "@/components/portal/auth/sign-in-form";
 import { redirectAuthenticatedSession } from "@/lib/auth/c3-authenticated-entry";
 import { isGoogleSsoEnabled } from "@/lib/auth/google-sso";
@@ -70,77 +70,79 @@ export default async function LoginPage({
   const googleEnabled = isGoogleSsoEnabled();
 
   return (
-    <div className="cc-starfield cc-noise flex min-h-[100dvh] items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
-      <div className="cc-glass-card relative z-10 w-full max-w-md !p-6 sm:!p-8">
-        <AuthBackNavigation />
-        <CrowMark href="/" size="sm" showTagline={false} />
-        <h1 className="cc-page-title mt-6">Sign in to Crow</h1>
-        <p className="mt-2 text-sm leading-relaxed text-slate-400">{LOGIN_CLIENT_PURPOSE}</p>
-        <p className="mt-2 text-xs text-slate-600">{LOGIN_INTERNAL_NOTE}</p>
+    <PublicAuthFrame
+      title="Sign in to Crow"
+      subtitle={LOGIN_CLIENT_PURPOSE}
+      note={LOGIN_INTERNAL_NOTE}
+      footer={
+        configured ? (
+          <>
+            <div className="space-y-1 text-center text-xs text-[var(--pv2-text-muted)]">
+              <p>Platform access is role-based.</p>
+              <p>RBAC controls access. SAREA controls experience.</p>
+            </div>
+            <p className="mt-4 text-center text-sm text-[var(--pv2-text-secondary)]">
+              Don&apos;t have an account?{" "}
+              <Link
+                href={routes.auth.signupWithNext(nextPath ?? routes.public.request)}
+                className="font-medium text-[var(--pv2-cyan)] hover:underline"
+              >
+                Create account
+              </Link>
+            </p>
+            <p className="mt-3 text-center text-sm text-[var(--pv2-text-secondary)]">
+              <Link
+                href={`${routes.auth.login}?next=${encodeURIComponent(routes.portal.requests)}`}
+                className="font-medium text-[var(--pv2-cyan)] hover:underline"
+              >
+                Track my request
+              </Link>
+              {" · "}
+              <Link
+                href={routes.auth.loginWithNext(routes.public.request)}
+                className="text-[var(--pv2-cyan)] hover:underline"
+              >
+                Sign in to submit request
+              </Link>
+            </p>
+          </>
+        ) : undefined
+      }
+    >
+      <AuthBackNavigation />
 
-        {errorMessage && <p className="cc-alert-warning mt-5">{errorMessage}</p>}
-
-        {verifiedBanner && (
-          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
-            Email verified. Sign in with your password to continue.
-          </p>
-        )}
-
-        {passwordResetBanner && (
-          <p className="mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
-            Your password was changed successfully. Sign in with your new password.
-          </p>
-        )}
-
-        {!configured ? (
-          <p className="mt-6 text-sm text-slate-500">
-            Set <span className="cc-kbd">NEXT_PUBLIC_SUPABASE_URL</span> and{" "}
-            <span className="cc-kbd">NEXT_PUBLIC_SUPABASE_ANON_KEY</span> in{" "}
-            <span className="cc-kbd">.env</span>. See{" "}
-            <span className="cc-kbd">docs/PHASE2_AUTH.md</span>.
-          </p>
-        ) : (
-          <div className="mt-6">
-            <SignInForm
-              nextPath={nextPath}
-              googleEnabled={googleEnabled}
-              defaultEmail={prefillEmail || undefined}
-            />
-          </div>
-        )}
-
-        {configured && (
-          <div className="mt-6 space-y-1 border-t border-cyan-500/10 pt-5 text-center text-xs text-slate-500">
-            <p>Platform access is role-based.</p>
-            <p>RBAC controls access. SAREA controls experience.</p>
-          </div>
-        )}
-
-        <p className="mt-6 text-center text-sm text-slate-500">
-          Don&apos;t have an account?{" "}
-          <Link
-            href={routes.auth.signupWithNext(nextPath ?? routes.public.request)}
-            className="font-medium text-cyan-400 hover:text-cyan-300"
-          >
-            Create account
-          </Link>
+      {errorMessage ? (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
+          {errorMessage}
         </p>
-        <p className="mt-3 text-center text-sm text-slate-500">
-          <Link
-            href={`${routes.auth.login}?next=${encodeURIComponent(routes.portal.requests)}`}
-            className="font-medium text-teal-400 hover:text-teal-300"
-          >
-            Track my request
-          </Link>
-          {" · "}
-          <Link
-            href={routes.auth.loginWithNext(routes.public.request)}
-            className="text-cyan-400 hover:text-cyan-300"
-          >
-            Sign in to submit request
-          </Link>
+      ) : null}
+
+      {verifiedBanner ? (
+        <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+          Email verified. Sign in with your password to continue.
         </p>
-      </div>
-    </div>
+      ) : null}
+
+      {passwordResetBanner ? (
+        <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+          Your password was changed successfully. Sign in with your new password.
+        </p>
+      ) : null}
+
+      {!configured ? (
+        <p className="text-sm text-[var(--pv2-text-secondary)]">
+          Set <span className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</span> and{" "}
+          <span className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</span> in{" "}
+          <span className="font-mono text-xs">.env</span>. See{" "}
+          <span className="font-mono text-xs">docs/PHASE2_AUTH.md</span>.
+        </p>
+      ) : (
+        <SignInForm
+          nextPath={nextPath}
+          googleEnabled={googleEnabled}
+          defaultEmail={prefillEmail || undefined}
+        />
+      )}
+    </PublicAuthFrame>
   );
 }

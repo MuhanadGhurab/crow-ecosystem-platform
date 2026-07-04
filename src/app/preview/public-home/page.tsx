@@ -1,19 +1,15 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { PublicHomepagePreview } from "@/components/public-v2/public-homepage-preview";
 import { assertPublicV2PreviewEnabled } from "@/lib/public-v2/certification-gate";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Public Homepage Preview | Crow",
-  description: "Certification-only preview of the new Crow public homepage.",
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-  },
+  description: "Certification-only alias — redirects to the canonical public homepage.",
+  robots: { index: false, follow: false, nocache: true },
 };
 
+/** CROW.PUBLIC.2 — preview route redirects to real `/` on certification hosts. */
 export default function PublicHomePreviewPage() {
   assertPublicV2PreviewEnabled();
-  return <PublicHomepagePreview />;
+  redirect("/");
 }
