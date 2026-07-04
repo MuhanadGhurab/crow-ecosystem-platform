@@ -34,7 +34,7 @@ export function PublicAuthFrame({
             <h1 className="pv2-h1 text-2xl">{title}</h1>
             {subtitle ? <p className="pv2-body mt-2">{subtitle}</p> : null}
             {note ? <p className="mt-2 text-xs text-[var(--pv2-text-muted)]">{note}</p> : null}
-            <div className="mt-6">{children}</div>
+            <div className="pv2-auth-form mt-6">{children}</div>
             {footer ? <div className="mt-6 border-t border-[var(--pv2-border)] pt-5">{footer}</div> : null}
           </div>
           <p className="mt-6 text-center text-xs text-[var(--pv2-text-muted)]">
