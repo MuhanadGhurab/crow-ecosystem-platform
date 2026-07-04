@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4 acceptance record) |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.6 certification deploy) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `771eb69` — CROW.PUBLIC.3 accepted; CROW.PUBLIC.4 acceptance record |
+| HEAD | `b4ef076` baseline → CROW.PUBLIC.6 visual fixes (see git at review time) |
 | Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
@@ -38,13 +38,13 @@
 
 ## Domain implementation map
 
-### Public routes — ACCEPTED on certification + COLOR POLISH (CROW.PUBLIC.5)
+### Public routes — ACCEPTED access + COLOR POLISH IN REVIEW (CROW.PUBLIC.5/6)
 
 | Status | Evidence |
 |--------|----------|
 | **ACCEPTED** | CROW.PUBLIC.3/4 — owner accepted experience on certification (`b90ac88`); routes/access/journey/gating unchanged |
-| **IN REVIEW** | CROW.PUBLIC.5 — governed colorful visual identity (teal/gold/navy/purple) on feature branch; certification deployed |
-| IMPLEMENTED | Colorful tokens + section bands; premium CTAs; branded nav/footer; hero energy panel |
+| **IN REVIEW** | CROW.PUBLIC.5 colorful identity + **CROW.PUBLIC.6** overlap/contrast/hero/journey fixes on feature branch; certification deployed |
+| IMPLEMENTED | Grid foundation diagram; auth contrast overrides; page heroes; journey steps; button variants |
 | UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
 | **NOT DEPLOYED** | Production — explicit CROW.PUBLIC.PROD authorization required |
 

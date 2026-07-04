@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4) |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.6) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,7 +52,9 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.5** — Colorful public visual polish on feature branch; certification deployed for owner review. **CROW.PUBLIC.3/4 acceptance** (routes, access, journey, gating) **remains valid**. **Production not authorized.**
+**CROW.PUBLIC.6** — Targeted colorful experience fixes (overlap, contrast, heroes, buttons, client journey) deployed to certification for owner review. **CROW.PUBLIC.3/4 acceptance** (routes, access, journey, gating) **remains valid**. **Production not authorized.**
+
+**CROW.PUBLIC.5** — Governed colorful visual identity (baseline for PUBLIC.6).
 
 Evidence: [`milestones/CROW-PUBLIC-5.md`](milestones/CROW-PUBLIC-5.md).
 

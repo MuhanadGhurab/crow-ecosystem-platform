@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4) |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.6) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -44,7 +44,7 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.3/4, `b90ac88`); **colorful polish** (CROW.PUBLIC.5) on branch for owner review; **Production `/` still legacy** |
+| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.3/4, `b90ac88`); **colorful polish + targeted fixes** (CROW.PUBLIC.5/6) on branch for owner review; **Production `/` still legacy** |
 | **Severity** | Low on branch/certification; Medium until Production promotion |
 | **Security/authority impact** | Public browse access corrected on branch; client-process gates unchanged |
 | **Dependency** | Owner colorful polish acceptance; then CROW.PUBLIC.PROD authorization |
