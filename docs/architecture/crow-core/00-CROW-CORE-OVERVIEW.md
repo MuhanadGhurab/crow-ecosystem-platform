@@ -1,5 +1,7 @@
 # Crow Core — Overview
 
+> **Governance note (2026-07-04):** Canonical product direction and AI entry live in [`docs/crow/START-HERE.md`](../../crow/START-HERE.md) and [`docs/crow/00-CROW-CONSTITUTION.md`](../../crow/00-CROW-CONSTITUTION.md). This document remains the **C0 specialist reference** for Crow Core contracts and Architecture Lab scope.
+
 Crow Core C0 establishes the **canonical operating architecture** for the Crow ecosystem: a persistence-neutral contract layer, constitutional documentation, and a protected Architecture Lab prototype. C0 does not migrate production data, weaken auth, or ship live government integrations.
 
 ## Platform model
