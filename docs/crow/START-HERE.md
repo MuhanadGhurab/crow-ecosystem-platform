@@ -52,9 +52,9 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.1A** — Canonical public homepage V2 **certification preview** complete; pending owner **visual** acceptance. Evidence: [`milestones/CROW-PUBLIC-1A.md`](milestones/CROW-PUBLIC-1A.md). Preview: `/preview/public-home` (certification only).
+**CROW.PUBLIC.1B** — Bright public homepage V2 visual identity reset; pending owner **visual** acceptance. Evidence: [`milestones/CROW-PUBLIC-1B.md`](milestones/CROW-PUBLIC-1B.md). Preview: `/preview/public-home`.
 
-**Prior:** CROW.GOVERNANCE.1 — Accepted (owner, 2026-07-04). Evidence: [`milestones/CROW-GOVERNANCE-1.md`](milestones/CROW-GOVERNANCE-1.md).
+**Prior:** CROW.PUBLIC.1A — technically delivered; owner rejected dark visual identity. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
 
 **Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
 

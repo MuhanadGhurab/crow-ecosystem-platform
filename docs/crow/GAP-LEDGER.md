@@ -44,13 +44,13 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | Certification preview at `/preview/public-home` (`src/components/public-v2/`, `src/app/preview/public-home/`); real `/` unchanged |
+| **Current state** | Bright certification preview at `/preview/public-home` (CROW.PUBLIC.1B); real `/` unchanged |
 | **Severity** | Medium |
-| **Security/authority impact** | None — static representative data only; certification-gated |
-| **Dependency** | Owner visual acceptance (CROW.PUBLIC.1A) |
-| **Proposed milestone** | CROW.PUBLIC.1B — promotion decision after acceptance |
-| **Owner decision required** | Visual acceptance of homepage v2 preview |
-| **Status** | Partial — preview deployed for review; Production replacement not authorized |
+| **Security/authority impact** | None — static representative data; certification-gated |
+| **Dependency** | Owner visual acceptance of bright identity (CROW.PUBLIC.1B) |
+| **Proposed milestone** | CROW.PUBLIC.1C — acceptance or revision after visual review |
+| **Owner decision required** | Visual acceptance of bright homepage v2 preview |
+| **Status** | Partial — bright redesign deployed for review; Production replacement not authorized |
 
 ## GAP-004 — Preview/Production database isolation
 

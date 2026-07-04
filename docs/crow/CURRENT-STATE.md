@@ -44,7 +44,7 @@
 |--------|----------|
 | IMPLEMENTED | `(public)/` homepage, about, services, pricing, modules, industries, case-studies |
 | IMPLEMENTED | `/register`, `/access`, `/request` entry |
-| IMPLEMENTED (certification preview) | `/preview/public-home` — seven-section homepage v2 (`src/components/public-v2/`, `src/lib/public-v2/`); gated by `FTGP_CERTIFICATION_MODE`; `noindex` |
+| IMPLEMENTED (certification preview) | `/preview/public-home` — bright seven-section homepage v2 (`public-v2-bright` identity); gated; `noindex` |
 | FROZEN | `/experience/architects-map` scroll-story — `src/lib/crow-story/` |
 | PLANNED | Production promotion of approved homepage v2 to `/` (not authorized) |
 
