@@ -44,13 +44,13 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | A1.1 reset homepage with frozen story preview; partial alignment |
+| **Current state** | Certification preview at `/preview/public-home` (`src/components/public-v2/`, `src/app/preview/public-home/`); real `/` unchanged |
 | **Severity** | Medium |
-| **Security/authority impact** | None |
-| **Dependency** | Public v2 design milestone |
-| **Proposed milestone** | CROW.PUBLIC.1 |
-| **Owner decision required** | Visual acceptance of hero art (C3 conditional) |
-| **Status** | Open |
+| **Security/authority impact** | None — static representative data only; certification-gated |
+| **Dependency** | Owner visual acceptance (CROW.PUBLIC.1A) |
+| **Proposed milestone** | CROW.PUBLIC.1B — promotion decision after acceptance |
+| **Owner decision required** | Visual acceptance of homepage v2 preview |
+| **Status** | Partial — preview deployed for review; Production replacement not authorized |
 
 ## GAP-004 — Preview/Production database isolation
 

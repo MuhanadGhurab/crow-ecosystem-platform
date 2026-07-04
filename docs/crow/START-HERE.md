@@ -52,9 +52,11 @@
 
 ## Current milestone
 
-**CROW.GOVERNANCE.1** — **Accepted** (owner, 2026-07-04). Canonical project operating system established. Evidence: [`milestones/CROW-GOVERNANCE-1.md`](milestones/CROW-GOVERNANCE-1.md).
+**CROW.PUBLIC.1A** — Canonical public homepage V2 **certification preview** complete; pending owner **visual** acceptance. Evidence: [`milestones/CROW-PUBLIC-1A.md`](milestones/CROW-PUBLIC-1A.md). Preview: `/preview/public-home` (certification only).
 
-**Next:** Await explicit next milestone prompt. **Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
+**Prior:** CROW.GOVERNANCE.1 — Accepted (owner, 2026-07-04). Evidence: [`milestones/CROW-GOVERNANCE-1.md`](milestones/CROW-GOVERNANCE-1.md).
+
+**Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 
@@ -62,8 +64,8 @@
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
-- **IMPLEMENTED (partial):** Public site, account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, approved public homepage v2, Saudi government integrations
+- **IMPLEMENTED (partial):** Public site, account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory), **homepage v2 certification preview** (`/preview/public-home`)
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Production homepage v2 promotion, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

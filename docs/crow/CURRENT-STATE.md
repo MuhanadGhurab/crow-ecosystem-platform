@@ -10,7 +10,7 @@
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-04 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `f8057c5`
+**Evidence date:** 2026-07-04 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** see git at review time
 
 ## Repository and branch state
 
@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `f8057c5` — docs(public-v2): publish homepage visual acceptance evidence |
-| Remote sync | Up to date with `origin/feat/first-tenant-golden-path` |
+| HEAD | `2f477f5`+ — governance acceptance + CROW.PUBLIC.1A evidence |
+| Remote sync | May be ahead of `origin/feat/first-tenant-golden-path` (governance acceptance commit) |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | `.gitignore` modified (pre-existing) |
+| Working tree | `.gitignore` modified (pre-existing, unrelated) |
 
 ## Stack
 
@@ -44,8 +44,9 @@
 |--------|----------|
 | IMPLEMENTED | `(public)/` homepage, about, services, pricing, modules, industries, case-studies |
 | IMPLEMENTED | `/register`, `/access`, `/request` entry |
+| IMPLEMENTED (certification preview) | `/preview/public-home` — seven-section homepage v2 (`src/components/public-v2/`, `src/lib/public-v2/`); gated by `FTGP_CERTIFICATION_MODE`; `noindex` |
 | FROZEN | `/experience/architects-map` scroll-story — `src/lib/crow-story/` |
-| PLANNED | Approved homepage v2 structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
+| PLANNED | Production promotion of approved homepage v2 to `/` (not authorized) |
 
 ### Auth and account — PARTIAL
 
