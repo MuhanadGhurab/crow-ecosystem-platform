@@ -56,9 +56,10 @@ Added: journey CTA amber class check (`PUBLIC_V2_JOURNEY_CTA_CLASS`).
 |------|-------|
 | Project | `crow-ftgp-certification` |
 | Script | `npm run ftgp-certification-production:deploy` |
-| Source commit | _(recorded at deploy)_ |
+| Source commit | `cfbab22` (visual); docs HEAD `3255c29` |
+| Deployment host | `crow-ftgp-certification-nuezmrimn-muhanadghurabs-projects.vercel.app` |
 
-Certification URL: _(filled after deploy)_
+https://crow-ftgp-certification-nuezmrimn-muhanadghurabs-projects.vercel.app/
 
 ## Production
 
