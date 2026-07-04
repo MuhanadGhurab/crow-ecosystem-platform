@@ -90,9 +90,12 @@ New static checks (PUBLIC.6): foundation grid (no `left-0`/`top-1/2` overlap pat
 | Project | `crow-ftgp-certification` |
 | Script | `npm run ftgp-certification-production:deploy` |
 | Branch | `feat/first-tenant-golden-path` |
-| Deployment host | _(recorded at deploy — see git HEAD after deploy commit)_ |
+| Deployment host | `crow-ftgp-certification-q7lf00zi1-muhanadghurabs-projects.vercel.app` |
+| Source commit | `d41ffac` |
 
-Certification URL: _(filled after deploy)_
+Certification URL:
+
+https://crow-ftgp-certification-q7lf00zi1-muhanadghurabs-projects.vercel.app/
 
 ## Known limitations
 
