@@ -8,6 +8,7 @@ import {
   PublicContentSection,
   PublicLifecycleRail,
 } from "@/components/public-site/public-content-page";
+import { PublicClientJourneySteps } from "@/components/public-site/public-client-journey-steps";
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
@@ -51,6 +52,7 @@ function CtaRow({ children }: { children: ReactNode }) {
 export function HowCrowWorksPageContent() {
   return (
     <PublicContentPage
+      mood="teal"
       eyebrow="Service lifecycle"
       title="How Crow Works"
       description="Crow is one governed design-to-runtime service. Clients enter through Build New or Transform Existing, then move through qualification, discovery, blueprint, commercial agreement, build, and runtime — with ProCrow accountability throughout."
@@ -61,6 +63,8 @@ export function HowCrowWorksPageContent() {
         </PublicAccessCallout>
       }
     >
+      <PublicClientJourneySteps highlight={["browse", "choose", "signin", "request"]} compact />
+
       <PublicLifecycleRail
         gates={[
           { title: "Request", summary: "Qualification & structured intake" },
@@ -185,6 +189,7 @@ export function NewOrganizationPageContent() {
 
   return (
     <PublicContentPage
+      mood="teal"
       eyebrow="Build New"
       title="Build a New Organization"
       description="For a new idea, startup, division, or operation that needs structure before scale — Crow designs the operating model first, then the system."
@@ -227,6 +232,7 @@ export function NewOrganizationPageContent() {
 export function TransformExistingPageContent() {
   return (
     <PublicContentPage
+      mood="purple"
       eyebrow="Transform Existing"
       title="Transform an Existing Organization"
       description="Crow maps how your organization works today, preserves what must continue, and designs a governed transition to a target operating model."
@@ -295,6 +301,7 @@ export function EnterpriseBlueprintPageContent() {
 
   return (
     <PublicContentPage
+      mood="purple"
       eyebrow="Design source"
       title="Enterprise Blueprint"
       description="The Blueprint is the reviewed organizational design from which the tenant is built — not a list of ERP modules."

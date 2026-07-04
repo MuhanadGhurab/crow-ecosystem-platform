@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import {
   PublicContentPage,
 } from "@/components/public-site/public-content-page";
+import { PublicClientJourneySteps } from "@/components/public-site/public-client-journey-steps";
 import { getSessionUser } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
@@ -26,6 +27,7 @@ export default async function RequestEntryPage() {
 
   return (
     <PublicContentPage
+      mood="teal"
       eyebrow="Structured intake"
       title="Discuss Your Organization"
       description="Browse Crow freely. When you are ready to start the secure client process, create an account or sign in — that is when Crow begins structured intake."
@@ -37,6 +39,8 @@ export default async function RequestEntryPage() {
         </p>
       }
     >
+      <PublicClientJourneySteps highlight={["browse", "signin", "request"]} compact />
+
       <div className="pv2-blueprint-frame max-w-2xl">
         <div className="pv2-blueprint-frame-header">
           <p className="text-sm font-semibold text-[var(--pv2-text-primary)]">Secure client request</p>

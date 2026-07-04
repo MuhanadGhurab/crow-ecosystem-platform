@@ -6,6 +6,7 @@ import {
   PublicAccessCallout,
   PublicContentPage,
 } from "@/components/public-site/public-content-page";
+import { PublicClientJourneySteps } from "@/components/public-site/public-client-journey-steps";
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
@@ -40,6 +41,7 @@ const JOURNEYS = [
 export function StartPageContent() {
   return (
     <PublicContentPage
+      mood="start"
       eyebrow="Choose your journey"
       title="Start Designing"
       description="Explore every public page without signing in. Start the client process only when you choose a conversion action below."
@@ -50,6 +52,8 @@ export function StartPageContent() {
         </PublicAccessCallout>
       }
     >
+      <PublicClientJourneySteps highlight={["browse", "choose", "signin"]} compact />
+
       <div className="grid gap-6 lg:grid-cols-3">
         {JOURNEYS.map((j) => (
           <article

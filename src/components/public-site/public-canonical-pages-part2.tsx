@@ -5,6 +5,7 @@ import {
   PublicContentPage,
   PublicContentSection,
 } from "@/components/public-site/public-content-page";
+import { PublicFoundationDiagram } from "@/components/public-v2/public-foundation-diagram";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
@@ -41,12 +42,16 @@ function PlatformLinkCard({
 export function PlatformOverviewPageContent() {
   return (
     <PublicContentPage
+      mood="platform"
       eyebrow="One foundation"
       title="The Crow Platform"
       description="CEM, CyberCrow, SAREA, and ProCrow are one governed foundation — not four disconnected products. Runtime operates through the first three; lifecycle accountability operates through ProCrow."
     >
       <div className="pv2-platform-orbit">
         <p className="pv2-platform-hub">One governed organizational foundation</p>
+        <div className="pv2-platform-orbit-diagram sm:col-span-2">
+          <PublicFoundationDiagram variant="orbit" />
+        </div>
         <PlatformLinkCard
           title="CEM"
           href={publicRoutes.platform.cem}
@@ -79,6 +84,7 @@ export function PlatformOverviewPageContent() {
 export function PlatformCemPageContent() {
   return (
     <PublicContentPage
+      mood="teal"
       eyebrow="Operational work engine"
       title="CEM"
       description="CEM runs the organization's operational work — structured around responsibilities and workflows from the Blueprint, not around a generic ERP module grid."
@@ -109,6 +115,7 @@ export function PlatformCemPageContent() {
 export function PlatformCybercrowPageContent() {
   return (
     <PublicContentPage
+      mood="navy"
       eyebrow="Operational trust"
       title="CyberCrow"
       description="CyberCrow is operational trust inside the tenant — not a generic cybersecurity product brochure."
@@ -140,6 +147,7 @@ export function PlatformCybercrowPageContent() {
 export function PlatformSareaPageContent() {
   return (
     <PublicContentPage
+      mood="purple"
       eyebrow="Permitted presentation"
       title="SAREA"
       description="SAREA adapts how permitted work is presented — by role, Work Persona context, device, and complexity — without changing who is authorized to act."
@@ -170,6 +178,7 @@ export function PlatformSareaPageContent() {
 export function PlatformProcrowPageContent() {
   return (
     <PublicContentPage
+      mood="navy"
       eyebrow="Lifecycle governance"
       title="ProCrow"
       description="ProCrow is how Crow&apos;s intelligence becomes accountable — internal governance from qualification through go-live and continuous improvement."
@@ -196,6 +205,7 @@ export function PlatformProcrowPageContent() {
 export function SecurityPageContent() {
   return (
     <PublicContentPage
+      mood="security"
       eyebrow="Assurance"
       title="Security and Governance"
       description="Crow's security story spans tenant isolation, authoritative identity, audit evidence, and readiness controls — distinct from CyberCrow's in-tenant operational trust surfaces."
@@ -237,6 +247,7 @@ export function IndustriesPageContent() {
 
   return (
     <PublicContentPage
+      mood="teal"
       eyebrow="Operating models"
       title="Industries"
       description="Crow adapts through operating models and Blueprint domains — not through pre-packaged ERP module bundles."
@@ -262,6 +273,7 @@ export function IndustriesPageContent() {
 export function PricingPageContent() {
   return (
     <PublicContentPage
+      mood="pricing"
       eyebrow="Commercial model"
       title="How Crow Is Scoped Commercially"
       description="Crow is scoped around your organization and approved Blueprint — not generic SaaS tiers. Implementation is proposed after Blueprint scope freeze; ongoing service continues through a monthly tenant subscription."
