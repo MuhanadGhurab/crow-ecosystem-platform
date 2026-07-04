@@ -1,10 +1,8 @@
 import Link from "next/link";
 
 import { PublicSection } from "@/components/public-v2/public-section";
-import {
-  PUBLIC_V2_SECTION_IDS,
-  publicV2SectionHref,
-} from "@/lib/public-v2/routes";
+import { publicRoutes } from "@/lib/public/routes";
+import { PUBLIC_V2_SECTION_IDS } from "@/lib/public-v2/routes";
 import { routes } from "@/lib/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
@@ -18,13 +16,13 @@ export function PublicFinalCtaSection() {
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link
-          href={publicV2SectionHref(PUBLIC_V2_SECTION_IDS.journeyNew)}
+          href={publicRoutes.newOrganization}
           className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}
         >
           Build a New Organization
         </Link>
         <Link
-          href={publicV2SectionHref(PUBLIC_V2_SECTION_IDS.journeyTransform)}
+          href={publicRoutes.transformExisting}
           className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}
         >
           Transform an Existing Organization

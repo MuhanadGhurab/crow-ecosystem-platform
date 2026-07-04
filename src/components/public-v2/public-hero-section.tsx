@@ -1,11 +1,8 @@
 import Link from "next/link";
 
 import { PublicOperatingDiagram } from "@/components/public-v2/public-operating-diagram";
-import {
-  PUBLIC_V2_PENDING_DESTINATIONS,
-  PUBLIC_V2_SECTION_IDS,
-  publicV2SectionHref,
-} from "@/lib/public-v2/routes";
+import { publicRoutes } from "@/lib/public/routes";
+import { PUBLIC_V2_SECTION_IDS } from "@/lib/public-v2/routes";
 import { routes } from "@/lib/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
@@ -46,13 +43,13 @@ export function PublicHeroSection() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
-              href={publicV2SectionHref(PUBLIC_V2_SECTION_IDS.journeyNew)}
+              href={publicRoutes.newOrganization}
               className={`pv2-btn-primary ${PUBLIC_V2_MOTION_CLASS.button}`}
             >
               Build a New Organization
             </Link>
             <Link
-              href={publicV2SectionHref(PUBLIC_V2_SECTION_IDS.journeyTransform)}
+              href={publicRoutes.transformExisting}
               className={`pv2-btn-secondary ${PUBLIC_V2_MOTION_CLASS.button}`}
             >
               Transform an Existing Organization
@@ -61,7 +58,7 @@ export function PublicHeroSection() {
 
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <Link
-              href={publicV2SectionHref(PUBLIC_V2_SECTION_IDS.howCrowWorks)}
+              href={publicRoutes.howCrowWorks}
               className={`pv2-link ${PUBLIC_V2_MOTION_CLASS.button}`}
             >
               See How Crow Works
@@ -70,13 +67,6 @@ export function PublicHeroSection() {
               Sign In
             </Link>
           </div>
-
-          <p className="mt-5 text-xs text-[var(--pv2-text-muted)]">
-            Final destinations{" "}
-            <span>{PUBLIC_V2_PENDING_DESTINATIONS.newOrganization}</span> and{" "}
-            <span>{PUBLIC_V2_PENDING_DESTINATIONS.transformExisting}</span> are pending — preview
-            links scroll to journey cards below.
-          </p>
         </div>
 
         <div className="pv2-card p-4 sm:p-5 lg:p-6">

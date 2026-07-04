@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PUBLIC_JOURNEY_DEFINITIONS } from "@/lib/public-v2/journey-definitions";
+import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import type { PublicJourneyKind } from "@/lib/public-v2/types";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
@@ -51,9 +52,8 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
       </ol>
 
       <Link
-        href={`#${KIND_ANCHOR[kind]}`}
-        className={`pv2-btn-ghost mt-6 ${PUBLIC_V2_MOTION_CLASS.button}`}
-        aria-label={`${journey.ctaLabel} — preview anchor until dedicated page ships`}
+        href={buildSignupHandoffUrl(kind)}
+        className={`pv2-btn-primary mt-6 ${PUBLIC_V2_MOTION_CLASS.button}`}
       >
         {journey.ctaLabel}
       </Link>
