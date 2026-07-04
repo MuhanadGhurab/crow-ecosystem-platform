@@ -248,6 +248,19 @@ test("diagram panel avoids nested hero collision (CROW.PUBLIC.6)", () => {
   assert.ok(!hero.includes("pv2-hero-panel p-4 sm:p-6 lg:p-7"));
 });
 
+test("journey conversion CTA uses muted amber class (CROW.PUBLIC.7)", () => {
+  const css = read("src/styles/public-v2-bright.css");
+  const tokens = read("src/lib/public-v2/tokens.ts");
+  const hero = read("src/components/public-v2/public-hero-section.tsx");
+  const journeyCard = read("src/components/public-v2/public-journey-card.tsx");
+  assert.ok(css.includes(".pv2-btn-journey"));
+  assert.ok(css.includes("#b45309"));
+  assert.ok(tokens.includes("PUBLIC_V2_JOURNEY_CTA_CLASS"));
+  assert.ok(hero.includes("PUBLIC_V2_JOURNEY_CTA_CLASS"));
+  assert.ok(!hero.includes("pv2-btn-primary"));
+  assert.ok(journeyCard.includes("PUBLIC_V2_JOURNEY_CTA_CLASS"));
+});
+
 test("bundle containment — no story or privileged imports in public-site/v2", () => {
   const dirs = [
     "src/components/public-site",
