@@ -52,9 +52,9 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.6** — Targeted colorful experience fixes (overlap, contrast, heroes, buttons, client journey) deployed to certification for owner review. **CROW.PUBLIC.3/4 acceptance** (routes, access, journey, gating) **remains valid**. **Production not authorized.**
+**CROW.PUBLIC.7** — Owner accepted semi-dark cyber/neon direction; journey CTAs tuned to muted amber. Certification deployed for final review. **Production not authorized.**
 
-**CROW.PUBLIC.5** — Governed colorful visual identity (baseline for PUBLIC.6).
+**CROW.PUBLIC.6** — Overlap, contrast, hero, and journey polish (baseline for semi-dark).
 
 Evidence: [`milestones/CROW-PUBLIC-5.md`](milestones/CROW-PUBLIC-5.md).
 

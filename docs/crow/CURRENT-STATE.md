@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.6 certification deploy) |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.7 CTA polish) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -43,7 +43,7 @@
 | Status | Evidence |
 |--------|----------|
 | **ACCEPTED** | CROW.PUBLIC.3/4 — owner accepted experience on certification (`b90ac88`); routes/access/journey/gating unchanged |
-| **IN REVIEW** | CROW.PUBLIC.5 colorful identity + **CROW.PUBLIC.6** overlap/contrast/hero/journey fixes on feature branch; certification deployed |
+| **IN REVIEW** | CROW.PUBLIC.7 — semi-dark neon **accepted**; journey CTA amber tuning on certification |
 | IMPLEMENTED | Grid foundation diagram; auth contrast overrides; page heroes; journey steps; button variants |
 | UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
 | **NOT DEPLOYED** | Production — explicit CROW.PUBLIC.PROD authorization required |
