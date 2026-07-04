@@ -1,11 +1,23 @@
 import type { ReactNode } from "react";
 
+export type PublicPageMood =
+  | "default"
+  | "teal"
+  | "purple"
+  | "gold"
+  | "navy"
+  | "platform"
+  | "security"
+  | "pricing"
+  | "start";
+
 type PublicContentPageProps = {
   eyebrow?: string;
   title: string;
   description?: string;
   children: ReactNode;
   introExtra?: ReactNode;
+  mood?: PublicPageMood;
 };
 
 export function PublicContentPage({
@@ -14,11 +26,12 @@ export function PublicContentPage({
   description,
   children,
   introExtra,
+  mood = "default",
 }: PublicContentPageProps) {
   return (
-    <article className="pv2-section-band pv2-content-canvas">
+    <article className={`pv2-section-band pv2-content-canvas pv2-page-mood-${mood}`}>
       <div className="pv2-section-inner py-12 sm:py-16 lg:py-20">
-        <header className="mb-10 max-w-3xl">
+        <header className="pv2-page-hero mb-10 max-w-4xl">
           {eyebrow ? <p className="pv2-eyebrow mb-3">{eyebrow}</p> : null}
           <h1 className="pv2-h1">{title}</h1>
           {description ? <p className="pv2-lead mt-4 max-w-2xl">{description}</p> : null}
