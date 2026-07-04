@@ -2,6 +2,8 @@
 
 export type PublicJourneyKind = "NEW" | "TRANSFORM";
 
+export type PublicOperatingStageId = "intent" | "operating" | "blueprint" | "runtime";
+
 export type PublicLifecycleStepId =
   | "understand"
   | "map"
