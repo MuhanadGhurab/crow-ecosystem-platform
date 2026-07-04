@@ -1,4 +1,3 @@
-import { PublicSiteChrome } from "@/components/public-site/public-site-chrome";
 import { StartPageContent } from "@/components/public-site/public-start-page";
 
 export const metadata = {
@@ -7,9 +6,5 @@ export const metadata = {
 };
 
 export default function StartPage() {
-  return (
-    <PublicSiteChrome>
-      <StartPageContent />
-    </PublicSiteChrome>
-  );
+  return <StartPageContent />;
 }
