@@ -59,8 +59,8 @@ export function PublicOperatingDiagram() {
 
   return (
     <figure className="relative w-full" aria-labelledby="public-v2-operating-diagram-title">
-      <figcaption className="mb-4 flex items-start justify-between gap-3">
-        <div>
+      <figcaption className="mb-4 flex min-w-0 items-start justify-between gap-3">
+        <div className="min-w-0">
           <p
             id="public-v2-operating-diagram-title"
             className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--pv2-text-muted)]"
@@ -117,7 +117,7 @@ export function PublicOperatingDiagram() {
           </defs>
         </svg>
 
-        <div className="grid grid-cols-4 gap-2 lg:gap-3" role="group" aria-label="Transformation stages">
+        <div className="grid min-w-0 grid-cols-4 gap-2 lg:gap-3" role="group" aria-label="Transformation stages">
           {STAGES.map((stage) => {
             const selected = stage.id === selectedId;
             return (
@@ -126,11 +126,11 @@ export function PublicOperatingDiagram() {
                 type="button"
                 aria-pressed={selected}
                 aria-label={`${stage.label}. ${stage.description}`}
-                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[72px] flex-col items-center justify-center px-2 py-3 text-center sm:min-h-[88px] lg:min-h-[96px] ${PUBLIC_V2_MOTION_CLASS.diagram}`}
+                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[72px] min-w-0 flex-col items-center justify-center px-2 py-3 text-center sm:min-h-[88px] lg:min-h-[96px] ${PUBLIC_V2_MOTION_CLASS.diagram}`}
                 onClick={() => setSelectedId(stage.id)}
               >
                 <span
-                  className={`text-[10px] font-semibold uppercase tracking-wide sm:text-xs ${
+                  className={`max-w-full break-words text-[10px] font-semibold uppercase leading-tight tracking-wide sm:text-xs ${
                     stage.accent === "cyan" ? "text-[var(--pv2-cyan)]" : "text-[var(--pv2-violet)]"
                   }`}
                 >
@@ -142,7 +142,7 @@ export function PublicOperatingDiagram() {
                       {OPERATING_ELEMENTS.map((el) => (
                         <span
                           key={el}
-                          className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface-muted)] px-1 py-0.5 text-[8px] font-medium text-[var(--pv2-text-secondary)] sm:text-[9px]"
+                          className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface-muted)] px-1 py-0.5 text-[10px] font-medium leading-tight text-[var(--pv2-text-secondary)] sm:text-[11px]"
                         >
                           {el}
                         </span>

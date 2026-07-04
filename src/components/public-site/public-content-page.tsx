@@ -80,9 +80,9 @@ export function PublicAccessCallout({ children }: { children: ReactNode }) {
 
 export function PublicLifecycleRail({ gates }: { gates: readonly { title: string; summary: string }[] }) {
   return (
-    <div className="pv2-lifecycle-rail-row" role="list">
+    <div className="pv2-lifecycle-rail-row min-w-0" role="list">
       {gates.map((gate, index) => (
-        <div key={gate.title} className="flex flex-1 items-stretch gap-2" role="listitem">
+        <div key={gate.title} className="flex min-w-0 flex-1 items-stretch gap-2" role="listitem">
           <div className="pv2-lifecycle-gate flex-1">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-[var(--pv2-cyan)]">

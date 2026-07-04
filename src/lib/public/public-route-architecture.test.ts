@@ -208,6 +208,19 @@ test("foundation diagram uses grid not absolute overlap (CROW.PUBLIC.6)", () => 
   assert.ok(!diagram.includes("marginLeft"));
 });
 
+test("semi-dark neon identity without legacy shell (CROW.PUBLIC.7)", () => {
+  const css = read("src/styles/public-v2-bright.css");
+  const tokens = read("src/lib/public-v2/tokens.ts");
+  const layout = read("src/components/public-site/public-site-layout.tsx");
+  assert.ok(css.includes("--pv2-bg: #131a28"));
+  assert.ok(!css.includes("#04060c"));
+  assert.ok(!css.includes("#f2ebe0"));
+  assert.ok(!css.includes("#fffcf7"));
+  assert.ok(tokens.includes("PUBLIC_V2_SEMI_DARK_IDENTITY_MARKER"));
+  assert.ok(layout.includes("data-pv2-semi-dark"));
+  assert.ok(css.includes("overflow-wrap: anywhere"));
+});
+
 test("auth contrast overrides for bright public frame (CROW.PUBLIC.6)", () => {
   const css = read("src/styles/public-v2-bright.css");
   const frame = read("src/components/public-site/public-auth-frame.tsx");

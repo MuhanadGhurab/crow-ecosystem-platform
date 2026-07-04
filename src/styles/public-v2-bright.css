@@ -1,29 +1,29 @@
-/* CROW.PUBLIC.1B+3+5 — bright colorful public experience */
+/* CROW.PUBLIC.7 — premium semi-dark cyber/neon public experience (not legacy starfield shell) */
 
 .public-v2-shell.public-v2-bright {
-  --pv2-bg: #f2ebe0;
-  --pv2-bg-mist: #e8dfd2;
-  --pv2-surface: #fffcf7;
-  --pv2-surface-raised: #fdf9f2;
-  --pv2-surface-muted: #f0e8db;
-  --pv2-text-primary: #1c1917;
-  --pv2-text-secondary: #44403c;
-  --pv2-text-muted: #78716c;
-  /* Governed Crow palette — CROW.PUBLIC.5 */
-  --pv2-teal: #0d9488;
-  --pv2-teal-soft: #ccfbf1;
-  --pv2-teal-glow: rgba(13, 148, 136, 0.22);
-  --pv2-gold: #c9890a;
-  --pv2-gold-soft: #fef3c7;
-  --pv2-gold-glow: rgba(201, 137, 10, 0.2);
-  --pv2-navy: #1e3a5f;
-  --pv2-navy-soft: #e8eef5;
-  --pv2-navy-glow: rgba(30, 58, 95, 0.15);
-  --pv2-purple: #7c3aed;
-  --pv2-purple-soft: #ede9fe;
-  --pv2-purple-glow: rgba(124, 58, 237, 0.18);
-  --pv2-yellow: #ca8a04;
-  --pv2-yellow-soft: #fef9c3;
+  --pv2-bg: #131a28;
+  --pv2-bg-mist: #161f30;
+  --pv2-surface: #1c2538;
+  --pv2-surface-raised: #222d42;
+  --pv2-surface-muted: #172030;
+  --pv2-text-primary: #e8edf5;
+  --pv2-text-secondary: #b8c2d4;
+  --pv2-text-muted: #7d8aa3;
+  /* Governed Crow neon palette */
+  --pv2-teal: #2dd4bf;
+  --pv2-teal-soft: rgba(45, 212, 191, 0.14);
+  --pv2-teal-glow: rgba(45, 212, 191, 0.35);
+  --pv2-gold: #f5b942;
+  --pv2-gold-soft: rgba(245, 185, 66, 0.14);
+  --pv2-gold-glow: rgba(245, 185, 66, 0.28);
+  --pv2-navy: #6b9fd4;
+  --pv2-navy-soft: rgba(107, 159, 212, 0.12);
+  --pv2-navy-glow: rgba(107, 159, 212, 0.22);
+  --pv2-purple: #a78bfa;
+  --pv2-purple-soft: rgba(167, 139, 250, 0.14);
+  --pv2-purple-glow: rgba(167, 139, 250, 0.32);
+  --pv2-yellow: #fcd34d;
+  --pv2-yellow-soft: rgba(252, 211, 77, 0.12);
   /* Legacy aliases — components still reference cyan/violet/amber */
   --pv2-cyan: var(--pv2-teal);
   --pv2-cyan-soft: var(--pv2-teal-soft);
@@ -31,14 +31,14 @@
   --pv2-violet-soft: var(--pv2-purple-soft);
   --pv2-amber: var(--pv2-gold);
   --pv2-amber-soft: var(--pv2-gold-soft);
-  --pv2-border: #e0d6c8;
-  --pv2-border-strong: #cfc4b4;
-  --pv2-shadow: 0 1px 2px rgba(30, 58, 95, 0.05), 0 10px 32px rgba(30, 58, 95, 0.07);
-  --pv2-shadow-lift: 0 8px 24px rgba(30, 58, 95, 0.09), 0 24px 56px rgba(30, 58, 95, 0.06);
-  --pv2-shadow-neon-teal: 0 0 0 1px color-mix(in srgb, var(--pv2-teal) 35%, transparent),
-    0 4px 20px var(--pv2-teal-glow);
-  --pv2-shadow-neon-purple: 0 0 0 1px color-mix(in srgb, var(--pv2-purple) 30%, transparent),
-    0 4px 20px var(--pv2-purple-glow);
+  --pv2-border: rgba(148, 163, 184, 0.18);
+  --pv2-border-strong: rgba(148, 163, 184, 0.34);
+  --pv2-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 36px rgba(0, 0, 0, 0.28);
+  --pv2-shadow-lift: 0 8px 28px rgba(0, 0, 0, 0.38), 0 0 40px rgba(45, 212, 191, 0.06);
+  --pv2-shadow-neon-teal: 0 0 0 1px color-mix(in srgb, var(--pv2-teal) 45%, transparent),
+    0 4px 24px var(--pv2-teal-glow);
+  --pv2-shadow-neon-purple: 0 0 0 1px color-mix(in srgb, var(--pv2-purple) 40%, transparent),
+    0 4px 24px var(--pv2-purple-glow);
   --pv2-radius: 14px;
   --pv2-radius-lg: 20px;
   --pv2-focus: var(--pv2-teal);
@@ -46,6 +46,7 @@
 
   background-color: var(--pv2-bg);
   color: var(--pv2-text-primary);
+  overflow-wrap: anywhere;
 }
 
 .public-v2-bright .pv2-page-canvas {
@@ -64,11 +65,11 @@
 
 .public-v2-bright .pv2-ambient {
   background:
-    radial-gradient(1100px 560px at 2% -4%, rgba(13, 148, 136, 0.14), transparent 58%),
-    radial-gradient(920px 500px at 98% 2%, rgba(124, 58, 237, 0.11), transparent 55%),
-    radial-gradient(720px 400px at 88% 92%, rgba(201, 137, 10, 0.1), transparent 58%),
-    radial-gradient(600px 340px at 12% 88%, rgba(30, 58, 95, 0.08), transparent 62%),
-    linear-gradient(180deg, #f4ece2 0%, #efe6da 42%, #f6f0e8 100%);
+    radial-gradient(1100px 560px at 2% -4%, rgba(45, 212, 191, 0.16), transparent 58%),
+    radial-gradient(920px 500px at 98% 2%, rgba(167, 139, 250, 0.14), transparent 55%),
+    radial-gradient(720px 400px at 88% 92%, rgba(245, 185, 66, 0.1), transparent 58%),
+    radial-gradient(600px 340px at 12% 88%, rgba(107, 159, 212, 0.1), transparent 62%),
+    linear-gradient(180deg, #121826 0%, #131a28 42%, #151d2e 100%);
 }
 
 .public-v2-bright .pv2-ambient-accent {
@@ -155,7 +156,8 @@
 
 .public-v2-bright .pv2-hero-panel {
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   border: 1px solid color-mix(in srgb, var(--pv2-teal) 22%, var(--pv2-border));
   border-radius: var(--pv2-radius-lg);
   background: linear-gradient(
@@ -271,13 +273,13 @@
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--pv2-gold) 28%, var(--pv2-border));
-  background: linear-gradient(180deg, var(--pv2-gold-soft), var(--pv2-surface));
+  border: 1px solid color-mix(in srgb, var(--pv2-gold) 38%, var(--pv2-border));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--pv2-gold-soft) 80%, var(--pv2-surface)) 0%, var(--pv2-surface-raised) 100%);
   padding: 0.35rem 0.85rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: color-mix(in srgb, var(--pv2-navy) 80%, var(--pv2-text-secondary));
-  box-shadow: 0 2px 8px var(--pv2-gold-glow);
+  color: var(--pv2-gold);
+  box-shadow: 0 2px 12px var(--pv2-gold-glow);
 }
 
 .public-v2-bright .pv2-diagram-stage.is-selected-gold {
@@ -309,9 +311,9 @@
 }
 
 .public-v2-bright .pv2-access-callout {
-  border: 1px solid color-mix(in srgb, var(--pv2-teal) 30%, var(--pv2-border));
+  border: 1px solid color-mix(in srgb, var(--pv2-teal) 35%, var(--pv2-border));
   border-radius: var(--pv2-radius);
-  background: linear-gradient(135deg, var(--pv2-teal-soft) 0%, var(--pv2-surface) 85%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--pv2-teal-soft) 90%, var(--pv2-surface)) 0%, var(--pv2-surface-raised) 85%);
   padding: 1rem 1.25rem;
   font-size: 0.875rem;
   color: var(--pv2-text-secondary);
@@ -366,7 +368,7 @@
   );
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--pv2-navy);
+  color: var(--pv2-text-primary);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pv2-purple) 12%, transparent);
 }
 
@@ -489,8 +491,8 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--pv2-radius);
-  border: 1px solid color-mix(in srgb, var(--pv2-purple) 32%, var(--pv2-border));
-  background: linear-gradient(180deg, var(--pv2-purple-soft) 0%, color-mix(in srgb, var(--pv2-surface) 80%, var(--pv2-purple-soft)) 100%);
+  border: 1px solid color-mix(in srgb, var(--pv2-purple) 40%, var(--pv2-border));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--pv2-purple-soft) 70%, var(--pv2-surface)) 0%, var(--pv2-surface-raised) 100%);
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
@@ -515,7 +517,7 @@
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1c1917;
+  color: #131a28;
   box-shadow: 0 4px 16px var(--pv2-gold-glow);
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
@@ -572,7 +574,7 @@
 .public-v2-bright .pv2-tab.pv2-tab-active {
   border-color: color-mix(in srgb, var(--pv2-cyan) 40%, var(--pv2-border));
   background: var(--pv2-cyan-soft);
-  color: #0e7490;
+  color: var(--pv2-teal);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pv2-cyan) 18%, transparent);
 }
 
@@ -585,10 +587,10 @@
 }
 
 .public-v2-bright .pv2-nav {
-  border-bottom: 1px solid color-mix(in srgb, var(--pv2-navy) 12%, var(--pv2-border));
-  background: color-mix(in srgb, var(--pv2-surface) 88%, var(--pv2-navy-soft));
-  backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 color-mix(in srgb, var(--pv2-teal) 12%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--pv2-teal) 18%, var(--pv2-border));
+  background: color-mix(in srgb, var(--pv2-surface) 82%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--pv2-teal) 16%, transparent);
 }
 
 .public-v2-bright .pv2-nav-link {
@@ -597,14 +599,14 @@
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: color-mix(in srgb, var(--pv2-navy) 75%, var(--pv2-text-secondary));
+  color: var(--pv2-text-secondary);
   transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .public-v2-bright .pv2-nav-link:hover,
 .public-v2-bright .pv2-nav-link[aria-expanded="true"] {
-  background: color-mix(in srgb, var(--pv2-teal-soft) 65%, var(--pv2-surface));
-  color: var(--pv2-navy);
+  background: color-mix(in srgb, var(--pv2-teal-soft) 55%, var(--pv2-surface));
+  color: var(--pv2-text-primary);
 }
 
 .public-v2-bright .pv2-nav-link[aria-current="page"] {
@@ -903,10 +905,10 @@
   min-width: 1.75rem;
   height: 1.75rem;
   border-radius: 999px;
-  background: var(--pv2-navy-soft);
+  background: var(--pv2-teal-soft);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--pv2-navy);
+  color: var(--pv2-teal);
 }
 
 .public-v2-bright .pv2-journey-step-phase {
@@ -984,8 +986,8 @@
 }
 
 .public-v2-bright .pv2-btn-quiet:hover {
-  color: var(--pv2-navy);
-  background: color-mix(in srgb, var(--pv2-teal-soft) 35%, transparent);
+  color: var(--pv2-text-primary);
+  background: color-mix(in srgb, var(--pv2-teal-soft) 45%, transparent);
 }
 
 .public-v2-bright .pv2-btn-primary:focus-visible,
@@ -997,17 +999,42 @@
   outline-offset: 3px;
 }
 
-/* Auth surfaces — bright frame with legacy cc- form controls */
+/* Text overflow — safe wrapping on dense public surfaces */
+.public-v2-bright .pv2-h1,
+.public-v2-bright .pv2-h2,
+.public-v2-bright .pv2-lead,
+.public-v2-bright .pv2-body,
+.public-v2-bright .pv2-page-hero,
+.public-v2-bright .pv2-diagram-stage,
+.public-v2-bright .pv2-foundation-node,
+.public-v2-bright .pv2-journey-step,
+.public-v2-bright .pv2-lifecycle-gate,
+.public-v2-bright .pv2-platform-hub,
+.public-v2-bright .pv2-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.public-v2-bright .pv2-lifecycle-gate {
+  flex: 1 1 10rem;
+}
+
+.public-v2-bright .pv2-journey-step > div {
+  min-width: 0;
+}
+
+/* Auth surfaces — semi-dark frame with legacy cc- form controls */
 [data-public-auth="true"] .pv2-auth-form label,
 [data-public-auth="true"] .pv2-auth-form .text-slate-300 {
   color: var(--pv2-text-primary) !important;
 }
 
 [data-public-auth="true"] .pv2-auth-form .input-cc {
-  border: 1px solid color-mix(in srgb, var(--pv2-navy) 22%, var(--pv2-border));
-  background: var(--pv2-surface);
+  border: 1px solid color-mix(in srgb, var(--pv2-teal) 28%, var(--pv2-border));
+  background: var(--pv2-surface-muted);
   color: var(--pv2-text-primary);
-  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--pv2-navy) 6%, transparent);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 [data-public-auth="true"] .pv2-auth-form .input-cc::placeholder {
@@ -1057,11 +1084,11 @@
 
 [data-public-auth="true"] .pv2-auth-form .text-teal-200,
 [data-public-auth="true"] .pv2-auth-form .text-teal-300 {
-  color: color-mix(in srgb, var(--pv2-teal) 75%, var(--pv2-navy)) !important;
+  color: var(--pv2-teal) !important;
 }
 
 [data-public-auth="true"] .pv2-auth-form .text-red-400 {
-  color: #b91c1c !important;
+  color: #f87171 !important;
 }
 
 [data-public-auth="true"] .pv2-auth-form .border-white\/10 {
