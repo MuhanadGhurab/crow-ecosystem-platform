@@ -142,22 +142,47 @@ test("mobile overflow prevention", () => {
   assert.ok(shell.includes("public-v2-shell"));
 });
 
-test("bundle containment — no story imports in public-v2 source", () => {
-  const dir = join(root, "src/components/public-v2");
-  const libDir = join(root, "src/lib/public-v2");
-  const files = [...walkTsx(dir), ...walkTsx(libDir)].filter(
-    (f) => !f.endsWith(".test.ts")
-  );
+const FORBIDDEN_CONTAINMENT = [
+  "@/lib/crow-story",
+  "@/components/crow-story",
+  "useStoryScrollEngine",
+  "crow-story-interactive",
+  "FlyingCrow",
+  "flying-crow",
+  "@prisma/client",
+  "@/lib/prisma",
+  "billing.service",
+  "createSubscriptionCheckout",
+  "persistCommittedJourney",
+  "persistSoftJourney",
+  "approveClientProposalScope",
+  "compileBlueprint",
+  "provisionTenant",
+  "grantTenantAccess",
+  "grant-crow-role",
+] as const;
+
+test("bundle containment — no story or privileged domain imports", () => {
+  const dirs = [
+    join(root, "src/components/public-v2"),
+    join(root, "src/lib/public-v2"),
+  ];
+  const files = dirs.flatMap((dir) => walkTsx(dir)).filter((f) => !f.endsWith(".test.ts"));
   for (const file of files) {
     const rel = file.replace(root + "\\", "").replace(root + "/", "");
     const src = read(rel);
-    assert.ok(!src.includes("@/lib/crow-story"), `${rel} imports crow-story module`);
-    assert.ok(!src.includes("@/components/crow-story"), `${rel} imports crow-story components`);
-    assert.ok(!src.includes("useStoryScrollEngine"), `${rel} imports scroll engine`);
-    assert.ok(!src.includes("@prisma"), `${rel} imports prisma`);
+    for (const token of FORBIDDEN_CONTAINMENT) {
+      assert.ok(!src.includes(token), `${rel} contains forbidden ${token}`);
+    }
   }
   const page = read("src/app/preview/public-home/page.tsx");
-  assert.ok(!page.includes("crow-story"));
+  for (const token of FORBIDDEN_CONTAINMENT) {
+    assert.ok(!page.includes(token), `preview page contains forbidden ${token}`);
+  }
+});
+
+test("preview route path is certification-only", () => {
+  assert.equal(read("src/lib/public-v2/routes.ts").includes('"/preview/public-home"'), true);
 });
 
 test("current homepage unchanged", () => {
