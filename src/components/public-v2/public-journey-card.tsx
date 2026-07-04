@@ -9,9 +9,10 @@ const KIND_ANCHOR: Record<PublicJourneyKind, string> = {
   TRANSFORM: "public-v2-journey-transform",
 };
 
-const KIND_ACCENT: Record<PublicJourneyKind, string> = {
-  NEW: "border-cyan-500/30 bg-gradient-to-br from-cyan-500/[0.08] to-transparent",
-  TRANSFORM: "border-violet-500/30 bg-gradient-to-br from-violet-500/[0.08] to-transparent",
+const KIND_STYLE: Record<PublicJourneyKind, string> = {
+  NEW: "border-[color-mix(in_srgb,var(--pv2-cyan)_28%,var(--pv2-border))] from-[var(--pv2-cyan-soft)]",
+  TRANSFORM:
+    "border-[color-mix(in_srgb,var(--pv2-violet)_28%,var(--pv2-border))] from-[var(--pv2-violet-soft)]",
 };
 
 export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
@@ -20,23 +21,25 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
   return (
     <article
       id={KIND_ANCHOR[kind]}
-      className={`scroll-mt-28 rounded-2xl border p-6 sm:p-7 ${KIND_ACCENT[kind]}`}
+      className={`pv2-card scroll-mt-28 bg-gradient-to-br to-[var(--pv2-surface)] p-6 transition-shadow duration-[220ms] hover:shadow-[var(--pv2-shadow-lift)] sm:p-7 ${KIND_STYLE[kind]}`}
       aria-labelledby={`journey-${kind}-title`}
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--pv2-text-muted)]">
         JourneyKind · {kind}
       </p>
-      <h3 id={`journey-${kind}-title`} className="mt-2 text-xl font-semibold text-white">
+      <h3 id={`journey-${kind}-title`} className="mt-2 text-xl font-semibold text-[var(--pv2-text-primary)]">
         {journey.title}
       </h3>
-      <p className="mt-2 text-sm text-slate-400">{journey.subtitle}</p>
+      <p className="pv2-body mt-2">{journey.subtitle}</p>
 
       <ol className="mt-5 space-y-2" role="list">
         {journey.steps.map((step, i) => (
-          <li key={step} className="flex items-start gap-3 text-sm text-slate-300">
+          <li key={step} className="flex items-start gap-3 text-sm text-[var(--pv2-text-secondary)]">
             <span
               className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
-                kind === "NEW" ? "bg-cyan-500/20 text-cyan-200" : "bg-violet-500/20 text-violet-200"
+                kind === "NEW"
+                  ? "bg-[var(--pv2-cyan-soft)] text-[#0e7490]"
+                  : "bg-[var(--pv2-violet-soft)] text-[var(--pv2-violet)]"
               }`}
               aria-hidden
             >
@@ -49,11 +52,13 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
 
       <Link
         href={`#${KIND_ANCHOR[kind]}`}
-        className={`mt-6 inline-flex min-h-[44px] items-center rounded-xl border border-white/[0.12] px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:border-white/[0.2] hover:bg-white/[0.03] ${PUBLIC_V2_MOTION_CLASS.button}`}
+        className={`pv2-btn-ghost mt-6 ${PUBLIC_V2_MOTION_CLASS.button}`}
         aria-label={`${journey.ctaLabel} — preview anchor until dedicated page ships`}
       >
         {journey.ctaLabel}
       </Link>
+
+      <p className="pv2-journey-bridge">→ Approved Blueprint & governed tenant</p>
     </article>
   );
 }
