@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { PUBLIC_JOURNEY_DEFINITIONS } from "@/lib/public-v2/journey-definitions";
-import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
+import { buildSignupHandoffUrl, PUBLIC_JOURNEY_PAGES } from "@/lib/public/journey-handoff";
 import type { PublicJourneyKind } from "@/lib/public-v2/types";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
@@ -51,12 +51,20 @@ export function PublicJourneyCard({ kind }: { kind: PublicJourneyKind }) {
         ))}
       </ol>
 
-      <Link
-        href={buildSignupHandoffUrl(kind)}
-        className={`pv2-btn-primary mt-6 ${PUBLIC_V2_MOTION_CLASS.button}`}
-      >
-        {journey.ctaLabel}
-      </Link>
+      <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        <Link
+          href={PUBLIC_JOURNEY_PAGES[kind].path}
+          className={`pv2-btn-secondary flex-1 text-center ${PUBLIC_V2_MOTION_CLASS.button}`}
+        >
+          Explore journey
+        </Link>
+        <Link
+          href={buildSignupHandoffUrl(kind)}
+          className={`pv2-btn-primary flex-1 text-center ${PUBLIC_V2_MOTION_CLASS.button}`}
+        >
+          {journey.ctaLabel}
+        </Link>
+      </div>
 
       <p className="pv2-journey-bridge">→ Approved Blueprint & governed tenant</p>
     </article>

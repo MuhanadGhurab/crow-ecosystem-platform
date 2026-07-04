@@ -9,8 +9,9 @@ export function PublicJourneySection() {
       eyebrow="Starting conditions"
       title="Build new or transform existing"
       description="Two related journeys with different starting points — both lead to an approved Enterprise Blueprint and governed tenant."
+      band="emphasis"
     >
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+      <div className="pv2-journey-split">
         <PublicJourneyCard kind="NEW" />
         <PublicJourneyCard kind="TRANSFORM" />
       </div>

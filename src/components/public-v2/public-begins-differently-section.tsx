@@ -7,12 +7,8 @@ import { PUBLIC_V2_SECTION_IDS } from "@/lib/public-v2/routes";
 function TraditionalVisual() {
   return (
     <div className="mt-5 flex flex-col gap-2" aria-hidden>
-      {["Apps", "Roles", "Instance", "Tools"].map((box, i) => (
-        <div
-          key={box}
-          className="flex items-center gap-2"
-          style={{ marginLeft: `${i * 8}px` }}
-        >
+      {["Apps", "Roles", "Instance", "Tools"].map((box) => (
+        <div key={box} className="flex items-center gap-2">
           <div className="h-9 flex-1 rounded-lg border border-dashed border-[var(--pv2-border-strong)] bg-[var(--pv2-surface-muted)] px-3 py-2 text-xs text-[var(--pv2-text-muted)]">
             {box}
           </div>
@@ -94,6 +90,7 @@ export function PublicBeginsDifferentlySection() {
       eyebrow="Why Crow"
       title="Crow begins differently"
       description="A fair comparison — Crow is designed around how organizations actually operate, not around a catalog of modules."
+      band="muted"
     >
       <div className="grid gap-4 md:grid-cols-2 lg:gap-6">
         <ComparisonColumn

@@ -126,7 +126,7 @@ export function PublicOperatingDiagram() {
                 type="button"
                 aria-pressed={selected}
                 aria-label={`${stage.label}. ${stage.description}`}
-                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[72px] flex-col items-center justify-center px-2 py-3 text-center ${PUBLIC_V2_MOTION_CLASS.diagram}`}
+                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[88px] flex-col items-center justify-center px-2 py-3 text-center ${PUBLIC_V2_MOTION_CLASS.diagram}`}
                 onClick={() => setSelectedId(stage.id)}
               >
                 <span
