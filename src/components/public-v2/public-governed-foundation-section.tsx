@@ -14,16 +14,13 @@ export function PublicGovernedFoundationSection() {
       <PublicFoundationDiagram />
 
       <div className="mt-10">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-amber-200/90">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--pv2-amber)]">
           Trust evidence
         </h3>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" role="list">
           {PUBLIC_TRUST_EVIDENCE.map((item) => (
-            <li
-              key={item}
-              className="flex items-center gap-2 rounded-lg border border-amber-500/15 bg-amber-500/[0.04] px-3 py-2 text-sm text-slate-300"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden />
+            <li key={item} className="pv2-trust-chip">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--pv2-amber)]" aria-hidden />
               {item}
             </li>
           ))}

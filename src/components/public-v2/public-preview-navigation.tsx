@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
-import { CrowMark } from "@/components/public/brand/crow-mark";
+import { PublicV2BrandMark } from "@/components/public-v2/public-v2-brand-mark";
 import { PUBLIC_V2_PRIMARY_NAV } from "@/lib/public-v2/navigation";
 import { PUBLIC_V2_PREVIEW_HOME } from "@/lib/public-v2/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
@@ -44,14 +44,14 @@ function NavDropdown({
   const open = openMenu === menuKey;
 
   return (
-    <div className="relative" onMouseLeave={onClose}>
+    <div className="relative">
       <button
         type="button"
         id={buttonId}
         aria-expanded={open}
         aria-haspopup="true"
         aria-controls={panelId}
-        className={`flex min-h-[44px] items-center gap-1 rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white ${PUBLIC_V2_MOTION_CLASS.button}`}
+        className={`pv2-nav-link flex items-center gap-1 ${PUBLIC_V2_MOTION_CLASS.button}`}
         onClick={() => onToggle(menuKey)}
         onKeyDown={(e) => {
           if (e.key === "Escape") onClose();
@@ -65,19 +65,23 @@ function NavDropdown({
           id={panelId}
           role="menu"
           aria-labelledby={buttonId}
-          className={`absolute left-0 top-full z-50 mt-1 min-w-[240px] rounded-xl border border-white/[0.1] bg-[#0a0f1a]/95 p-2 shadow-xl backdrop-blur-sm ${PUBLIC_V2_MOTION_CLASS.panel}`}
+          className={`pv2-dropdown absolute left-0 top-full z-50 mt-1 min-w-[248px] p-2 ${PUBLIC_V2_MOTION_CLASS.panel}`}
         >
           {items.map((item) => (
             <Link
               key={item.label}
               href={item.href}
               role="menuitem"
-              className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/[0.05]"
+              className="pv2-dropdown-item block"
               onClick={onClose}
             >
-              <span className="block text-sm font-medium text-slate-100">{item.label}</span>
+              <span className="block text-sm font-medium text-[var(--pv2-text-primary)]">
+                {item.label}
+              </span>
               {item.description ? (
-                <span className="mt-0.5 block text-xs text-slate-500">{item.description}</span>
+                <span className="mt-0.5 block text-xs text-[var(--pv2-text-muted)]">
+                  {item.description}
+                </span>
               ) : null}
             </Link>
           ))}
@@ -125,14 +129,11 @@ export function PublicPreviewNavigation() {
   };
 
   return (
-    <header
-      ref={navRef}
-      className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#04060c]/90 backdrop-blur-md"
-    >
+    <header ref={navRef} className="pv2-nav sticky top-0 z-40">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <CrowMark href={PUBLIC_V2_PREVIEW_HOME} size="sm" showTagline={false} />
+        <PublicV2BrandMark href={PUBLIC_V2_PREVIEW_HOME} />
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Public homepage preview">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Public homepage preview">
           <NavDropdown
             menuKey="platform"
             label={PUBLIC_V2_PRIMARY_NAV.platform.label}
@@ -141,16 +142,10 @@ export function PublicPreviewNavigation() {
             onToggle={toggleMenu}
             onClose={closeMenus}
           />
-          <Link
-            href={PUBLIC_V2_PRIMARY_NAV.howCrowWorks.href}
-            className={`min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white ${PUBLIC_V2_MOTION_CLASS.button}`}
-          >
+          <Link href={PUBLIC_V2_PRIMARY_NAV.howCrowWorks.href} className="pv2-nav-link">
             {PUBLIC_V2_PRIMARY_NAV.howCrowWorks.label}
           </Link>
-          <Link
-            href={PUBLIC_V2_PRIMARY_NAV.enterpriseBlueprint.href}
-            className={`min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white ${PUBLIC_V2_MOTION_CLASS.button}`}
-          >
+          <Link href={PUBLIC_V2_PRIMARY_NAV.enterpriseBlueprint.href} className="pv2-nav-link">
             {PUBLIC_V2_PRIMARY_NAV.enterpriseBlueprint.label}
           </Link>
           <NavDropdown
@@ -161,10 +156,7 @@ export function PublicPreviewNavigation() {
             onToggle={toggleMenu}
             onClose={closeMenus}
           />
-          <Link
-            href={PUBLIC_V2_PRIMARY_NAV.security.href}
-            className={`min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white ${PUBLIC_V2_MOTION_CLASS.button}`}
-          >
+          <Link href={PUBLIC_V2_PRIMARY_NAV.security.href} className="pv2-nav-link">
             {PUBLIC_V2_PRIMARY_NAV.security.label}
           </Link>
         </nav>
@@ -178,17 +170,14 @@ export function PublicPreviewNavigation() {
             onToggle={toggleMenu}
             onClose={closeMenus}
           />
-          <Link
-            href={PUBLIC_V2_PRIMARY_NAV.signIn.href}
-            className={`min-h-[44px] rounded-lg border border-white/[0.12] px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.03] ${PUBLIC_V2_MOTION_CLASS.button}`}
-          >
+          <Link href={PUBLIC_V2_PRIMARY_NAV.signIn.href} className="pv2-btn-ghost">
             {PUBLIC_V2_PRIMARY_NAV.signIn.label}
           </Link>
         </div>
 
         <button
           type="button"
-          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-white/[0.1] text-slate-300 lg:hidden"
+          className="pv2-btn-ghost flex min-w-[44px] items-center justify-center p-2 lg:hidden"
           aria-expanded={mobileOpen}
           aria-controls="public-v2-mobile-nav"
           onClick={() => setMobileOpen((v) => !v)}
@@ -207,13 +196,13 @@ export function PublicPreviewNavigation() {
       {mobileOpen ? (
         <nav
           id="public-v2-mobile-nav"
-          className="border-t border-white/[0.06] px-4 py-4 lg:hidden"
+          className="border-t border-[var(--pv2-border)] bg-[var(--pv2-surface)] px-4 py-4 lg:hidden"
           aria-label="Mobile preview navigation"
         >
           <div className="flex flex-col gap-1">
             <button
               type="button"
-              className="flex min-h-[44px] w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-slate-200"
+              className="flex min-h-[44px] w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-[var(--pv2-text-primary)]"
               aria-expanded={mobileAccordion === "platform"}
               onClick={() => toggleMobileAccordion("platform")}
             >
@@ -225,7 +214,7 @@ export function PublicPreviewNavigation() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="min-h-[44px] rounded-lg py-2 pl-6 pr-3 text-sm text-slate-400"
+                    className="min-h-[44px] rounded-lg py-2 pl-6 pr-3 text-sm text-[var(--pv2-text-secondary)]"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
@@ -235,14 +224,14 @@ export function PublicPreviewNavigation() {
 
             <Link
               href={PUBLIC_V2_PRIMARY_NAV.howCrowWorks.href}
-              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-200"
+              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-[var(--pv2-text-primary)]"
               onClick={() => setMobileOpen(false)}
             >
               How Crow Works
             </Link>
             <Link
               href={PUBLIC_V2_PRIMARY_NAV.enterpriseBlueprint.href}
-              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-200"
+              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-[var(--pv2-text-primary)]"
               onClick={() => setMobileOpen(false)}
             >
               Enterprise Blueprint
@@ -250,7 +239,7 @@ export function PublicPreviewNavigation() {
 
             <button
               type="button"
-              className="flex min-h-[44px] w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-slate-200"
+              className="flex min-h-[44px] w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-[var(--pv2-text-primary)]"
               aria-expanded={mobileAccordion === "solutions"}
               onClick={() => toggleMobileAccordion("solutions")}
             >
@@ -262,7 +251,7 @@ export function PublicPreviewNavigation() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="min-h-[44px] rounded-lg py-2 pl-6 pr-3 text-sm text-slate-400"
+                    className="min-h-[44px] rounded-lg py-2 pl-6 pr-3 text-sm text-[var(--pv2-text-secondary)]"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
@@ -272,21 +261,21 @@ export function PublicPreviewNavigation() {
 
             <Link
               href={PUBLIC_V2_PRIMARY_NAV.security.href}
-              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-200"
+              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-[var(--pv2-text-primary)]"
               onClick={() => setMobileOpen(false)}
             >
               Security
             </Link>
             <Link
               href={PUBLIC_V2_PRIMARY_NAV.signIn.href}
-              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-slate-200"
+              className="min-h-[44px] rounded-lg px-3 py-2 text-sm text-[var(--pv2-text-primary)]"
               onClick={() => setMobileOpen(false)}
             >
               Sign In
             </Link>
             <Link
               href="#public-v2-journey-new"
-              className="mt-2 min-h-[44px] rounded-lg bg-cyan-500/15 px-3 py-2 text-center text-sm font-medium text-cyan-100"
+              className="pv2-btn-primary mt-2 justify-center text-center"
               onClick={() => setMobileOpen(false)}
             >
               Start Designing

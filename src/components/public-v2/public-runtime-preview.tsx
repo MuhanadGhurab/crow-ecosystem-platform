@@ -8,9 +8,11 @@ import type { PublicRuntimeAreaId } from "@/lib/public-v2/types";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
 
 const STATUS_STYLE = {
-  active: "border-cyan-500/30 text-cyan-200",
-  complete: "border-emerald-500/30 text-emerald-200",
-  critical: "border-red-500/35 text-red-200",
+  active: "border-[color-mix(in_srgb,var(--pv2-cyan)_30%,var(--pv2-border))] text-[#0e7490] bg-[var(--pv2-cyan-soft)]",
+  complete:
+    "border-[color-mix(in_srgb,#16a34a_30%,var(--pv2-border))] text-[#15803d] bg-[#f0fdf4]",
+  critical:
+    "border-[color-mix(in_srgb,#dc2626_30%,var(--pv2-border))] text-[#b91c1c] bg-[#fef2f2]",
 } as const;
 
 export function PublicRuntimePreview() {
@@ -18,9 +20,9 @@ export function PublicRuntimePreview() {
   const active = PUBLIC_RUNTIME_AREAS.find((a) => a.id === activeId) ?? PUBLIC_RUNTIME_AREAS[0];
 
   return (
-    <div className="rounded-2xl border border-white/[0.1] bg-white/[0.02] p-4 sm:p-5">
+    <div className="p-4 sm:p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <p className="text-xs font-semibold uppercase tracking-wide text-[var(--pv2-text-muted)]">
           Runtime work preview
         </p>
         <RepresentativePreviewLabel />
@@ -35,11 +37,7 @@ export function PublicRuntimePreview() {
               type="button"
               role="tab"
               aria-selected={selected}
-              className={`min-h-[44px] rounded-lg border px-3 py-2 text-xs font-medium sm:text-sm ${PUBLIC_V2_MOTION_CLASS.tab} ${
-                selected
-                  ? "border-cyan-400/35 bg-cyan-500/10 text-cyan-100"
-                  : "border-white/[0.08] text-slate-400"
-              }`}
+              className={`pv2-tab text-xs sm:text-sm ${selected ? "pv2-tab-active" : ""} ${PUBLIC_V2_MOTION_CLASS.tab}`}
               onClick={() => setActiveId(area.id)}
             >
               {area.label}
@@ -49,16 +47,16 @@ export function PublicRuntimePreview() {
       </div>
 
       <div role="tabpanel" className={`mt-4 ${PUBLIC_V2_MOTION_CLASS.panel}`}>
-        <p className="text-sm text-slate-400">{active.description}</p>
+        <p className="pv2-body">{active.description}</p>
         <ul className="mt-4 space-y-2" role="list">
           {active.sampleItems.map((item) => (
             <li
               key={item.title}
-              className="flex flex-col gap-1 rounded-lg border border-white/[0.06] bg-black/25 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-1 rounded-lg border border-[var(--pv2-border)] bg-[var(--pv2-surface-muted)] px-3 py-2.5 transition-shadow duration-[180ms] hover:shadow-sm sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="text-sm font-medium text-slate-200">{item.title}</p>
-                <p className="text-xs text-slate-500">{item.meta}</p>
+                <p className="text-sm font-medium text-[var(--pv2-text-primary)]">{item.title}</p>
+                <p className="text-xs text-[var(--pv2-text-muted)]">{item.meta}</p>
               </div>
               {item.status ? (
                 <span

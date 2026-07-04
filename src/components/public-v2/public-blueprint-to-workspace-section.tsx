@@ -4,14 +4,6 @@ import { PublicSareaRolePreview } from "@/components/public-v2/public-sarea-role
 import { PublicSection } from "@/components/public-v2/public-section";
 import { PUBLIC_V2_SECTION_IDS } from "@/lib/public-v2/routes";
 
-function ProgressConnector() {
-  return (
-    <div className="hidden items-center justify-center py-2 lg:flex" aria-hidden>
-      <div className="h-px w-full max-w-xs bg-gradient-to-r from-violet-500/40 via-cyan-500/40 to-cyan-500/20" />
-    </div>
-  );
-}
-
 export function PublicBlueprintToWorkspaceSection() {
   return (
     <PublicSection
@@ -19,19 +11,23 @@ export function PublicBlueprintToWorkspaceSection() {
       eyebrow="Product demonstration"
       title="From Blueprint to workspace"
       description="Crow defines the organization. The approved Blueprint becomes the build source. SAREA presents the correct permitted workspace. Runtime connects attention, work, decisions, evidence, and outcomes."
-      variant="inset"
     >
-      <div className="space-y-6">
+      <div className="pv2-product-frame">
+        <div className="pv2-product-rail" aria-hidden>
+          <span className="rounded-full bg-[var(--pv2-violet-soft)] px-3 py-1 text-xs font-semibold text-[var(--pv2-violet)]">
+            1 · Blueprint
+          </span>
+          <span className="text-[var(--pv2-text-muted)]">→</span>
+          <span className="rounded-full bg-[var(--pv2-cyan-soft)] px-3 py-1 text-xs font-semibold text-[#0e7490]">
+            2 · SAREA workspace
+          </span>
+          <span className="text-[var(--pv2-text-muted)]">→</span>
+          <span className="rounded-full border border-[var(--pv2-border)] bg-[var(--pv2-surface)] px-3 py-1 text-xs font-semibold text-[var(--pv2-text-secondary)]">
+            3 · Runtime work
+          </span>
+        </div>
         <PublicBlueprintPreview />
-        <ProgressConnector />
-        <p className="text-center text-xs text-slate-500 lg:hidden" aria-hidden>
-          ↓ Same organization · different permitted presentation ↓
-        </p>
         <PublicSareaRolePreview />
-        <ProgressConnector />
-        <p className="text-center text-xs text-slate-500 lg:hidden" aria-hidden>
-          ↓ Connected runtime work areas ↓
-        </p>
         <PublicRuntimePreview />
       </div>
     </PublicSection>
