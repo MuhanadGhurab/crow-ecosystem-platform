@@ -120,10 +120,20 @@ Updated: `public-route-architecture.test.ts` — dark shell ban, stagger overlap
 
 ## Certification deployment
 
-Project: `crow-ftgp-certification`  
-Script: `npm run ftgp-certification-production:deploy`
+| Field | Value |
+|-------|-------|
+| Project | `crow-ftgp-certification` |
+| Script | `npm run ftgp-certification-production:deploy` |
+| Commit | `b90ac88` |
+| Deployment ID / host | `crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app` |
 
-Record exact URL in deployment output after push.
+**Certification URLs (owner review):**
+
+- https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/
+- https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/how-crow-works
+- https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/start
+- https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/platform
+- https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/request
 
 ## Known limitations
 
