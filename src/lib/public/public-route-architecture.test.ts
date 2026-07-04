@@ -200,6 +200,41 @@ test("public access policy module exists", () => {
   assert.ok(read("src/lib/public/public-access-policy.ts").includes("PUBLIC_BROWSE_PATHS"));
 });
 
+test("foundation diagram uses grid not absolute overlap (CROW.PUBLIC.6)", () => {
+  const diagram = read("src/components/public-v2/public-foundation-diagram.tsx");
+  assert.ok(diagram.includes("pv2-foundation-grid"));
+  assert.ok(!diagram.includes("left-0"));
+  assert.ok(!diagram.includes("top-1/2"));
+  assert.ok(!diagram.includes("marginLeft"));
+});
+
+test("auth contrast overrides for bright public frame (CROW.PUBLIC.6)", () => {
+  const css = read("src/styles/public-v2-bright.css");
+  const frame = read("src/components/public-site/public-auth-frame.tsx");
+  assert.ok(frame.includes('data-public-auth="true"'));
+  assert.ok(frame.includes("pv2-auth-form"));
+  assert.ok(css.includes('[data-public-auth="true"] .pv2-auth-form .input-cc'));
+  assert.ok(css.includes("::placeholder"));
+  assert.ok(css.includes(".cc-btn-primary"));
+});
+
+test("page hero and journey presentation (CROW.PUBLIC.6)", () => {
+  const content = read("src/components/public-site/public-content-page.tsx");
+  const journey = read("src/components/public-site/public-client-journey-steps.tsx");
+  const css = read("src/styles/public-v2-bright.css");
+  assert.ok(content.includes("pv2-page-hero"));
+  assert.ok(content.includes("PublicPageMood"));
+  assert.ok(journey.includes("PUBLIC_CLIENT_JOURNEY_PHASES"));
+  assert.ok(css.includes("pv2-journey-steps"));
+  assert.ok(css.includes("pv2-page-mood-teal"));
+});
+
+test("diagram panel avoids nested hero collision (CROW.PUBLIC.6)", () => {
+  const hero = read("src/components/public-v2/public-hero-section.tsx");
+  assert.ok(hero.includes("pv2-diagram-panel"));
+  assert.ok(!hero.includes("pv2-hero-panel p-4 sm:p-6 lg:p-7"));
+});
+
 test("bundle containment — no story or privileged imports in public-site/v2", () => {
   const dirs = [
     "src/components/public-site",
