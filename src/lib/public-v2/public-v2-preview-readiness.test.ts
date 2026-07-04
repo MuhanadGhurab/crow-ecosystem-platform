@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 import { FTGP_CERTIFICATION_MODE_ENV } from "@/lib/ftgp/ftgp-certification-host-gate";
+import { PUBLIC_V2_BRIGHT_IDENTITY_MARKER } from "@/lib/public-v2/tokens";
 import { PUBLIC_LIFECYCLE_STEPS } from "@/lib/public-v2/public-lifecycle";
 import {
   PUBLIC_BLUEPRINT_TABS,
@@ -47,6 +48,16 @@ test("preview page exists with certification gate", () => {
   assert.ok(page.includes("follow: false"));
 });
 
+test("bright visual identity marker on preview shell", () => {
+  const shell = read("src/components/public-v2/public-page-shell.tsx");
+  const css = read("src/styles/public-v2-bright.css");
+  const tokens = read("src/lib/public-v2/tokens.ts");
+  assert.ok(shell.includes(PUBLIC_V2_BRIGHT_IDENTITY_MARKER));
+  assert.ok(css.includes(".public-v2-bright"));
+  assert.ok(tokens.includes("publicV2Background"));
+  assert.ok(!shell.includes("#04060c"), "shell must not use old dark background");
+});
+
 test("certification gate uses FTGP mode env", () => {
   const gate = read("src/lib/public-v2/certification-gate.ts");
   assert.ok(gate.includes("isFtgpCertificationHostGateEnabled"));
@@ -87,6 +98,7 @@ test("hero four-stage operating model", () => {
   assert.ok(diagram.includes("Operational Runtime"));
   assert.ok(diagram.includes("People"));
   assert.ok(diagram.includes("Trust"));
+  assert.ok(diagram.includes("aria-pressed"), "interactive stage selection");
 });
 
 test("six-step lifecycle explorer", () => {
@@ -139,7 +151,7 @@ test("reduced-motion respected via globals", () => {
 
 test("mobile overflow prevention", () => {
   const shell = read("src/components/public-v2/public-page-shell.tsx");
-  assert.ok(shell.includes("public-v2-shell"));
+  assert.ok(shell.includes("overflow-x-hidden"));
 });
 
 const FORBIDDEN_CONTAINMENT = [
