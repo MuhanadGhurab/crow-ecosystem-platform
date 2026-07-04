@@ -38,16 +38,15 @@
 
 ## Domain implementation map
 
-### Public routes — ACCEPTED on certification (CROW.PUBLIC.3 / CROW.PUBLIC.4)
+### Public routes — ACCEPTED on certification + COLOR POLISH (CROW.PUBLIC.5)
 
 | Status | Evidence |
 |--------|----------|
-| **ACCEPTED** | Owner accepted bright public experience on certification 2026-07-04 — commit `b90ac88`, URL https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ |
-| IMPLEMENTED | Bright canonical surface with visual depth (`public-v2-bright.css`), public browse policy (`public-access-policy.ts`) |
-| IMPLEMENTED | Educational vs conversion CTA separation; `/request` Option A (public explanation) |
-| REDIRECTED | Legacy marketing/story routes per CROW.PUBLIC.2 disposition |
-| DEFERRED | `/case-studies` placeholder; `/register` visual refresh |
-| **NOT DEPLOYED** | **Production `/` unchanged** — promotion requires CROW.PUBLIC.PROD authorization |
+| **ACCEPTED** | CROW.PUBLIC.3/4 — owner accepted experience on certification (`b90ac88`); routes/access/journey/gating unchanged |
+| **IN REVIEW** | CROW.PUBLIC.5 — governed colorful visual identity (teal/gold/navy/purple) on feature branch; certification deployed |
+| IMPLEMENTED | Colorful tokens + section bands; premium CTAs; branded nav/footer; hero energy panel |
+| UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
+| **NOT DEPLOYED** | Production — explicit CROW.PUBLIC.PROD authorization required |
 
 ### Auth and account — PARTIAL
 

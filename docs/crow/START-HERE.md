@@ -52,17 +52,17 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.4** — Owner acceptance recorded for CROW.PUBLIC.3; Production readiness plan prepared. **Production deployment is not authorized.**
+**CROW.PUBLIC.5** — Colorful public visual polish on feature branch; certification deployed for owner review. **CROW.PUBLIC.3/4 acceptance** (routes, access, journey, gating) **remains valid**. **Production not authorized.**
 
-**Accepted:** Bright public experience on certification — commit `b90ac88`, URL https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ — evidence [`milestones/CROW-PUBLIC-3.md`](milestones/CROW-PUBLIC-3.md).
+Evidence: [`milestones/CROW-PUBLIC-5.md`](milestones/CROW-PUBLIC-5.md).
 
-**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — Production promotion plan [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md).
+**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md).
 
-**Prior:** CROW.PUBLIC.3 — acceptance fixes. CROW.PUBLIC.2 — full public redesign. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
+**Prior:** CROW.PUBLIC.4 — owner acceptance recorded. CROW.PUBLIC.3 — acceptance fixes accepted on certification.
 
-**Hold:** no PR #10 merge, **no Production deploy**, no commercial/subscription/CroAI/tenant-runtime work until explicitly authorized.
+**Hold:** no PR #10 merge, **no Production deploy**.
 
-**Branch:** `feat/first-tenant-golden-path` · **HEAD:** `771eb69` · **PR #10:** OPEN DRAFT (do not merge)
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 
 ## Current implementation summary
 
