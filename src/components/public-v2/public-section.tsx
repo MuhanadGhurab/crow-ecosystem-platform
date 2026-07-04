@@ -10,6 +10,7 @@ type PublicSectionProps = {
   children: ReactNode;
   className?: string;
   variant?: "default" | "inset" | "emphasis";
+  band?: "none" | "muted" | "emphasis";
 };
 
 const VARIANT_CLASS = {
@@ -26,14 +27,22 @@ export function PublicSection({
   children,
   className = "",
   variant = "default",
+  band = "none",
 }: PublicSectionProps) {
+  const bandClass =
+    band === "muted"
+      ? "pv2-section-band pv2-section-band-muted"
+      : band === "emphasis"
+        ? "pv2-section-band pv2-section-band-emphasis"
+        : "";
+
   return (
     <section
       id={id}
-      className={`scroll-mt-24 px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20 ${className}`}
+      className={`scroll-mt-24 ${bandClass} ${className}`}
       aria-labelledby={id ? `${id}-heading` : undefined}
     >
-      <div className="mx-auto max-w-[1280px]">
+      <div className={`${band ? "pv2-section-inner" : "mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8"} py-14 sm:py-16 lg:py-20`}>
         <header className="mb-8 max-w-3xl sm:mb-10">
           {eyebrow ? <p className="pv2-eyebrow mb-3">{eyebrow}</p> : null}
           <h2 id={id ? `${id}-heading` : undefined} className="pv2-h2">
