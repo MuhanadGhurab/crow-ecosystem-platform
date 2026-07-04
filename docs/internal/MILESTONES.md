@@ -1,5 +1,7 @@
 # CYBERCROW — delivery milestones
 
+> **Governance note (2026-07-04):** For canonical product truth, AI reading order, and **verified implementation state**, use [`docs/crow/START-HERE.md`](../crow/START-HERE.md) and [`docs/crow/CURRENT-STATE.md`](../crow/CURRENT-STATE.md). This file is the **historical delivery ledger** — percentages and pass claims reflect milestone reports at time of writing, not live repository truth.
+
 **Purpose:** Executive milestone map aligned with [`PHASES.md`](PHASES.md) and [`ERP_ROADMAP.md`](ERP_ROADMAP.md). Percentages are **honest** — not marked 100% without rehearsal or production evidence.
 
 **Status detail:** [`PROJECT_STATUS.md`](PROJECT_STATUS.md) · **Team:** [`TEAM_OWNERSHIP.md`](TEAM_OWNERSHIP.md)
