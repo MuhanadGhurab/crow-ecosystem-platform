@@ -52,9 +52,11 @@
 
 ## Current milestone
 
-**CROW.GOVERNANCE.1** — Canonical project operating system, AI foundation, and development constitution.
+**CROW.GOVERNANCE.1** — **Accepted** (owner, 2026-07-04). Canonical project operating system established. Evidence: [`milestones/CROW-GOVERNANCE-1.md`](milestones/CROW-GOVERNANCE-1.md).
 
-**Branch:** `feat/first-tenant-golden-path` · **HEAD:** see git · **PR #10:** OPEN DRAFT (not merged)
+**Next:** Await explicit next milestone prompt. **Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
+
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 
 ## Current implementation summary
 

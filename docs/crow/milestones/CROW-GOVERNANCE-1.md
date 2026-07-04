@@ -3,9 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Milestone** | CROW.GOVERNANCE.1 |
-| **Status** | Complete — pending owner review |
+| **Status** | **Accepted** (owner, 2026-07-04) |
 | **Branch** | feat/first-tenant-golden-path |
 | **Purpose** | Establish canonical project operating system and AI development constitution |
+| **Final HEAD** | `e1b3e1c` |
 
 ## Deliverables
 
@@ -21,4 +22,12 @@ No application code, migrations, hosted writes, Production deploy, PR #10 merge,
 
 ## Owner review status
 
-**Pending**
+**Accepted** — 2026-07-04. CROW.GOVERNANCE.1 is the canonical project operating system for all future AI development.
+
+## Post-acceptance hold (owner directive)
+
+Until the next milestone prompt:
+
+- Do **not** merge PR #10
+- Do **not** deploy Production
+- Do **not** begin commercial, subscription, CroAI, tenant runtime, or scroll-story cleanup work
