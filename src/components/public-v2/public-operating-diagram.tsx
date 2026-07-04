@@ -126,7 +126,7 @@ export function PublicOperatingDiagram() {
                 type="button"
                 aria-pressed={selected}
                 aria-label={`${stage.label}. ${stage.description}`}
-                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[88px] flex-col items-center justify-center px-2 py-3 text-center ${PUBLIC_V2_MOTION_CLASS.diagram}`}
+                className={`${stageSelectedClass(stage.accent, selected)} flex min-h-[72px] flex-col items-center justify-center px-2 py-3 text-center sm:min-h-[88px] lg:min-h-[96px] ${PUBLIC_V2_MOTION_CLASS.diagram}`}
                 onClick={() => setSelectedId(stage.id)}
               >
                 <span
@@ -137,16 +137,21 @@ export function PublicOperatingDiagram() {
                   {stage.short}
                 </span>
                 {stage.nested ? (
-                  <div className="mt-2 grid w-full grid-cols-2 gap-1">
-                    {OPERATING_ELEMENTS.map((el) => (
-                      <span
-                        key={el}
-                        className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface-muted)] px-1 py-0.5 text-[8px] font-medium text-[var(--pv2-text-secondary)] sm:text-[9px]"
-                      >
-                        {el}
-                      </span>
-                    ))}
-                  </div>
+                  <>
+                    <div className="mt-2 hidden w-full grid-cols-2 gap-1 lg:grid">
+                      {OPERATING_ELEMENTS.map((el) => (
+                        <span
+                          key={el}
+                          className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface-muted)] px-1 py-0.5 text-[8px] font-medium text-[var(--pv2-text-secondary)] sm:text-[9px]"
+                        >
+                          {el}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="mt-1 text-[10px] text-[var(--pv2-text-muted)] lg:hidden">
+                      People · Responsibilities · Workflows · Trust
+                    </span>
+                  </>
                 ) : (
                   <span className="mt-1 text-[10px] text-[var(--pv2-text-muted)]">{stage.label}</span>
                 )}

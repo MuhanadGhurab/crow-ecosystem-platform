@@ -21,7 +21,7 @@ export function PublicHeroSection() {
     >
       <div className="pv2-section-inner">
         <div className="pv2-hero-panel pv2-hero-energy grid items-center gap-10 p-6 sm:p-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12 lg:p-10">
-        <div>
+        <div className="relative z-[1]">
           <p className="pv2-eyebrow mb-3">Enterprise operating system</p>
           <h1 id="public-v2-hero-heading" className="pv2-h1">
             Design how your organization should operate—then build the system around it.
@@ -67,7 +67,7 @@ export function PublicHeroSection() {
           </div>
         </div>
 
-        <div className="pv2-hero-panel p-4 sm:p-6 lg:p-7">
+        <div className="pv2-diagram-panel relative z-[1] p-4 sm:p-6 lg:p-7">
           <PublicOperatingDiagram />
         </div>
         </div>
