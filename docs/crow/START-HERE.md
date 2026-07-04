@@ -52,9 +52,9 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.2** — Full public experience redesign on feature branch: bright canonical `/` and route architecture; certification deployed; owner **visual** acceptance pending. Evidence: [`milestones/CROW-PUBLIC-2.md`](milestones/CROW-PUBLIC-2.md).
+**CROW.PUBLIC.3** — Public acceptance fixes on feature branch: visual depth, layout rhythm, overlap fixes, and **public browse access model** corrected in middleware; certification deployed; owner **visual** acceptance pending. Evidence: [`milestones/CROW-PUBLIC-3.md`](milestones/CROW-PUBLIC-3.md).
 
-**Prior:** CROW.PUBLIC.1B — Bright preview identity. CROW.PUBLIC.1A — technically delivered. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
+**Prior:** CROW.PUBLIC.2 — Full public redesign (owner not accepted yet). CROW.PUBLIC.1B — Bright preview identity. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
 
 **Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
 

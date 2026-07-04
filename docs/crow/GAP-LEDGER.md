@@ -44,12 +44,12 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | CROW.PUBLIC.2 — bright canonical surface on **feature branch** at `/` and canonical routes; certification deployed; **Production `/` unchanged** |
+| **Current state** | CROW.PUBLIC.3 — bright surface with depth/layout fixes and public browse access corrected on **feature branch**; certification deployed; **Production `/` unchanged** |
 | **Severity** | Low on branch; Medium until Production promotion |
-| **Security/authority impact** | None — static representative data; journey handoff is URL-only |
-| **Dependency** | Owner visual acceptance (CROW.PUBLIC.2) |
+| **Security/authority impact** | **Fixed** incorrect auth gate on informational public routes (browse-only); no change to client-process authorization |
+| **Dependency** | Owner visual acceptance (CROW.PUBLIC.3) |
 | **Proposed milestone** | CROW.PUBLIC.PROD — Production promotion (explicit authorization only) |
-| **Owner decision required** | Visual acceptance of full public redesign on certification |
+| **Owner decision required** | Visual acceptance of acceptance fixes on certification |
 | **Status** | Partial — implemented on branch; awaiting owner acceptance |
 
 ## GAP-004 — Preview/Production database isolation

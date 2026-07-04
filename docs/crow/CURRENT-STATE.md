@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `2f477f5`+ — governance acceptance + CROW.PUBLIC.1A evidence |
-| Remote sync | May be ahead of `origin/feat/first-tenant-golden-path` (governance acceptance commit) |
+| HEAD | `118073a`+ — CROW.PUBLIC.3 acceptance fixes |
+| Remote sync | Push after PUBLIC.3 commits |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | `.gitignore` modified (pre-existing, unrelated) |
+| Working tree | Clean after PUBLIC.3 commits |
 
 ## Stack
 
@@ -38,14 +38,16 @@
 
 ## Domain implementation map
 
-### Public routes — PARTIAL (CROW.PUBLIC.2)
+### Public routes — PARTIAL (CROW.PUBLIC.3)
 
 | Status | Evidence |
 |--------|----------|
-| IMPLEMENTED | Bright canonical public surface on feature branch: `/`, `/how-crow-works`, `/new-organization`, `/transform-existing`, `/enterprise-blueprint`, `/platform/*`, `/security`, `/industries`, `/start`, `/request` (visual), `/login`/`/signup` (visual frame) |
-| REDIRECTED | `/architecture`, `/modules`, `/services`, `/clients`, `/loyalty-programs`, `/about`, `/experience/architects-map` (+ article) |
-| DEFERRED | `/case-studies` — honest placeholder; `/pricing` — scope-aware commercial model (no tiers) |
-| FROZEN | Scroll-story code in `src/lib/crow-story/` — routes redirect; not deleted |
+| IMPLEMENTED | Bright canonical public surface with visual depth system (`public-v2-bright.css` bands, grid, ambient) |
+| IMPLEMENTED | Public browse access policy — informational routes open without sign-in (`public-access-policy.ts`, `route-protection.ts`) |
+| IMPLEMENTED | Educational vs conversion CTA separation on homepage, `/start`, journey pages |
+| IMPLEMENTED | `/request` public explanation (Option A); logged-in redirect to client request preserved |
+| REDIRECTED | Legacy marketing/story routes (unchanged from PUBLIC.2) |
+| DEFERRED | `/case-studies` — honest placeholder; `/register` visual refresh |
 | NOT AUTHORIZED | Production promotion of public redesign |
 
 ### Auth and account — PARTIAL
