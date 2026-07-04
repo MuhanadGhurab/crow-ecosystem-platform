@@ -156,7 +156,36 @@ test("preview redirects to canonical homepage", () => {
   assert.ok(preview.includes('redirect("/")'));
 });
 
-test("public-site components avoid forbidden imports", () => {
+test("layout quality — no legacy dark shell on public routes", () => {
+  const files = [
+    "src/app/(public)/layout.tsx",
+    "src/app/start/layout.tsx",
+    "src/components/public-site/public-site-layout.tsx",
+  ];
+  for (const file of files) {
+    const src = read(file);
+    assert.ok(!src.includes("#04060c"), `${file} dark token`);
+    assert.ok(!src.includes("cc-starfield"), `${file} dark starfield`);
+  }
+});
+
+test("layout quality — no stagger overlap pattern in begins differently", () => {
+  const begins = read("src/components/public-v2/public-begins-differently-section.tsx");
+  assert.ok(!begins.includes("marginLeft"), "stagger margin removed");
+});
+
+test("bright depth tokens present", () => {
+  const css = read("src/styles/public-v2-bright.css");
+  assert.ok(css.includes("pv2-blueprint-grid"));
+  assert.ok(css.includes("pv2-hero-panel"));
+  assert.ok(css.includes("pv2-section-band"));
+});
+
+test("public access policy module exists", () => {
+  assert.ok(read("src/lib/public/public-access-policy.ts").includes("PUBLIC_BROWSE_PATHS"));
+});
+
+test("bundle containment — no story or privileged imports in public-site/v2", () => {
   const dirs = [
     "src/components/public-site",
     "src/components/public-v2",
