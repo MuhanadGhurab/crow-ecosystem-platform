@@ -64,7 +64,12 @@ npm run public-v2-preview-readiness:test
 |-------|-------|
 | Project | `crow-ftgp-certification` |
 | Script | `npm run ftgp-certification-production:deploy` |
-| Commit | _(record after deploy)_ |
+| Commit | `35bf32a` (visual) / `4ed7f91` (docs HEAD) |
+| Deployment host | `crow-ftgp-certification-55z9awavb-muhanadghurabs-projects.vercel.app` |
+
+**Certification URL (owner review):**
+
+https://crow-ftgp-certification-55z9awavb-muhanadghurabs-projects.vercel.app/
 
 ## Known limitations
 
