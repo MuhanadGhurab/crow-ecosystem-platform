@@ -29,7 +29,7 @@ function PlatformLinkCard({
   return (
     <Link
       href={href}
-      className={`pv2-card block p-6 transition-shadow hover:shadow-[var(--pv2-shadow-lift)] ${accentClass} ${PUBLIC_V2_MOTION_CLASS.button}`}
+      className={`pv2-card pv2-card-interactive block p-6 ${accentClass} ${PUBLIC_V2_MOTION_CLASS.button}`}
     >
       <h2 className="text-lg font-semibold text-[var(--pv2-text-primary)]">{title}</h2>
       <p className="mt-2 text-sm text-[var(--pv2-text-secondary)]">{description}</p>
@@ -45,7 +45,8 @@ export function PlatformOverviewPageContent() {
       title="The Crow Platform"
       description="CEM, CyberCrow, SAREA, and ProCrow are one governed foundation — not four disconnected products. Runtime operates through the first three; lifecycle accountability operates through ProCrow."
     >
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="pv2-platform-orbit">
+        <p className="pv2-platform-hub">One governed organizational foundation</p>
         <PlatformLinkCard
           title="CEM"
           href={publicRoutes.platform.cem}

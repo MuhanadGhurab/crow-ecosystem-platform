@@ -2,9 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import {
+  PublicAccessCallout,
   PublicContentList,
   PublicContentPage,
   PublicContentSection,
+  PublicLifecycleRail,
 } from "@/components/public-site/public-content-page";
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
@@ -22,7 +24,7 @@ function GateCard({
   boundaries?: readonly string[];
 }) {
   return (
-    <section className="pv2-card p-6 sm:p-8">
+    <section className="pv2-card pv2-card-interactive p-6 sm:p-8">
       <h2 className="text-lg font-semibold text-[var(--pv2-text-primary)]">{title}</h2>
       <p className="pv2-body mt-3">{summary}</p>
       <PublicContentList items={stages} />
@@ -52,19 +54,22 @@ export function HowCrowWorksPageContent() {
       eyebrow="Service lifecycle"
       title="How Crow Works"
       description="Crow is one governed design-to-runtime service. Clients enter through Build New or Transform Existing, then move through qualification, discovery, blueprint, commercial agreement, build, and runtime — with ProCrow accountability throughout."
+      introExtra={
+        <PublicAccessCallout>
+          You can read every public page without signing in. Account creation is required only when you
+          begin the secure client process — Request, Discovery, Blueprint review, or Client Portal entry.
+        </PublicAccessCallout>
+      }
     >
-      <div className="grid gap-4 sm:grid-cols-5">
-        {["Request", "Discovery", "Blueprint", "Build", "Runtime"].map((gate, i) => (
-          <div
-            key={gate}
-            className="pv2-card flex flex-col items-center p-4 text-center"
-            aria-label={`Gate ${i + 1}: ${gate}`}
-          >
-            <span className="text-xs font-semibold text-[var(--pv2-cyan)]">Gate {i + 1}</span>
-            <span className="mt-1 text-sm font-medium text-[var(--pv2-text-primary)]">{gate}</span>
-          </div>
-        ))}
-      </div>
+      <PublicLifecycleRail
+        gates={[
+          { title: "Request", summary: "Qualification & structured intake" },
+          { title: "Discovery", summary: "Operating context & recommendations" },
+          { title: "Blueprint", summary: "Reviewed organizational design" },
+          { title: "Build", summary: "Tenant from approved Blueprint" },
+          { title: "Runtime", summary: "CEM · CyberCrow · SAREA" },
+        ]}
+      />
 
       <GateCard
         title="Request"
@@ -294,23 +299,26 @@ export function EnterpriseBlueprintPageContent() {
       title="Enterprise Blueprint"
       description="The Blueprint is the reviewed organizational design from which the tenant is built — not a list of ERP modules."
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {domains.map((d) => (
-          <div key={d.title} className="pv2-card p-5">
-            <h2 className="text-sm font-semibold text-[var(--pv2-violet)]">{d.title}</h2>
-            <p className="mt-2 text-sm text-[var(--pv2-text-secondary)]">{d.desc}</p>
-          </div>
-        ))}
+      <div className="pv2-blueprint-frame">
+        <div className="pv2-blueprint-frame-header">
+          <p className="text-sm font-semibold text-[var(--pv2-violet)]">Enterprise Blueprint artifact</p>
+          <span className="pv2-provenance-chip">Reviewed before build</span>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {domains.map((d) => (
+            <div key={d.title} className="pv2-card p-5">
+              <h2 className="text-sm font-semibold text-[var(--pv2-violet)]">{d.title}</h2>
+              <p className="mt-2 text-sm text-[var(--pv2-text-secondary)]">{d.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <PublicContentSection title="Provenance">
+      <PublicContentSection title="Provenance" variant="frame">
         <p>Every Blueprint element carries provenance — accountability, not anonymous configuration.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {provenance.map((p) => (
-            <span
-              key={p}
-              className="rounded-full border border-[var(--pv2-border)] bg-[var(--pv2-surface-raised)] px-3 py-1 text-xs text-[var(--pv2-text-secondary)]"
-            >
+            <span key={p} className="pv2-provenance-chip">
               {p}
             </span>
           ))}

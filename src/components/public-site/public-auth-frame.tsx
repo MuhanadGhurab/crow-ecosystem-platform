@@ -21,14 +21,15 @@ export function PublicAuthFrame({
 }) {
   return (
     <div
-      className={`public-v2-shell ${PUBLIC_V2_BRIGHT_IDENTITY_MARKER} flex min-h-[100dvh] flex-col`}
+      className={`public-v2-shell ${PUBLIC_V2_BRIGHT_IDENTITY_MARKER} relative flex min-h-[100dvh] flex-col overflow-x-hidden`}
       data-public-auth="true"
     >
+      <div className="pv2-blueprint-grid pointer-events-none absolute inset-0" aria-hidden />
       <div className="pv2-ambient pointer-events-none absolute inset-0" aria-hidden />
       <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-10 sm:px-6">
         <div className="w-full max-w-md">
           <PublicV2BrandMark href="/" />
-          <div className="pv2-card mt-8 p-6 sm:p-8">
+          <div className="pv2-hero-panel mt-8 p-6 sm:p-8">
             <h1 className="pv2-h1 text-2xl">{title}</h1>
             {subtitle ? <p className="pv2-body mt-2">{subtitle}</p> : null}
             {note ? <p className="mt-2 text-xs text-[var(--pv2-text-muted)]">{note}</p> : null}

@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 
-import { PublicContentPage } from "@/components/public-site/public-content-page";
+import {
+  PublicAccessCallout,
+  PublicContentPage,
+} from "@/components/public-site/public-content-page";
 import { buildSignupHandoffUrl } from "@/lib/public/journey-handoff";
 import { publicRoutes } from "@/lib/public/routes";
 import { PUBLIC_V2_MOTION_CLASS } from "@/lib/public-v2/motion";
@@ -26,10 +29,10 @@ const JOURNEYS = [
   },
   {
     title: "Discuss Your Organization",
-    description: "Structured intake when you want Crow to understand your context first.",
+    description: "Learn about secure intake — sign in only when you begin the client request.",
     href: publicRoutes.request,
     cta: publicRoutes.request,
-    ctaLabel: "Discuss Your Organization",
+    ctaLabel: "Continue to secure intake",
     accent: "amber" as const,
   },
 ] as const;
@@ -39,13 +42,19 @@ export function StartPageContent() {
     <PublicContentPage
       eyebrow="Choose your journey"
       title="Start Designing"
-      description="Explore first — passive browsing does not create business records. Choose Build New, Transform Existing, or discuss your organization when you are ready."
+      description="Explore every public page without signing in. Start the client process only when you choose a conversion action below."
+      introExtra={
+        <PublicAccessCallout>
+          Educational links are public. &quot;Start Building&quot;, &quot;Start Transforming&quot;, and secure
+          intake require account sign-in — no business records are created from browsing alone.
+        </PublicAccessCallout>
+      }
     >
       <div className="grid gap-6 lg:grid-cols-3">
         {JOURNEYS.map((j) => (
           <article
             key={j.title}
-            className={`pv2-card p-6 ${
+            className={`pv2-card pv2-card-interactive p-6 ${
               j.accent === "cyan"
                 ? "border-[color-mix(in_srgb,var(--pv2-cyan)_28%,var(--pv2-border))]"
                 : j.accent === "violet"
@@ -56,14 +65,15 @@ export function StartPageContent() {
             <h2 className="text-lg font-semibold text-[var(--pv2-text-primary)]">{j.title}</h2>
             <p className="pv2-body mt-2">{j.description}</p>
             <div className="mt-6 flex flex-col gap-2">
+              <Link
+                href={j.href}
+                className={`pv2-btn-secondary text-center ${PUBLIC_V2_MOTION_CLASS.button}`}
+              >
+                Explore journey
+              </Link>
               <Link href={j.cta} className={`pv2-btn-primary text-center ${PUBLIC_V2_MOTION_CLASS.button}`}>
                 {j.ctaLabel}
               </Link>
-              {j.href !== j.cta ? (
-                <Link href={j.href} className={`pv2-btn-ghost text-center text-sm ${PUBLIC_V2_MOTION_CLASS.button}`}>
-                  Learn more
-                </Link>
-              ) : null}
             </div>
           </article>
         ))}
