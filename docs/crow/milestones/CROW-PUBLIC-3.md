@@ -4,10 +4,26 @@
 |-------|-------|
 | **Milestone** | CROW.PUBLIC.3 |
 | **Branch** | `feat/first-tenant-golden-path` |
-| **Status** | Deployed to certification — owner visual acceptance pending |
+| **Status** | **ACCEPTED** on certification (owner review 2026-07-04) |
 | **Production** | Not deployed (not authorized) |
 | **PR #10** | OPEN, DRAFT, unmerged |
 | **Prior milestone** | CROW.PUBLIC.2 (`118073a`) — owner NOT ACCEPTED YET |
+| **Accepted code commit** | `b90ac884f13b16f1e465145177e6d71fd6be954f` (`b90ac88`) |
+| **Final documentation HEAD** | `771eb69ec72f75c609539adf54d2a3078d1a8854` (`771eb69`) — docs-only after certification deploy |
+
+## Owner acceptance (CROW.PUBLIC.4)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **ACCEPTED AS THE NEW CROW PUBLIC EXPERIENCE** |
+| **Review date** | 2026-07-04 |
+| **Accepted certification URL** | https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ |
+| **Accepted code commit** | `b90ac88` (deployed to certification) |
+| **Documentation HEAD** | `771eb69` (certification URL record — docs-only) |
+| **Production** | **Not authorized** — see [`CROW-PUBLIC-PROD-PLAN.md`](CROW-PUBLIC-PROD-PLAN.md) |
+| **PR #10** | OPEN, DRAFT, unmerged — merge not authorized by this acceptance |
+
+Owner confirmed: bright direction, visual depth, layout rhythm, public browse access model, and educational vs conversion CTA separation meet acceptance standard on certification.
 
 ## Owner feedback (not accepted at PUBLIC.2)
 
@@ -144,19 +160,21 @@ Updated: `public-route-architecture.test.ts` — dark shell ban, stagger overlap
 
 ## Owner visual checklist
 
-- [ ] Bright direction retained — no dark starfield on public routes
-- [ ] Background has depth (grid, ambient mists) — not flat boring white
-- [ ] Homepage feels inviting and premium — seven sections flow cleanly
-- [ ] No overlapping cards, badges, or diagram labels
-- [ ] Section spacing and rhythm consistent across pages
-- [ ] Can browse `/platform`, `/start`, `/how-crow-works` without sign-in
-- [ ] Sign-in only when starting client process (Start Building / Transform / secure request)
-- [ ] Build New and Transform journeys clear with explore vs start CTAs
-- [ ] Blueprint and platform pages feel connected, not isolated card grids
-- [ ] Pricing is scope-aware — no fake SaaS tiers
-- [ ] No story nav, Architect's Map, or flying Crow
+Owner manual review on certification (**ACCEPTED** 2026-07-04):
+
+- [x] Bright direction retained — no dark starfield on public routes
+- [x] Background has depth (grid, ambient mists) — not flat boring white
+- [x] Homepage feels inviting and premium — seven sections flow cleanly
+- [x] No overlapping cards, badges, or diagram labels
+- [x] Section spacing and rhythm consistent across pages
+- [x] Can browse `/platform`, `/start`, `/how-crow-works` without sign-in
+- [x] Sign-in only when starting client process (Start Building / Transform / secure request)
+- [x] Build New and Transform journeys clear with explore vs start CTAs
+- [x] Blueprint and platform pages feel connected, not isolated card grids
+- [x] Pricing is scope-aware — no fake SaaS tiers
+- [x] No story nav, Architect's Map, or flying Crow
 
 ## Next milestone options
 
-- **CROW.PUBLIC.PROD** — Production promotion (explicit owner authorization only)
-- **CROW.PUBLIC.4** — `/register` visual alignment or further owner polish if needed
+- **CROW.PUBLIC.PROD** — Production promotion (**planned** — explicit owner authorization required; see [`CROW-PUBLIC-PROD-PLAN.md`](CROW-PUBLIC-PROD-PLAN.md))
+- Optional polish: `/register` visual alignment (deferred; not blocking acceptance)

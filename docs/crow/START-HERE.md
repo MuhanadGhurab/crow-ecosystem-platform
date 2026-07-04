@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,20 +52,24 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.3** — Public acceptance fixes on feature branch: visual depth, layout rhythm, overlap fixes, and **public browse access model** corrected in middleware; certification deployed; owner **visual** acceptance pending. Evidence: [`milestones/CROW-PUBLIC-3.md`](milestones/CROW-PUBLIC-3.md).
+**CROW.PUBLIC.4** — Owner acceptance recorded for CROW.PUBLIC.3; Production readiness plan prepared. **Production deployment is not authorized.**
 
-**Prior:** CROW.PUBLIC.2 — Full public redesign (owner not accepted yet). CROW.PUBLIC.1B — Bright preview identity. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
+**Accepted:** Bright public experience on certification — commit `b90ac88`, URL https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ — evidence [`milestones/CROW-PUBLIC-3.md`](milestones/CROW-PUBLIC-3.md).
 
-**Hold:** no PR #10 merge, no Production deploy, no commercial/subscription/CroAI/tenant-runtime/story-cleanup work until authorized.
+**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — Production promotion plan [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md).
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
+**Prior:** CROW.PUBLIC.3 — acceptance fixes. CROW.PUBLIC.2 — full public redesign. CROW.GOVERNANCE.1 — Accepted (2026-07-04).
+
+**Hold:** no PR #10 merge, **no Production deploy**, no commercial/subscription/CroAI/tenant-runtime work until explicitly authorized.
+
+**Branch:** `feat/first-tenant-golden-path` · **HEAD:** `771eb69` · **PR #10:** OPEN DRAFT (do not merge)
 
 ## Current implementation summary
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
-- **IMPLEMENTED (partial):** Public site, account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory), **homepage v2 certification preview** (`/preview/public-home`)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Production homepage v2 promotion, Saudi government integrations
+- **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, **Production public promotion (CROW.PUBLIC.PROD)**, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

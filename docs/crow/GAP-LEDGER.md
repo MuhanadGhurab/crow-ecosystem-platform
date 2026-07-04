@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-04 |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -38,19 +38,33 @@
 | **Owner decision required** | AI provider selection (deferred) |
 | **Status** | Open |
 
-## GAP-003 — Approved public homepage vs current homepage
+## GAP-003 — Approved public experience vs Production homepage
 
 | Field | Value |
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | CROW.PUBLIC.3 — bright surface with depth/layout fixes and public browse access corrected on **feature branch**; certification deployed; **Production `/` unchanged** |
-| **Severity** | Low on branch; Medium until Production promotion |
-| **Security/authority impact** | **Fixed** incorrect auth gate on informational public routes (browse-only); no change to client-process authorization |
-| **Dependency** | Owner visual acceptance (CROW.PUBLIC.3) |
-| **Proposed milestone** | CROW.PUBLIC.PROD — Production promotion (explicit authorization only) |
-| **Owner decision required** | Visual acceptance of acceptance fixes on certification |
-| **Status** | Partial — implemented on branch; awaiting owner acceptance |
+| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.3, `b90ac88`); implemented on `feat/first-tenant-golden-path`; **Production `/` still legacy** |
+| **Severity** | Low on branch/certification; Medium until Production promotion |
+| **Security/authority impact** | Public browse access corrected on branch; client-process gates unchanged |
+| **Dependency** | CROW.PUBLIC.PROD explicit owner authorization |
+| **Proposed milestone** | CROW.PUBLIC.PROD — see [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md) |
+| **Owner decision required** | `AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production` |
+| **Status** | **Accepted on certification** — Production promotion open |
+
+## GAP-011 — Public experience Production promotion
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Public experience / Operations |
+| **Intended state** | Production serves the owner-accepted bright public experience |
+| **Current state** | Certification hosts accepted experience; Production unchanged at `main` (`a5620c3`) legacy public |
+| **Severity** | Medium — public promise and certification diverge from Production |
+| **Security/authority impact** | Low if promotion is UI/static only; must not change auth or Request behavior |
+| **Dependency** | PR #10 merge decision (separate); test gates; rollback plan |
+| **Proposed milestone** | CROW.PUBLIC.PROD |
+| **Owner decision required** | Explicit Production authorization phrase (see PROD plan) |
+| **Status** | Open — planned, not authorized |
 
 ## GAP-004 — Preview/Production database isolation
 

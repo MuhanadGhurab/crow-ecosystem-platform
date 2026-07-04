@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 |
+| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.4 acceptance record) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `118073a`+ — CROW.PUBLIC.3 acceptance fixes |
-| Remote sync | Push after PUBLIC.3 commits |
+| HEAD | `771eb69` — CROW.PUBLIC.3 accepted; CROW.PUBLIC.4 acceptance record |
+| Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | Clean after PUBLIC.3 commits |
+| Working tree | Clean (`.gitignore` unrelated changes restored) |
 
 ## Stack
 
@@ -38,17 +38,16 @@
 
 ## Domain implementation map
 
-### Public routes — PARTIAL (CROW.PUBLIC.3)
+### Public routes — ACCEPTED on certification (CROW.PUBLIC.3 / CROW.PUBLIC.4)
 
 | Status | Evidence |
 |--------|----------|
-| IMPLEMENTED | Bright canonical public surface with visual depth system (`public-v2-bright.css` bands, grid, ambient) |
-| IMPLEMENTED | Public browse access policy — informational routes open without sign-in (`public-access-policy.ts`, `route-protection.ts`) |
-| IMPLEMENTED | Educational vs conversion CTA separation on homepage, `/start`, journey pages |
-| IMPLEMENTED | `/request` public explanation (Option A); logged-in redirect to client request preserved |
-| REDIRECTED | Legacy marketing/story routes (unchanged from PUBLIC.2) |
-| DEFERRED | `/case-studies` — honest placeholder; `/register` visual refresh |
-| NOT AUTHORIZED | Production promotion of public redesign |
+| **ACCEPTED** | Owner accepted bright public experience on certification 2026-07-04 — commit `b90ac88`, URL https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ |
+| IMPLEMENTED | Bright canonical surface with visual depth (`public-v2-bright.css`), public browse policy (`public-access-policy.ts`) |
+| IMPLEMENTED | Educational vs conversion CTA separation; `/request` Option A (public explanation) |
+| REDIRECTED | Legacy marketing/story routes per CROW.PUBLIC.2 disposition |
+| DEFERRED | `/case-studies` placeholder; `/register` visual refresh |
+| **NOT DEPLOYED** | **Production `/` unchanged** — promotion requires CROW.PUBLIC.PROD authorization |
 
 ### Auth and account — PARTIAL
 
@@ -169,7 +168,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Local | Docker Postgres via `docker-compose.local.yml` |
 | Preview / Staging | Vercel + Supabase hosted |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
-| Production | Live at crow-ecosystem-platform.vercel.app — **unchanged by this milestone** |
+| Production | Live at crow-ecosystem-platform.vercel.app — **legacy public surface; bright redesign not promoted** |
 
 ### PR and branch state
 
