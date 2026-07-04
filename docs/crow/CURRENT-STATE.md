@@ -38,15 +38,15 @@
 
 ## Domain implementation map
 
-### Public routes — PARTIAL
+### Public routes — PARTIAL (CROW.PUBLIC.2)
 
 | Status | Evidence |
 |--------|----------|
-| IMPLEMENTED | `(public)/` homepage, about, services, pricing, modules, industries, case-studies |
-| IMPLEMENTED | `/register`, `/access`, `/request` entry |
-| IMPLEMENTED (certification preview) | `/preview/public-home` — bright seven-section homepage v2 (`public-v2-bright` identity); gated; `noindex` |
-| FROZEN | `/experience/architects-map` scroll-story — `src/lib/crow-story/` |
-| PLANNED | Production promotion of approved homepage v2 to `/` (not authorized) |
+| IMPLEMENTED | Bright canonical public surface on feature branch: `/`, `/how-crow-works`, `/new-organization`, `/transform-existing`, `/enterprise-blueprint`, `/platform/*`, `/security`, `/industries`, `/start`, `/request` (visual), `/login`/`/signup` (visual frame) |
+| REDIRECTED | `/architecture`, `/modules`, `/services`, `/clients`, `/loyalty-programs`, `/about`, `/experience/architects-map` (+ article) |
+| DEFERRED | `/case-studies` — honest placeholder; `/pricing` — scope-aware commercial model (no tiers) |
+| FROZEN | Scroll-story code in `src/lib/crow-story/` — routes redirect; not deleted |
+| NOT AUTHORIZED | Production promotion of public redesign |
 
 ### Auth and account — PARTIAL
 
