@@ -1,6 +1,5 @@
-import { Suspense } from "react";
-
-import { StartPageClient } from "@/components/crow-story/start-page-client";
+import { PublicSiteChrome } from "@/components/public-site/public-site-chrome";
+import { StartPageContent } from "@/components/public-site/public-start-page";
 
 export const metadata = {
   title: "Start — Crow",
@@ -9,12 +8,8 @@ export const metadata = {
 
 export default function StartPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="cc-safe-x mx-auto max-w-2xl px-4 py-16 text-slate-400">Loading…</div>
-      }
-    >
-      <StartPageClient />
-    </Suspense>
+    <PublicSiteChrome>
+      <StartPageContent />
+    </PublicSiteChrome>
   );
 }
