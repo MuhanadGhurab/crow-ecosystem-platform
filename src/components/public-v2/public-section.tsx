@@ -10,13 +10,23 @@ type PublicSectionProps = {
   children: ReactNode;
   className?: string;
   variant?: "default" | "inset" | "emphasis";
-  band?: "none" | "muted" | "emphasis";
+  band?: "none" | "muted" | "emphasis" | "teal" | "gold" | "navy" | "purple";
 };
 
 const VARIANT_CLASS = {
   default: "",
   inset: "pv2-card-inset p-6 sm:p-8 lg:p-10",
   emphasis: "pv2-card-emphasis p-6 sm:p-8 lg:p-10",
+};
+
+const BAND_CLASS: Record<NonNullable<PublicSectionProps["band"]>, string> = {
+  none: "",
+  muted: "pv2-section-band pv2-section-band-muted",
+  emphasis: "pv2-section-band pv2-section-band-emphasis",
+  teal: "pv2-section-band pv2-section-band-teal",
+  gold: "pv2-section-band pv2-section-band-gold",
+  navy: "pv2-section-band pv2-section-band-navy",
+  purple: "pv2-section-band pv2-section-band-purple",
 };
 
 export function PublicSection({
@@ -29,12 +39,7 @@ export function PublicSection({
   variant = "default",
   band = "none",
 }: PublicSectionProps) {
-  const bandClass =
-    band === "muted"
-      ? "pv2-section-band pv2-section-band-muted"
-      : band === "emphasis"
-        ? "pv2-section-band pv2-section-band-emphasis"
-        : "";
+  const bandClass = BAND_CLASS[band];
 
   return (
     <section

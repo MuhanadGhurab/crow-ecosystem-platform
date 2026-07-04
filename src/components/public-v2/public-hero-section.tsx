@@ -20,7 +20,7 @@ export function PublicHeroSection() {
       aria-labelledby="public-v2-hero-heading"
     >
       <div className="pv2-section-inner">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+        <div className="pv2-hero-panel pv2-hero-energy grid items-center gap-10 p-6 sm:p-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12 lg:p-10">
         <div>
           <p className="pv2-eyebrow mb-3">Enterprise operating system</p>
           <h1 id="public-v2-hero-heading" className="pv2-h1">
@@ -33,10 +33,7 @@ export function PublicHeroSection() {
 
           <ul className="mt-6 flex flex-wrap gap-2" role="list" aria-label="Service indicators">
             {TRUST_INDICATORS.map((item) => (
-              <li
-                key={item}
-                className="rounded-full border border-[var(--pv2-border)] bg-[var(--pv2-surface)] px-3 py-1 text-xs font-medium text-[var(--pv2-text-secondary)] shadow-sm"
-              >
+              <li key={item} className="pv2-trust-pill">
                 {item}
               </li>
             ))}

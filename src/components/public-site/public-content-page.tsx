@@ -16,7 +16,7 @@ export function PublicContentPage({
   introExtra,
 }: PublicContentPageProps) {
   return (
-    <article className="pv2-section-band">
+    <article className="pv2-section-band pv2-content-canvas">
       <div className="pv2-section-inner py-12 sm:py-16 lg:py-20">
         <header className="mb-10 max-w-3xl">
           {eyebrow ? <p className="pv2-eyebrow mb-3">{eyebrow}</p> : null}

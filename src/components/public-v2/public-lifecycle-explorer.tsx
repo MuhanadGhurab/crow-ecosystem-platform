@@ -81,6 +81,7 @@ export function PublicLifecycleExplorer() {
       eyebrow="Lifecycle"
       title="How Crow works"
       description="Six accountable steps from understanding your organization to operating on a governed foundation."
+      band="teal"
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_1.15fr] lg:gap-8">
         <div className="pv2-lifecycle-rail">

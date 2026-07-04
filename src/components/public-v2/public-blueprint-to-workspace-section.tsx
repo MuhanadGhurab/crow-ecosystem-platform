@@ -11,7 +11,7 @@ export function PublicBlueprintToWorkspaceSection() {
       eyebrow="Product demonstration"
       title="From Blueprint to workspace"
       description="Crow defines the organization. The approved Blueprint becomes the build source. SAREA presents the correct permitted workspace. Runtime connects attention, work, decisions, evidence, and outcomes."
-      band="muted"
+      band="gold"
     >
       <div className="pv2-product-frame">
         <div className="pv2-product-rail" aria-hidden>

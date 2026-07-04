@@ -10,6 +10,7 @@ export function PublicFinalCtaSection() {
   return (
     <PublicSection
       id={PUBLIC_V2_SECTION_IDS.finalCta}
+      band="gold"
       variant="emphasis"
       title="Start with your organization—not a software package."
       description="Choose your starting journey or discuss your organization with Crow's structured intake."

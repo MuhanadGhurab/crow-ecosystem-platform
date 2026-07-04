@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import "@/styles/public-v2-bright.css";
 
 import { PublicV2BrandMark } from "@/components/public-v2/public-v2-brand-mark";
-import { PUBLIC_V2_BRIGHT_IDENTITY_MARKER } from "@/lib/public-v2/tokens";
+import { PUBLIC_V2_BRIGHT_IDENTITY_MARKER, PUBLIC_V2_COLORFUL_IDENTITY_MARKER } from "@/lib/public-v2/tokens";
 
 export function PublicAuthFrame({
   title,
@@ -21,8 +21,9 @@ export function PublicAuthFrame({
 }) {
   return (
     <div
-      className={`public-v2-shell ${PUBLIC_V2_BRIGHT_IDENTITY_MARKER} relative flex min-h-[100dvh] flex-col overflow-x-hidden`}
+      className={`public-v2-shell ${PUBLIC_V2_BRIGHT_IDENTITY_MARKER} ${PUBLIC_V2_COLORFUL_IDENTITY_MARKER} relative flex min-h-[100dvh] flex-col overflow-x-hidden`}
       data-public-auth="true"
+      data-pv2-colorful="true"
     >
       <div className="pv2-blueprint-grid pointer-events-none absolute inset-0" aria-hidden />
       <div className="pv2-ambient pointer-events-none absolute inset-0" aria-hidden />

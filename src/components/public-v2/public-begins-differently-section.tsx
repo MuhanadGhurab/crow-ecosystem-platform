@@ -90,7 +90,7 @@ export function PublicBeginsDifferentlySection() {
       eyebrow="Why Crow"
       title="Crow begins differently"
       description="A fair comparison — Crow is designed around how organizations actually operate, not around a catalog of modules."
-      band="muted"
+      band="teal"
     >
       <div className="grid gap-4 md:grid-cols-2 lg:gap-6">
         <ComparisonColumn

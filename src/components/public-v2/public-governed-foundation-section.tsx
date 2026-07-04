@@ -10,7 +10,7 @@ export function PublicGovernedFoundationSection() {
       eyebrow="Architecture"
       title="One governed foundation"
       description="Four coordinated responsibilities support one organization — not four disconnected products."
-      band="muted"
+      band="navy"
     >
       <PublicFoundationDiagram />
 

@@ -1,27 +1,47 @@
-/* CROW.PUBLIC.1B+3 — bright public experience */
+/* CROW.PUBLIC.1B+3+5 — bright colorful public experience */
 
 .public-v2-shell.public-v2-bright {
-  --pv2-bg: #f4f0e6;
-  --pv2-bg-mist: #ebe4d8;
-  --pv2-surface: #ffffff;
-  --pv2-surface-raised: #fdfcf9;
-  --pv2-surface-muted: #f0ebe2;
+  --pv2-bg: #f2ebe0;
+  --pv2-bg-mist: #e8dfd2;
+  --pv2-surface: #fffcf7;
+  --pv2-surface-raised: #fdf9f2;
+  --pv2-surface-muted: #f0e8db;
   --pv2-text-primary: #1c1917;
   --pv2-text-secondary: #44403c;
   --pv2-text-muted: #78716c;
-  --pv2-cyan: #0e7490;
-  --pv2-cyan-soft: #dff5fa;
-  --pv2-violet: #5b21b6;
-  --pv2-violet-soft: #ede9fe;
-  --pv2-amber: #b45309;
-  --pv2-amber-soft: #fff7ed;
-  --pv2-border: #e3dcd0;
-  --pv2-border-strong: #cfc6b8;
-  --pv2-shadow: 0 1px 2px rgba(28, 25, 23, 0.04), 0 8px 28px rgba(28, 25, 23, 0.06);
-  --pv2-shadow-lift: 0 6px 20px rgba(28, 25, 23, 0.07), 0 20px 48px rgba(28, 25, 23, 0.05);
+  /* Governed Crow palette — CROW.PUBLIC.5 */
+  --pv2-teal: #0d9488;
+  --pv2-teal-soft: #ccfbf1;
+  --pv2-teal-glow: rgba(13, 148, 136, 0.22);
+  --pv2-gold: #c9890a;
+  --pv2-gold-soft: #fef3c7;
+  --pv2-gold-glow: rgba(201, 137, 10, 0.2);
+  --pv2-navy: #1e3a5f;
+  --pv2-navy-soft: #e8eef5;
+  --pv2-navy-glow: rgba(30, 58, 95, 0.15);
+  --pv2-purple: #7c3aed;
+  --pv2-purple-soft: #ede9fe;
+  --pv2-purple-glow: rgba(124, 58, 237, 0.18);
+  --pv2-yellow: #ca8a04;
+  --pv2-yellow-soft: #fef9c3;
+  /* Legacy aliases — components still reference cyan/violet/amber */
+  --pv2-cyan: var(--pv2-teal);
+  --pv2-cyan-soft: var(--pv2-teal-soft);
+  --pv2-violet: var(--pv2-purple);
+  --pv2-violet-soft: var(--pv2-purple-soft);
+  --pv2-amber: var(--pv2-gold);
+  --pv2-amber-soft: var(--pv2-gold-soft);
+  --pv2-border: #e0d6c8;
+  --pv2-border-strong: #cfc4b4;
+  --pv2-shadow: 0 1px 2px rgba(30, 58, 95, 0.05), 0 10px 32px rgba(30, 58, 95, 0.07);
+  --pv2-shadow-lift: 0 8px 24px rgba(30, 58, 95, 0.09), 0 24px 56px rgba(30, 58, 95, 0.06);
+  --pv2-shadow-neon-teal: 0 0 0 1px color-mix(in srgb, var(--pv2-teal) 35%, transparent),
+    0 4px 20px var(--pv2-teal-glow);
+  --pv2-shadow-neon-purple: 0 0 0 1px color-mix(in srgb, var(--pv2-purple) 30%, transparent),
+    0 4px 20px var(--pv2-purple-glow);
   --pv2-radius: 14px;
   --pv2-radius-lg: 20px;
-  --pv2-focus: #0e7490;
+  --pv2-focus: var(--pv2-teal);
   --pv2-section-y: clamp(3.5rem, 6vw, 5rem);
 
   background-color: var(--pv2-bg);
@@ -44,16 +64,18 @@
 
 .public-v2-bright .pv2-ambient {
   background:
-    radial-gradient(1000px 520px at 4% -2%, rgba(14, 116, 144, 0.11), transparent 58%),
-    radial-gradient(880px 480px at 96% 4%, rgba(91, 33, 182, 0.08), transparent 55%),
-    radial-gradient(640px 360px at 50% 100%, rgba(180, 83, 9, 0.06), transparent 60%),
-    linear-gradient(180deg, var(--pv2-bg) 0%, #efe9df 48%, #f6f2ea 100%);
+    radial-gradient(1100px 560px at 2% -4%, rgba(13, 148, 136, 0.14), transparent 58%),
+    radial-gradient(920px 500px at 98% 2%, rgba(124, 58, 237, 0.11), transparent 55%),
+    radial-gradient(720px 400px at 88% 92%, rgba(201, 137, 10, 0.1), transparent 58%),
+    radial-gradient(600px 340px at 12% 88%, rgba(30, 58, 95, 0.08), transparent 62%),
+    linear-gradient(180deg, #f4ece2 0%, #efe6da 42%, #f6f0e8 100%);
 }
 
 .public-v2-bright .pv2-ambient-accent {
   background:
-    radial-gradient(420px 280px at 18% 22%, rgba(14, 116, 144, 0.07), transparent 70%),
-    radial-gradient(380px 260px at 82% 28%, rgba(91, 33, 182, 0.06), transparent 68%);
+    radial-gradient(480px 300px at 14% 20%, rgba(13, 148, 136, 0.09), transparent 72%),
+    radial-gradient(420px 280px at 86% 24%, rgba(124, 58, 237, 0.08), transparent 70%),
+    radial-gradient(360px 220px at 50% 78%, rgba(202, 138, 4, 0.06), transparent 68%);
 }
 
 .public-v2-bright .pv2-section-band {
@@ -81,9 +103,46 @@
 .public-v2-bright .pv2-section-band-emphasis::before {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--pv2-cyan-soft) 50%, transparent) 0%,
-    color-mix(in srgb, var(--pv2-violet-soft) 35%, transparent) 100%
+    color-mix(in srgb, var(--pv2-teal-soft) 55%, transparent) 0%,
+    color-mix(in srgb, var(--pv2-purple-soft) 40%, transparent) 55%,
+    color-mix(in srgb, var(--pv2-gold-soft) 35%, transparent) 100%
   );
+}
+
+.public-v2-bright .pv2-section-band-teal::before {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pv2-teal-soft) 70%, transparent),
+    color-mix(in srgb, var(--pv2-surface) 50%, transparent)
+  );
+  border-block-color: color-mix(in srgb, var(--pv2-teal) 18%, var(--pv2-border));
+}
+
+.public-v2-bright .pv2-section-band-gold::before {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--pv2-gold-soft) 75%, transparent),
+    color-mix(in srgb, var(--pv2-yellow-soft) 40%, transparent)
+  );
+  border-block-color: color-mix(in srgb, var(--pv2-gold) 22%, var(--pv2-border));
+}
+
+.public-v2-bright .pv2-section-band-navy::before {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pv2-navy-soft) 80%, transparent),
+    color-mix(in srgb, var(--pv2-surface-muted) 45%, transparent)
+  );
+  border-block-color: color-mix(in srgb, var(--pv2-navy) 20%, var(--pv2-border));
+}
+
+.public-v2-bright .pv2-section-band-purple::before {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--pv2-purple-soft) 72%, transparent),
+    color-mix(in srgb, var(--pv2-teal-soft) 25%, transparent)
+  );
+  border-block-color: color-mix(in srgb, var(--pv2-purple) 20%, var(--pv2-border));
 }
 
 .public-v2-bright .pv2-section-inner {
@@ -95,15 +154,36 @@
 }
 
 .public-v2-bright .pv2-hero-panel {
-  border: 1px solid color-mix(in srgb, var(--pv2-border) 85%, var(--pv2-cyan) 15%);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--pv2-teal) 22%, var(--pv2-border));
   border-radius: var(--pv2-radius-lg);
   background: linear-gradient(
     145deg,
-    color-mix(in srgb, var(--pv2-surface) 96%, var(--pv2-cyan-soft)) 0%,
-    var(--pv2-surface) 55%,
-    color-mix(in srgb, var(--pv2-surface) 92%, var(--pv2-violet-soft)) 100%
+    color-mix(in srgb, var(--pv2-surface) 92%, var(--pv2-teal-soft)) 0%,
+    var(--pv2-surface) 48%,
+    color-mix(in srgb, var(--pv2-surface) 90%, var(--pv2-purple-soft)) 100%
   );
-  box-shadow: var(--pv2-shadow-lift);
+  box-shadow: var(--pv2-shadow-lift), var(--pv2-shadow-neon-teal);
+}
+
+.public-v2-bright .pv2-hero-energy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(105deg, transparent 62%, color-mix(in srgb, var(--pv2-gold) 8%, transparent) 100%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 11px,
+      color-mix(in srgb, var(--pv2-navy) 4%, transparent) 11px,
+      color-mix(in srgb, var(--pv2-navy) 4%, transparent) 12px
+    );
+  opacity: 0.55;
+  mask-image: linear-gradient(180deg, black 0%, transparent 85%);
 }
 
 .public-v2-bright .pv2-lifecycle-gate {
@@ -154,13 +234,87 @@
   }
 }
 
+.public-v2-bright .pv2-footer {
+  border-top: 1px solid color-mix(in srgb, var(--pv2-navy) 14%, var(--pv2-border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pv2-navy-soft) 40%, transparent),
+    color-mix(in srgb, var(--pv2-surface-muted) 60%, transparent)
+  );
+  color: var(--pv2-text-muted);
+}
+
+.public-v2-bright .pv2-content-canvas {
+  position: relative;
+}
+
+.public-v2-bright .pv2-content-canvas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 1280px);
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--pv2-teal) 0%,
+    var(--pv2-purple) 45%,
+    var(--pv2-gold) 100%
+  );
+  opacity: 0.65;
+  border-radius: 0 0 4px 4px;
+}
+
+.public-v2-bright .pv2-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--pv2-gold) 28%, var(--pv2-border));
+  background: linear-gradient(180deg, var(--pv2-gold-soft), var(--pv2-surface));
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--pv2-navy) 80%, var(--pv2-text-secondary));
+  box-shadow: 0 2px 8px var(--pv2-gold-glow);
+}
+
+.public-v2-bright .pv2-diagram-stage.is-selected-gold {
+  border-color: color-mix(in srgb, var(--pv2-gold) 45%, var(--pv2-border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pv2-gold) 14%, transparent), var(--pv2-shadow);
+}
+
 .public-v2-bright .pv2-blueprint-frame {
-  border: 1px solid color-mix(in srgb, var(--pv2-violet) 22%, var(--pv2-border));
+  border: 1px solid color-mix(in srgb, var(--pv2-purple) 28%, var(--pv2-border));
   border-radius: var(--pv2-radius-lg);
-  background:
-    linear-gradient(180deg, var(--pv2-surface-raised) 0%, var(--pv2-surface) 100%);
-  box-shadow: var(--pv2-shadow-lift);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--pv2-purple-soft) 35%, var(--pv2-surface-raised)) 0%,
+    var(--pv2-surface) 100%
+  );
+  box-shadow: var(--pv2-shadow-lift), var(--pv2-shadow-neon-purple);
   padding: 1.5rem;
+}
+
+.public-v2-bright .pv2-card-emphasis {
+  border: 1px solid color-mix(in srgb, var(--pv2-gold) 28%, var(--pv2-border));
+  border-radius: var(--pv2-radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--pv2-surface) 0%,
+    color-mix(in srgb, var(--pv2-gold-soft) 80%, var(--pv2-teal-soft)) 120%
+  );
+  box-shadow: var(--pv2-shadow-lift), 0 8px 32px var(--pv2-gold-glow);
+}
+
+.public-v2-bright .pv2-access-callout {
+  border: 1px solid color-mix(in srgb, var(--pv2-teal) 30%, var(--pv2-border));
+  border-radius: var(--pv2-radius);
+  background: linear-gradient(135deg, var(--pv2-teal-soft) 0%, var(--pv2-surface) 85%);
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--pv2-text-secondary);
+  box-shadow: inset 3px 0 0 var(--pv2-teal);
 }
 
 .public-v2-bright .pv2-blueprint-frame-header {
@@ -198,13 +352,21 @@
   }
 }
 
-.public-v2-bright .pv2-access-callout {
-  border: 1px solid color-mix(in srgb, var(--pv2-cyan) 25%, var(--pv2-border));
+.public-v2-bright .pv2-platform-hub {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1.25rem;
   border-radius: var(--pv2-radius);
-  background: linear-gradient(135deg, var(--pv2-cyan-soft) 0%, var(--pv2-surface) 100%);
-  padding: 1rem 1.25rem;
+  border: 1px dashed color-mix(in srgb, var(--pv2-purple) 35%, var(--pv2-border));
+  background: linear-gradient(
+    135deg,
+    var(--pv2-purple-soft) 0%,
+    color-mix(in srgb, var(--pv2-teal-soft) 45%, var(--pv2-purple-soft)) 100%
+  );
   font-size: 0.875rem;
-  color: var(--pv2-text-secondary);
+  font-weight: 600;
+  color: var(--pv2-navy);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pv2-purple) 12%, transparent);
 }
 
 .public-v2-bright .pv2-platform-orbit {
@@ -213,9 +375,13 @@
   gap: 1rem;
   padding: 1.5rem;
   border-radius: var(--pv2-radius-lg);
-  border: 1px solid var(--pv2-border);
-  background: var(--pv2-surface);
-  box-shadow: var(--pv2-shadow);
+  border: 1px solid color-mix(in srgb, var(--pv2-navy) 14%, var(--pv2-border));
+  background: linear-gradient(
+    180deg,
+    var(--pv2-surface) 0%,
+    color-mix(in srgb, var(--pv2-navy-soft) 35%, var(--pv2-surface)) 100%
+  );
+  box-shadow: var(--pv2-shadow-lift);
 }
 
 @media (min-width: 768px) {
@@ -224,24 +390,24 @@
   }
 }
 
-.public-v2-bright .pv2-platform-hub {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 1rem;
-  border-radius: var(--pv2-radius);
-  border: 1px dashed color-mix(in srgb, var(--pv2-violet) 30%, var(--pv2-border));
-  background: var(--pv2-violet-soft);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--pv2-violet);
-}
-
 .public-v2-bright .pv2-eyebrow {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--pv2-cyan);
+  color: var(--pv2-teal);
+}
+
+.public-v2-bright .pv2-eyebrow-gold {
+  color: var(--pv2-gold);
+}
+
+.public-v2-bright .pv2-eyebrow-purple {
+  color: var(--pv2-purple);
+}
+
+.public-v2-bright .pv2-eyebrow-navy {
+  color: var(--pv2-navy);
 }
 
 .public-v2-bright .pv2-h1 {
@@ -293,31 +459,27 @@
   box-shadow: var(--pv2-shadow);
 }
 
-.public-v2-bright .pv2-card-emphasis {
-  border: 1px solid color-mix(in srgb, var(--pv2-cyan) 22%, var(--pv2-border));
-  border-radius: var(--pv2-radius-lg);
-  background: linear-gradient(135deg, var(--pv2-surface) 0%, var(--pv2-cyan-soft) 120%);
-  box-shadow: var(--pv2-shadow-lift);
-}
-
 .public-v2-bright .pv2-btn-primary {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   justify-content: center;
   border-radius: var(--pv2-radius);
-  border: 1px solid color-mix(in srgb, var(--pv2-cyan) 35%, transparent);
-  background: var(--pv2-cyan);
+  border: 1px solid color-mix(in srgb, var(--pv2-teal) 45%, transparent);
+  background: linear-gradient(180deg, #14b8a6 0%, var(--pv2-teal) 55%, #0f766e 100%);
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;
-  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+  box-shadow: var(--pv2-shadow-neon-teal);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
 .public-v2-bright .pv2-btn-primary:hover {
-  background: #0e7490;
-  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.28);
+  filter: brightness(1.04);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--pv2-teal) 40%, transparent),
+    0 6px 24px var(--pv2-teal-glow);
+  transform: translateY(-1px);
 }
 
 .public-v2-bright .pv2-btn-secondary {
@@ -326,18 +488,40 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--pv2-radius);
-  border: 1px solid color-mix(in srgb, var(--pv2-violet) 28%, var(--pv2-border));
-  background: var(--pv2-violet-soft);
+  border: 1px solid color-mix(in srgb, var(--pv2-purple) 32%, var(--pv2-border));
+  background: linear-gradient(180deg, var(--pv2-purple-soft) 0%, color-mix(in srgb, var(--pv2-surface) 80%, var(--pv2-purple-soft)) 100%);
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--pv2-violet);
-  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  color: var(--pv2-purple);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
 .public-v2-bright .pv2-btn-secondary:hover {
-  border-color: color-mix(in srgb, var(--pv2-violet) 45%, var(--pv2-border));
-  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.12);
+  border-color: color-mix(in srgb, var(--pv2-purple) 48%, var(--pv2-border));
+  box-shadow: var(--pv2-shadow-neon-purple);
+  transform: translateY(-1px);
+}
+
+.public-v2-bright .pv2-btn-gold {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pv2-radius);
+  border: 1px solid color-mix(in srgb, var(--pv2-gold) 40%, transparent);
+  background: linear-gradient(180deg, #fbbf24 0%, var(--pv2-gold) 100%);
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1c1917;
+  box-shadow: 0 4px 16px var(--pv2-gold-glow);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.public-v2-bright .pv2-btn-gold:hover {
+  box-shadow: 0 6px 22px var(--pv2-gold-glow);
+  transform: translateY(-1px);
 }
 
 .public-v2-bright .pv2-btn-ghost {
@@ -400,9 +584,10 @@
 }
 
 .public-v2-bright .pv2-nav {
-  border-bottom: 1px solid var(--pv2-border);
-  background: color-mix(in srgb, var(--pv2-surface) 92%, transparent);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid color-mix(in srgb, var(--pv2-navy) 12%, var(--pv2-border));
+  background: color-mix(in srgb, var(--pv2-surface) 88%, var(--pv2-navy-soft));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--pv2-teal) 12%, transparent);
 }
 
 .public-v2-bright .pv2-nav-link {
@@ -410,14 +595,20 @@
   border-radius: 10px;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: var(--pv2-text-secondary);
-  transition: background 140ms ease, color 140ms ease;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--pv2-navy) 75%, var(--pv2-text-secondary));
+  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .public-v2-bright .pv2-nav-link:hover,
 .public-v2-bright .pv2-nav-link[aria-expanded="true"] {
-  background: var(--pv2-surface-muted);
-  color: var(--pv2-text-primary);
+  background: color-mix(in srgb, var(--pv2-teal-soft) 65%, var(--pv2-surface));
+  color: var(--pv2-navy);
+}
+
+.public-v2-bright .pv2-nav-link[aria-current="page"] {
+  color: var(--pv2-teal);
+  box-shadow: inset 0 -2px 0 var(--pv2-teal);
 }
 
 .public-v2-bright .pv2-dropdown {
@@ -522,11 +713,6 @@
   color: var(--pv2-text-muted);
 }
 
-.public-v2-bright .pv2-footer {
-  border-top: 1px solid var(--pv2-border);
-  color: var(--pv2-text-muted);
-}
-
 .public-v2-bright :focus-visible {
   outline: 2px solid var(--pv2-focus);
   outline-offset: 3px;
@@ -535,6 +721,7 @@
 @media (prefers-reduced-motion: reduce) {
   .public-v2-bright .pv2-btn-primary,
   .public-v2-bright .pv2-btn-secondary,
+  .public-v2-bright .pv2-btn-gold,
   .public-v2-bright .pv2-btn-ghost,
   .public-v2-bright .pv2-tab,
   .public-v2-bright .pv2-diagram-stage,
