@@ -181,6 +181,21 @@ test("bright depth tokens present", () => {
   assert.ok(css.includes("pv2-section-band"));
 });
 
+test("colorful public identity tokens present (CROW.PUBLIC.5)", () => {
+  const css = read("src/styles/public-v2-bright.css");
+  const tokens = read("src/lib/public-v2/tokens.ts");
+  const layout = read("src/components/public-site/public-site-layout.tsx");
+  assert.ok(css.includes("--pv2-teal"));
+  assert.ok(css.includes("--pv2-gold"));
+  assert.ok(css.includes("--pv2-navy"));
+  assert.ok(css.includes("--pv2-purple"));
+  assert.ok(css.includes("pv2-section-band-teal"));
+  assert.ok(css.includes("pv2-section-band-gold"));
+  assert.ok(tokens.includes("PUBLIC_V2_COLORFUL_IDENTITY_MARKER"));
+  assert.ok(layout.includes("data-pv2-colorful"));
+  assert.ok(!css.includes("#04060c"));
+});
+
 test("public access policy module exists", () => {
   assert.ok(read("src/lib/public/public-access-policy.ts").includes("PUBLIC_BROWSE_PATHS"));
 });
