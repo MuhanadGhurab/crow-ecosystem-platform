@@ -40,12 +40,10 @@ function walkTsx(dir: string, out: string[] = []): string[] {
 
 console.log("public-v2-preview-readiness:test");
 
-test("preview page exists with certification gate", () => {
+test("preview route redirects to canonical homepage on certification", () => {
   const page = read("src/app/preview/public-home/page.tsx");
   assert.ok(page.includes("assertPublicV2PreviewEnabled"));
-  assert.ok(page.includes("robots"));
-  assert.ok(page.includes("index: false"));
-  assert.ok(page.includes("follow: false"));
+  assert.ok(page.includes('redirect("/")'));
 });
 
 test("bright visual identity marker on preview shell", () => {
@@ -65,8 +63,8 @@ test("certification gate uses FTGP mode env", () => {
   assert.equal(FTGP_CERTIFICATION_MODE_ENV, "FTGP_CERTIFICATION_MODE");
 });
 
-test("seven homepage sections present", () => {
-  const home = read("src/components/public-v2/public-homepage-preview.tsx");
+test("seven homepage sections on canonical PublicHomepage", () => {
+  const home = read("src/components/public-site/public-homepage.tsx");
   const sections = [
     "PublicHeroSection",
     "PublicBeginsDifferentlySection",
@@ -79,8 +77,8 @@ test("seven homepage sections present", () => {
   for (const s of sections) assert.ok(home.includes(s), `missing ${s}`);
 });
 
-test("navigation menu structure", () => {
-  const nav = read("src/lib/public-v2/navigation.ts");
+test("navigation menu structure uses public site nav", () => {
+  const nav = read("src/lib/public/navigation.ts");
   assert.ok(nav.includes("Platform"));
   assert.ok(nav.includes("How Crow Works"));
   assert.ok(nav.includes("Enterprise Blueprint"));
@@ -197,10 +195,10 @@ test("preview route path is certification-only", () => {
   assert.equal(read("src/lib/public-v2/routes.ts").includes('"/preview/public-home"'), true);
 });
 
-test("current homepage unchanged", () => {
+test("canonical homepage uses bright public site", () => {
   const home = read("src/app/(public)/page.tsx");
-  assert.ok(!home.includes("public-v2"));
-  assert.ok(!home.includes("public-home"));
+  assert.ok(home.includes("PublicHomepage"));
+  assert.ok(!home.includes("HomepageArchitectsMapPreview"));
 });
 
 test("final CTA uses Discuss Your Organization", () => {
