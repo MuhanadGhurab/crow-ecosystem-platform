@@ -26,7 +26,7 @@ Prepare the repository for a future **CROW.PUBLIC.PROD** deployment. This milest
 | Check | Result |
 |-------|--------|
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `e349449` (pre-preflight docs); preflight docs commit updates HEAD |
+| HEAD | `fbc6bcb` — preflight docs committed |
 | Working tree | **Clean** after restoring unrelated `.gitignore` local edit |
 | PR #10 | OPEN, DRAFT, unmerged |
 | `main` | `a5620c3` — legacy public; unchanged |

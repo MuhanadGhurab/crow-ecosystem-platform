@@ -10,7 +10,7 @@
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `7e3a49d`
+**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `fbc6bcb`
 
 ## Repository and branch state
 
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `7e3a49d` — CROW.PUBLIC.9 accepted; CROW.PUBLIC.10 acceptance recorded |
+| HEAD | `fbc6bcb` — CROW.PUBLIC.PROD-PREFLIGHT complete; acceptance at `e349449` / visual `c51a60e` |
 | Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
