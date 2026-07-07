@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.8) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.9) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,11 +52,11 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.8** — Homepage signature hero redesign deployed to certification for owner review. Semi-dark direction and amber journey CTAs preserved. **Production not authorized.**
+**CROW.PUBLIC.9** — Owner approved public visual direction **locked in**; targeted polish deployed to certification. **Production not authorized.**
 
-**CROW.PUBLIC.7** — Owner accepted semi-dark cyber/neon; journey CTAs tuned to muted amber.
+**CROW.PUBLIC.8** — Signature homepage hero redesign (baseline for lock-in).
 
-Evidence: [`milestones/CROW-PUBLIC-8.md`](milestones/CROW-PUBLIC-8.md).
+Evidence: [`milestones/CROW-PUBLIC-9.md`](milestones/CROW-PUBLIC-9.md).
 
 **Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md).
 

@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.8 homepage hero) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.9 design lock + polish) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -43,8 +43,8 @@
 | Status | Evidence |
 |--------|----------|
 | **ACCEPTED** | CROW.PUBLIC.3/4 — owner accepted experience on certification (`b90ac88`); routes/access/journey/gating unchanged |
-| **IN REVIEW** | CROW.PUBLIC.8 — signature homepage hero redesign on certification; semi-dark + amber CTAs preserved |
-| IMPLEMENTED | `PublicHeroTransformationVisual`; `pv2-signature-hero` full-bleed hero; transform CTA variant |
+| **LOCKED / IN REVIEW** | CROW.PUBLIC.9 — design locked; polish on certification |
+| IMPLEMENTED | `data-pv2-locked-design`; containment polish across public shell/CSS |
 | UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
 | **NOT DEPLOYED** | Production — explicit CROW.PUBLIC.PROD authorization required |
 
