@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.9) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,17 +52,17 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.9** — Owner approved public visual direction **locked in**; targeted polish deployed to certification. **Production not authorized.**
+**CROW.PUBLIC.10** — Owner **ACCEPTED** locked public design on certification (CROW.PUBLIC.9 candidate). **Production not authorized.**
 
-**CROW.PUBLIC.8** — Signature homepage hero redesign (baseline for lock-in).
+**CROW.PUBLIC.9** — Semi-dark identity locked; polish accepted at `c51a60e`.
 
-Evidence: [`milestones/CROW-PUBLIC-9.md`](milestones/CROW-PUBLIC-9.md).
+Evidence: [`milestones/CROW-PUBLIC-10.md`](milestones/CROW-PUBLIC-10.md), [`milestones/CROW-PUBLIC-9.md`](milestones/CROW-PUBLIC-9.md).
 
-**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md).
+**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md). Requires explicit phrase: *AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production*.
 
-**Prior:** CROW.PUBLIC.4 — owner acceptance recorded. CROW.PUBLIC.3 — acceptance fixes accepted on certification.
+**Prior:** CROW.PUBLIC.8 signature hero; CROW.PUBLIC.3/4 route/access acceptance.
 
-**Hold:** no PR #10 merge, **no Production deploy**.
+**Hold:** no PR #10 merge, **no Production deploy**, no `main` push.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 

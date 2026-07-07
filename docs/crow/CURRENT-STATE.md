@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.9 design lock + polish) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10 owner acceptance) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-04 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** see git at review time
+**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `7e3a49d`
 
 ## Repository and branch state
 
@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `b4ef076` baseline → CROW.PUBLIC.6 visual fixes (see git at review time) |
+| HEAD | `7e3a49d` — CROW.PUBLIC.9 accepted; CROW.PUBLIC.10 acceptance recorded |
 | Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | Clean (`.gitignore` unrelated changes restored) |
+| Working tree | `.gitignore` modified (unrelated; not part of PUBLIC.10) |
 
 ## Stack
 
@@ -38,15 +38,16 @@
 
 ## Domain implementation map
 
-### Public routes — ACCEPTED access + COLOR POLISH IN REVIEW (CROW.PUBLIC.5/6)
+### Public routes — ACCEPTED on certification (CROW.PUBLIC.9 / CROW.PUBLIC.10)
 
 | Status | Evidence |
 |--------|----------|
-| **ACCEPTED** | CROW.PUBLIC.3/4 — owner accepted experience on certification (`b90ac88`); routes/access/journey/gating unchanged |
-| **LOCKED / IN REVIEW** | CROW.PUBLIC.9 — design locked; polish on certification |
-| IMPLEMENTED | `data-pv2-locked-design`; containment polish across public shell/CSS |
+| **ACCEPTED** | CROW.PUBLIC.9 semi-dark locked public experience — owner accepted on certification (`c51a60e` visual, CROW.PUBLIC.10, 2026-07-07) |
+| **ACCEPTED (prior)** | CROW.PUBLIC.3/4 — route architecture and browse/sign-in model (`b90ac88`) |
+| IMPLEMENTED | Signature hero (`pv2-signature-hero`); amber journey + purple transform CTAs; `data-pv2-locked-design` |
 | UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
 | **NOT DEPLOYED** | Production — explicit CROW.PUBLIC.PROD authorization required |
+| **Certification URL** | https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/ |
 
 ### Auth and account — PARTIAL
 

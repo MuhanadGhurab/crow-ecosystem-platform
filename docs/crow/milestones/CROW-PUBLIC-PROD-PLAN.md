@@ -4,16 +4,17 @@
 |-------|-------|
 | **Milestone** | CROW.PUBLIC.PROD (planned — **not authorized**) |
 | **Branch** | `feat/first-tenant-golden-path` |
-| **Accepted certification URL** | https://crow-ftgp-certification-kjx1z76b2-muhanadghurabs-projects.vercel.app/ |
-| **Accepted code commit** | `b90ac884f13b16f1e465145177e6d71fd6be954f` (`b90ac88`) |
-| **Final documentation HEAD** | `771eb69ec72f75c609539adf54d2a3078d1a8854` (`771eb69`) — docs-only after deploy |
-| **Owner acceptance** | CROW.PUBLIC.3 — **ACCEPTED** (2026-07-04, manual certification review) |
+| **Accepted certification URL** | https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/ |
+| **Accepted visual deploy commit** | `c51a60e` |
+| **Branch documentation HEAD** | `7e3a49d` (docs-only after visual deploy) |
+| **Owner acceptance** | CROW.PUBLIC.9 — **ACCEPTED** (CROW.PUBLIC.10, 2026-07-07, manual certification review) |
+| **Production candidate** | **CROW.PUBLIC.9** — locked semi-dark public experience |
 | **PR #10** | OPEN, DRAFT, unmerged — merge is separate from this plan |
 | **Production** | **Not deployed** — explicit owner authorization required |
 
 ## Purpose
 
-This plan defines the strict checklist and boundaries for promoting the **accepted** bright public experience from FTGP certification to Production. It does **not** authorize Production deployment by itself.
+This plan defines the strict checklist and boundaries for promoting the **owner-accepted** semi-dark public experience (CROW.PUBLIC.9) from FTGP certification to Production. It does **not** authorize Production deployment by itself.
 
 ## Owner authorization required
 
@@ -30,7 +31,7 @@ Until that phrase (or equivalent written owner decision recorded in milestone ev
 
 ## Scope of promotion
 
-**In scope:** Static public marketing surface, redirects, bright CSS/shell, public browse access policy as accepted on certification.
+**In scope:** Static public marketing surface, redirects, semi-dark CSS/shell (`public-v2-bright`), signature homepage hero, public browse access policy as accepted on certification at `c51a60e`.
 
 **Out of scope (do not change during promotion):**
 
@@ -51,7 +52,7 @@ Unauthenticated browse must work on Production after promotion (same as certific
 
 | Route | Verify |
 |-------|--------|
-| `/` | Seven-section bright homepage; no dark shell; no Architect's Map |
+| `/` | Seven-section homepage; semi-dark shell; signature hero; no Architect's Map |
 | `/how-crow-works` | Lifecycle rail; commercial gate note |
 | `/new-organization` | Public browse; conversion CTA to signup handoff only |
 | `/transform-existing` | Public browse; transformation map |
@@ -67,8 +68,8 @@ Unauthenticated browse must work on Production after promotion (same as certific
 | `/case-studies` | Honest deferred placeholder (if retained) |
 | `/start` | Journey chooser; explore vs start CTAs |
 | `/request` | Public explanation (Option A); see gated continuation below |
-| `/login` | Bright auth frame; OAuth unchanged |
-| `/signup` | Bright auth frame; journey handoff query params |
+| `/login` | Semi-dark auth frame; OAuth unchanged |
+| `/signup` | Semi-dark auth frame; journey handoff query params |
 
 Source of truth: `src/lib/public/public-access-policy.ts`, `src/lib/public/routes.ts`.
 
@@ -91,7 +92,7 @@ Certification-only: `/preview/public-home` → `/` on FTGP certification hosts (
 
 | Surface | Expected behavior |
 |---------|-------------------|
-| `/login`, `/signup` | Visual bright frame only; Supabase OAuth and form flows unchanged |
+| `/login`, `/signup` | Visual semi-dark frame only; Supabase OAuth and form flows unchanged |
 | `/register` | **Known limitation** — not visually refreshed; verify no regression |
 | `/onboarding/*` | Still gated; unchanged |
 | `/client/*` | Requires auth |
@@ -114,11 +115,12 @@ Verify on Production after promotion: public page loads without session; convers
 
 ## Known limitations (carry forward)
 
-- Auth form controls retain some legacy `cc-` styling inside bright frame
-- `/register` route not visually aligned with bright public identity
+- Auth form controls retain some legacy `cc-` styling inside semi-dark frame
+- `/register` route not visually aligned with locked public identity
 - Scroll-story code remains in repo; routes redirect away from nav
 - Visual overlap checks are partially manual — re-run owner spot-check on Production URLs
-- Certification deployed at `b90ac88`; documentation HEAD `771eb69` is docs-only
+- Certification visual accepted at `c51a60e`; documentation HEAD `7e3a49d` is docs-only
+- Very narrow mobile widths (<360px) should be spot-checked on Production after promote
 
 ## Tests required before Production
 
@@ -155,7 +157,7 @@ PR #10 (`feat/first-tenant-golden-path` → `main`) contains FTGP foundation **a
 |------|----------------|
 | Merge PR #10 to `main` | Explicit owner authorization for FTGP merge (not implied by PUBLIC.PROD) |
 | Deploy Production from `main` | Explicit **CROW.PUBLIC.PROD** authorization |
-| Deploy only public surface | Prefer promotion from commit `b90ac88` or later branch HEAD with no domain drift |
+| Deploy only public surface | Prefer promotion from commit `c51a60e` or later branch HEAD with no domain drift |
 
 **Current hold:** PR #10 remains OPEN, DRAFT, UNMERGED until owner authorizes merge.
 
@@ -187,7 +189,7 @@ Pre-promotion capture:
 ## Promotion procedure (when authorized)
 
 1. Owner issues **AUTHORIZE CROW.PUBLIC.PROD** (recorded).
-2. Confirm branch HEAD ≥ `b90ac88` with no unauthorized domain changes since acceptance.
+2. Confirm branch HEAD ≥ `c51a60e` with no unauthorized domain changes since CROW.PUBLIC.9 acceptance.
 3. Run all required tests (section above).
 4. Record pre-promotion Production deployment ID.
 5. Deploy to Production per Vercel production workflow (project `crow-ecosystem-platform` or owner-specified).
@@ -196,7 +198,9 @@ Pre-promotion capture:
 
 ## Related documents
 
-- [`CROW-PUBLIC-3.md`](CROW-PUBLIC-3.md) — acceptance evidence
+- [`CROW-PUBLIC-9.md`](CROW-PUBLIC-9.md) — locked design and polish evidence
+- [`CROW-PUBLIC-10.md`](CROW-PUBLIC-10.md) — final owner acceptance record
+- [`CROW-PUBLIC-3.md`](CROW-PUBLIC-3.md) — prior route/access acceptance evidence
 - [`CROW-PUBLIC-2.md`](CROW-PUBLIC-2.md) — route disposition
 - [`09-PUBLIC-EXPERIENCE.md`](../09-PUBLIC-EXPERIENCE.md) — canonical public direction
 - [`10-IMPLEMENTATION-BOUNDARIES.md`](../10-IMPLEMENTATION-BOUNDARIES.md) — protected boundaries

@@ -4,16 +4,27 @@
 |-------|-------|
 | **Milestone** | CROW.PUBLIC.9 |
 | **Branch** | `feat/first-tenant-golden-path` |
-| **Status** | Deployed to certification — owner review pending |
+| **Status** | **ACCEPTED on certification** (CROW.PUBLIC.10, 2026-07-07) |
 | **Production** | Not deployed (not authorized) |
 | **PR #10** | OPEN, DRAFT, unmerged |
-| **Prior** | CROW.PUBLIC.8 signature hero **accepted in principle** as baseline |
+| **Prior** | CROW.PUBLIC.8 signature hero — baseline for lock-in |
 
 ## Owner decision
 
-**APPROVED IN PRINCIPLE — LOCK DESIGN IN AND FIX THE REST.**
+**ACCEPTED — CURRENT PUBLIC DESIGN IS LOCKED AS THE FINAL PUBLIC EXPERIENCE CANDIDATE** (CROW.PUBLIC.10, manual certification review, 2026-07-07).
 
-The semi-dark premium cyber/neon public identity, signature homepage hero, amber journey CTA, and purple transform CTA are the locked direction. This milestone is polish-only — no redesign, no route/access changes.
+Accepted elements:
+
+- Semi-dark cyber/neon public identity
+- Signature homepage hero and Operating Model visual
+- Amber journey CTA (`pv2-btn-journey`)
+- Purple transform CTA (`pv2-btn-transform`)
+- Public route architecture and browse/sign-in model
+- Text containment polish
+
+**Production deployment is still not authorized.** PR #10 remains open, draft, and unmerged.
+
+Prior milestone note: **APPROVED IN PRINCIPLE — LOCK DESIGN IN AND FIX THE REST** (pre-polish, CROW.PUBLIC.9 implementation).
 
 ## Issues addressed
 
@@ -69,20 +80,25 @@ Added: `locked public design marker and polish containment (CROW.PUBLIC.9)`.
 |------|-------|
 | Project | `crow-ftgp-certification` |
 | Script | `npm run ftgp-certification-production:deploy` |
-| Source commit | `c51a60e` |
+| **Accepted visual deploy commit** | `c51a60e` |
+| **Branch documentation HEAD** | `7e3a49d` (docs-only after visual deploy) |
 | Deployment host | `crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app` |
+
+**Accepted certification URL:**
 
 https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/
 
 ## Production
 
-**Not authorized.**
+**Not authorized.** See [`CROW-PUBLIC-PROD-PLAN.md`](CROW-PUBLIC-PROD-PLAN.md) — requires explicit owner authorization phrase.
 
 ## Owner review checklist
 
-- [ ] Design direction unchanged (semi-dark, signature hero, amber/purple CTAs)
-- [ ] No text clipping or escaping boxes on homepage hero
-- [ ] iPad portrait and mobile layouts readable
-- [ ] Auth login/signup contrast and input readability
-- [ ] Public pages feel consistently polished
-- [ ] No regression to white/gray or boxed generic hero
+- [x] Design direction unchanged (semi-dark, signature hero, amber/purple CTAs)
+- [x] No text clipping or escaping boxes on homepage hero
+- [x] iPad portrait and mobile layouts readable
+- [x] Auth login/signup contrast and input readability
+- [x] Public pages feel consistently polished
+- [x] No regression to white/gray or boxed generic hero
+
+Acceptance recorded in CROW.PUBLIC.10 (2026-07-07).

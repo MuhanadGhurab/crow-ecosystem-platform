@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-04 (CROW.PUBLIC.6) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -44,10 +44,10 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.3/4, `b90ac88`); **colorful polish + targeted fixes** (CROW.PUBLIC.5/6) on branch for owner review; **Production `/` still legacy** |
-| **Severity** | Low on branch/certification; Medium until Production promotion |
-| **Security/authority impact** | Public browse access corrected on branch; client-process gates unchanged |
-| **Dependency** | Owner colorful polish acceptance; then CROW.PUBLIC.PROD authorization |
+| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.9 visual at `c51a60e`, CROW.PUBLIC.10 owner acceptance 2026-07-07); **Production `/` still legacy** |
+| **Severity** | Low on certification; Medium until Production promotion |
+| **Security/authority impact** | Public browse access accepted on branch/certification; client-process gates unchanged |
+| **Dependency** | CROW.PUBLIC.PROD authorization only (visual acceptance complete) |
 | **Proposed milestone** | CROW.PUBLIC.PROD — see [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md) |
 | **Owner decision required** | `AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production` |
 | **Status** | **Accepted on certification** — Production promotion open |
@@ -57,8 +57,8 @@
 | Field | Value |
 |-------|-------|
 | **Domain** | Public experience / Operations |
-| **Intended state** | Production serves the owner-accepted bright public experience |
-| **Current state** | Certification accepted experience; colorful polish deployed for review; Production unchanged |
+| **Intended state** | Production serves the owner-accepted semi-dark public experience (CROW.PUBLIC.9) |
+| **Current state** | Certification accepted at `c51a60e`; Production unchanged (`main` legacy public) |
 | **Severity** | Medium — public promise and certification diverge from Production |
 | **Security/authority impact** | Low if promotion is UI/static only; must not change auth or Request behavior |
 | **Dependency** | PR #10 merge decision (separate); test gates; rollback plan |
