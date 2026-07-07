@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Milestone** | CROW.PUBLIC.PROD (planned — **not authorized**) |
+| **Milestone** | CROW.PUBLIC.PROD (planned — **deployed 2026-07-07**) |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Accepted certification URL** | https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/ |
 | **Accepted visual deploy commit** | `c51a60e` |

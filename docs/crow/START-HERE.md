@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD-PREFLIGHT) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,17 +52,15 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.PROD-PREFLIGHT** — Repository clean; accepted candidate verified; gates PASS. **Production not authorized.**
+**CROW.PUBLIC.PROD** — Owner-authorized Production deployment complete (2026-07-07).
 
-**CROW.PUBLIC.10** — Owner **ACCEPTED** locked public design (CROW.PUBLIC.9 at `c51a60e`).
+Evidence: [`milestones/CROW-PUBLIC-PROD.md`](milestones/CROW-PUBLIC-PROD.md).
 
-Evidence: [`milestones/CROW-PUBLIC-PROD-PREFLIGHT.md`](milestones/CROW-PUBLIC-PROD-PREFLIGHT.md), [`milestones/CROW-PUBLIC-10.md`](milestones/CROW-PUBLIC-10.md).
+**Production:** https://crow-ecosystem-platform.vercel.app · deployment `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · source `33e48f5`.
 
-**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md). Requires: *AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production*.
+**Prior:** CROW.PUBLIC.10 acceptance; CROW.PUBLIC.PROD-PREFLIGHT; CROW.PUBLIC.9 locked design.
 
-**Prior:** CROW.PUBLIC.8 signature hero; CROW.PUBLIC.3/4 route/access acceptance.
-
-**Hold:** no PR #10 merge, **no Production deploy**, no `main` push.
+**Hold:** no PR #10 merge, no `main` push.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 

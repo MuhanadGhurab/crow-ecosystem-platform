@@ -44,13 +44,13 @@
 |-------|-------|
 | **Domain** | Public experience |
 | **Intended state** | Seven-section approved structure per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) |
-| **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.9 visual at `c51a60e`, CROW.PUBLIC.10 owner acceptance 2026-07-07); **Production `/` still legacy** |
-| **Severity** | Low on certification; Medium until Production promotion |
-| **Security/authority impact** | Public browse access accepted on branch/certification; client-process gates unchanged |
-| **Dependency** | CROW.PUBLIC.PROD authorization only; preflight complete — see [`CROW-PUBLIC-PROD-PREFLIGHT.md`](milestones/CROW-PUBLIC-PROD-PREFLIGHT.md) |
-| **Proposed milestone** | CROW.PUBLIC.PROD — see [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md) |
-| **Owner decision required** | `AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production` |
-| **Status** | **Accepted on certification** — Production promotion open |
+| **Current state** | **DEPLOYED to Production** (CROW.PUBLIC.PROD, `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`, 2026-07-07) |
+| **Severity** | Resolved on Production |
+| **Security/authority impact** | Public browse on Production matches certification; client-process gates unchanged |
+| **Dependency** | — |
+| **Proposed milestone** | — |
+| **Owner decision required** | — |
+| **Status** | **Closed** — Production serves accepted experience |
 
 ## GAP-011 — Public experience Production promotion
 
@@ -58,13 +58,13 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | Production serves the owner-accepted semi-dark public experience (CROW.PUBLIC.9) |
-| **Current state** | Certification accepted at `c51a60e`; Production unchanged (`main` legacy public) |
-| **Severity** | Medium — public promise and certification diverge from Production |
-| **Security/authority impact** | Low if promotion is UI/static only; must not change auth or Request behavior |
-| **Dependency** | PR #10 merge decision (separate); test gates; rollback plan |
-| **Proposed milestone** | CROW.PUBLIC.PROD |
-| **Owner decision required** | Explicit Production authorization phrase (see PROD plan) |
-| **Status** | Open — planned, not authorized |
+| **Current state** | **Deployed** — Production `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` from `33e48f5` (2026-07-07) |
+| **Severity** | Resolved |
+| **Security/authority impact** | UI/static promotion only; no migration or hosted writes |
+| **Dependency** | PR #10 merge remains separate |
+| **Proposed milestone** | — |
+| **Owner decision required** | — |
+| **Status** | **Closed** |
 
 ## GAP-004 — Preview/Production database isolation
 
