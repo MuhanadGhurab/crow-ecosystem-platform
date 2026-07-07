@@ -89,14 +89,17 @@ test("navigation menu structure uses public site nav", () => {
 });
 
 test("hero four-stage operating model", () => {
+  const visual = read("src/components/public-v2/public-hero-transformation-visual.tsx");
   const diagram = read("src/components/public-v2/public-operating-diagram.tsx");
-  assert.ok(diagram.includes("Organizational Intent"));
-  assert.ok(diagram.includes("Operating Model"));
-  assert.ok(diagram.includes("Enterprise Blueprint"));
-  assert.ok(diagram.includes("Operational Runtime"));
-  assert.ok(diagram.includes("People"));
-  assert.ok(diagram.includes("Trust"));
-  assert.ok(diagram.includes("aria-pressed"), "interactive stage selection");
+  for (const file of [visual, diagram]) {
+    assert.ok(file.includes("Organizational Intent"));
+    assert.ok(file.includes("Operating Model"));
+    assert.ok(file.includes("Enterprise Blueprint"));
+    assert.ok(file.includes("Operational Runtime"));
+    assert.ok(file.includes("People"));
+    assert.ok(file.includes("Trust"));
+  }
+  assert.ok(visual.includes("aria-pressed"), "interactive stage selection");
 });
 
 test("six-step lifecycle explorer", () => {

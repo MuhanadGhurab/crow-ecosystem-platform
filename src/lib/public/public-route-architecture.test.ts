@@ -177,7 +177,7 @@ test("layout quality — no stagger overlap pattern in begins differently", () =
 test("bright depth tokens present", () => {
   const css = read("src/styles/public-v2-bright.css");
   assert.ok(css.includes("pv2-blueprint-grid"));
-  assert.ok(css.includes("pv2-hero-panel"));
+  assert.ok(css.includes("pv2-signature-hero"));
   assert.ok(css.includes("pv2-section-band"));
 });
 
@@ -242,10 +242,24 @@ test("page hero and journey presentation (CROW.PUBLIC.6)", () => {
   assert.ok(css.includes("pv2-page-mood-teal"));
 });
 
-test("diagram panel avoids nested hero collision (CROW.PUBLIC.6)", () => {
+test("signature hero avoids boxed card composition (CROW.PUBLIC.8)", () => {
   const hero = read("src/components/public-v2/public-hero-section.tsx");
-  assert.ok(hero.includes("pv2-diagram-panel"));
-  assert.ok(!hero.includes("pv2-hero-panel p-4 sm:p-6 lg:p-7"));
+  const visual = read("src/components/public-v2/public-hero-transformation-visual.tsx");
+  const css = read("src/styles/public-v2-bright.css");
+  assert.ok(hero.includes("pv2-signature-hero"));
+  assert.ok(hero.includes("PublicHeroTransformationVisual"));
+  assert.ok(!hero.includes("pv2-hero-panel"));
+  assert.ok(!hero.includes("pv2-diagram-panel"));
+  assert.ok(visual.includes("Organizational Intent"));
+  assert.ok(visual.includes("Operating Model"));
+  assert.ok(visual.includes("Enterprise Blueprint"));
+  assert.ok(visual.includes("Operational Runtime"));
+  assert.ok(visual.includes("People"));
+  assert.ok(visual.includes("Responsibilities"));
+  assert.ok(visual.includes("Workflows"));
+  assert.ok(visual.includes("Trust"));
+  assert.ok(css.includes("pv2-hero-stage-operating"));
+  assert.ok(css.includes("pv2-hero-facet"));
 });
 
 test("journey conversion CTA uses muted amber class (CROW.PUBLIC.7)", () => {
