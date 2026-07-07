@@ -69,7 +69,10 @@ Added: `locked public design marker and polish containment (CROW.PUBLIC.9)`.
 |------|-------|
 | Project | `crow-ftgp-certification` |
 | Script | `npm run ftgp-certification-production:deploy` |
-| Source commit | see git HEAD after push |
+| Source commit | `c51a60e` |
+| Deployment host | `crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app` |
+
+https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/
 
 ## Production
 
