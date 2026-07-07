@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD-PREFLIGHT) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,13 +52,13 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.10** — Owner **ACCEPTED** locked public design on certification (CROW.PUBLIC.9 candidate). **Production not authorized.**
+**CROW.PUBLIC.PROD-PREFLIGHT** — Repository clean; accepted candidate verified; gates PASS. **Production not authorized.**
 
-**CROW.PUBLIC.9** — Semi-dark identity locked; polish accepted at `c51a60e`.
+**CROW.PUBLIC.10** — Owner **ACCEPTED** locked public design (CROW.PUBLIC.9 at `c51a60e`).
 
-Evidence: [`milestones/CROW-PUBLIC-10.md`](milestones/CROW-PUBLIC-10.md), [`milestones/CROW-PUBLIC-9.md`](milestones/CROW-PUBLIC-9.md).
+Evidence: [`milestones/CROW-PUBLIC-PROD-PREFLIGHT.md`](milestones/CROW-PUBLIC-PROD-PREFLIGHT.md), [`milestones/CROW-PUBLIC-10.md`](milestones/CROW-PUBLIC-10.md).
 
-**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md). Requires explicit phrase: *AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production*.
+**Next (when owner authorizes):** **CROW.PUBLIC.PROD** — [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md). Requires: *AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production*.
 
 **Prior:** CROW.PUBLIC.8 signature hero; CROW.PUBLIC.3/4 route/access acceptance.
 

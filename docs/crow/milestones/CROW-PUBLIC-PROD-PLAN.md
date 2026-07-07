@@ -6,11 +6,13 @@
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Accepted certification URL** | https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/ |
 | **Accepted visual deploy commit** | `c51a60e` |
-| **Branch documentation HEAD** | `7e3a49d` (docs-only after visual deploy) |
+| **Branch documentation HEAD** | `e349449` (CROW.PUBLIC.10 acceptance); preflight `CROW-PUBLIC-PROD-PREFLIGHT` |
 | **Owner acceptance** | CROW.PUBLIC.9 — **ACCEPTED** (CROW.PUBLIC.10, 2026-07-07, manual certification review) |
 | **Production candidate** | **CROW.PUBLIC.9** — locked semi-dark public experience |
 | **PR #10** | OPEN, DRAFT, unmerged — merge is separate from this plan |
 | **Production** | **Not deployed** — explicit owner authorization required |
+
+**Preflight:** [`CROW-PUBLIC-PROD-PREFLIGHT.md`](CROW-PUBLIC-PROD-PREFLIGHT.md) — repository clean, candidate verified, gates PASS (2026-07-07). Preflight does **not** authorize Production.
 
 ## Purpose
 

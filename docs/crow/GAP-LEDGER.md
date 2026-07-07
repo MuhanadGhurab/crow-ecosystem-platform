@@ -47,7 +47,7 @@
 | **Current state** | **ACCEPTED on certification** (CROW.PUBLIC.9 visual at `c51a60e`, CROW.PUBLIC.10 owner acceptance 2026-07-07); **Production `/` still legacy** |
 | **Severity** | Low on certification; Medium until Production promotion |
 | **Security/authority impact** | Public browse access accepted on branch/certification; client-process gates unchanged |
-| **Dependency** | CROW.PUBLIC.PROD authorization only (visual acceptance complete) |
+| **Dependency** | CROW.PUBLIC.PROD authorization only; preflight complete — see [`CROW-PUBLIC-PROD-PREFLIGHT.md`](milestones/CROW-PUBLIC-PROD-PREFLIGHT.md) |
 | **Proposed milestone** | CROW.PUBLIC.PROD — see [`milestones/CROW-PUBLIC-PROD-PLAN.md`](milestones/CROW-PUBLIC-PROD-PLAN.md) |
 | **Owner decision required** | `AUTHORIZE CROW.PUBLIC.PROD — deploy accepted public experience to Production` |
 | **Status** | **Accepted on certification** — Production promotion open |

@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10 owner acceptance) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD-PREFLIGHT) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -22,7 +22,7 @@
 | Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | `.gitignore` modified (unrelated; not part of PUBLIC.10) |
+| Working tree | Clean (preflight restored unrelated `.gitignore` local edit) |
 
 ## Stack
 
