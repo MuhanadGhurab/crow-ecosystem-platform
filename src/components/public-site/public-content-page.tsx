@@ -31,9 +31,9 @@ export function PublicContentPage({
   return (
     <article className={`pv2-section-band pv2-content-canvas pv2-page-mood-${mood}`}>
       <div className="pv2-section-inner py-12 sm:py-16 lg:py-20">
-        <header className="pv2-page-hero mb-10 max-w-4xl">
+        <header className="pv2-page-hero mb-10 min-w-0 max-w-4xl">
           {eyebrow ? <p className="pv2-eyebrow mb-3">{eyebrow}</p> : null}
-          <h1 className="pv2-h1">{title}</h1>
+          <h1 className="pv2-h1 text-balance">{title}</h1>
           {description ? <p className="pv2-lead mt-4 max-w-2xl">{description}</p> : null}
           {introExtra ? <div className="mt-6">{introExtra}</div> : null}
         </header>

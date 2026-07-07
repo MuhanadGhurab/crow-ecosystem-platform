@@ -32,13 +32,13 @@ export function PublicFoundationDiagram({ variant = "full" }: { variant?: "full"
             className={`pv2-foundation-node ${LAYER_ACCENT[layer.id]} pv2-foundation-node-${layer.id}`}
           >
             <p className="text-xs font-bold text-[var(--pv2-text-primary)]">{layer.label}</p>
-            <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-[var(--pv2-text-muted)]">
+            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-[var(--pv2-text-muted)]">
               {layer.role}
             </p>
           </div>
         ))}
         <div className="pv2-foundation-node pv2-foundation-node-core">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-[var(--pv2-text-muted)]">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--pv2-text-muted)]">
             Organization
           </p>
           <p className="mt-1 text-sm font-semibold text-[var(--pv2-text-primary)]">

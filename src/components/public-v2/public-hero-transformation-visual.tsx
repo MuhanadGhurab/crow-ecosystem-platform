@@ -61,7 +61,7 @@ export function PublicHeroTransformationVisual() {
       </figcaption>
 
       {/* Desktop / tablet — horizontal canvas */}
-      <div className="pv2-hero-transformation-canvas hidden md:block">
+      <div className="pv2-hero-transformation-canvas hidden lg:block">
         <div className="pv2-hero-transformation-grid" role="group" aria-label="Transformation stages">
           {STAGES.map((stage, index) => (
             <div key={stage.id} className="contents">
@@ -94,10 +94,7 @@ export function PublicHeroTransformationVisual() {
                     </ul>
                   </>
                 ) : (
-                  <>
-                    <p className="pv2-hero-stage-title-sm">{stage.label}</p>
-                    <p className="pv2-hero-stage-subcopy-sm">{stage.description}</p>
-                  </>
+                  <p className="pv2-hero-stage-title-sm">{stage.label}</p>
                 )}
               </button>
             </div>
@@ -106,7 +103,7 @@ export function PublicHeroTransformationVisual() {
       </div>
 
       {/* Mobile — stacked, operating model expanded */}
-      <div className="flex flex-col gap-3 md:hidden" role="group" aria-label="Transformation stages">
+      <div className="flex flex-col gap-3 lg:hidden" role="group" aria-label="Transformation stages">
         {STAGES.map((stage, index) => (
           <div key={stage.id}>
             <button

@@ -50,16 +50,16 @@ export function PublicHeroSection() {
               ))}
             </ul>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="pv2-hero-cta-group mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={publicRoutes.newOrganization}
-                className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} ${PUBLIC_V2_MOTION_CLASS.button}`}
+                className={`${PUBLIC_V2_JOURNEY_CTA_CLASS} w-full sm:w-auto ${PUBLIC_V2_MOTION_CLASS.button}`}
               >
                 Build a New Organization
               </Link>
               <Link
                 href={publicRoutes.transformExisting}
-                className={`pv2-btn-transform ${PUBLIC_V2_MOTION_CLASS.button}`}
+                className={`pv2-btn-transform w-full sm:w-auto ${PUBLIC_V2_MOTION_CLASS.button}`}
               >
                 Transform an Existing Organization
               </Link>

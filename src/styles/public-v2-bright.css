@@ -271,6 +271,8 @@
 
 .public-v2-bright .pv2-trust-pill {
   display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
   align-items: center;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--pv2-gold) 38%, var(--pv2-border));
@@ -278,8 +280,11 @@
   padding: 0.35rem 0.85rem;
   font-size: 0.75rem;
   font-weight: 600;
+  line-height: 1.35;
   color: var(--pv2-gold);
   box-shadow: 0 2px 12px var(--pv2-gold-glow);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .public-v2-bright .pv2-diagram-stage.is-selected-gold {
@@ -523,15 +528,18 @@
 .public-v2-bright .pv2-btn-secondary {
   display: inline-flex;
   min-height: 44px;
+  max-width: 100%;
   align-items: center;
   justify-content: center;
   border-radius: var(--pv2-radius);
   border: 1px solid color-mix(in srgb, var(--pv2-purple) 40%, var(--pv2-border));
   background: linear-gradient(180deg, color-mix(in srgb, var(--pv2-purple-soft) 70%, var(--pv2-surface)) 0%, var(--pv2-surface-raised) 100%);
-  padding: 0.625rem 1.25rem;
+  padding: 0.625rem 1.125rem;
   font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.3;
   color: var(--pv2-purple);
+  text-wrap: balance;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
@@ -779,12 +787,14 @@
 }
 
 .public-v2-bright .pv2-foundation-node {
+  min-width: 0;
   border: 1px solid var(--pv2-border);
   border-radius: var(--pv2-radius);
   background: var(--pv2-surface);
   padding: 0.75rem 1rem;
   box-shadow: var(--pv2-shadow);
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .public-v2-bright .pv2-foundation-node-core {
@@ -1047,7 +1057,14 @@
 .public-v2-bright .pv2-journey-step,
 .public-v2-bright .pv2-lifecycle-gate,
 .public-v2-bright .pv2-platform-hub,
-.public-v2-bright .pv2-card {
+.public-v2-bright .pv2-card,
+.public-v2-bright .pv2-hero-stage,
+.public-v2-bright .pv2-hero-facet,
+.public-v2-bright .pv2-trust-pill,
+.public-v2-bright .pv2-btn-journey,
+.public-v2-bright .pv2-btn-transform,
+.public-v2-bright .pv2-btn-secondary,
+.public-v2-bright .pv2-dropdown-item {
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -1223,18 +1240,20 @@
 .public-v2-bright .pv2-btn-transform {
   display: inline-flex;
   min-height: 44px;
+  max-width: 100%;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--pv2-purple) 45%, var(--pv2-border));
   background: color-mix(in srgb, var(--pv2-purple-soft) 55%, var(--pv2-surface));
-  padding: 0.625rem 1.25rem;
-  font-size: 0.9375rem;
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.3;
   color: var(--pv2-text-primary);
   box-shadow: 0 2px 12px color-mix(in srgb, var(--pv2-purple) 12%, transparent);
+  text-wrap: balance;
   transition:
     border-color 200ms ease,
     background 200ms ease,
@@ -1465,6 +1484,67 @@
   border-color: color-mix(in srgb, var(--pv2-teal) 35%, var(--pv2-border));
   background: color-mix(in srgb, var(--pv2-teal-soft) 65%, var(--pv2-surface));
   color: var(--pv2-teal);
+}
+
+/* ── CROW.PUBLIC.9 polish — containment and responsive refinement (design locked) ── */
+
+.public-v2-bright .pv2-hero-cta-group > a {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.public-v2-bright .pv2-hero-stage-side .pv2-hero-stage-title-sm {
+  font-size: clamp(0.75rem, 1.1vw, 0.875rem);
+  line-height: 1.3;
+}
+
+.public-v2-bright .pv2-hero-stage-operating .pv2-hero-stage-subcopy {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+@media (max-width: 1279px) {
+  .public-v2-bright .pv2-hero-facet {
+    font-size: 0.75rem;
+    padding: 0.45rem 0.5rem;
+    hyphens: auto;
+  }
+
+  .public-v2-bright .pv2-hero-stage-operating .pv2-hero-stage-title {
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .public-v2-bright .pv2-hero-transformation-grid {
+    grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 2fr) auto minmax(0, 0.9fr) auto minmax(0, 0.9fr);
+    gap: 0.35rem 0.2rem;
+  }
+
+  .public-v2-bright .pv2-hero-stage {
+    padding: 0.625rem;
+  }
+}
+
+.public-v2-bright .pv2-nav-link {
+  min-width: 0;
+  max-width: 12rem;
+  overflow-wrap: anywhere;
+}
+
+.public-v2-bright .pv2-dropdown-item {
+  overflow-wrap: anywhere;
+}
+
+[data-public-auth="true"] .pv2-auth-form .input-cc {
+  width: 100%;
+  max-width: 100%;
+}
+
+[data-public-auth="true"] .pv2-auth-form label {
+  overflow-wrap: anywhere;
 }
 
 @media (prefers-reduced-motion: reduce) {

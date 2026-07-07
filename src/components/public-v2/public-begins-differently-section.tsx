@@ -28,7 +28,7 @@ function CrowVisual() {
         {["Intent", "Blueprint", "Runtime", "Trust"].map((n) => (
           <div
             key={n}
-            className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface)] px-2 py-1.5 text-center text-[10px] font-medium text-[var(--pv2-text-secondary)]"
+            className="rounded-md border border-[var(--pv2-border)] bg-[var(--pv2-surface)] px-2 py-1.5 text-center text-[11px] font-medium text-[var(--pv2-text-secondary)]"
           >
             {n}
           </div>

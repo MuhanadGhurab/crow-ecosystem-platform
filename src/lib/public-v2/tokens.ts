@@ -13,6 +13,9 @@ export const PUBLIC_V2_COLORFUL_IDENTITY_MARKER = "pv2-colorful-identity" as con
 /** CROW.PUBLIC.7 — semi-dark premium identity (not legacy black shell). */
 export const PUBLIC_V2_SEMI_DARK_IDENTITY_MARKER = "pv2-semi-dark-identity" as const;
 
+/** CROW.PUBLIC.9 — owner-approved public visual direction locked for polish-only milestones. */
+export const PUBLIC_V2_LOCKED_PUBLIC_DESIGN_MARKER = "pv2-locked-public-design" as const;
+
 /** Teal neon — intelligence, active work, system clarity */
 export const publicV2Teal = "#2dd4bf";
 /** Gold neon — trust, readiness, approval */

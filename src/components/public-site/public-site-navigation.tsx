@@ -75,11 +75,11 @@ function NavDropdown({
               className="pv2-dropdown-item block"
               onClick={onClose}
             >
-              <span className="block text-sm font-medium text-[var(--pv2-text-primary)]">
+              <span className="block min-w-0 text-sm font-medium text-[var(--pv2-text-primary)]">
                 {item.label}
               </span>
               {item.description ? (
-                <span className="mt-0.5 block text-xs text-[var(--pv2-text-muted)]">
+                <span className="mt-0.5 block min-w-0 text-xs text-[var(--pv2-text-muted)]">
                   {item.description}
                 </span>
               ) : null}

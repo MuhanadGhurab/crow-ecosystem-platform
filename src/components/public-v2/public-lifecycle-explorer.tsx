@@ -35,7 +35,7 @@ function LifecycleDiagram({ stepId }: { stepId: PublicLifecycleStepId }) {
         {nodes[stepId].map((node) => (
           <span
             key={node}
-            className="rounded-lg border border-[color-mix(in_srgb,var(--pv2-cyan)_25%,var(--pv2-border))] bg-[var(--pv2-cyan-soft)] px-2.5 py-1.5 text-xs font-medium text-[#0e7490]"
+            className="rounded-lg border border-[color-mix(in_srgb,var(--pv2-teal)_25%,var(--pv2-border))] bg-[var(--pv2-teal-soft)] px-2.5 py-1.5 text-xs font-medium text-[var(--pv2-teal)]"
           >
             {node}
           </span>

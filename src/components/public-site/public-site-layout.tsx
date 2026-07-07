@@ -2,7 +2,11 @@ import type { ReactNode } from "react";
 
 import "@/styles/public-v2-bright.css";
 
-import { PUBLIC_V2_BRIGHT_IDENTITY_MARKER, PUBLIC_V2_COLORFUL_IDENTITY_MARKER, PUBLIC_V2_SEMI_DARK_IDENTITY_MARKER } from "@/lib/public-v2/tokens";
+import {
+  PUBLIC_V2_BRIGHT_IDENTITY_MARKER,
+  PUBLIC_V2_COLORFUL_IDENTITY_MARKER,
+  PUBLIC_V2_SEMI_DARK_IDENTITY_MARKER,
+} from "@/lib/public-v2/tokens";
 
 type PublicSiteLayoutProps = {
   children: ReactNode;
@@ -18,6 +22,7 @@ export function PublicSiteLayout({ children, navigation, footer }: PublicSiteLay
       data-public-site="true"
       data-pv2-colorful="true"
       data-pv2-semi-dark="true"
+      data-pv2-locked-design="true"
     >
       <div className="pv2-blueprint-grid pointer-events-none absolute inset-0 z-0" aria-hidden />
       <div className="pv2-ambient pointer-events-none absolute inset-0 z-0" aria-hidden />
