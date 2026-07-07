@@ -275,6 +275,25 @@ test("journey conversion CTA uses muted amber class (CROW.PUBLIC.7)", () => {
   assert.ok(journeyCard.includes("PUBLIC_V2_JOURNEY_CTA_CLASS"));
 });
 
+test("locked public design marker and polish containment (CROW.PUBLIC.9)", () => {
+  const layout = read("src/components/public-site/public-site-layout.tsx");
+  const auth = read("src/components/public-site/public-auth-frame.tsx");
+  const tokens = read("src/lib/public-v2/tokens.ts");
+  const css = read("src/styles/public-v2-bright.css");
+  const hero = read("src/components/public-v2/public-hero-section.tsx");
+  const visual = read("src/components/public-v2/public-hero-transformation-visual.tsx");
+  assert.ok(tokens.includes("PUBLIC_V2_LOCKED_PUBLIC_DESIGN_MARKER"));
+  assert.ok(layout.includes('data-pv2-locked-design="true"'));
+  assert.ok(auth.includes('data-pv2-locked-design="true"'));
+  assert.ok(hero.includes("pv2-signature-hero"));
+  assert.ok(hero.includes("pv2-btn-transform"));
+  assert.ok(visual.includes("hidden lg:block"));
+  assert.ok(css.includes("CROW.PUBLIC.9 polish"));
+  assert.ok(css.includes("pv2-hero-cta-group"));
+  assert.ok(!css.includes("#f2ebe0"));
+  assert.ok(!css.includes("#fffcf7"));
+});
+
 test("bundle containment — no story or privileged imports in public-site/v2", () => {
   const dirs = [
     "src/components/public-site",
