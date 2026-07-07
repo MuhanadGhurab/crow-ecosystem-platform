@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.POSTPROD.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,15 +52,17 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.PROD** — Owner-authorized Production deployment complete (2026-07-07).
+**CROW.PUBLIC.POSTPROD.1** — Owner **reviewed** live Production public experience; main reconciliation plan prepared.
 
-Evidence: [`milestones/CROW-PUBLIC-PROD.md`](milestones/CROW-PUBLIC-PROD.md).
+Evidence: [`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md).
 
-**Production:** https://crow-ecosystem-platform.vercel.app · deployment `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · source `33e48f5`.
+**Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
 
-**Prior:** CROW.PUBLIC.10 acceptance; CROW.PUBLIC.PROD-PREFLIGHT; CROW.PUBLIC.9 locked design.
+**Prior:** CROW.PUBLIC.PROD deployment; CROW.PUBLIC.10 acceptance; CROW.PUBLIC.9 locked design.
 
-**Hold:** no PR #10 merge, no `main` push.
+**Hold:** no PR #10 merge, no `main` push, **no Production redeploy**.
+
+**Reconciliation:** Prefer **public-only cherry-pick PR** (Option D) over full PR #10 merge — see POSTPROD.1 plan.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 
@@ -69,7 +71,7 @@ Evidence: [`milestones/CROW-PUBLIC-PROD.md`](milestones/CROW-PUBLIC-PROD.md).
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, **Production public promotion (CROW.PUBLIC.PROD)**, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, **`main` / Production reconciliation (GAP-012)**, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

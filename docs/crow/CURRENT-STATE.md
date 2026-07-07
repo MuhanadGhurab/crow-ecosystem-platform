@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.PROD) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.POSTPROD.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `33e48f5` (docs commit pending)
+**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `c4a54d9`
 
 ## Repository and branch state
 
@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `33e48f5` — CROW.PUBLIC.PROD deployed; docs commit pending |
+| HEAD | `c4a54d9` — CROW.PUBLIC.POSTPROD.1 owner review recorded |
 | Remote sync | `origin/feat/first-tenant-golden-path` |
-| Default branch | `main` at `a5620c3` |
-| PR #10 | OPEN, DRAFT, unmerged — FTGP foundation |
-| Working tree | Clean (preflight restored unrelated `.gitignore` local edit) |
+| Default branch | `main` at `a5620c3` (legacy public — **not** Production source) |
+| PR #10 | OPEN, DRAFT, unmerged — FTGP + public; merge **not** authorized by POSTPROD.1 |
+| Working tree | Clean |
 
 ## Stack
 
@@ -46,7 +46,7 @@
 | **ACCEPTED (prior)** | CROW.PUBLIC.3/4 — route architecture and browse/sign-in model (`b90ac88`) |
 | IMPLEMENTED | Signature hero (`pv2-signature-hero`); amber journey + purple transform CTAs; `data-pv2-locked-design` |
 | UNCHANGED | Public browse policy (`public-access-policy.ts`); auth and client-process gates |
-| **DEPLOYED** | Production — CROW.PUBLIC.PROD (`dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`, commit `33e48f5`, 2026-07-07) |
+| **DEPLOYED & REVIEWED** | Production — CROW.PUBLIC.PROD + owner live review (POSTPROD.1, 2026-07-07) |
 | **Production URL** | https://crow-ecosystem-platform.vercel.app |
 | **Certification URL** | https://crow-ftgp-certification-iipjrwhxd-muhanadghurabs-projects.vercel.app/ |
 
@@ -169,7 +169,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Local | Docker Postgres via `docker-compose.local.yml` |
 | Preview / Staging | Vercel + Supabase hosted |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
-| Production | Live at crow-ecosystem-platform.vercel.app — **accepted CROW.PUBLIC.9 public experience** (`dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`; rollback `dpl_8NeFiYQ4TSumt9kQSMGfv1WTiDM4`) |
+| Production | Live — **accepted public UI** (`dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`); owner reviewed POSTPROD.1; **`main` still legacy** |
 
 ### PR and branch state
 

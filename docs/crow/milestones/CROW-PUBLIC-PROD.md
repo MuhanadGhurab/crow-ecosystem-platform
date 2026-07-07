@@ -7,6 +7,7 @@
 | **Date** | 2026-07-07 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **PR #10** | OPEN, DRAFT, unmerged (unchanged) |
+| **Post-deploy** | Owner live review — [`CROW-PUBLIC-POSTPROD-1.md`](CROW-PUBLIC-POSTPROD-1.md) |
 
 ## Owner authorization
 

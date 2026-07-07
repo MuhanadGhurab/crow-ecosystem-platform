@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.10) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.POSTPROD.1) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -65,6 +65,20 @@
 | **Proposed milestone** | — |
 | **Owner decision required** | — |
 | **Status** | **Closed** |
+
+## GAP-012 — Production vs `main` branch reconciliation
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Public experience / Operations |
+| **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
+| **Current state** | Production runs feature-branch deploy (`33e48f5`); `main` @ `a5620c3` has legacy public + `db:migrate:deploy` in `vercel.json` |
+| **Severity** | **High** — accidental `main` Production deploy would revert public site |
+| **Security/authority impact** | Medium if FTGP merged without review; High if migrations run from `main` build |
+| **Dependency** | Owner reconciliation decision — [`CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md) |
+| **Proposed milestone** | Public-only cherry-pick PR (Option D) or explicit FTGP merge authorization (Option A) |
+| **Owner decision required** | Merge PR #10 · public-only reconciliation PR · keep Production pinned · GAP-004 first |
+| **Status** | **Open** — plan prepared POSTPROD.1 |
 
 ## GAP-004 — Preview/Production database isolation
 
