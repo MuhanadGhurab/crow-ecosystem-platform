@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.POSTPROD.1) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.RECON.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -52,9 +52,11 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.POSTPROD.1** — Owner **reviewed** live Production public experience; main reconciliation plan prepared.
+**CROW.PUBLIC.RECON.1** — Public-only main reconciliation plan and cherry-pick safety audit complete.
 
-Evidence: [`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md).
+Evidence: [`milestones/CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md).
+
+**Prior:** CROW.PUBLIC.POSTPROD.1 — owner reviewed live Production; POSTPROD plan in [`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
 
@@ -62,7 +64,7 @@ Evidence: [`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPR
 
 **Hold:** no PR #10 merge, no `main` push, **no Production redeploy**.
 
-**Reconciliation:** Prefer **public-only cherry-pick PR** (Option D) over full PR #10 merge — see POSTPROD.1 plan.
+**Reconciliation:** Public-only cherry-pick from `main` (~78 files) — see RECON.1; full PR #10 merge deferred.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 

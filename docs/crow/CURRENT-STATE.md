@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.POSTPROD.1) |
+| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.RECON.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `c4a54d9`
+**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `a6290c3`
 
 ## Repository and branch state
 
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `c4a54d9` — CROW.PUBLIC.POSTPROD.1 owner review recorded |
+| HEAD | `a6290c3` — CROW.PUBLIC.RECON.1 cherry-pick safety audit |
 | Remote sync | `origin/feat/first-tenant-golden-path` |
 | Default branch | `main` at `a5620c3` (legacy public — **not** Production source) |
 | PR #10 | OPEN, DRAFT, unmerged — FTGP + public; merge **not** authorized by POSTPROD.1 |
@@ -174,7 +174,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 ### PR and branch state
 
 - **PR #10:** OPEN DRAFT — `feat/first-tenant-golden-path` → `main`
-- **main:** `a5620c3` — docs(release): record R2 production stabilization
+- **main:** `a5620c3` — legacy public; **public-only reconciliation plan** in [`CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md) (~78 core files cherry-pickable)
 - FTGP work continues on feature branch; not merged
 
 ### Known technical debt
