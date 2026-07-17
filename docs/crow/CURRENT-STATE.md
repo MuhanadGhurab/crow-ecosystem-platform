@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
+| **Last reviewed** | 2026-07-18 (CROW.REQUEST.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PM.2 docs (verify with `git rev-parse HEAD`) |
+| HEAD | CROW.REQUEST.1 docs (verify with `git rev-parse HEAD`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 |
+| Seed Issues | #15–#24 · #17 audit/plan updated |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs updates for CROW.PM.2 |
+| Working tree | Docs updates for CROW.REQUEST.1 |
 
 ## Stack
 
@@ -62,15 +62,17 @@
 | PARTIAL | Dual-channel verification; FTGP authority boundaries tested |
 | Evidence | `src/lib/auth/`, `src/lib/account/`, `docs/architecture/crow-core/c3/` |
 
-### Request — PARTIAL
+### Request — PARTIAL (audit complete; implementation not authorized)
 
 | Status | Evidence |
 |--------|----------|
-| IMPLEMENTED | `ImplementationRequest` model, client request wizard |
-| IMPLEMENTED | `OrganizationContext` kinds in `src/lib/client-service-request/types.ts` |
-| IMPLEMENTED | Request does not provision tenant (explicit authority contract) |
-| PARTIAL | FTGP first-request designation and review transition in progress |
-| Evidence | `prisma/schema.prisma`, `/client/requests/*`, `/admin/requests/*` |
+| IMPLEMENTED | `ImplementationRequest` model, authenticated client request wizard, submit → `PENDING_REVIEW` |
+| IMPLEMENTED | `OrganizationContext` kinds; brief authority contract (request ≠ tenant) |
+| IMPLEMENTED | Public `/request` explainer; journey handoff URLs (`NEW`/`TRANSFORM`) |
+| PARTIAL | JourneyKind not persisted on brief (GAP-008); phone gate deferred vs constitution |
+| PARTIAL | ProCrow queue derived; qualification vocabulary differs from product terms |
+| **AUDIT (CROW.REQUEST.1)** | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) · plan [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) |
+| Evidence | `prisma/schema.prisma`, `/client/requests/*`, `/admin/requests/*`, Issue #17 |
 
 ### Discovery — PARTIAL
 

@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
+| **Last reviewed** | 2026-07-18 (CROW.REQUEST.1) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -158,13 +158,14 @@
 |-------|-------|
 | **Domain** | Request / Public |
 | **Intended state** | Explicit `JourneyKind` (NEW/TRANSFORM) separate from `OrganizationContext` |
-| **Current state** | `OrganizationContext` in request types; `JourneyKind` in crow-story/public-v2 types — not unified in request wizard UI |
+| **Current state** | `OrganizationContext` in request types; `PublicJourneyKind` in `journey-handoff.ts` — **not unified/persisted** on request brief (CROW.REQUEST.1 audit) |
 | **Severity** | Low |
 | **Security/authority impact** | None |
 | **Dependency** | Public v2, Request UX |
-| **Proposed milestone** | CROW.REQUEST.1 |
-| **Owner decision required** | No |
-| **Status** | Open |
+| **Proposed milestone** | CROW.REQUEST.2 (implementation after plan acceptance) |
+| **Owner decision required** | Persist JourneyKind on brief vs URL-only interim |
+| **Tracking** | Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17) · [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) |
+| **Status** | Open — plan ready |
 
 ## GAP-009 — Milestone ledger as AI truth source
 

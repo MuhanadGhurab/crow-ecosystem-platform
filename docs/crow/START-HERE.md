@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
+| **Last reviewed** | 2026-07-18 (CROW.REQUEST.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -39,6 +39,8 @@
 | [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) | Backlog taxonomy, labels design, portfolio map |
 | [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) | Projects board design — create only after CROW.PM.2 |
 | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) | Production release authority, main merge, Instant Promote, auto-deploy |
+| [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
+| [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -57,17 +59,17 @@
 
 ## Current milestone
 
-**CROW.PM.2** — GitHub Projects, labels, and seed backlog created.
+**CROW.REQUEST.1** — Client Request Intake MVP audit and delivery plan prepared (planning only).
 
-Evidence: [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md) · Project [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) · Issues #15–#24
+Evidence: [`milestones/CROW-REQUEST-1.md`](milestones/CROW-REQUEST-1.md) · [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) · [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) · Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)
 
-**Prior:** CROW.PROD-POLICY.1 — Production deployment policy ([`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md)).
+**Prior:** CROW.PM.2 — GitHub Projects, labels, seed backlog ([`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no Instant Promote; no PR #10 merge; no Vercel settings without auth; Option C interim for main merges
+**Hold:** no Request implementation yet; no Instant Promote; no PR #10 merge; no Vercel settings without auth; Option C interim for main merges; no hosted writes while GAP-004 open
 
-**Recommended next:** Owner create Project views · triage #15/#16 · then CROW.REQUEST.1 (#17) planning or CROW.PROD-POLICY.2
+**Recommended next:** Owner accept Request plan · decide phone/GAP-004 sequencing · then CROW.REQUEST.2 (local-first) or #16 Preview DB
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 

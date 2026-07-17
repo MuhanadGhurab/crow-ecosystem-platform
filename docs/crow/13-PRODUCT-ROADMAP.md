@@ -70,7 +70,7 @@ For each stream: purpose, current state, delivery model, first MVP, risks, depen
 | **Risks** | Verification mistaken for membership; request mistaken for tenant |
 | **Dependencies** | Auth foundation; JourneyKind vs OrganizationContext (GAP-008) |
 | **Priority** | P1 after Phase 0–1 |
-| **Next backlog** | (1) Request handoff audit (2) Verification boundary tests (3) Qualification status UX (4) JourneyKind in wizard (5) Operator queue entry criteria |
+| **Next backlog** | (1) Owner accept CROW.REQUEST.1 plan (2) Phone/GAP-004 decisions (3) CROW.REQUEST.2 JourneyKind + gate alignment (4) Qualification status UX (5) Operator queue entry criteria |
 
 ### C. Discovery
 
@@ -271,6 +271,12 @@ Phases adjusted to repository truth: **stabilize Production/`main` before featur
 
 Public request handoff · signup/login · verification boundaries · client request record · ProCrow qualification queue.
 
+**CROW.REQUEST.1 (2026-07-18):** Audit + delivery plan complete — [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md), [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md). **No implementation yet.** Substantial wizard already exists; remaining work is JourneyKind persistence, verification policy alignment, qualification UX, and safe certify path (GAP-004).
+
+**Phases (plan):** R0 safety → R1 model design → R2 UX → R3 gates → R4 ProCrow queue → R5 Discovery handoff.
+
+**Next after owner acceptance:** CROW.REQUEST.2 (suggested) local-first implementation, or Issue #16 Preview DB first.
+
 ### Phase 3 — Discovery and Operating Model MVP
 
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft.
@@ -317,14 +323,13 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **CROW.PUBLIC.RECON.1 execution** (or follow-on) | Public-only `main` reconciliation when owner authorizes RECON §11 decisions — plan already complete |
-| 2 | **CROW.PM.2** | Create GitHub Projects/labels/backlog **only after** owner approves [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
-| 3 | **CROW.REQUEST.1** | Client Request Intake MVP audit + delivery plan |
-| 4 | **CROW.DISCOVERY.1** | Discovery and Operating Model MVP design |
-| 5 | **CROW.PROCROW.1** | ProCrow qualification and review queue MVP |
-| 6 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
-| 7 | **CROW.INFRA.GAP004** (owner-named) | Preview/Production DB isolation — predictive |
-| 8 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
+| 1 | **Owner accept CROW.REQUEST.1 plan** | Phone policy, GAP-004 sequencing, authorize implementation |
+| 2 | **CROW.REQUEST.2** (suggested) or **#16 GAP-004** | Local-first intake completion **or** Preview DB isolation first |
+| 3 | **CROW.DISCOVERY.1** | Discovery and Operating Model MVP design (after Request handoff) |
+| 4 | **CROW.PROCROW.1** | ProCrow qualification and review queue MVP |
+| 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
+| 6 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
+| 7 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
