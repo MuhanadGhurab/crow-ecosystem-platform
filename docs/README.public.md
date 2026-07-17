@@ -20,3 +20,7 @@ Public architecture and platform guides for **Crow Ecosystem Platform**.
 [`../README.md`](../README.md) — project overview.
 
 Questions: [open an issue](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues) or [discussion](https://github.com/MuhanadGhurab/crow-ecosystem-platform/discussions) on GitHub.
+
+## Secure SDLC evidence
+
+See [`docs/secure-sdlc/`](secure-sdlc/) for MGH.PROGRAM.ENGINEERING.1 documentation (alignment case study only).
