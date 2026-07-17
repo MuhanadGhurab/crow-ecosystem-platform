@@ -3,11 +3,13 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Safe path for PR #10 conflicts and FTGP breadth |
-| **Status** | CANONICAL plan — CROW.PR10.REBASE.1 |
+| **Status** | CANONICAL plan — CROW.PR10.REBASE.1 · **strategy accepted in CROW.PR10.2** |
 | **Date** | 2026-07-18 |
 | **Audit** | [`PR10-CONFLICT-AUDIT.md`](PR10-CONFLICT-AUDIT.md) |
 | **Milestone** | [`../milestones/CROW-PR10-REBASE-1.md`](../milestones/CROW-PR10-REBASE-1.md) |
 | **Issue (future)** | Propose **CROW.PR10.1** — Resolve or split broad FTGP PR safely (do not create unless owner asks) |
+
+**Owner-accepted archive/slice rule:** [`PR10-ARCHIVE-AND-SLICE-RULE.md`](PR10-ARCHIVE-AND-SLICE-RULE.md) (CROW.PR10.2).
 
 **This plan does not authorize conflict resolution, rebase, merge, or Production promotion.**
 

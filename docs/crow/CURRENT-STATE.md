@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PR10.REBASE.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PR10.2) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `73dda5d` on `origin/feat/first-tenant-golden-path` (CROW.PR10.REBASE.1 audit start; Discovery closeout included) |
+| HEAD | CROW.PR10.2 on `feat/first-tenant-golden-path` (start `2879650`; archive strategy accepted) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #17 updated for REQUEST.2 |
-| PR #10 | OPEN, DRAFT, CONFLICTING, unmerged — **conflicts not resolved** (audit only) |
-| Working tree | Docs — PR #10 conflict audit / safe resolution plan |
+| PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
+| Working tree | Docs — PR #10 archive + slice rule |
 
 ## Stack
 

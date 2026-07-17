@@ -259,11 +259,11 @@
 |-------|-------|
 | **Domain** | Delivery / Release |
 | **Intended state** | FTGP work lands via small, reviewable PRs; `main` stays Production-safe |
-| **Current state** | PR #10 OPEN DRAFT CONFLICTING — **407** commits / **1324** files. Simulated merge shows only **2** content conflicts (`route-protection.ts`, `routes.ts`). Conflict surface is small; merge risk is breadth + GAP-004/015 |
-| **Severity** | High (accidental monolith merge) |
-| **Security/authority impact** | High if merged wholesale (auth, migrations tooling, runtime domains) |
-| **Dependency** | Owner PR strategy; GAP-004 before hosted/runtime slices; GAP-015 for Production auto-deploy |
-| **Proposed milestone** | CROW.PR10.REBASE.1 (audit done) · future CROW.PR10.1 execute split |
-| **Owner decision required** | Accept Option D+B (archive draft + split); first slice priority |
-| **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md) · [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) |
-| **Status** | Open — audit + plan prepared; conflicts not resolved; PR not merged |
+| **Current state** | **Owner accepted CROW.PR10.2** — PR #10 is draft archive/reference; Option D+B slice rules baselined. Conflicts remain unresolved by design. No GitHub Issue yet — tracked here until owner requests one |
+| **Severity** | High if someone merges monolith; **policy mitigates** |
+| **Security/authority impact** | High if merged wholesale; low while DRAFT archive discipline holds |
+| **Dependency** | Slice execution; GAP-004 before hosted/runtime; GAP-015 for Production auto-deploy |
+| **Proposed milestone** | Slice execution (Discovery D0–D2, GAP-004, GAP-015, …) |
+| **Owner decision required** | First slice to authorize; optional GitHub Issue for GAP-018 / CROW.PR10.1 |
+| **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · ledger only (no Issue yet) |
+| **Status** | **Mitigated (policy)** — archive + slice rule accepted; slice execution pending |

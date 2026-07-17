@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PR10.REBASE.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PR10.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -47,7 +47,9 @@
 | [`discovery/DISCOVERY-FIELD-TAXONOMY.md`](discovery/DISCOVERY-FIELD-TAXONOMY.md) | Field taxonomy and MVP/later split |
 | [`discovery/DISCOVERY-QUESTION-MODEL.md`](discovery/DISCOVERY-QUESTION-MODEL.md) | Field types and question metadata |
 | [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
-| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP plan seed |
+| [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) | PR #10 draft archive + slice extraction rules (owner accepted) |
+| [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) | PR #10 conflict inventory |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -66,19 +68,19 @@
 
 ## Current milestone
 
-**CROW.PR10.REBASE.1** — PR #10 conflict audit and safe resolution plan (analysis only; conflicts not resolved).
+**CROW.PR10.2** — Owner accepted PR #10 draft-archive + split-PR strategy; slice rules baselined.
 
-Evidence: [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md) · [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) · [`pr10/PR10-SAFE-RESOLUTION-PLAN.md`](pr10/PR10-SAFE-RESOLUTION-PLAN.md)
+Evidence: [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · prior audit [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md)
 
-**Prior:** CROW.DISCOVERY.1A (origin tip included `73dda5d`) · Discovery plan content `9162839`.
+**Prior:** CROW.PR10.REBASE.1 @ `2879650` · CROW.DISCOVERY.1A · Discovery plan content `9162839`.
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no PR #10 merge; no conflict resolution yet; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim; no Discovery product build until owner approves
+**Hold:** PR #10 remains DRAFT archive — **do not merge**; no conflict resolution for monolith merge; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim
 
-**Recommended next:** Owner accepts Option D+B (keep PR #10 draft archive + split) · or Discovery MVP build · or GAP-004 / GAP-015 triage
+**Recommended next:** **Discovery MVP D0–D2** local-first (Issue #18) · or GAP-004 / GAP-015 triage
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING · **Project:** #2 private
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING (archive) · **Project:** #2 private
 
 ## Current implementation summary
 

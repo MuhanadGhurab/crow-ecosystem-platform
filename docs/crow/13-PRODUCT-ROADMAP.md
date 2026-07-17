@@ -327,13 +327,15 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Owner: PR #10 strategy** (CROW.PR10.REBASE.1) | Accept keep-draft + split; do not merge monolith |
-| 2 | **Discovery MVP build** (post plan) | Local-first phases D0–D2 under Issue #18 |
-| 3 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
-| 4 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
-| 5 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
+| 1 | **Discovery MVP D0–D2** local-first | Build under Issue #18 — does **not** merge PR #10 |
+| 2 | **#16 GAP-004** | Preview/Production DB isolation before hosted writes |
+| 3 | **#15 GAP-015** | Production auto-deploy settings (parallel) |
+| 4 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
+| 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · **CROW.PR10.REBASE.1** (conflict audit + safe plan)
+**PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
+
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · **CROW.PR10.2** (archive strategy)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
