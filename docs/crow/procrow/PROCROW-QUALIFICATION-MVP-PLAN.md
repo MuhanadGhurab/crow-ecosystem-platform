@@ -38,11 +38,15 @@ Let a ProCrow operator review submitted requests and record a **safe product-lay
 
 ```
 PENDING_REVIEW + qualified_for_discovery
-  → operator Start Discovery
-  → UNDER_DISCOVERY (existing pipeline)
+  → operator Start Discovery (adminStartDiscovery)
+  → UNDER_DISCOVERY + DiscoveryProfile IN_PROGRESS
+  → operator /discovery/[requestId]/* and client discovery workspaces
+  → Discovery MVP stages 1–7 (CROW.DISCOVERY.1 plan)
+  → ready-for-modeling signal
+  → STOP (no Blueprint generate in Discovery MVP success)
 ```
 
-Start Discovery remains a **controlled ProCrow action**, not an intake side effect.
+Start Discovery remains a **controlled ProCrow action**, not an intake side effect. See [`discovery/DISCOVERY-MVP-PLAN.md`](../discovery/DISCOVERY-MVP-PLAN.md) phases D0–D6.
 
 ## Success criteria
 
@@ -56,6 +60,6 @@ Start Discovery remains a **controlled ProCrow action**, not an intake side effe
 
 ## Next after this MVP
 
-- CROW.DISCOVERY.1 — Discovery / Operating Model MVP design
+- CROW.DISCOVERY.1 **complete** (audit + plan) — next: owner-approved Discovery MVP **build**
 - Hosted Preview certify after GAP-004
 - Optional client-facing more-info messaging

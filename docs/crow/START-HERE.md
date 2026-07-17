@@ -66,19 +66,17 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.FIELD.1A** — Discovery field architecture pushed and baselined on origin.
+**CROW.DISCOVERY.1** — Discovery and Operating Model MVP audit, design, and build plan (docs only; no product code).
 
-Evidence: [`milestones/CROW-DISCOVERY-FIELD-1A.md`](milestones/CROW-DISCOVERY-FIELD-1A.md) · architecture [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) · [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
+Evidence: [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · [`discovery/OPERATING-MODEL-MVP-PLAN.md`](discovery/OPERATING-MODEL-MVP-PLAN.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
 
-**Origin HEAD:** `e90fcda` on `feat/first-tenant-golden-path` (pushed)
-
-**Prior:** CROW.DISCOVERY.FIELD.1 — adaptive field architecture (docs-only) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
+**Prior:** CROW.DISCOVERY.FIELD.1A (architecture origin @ `e90fcda`) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)) · CROW.REQUEST.2 ([#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges
+**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges; no Discovery product build until owner approves plan
 
-**Recommended next:** **CROW.DISCOVERY.1** MVP design/build plan · or owner triage #15/#16 (GAP-004 / GAP-015)
+**Recommended next:** Owner-approved **Discovery MVP build** (phases D0–D2 local-first) · or owner triage #15/#16 (GAP-004 / GAP-015)
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 

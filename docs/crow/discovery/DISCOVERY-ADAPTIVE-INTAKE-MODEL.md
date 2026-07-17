@@ -13,8 +13,8 @@ Define **how** Crow asks for enterprise information over time — progressive, a
 
 ## Preconditions
 
-1. Request submitted (authority-safe)  
-2. ProCrow recorded `qualified_for_discovery` (CROW.PROCROW.1)  
+1. Request submitted (authority-safe)
+2. ProCrow recorded `qualified_for_discovery` (CROW.PROCROW.1)
 3. Controlled Discovery start (no auto-start from mere submission)
 
 ## Adaptive rules
@@ -28,6 +28,18 @@ Define **how** Crow asks for enterprise information over time — progressive, a
 | Industry pack selected | Unlock L7 pack questions (Later) |
 | High data sensitivity | Expand L5 and evidence recommendations |
 | Missing required MVP fields | ProCrow missing-information list; block “Discovery complete” |
+
+## MVP stage sequencing (CROW.DISCOVERY.1)
+
+For Discovery MVP **build** (after owner approval), implement stages in order **1 → 7** with these rules:
+
+1. **Stage 1** must confirm Request brief (`journey_kind`, `organization_context`) before later stages unlock required gates
+2. **Stages 2–4** are the core Operating Model input set for MVP
+3. **Stage 5** is journey-adaptive (NEW vs TRANSFORM) — required before “ready for modeling” when `journey_kind = TRANSFORM`
+4. **Stage 6** is evidence **references only** (no uploads)
+5. **Stage 7** is ProCrow-only review summary — marks ready-for-modeling; does **not** create Blueprint
+
+See [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) phases D2–D5.
 
 ## Stages
 
@@ -67,7 +79,7 @@ Define **how** Crow asks for enterprise information over time — progressive, a
 | Systems & tools inventory (text) | MVP |
 | Capabilities must-have | MVP |
 
-Transform: capture current and target where different.  
+Transform: capture current and target where different.
 Build New: capture intended target only.
 
 ### Stage 4 — Trust and Risk
@@ -107,12 +119,12 @@ Build New: capture intended target only.
 
 ProCrow sees:
 
-- Completeness by stage  
-- Missing required fields  
-- Contradictions (e.g., Transform without pain points)  
-- Risk hotspots  
-- Blueprint readiness signal  
-- Explicit **does not** provision tenant / approve Blueprint  
+- Completeness by stage
+- Missing required fields
+- Contradictions (e.g., Transform without pain points)
+- Risk hotspots
+- Blueprint readiness signal
+- Explicit **does not** provision tenant / approve Blueprint
 
 ---
 
@@ -145,11 +157,11 @@ croAiAutonomous: false
 
 ## ProCrow review approach
 
-1. **Structured first** — summaries by stage, not raw form dump  
-2. **Missing information** — `blocking_if_missing` fields drive Needs More Information loop back to client or operator notes  
-3. **Contradiction detection** — journey vs answers; org context vs locations; Transform without current state  
-4. **Risk triage** — high `riskSensitivity` fields highlighted for CyberCrow later  
-5. **Handoff control** — Blueprint drafting only after human readiness signal + existing Blueprint gates  
+1. **Structured first** — summaries by stage, not raw form dump
+2. **Missing information** — `blocking_if_missing` fields drive Needs More Information loop back to client or operator notes
+3. **Contradiction detection** — journey vs answers; org context vs locations; Transform without current state
+4. **Risk triage** — high `riskSensitivity` fields highlighted for CyberCrow later
+5. **Handoff control** — Blueprint drafting only after human readiness signal + existing Blueprint gates
 
 Qualification (PROCROW.1) remains the gate **into** Discovery; Stage 7 gates **out of** Discovery toward Blueprint drafting.
 
@@ -187,5 +199,5 @@ Static tests (file presence / no-authority string checks) are acceptable until i
 
 ## Relationship to CROW.DISCOVERY.1
 
-This document is **field architecture**.  
+This document is **field architecture**.
 **CROW.DISCOVERY.1** should turn it into MVP scope, UX flows, evidence plan, and build authorization — still without unauthorized migrations or Production deploy.
