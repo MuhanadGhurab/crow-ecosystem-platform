@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1A) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `cecd450` on `feat/first-tenant-golden-path` (CROW.PROCROW.1A pushed) |
+| HEAD | CROW.DISCOVERY.FIELD.1 (verify with `git rev-parse HEAD`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
@@ -75,14 +75,16 @@
 | DEFERRED | Server-persisted DRAFT; hosted Preview certify (GAP-004) |
 | Evidence | [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md), `/client/requests/*`, Issue #17 |
 
-### Discovery — PARTIAL
+### Discovery — PARTIAL (field architecture prepared)
 
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | `DiscoveryProfile`, answers, departments, roles, workflows models |
 | IMPLEMENTED | Client and operator discovery routes |
-| PARTIAL | FTGP discovery shell reconciliation, interview readiness |
-| Evidence | `/discovery/*`, `/client/requests/*/discovery/*`, FTGP docs |
+| DESIGNED | **Adaptive field architecture** — 10 layers, taxonomy, question model, stages 1–7 (CROW.DISCOVERY.FIELD.1) |
+| PARTIAL | FTGP discovery shell reconciliation; dual client/operator paths not yet unified on one catalog |
+| PLANNED | CROW.DISCOVERY.1 MVP using field architecture (no unauthorized migration) |
+| Evidence | `/discovery/*`, `/client/requests/*/discovery/*`, [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md), Issue #18 |
 
 ### Blueprint — PARTIAL
 

@@ -279,6 +279,8 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 ### Phase 3 — Discovery and Operating Model MVP
 
+**Field architecture (CROW.DISCOVERY.FIELD.1):** 10-layer adaptive system, taxonomy, question metadata, stages 1–7 — see [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md).
+
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft.
 
 ### Phase 4 — Enterprise Blueprint MVP
@@ -323,13 +325,13 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
-| 2 | **CROW.DISCOVERY.1** | Discovery and Operating Model MVP design (handoff from qualified requests) |
+| 1 | **CROW.DISCOVERY.1** | Discovery + Operating Model MVP design/build plan using field architecture |
+| 2 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
 | 3 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 | 4 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
 | 5 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
 
-**Completed recently:** CROW.REQUEST.2 · **CROW.PROCROW.1** (local-first qualification UX)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · **CROW.DISCOVERY.FIELD.1** (adaptive field architecture)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

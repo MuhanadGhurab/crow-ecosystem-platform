@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1A) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -43,6 +43,11 @@
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
 | [`procrow/PROCROW-QUALIFICATION-AUDIT.md`](procrow/PROCROW-QUALIFICATION-AUDIT.md) | ProCrow qualification outcome audit |
 | [`procrow/PROCROW-QUALIFICATION-MVP-PLAN.md`](procrow/PROCROW-QUALIFICATION-MVP-PLAN.md) | ProCrow qualification MVP plan |
+| [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md) | Adaptive enterprise discovery field architecture |
+| [`discovery/DISCOVERY-FIELD-TAXONOMY.md`](discovery/DISCOVERY-FIELD-TAXONOMY.md) | Field taxonomy and MVP/later split |
+| [`discovery/DISCOVERY-QUESTION-MODEL.md`](discovery/DISCOVERY-QUESTION-MODEL.md) | Field types and question metadata |
+| [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP plan seed |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -61,19 +66,17 @@
 
 ## Current milestone
 
-**CROW.PROCROW.1A** — ProCrow local-first certification pushed and baselined on origin.
+**CROW.DISCOVERY.FIELD.1** — Enterprise Discovery field architecture and adaptive intake model prepared (docs-only).
 
-Evidence: [`milestones/CROW-PROCROW-1A.md`](milestones/CROW-PROCROW-1A.md) · prior implementation [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md) · Issue [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)
+Evidence: [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) · [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
 
-**Origin HEAD:** `cecd450` on `feat/first-tenant-golden-path` (pushed)
-
-**Prior:** CROW.PROCROW.1 — qualification outcome UX (local) · CROW.REQUEST.2 — Request Intake alignment ([#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
+**Prior:** CROW.PROCROW.1A — ProCrow certification pushed ([`milestones/CROW-PROCROW-1A.md`](milestones/CROW-PROCROW-1A.md) · [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
 **Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges
 
-**Recommended next:** Owner triage #15/#16 · CROW.DISCOVERY.1 design · or hosted Preview certify after GAP-004
+**Recommended next:** **CROW.DISCOVERY.1** MVP design/build plan · or owner triage #15/#16 (GAP-004 / GAP-015)
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 
