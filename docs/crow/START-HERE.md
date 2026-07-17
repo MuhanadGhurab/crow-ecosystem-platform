@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.RECON.1) |
+| **Last reviewed** | 2026-07-17 (CROW.PM.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -34,6 +34,10 @@
 | [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md) | Approved public direction; frozen scroll story |
 | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md) | What agents must not change without authorization |
 | [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md) | Define → Design → Build → Certify → Promote |
+| [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md) | Hybrid PM models, DoR/DoD, prioritization |
+| [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md) | Workstreams A–O and Phase 0–12 roadmap |
+| [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) | Backlog taxonomy, labels design, portfolio map |
+| [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) | Projects board design — create only after CROW.PM.2 |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -52,19 +56,21 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.RECON.1** — Public-only main reconciliation plan and cherry-pick safety audit complete.
+**CROW.PM.1A** — PM.1 documentation committed and hybrid roadmap baselined (docs-only closeout).
 
-Evidence: [`milestones/CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md).
+Evidence: [`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md) · [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) · [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md) · [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md).
 
-**Prior:** CROW.PUBLIC.POSTPROD.1 — owner reviewed live Production; POSTPROD plan in [`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md).
+**Prior:** CROW.PM.1 — GitHub ecosystem review and adaptive delivery roadmap (planning complete).
+
+**Prior:** CROW.PUBLIC.RECON.1 — public-only main reconciliation plan and cherry-pick safety audit ([`milestones/CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md)).
+
+**Prior:** CROW.PUBLIC.POSTPROD.1 — owner reviewed live Production ([`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
 
-**Prior:** CROW.PUBLIC.PROD deployment; CROW.PUBLIC.10 acceptance; CROW.PUBLIC.9 locked design.
+**Hold:** no PR #10 merge, no casual `main` push as Production source, **no Production redeploy** without authorization; **no GitHub Projects/labels/Issues creation** until CROW.PM.2.
 
-**Hold:** no PR #10 merge, no `main` push, **no Production redeploy**.
-
-**Reconciliation:** Public-only cherry-pick from `main` (~78 files) — see RECON.1; full PR #10 merge deferred.
+**Recommended next:** Owner RECON §11 decisions / public-only reconciliation execution · then CROW.PM.2 (Projects setup) after label/board approval · then CROW.REQUEST.1.
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
 

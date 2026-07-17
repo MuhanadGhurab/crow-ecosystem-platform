@@ -44,7 +44,9 @@ Only after **explicit owner acceptance:**
 
 ## Milestone families
 
-`CROW.PUBLIC.*` · `CROW.REQUEST.*` · `CROW.DISCOVERY.*` · `CROW.BLUEPRINT.*` · `CROW.COMMERCIAL.*` · `CROW.SUBSCRIPTION.*` · `CROW.TENANT.*` · `CROW.RUNTIME.*` · `CROW.CYBERCROW.*` · `CROW.SAREA.*` · `CROW.CROAI.*` · `CROW.GOVERNANCE.*`
+`CROW.PUBLIC.*` · `CROW.REQUEST.*` · `CROW.DISCOVERY.*` · `CROW.BLUEPRINT.*` · `CROW.COMMERCIAL.*` · `CROW.SUBSCRIPTION.*` · `CROW.TENANT.*` · `CROW.RUNTIME.*` · `CROW.CYBERCROW.*` · `CROW.SAREA.*` · `CROW.CROAI.*` · `CROW.GOVERNANCE.*` · `CROW.PM.*` · `CROW.PROCROW.*` · `CROW.CEM.*`
+
+Delivery methodology (adaptive / predictive / hybrid) is defined in [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md).
 
 ## Definition of Done
 

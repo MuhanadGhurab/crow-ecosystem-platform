@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.RECON.1) |
+| **Last reviewed** | 2026-07-17 (CROW.PM.1A) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -177,3 +177,31 @@
 | **Proposed milestone** | Future integration milestone |
 | **Owner decision required** | Integration priority and official partnerships |
 | **Status** | Open — deferred |
+
+## GAP-013 — GitHub delivery system not yet applied
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Governance / Project management |
+| **Intended state** | Labels, Projects views, and seed backlog per [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) and [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
+| **Current state** | Canonical PM docs exist (CROW.PM.1); GitHub Issues/Projects/labels **not created** (by design) |
+| **Severity** | Low (process) |
+| **Security/authority impact** | None |
+| **Dependency** | Owner authorization for CROW.PM.2 |
+| **Proposed milestone** | CROW.PM.2 |
+| **Owner decision required** | Approve labels, project visibility, and seed Issues |
+| **Status** | Open — waiting on owner |
+
+## GAP-014 — Portfolio repos require Crow-theme discipline
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Portfolio / Program focus |
+| **Intended state** | Each public portfolio asset maps to a Crow proof theme or is explicitly deferred |
+| **Current state** | Multiple public portfolio repos live (lab, mini projects, SecureSkies public, delivery office, GRC, resilience portfolio); private templates remain private |
+| **Severity** | Low–Medium (attention fragmentation risk) |
+| **Security/authority impact** | Privacy risk if private sources published |
+| **Dependency** | Phase 12 packaging; owner ownership reviews for deferred ideas |
+| **Proposed milestone** | Ongoing Kanban + CROW.PORTFOLIO.* when authorized |
+| **Owner decision required** | Which deferred ideas (SecSky productization, robotics, desktop) stay deferred |
+| **Status** | Open |

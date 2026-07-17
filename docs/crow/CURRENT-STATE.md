@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-07 (CROW.PUBLIC.RECON.1) |
+| **Last reviewed** | 2026-07-17 (CROW.PM.1A) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-07 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** `a6290c3`
+**Evidence date:** 2026-07-17 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** CROW.PM.1A docs commit (verify with `git rev-parse HEAD`)
 
 ## Repository and branch state
 
@@ -18,11 +18,12 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `a6290c3` — CROW.PUBLIC.RECON.1 cherry-pick safety audit |
-| Remote sync | `origin/feat/first-tenant-golden-path` |
+| HEAD | CROW.PM.1A — hybrid PM model and Phase 0–12 roadmap docs baselined |
+| Parent before PM.1A | `90ea95e` — CROW.PUBLIC.RECON.1 docs |
+| Remote sync | Push `feat/first-tenant-golden-path` only (CROW.PM.1A) |
 | Default branch | `main` at `a5620c3` (legacy public — **not** Production source) |
-| PR #10 | OPEN, DRAFT, unmerged — FTGP + public; merge **not** authorized by POSTPROD.1 |
-| Working tree | Clean |
+| PR #10 | OPEN, DRAFT, MERGEABLE, unmerged — FTGP + public; merge **not** authorized |
+| Working tree | Clean after CROW.PM.1A commit |
 
 ## Stack
 
@@ -173,9 +174,18 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 
 ### PR and branch state
 
-- **PR #10:** OPEN DRAFT — `feat/first-tenant-golden-path` → `main`
+- **PR #10:** OPEN DRAFT MERGEABLE — `feat/first-tenant-golden-path` → `main`
+- **PR #2:** OPEN DRAFT — invite email delivery (separate track)
 - **main:** `a5620c3` — legacy public; **public-only reconciliation plan** in [`CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md) (~78 core files cherry-pickable)
 - FTGP work continues on feature branch; not merged
+
+### Project management / delivery system — DOCUMENTED (not applied on GitHub)
+
+| Status | Evidence |
+|--------|----------|
+| **IMPLEMENTED (docs)** | Hybrid PM model, roadmap, backlog taxonomy, Projects design |
+| **NOT IMPLEMENTED (GitHub)** | Labels, Projects board, seed Issues — blocked until CROW.PM.2 owner authorization |
+| Evidence | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md), [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md), [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) |
 
 ### Known technical debt
 
@@ -184,6 +194,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - Milestone ledger (`MILESTONES.md`) percentages not reliable as implementation truth
 - Stripe fields coupled in schema but commercial domain incomplete
 - JourneyKind in crow-story types; OrganizationContext in request types — separate (correct)
+- Production pinned to feature-branch deploy while `main` remains legacy (GAP-012)
 
 ## Classification legend
 
