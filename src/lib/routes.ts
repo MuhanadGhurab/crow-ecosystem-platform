@@ -22,6 +22,8 @@ export const routes = {
     profile: "/client/profile",
     company: "/client/company",
     requests: "/client/requests",
+    /** URL stub for public journey handoff — page may land with FTGP; not provisioned by this recon. */
+    requestNew: "/client/requests/new",
     request: (id: string) => `/client/requests/${id}`,
     requestDiscovery: (id: string) => `/client/requests/${id}/discovery`,
     proposals: "/client/proposals",
@@ -40,6 +42,7 @@ export const routes = {
     security: "/security",
     pricing: "/pricing",
     request: "/request",
+    start: "/start",
     proposal: (token: string) => `/proposal/${token}`,
   },
   admin: {
