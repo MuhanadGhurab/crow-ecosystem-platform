@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { DiscoveryMvpAdaptiveFieldForm } from "@/components/discovery/discovery-mvp-adaptive-field-form";
+import type { OrganizationContextKind } from "@/lib/client-service-request/types";
+import type { RequestJourneyKind } from "@/lib/client-service-request/journey";
 import type { DiscoveryMvpWorkspaceModel } from "@/lib/discovery/discovery-workspace-context";
 import { routes } from "@/lib/routes";
 
@@ -13,6 +16,22 @@ const ORG_CONTEXT_LABELS: Record<string, string> = {
   EXISTING_ORGANIZATION: "Existing organization",
   MODERNIZATION: "Modernization",
 };
+
+function asJourneyKind(value: string | null): RequestJourneyKind | null {
+  return value === "NEW" || value === "TRANSFORM" ? value : null;
+}
+
+function asOrgContext(value: string | null): OrganizationContextKind | null {
+  if (
+    value === "NEW_BUSINESS" ||
+    value === "NEW_DIVISION" ||
+    value === "EXISTING_ORGANIZATION" ||
+    value === "MODERNIZATION"
+  ) {
+    return value;
+  }
+  return null;
+}
 
 export function DiscoveryMvpWorkspaceShell({
   model,
@@ -31,13 +50,13 @@ export function DiscoveryMvpWorkspaceShell({
   return (
     <section
       className="cc-glass-card space-y-6"
-      data-crow-discovery-mvp="d0-d2"
+      data-crow-discovery-mvp="d0-d3"
       data-evidence-mode={model.evidenceMode}
       data-blueprint-complete-blocked={model.blueprintCompleteBlocked ? "true" : "false"}
     >
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-cyan-400/90">
-          Discovery MVP · D0–D2 foundation
+          Discovery MVP · D0–D3 foundation
         </p>
         <h2 className="text-lg font-semibold text-slate-100">Discovery workspace</h2>
         <p className="text-sm text-slate-400">{model.d0d2ScopeNote}</p>
@@ -95,7 +114,7 @@ export function DiscoveryMvpWorkspaceShell({
       <div>
         <h3 className="text-sm font-medium text-slate-200">Stages 1–7 overview</h3>
         <p className="mt-1 text-xs text-slate-500">
-          Adaptive field forms land in D3+. This overview is the D2 progress shell only.
+          Stages 1–3 adaptive fields are in D3. Stages 4–7 remain planned.
         </p>
         <ol className="mt-3 space-y-2">
           {model.stages.map((stage) => (
@@ -109,13 +128,20 @@ export function DiscoveryMvpWorkspaceShell({
                 <p className="text-sm text-slate-200">{stage.title}</p>
                 <p className="text-xs text-slate-500">{stage.summary}</p>
                 <p className="mt-1 text-[11px] uppercase tracking-wide text-slate-600">
-                  {stage.id <= 2 ? "Foundation focus (D2)" : "Planned (D3+)"}
+                  {stage.id <= 3 ? "Active (D3)" : "Planned (D4+)"}
                 </p>
               </div>
             </li>
           ))}
         </ol>
       </div>
+
+      <DiscoveryMvpAdaptiveFieldForm
+        requestId={model.requestId}
+        journeyKind={asJourneyKind(model.journeyKind)}
+        organizationContext={asOrgContext(model.organizationContext)}
+        variant={variant}
+      />
 
       <div className="rounded-lg border border-dashed border-white/15 bg-black/10 p-3">
         <p className="text-xs font-medium text-slate-300">Evidence references</p>
@@ -126,10 +152,10 @@ export function DiscoveryMvpWorkspaceShell({
 
       {model.blueprintCompleteBlocked && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-950/30 p-3">
-          <p className="text-xs font-medium text-amber-200">Blueprint handoff blocked (D0–D2)</p>
+          <p className="text-xs font-medium text-amber-200">Blueprint handoff blocked (D0–D3)</p>
           <p className="mt-1 text-sm text-amber-100/80">
-            Completing Discovery to create a Blueprint is out of scope for this slice. No tenant
-            build, payment, or CroAI from Discovery.
+            Completing Discovery to create a Blueprint remains out of scope. No tenant build,
+            payment, or CroAI from Discovery.
           </p>
         </div>
       )}

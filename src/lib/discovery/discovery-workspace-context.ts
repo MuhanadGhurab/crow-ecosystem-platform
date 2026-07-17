@@ -69,6 +69,6 @@ export function buildDiscoveryMvpWorkspaceModel(input: {
     nonClaims: DISCOVERY_MVP_NON_CLAIMS,
     blueprintCompleteBlocked: input.blueprintCompleteBlocked,
     d0d2ScopeNote:
-      "D0–D2 foundation: safety, product status mapping, and stage overview. Full adaptive fields (D3), Operating Model capture (D4), ProCrow modeling review (D5), and Blueprint handoff (D6) are not in this slice.",
+      "D0–D3 foundation: safety, product status mapping, stage overview, and adaptive Stages 1–3 fields (local draft). Operating Model capture (D4), ProCrow modeling review (D5), and Blueprint handoff (D6) are not in this slice.",
   };
 }
