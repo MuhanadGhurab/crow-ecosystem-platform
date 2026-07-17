@@ -141,3 +141,11 @@ See owner-decision issue (Portfolio OS) and MERGE-WAVE-1-CHECKLIST.
 2. Owner decide #2 (keep for cherry-pick vs close)  
 3. Keep #10 draft until dedicated FTGP milestone  
 4. Merge #11 only after SecureSkies in portfolio wave (docs-only)
+
+## 17. Audit documentation PR
+
+| PR | Title | State | Purpose |
+|---|---|---|---|
+| #13 | docs: MGH.PORTFOLIO.REVIEW.1 Crow triage and merge-readiness package | draft | Publishes this review package under `docs/reviews/` on Crow; not a runtime change |
+
+PR #13 is documentation-only for this review. Preferred long-term home remains Portfolio OS `docs/reviews/`.
