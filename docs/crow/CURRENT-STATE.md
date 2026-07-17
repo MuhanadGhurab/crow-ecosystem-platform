@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.DISCOVERY.3 on `feat/first-tenant-golden-path` (start `08b38c6`) |
+| HEAD | `05c4146` — CROW.DISCOVERY.3 (start `08b38c6`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
