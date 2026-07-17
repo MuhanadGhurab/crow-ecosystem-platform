@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.2) |
+| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.3) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -56,25 +56,21 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.RECON.2** — Public-only reconciliation branch prepared from `main` for owner PR decision.
+**CROW.PUBLIC.RECON.3** — Draft public-only reconciliation PR opened; Preview smoke passed.
 
-Evidence: [`milestones/CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md) · branch `reconcile/public-experience-from-ftgp` @ `3ebc2a9`.
+Evidence: [`milestones/CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md) · PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) (DRAFT) · Preview https://crow-ecosystem-platform-git-reco-370f0e-muhanadghurabs-projects.vercel.app
+
+**Prior:** CROW.PUBLIC.RECON.2 — recon branch prepared ([`milestones/CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md)).
 
 **Prior:** CROW.PM.1A — PM.1 documentation committed ([`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md)).
 
-**Prior:** CROW.PM.1 — GitHub ecosystem review and adaptive delivery roadmap (planning complete).
-
-**Prior:** CROW.PUBLIC.RECON.1 — public-only main reconciliation plan and cherry-pick safety audit ([`milestones/CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md)).
-
-**Prior:** CROW.PUBLIC.POSTPROD.1 — owner reviewed live Production ([`milestones/CROW-PUBLIC-POSTPROD-1.md`](milestones/CROW-PUBLIC-POSTPROD-1.md)).
-
 **Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
 
-**Hold:** no PR #10 merge, no casual `main` push as Production source, **no Production redeploy** without authorization; **no recon PR open** until owner authorizes; **no GitHub Projects/labels** until CROW.PM.2.
+**Hold:** no merge of PR #14, no PR #10 merge, no Production redeploy without authorization; keep #14 DRAFT.
 
-**Recommended next:** Owner decision — open draft PR for `reconcile/public-experience-from-ftgp` → `main` (do not merge/deploy yet).
+**Recommended next:** Owner Preview UAT → authorize merge of PR #14 → separate Production promotion.
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge) · **Recon branch:** `reconcile/public-experience-from-ftgp` (pushed, no PR)
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** OPEN DRAFT public recon
 
 ## Current implementation summary
 

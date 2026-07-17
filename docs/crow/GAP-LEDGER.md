@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.2) |
+| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.3) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -72,13 +72,13 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
-| **Current state** | Production still on feature-branch deploy (`33e48f5`); **recon branch ready** — `reconcile/public-experience-from-ftgp` @ `3ebc2a9` (public-only + vercel migrate removal; PR not opened) |
-| **Severity** | **High** until recon merges and Production can safely come from `main` |
+| **Current state** | Draft PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) open; Preview smoke passed; Production still feature-branch deploy (`33e48f5`); `main` @ `18237d1` still has legacy public until #14 merges |
+| **Severity** | **High** until #14 merges and Production can safely come from `main` |
 | **Security/authority impact** | Medium if FTGP merged without review; High if migrations run from legacy `main` build |
-| **Dependency** | Owner PR open → Preview certify → merge → separate Production auth — [`CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md) |
-| **Proposed milestone** | CROW.PUBLIC.RECON.2 execution complete (branch); merge/promote pending |
-| **Owner decision required** | Open draft PR for recon branch? Merge after Preview? Production promote separately? |
-| **Status** | **Open** — branch prepared; not merged |
+| **Dependency** | Owner merge authorization for #14 + separate Production auth — [`CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md) |
+| **Proposed milestone** | CROW.PUBLIC.RECON.3 complete (draft PR + smoke); merge/promote pending |
+| **Owner decision required** | Preview UAT · merge #14 · Production promote separately |
+| **Status** | **Open** — draft PR + Preview smoke green; not merged |
 
 ## GAP-004 — Preview/Production database isolation
 
