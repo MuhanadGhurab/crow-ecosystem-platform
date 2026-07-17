@@ -1,3 +1,4 @@
+import { isRequestJourneyKind } from "./journey";
 import type { ClientServiceRequestBrief, ClientServiceRequestBriefInput } from "./types";
 import { CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION } from "./types";
 
@@ -21,6 +22,10 @@ export function validateClientServiceRequestBrief(
   if (!b.configurationMode) errors.push("configuration mode required");
   if (!b.idempotencyKey || typeof b.idempotencyKey !== "string") errors.push("idempotencyKey required");
 
+  if (!b.journeyKind || !isRequestJourneyKind(b.journeyKind)) {
+    errors.push("journey kind required (NEW or TRANSFORM)");
+  }
+
   if (!b.clientAcknowledgements?.understandsNoTenantProvisioning) {
     errors.push("must acknowledge request does not provision a tenant");
   }
@@ -42,6 +47,7 @@ export function validateClientServiceRequestBrief(
       customPurposeDescription: b.customPurposeDescription?.trim() || null,
       currentTeamRange: b.currentTeamRange!,
       growthIntention: b.growthIntention!,
+      journeyKind: b.journeyKind!,
       organizationContext: b.organizationContext ?? null,
       configurationMode: b.configurationMode!,
       plainLanguageGoal: b.plainLanguageGoal?.trim() || null,

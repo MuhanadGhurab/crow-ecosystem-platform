@@ -3,6 +3,11 @@ import "@/lib/server-only-guard";
 import type { User } from "@supabase/supabase-js";
 
 import { findPlatformAccountBySupabaseUserId } from "@/lib/account/platform-account.service";
+import {
+  accountMissingClientProcessPhone,
+  isClientProcessPhoneVerificationRequired,
+} from "@/lib/account/phone-verification-policy";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import { clientCanAccessRequestAuthoritative } from "@/lib/auth/customer-access.service";
 import { prisma } from "@/lib/db";
 import { generateImplementationReferenceCode } from "@/lib/pipeline/reference-code";
@@ -62,6 +67,20 @@ export async function createModernServiceRequest(
   const account = await findPlatformAccountBySupabaseUserId(user.id);
   if (!account) {
     throw new Error("Complete account registration and legal acceptance before submitting a request.");
+  }
+
+  if (!account.emailVerifiedAt) {
+    throw new Error("Verify your email before submitting a request.");
+  }
+
+  if (
+    isC3PlatformAccountGateEnabled() &&
+    isClientProcessPhoneVerificationRequired() &&
+    accountMissingClientProcessPhone(account)
+  ) {
+    throw new Error(
+      "Verify your mobile phone before submitting a request. Crow requires both email and phone verification for client-process progression.",
+    );
   }
 
   const profile = await prisma.platformAccountProfile.findUnique({

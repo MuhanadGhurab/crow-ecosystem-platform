@@ -4,6 +4,11 @@ import type { ClientConfigurationMode } from "@/lib/client-enterprise-design/typ
 import type { BusinessFieldResolutionStatus } from "@/lib/client-enterprise-design/types";
 import type { ClientGrowthIntention, ClientTeamSizeRange } from "@/lib/business-field-catalog/team-scale";
 
+import type { RequestJourneyKind } from "./journey";
+
+export type { RequestJourneyKind } from "./journey";
+
+/** Additive fields stay on v1.0.0 — unknown keys ignored by older readers; missing journeyKind → null. */
 export const CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION = "client-service-request-brief-v1.0.0" as const;
 
 export type ClientServiceRequestBriefAuthority = {
@@ -52,6 +57,8 @@ export type ClientServiceRequestBrief = {
   customPurposeDescription: string | null;
   currentTeamRange: ClientTeamSizeRange | null;
   growthIntention: ClientGrowthIntention | null;
+  /** Public journey: Build New vs Transform — persisted in notes JSON (GAP-008 / CROW.REQUEST.2). */
+  journeyKind: RequestJourneyKind | null;
   organizationContext: OrganizationContextKind | null;
   configurationMode: ClientConfigurationMode;
   plainLanguageGoal: string | null;

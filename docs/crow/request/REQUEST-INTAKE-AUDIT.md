@@ -7,7 +7,9 @@
 | **Authority** | Verified repository evidence · Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17) |
 | **Date** | 2026-07-18 |
 | **Branch / HEAD** | `feat/first-tenant-golden-path` @ docs commit for CROW.REQUEST.1 |
-| **Related** | [`REQUEST-INTAKE-MVP-PLAN.md`](REQUEST-INTAKE-MVP-PLAN.md), [`milestones/CROW-REQUEST-1.md`](../milestones/CROW-REQUEST-1.md) |
+| **Related** | [`REQUEST-INTAKE-MVP-PLAN.md`](REQUEST-INTAKE-MVP-PLAN.md), [`milestones/CROW-REQUEST-1.md`](../milestones/CROW-REQUEST-1.md), [`milestones/CROW-REQUEST-2.md`](../milestones/CROW-REQUEST-2.md) |
+
+> **CROW.REQUEST.2 update (2026-07-18):** JourneyKind now persists on brief notes JSON. Client-process requires verified phone (constitution) while enrollment activation may remain email-only. Product status mapping added without DB enum migration. See CROW-REQUEST-2 milestone for implementation truth.
 
 **Scope:** Read-only audit. No product code, migrations, hosted writes, or auth/authorization changes in this milestone.
 

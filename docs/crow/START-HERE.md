@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.REQUEST.1) |
+| **Last reviewed** | 2026-07-18 (CROW.REQUEST.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -59,17 +59,17 @@
 
 ## Current milestone
 
-**CROW.REQUEST.1** — Client Request Intake MVP audit and delivery plan prepared (planning only).
+**CROW.REQUEST.2** — Local-first Request Intake alignment implemented and certified.
 
-Evidence: [`milestones/CROW-REQUEST-1.md`](milestones/CROW-REQUEST-1.md) · [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) · [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) · Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)
+Evidence: [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md) · Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)
 
-**Prior:** CROW.PM.2 — GitHub Projects, labels, seed backlog ([`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md)).
+**Prior:** CROW.REQUEST.1 — audit + plan ([`milestones/CROW-REQUEST-1.md`](milestones/CROW-REQUEST-1.md)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no Request implementation yet; no Instant Promote; no PR #10 merge; no Vercel settings without auth; Option C interim for main merges; no hosted writes while GAP-004 open
+**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges
 
-**Recommended next:** Owner accept Request plan · decide phone/GAP-004 sequencing · then CROW.REQUEST.2 (local-first) or #16 Preview DB
+**Recommended next:** Owner triage #15/#16 · CROW.PROCROW.1 queue outcome UX · or CROW.DISCOVERY.1 design
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 

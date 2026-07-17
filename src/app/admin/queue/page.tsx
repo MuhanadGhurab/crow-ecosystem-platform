@@ -16,7 +16,7 @@ export default async function AdminOperatorQueuePage() {
       <ProCrowWorkbenchPageHeader
         eyebrow="ProCrow · Operator queue"
         title="What needs attention now"
-        purpose="Derived request-to-tenant readiness — read-only. Pick a lane, open the workspace, act. Not a task engine."
+        purpose="Derived request-to-tenant readiness — read-only. Intake groups: Submitted / Needs review → Qualification → Ready for Discovery. Not a task engine; no tenant provisioning from this view."
         backHref={routes.admin.overview}
         backLabel="← Control tower"
       />

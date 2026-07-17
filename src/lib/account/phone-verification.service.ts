@@ -9,7 +9,7 @@ import {
   recordPlatformAccountAudit,
 } from "@/lib/account/platform-account.service";
 import { isValidE164Phone } from "@/lib/account/phone-normalize";
-import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
+import { isPhoneVerificationRequiredForAccount, isPhoneVerificationFlowEnabled } from "@/lib/account/phone-verification-policy";
 import { getPhoneVerificationDeliveryPort } from "@/lib/phone/get-phone-verification-port";
 import { isPreviewPhoneDestinationAllowed } from "@/lib/phone/preview-phone-allowlist";
 import { buildOtpSmsBody } from "@/lib/phone/otp-sms-templates";
@@ -90,9 +90,13 @@ export async function issuePhoneVerificationCode(input: {
     where: { id: input.platformAccountId },
     select: { onboardingGeneration: true },
   });
+  if (!accountForPolicy) {
+    return { ok: false, reason: "no_account" };
+  }
+  // Enrollment gen≥3 policy OR client-process constitution flow (CROW.REQUEST.2).
   if (
-    !accountForPolicy ||
-    !isPhoneVerificationRequiredForAccount(accountForPolicy)
+    !isPhoneVerificationRequiredForAccount(accountForPolicy) &&
+    !isPhoneVerificationFlowEnabled()
   ) {
     return { ok: false, reason: "no_account" };
   }

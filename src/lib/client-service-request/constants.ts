@@ -21,7 +21,13 @@ export function parseRequestBriefFromNotes(notes: string | null | undefined): Cl
   try {
     const parsed = JSON.parse(notes.slice(jsonStart)) as ClientServiceRequestBrief;
     if (parsed.schemaVersion !== CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION) return null;
-    return parsed;
+    return {
+      ...parsed,
+      journeyKind:
+        parsed.journeyKind === "NEW" || parsed.journeyKind === "TRANSFORM"
+          ? parsed.journeyKind
+          : null,
+    };
   } catch {
     return null;
   }
@@ -49,6 +55,7 @@ export function buildDefaultRequestBrief(
     customPurposeDescription: partial.customPurposeDescription ?? null,
     currentTeamRange: partial.currentTeamRange ?? null,
     growthIntention: partial.growthIntention ?? null,
+    journeyKind: partial.journeyKind ?? null,
     organizationContext: partial.organizationContext ?? null,
     configurationMode: partial.configurationMode ?? "RECOMMEND_EVERYTHING",
     plainLanguageGoal: partial.plainLanguageGoal ?? null,

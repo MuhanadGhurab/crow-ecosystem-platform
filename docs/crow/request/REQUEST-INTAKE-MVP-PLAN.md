@@ -3,14 +3,14 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Client Request Intake MVP — Delivery Plan |
-| **Status** | CANONICAL plan (CROW.REQUEST.1) — **planning only** |
-| **Authority** | Owner review required before implementation |
+| **Status** | CANONICAL plan — **CROW.REQUEST.2 executed (local-first)** |
+| **Authority** | Owner decisions in CROW.REQUEST.2 |
 | **Date** | 2026-07-18 |
 | **Issue** | [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17) |
 | **Audit** | [`REQUEST-INTAKE-AUDIT.md`](REQUEST-INTAKE-AUDIT.md) |
-| **Milestone** | [`milestones/CROW-REQUEST-1.md`](../milestones/CROW-REQUEST-1.md) |
+| **Milestone** | [`milestones/CROW-REQUEST-2.md`](../milestones/CROW-REQUEST-2.md) |
 
-**This document does not authorize coding, migrations, hosted writes, PR #10 merge, or Production deploy.**
+**CROW.REQUEST.2 applied:** JourneyKind on brief · client-process phone gate · product status mapping · queue clarity · authority tests. Server drafts deferred. No migrations / hosted writes.
 
 ---
 

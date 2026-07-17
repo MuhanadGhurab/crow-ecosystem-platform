@@ -13,6 +13,8 @@ import {
 import type { ClientConfigurationMode } from "@/lib/client-enterprise-design/types";
 import { listBusinessPurposes } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
 import { buildDefaultRequestBrief } from "@/lib/client-service-request/constants";
+import { REQUEST_JOURNEY_KIND_LABELS, type RequestJourneyKind } from "@/lib/client-service-request/journey";
+import { ORGANIZATION_CONTEXT_OPTIONS } from "@/lib/client-service-request/org-context-labels";
 import { buildPreliminaryRequestRecommendation } from "@/lib/client-service-request/preliminary-recommendation";
 import {
   clearRequestWizardDraft,
@@ -52,11 +54,9 @@ const CONFIG_MODES: Array<{ key: ClientConfigurationMode; label: string; descrip
   },
 ];
 
-const ORG_CONTEXT: Array<{ key: OrganizationContextKind; label: string }> = [
-  { key: "NEW_BUSINESS", label: "A new business" },
-  { key: "EXISTING_ORGANIZATION", label: "An existing organization" },
-  { key: "MODERNIZATION", label: "A modernization project" },
-  { key: "NEW_DIVISION", label: "A new division or branch" },
+const JOURNEY_OPTIONS: Array<{ key: RequestJourneyKind; label: string }> = [
+  { key: "NEW", label: REQUEST_JOURNEY_KIND_LABELS.NEW },
+  { key: "TRANSFORM", label: REQUEST_JOURNEY_KIND_LABELS.TRANSFORM },
 ];
 
 export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: string }) {
@@ -83,7 +83,11 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
     const journey = parseJourneyUrlParam(searchParams.get("journey"));
     if (!journey) return;
     const defaultCtx = defaultOrganizationContextForJourney(journey) as OrganizationContextKind;
-    setBrief((b) => (b.organizationContext ? b : { ...b, organizationContext: defaultCtx }));
+    setBrief((b) => ({
+      ...b,
+      journeyKind: b.journeyKind ?? journey,
+      organizationContext: b.organizationContext ?? defaultCtx,
+    }));
   }, [searchParams]);
 
   useEffect(() => {
@@ -113,6 +117,7 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
       customPurposeDescription: brief.customPurposeDescription,
       currentTeamRange: brief.currentTeamRange,
       growthIntention: brief.growthIntention,
+      journeyKind: brief.journeyKind,
       organizationContext: brief.organizationContext,
       configurationMode: brief.configurationMode,
       plainLanguageGoal: brief.plainLanguageGoal,
@@ -133,7 +138,7 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
       case "purpose":
         return Boolean(brief.primaryPurposeKey || brief.customPurposeDescription?.trim());
       case "team":
-        return Boolean(brief.currentTeamRange && brief.growthIntention);
+        return Boolean(brief.currentTeamRange && brief.growthIntention && brief.journeyKind);
       case "mode":
         return Boolean(brief.configurationMode);
       case "understanding":
@@ -163,6 +168,7 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
         customPurposeDescription: brief.customPurposeDescription,
         currentTeamRange: brief.currentTeamRange,
         growthIntention: brief.growthIntention,
+        journeyKind: brief.journeyKind,
         organizationContext: brief.organizationContext,
         configurationMode: brief.configurationMode,
         plainLanguageGoal: brief.plainLanguageGoal,
@@ -369,18 +375,48 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
             </div>
           </fieldset>
           <fieldset>
-            <legend className="text-sm font-medium text-white">Optional: organization context</legend>
+            <legend className="text-sm font-medium text-white">Journey</legend>
+            <p className="mt-1 text-xs text-slate-400">
+              Build New vs Transform Existing — required and saved with your request.
+            </p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              {ORG_CONTEXT.map((opt) => (
+              {JOURNEY_OPTIONS.map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
-                  onClick={() => patch({ organizationContext: opt.key })}
+                  onClick={() => {
+                    const defaultCtx = defaultOrganizationContextForJourney(opt.key) as OrganizationContextKind;
+                    patch({
+                      journeyKind: opt.key,
+                      organizationContext: brief.organizationContext ?? defaultCtx,
+                    });
+                  }}
+                  className={`rounded-xl border p-3 text-left text-sm ${
+                    brief.journeyKind === opt.key ? "border-cyan-500" : "border-slate-700"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="text-sm font-medium text-white">Organization context</legend>
+            <p className="mt-1 text-xs text-slate-400">
+              Optional detail within your journey (new business/division vs existing/modernization).
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {ORGANIZATION_CONTEXT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() => patch({ organizationContext: opt.key, journeyKind: brief.journeyKind ?? opt.typicalJourney })}
                   className={`rounded-xl border p-3 text-left text-sm ${
                     brief.organizationContext === opt.key ? "border-violet-500" : "border-slate-700"
                   }`}
                 >
-                  {opt.label}
+                  <span className="block font-medium text-white">{opt.label}</span>
+                  <span className="mt-1 block text-xs text-slate-400">{opt.hint}</span>
                 </button>
               ))}
             </div>
@@ -458,6 +494,14 @@ export function ServiceRequestWizard({ accountScopeKey }: { accountScopeKey: str
             It creates a service request for Crow and ProCrow to review.
           </p>
           <ul className="space-y-1 text-sm text-slate-300">
+            <li>
+              Journey:{" "}
+              {brief.journeyKind ? REQUEST_JOURNEY_KIND_LABELS[brief.journeyKind] : "— (required)"}
+            </li>
+            <li>
+              Organization context:{" "}
+              {ORGANIZATION_CONTEXT_OPTIONS.find((o) => o.key === brief.organizationContext)?.label ?? "—"}
+            </li>
             <li>Field: {brief.primaryBusinessFieldKey ?? brief.customFieldDescription ?? "—"}</li>
             <li>Purpose: {brief.primaryPurposeKey ?? brief.customPurposeDescription ?? "—"}</li>
             <li>Team: {brief.currentTeamRange ?? "—"}</li>

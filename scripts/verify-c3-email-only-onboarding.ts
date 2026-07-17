@@ -76,9 +76,10 @@ function main() {
 
   const phoneSvc = read("src/lib/account/phone-verification.service.ts");
   check(
-    phoneSvc.includes("isPhoneVerificationRequiredForAccount"),
-    "phone OTP issuance guarded by policy",
-    "phone service must not issue when policy off"
+    phoneSvc.includes("isPhoneVerificationRequiredForAccount") &&
+      phoneSvc.includes("isPhoneVerificationFlowEnabled"),
+    "phone OTP issuance guarded by enrollment + client-process flow policy",
+    "phone service must not issue when all phone flows are off"
   );
   check(!phoneSvc.includes("emailVerifiedAt:"), "phone OTP cannot confirm email");
 
@@ -87,16 +88,23 @@ function main() {
 
   const accountActions = read("src/lib/actions/account.ts");
   check(
-    accountActions.includes("isPhoneVerificationRequired()"),
-    "phone server actions blocked when policy off",
+    accountActions.includes("isPhoneVerificationFlowEnabled()"),
+    "phone server actions gated by phone verification flow helper",
     "phone actions missing policy guard"
   );
 
   const verifyPhonePage = read("src/app/onboarding/verify-phone/page.tsx");
   check(
-    verifyPhonePage.includes("isPhoneVerificationRequired()"),
-    "phone route redirects when policy off",
-    "verify-phone page must hide journey step"
+    verifyPhonePage.includes("isPhoneVerificationFlowEnabled()"),
+    "phone route uses flow helper (enrollment deferred; client-process may still require)",
+    "verify-phone page must gate with flow helper"
+  );
+
+  check(
+    policy.includes("isClientProcessPhoneVerificationRequired") &&
+      policy.includes("CROW_CLIENT_PROCESS_PHONE_REQUIRED"),
+    "client-process phone constitution gate documented in policy module",
+    "missing client-process phone gate (CROW.REQUEST.2)"
   );
 
   const progress = read("src/components/account/onboarding-progress.tsx");

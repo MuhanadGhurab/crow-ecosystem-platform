@@ -14,6 +14,10 @@ import {
 import { gateAuthSessionForC3 } from "@/lib/account/c3-auth-orchestration";
 import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
 import {
+  accountMissingClientProcessPhone,
+  isClientProcessPhoneVerificationRequired,
+} from "@/lib/account/phone-verification-policy";
+import {
   findPlatformAccountBySupabaseUserId,
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
@@ -194,6 +198,28 @@ export async function enforceC3HumanAccessGate(
   }
 }
 
+/**
+ * CROW.REQUEST.2 — constitution: verified phone required for client-process progression.
+ * Does not fake OTP; redirects to real phone verification when missing.
+ */
+export async function enforceClientProcessPhoneGate(
+  user: User,
+  nextPath?: string
+): Promise<void> {
+  if (isAuthDisabled() || !isC3PlatformAccountGateEnabled()) {
+    return;
+  }
+  if (!isClientProcessPhoneVerificationRequired()) {
+    return;
+  }
+
+  const account = await findPlatformAccountBySupabaseUserId(user.id);
+  if (accountMissingClientProcessPhone(account)) {
+    const q = nextPath ? `?next=${encodeURIComponent(nextPath)}` : "";
+    redirect(`${routes.onboarding.verifyPhone}${q}`);
+  }
+}
+
 /** C3 — authenticated session with ACTIVE platform account (self-service /account/*). */
 export async function requireActivePlatformAccount(nextPath?: string): Promise<User> {
   const user = await requireAuth(nextPath);
@@ -218,6 +244,13 @@ export async function requireClientAccess(nextPath = "/portal/requests"): Promis
   await enforceC3HumanAccessGate(user, nextPath);
 
   const { auth } = await resolveGuardAuth(user);
+  // Platform staff may preview client surfaces without client phone gate.
+  if (isPlatformStaff(auth.role)) {
+    return user;
+  }
+
+  await enforceClientProcessPhoneGate(user, nextPath);
+
   if (canAccessPortal(auth.role)) {
     return user;
   }

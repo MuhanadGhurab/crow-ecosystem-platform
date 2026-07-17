@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.REQUEST.1) |
+| **Last reviewed** | 2026-07-18 (CROW.REQUEST.2) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.REQUEST.1 docs (verify with `git rev-parse HEAD`) |
+| HEAD | CROW.REQUEST.2 (verify with `git rev-parse HEAD`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #17 audit/plan updated |
+| Seed Issues | #15–#24 · #17 updated for REQUEST.2 |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs updates for CROW.REQUEST.1 |
+| Working tree | Docs + local-first Request alignment |
 
 ## Stack
 
@@ -62,17 +62,18 @@
 | PARTIAL | Dual-channel verification; FTGP authority boundaries tested |
 | Evidence | `src/lib/auth/`, `src/lib/account/`, `docs/architecture/crow-core/c3/` |
 
-### Request — PARTIAL (audit complete; implementation not authorized)
+### Request — PARTIAL (CROW.REQUEST.2 aligned locally)
 
 | Status | Evidence |
 |--------|----------|
-| IMPLEMENTED | `ImplementationRequest` model, authenticated client request wizard, submit → `PENDING_REVIEW` |
-| IMPLEMENTED | `OrganizationContext` kinds; brief authority contract (request ≠ tenant) |
-| IMPLEMENTED | Public `/request` explainer; journey handoff URLs (`NEW`/`TRANSFORM`) |
-| PARTIAL | JourneyKind not persisted on brief (GAP-008); phone gate deferred vs constitution |
-| PARTIAL | ProCrow queue derived; qualification vocabulary differs from product terms |
-| **AUDIT (CROW.REQUEST.1)** | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) · plan [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) |
-| Evidence | `prisma/schema.prisma`, `/client/requests/*`, `/admin/requests/*`, Issue #17 |
+| IMPLEMENTED | Authenticated wizard; submit → `PENDING_REVIEW`; request ≠ tenant authority contract |
+| IMPLEMENTED | **JourneyKind** on brief notes JSON (NEW/TRANSFORM) — GAP-008 mitigated |
+| IMPLEMENTED | Org context labels aligned with Build New / Transform |
+| IMPLEMENTED | **Client-process phone gate** (constitution) — `/client/*` + submit require `phoneVerifiedAt`; real OTP; enrollment activation may remain email-only |
+| IMPLEMENTED | Product status mapping (no DB enum migration) |
+| IMPROVED | ProCrow intake queue language (Submitted / Needs review / Qualification) |
+| DEFERRED | Server-persisted DRAFT; hosted Preview certify (GAP-004) |
+| Evidence | [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md), `/client/requests/*`, Issue #17 |
 
 ### Discovery — PARTIAL
 

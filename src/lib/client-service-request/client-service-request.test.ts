@@ -32,6 +32,7 @@ test("Request Brief validates essential intake", () => {
 
   const valid = validateClientServiceRequestBrief({
     ...buildDefaultRequestBrief(),
+    journeyKind: "NEW",
     primaryBusinessFieldKey: "general_contracting",
     primaryPurposeKey: "deliver_projects",
     currentTeamRange: "TEAM_2_5",
@@ -43,10 +44,31 @@ test("Request Brief validates essential intake", () => {
     },
   });
   assert.ok(valid.ok);
+  if (valid.ok) {
+    assert.equal(valid.brief.journeyKind, "NEW");
+  }
 });
 
-test("brief round-trips through notes field without migration", () => {
+test("brief rejects missing journeyKind", () => {
+  const missing = validateClientServiceRequestBrief({
+    ...buildDefaultRequestBrief(),
+    journeyKind: null,
+    primaryBusinessFieldKey: "general_contracting",
+    primaryPurposeKey: "deliver_projects",
+    currentTeamRange: "TEAM_2_5",
+    growthIntention: "GROW_GRADUALLY",
+    configurationMode: "RECOMMEND_EVERYTHING",
+    clientAcknowledgements: {
+      understandsNoTenantProvisioning: true,
+      understandsProcrowReview: true,
+    },
+  });
+  assert.equal(missing.ok, false);
+});
+
+test("brief round-trips journeyKind through notes field without migration", () => {
   const brief = buildDefaultRequestBrief({
+    journeyKind: "TRANSFORM",
     primaryBusinessFieldKey: "software_saas",
     primaryPurposeKey: "sell_products",
     currentTeamRange: "TEAM_6_15",
@@ -56,11 +78,13 @@ test("brief round-trips through notes field without migration", () => {
   const notes = serializeRequestBriefToNotes(brief);
   const parsed = parseRequestBriefFromNotes(notes);
   assert.equal(parsed?.primaryBusinessFieldKey, "software_saas");
+  assert.equal(parsed?.journeyKind, "TRANSFORM");
 });
 
 test("custom unresolved field allowed without catalog match", () => {
   const valid = validateClientServiceRequestBrief({
     ...buildDefaultRequestBrief(),
+    journeyKind: "TRANSFORM",
     customFieldDescription: "We operate remote mining camps with catering and fleet",
     fieldResolutionStatus: "CUSTOM_UNRESOLVED",
     primaryPurposeKey: "operate_assets",
@@ -90,6 +114,7 @@ test("preliminary recommendation generated without ERP module selection", () => 
     customPurposeDescription: null,
     currentTeamRange: "TEAM_2_5",
     growthIntention: "STAY_SAME",
+    journeyKind: "NEW",
     organizationContext: null,
     configurationMode: "RECOMMEND_EVERYTHING",
     plainLanguageGoal: null,
@@ -143,6 +168,36 @@ test("legacy intake write paths disabled", () => {
   assert.ok(api.includes("LEGACY_IMPLEMENTATION_REQUEST_INTAKE_DISABLED"));
   const action = readFileSync(join(process.cwd(), "src/lib/actions/implementation-request.ts"), "utf8");
   assert.ok(action.includes("assertLegacyImplementationRequestIntakeDisabled"));
+});
+
+test("createModernServiceRequest does not provision tenant, blueprint, payment, or platform roles", () => {
+  const svc = readFileSync(join(process.cwd(), "src/lib/services/client-service-request.service.ts"), "utf8");
+  assert.ok(svc.includes('status: "PENDING_REVIEW"'));
+  assert.ok(svc.includes("phoneVerifiedAt") || svc.includes("accountMissingClientProcessPhone"));
+  assert.ok(!svc.includes("tenantMembership.create"));
+  assert.ok(!svc.includes("TenantMembership"));
+  assert.ok(!svc.includes("enterpriseBlueprint.create"));
+  assert.ok(!svc.includes("platformInternalRole"));
+  assert.ok(!svc.includes("stripe.checkout"));
+  assert.ok(!svc.includes("createCheckout"));
+  assert.ok(svc.includes("CLIENT_SERVICE_REQUEST_BRIEF_AUTHORITY") || svc.includes("serializeRequestBriefToNotes"));
+});
+
+test("brief authority contract remains non-provisioning", () => {
+  const types = readFileSync(join(process.cwd(), "src/lib/client-service-request/types.ts"), "utf8");
+  assert.ok(types.includes("provisionsTenant: false"));
+  assert.ok(types.includes("grantsAuthority: false"));
+  assert.ok(types.includes("createsBlueprint: false"));
+  assert.ok(types.includes("journeyKind"));
+});
+
+test("wizard persists journeyKind from URL and submit payload", () => {
+  const wizard = readFileSync(
+    join(process.cwd(), "src/components/client-service-request/service-request-wizard.tsx"),
+    "utf8",
+  );
+  assert.ok(wizard.includes("journeyKind"));
+  assert.ok(wizard.includes("REQUEST_JOURNEY_KIND_LABELS"));
 });
 
 console.log("client-service-request:test PASS");

@@ -167,16 +167,16 @@ export function deriveProCrowOperatorQueueSnapshot(input: ProCrowQueueDeriveInpu
       priority: "high",
       status: "needs_review",
       owner: "procrow",
-      title: "New request needs review",
-      description: `Intake ${row.referenceCode} is waiting for ProCrow review before discovery.`,
-      reason: "Derived from implementation request status — operator-guided triage.",
+      title: "Submitted request — needs qualification review",
+      description: `Intake ${row.referenceCode} is submitted (DB: PENDING_REVIEW). Product stage: Needs review / Qualification review. Open workspace before Discovery.`,
+      reason: "Derived from implementation request status — operator-guided qualification; no tenant provisioning.",
       relatedRoute: routes.admin.request(row.requestId),
       actionLabel: "Open request",
       requestId: row.requestId,
       referenceCode: row.referenceCode,
       organizationName: org(row.requestId),
       source: "request",
-      tags: tag("operator queue", "intake", "needs review"),
+      tags: tag("operator queue", "intake", "submitted", "needs review", "qualification"),
     });
   }
 

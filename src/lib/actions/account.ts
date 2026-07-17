@@ -8,7 +8,10 @@ import {
   verifyEmailVerificationCode,
 } from "@/lib/account/email-verification.service";
 import { isAccountRegistrationEnabled } from "@/lib/account/feature-flags";
-import { isPhoneVerificationRequiredForAccount } from "@/lib/account/phone-verification-policy";
+import {
+  isPhoneVerificationFlowEnabled,
+  isPhoneVerificationRequiredForAccount,
+} from "@/lib/account/phone-verification-policy";
 import {
   findPlatformAccountByEmailNormalized,
   findPlatformAccountById,
@@ -16,7 +19,6 @@ import {
   isPlatformAccountActive,
 } from "@/lib/account/platform-account.service";
 import { updatePlatformAccountProfile } from "@/lib/account/platform-account-profile.service";
-import { isPhoneVerificationRequired } from "@/lib/account/phone-verification-policy";
 import { requireActivePlatformAccount, requireAuth } from "@/lib/auth/session";
 import { sanitizeAuthNextPathOptional } from "@/lib/auth/sanitize-auth-next";
 import { checkC3VerificationRateLimit } from "@/lib/security/c3-registration-rate-limit";
@@ -245,8 +247,8 @@ export async function submitPhoneCaptureAction(
     return registrationDisabledState();
   }
 
-  if (!isPhoneVerificationRequired()) {
-    return { error: "Phone verification is not required for your account." };
+  if (!isPhoneVerificationFlowEnabled()) {
+    return { error: "Phone verification is not available for your account." };
   }
 
   const user = await requireAuth(routes.onboarding.verifyPhone);
@@ -305,8 +307,8 @@ export async function submitPhoneOtpAction(
     return registrationDisabledState();
   }
 
-  if (!isPhoneVerificationRequired()) {
-    return { error: "Phone verification is not required for your account." };
+  if (!isPhoneVerificationFlowEnabled()) {
+    return { error: "Phone verification is not available for your account." };
   }
 
   const user = await requireAuth(routes.onboarding.verifyPhone);
