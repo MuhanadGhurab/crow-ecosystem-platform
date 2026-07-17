@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1A) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.DISCOVERY.FIELD.1 (verify with `git rev-parse HEAD`) |
+| HEAD | `e90fcda` on `feat/first-tenant-golden-path` (CROW.DISCOVERY.FIELD.1A pushed) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
@@ -82,9 +82,10 @@
 | IMPLEMENTED | `DiscoveryProfile`, answers, departments, roles, workflows models |
 | IMPLEMENTED | Client and operator discovery routes |
 | DESIGNED | **Adaptive field architecture** — 10 layers, taxonomy, question model, stages 1–7 (CROW.DISCOVERY.FIELD.1) |
+| BASELINED | CROW.DISCOVERY.FIELD.1A — pushed to `origin/feat/first-tenant-golden-path` @ `e90fcda` |
 | PARTIAL | FTGP discovery shell reconciliation; dual client/operator paths not yet unified on one catalog |
 | PLANNED | CROW.DISCOVERY.1 MVP using field architecture (no unauthorized migration) |
-| Evidence | `/discovery/*`, `/client/requests/*/discovery/*`, [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md), Issue #18 |
+| Evidence | `/discovery/*`, `/client/requests/*/discovery/*`, [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md), [`milestones/CROW-DISCOVERY-FIELD-1A.md`](milestones/CROW-DISCOVERY-FIELD-1A.md), Issue #18 |
 
 ### Blueprint — PARTIAL
 

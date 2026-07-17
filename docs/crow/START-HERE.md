@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1A) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -66,11 +66,13 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.FIELD.1** — Enterprise Discovery field architecture and adaptive intake model prepared (docs-only).
+**CROW.DISCOVERY.FIELD.1A** — Discovery field architecture pushed and baselined on origin.
 
-Evidence: [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) · [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
+Evidence: [`milestones/CROW-DISCOVERY-FIELD-1A.md`](milestones/CROW-DISCOVERY-FIELD-1A.md) · architecture [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) · [`discovery/DISCOVERY-FIELD-ARCHITECTURE.md`](discovery/DISCOVERY-FIELD-ARCHITECTURE.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
 
-**Prior:** CROW.PROCROW.1A — ProCrow certification pushed ([`milestones/CROW-PROCROW-1A.md`](milestones/CROW-PROCROW-1A.md) · [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
+**Origin HEAD:** `e90fcda` on `feat/first-tenant-golden-path` (pushed)
+
+**Prior:** CROW.DISCOVERY.FIELD.1 — adaptive field architecture (docs-only) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 

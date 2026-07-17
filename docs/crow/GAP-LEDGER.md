@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1A) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -244,11 +244,11 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | **Architecture prepared in CROW.DISCOVERY.FIELD.1** — taxonomy, question model, stages, outputs documented. Runtime still has thin request wizard + dual Discovery UIs + FTGP catalog ahead of forms |
+| **Current state** | **Architecture prepared in CROW.DISCOVERY.FIELD.1** and **origin-baselined in CROW.DISCOVERY.FIELD.1A** @ `e90fcda`. Runtime still has thin request wizard + dual Discovery UIs + FTGP catalog ahead of forms |
 | **Severity** | Medium (blocks enterprise-scale Discovery quality) |
 | **Security/authority impact** | Low if authority non-claims preserved |
 | **Dependency** | CROW.DISCOVERY.1; GAP-004 before hosted certify / migrations |
 | **Proposed milestone** | CROW.DISCOVERY.1 (MVP build plan) · industry packs later |
 | **Owner decision required** | Approve MVP field groups; unify client/operator catalog; evidence = refs only for MVP |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) |
-| **Status** | Open — design ready; implementation not started |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-FIELD-1.md`](milestones/CROW-DISCOVERY-FIELD-1.md) · [`milestones/CROW-DISCOVERY-FIELD-1A.md`](milestones/CROW-DISCOVERY-FIELD-1A.md) |
+| **Status** | Open — design ready and pushed; implementation not started |
