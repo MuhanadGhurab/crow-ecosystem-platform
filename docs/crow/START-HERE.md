@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
+| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -38,6 +38,7 @@
 | [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md) | Workstreams A–O and Phase 0–12 roadmap |
 | [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) | Backlog taxonomy, labels design, portfolio map |
 | [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) | Projects board design — create only after CROW.PM.2 |
+| [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) | Production release authority, main merge, Instant Promote, auto-deploy |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -56,26 +57,26 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.RECON.5** — Auto Production deploy verified and accepted as main-aligned; live URL remains prior pin.
+**CROW.PROD-POLICY.1** — Production deployment policy created for main-aligned Crow releases.
 
-Evidence: [`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) · accepted auto deploy `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` · live domain still `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`
+Evidence: [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) · [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md)
 
-**Prior:** CROW.PUBLIC.RECON.4 — PR #14 merged ([`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md)) · `main` @ `e8cb812`
+**Prior:** CROW.PUBLIC.RECON.5 — auto Production deploy accepted; live domain remains prior pin ([`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md)).
 
-**Production:** https://crow-ecosystem-platform.vercel.app · live pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · auto deploy from #14 accepted as main-aligned artifact (domain not reassigned this milestone)
+**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · accepted artifact `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (not Instant-Promoted)
 
-**Hold:** no PR #10 merge; no Vercel settings change without authorization; Instant Promote of `dpl_8xT92…` to public domain requires separate owner auth
+**Hold:** no Instant Promote of `dpl_8xT92…`; no PR #10 merge; no Vercel settings change without authorization; treat `main` merges as potential Production events (Option C)
 
-**Recommended next:** Owner Instant Promote decision (optional) · gate/disable main→Production auto-deploy (Option B) · CROW.PM.2 or CROW.REQUEST.1
+**Recommended next:** Owner decide Option B (gate/disable main→Production auto-deploy) · optional Instant Promote · CROW.PM.2 or CROW.REQUEST.1
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** MERGED
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** MERGED · **main:** `e8cb812`
 
 ## Current implementation summary
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Production pin policy after GAP-012 mitigation, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Vercel Option B auto-deploy gate (owner settings), Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

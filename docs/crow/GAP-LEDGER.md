@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
+| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -72,13 +72,27 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
-| **Current state** | PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) merged; `main` @ `e8cb812` has accepted public + safe `vercel.json`; auto Production deploy `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` **accepted** (RECON.5); live URL still pinned to `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (smoke pass). Residual: main→Production auto-deploy policy (Option B/C). |
-| **Severity** | **Low** — git + artifact acceptance done; domain pin optional |
-| **Security/authority impact** | Medium if future `main` merges auto-create Production targets without owner awareness |
-| **Dependency** | Optional Instant Promote of `dpl_8xT92…`; Vercel auto-deploy gate — [`CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) |
-| **Proposed milestone** | CROW.PUBLIC.RECON.5 complete; optional Production domain reassign / settings gate |
-| **Owner decision required** | Instant Promote `dpl_8xT92…`? Disable/gate main Production auto-deploy (Option B)? |
-| **Status** | **Mitigated** — `main` reconciled; auto deploy accepted; live pin remains prior accepted deployment |
+| **Current state** | PR #14 merged; `main` @ `e8cb812` has accepted public + safe `vercel.json`; auto deploy `dpl_8xT92…` accepted; live URL on `dpl_QeDhnxz…`; Production deployment policy documented ([`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md)) — Option C interim; Option B settings not applied |
+| **Severity** | **Low** |
+| **Security/authority impact** | Medium if `main` merges proceed without owner authorization while auto Production-target creation remains on |
+| **Dependency** | Owner Option B settings decision; optional Instant Promote — [`CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md) |
+| **Proposed milestone** | CROW.PROD-POLICY.1 complete; CROW.PROD-POLICY.2 for settings application if authorized |
+| **Owner decision required** | Apply Option B in Vercel? Instant Promote `dpl_8xT92…`? |
+| **Status** | **Mitigated** — git + artifact + written policy; settings gate tracked in GAP-015 |
+
+## GAP-015 — Production auto-deploy settings gate
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Operations / Release |
+| **Intended state** | Main→Production auto-deploys disabled or gated (Option B), or explicitly retained under Option C discipline |
+| **Current state** | Policy documents Option C interim; Vercel settings unchanged; merges to `main` still create Production-target artifacts |
+| **Severity** | Medium |
+| **Security/authority impact** | Medium — accidental Production-target creation without Instant Promote still creates operator confusion |
+| **Dependency** | Owner authorization to change Vercel Git/Production settings |
+| **Proposed milestone** | CROW.PROD-POLICY.2 (settings application only) |
+| **Owner decision required** | Enable Option B settings? Keep Option C only? |
+| **Status** | **Open** |
 
 ## GAP-004 — Preview/Production database isolation
 

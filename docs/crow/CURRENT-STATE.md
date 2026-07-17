@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
+| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,14 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PUBLIC.RECON.5 docs (verify with `git rev-parse HEAD`) |
+| HEAD | CROW.PROD-POLICY.1 docs (verify with `git rev-parse HEAD`) |
 | Reconciliation PR | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** — squash → `main` @ `e8cb812` |
 | Default branch | `main` at `e8cb812` — accepted public experience on `main` |
-| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (verified via CSS `dpl=` tag) |
-| Production auto (#14) | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` — **accepted** as main-aligned artifact (RECON.5) |
+| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (verified) |
+| Production auto (#14) | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` — accepted artifact; **not** Instant-Promoted |
+| Production policy | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) — Option C interim |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs updates for RECON.5 |
+| Working tree | Docs updates for PROD-POLICY.1 |
 
 ## Stack
 
@@ -197,6 +198,14 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | **AUTO DEPLOY** | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` accepted as main-aligned Production artifact |
 | **LIVE DOMAIN** | Still `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (smoke passed); Instant Promote separate |
 | Evidence | [`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) |
+
+### Production deployment policy — DOCUMENTED
+
+| Status | Evidence |
+|--------|----------|
+| **IMPLEMENTED (docs)** | Release authority, main-merge Option C interim, Instant Promote gates, GAP-004 migration holds |
+| **NOT APPLIED** | Vercel Option B settings (disable/gate main→Production auto-deploy) |
+| Evidence | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md), [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md) |
 
 ### Known technical debt
 
