@@ -7,9 +7,13 @@ import { requirePermission } from "@/lib/auth/session";
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { DiscoveryMockBanner } from "@/components/discovery/discovery-mock-banner";
 import { DiscoveryReadonlyBanner } from "@/components/discovery/discovery-readonly-banner";
+import { DiscoveryMvpWorkspaceShell } from "@/components/discovery/discovery-mvp-workspace-shell";
 import { OnboardingPipelineContext } from "@/components/admin/onboarding-pipeline-context";
 import { DiscoveryProgressNav } from "@/components/discovery/discovery-progress-nav";
 import { DiscoveryIntelligenceRail } from "@/components/discovery/discovery-intelligence-rail";
+import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
+import { isDiscoveryBlueprintCompleteBlocked } from "@/lib/discovery/discovery-mvp-boundaries";
+import { buildDiscoveryMvpWorkspaceModel } from "@/lib/discovery/discovery-workspace-context";
 import { routes } from "@/lib/routes";
 import { getDiscoveryContext } from "@/lib/services/discovery.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -79,6 +83,19 @@ export default async function DiscoveryLayout({
 
       <DiscoveryMockBanner requestId={requestId} />
       <DiscoveryReadonlyBanner status={request.status as ImplementationRequestStatus} />
+
+      <DiscoveryMvpWorkspaceShell
+        variant="operator"
+        model={buildDiscoveryMvpWorkspaceModel({
+          requestId,
+          referenceCode: request.referenceCode,
+          organizationName: request.organizationName,
+          requestStatus: request.status as ImplementationRequestStatus,
+          discoveryProfileStatus: profile.status,
+          brief: parseRequestBriefFromNotes(request.notes),
+          blueprintCompleteBlocked: isDiscoveryBlueprintCompleteBlocked(),
+        })}
+      />
 
       <DiscoveryProgressNav
         requestId={requestId}

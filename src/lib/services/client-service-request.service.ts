@@ -251,8 +251,5 @@ export async function applyProcrowQualification(
   return updated;
 }
 
-/** True when brief marks request qualified for Discovery handoff. */
-export function briefIsQualifiedForDiscovery(notes: string | null | undefined): boolean {
-  const brief = parseRequestBriefFromNotes(notes);
-  return brief?.procrowQualification?.outcome === "qualified_for_discovery";
-}
+/** Re-export pure helper (preferred import: constants). */
+export { briefIsQualifiedForDiscovery } from "@/lib/client-service-request/constants";

@@ -2,18 +2,37 @@
 
 import { useState, useTransition } from "react";
 import { completeDiscovery } from "@/lib/actions/discovery";
+import { DISCOVERY_BLUEPRINT_COMPLETE_BLOCKED_MESSAGE } from "@/lib/discovery/discovery-mvp-boundaries";
 import type { DiscoveryBlueprintGateResult } from "@/lib/services/discovery-completion-gate.service";
 
 export function DiscoveryCompleteButton({
   requestId,
   gate,
+  /** CROW.DISCOVERY.2 — default true; server also asserts unless CROW_ALLOW_DISCOVERY_BLUEPRINT_COMPLETE=1 */
+  mvpBlueprintCompleteBlocked = true,
 }: {
   requestId: string;
   gate?: DiscoveryBlueprintGateResult | null;
+  mvpBlueprintCompleteBlocked?: boolean;
 }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const advisoryBlock = gate && !gate.canProceedAdvisory && gate.status !== "blueprint_exists";
+
+  if (mvpBlueprintCompleteBlocked) {
+    return (
+      <div
+        className="cc-glass-card space-y-4 border border-amber-500/30"
+        data-crow-discovery-complete-quarantine="d0-d2"
+      >
+        <h3 className="text-sm font-medium text-amber-200">Complete discovery → Blueprint</h3>
+        <p className="text-sm text-slate-400">{DISCOVERY_BLUEPRINT_COMPLETE_BLOCKED_MESSAGE}</p>
+        <button type="button" disabled className="cc-btn-primary cursor-not-allowed opacity-40">
+          Blocked in Discovery MVP D0–D2
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="cc-glass-card space-y-4">

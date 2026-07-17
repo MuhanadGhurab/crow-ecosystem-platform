@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActionRequestReview } from "@/lib/auth/action-guard";
 import { routes } from "@/lib/routes";
-import { briefIsQualifiedForDiscovery } from "@/lib/services/client-service-request.service";
+import { briefIsQualifiedForDiscovery } from "@/lib/client-service-request/constants";
 import {
   getImplementationRequest,
   rejectImplementationRequest,

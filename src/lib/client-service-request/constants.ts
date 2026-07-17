@@ -39,6 +39,12 @@ export function isModernServiceRequest(notes: string | null | undefined): boolea
   return Boolean(parseRequestBriefFromNotes(notes));
 }
 
+/** True when brief marks request qualified for Discovery handoff (no server deps). */
+export function briefIsQualifiedForDiscovery(notes: string | null | undefined): boolean {
+  const brief = parseRequestBriefFromNotes(notes);
+  return brief?.procrowQualification?.outcome === "qualified_for_discovery";
+}
+
 export function buildDefaultRequestBrief(
   partial: Partial<ClientServiceRequestBriefInput> = {},
 ): ClientServiceRequestBrief {

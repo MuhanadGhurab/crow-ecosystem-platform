@@ -25,6 +25,7 @@ import {
 } from "@/lib/services/discovery.service";
 import { applyDiscoveryTemplate } from "@/lib/services/discovery-template.service";
 import { canEditDiscovery } from "@/lib/discovery-editability";
+import { assertDiscoveryBlueprintCompleteAllowed } from "@/lib/discovery/discovery-mvp-boundaries";
 import { shouldUseMockDiscovery } from "@/lib/mock/discovery";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { completeDiscoveryAndCreateBlueprint } from "@/lib/services/pipeline.service";
@@ -267,6 +268,9 @@ async function assertDiscoveryStructureChange(requestId: string) {
 }
 
 export async function completeDiscovery(requestId: string) {
+  // CROW.DISCOVERY.2 — D0–D2 quarantines Blueprint create behind explicit override.
+  assertDiscoveryBlueprintCompleteAllowed();
+
   if (isMockDiscoveryWriteSkipped(requestId)) {
     const ctx = await getDiscoveryContext(requestId);
     const blueprintId = ctx?.enterpriseBlueprint?.id;

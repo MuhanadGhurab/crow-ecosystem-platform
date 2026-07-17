@@ -2,15 +2,21 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClientDiscoveryWizard } from "@/components/client-portal/client-discovery-wizard";
 import { ClientPortalPageHeader } from "@/components/client-portal/client-portal-page-header";
+import { DiscoveryMvpWorkspaceShell } from "@/components/discovery/discovery-mvp-workspace-shell";
 import { ProductPageHeader } from "@/components/product/product-page-header";
 import { CLIENT_DISCOVERY_STAGE_TEMPLATES } from "@/lib/constants/client-discovery-stage-templates";
 import { requireClientAccess } from "@/lib/auth/session";
 import { discoveryStatusLabel } from "@/lib/client-portal/client-discovery-contract";
+import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
+import { isDiscoveryBlueprintCompleteBlocked } from "@/lib/discovery/discovery-mvp-boundaries";
+import { buildDiscoveryMvpWorkspaceModel } from "@/lib/discovery/discovery-workspace-context";
 import { routes } from "@/lib/routes";
 import {
   buildClientDiscoveryPageModel,
   listClientDiscoveryIndustryOptions,
 } from "@/lib/services/client-discovery.service";
+import { prisma } from "@/lib/db";
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function ClientRequestDiscoveryPage({
   params,
@@ -26,6 +32,40 @@ export default async function ClientRequestDiscoveryPage({
   const model = await buildClientDiscoveryPageModel(user, requestId);
   if (!model) notFound();
 
+  let requestRow: {
+    notes: string | null;
+    status: ImplementationRequestStatus;
+    discoveryProfile: { status: string } | null;
+  } | null = null;
+  try {
+    requestRow = await prisma.implementationRequest.findUnique({
+      where: { id: requestId },
+      select: {
+        notes: true,
+        status: true,
+        discoveryProfile: { select: { status: true } },
+      },
+    });
+  } catch {
+    requestRow = null;
+  }
+
+  const brief = parseRequestBriefFromNotes(requestRow?.notes);
+  const mvpWorkspace = buildDiscoveryMvpWorkspaceModel({
+    requestId,
+    referenceCode: model.referenceCode,
+    organizationName: model.organizationName,
+    requestStatus: (requestRow?.status ?? "PENDING_REVIEW") as ImplementationRequestStatus,
+    discoveryProfileStatus: (requestRow?.discoveryProfile?.status as
+      | "NOT_STARTED"
+      | "IN_PROGRESS"
+      | "COMPLETED"
+      | null) ?? null,
+    brief,
+    clientDiscoveryDraftStatus: model.draft.status,
+    blueprintCompleteBlocked: isDiscoveryBlueprintCompleteBlocked(),
+  });
+
   return (
     <div className="space-y-8">
       <ClientPortalPageHeader
@@ -36,9 +76,11 @@ export default async function ClientRequestDiscoveryPage({
         description={`${model.organizationName} · ${model.referenceCode}`}
       />
 
+      <DiscoveryMvpWorkspaceShell model={mvpWorkspace} variant="client" />
+
       <ProductPageHeader
         title="Configure your operating model"
-        description="Complete advisory discovery so ProCrow can review and build the official blueprint and proposal. You cannot approve final pricing or create tenant runtime from this flow."
+        description="Complete advisory discovery so ProCrow can review. You cannot approve final pricing, create Blueprint from this D0–D2 foundation alone, or create tenant runtime from this flow."
         statusChip={{
           label: discoveryStatusLabel(model.draft.status),
           tone:
