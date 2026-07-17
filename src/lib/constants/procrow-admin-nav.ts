@@ -53,6 +53,26 @@ export const PROCROW_ADMIN_NAV_GROUPS: ProcrowAdminNavGroup[] = [
       { href: routes.admin.operatorConsole, label: "Operator console", permission: Permission["platform.admin.view"] },
     ],
   },
+  {
+    heading: "Reference",
+    items: [
+      {
+        href: routes.admin.architectureLab,
+        label: "Architecture Lab",
+        permission: Permission["platform.admin.view"],
+      },
+      {
+        href: routes.admin.tenantStudio,
+        label: "Tenant Studio",
+        permission: Permission["platform.admin.view"],
+      },
+      {
+        href: routes.admin.modelForge,
+        label: "Model Forge",
+        permission: Permission["platform.admin.view"],
+      },
+    ],
+  },
 ];
 
 export const PROCROW_OPERATOR_WORKFLOW_STEPS = [

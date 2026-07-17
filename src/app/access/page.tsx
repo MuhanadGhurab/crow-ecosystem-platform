@@ -1,9 +1,15 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PortalAccessGateway } from "@/components/portal/portal-access-gateway";
 import { TenantAccessBlockedPanel } from "@/components/tenant/tenant-access-blocked-panel";
 
 export const dynamic = "force-dynamic";
 import { ProductPageHeader } from "@/components/product/product-page-header";
+import {
+  isAuthoritativeClientOnlyScope,
+  resolveClientOnlyLifecycleDestination,
+} from "@/lib/auth/client-only-lifecycle-landing";
+import { resolveAuthoritativeCrowAuthContext } from "@/lib/auth/authoritative-crow-auth";
 import { getSessionUser } from "@/lib/auth/session";
 import { buildCrowAccessGatewaySnapshot } from "@/lib/services/portal-access.service";
 import { routes } from "@/lib/routes";
@@ -14,7 +20,16 @@ export default async function AccessGatewayPage({
   searchParams: Promise<{ reason?: string; tenant?: string; message?: string }>;
 }) {
   const { reason, tenant, message } = await searchParams;
-  const user = await getSessionUser();
+  const sessionUser = await getSessionUser();
+  const authContext = sessionUser
+    ? await resolveAuthoritativeCrowAuthContext(sessionUser)
+    : null;
+  const user = authContext?.user ?? null;
+
+  if (user && (await isAuthoritativeClientOnlyScope(user.id))) {
+    redirect(await resolveClientOnlyLifecycleDestination(user.id));
+  }
+
   const snapshot = await buildCrowAccessGatewaySnapshot(user);
   const showBlocked = reason === "business_portal_blocked";
 

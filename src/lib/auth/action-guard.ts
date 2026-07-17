@@ -10,6 +10,11 @@ export async function requireActionPlatformStaff() {
   await requirePlatformStaff();
 }
 
+/** FTGP request review mutations — implementer/platform_admin only (not sales). */
+export async function requireActionRequestReview() {
+  await requirePermission(Permission["platform.requests.manage"]);
+}
+
 /** Discovery / blueprint mutations — implementation staff only. */
 export async function requireActionDiscoveryWrite() {
   await requirePermission(Permission["platform.discovery.write"]);

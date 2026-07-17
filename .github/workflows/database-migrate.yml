@@ -1,0 +1,91 @@
+name: Database controlled migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target database environment
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+      confirmation_phrase:
+        description: Exact confirmation phrase (see C2_2_CONTROLLED_MIGRATION_DELIVERY.md)
+        required: true
+        type: string
+      check_only:
+        description: Run migrate status only (no deploy)
+        required: false
+        type: boolean
+        default: true
+      expected_migration_name:
+        description: Optional migration folder name to assert in status output
+        required: false
+        type: string
+
+concurrency:
+  group: database-migrate-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Controlled migration (check-only)
+        if: inputs.check_only == true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          APP_ENVIRONMENT: preview
+          BACKEND_ISOLATION: shared
+          EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+          MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
+          EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
+        run: |
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --check-only --allow-shared-production-backend)
+          if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
+            ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
+          fi
+          npm run db:migrate:controlled -- "${ARGS[@]}"
+
+      - name: Controlled migration (apply)
+        if: inputs.check_only != true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_ENVIRONMENT: ${{ inputs.environment }}
+          APP_ENVIRONMENT: preview
+          BACKEND_ISOLATION: shared
+          EXPECTED_DATABASE_FINGERPRINT: ${{ secrets.EXPECTED_DATABASE_FINGERPRINT }}
+          MIGRATION_BACKUP_CHECKSUM: ${{ secrets.MIGRATION_BACKUP_CHECKSUM }}
+          MIGRATION_BACKUP_REFERENCE: ${{ secrets.MIGRATION_BACKUP_REFERENCE }}
+          MIGRATION_BACKUP_VERIFIED_AT: ${{ secrets.MIGRATION_BACKUP_VERIFIED_AT }}
+          MIGRATION_RECOVERY_METHOD: ${{ secrets.MIGRATION_RECOVERY_METHOD }}
+          ALLOW_DATABASE_MIGRATION: "true"
+          MIGRATION_ENVIRONMENT: ${{ inputs.environment }}
+          CONFIRMATION_PHRASE: ${{ inputs.confirmation_phrase }}
+          EXPECTED_MIGRATION_NAME: ${{ inputs.expected_migration_name }}
+        run: |
+          ARGS=(--environment "$MIGRATION_ENVIRONMENT" --confirm "$CONFIRMATION_PHRASE" --allow-shared-production-backend)
+          if [ -n "$EXPECTED_MIGRATION_NAME" ]; then
+            ARGS+=(--expected-migration "$EXPECTED_MIGRATION_NAME")
+          fi
+          npm run db:migrate:controlled -- "${ARGS[@]}"

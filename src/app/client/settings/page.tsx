@@ -4,7 +4,29 @@ import { requireClientAccess } from "@/lib/auth/session";
 import { buildClientProfilePageModel } from "@/lib/services/client-profile.service";
 import { listClientRequests } from "@/lib/services/client-request-link.service";
 import { getClientOrganizationAccessDecisionForRequest } from "@/lib/services/client-organization-link.service";
+import { PORTAL_GATEWAY_SAFETY_NOTES } from "@/lib/portal/portal-access-contract";
 import { routes } from "@/lib/routes";
+
+function PlannedFeatureRow({
+  label,
+  detail,
+}: {
+  label: string;
+  detail: string;
+}) {
+  return (
+    <li className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+      <span className="text-slate-400">{label}</span>
+      <span
+        className="inline-flex w-fit cursor-not-allowed rounded-full bg-slate-700/40 px-2.5 py-0.5 text-xs font-medium text-slate-500"
+        title={detail}
+        aria-disabled="true"
+      >
+        Planned
+      </span>
+    </li>
+  );
+}
 
 export default async function ClientSettingsPage() {
   const user = await requireClientAccess(routes.client.settings);
@@ -24,6 +46,14 @@ export default async function ClientSettingsPage() {
         title="Settings"
         description="Account and security readiness for the Client Portal. Advanced preferences arrive in a later phase."
       />
+
+      <ClientPortalStatusCard title="Portal boundaries" badge="Important" badgeTone="info">
+        <ul className="mt-3 list-inside list-disc space-y-2 text-sm text-slate-400">
+          {PORTAL_GATEWAY_SAFETY_NOTES.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      </ClientPortalStatusCard>
 
       <ClientPortalStatusCard title="Account & security" badge="Readiness" badgeTone="info">
         <dl className="mt-4 space-y-3 text-sm">
@@ -46,8 +76,16 @@ export default async function ClientSettingsPage() {
         title="Notifications"
         badge="Coming soon"
         badgeTone="warning"
-        description="Email notifications for proposal updates and onboarding milestones are planned for a future release."
-      />
+        description="Email notifications for proposal updates and onboarding milestones are not yet available."
+      >
+        <p
+          className="mt-3 inline-flex cursor-not-allowed rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-200/70"
+          title="Notification delivery will be enabled in a future release. This control is not active yet."
+          aria-disabled="true"
+        >
+          Notifications — Coming soon
+        </p>
+      </ClientPortalStatusCard>
 
       <ClientPortalStatusCard
         title="Organization access (read-only)"
@@ -83,16 +121,10 @@ export default async function ClientSettingsPage() {
           </div>
           <div>
             <dt className="text-slate-500">ProCrow verification</dt>
-            <dd className="text-white text-sm">
+            <dd className="text-sm text-white">
               {decision?.canApproveScope
                 ? "No extra verification required for approval under current decision rules."
                 : "Approvals require verified organization ownership (ProCrow workflow)."}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-slate-500">Future notification preferences</dt>
-            <dd className="text-white text-slate-300">
-              Planned: per-organization notification routing and delegation settings.
             </dd>
           </div>
         </dl>
@@ -111,11 +143,23 @@ export default async function ClientSettingsPage() {
       </ClientPortalStatusCard>
 
       <ClientPortalStatusCard title="Future settings" badge="Planned">
-        <ul className="mt-3 list-inside list-disc text-sm text-slate-500">
-          <li>Notification preferences</li>
-          <li>Delegated reviewers (organization contacts)</li>
-          <li>Two-factor guidance</li>
-          <li>Data export requests</li>
+        <ul className="mt-3 space-y-3 text-sm">
+          <PlannedFeatureRow
+            label="Notification preferences"
+            detail="Per-organization notification routing will be configurable in a future release."
+          />
+          <PlannedFeatureRow
+            label="Delegated reviewers"
+            detail="Organization contact delegation for discovery review is planned."
+          />
+          <PlannedFeatureRow
+            label="Two-factor guidance"
+            detail="Account hardening guidance will be added when self-service MFA flows ship."
+          />
+          <PlannedFeatureRow
+            label="Data export requests"
+            detail="Self-service data export and formal data-subject requests are planned."
+          />
         </ul>
       </ClientPortalStatusCard>
     </div>

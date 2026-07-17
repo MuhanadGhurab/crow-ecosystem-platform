@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-review-feedback-panel";
 import { AdminProcrowDiscoveryReviewPanel } from "@/components/admin/admin-procrow-discovery-review-panel";
+import { AdminClientEnterpriseDesignPanel } from "@/components/admin/admin-client-enterprise-design-panel";
+import { AdminRequestBriefPanel } from "@/components/admin/admin-request-brief-panel";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
@@ -53,6 +55,8 @@ import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procro
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
+import { listBusinessFields } from "@/lib/business-field-catalog/fields";
+import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
 import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
@@ -87,6 +91,7 @@ export default async function AdminRequestDetailPage({
   const status = (request?.status ?? mockRow!.status) as ImplementationRequestStatus;
   const orgName = request?.organizationName ?? mockRow!.organizationName;
   const refCode = request?.referenceCode ?? mockRow!.referenceCode;
+  const requestBrief = request?.notes ? parseRequestBriefFromNotes(request.notes) : null;
   const planKey = request?.requestedPlans[0]?.planKey ?? mockRow?.planKey;
   const primaryContact = request?.contacts.find((c) => c.isPrimary) ?? request?.contacts[0];
   const mockBlueprintId = mockRow?.blueprintId ?? null;
@@ -242,7 +247,15 @@ export default async function AdminRequestDetailPage({
 
       <ProCrowWorkbenchSection title="Client interaction" description="Portal linkage, onboarding, feedback.">
         <AdminOnboardingReadinessPanel tracker={adminOnboardingTracker} />
+        {requestBrief && (
+          <AdminRequestBriefPanel
+            brief={requestBrief}
+            requestId={requestId}
+            fieldOptions={listBusinessFields().map((f) => ({ key: f.key, label: f.displayNameEn }))}
+          />
+        )}
         <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
+        <AdminClientEnterpriseDesignPanel requestId={requestId} />
         <AdminClientReviewFeedbackPanel requestId={requestId} />
       </ProCrowWorkbenchSection>
 

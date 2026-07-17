@@ -24,8 +24,16 @@ import { buildClientPortalDashboardSnapshot } from "@/lib/services/client-portal
 import { resolveCanClientEditCompanyProfile } from "@/lib/services/client-company-edit.service";
 import { resolveCompanyLinkStatusForRequest } from "@/lib/services/client-profile.service";
 import { clientCanAccessRequest } from "@/lib/services/client-request-link.service";
-import { upsertDiscoveryAnswer } from "@/lib/services/discovery.service";
+import {
+  discoverySecurityStepComplete,
+  parseDiscoverySecurityAdvisory,
+  type DiscoverySecurityAdvisoryKey,
+} from "@/lib/constants/discovery-security-advisory";
+import {
+  DISCOVERY_AUTHORITY_CONFIRMATION_VERSION,
+} from "@/lib/legal/compliance-positioning";
 import { buildClientDiscoveryRecommendations } from "@/lib/services/client-discovery-recommendations";
+import { upsertDiscoveryAnswer } from "@/lib/services/discovery.service";
 import {
   PROCROW_DISCOVERY_CHANGE_SECTION_ALLOWLIST,
   PROCROW_DISCOVERY_CLIENT_ACCEPTED_MESSAGE,
@@ -158,6 +166,11 @@ export function buildDraftFromContext(
       ? wfFromAnswer
       : (request.discoveryProfile?.workflows.map((w) => w.name) ?? []);
 
+  const advisoryRow = answers.find(
+    (a) => a.sectionKey === CLIENT_DISCOVERY_SECTION && a.questionKey === "securityAdvisory"
+  );
+  const securityAdvisory = parseDiscoverySecurityAdvisory(advisoryRow?.valueJson);
+
   return {
     requestId,
     status,
@@ -170,9 +183,12 @@ export function buildDraftFromContext(
     selectedModules,
     selectedWorkflows,
     securityPreference: parseAnswerString(answers, "securityPreference"),
+    securityAdvisory,
     sareaPreference: parseAnswerString(answers, "sareaPreference"),
     notes: parseAnswerString(answers, "notes"),
     submittedAt: parseAnswerString(answers, "submittedAt"),
+    authorityConfirmationVersion: parseAnswerString(answers, "authorityConfirmationVersion"),
+    authorityConfirmedAt: parseAnswerString(answers, "authorityConfirmedAt"),
     updatedAt: request.discoveryProfile?.updatedAt.toISOString() ?? null,
   };
 }
@@ -188,7 +204,14 @@ export function computeClientDiscoveryMissingSteps(
   if (draft.selectedDepartments.length === 0) missing.push("departments");
   if (draft.selectedRoles.length === 0) missing.push("roles");
   if (draft.selectedWorkflows.length === 0) missing.push("workflows");
-  if (!draft.securityPreference) missing.push("security");
+  if (
+    !discoverySecurityStepComplete({
+      securityPreference: draft.securityPreference,
+      advisory: draft.securityAdvisory,
+    })
+  ) {
+    missing.push("security");
+  }
   if (!draft.sareaPreference) missing.push("sarea");
   return missing;
 }
@@ -216,9 +239,12 @@ export async function buildClientDiscoveryPageModel(
       selectedModules: ["logistics", "finance", "crm"],
       selectedWorkflows: ["Dispatch coordination"],
       securityPreference: "Standard baseline",
+      securityAdvisory: {},
       sareaPreference: "Role-based dashboards",
       notes: null,
       submittedAt: null,
+      authorityConfirmationVersion: null,
+      authorityConfirmedAt: null,
       updatedAt: null,
     };
     return {
@@ -335,6 +361,7 @@ export type ClientDiscoveryDraftInput = {
   selectedRoles?: string[];
   selectedWorkflows?: string[];
   securityPreference?: string;
+  securityAdvisory?: Partial<Record<DiscoverySecurityAdvisoryKey, string>>;
   sareaPreference?: string;
   notes?: string;
 };
@@ -533,6 +560,14 @@ export async function saveClientDiscoveryDraft(
       input.securityPreference
     );
   }
+  if (input.securityAdvisory !== undefined) {
+    await upsertDiscoveryAnswer(
+      input.requestId,
+      CLIENT_DISCOVERY_SECTION,
+      "securityAdvisory",
+      input.securityAdvisory
+    );
+  }
   if (input.sareaPreference !== undefined) {
     await upsertDiscoveryAnswer(
       input.requestId,
@@ -555,9 +590,15 @@ export async function saveClientDiscoveryDraft(
 
 export async function submitClientDiscoveryForReview(
   user: User,
-  requestId: string
+  requestId: string,
+  input?: { authorityConfirmed?: boolean }
 ): Promise<void> {
   await assertClientDiscoveryWrite(user, requestId);
+  if (!input?.authorityConfirmed) {
+    throw new Error(
+      "You must confirm that you are authorized to submit this discovery on behalf of the organization."
+    );
+  }
   const request = await prisma.implementationRequest.findUnique({
     where: { id: requestId },
     include: {
@@ -584,6 +625,18 @@ export async function submitClientDiscoveryForReview(
   const submittedAt = new Date().toISOString();
   await upsertDiscoveryAnswer(requestId, CLIENT_DISCOVERY_SECTION, "status", "submitted_for_procrow_review");
   await upsertDiscoveryAnswer(requestId, CLIENT_DISCOVERY_SECTION, "submittedAt", submittedAt);
+  await upsertDiscoveryAnswer(
+    requestId,
+    CLIENT_DISCOVERY_SECTION,
+    "authorityConfirmationVersion",
+    DISCOVERY_AUTHORITY_CONFIRMATION_VERSION
+  );
+  await upsertDiscoveryAnswer(
+    requestId,
+    CLIENT_DISCOVERY_SECTION,
+    "authorityConfirmedAt",
+    submittedAt
+  );
 
   const profile = await ensureClientDiscoveryProfile(requestId);
   await prisma.discoveryProfile.update({

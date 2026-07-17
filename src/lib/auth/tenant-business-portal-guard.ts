@@ -4,7 +4,7 @@ import { isAuthDisabled } from "@/lib/supabase/env";
 import { resolveTenantBusinessPortalAccess } from "@/lib/services/tenant-membership-access.service";
 import type { TenantBusinessPortalAccessDecision } from "@/lib/tenant/tenant-membership-contract";
 import { routes } from "@/lib/routes";
-import { requireAuth } from "./session";
+import { enforceC3HumanAccessGate, requireAuth } from "./session";
 
 /**
  * M4 — Business Portal route guard for /[tenant]/*.
@@ -20,6 +20,8 @@ export async function requireTenantBusinessPortalAccess(
     const decision = await resolveTenantBusinessPortalAccess(user, slug);
     return { user, decision };
   }
+
+  await enforceC3HumanAccessGate(user, `/${slug}/dashboard`);
 
   const decision = await resolveTenantBusinessPortalAccess(user, slug);
 

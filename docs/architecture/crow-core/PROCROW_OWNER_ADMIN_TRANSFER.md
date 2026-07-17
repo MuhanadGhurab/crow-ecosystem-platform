@@ -1,0 +1,191 @@
+# PROCROW personal owner-admin transfer
+
+**Task:** PROCROW.ADMIN.1 / PROCROW.ADMIN.2  
+**Status:** Authoritative transfer executed on hosted database `0355c17692e2a90d`.  
+**Certification:** Manual owner acceptance **PASSED** (PROCROW.ADMIN.2C / 2D, 2026-06-23). See `PROCROW_OWNER_ADMIN_MANUAL_ACCEPTANCE_TEST.md`.
+
+## Milestone summary
+
+| Phase | Outcome |
+|-------|---------|
+| PROCROW.ADMIN.1 | Owner-admin transfer tooling prepared |
+| PROCROW.ADMIN.2 | Personal owner account transferred to sole `PLATFORM_ADMIN` |
+| PROCROW.ADMIN.2A | Dual-role `PLATFORM_ADMIN` + `IMPLEMENTER` reconciled |
+| PROCROW.ADMIN.2B | Certification runtime deployed for manual test |
+| PROCROW.ADMIN.2C | **Manual owner acceptance PASSED** |
+| PROCROW.ADMIN.2D | **Acceptance recorded; ProCrow admin certification closed** |
+
+**Proven:** personal owner-admin authority, private certification access, `/access` ProCrow gateway, `/admin/overview`, Platform Admin badge.
+
+**Not implemented:** `/admin/users`, `/admin/roles`, full control tower.
+
+**Next track:** FTGP.1H.4b — Candidate 07 client owner journey (separate identity from ProCrow owner-admin).
+
+## Executed transfer record (PROCROW.ADMIN.2)
+
+| Field | Value |
+|-------|-------|
+| Transfer date | 2026-06-23 |
+| Transfer type | `ATOMIC_SINGLE_ADMIN_TRANSFER` |
+| Target fingerprint | `832287cbd374fb83` |
+| Previous admin fingerprint (procrow scheme) | `49fb3f94bcce3a93` |
+| Previous bootstrap fingerprint (FTGP.0F scheme) | `b3ee2ec185cf9893` |
+| Grant correlation ID | `procrow-owner-admin-transfer-authoritative-v1` |
+| Assignment creates | 1 |
+| Assignment revokes | 1 |
+| Audit events | 2 |
+| Final sole `PLATFORM_ADMIN` count | 1 |
+| Previous account preserved | Yes |
+| `IMPLEMENTER` preserved | Yes (same account holds `IMPLEMENTER` + `PLATFORM_ADMIN`) |
+| Candidate 07 / Discovery | Unchanged |
+| Auth metadata | Unchanged |
+| Browser proof command | `C3_PREVIEW_HEADED=true npm run procrow-owner-admin:browser-proof:execute` |
+
+See also: `PROCROW_OWNER_ADMIN_DUAL_ROLE_DEVELOPMENT_MODEL.md` for owner-authorized dual-role semantics.
+
+## Fingerprint schemes
+
+| Scheme | Prefix | Use |
+|--------|--------|-----|
+| FTGP.0F bootstrap | `ftgp-pa-target:{accountId}` | Bootstrap manifest designation |
+| ProCrow owner-admin | `procrow-owner-admin-target:{accountId}` | Transfer target / sole admin verification |
+| ProCrow assignment row | `procrow-pa-assignment:{assignmentId}` | Specific assignment identity |
+
+These are **not interchangeable** across schemes.
+
+## Dual-role development phase (PROCROW.ADMIN.2A)
+
+The designated owner account may also hold active `IMPLEMENTER` (separate assignment row). This is owner-authorized for the current certification phase — not implicit inheritance.
+
+| Metric | Value |
+|--------|-------|
+| Total assignment rows | 3 |
+| Active rows | 2 |
+| Revoked rows | 1 |
+
+Physical mutations:
+
+1. `PlatformInternalRoleAssignment` CREATE — target `PLATFORM_ADMIN` ACTIVE  
+2. `PlatformAccountAuditEvent` — `platform_internal_role_granted`  
+3. `PlatformInternalRoleAssignment` UPDATE — previous assignment REVOKED  
+4. `PlatformAccountAuditEvent` — `platform_internal_role_revoked`
+
+This document distinguishes **initial Platform Admin bootstrap** (FTGP.0F) from the **later personal owner-admin transfer** controlled by the gitignored operator file.
+
+## Authority model
+
+Runtime ProCrow authority comes only from `PlatformInternalRoleAssignment` (ACTIVE `PLATFORM_ADMIN`). The operator Gmail is **designation input only** for controlled grant tooling — never a runtime authorization mechanism.
+
+Resolution chain:
+
+```text
+.env.procrow-owner-admin.operator (gitignored)
+  → normalized verified Google email
+  → unique Supabase Auth identity
+  → unique active PlatformAccount
+  → immutable account ID
+  → target fingerprint (procrow-owner-admin-target:{accountId})
+  → authoritative PlatformInternalRoleAssignment
+```
+
+Forbidden paths:
+
+- Auth metadata / `crow_role`
+- Email comparison in route guards
+- Hard-coded email lists in source, docs, tests, or Git history
+- Reading the operator file during normal application runtime
+
+## Operator file
+
+| File | Tracked | Purpose |
+|------|---------|---------|
+| `.env.procrow-owner-admin.operator` | No (gitignored) | Owner enters personal Gmail and transfer authorization |
+| `.env.procrow-owner-admin.operator.example` | Yes | Safe template with no real email |
+
+Required keys:
+
+```text
+PROCROW_OWNER_ADMIN_EMAIL=
+PROCROW_OWNER_ADMIN_PROVIDER=google
+PROCROW_OWNER_ADMIN_TRANSFER_AUTHORIZED=false
+```
+
+Set `PROCROW_OWNER_ADMIN_TRANSFER_AUTHORIZED=true` only when ready to dry-run or execute.
+
+Designation artifact (gitignored): `.procrow-owner-admin-designation.local.json` — fingerprints and integrity hash only; no full Gmail, tokens, or session material.
+
+## Commands
+
+| Command | Writes | Requires |
+|---------|--------|----------|
+| `npm run procrow-owner-admin:designate` | Artifact only | Email filled; `TRANSFER_AUTHORIZED=false` |
+| `npm run procrow-owner-admin:transfer:dry-run` | None | Valid designation; `TRANSFER_AUTHORIZED=true` |
+| `npm run procrow-owner-admin:transfer:execute` | DB transfer | Dry-run preconditions; clean tree; feature branch |
+| `npm run procrow-owner-admin:verify` | None | Hosted baseline |
+
+## Target readiness
+
+Before transfer, the designated account must:
+
+- Sign in normally (Google) on the private certification or preview host
+- Have an active `PlatformAccount`
+- Have verified Google provider identity
+- Have current mandatory legal acceptance
+
+The target must **not** be:
+
+- Candidate 07 owner (`876863fe8c15c5c3` fingerprint family)
+- Retained C3 requester fixture (`faf26007ce4a55b9`)
+
+## Single-admin invariant
+
+After transfer:
+
+```text
+Active PLATFORM_ADMIN count = 1
+Active PLATFORM_ADMIN fingerprint = designated owner-admin target
+```
+
+Transfer types:
+
+- `IDEMPOTENT_NO_OP` — target is already the sole active Platform Admin (0 assignment mutations)
+- `ATOMIC_SINGLE_ADMIN_TRANSFER` — grant target, then revoke previous (1 create, 1 soft revoke, 2 audit events)
+
+Physical mutations (non–no-op transfer):
+
+1. `PlatformInternalRoleAssignment` CREATE — target `PLATFORM_ADMIN` ACTIVE
+2. `PlatformAccountAuditEvent` — `platform_internal_role_granted`
+3. `PlatformInternalRoleAssignment` UPDATE — previous assignment REVOKED (history preserved)
+4. `PlatformAccountAuditEvent` — `platform_internal_role_revoked`
+
+Grant correlation ID: `procrow-owner-admin-transfer-authoritative-v1`
+
+## Preservation
+
+The transfer does **not**:
+
+- Delete previous user or `PlatformAccount`
+- Remove unrelated role assignments from either account
+- Change `IMPLEMENTER`, tenant memberships, Candidate 07, Discovery, Blueprints, or Auth metadata
+
+## Relationship to FTGP.0F bootstrap
+
+| Phase | Mechanism | Correlation |
+|-------|-----------|-------------|
+| FTGP.0F initial bootstrap | `PLATFORM_INTERNAL_ROLE_BOOTSTRAP_*` operator env + self-grant | `ftgp-first-platform-admin-abac3f9b-...` |
+| PROCROW.ADMIN.1 owner transfer | `.env.procrow-owner-admin.operator` + atomic transfer service | `procrow-owner-admin-transfer-authoritative-v1` |
+
+Initial bootstrap establishes the first authoritative Platform Admin on the hosted database. Owner-admin transfer moves sole `PLATFORM_ADMIN` to the project owner's personal Gmail account without changing the authority model.
+
+## Verification gates
+
+- `npm run procrow-owner-admin:verify` — sole admin, IMPLEMENTER preserved, Candidate 07 unchanged
+- `npm run procrow-owner-admin:transfer:test` — focused regression tests
+- `npm run ftgp-platform-admin-runtime:verify` — route authority via role resolution (post-transfer)
+
+## Manual actions
+
+1. Enter personal Gmail in `.env.procrow-owner-admin.operator`
+2. Complete normal Google login + legal acceptance if account does not exist
+3. Run `designate`, then set `PROCROW_OWNER_ADMIN_TRANSFER_AUTHORIZED=true`
+4. Run `transfer:dry-run`, then `transfer:execute`, then `verify`

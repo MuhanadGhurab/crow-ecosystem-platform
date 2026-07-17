@@ -96,7 +96,7 @@ export function SignUpForm({ nextPath, googleEnabled = false }: SignUpFormProps)
           className="cc-btn-primary w-full disabled:opacity-50"
           aria-busy={pending}
         >
-          {pending ? "Creating account…" : "Create account"}
+          {pending ? "Continuing…" : "Continue"}
         </button>
       </form>
 

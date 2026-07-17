@@ -1,0 +1,18 @@
+export {
+  type AppEnvironment,
+  type ControlledMigrationEnvironment,
+  type DatabaseEnvironment,
+  type DatabaseEnvironmentWarning,
+  CONTROLLED_MIGRATION_PHRASES,
+  assertAppDatabaseEnvironmentAlignment,
+  assertControlledEnvironmentTarget,
+  assertControlledMigrationPhrase,
+  assertDatabaseFingerprintMatches,
+  collectDatabaseEnvironmentWarnings,
+  expectedDatabaseFingerprint,
+  isMigrationExplicitlyAllowed,
+  isSharedProductionBackendPairing,
+  resolveAppEnvironment,
+  resolveBackendIsolation,
+  resolveDatabaseEnvironment,
+} from "../../../scripts/lib/database-environment";

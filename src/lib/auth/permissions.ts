@@ -34,6 +34,17 @@ export const Permission = {
   "cybercrow.dashboard.view": "cybercrow.dashboard.view",
   "cybercrow.audit.view": "cybercrow.audit.view",
   "cybercrow.incidents.manage": "cybercrow.incidents.manage",
+  // C3 — account self-service (least privilege)
+  "account.profile.read.self": "account.profile.read.self",
+  "account.profile.update.self": "account.profile.update.self",
+  "account.request.read.self": "account.request.read.self",
+  "account.request.create.self": "account.request.create.self",
+  "account.invitation.read.self": "account.invitation.read.self",
+  "account.invitation.accept.self": "account.invitation.accept.self",
+  "account.session.read.self": "account.session.read.self",
+  "account.session.revoke.self": "account.session.revoke.self",
+  "account.legal.read.self": "account.legal.read.self",
+  "account.consent.update.self": "account.consent.update.self",
 } as const;
 
 export type PermissionKey = (typeof Permission)[keyof typeof Permission];
@@ -75,7 +86,6 @@ export const PLATFORM_ROLE_PERMISSIONS: Record<
   ],
   sales: [
     Permission["platform.requests.view"],
-    Permission["platform.requests.manage"],
     Permission["platform.discovery.view"],
     Permission["platform.blueprint.view"],
     Permission["portal.requests.view"],
@@ -161,7 +171,23 @@ export const DISCOVERY_ROLE_PERMISSION_HINTS: Record<
   frontline: { slug: "employee", permissions: TENANT_CEM_ROLE_PERMISSIONS.employee },
 };
 
-const CLIENT_PERMISSIONS: readonly PermissionKey[] = [Permission["portal.requests.view"]];
+const ACCOUNT_SELF_PERMISSIONS: readonly PermissionKey[] = [
+  Permission["account.profile.read.self"],
+  Permission["account.profile.update.self"],
+  Permission["account.request.read.self"],
+  Permission["account.request.create.self"],
+  Permission["account.invitation.read.self"],
+  Permission["account.invitation.accept.self"],
+  Permission["account.session.read.self"],
+  Permission["account.session.revoke.self"],
+  Permission["account.legal.read.self"],
+  Permission["account.consent.update.self"],
+];
+
+const CLIENT_PERMISSIONS: readonly PermissionKey[] = [
+  Permission["portal.requests.view"],
+  ...ACCOUNT_SELF_PERMISSIONS,
+];
 
 const TENANT_ADMIN_PERMISSIONS: readonly PermissionKey[] = [
   ...PLATFORM_ROLE_PERMISSIONS.implementer.filter((p) => p.startsWith("cem.") || p.startsWith("cybercrow.")),
@@ -198,6 +224,9 @@ export function hasAnyPermission(role: CrowRole | null, permissions: PermissionK
 
 /** Path → required permission for platform / portal routes (null = session only). */
 export function getRoutePermissionRequirement(pathname: string): PermissionKey | null {
+  if (pathname.startsWith("/account")) {
+    return Permission["account.profile.read.self"];
+  }
   if (pathname.startsWith("/portal")) {
     return Permission["portal.requests.view"];
   }

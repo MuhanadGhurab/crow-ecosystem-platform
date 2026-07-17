@@ -1,0 +1,60 @@
+import type { BusinessFieldCategory } from "./types";
+
+const cat = (
+  key: string,
+  displayNameEn: string,
+  displayNameAr: string,
+  description: string,
+  sortOrder: number,
+): BusinessFieldCategory => ({
+  key,
+  displayNameEn,
+  displayNameAr,
+  description,
+  sortOrder,
+});
+
+/** Broad client-facing categories — SSIC/ISIC-backed, not exposed as raw codes. */
+export const BUSINESS_FIELD_CATEGORIES: readonly BusinessFieldCategory[] = [
+  cat("agriculture_natural_resources", "Agriculture and natural resources", "الزراعة والموارد الطبيعية", "Farming, forestry, fishing, and natural resource operations.", 1),
+  cat("manufacturing_production", "Manufacturing and production", "التصنيع والإنتاج", "Factories, workshops, and production lines.", 2),
+  cat("construction_engineering", "Construction and engineering", "الإنشاءات والهندسة", "Building, civil works, and engineering projects.", 3),
+  cat("wholesale_distribution", "Wholesale and distribution", "الجملة والتوزيع", "B2B supply, import/export, and distribution hubs.", 4),
+  cat("retail_ecommerce", "Retail and e-commerce", "التجزئة والتجارة الإلكترونية", "Stores, online shops, and omnichannel retail.", 5),
+  cat("transport_logistics", "Transport and logistics", "النقل واللوجستيات", "Fleet, freight, last-mile, and supply chain movement.", 6),
+  cat("hospitality_food", "Hospitality and food", "الضيافة والأغذية", "Hotels, restaurants, catering, and food service.", 7),
+  cat("real_estate_property", "Real estate and property", "العقارات وإدارة الممتلكات", "Property management, brokerage, and facilities ownership.", 8),
+  cat("professional_services", "Professional services", "الخدمات المهنية", "Consulting, advisory, and knowledge-based delivery.", 9),
+  cat("legal_accounting", "Legal and accounting", "القانون والمحاسبة", "Law firms, audit, tax, and compliance practices.", 10),
+  cat("technology_software", "Technology and software", "التقنية والبرمجيات", "Software products, SaaS, and digital platforms.", 11),
+  cat("cybersecurity_it_services", "Cybersecurity and IT services", "الأمن السيبراني وخدمات تقنية المعلومات", "Managed IT, security operations, and infrastructure services.", 12),
+  cat("telecommunications", "Telecommunications", "الاتصالات", "Telecom operators, ISPs, and network services.", 13),
+  cat("media_publishing", "Media and publishing", "الإعلام والنشر", "News, magazines, digital publishing, and content houses.", 14),
+  cat("film_video_production", "Film and video production", "إنتاج الأفلام والفيديو", "Studios, production houses, and post-production.", 15),
+  cat("music_audio", "Music and audio", "الموسيقى والصوت", "Recording, live sound, and audio production.", 16),
+  cat("gaming_esports", "Gaming and esports", "الألعاب والرياضات الإلكترونية", "Game studios, esports teams, and gaming platforms.", 17),
+  cat("marketing_creative", "Marketing and creative services", "التسويق والخدمات الإبداعية", "Agencies, design studios, and brand services.", 18),
+  cat("education_training", "Education and training", "التعليم والتدريب", "Schools, academies, and corporate training providers.", 19),
+  cat("healthcare_administration", "Healthcare administration", "إدارة الرعاية الصحية", "Clinics, hospitals ops, and health service administration.", 20),
+  cat("fitness_wellness", "Fitness and wellness", "اللياقة والعافية", "Gyms, wellness centers, and personal training.", 21),
+  cat("beauty_personal_care", "Beauty and personal care", "التجميل والعناية الشخصية", "Salons, spas, and personal care services.", 22),
+  cat("automotive_services", "Automotive services", "خدمات السيارات", "Repair shops, dealerships, and vehicle services.", 23),
+  cat("equipment_rental", "Equipment rental", "تأجير المعدات", "Heavy equipment, tools, and asset rental.", 24),
+  cat("maintenance_field_services", "Maintenance and field services", "الصيانة والخدمات الميدانية", "Technicians, inspections, and on-site service.", 25),
+  cat("facilities_cleaning", "Facilities and cleaning", "المرافق والتنظيف", "Janitorial, facilities management, and building services.", 26),
+  cat("security_services", "Security services", "خدمات الأمن", "Guarding, surveillance, and physical security.", 27),
+  cat("events_entertainment", "Events and entertainment", "الفعاليات والترفيه", "Event production, venues, and entertainment operators.", 28),
+  cat("travel_tourism", "Travel and tourism", "السفر والسياحة", "Travel agencies, tour operators, and tourism services.", 29),
+  cat("financial_operations", "Financial operations", "العمليات المالية", "Finance teams, treasury, and back-office financial ops.", 30),
+  cat("insurance_services", "Insurance services", "خدمات التأمين", "Brokers, underwriters, and insurance administration.", 31),
+  cat("research_laboratories", "Research and laboratories", "البحث والمختبرات", "R&D labs, testing, and scientific services.", 32),
+  cat("nonprofit_membership", "Nonprofit and membership organizations", "المنظمات غير الربحية والعضويات", "NGOs, associations, and membership bodies.", 33),
+  cat("public_community_services", "Public and community services", "الخدمات العامة والمجتمعية", "Municipal, community, and public-interest services.", 34),
+  cat("energy_utilities", "Energy and utilities", "الطاقة والمرافق", "Power, water, and utility operations.", 35),
+  cat("mining_industrial_services", "Mining and industrial services", "التعدين والخدمات الصناعية", "Mining, quarrying, and heavy industrial field services.", 36),
+  cat("aviation", "Aviation", "الطيران", "Airlines, MRO, and aviation support services.", 37),
+  cat("maritime_ports", "Maritime and ports", "البحرية والموانئ", "Shipping, port operations, and maritime logistics.", 38),
+  cat("other_specialist_services", "Other specialist services", "خدمات متخصصة أخرى", "Specialist activities not covered elsewhere.", 99),
+];
+
+export const CATEGORY_BY_KEY = new Map(BUSINESS_FIELD_CATEGORIES.map((c) => [c.key, c]));

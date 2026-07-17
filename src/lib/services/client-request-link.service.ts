@@ -1,8 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@supabase/supabase-js";
+import { isC3PlatformAccountGateEnabled } from "@/lib/account/feature-flags";
+import { findPlatformAccountBySupabaseUserId } from "@/lib/account/platform-account.service";
+import { resolveAuthoritativeCrowAuth } from "@/lib/auth/authoritative-crow-auth";
 import { PUBLIC_SIGNUP_ALLOWED_ROLE } from "@/lib/auth/sanitize-auth-next";
-import { getCrowAuth, type CrowAppMetadata } from "@/lib/auth/roles";
+import { type CrowAppMetadata } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
+import {
+  clientCanAccessRequestAuthoritative,
+  listAuthoritativeClientRequestIds,
+} from "@/lib/auth/customer-access.service";
 import { getSupabaseUrl } from "@/lib/supabase/env";
 import { isUseMockData } from "@/lib/mock/env";
 
@@ -42,8 +49,16 @@ export async function countRequestsForEmail(email: string): Promise<number> {
   return ids.length;
 }
 
+type LinkRequestsOptions = {
+  /** When false, only associate request ids — do not grant crow_role (C3 activation path). */
+  grantClientRole?: boolean;
+};
+
 /** Link matching requests to the Supabase user and optionally grant client role. */
-export async function linkRequestsForUser(user: User): Promise<string[]> {
+export async function linkRequestsForUser(
+  user: User,
+  options?: LinkRequestsOptions
+): Promise<string[]> {
   const email = user.email;
   if (!email) return [];
 
@@ -60,9 +75,11 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
   }
 
   const meta = (user.app_metadata ?? {}) as CrowAppMetadata;
-  if (!meta.crow_role) {
+  const grantClientRole =
+    options?.grantClientRole ?? !isC3PlatformAccountGateEnabled();
+  if (grantClientRole && !meta.crow_role) {
     await ensureClientRole(user.id, requestIds);
-  } else if (meta.crow_role === "client") {
+  } else if (meta.crow_role === "client" || requestIds.length > 0) {
     await syncLinkedRequestIds(user.id, requestIds);
   }
 
@@ -70,7 +87,8 @@ export async function linkRequestsForUser(user: User): Promise<string[]> {
 }
 
 /**
- * Public sign-up: grant client role only when none is set (never overwrites staff/tenant roles).
+ * Legacy sign-up: grant client role only when an authoritative request contact exists.
+ * C3 onboarding is role-neutral — never writes crow_role during bootstrap.
  */
 export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<boolean> {
   const admin = getSupabaseAdmin();
@@ -82,15 +100,20 @@ export async function assignDefaultClientRoleOnSignUp(userId: string): Promise<b
   const meta = (data.user.app_metadata ?? {}) as CrowAppMetadata;
   if (meta.crow_role) return true;
 
-  const { error: updateError } = await admin.auth.admin.updateUserById(userId, {
-    app_metadata: {
-      ...meta,
-      crow_role: PUBLIC_SIGNUP_ALLOWED_ROLE,
-      tenant_slugs: [],
-      linked_request_ids: Array.isArray(meta.linked_request_ids) ? meta.linked_request_ids : [],
-    },
-  });
-  return !updateError;
+  if (isC3PlatformAccountGateEnabled()) {
+    return false;
+  }
+
+  const email = data.user.email;
+  if (!email) return false;
+
+  const requestIds = await findRequestIdsByContactEmail(email);
+  if (requestIds.length === 0) {
+    return false;
+  }
+
+  await ensureClientRole(userId, requestIds);
+  return true;
 }
 
 export type AuthenticatedIntakeAccessResult =
@@ -98,14 +121,35 @@ export type AuthenticatedIntakeAccessResult =
   | { ok: false; status: 401 | 403 | 503; error: string };
 
 /**
- * ERP request intake: authenticated users without a role receive client only (never overwrites staff).
+ * ERP request intake: authorize via authoritative request ownership or Crow role — never
+ * auto-assign crow_role=client for C3 platform accounts.
  */
 export async function ensureClientRoleForAuthenticatedIntake(
   user: User
 ): Promise<AuthenticatedIntakeAccessResult> {
-  const { role } = getCrowAuth(user);
-  if (role) {
+  const auth = await resolveAuthoritativeCrowAuth(user);
+  if (auth.role) {
     return { ok: true };
+  }
+
+  const submittedCount = await prisma.implementationRequest.count({
+    where: { submittedByUserId: user.id },
+  });
+  if (submittedCount > 0) {
+    return { ok: true };
+  }
+
+  if (isC3PlatformAccountGateEnabled()) {
+    const account = await findPlatformAccountBySupabaseUserId(user.id);
+    if (account) {
+      return { ok: true };
+    }
+    return {
+      ok: false,
+      status: 403,
+      error:
+        "Complete Crow account registration before submitting a request, or sign in with the account that owns your implementation request.",
+    };
   }
 
   if (!isSupabaseServiceRoleConfigured()) {
@@ -166,13 +210,8 @@ async function syncLinkedRequestIds(userId: string, requestIds: string[]): Promi
   });
 }
 
-export async function listClientRequests(userId: string, email: string) {
-  const byEmail = await findRequestIdsByContactEmail(email);
-  const byUser = await prisma.implementationRequest.findMany({
-    where: { submittedByUserId: userId },
-    select: { id: true },
-  });
-  const ids = Array.from(new Set([...byEmail, ...byUser.map((r) => r.id)]));
+export async function listClientRequests(userId: string, _email: string) {
+  const ids = await listAuthoritativeClientRequestIds(userId);
   if (ids.length === 0) return [];
 
   return prisma.implementationRequest.findMany({
@@ -201,15 +240,8 @@ export async function listClientRequests(userId: string, email: string) {
 
 export async function clientCanAccessRequest(
   userId: string,
-  email: string,
+  _email: string,
   requestId: string
 ): Promise<boolean> {
-  const ids = await findRequestIdsByContactEmail(email);
-  if (ids.includes(requestId)) return true;
-
-  const row = await prisma.implementationRequest.findFirst({
-    where: { id: requestId, submittedByUserId: userId },
-    select: { id: true },
-  });
-  return Boolean(row);
+  return clientCanAccessRequestAuthoritative(userId, requestId);
 }

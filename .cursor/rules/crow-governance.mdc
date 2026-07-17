@@ -1,0 +1,43 @@
+---
+description: Crow canonical governance — read docs first, verify environment, respect authority boundaries
+alwaysApply: true
+---
+
+# Crow Governance
+
+Before any implementation work:
+
+1. Read [`docs/crow/START-HERE.md`](../../docs/crow/START-HERE.md) and [`AGENTS.md`](../../AGENTS.md)
+2. Read [`docs/crow/CURRENT-STATE.md`](../../docs/crow/CURRENT-STATE.md) for verified implementation truth
+3. Verify repository path, current branch, HEAD, and working-tree state
+4. Identify the active milestone scope, in-scope items, out-of-scope items, and protected boundaries
+
+## Authority boundaries (non-negotiable)
+
+- Payment status must never grant or modify authoritative roles or tenant membership
+- SAREA adapts presentation only — it never grants permission
+- CroAI is advisory by default — it must not bypass CyberCrow or grant authority
+- Account verification (email, phone) proves account control only — not tenant membership or ProCrow access
+- Request submission does not create a tenant; Discovery does not grant authority
+- Blueprint approval must precede tenant build
+
+## Prohibited without explicit owner authorization
+
+- Production deployment or promotion
+- Pushing to `main` or merging draft PRs
+- Hosted database migrations outside the controlled-migration workflow
+- Hosted business-data writes
+- Creating duplicate canonical definitions in code or docs
+
+## Required practices
+
+- Link to the authoritative owner document instead of redefining concepts
+- Distinguish product direction from current implementation state
+- Record design–implementation gaps in [`docs/crow/GAP-LEDGER.md`](../../docs/crow/GAP-LEDGER.md)
+- Run repository validation gates (typecheck, lint, build) before claiming completion
+- Never claim owner acceptance — deployed evidence and explicit owner review are required
+- Stop on authority conflicts and report rather than silently resolving
+
+## Milestone discipline
+
+Use [`docs/crow/milestones/MILESTONE-TEMPLATE.md`](../../docs/crow/milestones/MILESTONE-TEMPLATE.md). One domain per milestone when possible. Update current-state and gap ledger as durable outputs.

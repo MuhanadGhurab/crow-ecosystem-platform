@@ -17,6 +17,8 @@ import { routes } from "@/lib/routes";
 export type AuthenticatedPortalCta = {
   href: string;
   label: string;
+  /** Account-home CTA uses user icon; portal CTAs use grid icon. */
+  tone?: "portal" | "account";
 };
 
 function hasClientPortalAccess(role: CrowRole | null): boolean {
@@ -32,8 +34,9 @@ function hasProcrowPortalAccess(role: CrowRole | null): boolean {
 /** Sync conservative check — full DB membership resolved on /access and /[tenant] guards. */
 function hasBusinessPortalAccess(role: CrowRole | null, tenantSlugs: string[]): boolean {
   if (!role || isClient(role)) return false;
-  if (isPlatformStaff(role)) return true;
-  if (role !== "tenant_admin" && role !== "tenant_user") return false;
+  if (role !== "tenant_admin" && role !== "tenant_user" && !isPlatformStaff(role)) {
+    return false;
+  }
   return tenantSlugs.length > 0;
 }
 

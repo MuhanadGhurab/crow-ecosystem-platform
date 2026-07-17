@@ -1,0 +1,188 @@
+import type { SpecialistDomainDefinition } from "../types";
+
+function domain(
+  key: string,
+  displayName: string,
+  description: string,
+  industries: readonly string[],
+  compliance: readonly string[] = [],
+): SpecialistDomainDefinition {
+  return {
+    key,
+    displayName,
+    description,
+    status: "PLANNED",
+    version: "1.0.0",
+    provenance: "crow_core",
+    applicableIndustryKeys: industries,
+    recommendedCapabilityKeys: [],
+    workflowFamilyKeys: [],
+    jobFamilyKeys: [],
+    personaSuggestionKeys: [],
+    entitySuggestionKeys: [],
+    recommendedSareaPatternKeys: [],
+    recommendedCyberCrowPolicyPackKeys: ["baseline_identity_trust"],
+    complianceNotes: compliance,
+  };
+}
+
+/** First-class specialist domains composable with industry archetypes. */
+export const SPECIALIST_DOMAIN_CATALOG: readonly SpecialistDomainDefinition[] = [
+  {
+    ...domain("legal_services", "Legal services", "Matter workflow support — not automated legal advice.", ["professional_services", "holding_group"], ["Not legal advice", "Attorney review required"]),
+    recommendedCapabilityKeys: ["case_management", "documents", "contracts", "crm"],
+    workflowFamilyKeys: ["matter_intake_and_conflict_check", "contract_review_and_approval"],
+    personaSuggestionKeys: ["legal_matter_intake_coordinator"],
+    recommendedSareaPatternKeys: ["case_inbox", "specialist_workspace"],
+    recommendedCyberCrowPolicyPackKeys: ["baseline_identity_trust", "audit_and_evidence", "data_export_control"],
+  },
+  {
+    ...domain("gaming_and_esports", "Gaming and esports", "Live ops, releases, and player support.", ["technology_and_saas", "media_and_creative", "events_and_venues"]),
+    recommendedCapabilityKeys: ["case_management", "incident_management", "crm", "analytics"],
+    workflowFamilyKeys: ["release_readiness", "incident_command", "client_intake_and_qualification"],
+    personaSuggestionKeys: ["live_game_operations_coordinator"],
+    recommendedSareaPatternKeys: ["operations_control_board", "dispatch_console"],
+  },
+  {
+    ...domain("film_and_video_production", "Film and video production", "Production scheduling and asset coordination.", ["media_and_creative", "events_and_venues"]),
+    recommendedCapabilityKeys: ["project_management", "documents", "procurement", "work_orders"],
+    workflowFamilyKeys: ["creative_asset_production", "rights_clearance", "crew_onboarding"],
+    personaSuggestionKeys: ["creative_production_asset_coordinator", "production_rights_clearance_coordinator"],
+  },
+  {
+    ...domain("music_and_audio_production", "Music and audio production", "Sessions, rights, and release coordination.", ["media_and_creative"]),
+    recommendedCapabilityKeys: ["project_management", "contracts", "documents"],
+    workflowFamilyKeys: ["rights_clearance", "creative_asset_production", "content_review_and_publication"],
+    personaSuggestionKeys: ["production_rights_clearance_coordinator"],
+  },
+  {
+    ...domain("architecture_and_design", "Architecture and design", "Design delivery and client approvals.", ["professional_services", "construction_and_epc", "property_and_facilities"]),
+    recommendedCapabilityKeys: ["project_management", "documents", "crm", "contracts"],
+    workflowFamilyKeys: ["project_change_control", "client_intake_and_qualification"],
+    personaSuggestionKeys: ["project_controller", "relationship_owner"],
+  },
+  {
+    ...domain("marketing_and_creative_agency", "Marketing and creative agency", "Campaign delivery and client collaboration.", ["media_and_creative", "professional_services", "retail_and_commerce"]),
+    recommendedCapabilityKeys: ["crm", "project_management", "documents", "case_management"],
+    workflowFamilyKeys: ["creative_asset_production", "client_intake_and_qualification", "content_review_and_publication"],
+    personaSuggestionKeys: ["creative_production_asset_coordinator", "customer_journey_owner"],
+  },
+  {
+    ...domain("recruitment_and_staffing", "Recruitment and staffing", "Candidate pipeline and placement.", ["professional_services"], ["Employment law varies by jurisdiction"]),
+    recommendedCapabilityKeys: ["crm", "employee_lifecycle", "documents", "case_management"],
+    workflowFamilyKeys: ["hire_to_onboard", "client_intake_and_qualification"],
+    personaSuggestionKeys: ["workflow_coordinator", "relationship_owner"],
+  },
+  {
+    ...domain("equipment_rental", "Equipment rental", "Booking, dispatch, and return cycles.", ["construction_and_epc", "events_and_venues", "manufacturing_and_industrial"]),
+    recommendedCapabilityKeys: ["asset_registry", "dispatch", "inventory", "work_orders"],
+    workflowFamilyKeys: ["equipment_booking_and_return", "work_order_execution"],
+    personaSuggestionKeys: ["resource_allocator", "field_coordinator"],
+  },
+  {
+    ...domain("research_and_laboratory_operations", "Research and laboratory operations", "Sample tracking and evidence custody — no clinical diagnosis.", ["healthcare_operations", "education_and_training", "manufacturing_and_industrial"], ["No clinical diagnosis"]),
+    recommendedCapabilityKeys: ["documents", "audit", "case_management", "quality_management"],
+    workflowFamilyKeys: ["research_review_and_evidence", "inspection_and_corrective_action"],
+    personaSuggestionKeys: ["research_evidence_custodian"],
+    recommendedCyberCrowPolicyPackKeys: ["audit_and_evidence", "data_export_control"],
+  },
+  {
+    ...domain("agriculture_and_farming", "Agriculture and farming", "Seasonal operations and field coordination.", ["food_service", "manufacturing_and_industrial"]),
+    recommendedCapabilityKeys: ["inventory", "work_orders", "fleet", "asset_registry"],
+    workflowFamilyKeys: ["work_order_execution", "dispatch_and_delivery"],
+    personaSuggestionKeys: ["field_coordinator", "resource_allocator"],
+  },
+  {
+    ...domain("energy_and_utilities_operations", "Energy and utilities operations", "Asset maintenance and incident response.", ["manufacturing_and_industrial", "property_and_facilities"]),
+    recommendedCapabilityKeys: ["asset_registry", "maintenance", "incident_management", "inspections"],
+    workflowFamilyKeys: ["incident_command", "inspection_and_corrective_action"],
+    personaSuggestionKeys: ["incident_commander", "fleet_energy_optimization_lead"],
+  },
+  {
+    ...domain("telecom_operations", "Telecom operations", "Service delivery and incident management.", ["technology_and_saas", "professional_services"]),
+    recommendedCapabilityKeys: ["case_management", "work_orders", "incident_management"],
+    workflowFamilyKeys: ["case_resolution", "incident_command"],
+    personaSuggestionKeys: ["case_lead", "escalation_owner"],
+  },
+  {
+    ...domain("aviation_and_airport_operations", "Aviation and airport operations", "Ground ops and safety workflows — advisory templates only.", ["logistics_and_fleet", "hospitality_and_tourism"], ["Regulated aviation — advisory only"]),
+    recommendedCapabilityKeys: ["dispatch", "safety_management", "incident_management", "work_orders"],
+    workflowFamilyKeys: ["incident_command", "inspection_and_corrective_action"],
+    personaSuggestionKeys: ["incident_commander", "quality_reviewer"],
+  },
+  {
+    ...domain("maritime_and_port_operations", "Maritime and port operations", "Vessel, cargo, and port coordination.", ["logistics_and_fleet"]),
+    recommendedCapabilityKeys: ["dispatch", "warehouse", "shipment_tracking", "safety_management"],
+    workflowFamilyKeys: ["dispatch_and_delivery", "incident_command"],
+    personaSuggestionKeys: ["field_coordinator", "resource_allocator"],
+  },
+  {
+    ...domain("automotive_services", "Automotive services", "Service bay and parts workflows.", ["retail_and_commerce", "logistics_and_fleet"]),
+    recommendedCapabilityKeys: ["work_orders", "inventory", "crm", "customer_service"],
+    workflowFamilyKeys: ["service_booking_and_completion", "work_order_execution"],
+    personaSuggestionKeys: ["field_coordinator"],
+  },
+  {
+    ...domain("beauty_and_personal_care", "Beauty and personal care", "Appointments and membership.", ["fitness_and_wellness", "hospitality_and_tourism"]),
+    recommendedCapabilityKeys: ["crm", "customer_portal", "work_orders"],
+    workflowFamilyKeys: ["service_booking_and_completion", "member_enrollment"],
+    personaSuggestionKeys: ["customer_journey_owner"],
+  },
+  {
+    ...domain("coworking_and_flexible_space", "Coworking and flexible space", "Space booking and member services.", ["property_and_facilities", "hospitality_and_tourism"]),
+    recommendedCapabilityKeys: ["property_operations", "crm", "customer_portal"],
+    workflowFamilyKeys: ["service_booking_and_completion", "member_enrollment"],
+    personaSuggestionKeys: ["relationship_owner"],
+  },
+  {
+    ...domain("property_brokerage", "Property brokerage", "Listings and transaction coordination.", ["property_and_facilities", "professional_services"]),
+    recommendedCapabilityKeys: ["crm", "contracts", "documents", "case_management"],
+    workflowFamilyKeys: ["client_intake_and_qualification", "contract_review_and_approval"],
+    personaSuggestionKeys: ["relationship_owner", "case_lead"],
+  },
+  {
+    ...domain("maintenance_services", "Maintenance services", "Reactive and planned maintenance.", ["property_and_facilities", "construction_and_epc"]),
+    recommendedCapabilityKeys: ["maintenance", "work_orders", "field_service"],
+    workflowFamilyKeys: ["work_order_execution", "inspection_and_corrective_action"],
+    personaSuggestionKeys: ["field_coordinator", "quality_reviewer"],
+  },
+  {
+    ...domain("security_services", "Security services", "Guard force and incident escalation.", ["property_and_facilities", "events_and_venues"]),
+    recommendedCapabilityKeys: ["incident_management", "work_orders", "workforce_directory"],
+    workflowFamilyKeys: ["incident_command", "site_mobilization"],
+    personaSuggestionKeys: ["incident_commander", "escalation_owner"],
+    recommendedCyberCrowPolicyPackKeys: ["incident_escalation", "field_device_trust"],
+  },
+  {
+    ...domain("cleaning_and_facility_services", "Cleaning and facility services", "Site schedules and quality checks.", ["property_and_facilities", "hospitality_and_tourism"]),
+    recommendedCapabilityKeys: ["work_orders", "inspections", "facilities"],
+    workflowFamilyKeys: ["inspection_and_corrective_action", "work_order_execution"],
+    personaSuggestionKeys: ["quality_reviewer", "field_coordinator"],
+  },
+  {
+    ...domain("membership_and_clubs", "Membership and clubs", "Enrollment and member journeys.", ["fitness_and_wellness", "nonprofit_and_associations", "hospitality_and_tourism"]),
+    recommendedCapabilityKeys: ["crm", "customer_portal", "subscriptions"],
+    workflowFamilyKeys: ["member_enrollment", "customer_onboarding"],
+    personaSuggestionKeys: ["customer_journey_owner"],
+    recommendedSareaPatternKeys: ["member_portal"],
+  },
+  {
+    ...domain("creator_and_talent_management", "Creator and talent management", "Talent pipelines and rights.", ["media_and_creative", "technology_and_saas"]),
+    recommendedCapabilityKeys: ["crm", "contracts", "documents", "project_management"],
+    workflowFamilyKeys: ["rights_clearance", "client_intake_and_qualification"],
+    personaSuggestionKeys: ["relationship_owner", "rights_clearance_coordinator"],
+  },
+  {
+    ...domain("digital_content_publishing", "Digital content publishing", "Editorial review and publication.", ["media_and_creative", "technology_and_saas"]),
+    recommendedCapabilityKeys: ["documents", "case_management", "workflow_automation"],
+    workflowFamilyKeys: ["content_review_and_publication", "release_readiness"],
+    personaSuggestionKeys: ["release_coordinator", "quality_reviewer"],
+  },
+  {
+    ...domain("public_service_operations", "Public service operations", "Citizen service and case handling.", ["nonprofit_and_associations", "healthcare_operations", "education_and_training"], ["Public sector compliance varies"]),
+    recommendedCapabilityKeys: ["case_management", "internal_requests", "audit"],
+    workflowFamilyKeys: ["case_resolution", "request_and_approval"],
+    personaSuggestionKeys: ["case_lead", "compliance_liaison"],
+    recommendedCyberCrowPolicyPackKeys: ["audit_and_evidence", "customer_data_protection"],
+  },
+] as const;

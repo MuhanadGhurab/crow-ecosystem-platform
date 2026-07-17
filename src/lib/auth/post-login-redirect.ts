@@ -28,6 +28,10 @@ const DEFAULT_CLIENT_HOME = routes.client.home;
 
 export type { AuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
 export { getAuthenticatedPortalCta } from "@/lib/portal/portal-access-lite";
+export {
+  resolveAuthenticatedPublicHeaderCta,
+  resolvePublicHeaderAuth,
+} from "@/lib/portal/public-header-auth";
 
 /** Client-only landing paths — must not override platform staff post-login. */
 function isClientPortalNext(path: string): boolean {
@@ -181,6 +185,8 @@ function landingWithAccessGateway(
 
 /** K2.5 — preferred name for post sign-in / sign-up / OAuth landing. */
 export const resolvePostAuthLanding = resolvePostLoginDestination;
+
+export { resolveC3PostAuthLanding } from "@/lib/auth/c3-post-auth-landing";
 
 /** @deprecated Use resolvePostLoginDestination — kept for existing imports. */
 export const resolvePostLoginPath = resolvePostLoginDestination;

@@ -1,16 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { CrowAppMetadata, CrowRole } from "@/lib/auth/roles";
 import { prisma } from "@/lib/db";
-import { getSupabaseUrl } from "@/lib/supabase/env";
 
 function getSupabaseAdmin() {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceKey) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY is required for membership operations");
-  }
-  return createClient(getSupabaseUrl(), serviceKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
+  return getSupabaseAdminClient();
 }
 
 export async function listTenantMemberships(tenantId: string) {

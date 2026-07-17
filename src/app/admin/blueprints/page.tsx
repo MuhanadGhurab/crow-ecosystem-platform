@@ -3,6 +3,8 @@ import { BlueprintStatusBadge } from "@/components/admin/blueprint-status-badge"
 import { RequestStatusBadge } from "@/components/admin/request-status-badge";
 import { AdminListPage } from "@/components/ui/admin-list-page";
 import { ListCard } from "@/components/ui/list-card";
+import { blueprintScopeFromSession } from "@/lib/auth/blueprint-scope";
+import { getSessionUser } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import {
   listEnterpriseBlueprints,
@@ -11,7 +13,9 @@ import {
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
 
 export default async function AdminBlueprintsPage() {
-  const blueprints = await listEnterpriseBlueprints();
+  const user = await getSessionUser();
+  const scope = await blueprintScopeFromSession(user);
+  const blueprints = await listEnterpriseBlueprints(scope);
 
   return (
     <AdminListPage
@@ -43,10 +47,10 @@ export default async function AdminBlueprintsPage() {
               status={b.request.status as ImplementationRequestStatus}
             />
             <Link
-              href={routes.blueprint(b.id).overview}
+              href={routes.blueprint(b.id).studio}
               className="cc-btn-secondary !px-3 !py-1.5 text-sm"
             >
-              Open →
+              Open studio →
             </Link>
           </div>
         </ListCard>

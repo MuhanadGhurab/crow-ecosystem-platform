@@ -1,0 +1,39 @@
+{
+  "manifestVersion": "1.0.0",
+  "milestone": "CROW.MODEL.1",
+  "generatedAt": "2026-06-23",
+  "classificationLegend": ["KEEP", "CONSOLIDATE", "MOVE-LATER", "RENAME-LATER", "LEGACY-COMPATIBILITY", "ARCHIVE-CANDIDATE", "DELETE-CANDIDATE", "GENERATED", "LOCAL-ONLY", "SECURITY-SENSITIVE", "OWNER-DECISION"],
+  "canonicalBoundaries": {
+    "tenantComposition": "src/lib/tenant-composition/",
+    "modelForge": "src/lib/model-forge/",
+    "legacySectorCatalog": "src/lib/constants/sector-catalog.ts",
+    "legacyModules": "src/lib/constants/modules.ts",
+    "authoritativeAuth": "src/lib/auth/",
+    "broadMoveExecuted": false,
+    "destructiveChangesExecuted": false
+  },
+  "sourceOfTruth": {
+    "industryArchetypes": { "canonical": "src/lib/tenant-composition/industry-archetype-catalog.ts", "legacy": ["src/lib/constants/sector-catalog.ts", "src/lib/org-intelligence/sector-template-data.ts"], "action": "CONSOLIDATE" },
+    "specialistDomains": { "canonical": "src/lib/model-forge/specialist-domains/specialist-domain-catalog.ts", "action": "KEEP" },
+    "capabilities": { "canonical": "src/lib/tenant-composition/capability-catalog.ts", "runtime": "src/lib/constants/erp-module-catalog.ts", "action": "CONSOLIDATE" },
+    "workPersonas": { "canonical": "src/lib/model-forge/work-personas/work-persona-catalog.ts", "action": "KEEP" },
+    "workflowPatterns": { "canonical": "src/lib/tenant-composition/workflow-pattern-catalog.ts", "action": "KEEP" },
+    "workflowTemplates": { "canonical": "src/lib/model-forge/workflows/workflow-template-catalog.ts", "action": "KEEP" },
+    "permissions": { "canonical": "src/lib/auth/permissions.ts", "advisoryBundles": "src/lib/tenant-composition/permission-bundle-catalog.ts", "action": "KEEP" },
+    "sarea": { "advisory": "src/lib/tenant-composition/sarea-pattern-catalog.ts", "runtime": "src/lib/constants/sarea-packages.ts", "action": "LEGACY-COMPATIBILITY" },
+    "cybercrow": { "advisory": "src/lib/tenant-composition/cybercrow-policy-catalog.ts", "runtime": "src/lib/constants/cybercrow-security-layers.ts", "action": "LEGACY-COMPATIBILITY" }
+  },
+  "hardCodedLegacy": [
+    { "pattern": "isLogisticsIndustry", "location": "src/lib/constants/cybercrow-audit-events.ts", "classification": "MOVE_TO_REGISTRY" },
+    { "pattern": "MEEM_TENANT_SLUG", "location": "src/lib/constants/meem.ts", "classification": "REFERENCE_FIXTURE" },
+    { "pattern": "showMeemErpHub", "location": "src/lib/meem/meem-hub-utils.ts", "classification": "SAFE_COMPATIBILITY" },
+    { "pattern": "logistics default", "location": "tenant enrichment/seed paths", "classification": "TEMPORARY" }
+  ],
+  "auditMarkers": {
+    "CROW_MODEL_1_BASELINE": "PASS",
+    "MODEL_FORGE_SOURCE_OF_TRUTH_AUDITED": "PASS",
+    "MODEL_FORGE_CANONICAL_BOUNDARY": "PASS",
+    "BROAD_REPOSITORY_MOVE_EXECUTED": false,
+    "DESTRUCTIVE_CHANGES_EXECUTED": false
+  }
+}

@@ -1,0 +1,474 @@
+/**
+ * C3.10L — Pre-OAuth Google proof identity inspection (no PII in output).
+ */
+import { createClient, type User } from "@supabase/supabase-js";
+import { PrismaClient, type PlatformAccount } from "@prisma/client";
+import { normalizeEmail } from "../../src/lib/account/email-normalize";
+import { computeC3ProofIdentityFingerprint } from "../../src/lib/account/c3-proof-identity-fingerprint";
+import { opaqueManifestRef } from "./identity-manifest";
+
+const MANDATORY_CLASSIFICATIONS = ["mandatory_contractual", "mandatory_notice"] as const;
+
+async function isCurrentMandatoryLegalComplete(
+  prisma: PrismaClient,
+  platformAccountId: string,
+  locale: string
+): Promise<boolean> {
+  const versions = await prisma.legalDocumentVersion.findMany({
+    where: {
+      status: "published",
+      locale,
+      audience: "platform_requester",
+      mandatoryClassification: { in: [...MANDATORY_CLASSIFICATIONS] },
+    },
+    include: { legalDocument: true },
+    orderBy: [{ legalDocument: { documentType: "asc" } }, { versionNumber: "desc" }],
+  });
+
+  const latestByType = new Map<string, string>();
+  for (const version of versions) {
+    const type = version.legalDocument.documentType;
+    if (!latestByType.has(type)) {
+      latestByType.set(type, version.id);
+    }
+  }
+
+  if (latestByType.size === 0) return false;
+
+  const accepted = await prisma.accountLegalAcceptance.findMany({
+    where: { platformAccountId },
+    select: { legalDocumentVersionId: true },
+  });
+  const acceptedIds = new Set(accepted.map((row) => row.legalDocumentVersionId));
+  return [...latestByType.values()].every((versionId) => acceptedIds.has(versionId));
+}
+
+export type GoogleProofAccountRetention = "delete_after_proof" | "retain_after_proof";
+
+export type GoogleProofIdentityClassification =
+  | "NO_EXISTING_IDENTITY"
+  | "CONTROLLED_PENDING_GOOGLE_REQUESTER"
+  | "CONTROLLED_ACTIVE_GOOGLE_REQUESTER"
+  | "INCOMPLETE_GOOGLE_REQUESTER"
+  | "ACTIVE_GOOGLE_REQUESTER"
+  | "EXISTING_CLIENT_LEGAL_INCOMPLETE"
+  | "EXISTING_CLIENT_LEGAL_CURRENT"
+  | "INCOMPLETE_GOOGLE_IDENTITY"
+  | "LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT"
+  | "PRIVILEGED_OR_OPERATIONAL_IDENTITY"
+  | "PROVIDER_IDENTITY_COLLISION"
+  | "PROVIDER_COLLISION"
+  | "LEGACY_IDENTITY"
+  | "ACTIVE_PRIVILEGED_IDENTITY"
+  | "OPERATIONAL_OWNERSHIP_BLOCKER"
+  | "DUPLICATE_IDENTITY"
+  | "UNKNOWN";
+
+export type GoogleProofIdentityResolution = {
+  classification: GoogleProofIdentityClassification;
+  retentionPolicy: GoogleProofAccountRetention | null;
+  accountOpaque: string | null;
+  identityFingerprint: string | null;
+  emailOpaque: string | null;
+  counts: {
+    supabaseAuthUsers: number;
+    googleProviderIdentities: number;
+    platformAccounts: number;
+    legalAcceptances: number;
+    profiles: number;
+    emailChallenges: number;
+    phoneChallenges: number;
+    tenantMemberships: number;
+    invitations: number;
+    clientRequests: number;
+    operationalOwnershipRefs: number;
+  };
+  state: {
+    platformAccountStatus: string | null;
+    onboardingGeneration: number | null;
+    emailVerifiedPlatform: boolean;
+    emailConfirmedSupabase: boolean;
+    googleProviderLinked: boolean;
+    crowRole: string | null;
+    linkedAuthToAccount: boolean;
+  };
+  mayProceed: boolean;
+  stopReason: string | null;
+};
+
+const PROCEED_CLASSIFICATIONS: GoogleProofIdentityClassification[] = [
+  "NO_EXISTING_IDENTITY",
+  "CONTROLLED_PENDING_GOOGLE_REQUESTER",
+  "INCOMPLETE_GOOGLE_IDENTITY",
+  "INCOMPLETE_GOOGLE_REQUESTER",
+  "EXISTING_CLIENT_LEGAL_INCOMPLETE",
+  "LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT",
+];
+
+function parseRetention(): GoogleProofAccountRetention | null {
+  const raw = process.env.C3_PROOF_ACCOUNT_RETENTION?.trim();
+  if (raw === "delete_after_proof" || raw === "retain_after_proof") return raw;
+  return null;
+}
+
+export function resolveGoogleProofEmailNormalized(): string | null {
+  const email = process.env.C3_GOOGLE_PROOF_EMAIL?.trim();
+  if (!email?.includes("@")) return null;
+  return normalizeEmail(email);
+}
+
+export function requireGoogleProofOperatorEnv(): {
+  retention: GoogleProofAccountRetention;
+  emailNormalized: string;
+} {
+  const retention = parseRetention();
+  if (!retention) {
+    throw new Error(
+      "Set C3_PROOF_ACCOUNT_RETENTION=delete_after_proof or retain_after_proof in gitignored operator env"
+    );
+  }
+  const emailNormalized = resolveGoogleProofEmailNormalized();
+  if (!emailNormalized) {
+    throw new Error("Set C3_GOOGLE_PROOF_EMAIL in gitignored operator env");
+  }
+  return { retention, emailNormalized };
+}
+
+async function listAuthUsersByEmail(
+  admin: ReturnType<typeof createClient>,
+  emailNormalized: string
+): Promise<User[]> {
+  const matches: User[] = [];
+  for (let page = 1; page <= 10; page += 1) {
+    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+    if (error || !data.users.length) break;
+    for (const user of data.users) {
+      if (user.email && normalizeEmail(user.email) === emailNormalized) {
+        matches.push(user);
+      }
+    }
+    if (data.users.length < 200) break;
+  }
+  return matches;
+}
+
+function hasGoogleIdentity(user: User): boolean {
+  return user.identities?.some((identity) => identity.provider === "google") ?? false;
+}
+
+export async function resolveGoogleProofIdentity(
+  prisma: PrismaClient
+): Promise<GoogleProofIdentityResolution> {
+  const { retention, emailNormalized } = requireGoogleProofOperatorEnv();
+  const platformAdminNorm = process.env.PLATFORM_ADMIN_EMAIL?.trim()
+    ? normalizeEmail(process.env.PLATFORM_ADMIN_EMAIL.trim())
+    : null;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!supabaseUrl || !serviceKey) {
+    throw new Error("Supabase admin credentials required");
+  }
+
+  const admin = createClient(supabaseUrl, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+
+  const authUsers = await listAuthUsersByEmail(admin, emailNormalized);
+  const accounts = await prisma.platformAccount.findMany({
+    where: { emailNormalized },
+  });
+
+  const emailOpaque = opaqueManifestRef("google-proof-email", emailNormalized);
+
+  const baseResolution = (
+    classification: GoogleProofIdentityClassification,
+    partial: Partial<GoogleProofIdentityResolution> = {}
+  ): GoogleProofIdentityResolution => ({
+    classification,
+    retentionPolicy: retention,
+    accountOpaque: null,
+    identityFingerprint: null,
+    emailOpaque,
+    counts: {
+      supabaseAuthUsers: authUsers.length,
+      googleProviderIdentities: 0,
+      platformAccounts: accounts.length,
+      legalAcceptances: 0,
+      profiles: 0,
+      emailChallenges: 0,
+      phoneChallenges: 0,
+      tenantMemberships: 0,
+      invitations: 0,
+      clientRequests: 0,
+      operationalOwnershipRefs: 0,
+    },
+    state: {
+      platformAccountStatus: null,
+      onboardingGeneration: null,
+      emailVerifiedPlatform: false,
+      emailConfirmedSupabase: false,
+      googleProviderLinked: false,
+      crowRole: null,
+      linkedAuthToAccount: false,
+    },
+    mayProceed: PROCEED_CLASSIFICATIONS.includes(classification),
+    stopReason: null,
+    ...partial,
+  });
+
+  if (emailNormalized === platformAdminNorm) {
+    return baseResolution("OPERATIONAL_OWNERSHIP_BLOCKER", {
+      stopReason: "Designated email matches PLATFORM_ADMIN_EMAIL",
+    });
+  }
+
+  if (authUsers.length > 1 || accounts.length > 1) {
+    return baseResolution("DUPLICATE_IDENTITY", {
+      stopReason: "Multiple Auth users or PlatformAccounts for email",
+    });
+  }
+
+  if (authUsers.length === 0 && accounts.length === 0) {
+    return baseResolution("NO_EXISTING_IDENTITY");
+  }
+
+  const account: PlatformAccount | null = accounts[0] ?? null;
+  const authUser: User | null =
+    authUsers[0] ??
+    (account
+      ? (await admin.auth.admin.getUserById(account.supabaseUserId)).data.user
+      : null);
+
+  if (!authUser && account) {
+    return baseResolution("INCOMPLETE_GOOGLE_IDENTITY", {
+      accountOpaque: opaqueManifestRef("platform-account", account.id),
+      stopReason: "PlatformAccount without Supabase Auth user",
+    });
+  }
+
+  if (authUser && !account) {
+    return baseResolution("LEGACY_AUTH_WITHOUT_PLATFORM_ACCOUNT", {
+      identityFingerprint: computeC3ProofIdentityFingerprint(authUser.id),
+      stopReason: "Supabase Auth without PlatformAccount — reconcile on OAuth callback",
+    });
+  }
+
+  if (!authUser || !account) {
+    return baseResolution("DUPLICATE_IDENTITY", {
+      stopReason: "Unexpected identity resolution state",
+    });
+  }
+
+  const legalAcceptances = await prisma.accountLegalAcceptance.count({
+    where: { platformAccountId: account.id },
+  });
+  const profiles = await prisma.platformAccountProfile.count({
+    where: { platformAccountId: account.id },
+  });
+  const emailChallenges = await prisma.emailVerificationChallenge.count({
+    where: { platformAccountId: account.id },
+  });
+  const phoneChallenges = await prisma.phoneVerificationChallenge.count({
+    where: { platformAccountId: account.id },
+  });
+  const googleProviderIdentities = await prisma.platformProviderIdentity.count({
+    where: { platformAccountId: account.id, provider: "google" },
+  });
+  const tenantMemberships = await prisma.tenantMembership.count({
+    where: { supabaseUserId: account.supabaseUserId },
+  });
+  const invitations = await prisma.tenantMembershipInvite.count({
+    where: { email: { equals: account.email, mode: "insensitive" } },
+  });
+  const clientRequests = await prisma.implementationRequest.count({
+    where: { submittedByUserId: account.supabaseUserId },
+  });
+  const erpPrimaryContacts = await prisma.requestContact.count({
+    where: {
+      isPrimary: true,
+      email: { equals: account.emailNormalized, mode: "insensitive" },
+    },
+  });
+  const operationalOwnershipRefs = erpPrimaryContacts + clientRequests;
+
+  const crowRole =
+    typeof authUser.app_metadata?.crow_role === "string"
+      ? authUser.app_metadata.crow_role
+      : null;
+
+  const providerCollision = await prisma.platformProviderIdentity.findFirst({
+    where: {
+      provider: "google",
+      platformAccountId: { not: account.id },
+      emailNormalized,
+    },
+  });
+
+  const counts = {
+    supabaseAuthUsers: 1,
+    googleProviderIdentities,
+    platformAccounts: 1,
+    legalAcceptances,
+    profiles,
+    emailChallenges,
+    phoneChallenges,
+    tenantMemberships,
+    invitations,
+    clientRequests,
+    operationalOwnershipRefs,
+  };
+
+  const state = {
+    platformAccountStatus: account.status,
+    onboardingGeneration: account.onboardingGeneration,
+    emailVerifiedPlatform: Boolean(account.emailVerifiedAt),
+    emailConfirmedSupabase: Boolean(authUser.email_confirmed_at),
+    googleProviderLinked: hasGoogleIdentity(authUser) || googleProviderIdentities > 0,
+    crowRole,
+    linkedAuthToAccount: authUser.id === account.supabaseUserId,
+  };
+
+  const accountOpaque = opaqueManifestRef("platform-account", account.id);
+  const identityFingerprint = computeC3ProofIdentityFingerprint(authUser.id);
+
+  const locale = process.env.CROW_REGISTRATION_LOCALE?.trim() || "en-US";
+  const legalCurrent = await isCurrentMandatoryLegalComplete(prisma, account.id, locale);
+
+  if (providerCollision) {
+    return baseResolution("PROVIDER_COLLISION", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      stopReason: "Google provider identity linked to another platform account",
+    });
+  }
+
+  if (account.onboardingGeneration < 2) {
+    return baseResolution("LEGACY_IDENTITY", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      stopReason: "Legacy onboarding generation",
+    });
+  }
+
+  if (
+    crowRole === "admin" ||
+    crowRole === "platform_admin" ||
+    crowRole === "implementer" ||
+    crowRole === "sales" ||
+    crowRole === "auditor_readonly"
+  ) {
+    return baseResolution("PRIVILEGED_OR_OPERATIONAL_IDENTITY", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      stopReason: `Privileged crow_role=${crowRole}`,
+    });
+  }
+
+  if (crowRole === "client") {
+    const classification: GoogleProofIdentityClassification = legalCurrent
+      ? "EXISTING_CLIENT_LEGAL_CURRENT"
+      : "EXISTING_CLIENT_LEGAL_INCOMPLETE";
+    return baseResolution(classification, {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      mayProceed: classification === "EXISTING_CLIENT_LEGAL_INCOMPLETE",
+      stopReason:
+        classification === "EXISTING_CLIENT_LEGAL_CURRENT"
+          ? "Client with current legal — use for post-legal session proof"
+          : null,
+    });
+  }
+
+  if (tenantMemberships > 0 || operationalOwnershipRefs > 0) {
+    return baseResolution("OPERATIONAL_OWNERSHIP_BLOCKER", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      stopReason: "Tenant membership or operational ownership present",
+    });
+  }
+
+  const isActiveOrdinary =
+    account.status === "ACTIVE" &&
+    account.onboardingGeneration === 2 &&
+    legalCurrent &&
+    Boolean(account.emailVerifiedAt) &&
+    state.googleProviderLinked;
+
+  if (isActiveOrdinary) {
+    return baseResolution("ACTIVE_GOOGLE_REQUESTER", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+      stopReason: "Already ACTIVE — use for re-login session proof only",
+    });
+  }
+
+  const isPendingOrdinary =
+    account.status === "PENDING_EMAIL_VERIFICATION" &&
+    account.onboardingGeneration === 2 &&
+    legalCurrent &&
+    !crowRole;
+
+  if (isPendingOrdinary) {
+    return baseResolution("CONTROLLED_PENDING_GOOGLE_REQUESTER", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+    });
+  }
+
+  const incomplete =
+    !legalCurrent ||
+    account.status === "PENDING_EMAIL_VERIFICATION" ||
+    account.status === "PENDING_PHONE_VERIFICATION" ||
+    !state.linkedAuthToAccount ||
+    !state.googleProviderLinked;
+
+  if (incomplete) {
+    return baseResolution("INCOMPLETE_GOOGLE_REQUESTER", {
+      accountOpaque,
+      identityFingerprint,
+      counts,
+      state,
+    });
+  }
+
+  return baseResolution("UNKNOWN", {
+    accountOpaque,
+    identityFingerprint,
+    counts,
+    state,
+    stopReason: "Account state does not match controlled Google requester profile",
+  });
+}
+
+export function printGoogleProofResolution(resolution: GoogleProofIdentityResolution): void {
+  console.log("\n=== C3.10L Google proof identity resolution ===\n");
+  console.log(`  retentionPolicy: ${resolution.retentionPolicy ?? "unset"}`);
+  console.log(`  classification: ${resolution.classification}`);
+  console.log(`  mayProceed: ${resolution.mayProceed}`);
+  if (resolution.accountOpaque) console.log(`  accountOpaque: ${resolution.accountOpaque}`);
+  if (resolution.identityFingerprint) {
+    console.log(`  identityFingerprint: ${resolution.identityFingerprint}`);
+  }
+  if (resolution.emailOpaque) console.log(`  emailOpaque: ${resolution.emailOpaque}`);
+  console.log("  counts:", JSON.stringify(resolution.counts));
+  console.log("  state:", JSON.stringify(resolution.state));
+  if (resolution.stopReason) {
+    console.log(`  stopReason: ${resolution.stopReason}`);
+  }
+  console.log("");
+}

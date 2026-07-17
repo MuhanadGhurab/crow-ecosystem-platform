@@ -13,6 +13,7 @@ import {
   runPublicIntakeGuards,
   unexpectedIntakeFailure,
 } from "@/lib/security/public-intake-guard";
+import { assertLegacyImplementationRequestIntakeDisabled } from "@/lib/client-service-request/legacy-intake-guard";
 import type { ImplementationRequestInput } from "@/lib/types/platform";
 
 export type PublicIntakeSubmissionMeta = {
@@ -24,6 +25,7 @@ export async function submitImplementationRequest(
   input: ImplementationRequestInput,
   meta?: PublicIntakeSubmissionMeta
 ) {
+  assertLegacyImplementationRequestIntakeDisabled();
   const hdrs = await headers();
   const guard = await runPublicIntakeGuards({
     headers: hdrs,

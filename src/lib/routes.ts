@@ -8,8 +8,37 @@ export const routes = {
     signup: "/signup",
     signupWithNext: (nextPath: string) =>
       `/signup?next=${encodeURIComponent(nextPath)}`,
+    forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
     signOut: "/auth/signout",
     callback: "/auth/callback",
+    resolving: "/auth/resolving",
+    resolvingWithNext: (nextPath: string) =>
+      `/auth/resolving?next=${encodeURIComponent(nextPath)}`,
+    accountStatus: "/auth/account-status",
+    google: "/auth/google",
+  },
+  /** C3 — universal platform account (registration, verification, self-service). */
+  account: {
+    home: "/account",
+    register: "/register",
+    registerLegal: "/register/legal",
+    verifyEmail: "/verify-email",
+    legal: "/account/legal",
+    legalDocumentView: (slug: string, versionId: string) =>
+      `/legal/${slug}/${versionId}`,
+    profile: "/account/profile",
+    settings: "/account/settings",
+    sessions: "/account/sessions",
+    requests: "/account/requests",
+    request: (id: string) => `/account/requests/${id}`,
+    invitations: "/account/invitations",
+  },
+  /** C3.8 — first-time onboarding gates (legal → email → phone). */
+  onboarding: {
+    legal: "/onboarding/legal",
+    verifyEmail: "/onboarding/verify-email",
+    verifyPhone: "/onboarding/verify-phone",
   },
   portal: {
     home: "/portal",
@@ -22,8 +51,18 @@ export const routes = {
     profile: "/client/profile",
     company: "/client/company",
     requests: "/client/requests",
+    requestNew: "/client/requests/new",
+    requestConfirmation: (id: string) => `/client/requests/${id}/confirmation`,
     request: (id: string) => `/client/requests/${id}`,
     requestDiscovery: (id: string) => `/client/requests/${id}/discovery`,
+    requestDiscoveryDesign: (id: string) => `/client/requests/${id}/discovery/design`,
+    requestDiscoveryCompare: (id: string) => `/client/requests/${id}/discovery/compare`,
+    requestDiscoverySummary: (id: string) => `/client/requests/${id}/discovery/summary`,
+    /** CROW.DISCOVERY.2B — lean quick intake (alias to design journey) */
+    requestQuickIntake: (id: string) => `/client/requests/${id}/discovery/design?flow=quick&step=field`,
+    requestFieldFinder: (id: string) => `/client/requests/${id}/discovery/design?step=field`,
+    requestBlueprint: (requestId: string) => `/client/requests/${requestId}/blueprint`,
+    requestBlueprintReview: (requestId: string) => `/client/requests/${requestId}/blueprint/review`,
     proposals: "/client/proposals",
     proposal: (id: string) => `/client/proposals/${id}`,
     blueprint: (id: string) => `/client/blueprints/${id}`,
@@ -41,6 +80,13 @@ export const routes = {
     pricing: "/pricing",
     request: "/request",
     proposal: (token: string) => `/proposal/${token}`,
+    start: "/start",
+  },
+  /** CROW.STORY.P1A — Architect's Map public story routes */
+  story: {
+    architectsMap: "/experience/architects-map",
+    architectsMapArticle: "/experience/architects-map/article",
+    start: "/start",
   },
   admin: {
     overview: "/admin/overview",
@@ -62,6 +108,18 @@ export const routes = {
     securityBaselines: "/admin/security-baselines",
     audit: "/admin/audit",
     notifications: "/admin/notifications",
+    /** C0 — Architecture Lab reference prototype (mock data, platform-console only). */
+    architectureLab: "/admin/architecture-lab",
+    /** CROW.TENANT.1 — Tenant composition studio (PLATFORM_ADMIN only, draft, no provisioning). */
+    tenantStudio: "/admin/tenant-studio",
+    /** CROW.MODEL.1 — Enterprise model forge (PLATFORM_ADMIN only, draft, no provisioning). */
+    modelForge: "/admin/model-forge",
+    /** CROW.MODEL.3 — Blueprint compiler preview studio (PLATFORM_ADMIN only, ephemeral). */
+    blueprintStudio: "/admin/blueprint-studio",
+    persistentBlueprint: (blueprintId: string) => `/admin/blueprints/${blueprintId}`,
+    persistentBlueprintVersion: (blueprintId: string, versionNumber: number) =>
+      `/admin/blueprints/${blueprintId}/versions/${versionNumber}`,
+    persistentBlueprintReview: (blueprintId: string) => `/admin/blueprints/${blueprintId}/review`,
   },
   discovery: (requestId: string) => ({
     base: `/discovery/${requestId}`,
@@ -79,6 +137,8 @@ export const routes = {
     summary: `/discovery/${requestId}/summary`,
   }),
   blueprint: (blueprintId: string) => ({
+    studio: `/blueprints/${blueprintId}/studio`,
+    studioSection: (section: string) => `/blueprints/${blueprintId}/studio/${section}`,
     overview: `/blueprints/${blueprintId}/overview`,
     pricing: `/blueprints/${blueprintId}/pricing`,
     cem: `/blueprints/${blueprintId}/cem`,

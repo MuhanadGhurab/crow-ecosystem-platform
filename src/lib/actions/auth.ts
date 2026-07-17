@@ -3,7 +3,20 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
-import { resolvePostAuthLanding } from "@/lib/auth/post-login-redirect";
+import {
+  gateAuthSessionForC3,
+  isC3AuthEnabled,
+  runDeferredClientOnboarding,
+} from "@/lib/account/c3-auth-orchestration";
+import {
+  findPlatformAccountBySupabaseUserId,
+  isPlatformAccountActive,
+} from "@/lib/account/platform-account.service";
+import {
+  resolveC3PostAuthLanding,
+  resolvePostAuthLanding,
+} from "@/lib/auth/post-login-redirect";
+import { isNextRedirectError } from "@/lib/auth/next-redirect";
 import { refreshSessionUser } from "@/lib/auth/refresh-session-user";
 import { getCrowAuth } from "@/lib/auth/roles";
 import {
@@ -76,11 +89,25 @@ async function completeAuthenticatedSession(
   return finalizeAuthUser(supabase, user, next);
 }
 
-async function finalizeAuthUser(
+type SignInCompletion = { path: string } | { error: string };
+
+async function resolvePostSignInCompletion(
   supabase: Awaited<ReturnType<typeof createClient>>,
   user: User,
   next?: string
-): Promise<SignInState> {
+): Promise<SignInCompletion> {
+  if (isC3AuthEnabled()) {
+    const gate = await gateAuthSessionForC3(user, next);
+    if (gate.action === "redirect") {
+      return { path: gate.path };
+    }
+    if (gate.action === "error") {
+      return { error: gate.message };
+    }
+
+    return { path: await resolveC3PostAuthLanding(user, next) };
+  }
+
   try {
     await linkRequestsForUser(user);
   } catch {
@@ -104,15 +131,15 @@ async function finalizeAuthUser(
     try {
       const count = await countRequestsForEmail(refreshed.email);
       if (count > 0) {
-        redirect(
-          resolvePostAuthLanding(
+        return {
+          path: resolvePostAuthLanding(
             {
               ...refreshed,
               app_metadata: { ...refreshed.app_metadata, crow_role: "client" },
             } as typeof refreshed,
             next
-          )
-        );
+          ),
+        };
       }
     } catch {
       /* fall through */
@@ -127,7 +154,88 @@ async function finalizeAuthUser(
     return { error: "No Crow access assigned. Contact your administrator." };
   }
 
-  redirect(resolvePostAuthLanding(refreshed, next));
+  return { path: resolvePostAuthLanding(refreshed, next) };
+}
+
+async function finalizeAuthUser(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  user: User,
+  next?: string
+): Promise<SignInState> {
+  const completion = await resolvePostSignInCompletion(supabase, user, next);
+  if ("error" in completion) {
+    return { error: completion.error };
+  }
+  redirect(completion.path);
+}
+
+function buildLoginFailureRedirect(message: string, next?: string): string {
+  const params = new URLSearchParams({ error: "signin", message });
+  if (next) params.set("next", next);
+  return `/login?${params.toString()}`;
+}
+
+export async function resolveSignInSubmissionUrl(
+  formData: FormData,
+  supabaseClient?: Awaited<ReturnType<typeof createClient>>
+): Promise<string> {
+  if (!isSupabaseAuthConfigured()) {
+    return buildLoginFailureRedirect("Supabase Auth is not configured. Add keys to .env.");
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  const next = sanitizeAuthNextPathOptional(String(formData.get("next") ?? ""));
+
+  if (!email || !password) {
+    return buildLoginFailureRedirect("Email and password are required.", next);
+  }
+
+  const supabase = supabaseClient ?? (await createClient());
+  let error: { message: string } | null = null;
+  try {
+    const result = await supabase.auth.signInWithPassword({ email, password });
+    error = result.error;
+  } catch (err) {
+    const cause = err instanceof Error ? err.cause : undefined;
+    const code =
+      cause && typeof cause === "object" && "code" in cause
+        ? String((cause as { code: string }).code)
+        : "";
+    if (code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE") {
+      return buildLoginFailureRedirect(
+        "SSL certificate error reaching Supabase. Restart with: npm run dev (uses --use-system-ca).",
+        next
+      );
+    }
+    return buildLoginFailureRedirect(
+      err instanceof Error ? err.message : "Sign-in request failed.",
+      next
+    );
+  }
+
+  if (error) {
+    return buildLoginFailureRedirect(mapSupabaseAuthError(error.message, "signin"), next);
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return buildLoginFailureRedirect("Sign-in could not be completed. Try again.", next);
+  }
+
+  const completion = await resolvePostSignInCompletion(supabase, user, next);
+  if ("error" in completion) {
+    return buildLoginFailureRedirect(completion.error, next);
+  }
+  return completion.path;
+}
+
+export async function submitSignInFormAction(formData: FormData): Promise<void> {
+  const path = await resolveSignInSubmissionUrl(formData);
+  redirect(path);
 }
 
 export async function signIn(
@@ -149,7 +257,8 @@ export async function signIn(
   const supabase = await createClient();
   let error: { message: string } | null = null;
   try {
-    ({ error } = await supabase.auth.signInWithPassword({ email, password }));
+    const result = await supabase.auth.signInWithPassword({ email, password });
+    error = result.error;
   } catch (err) {
     const cause = err instanceof Error ? err.cause : undefined;
     const code =
@@ -200,6 +309,12 @@ export async function signUp(
     return { error: "Passwords do not match." };
   }
 
+  if (isC3AuthEnabled()) {
+    const params = new URLSearchParams({ email });
+    if (next) params.set("next", next);
+    redirect(`${routes.onboarding.legal}?${params.toString()}`);
+  }
+
   const supabase = await createClient();
   let signUpError: { message: string } | null = null;
   let sessionUser: User | null = null;
@@ -228,21 +343,37 @@ export async function signUp(
     return { error: "Account could not be created. Try again or use Google sign-in." };
   }
 
-  let roleAssigned = false;
-  try {
-    roleAssigned = await assignDefaultClientRoleOnSignUp(sessionUser.id);
-  } catch {
-    roleAssigned = false;
-  }
+  if (hasSession && isC3AuthEnabled()) {
+    const existing = await findPlatformAccountBySupabaseUserId(sessionUser.id);
+    if (existing && isPlatformAccountActive(existing)) {
+      await runDeferredClientOnboarding(sessionUser);
+      const {
+        data: { user: refreshed },
+      } = await supabase.auth.getUser();
+      if (refreshed) {
+        redirect(await resolveC3PostAuthLanding(refreshed, next));
+      }
+    }
 
-  if (hasSession && !roleAssigned) {
-    return {
-      error:
-        "Account created but client access could not be assigned. Ensure SUPABASE_SERVICE_ROLE_KEY is set on the server (not public), then sign out and sign in again.",
-    };
-  }
+    const legalPath = next
+      ? `${routes.onboarding.legal}?next=${encodeURIComponent(next)}`
+      : routes.onboarding.legal;
+    redirect(legalPath);
+  } else if (hasSession) {
+    let roleAssigned = false;
+    try {
+      roleAssigned = await assignDefaultClientRoleOnSignUp(sessionUser.id);
+    } catch {
+      roleAssigned = false;
+    }
 
-  if (hasSession) {
+    if (!roleAssigned) {
+      return {
+        error:
+          "Account created but client access could not be assigned. Ensure SUPABASE_SERVICE_ROLE_KEY is set on the server (not public), then sign out and sign in again.",
+      };
+    }
+
     try {
       await linkRequestsForUser(sessionUser);
     } catch {

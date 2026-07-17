@@ -1,6 +1,7 @@
 /**
  * Production migrate: deploy, then auto-baseline on P3005 (db push without history).
- * Used by vercel.json buildCommand and npm run db:migrate:deploy.
+ * Used by npm run db:migrate:deploy and the controlled migration wrapper only.
+ * Not invoked from vercel.json buildCommand (C2.2 build isolation).
  */
 import "./assert-remote-database-url.mjs";
 import { spawnSync } from "node:child_process";

@@ -42,6 +42,35 @@ export default async function ClientPortalHomePage() {
       <ClientPortalTrustStrip />
 
       <ClientNextActionPanel snapshot={snapshot} />
+
+      <section className="cc-glass-card space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">Service requests</h2>
+        <p className="text-sm text-slate-400">
+          Start with a short business-intent brief. Crow and ProCrow develop the operating model during Discovery.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link href={routes.client.requestNew} className="cc-btn-primary text-sm">
+            Start a new request
+          </Link>
+          <Link href={routes.client.requests} className="cc-btn-secondary text-sm">
+            View submitted requests
+          </Link>
+          {snapshot.requests[0] && (
+            <>
+              <Link
+                href={routes.client.requestDiscoveryDesign(snapshot.requests[0].requestId)}
+                className="cc-btn-secondary text-sm"
+              >
+                Continue Discovery
+              </Link>
+              <Link href={routes.client.request(snapshot.requests[0].requestId)} className="cc-btn-secondary text-sm">
+                View request status
+              </Link>
+            </>
+          )}
+        </div>
+      </section>
+
       <ClientJourneySummary />
       <CommercialLifecycleMini variant="client" />
 

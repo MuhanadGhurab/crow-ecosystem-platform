@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import {
   acceptTenantInviteAndRedirectAction,
   type TenantInviteAcceptState,
@@ -117,9 +118,7 @@ export function TenantInviteAcceptancePanel({ token, view }: Props) {
             You are signed in as <span className="font-mono">{view.signedInEmail}</span>, but this invite
             is for <span className="font-mono">{view.email}</span>. Sign out and use the invited email.
           </p>
-          <Link href={routes.auth.signOut} className="cc-btn-secondary inline-flex text-sm">
-            Sign out
-          </Link>
+          <SignOutButton className="cc-btn-secondary inline-flex text-sm" label="Sign out" />
         </div>
       )}
 

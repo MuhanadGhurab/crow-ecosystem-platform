@@ -139,9 +139,9 @@ function main(): boolean {
 
   const memScript = fileText("scripts/next-build-with-memory.mjs");
   check(
-    memScript.includes("heapMb") && memScript.includes("3072") && memScript.includes("6144"),
-    "Vercel-aware heap ceilings (3072 Vercel / 6144 local)",
-    "Set 3072 MB heap on VERCEL=1 and 6144 MB locally in next-build-with-memory.mjs"
+    memScript.includes("heapMb") && memScript.includes("3072") && memScript.includes("8192"),
+    "Vercel-aware heap ceilings (3072 Vercel / 8192 local)",
+    "Set 3072 MB heap on VERCEL=1 and 8192 MB locally in next-build-with-memory.mjs"
   );
   check(
     memScript.includes("experimental-build-mode") && memScript.includes("compile"),

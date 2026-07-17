@@ -26,6 +26,42 @@ export const FULL_PLATFORM_LIFECYCLE = [
   "Go-Live",
 ] as const;
 
+/** State ownership — who acts at each lifecycle phase (advisory copy; not authorization). */
+export const PIPELINE_STATE_OWNERSHIP: readonly { phase: string; owner: string }[] = [
+  {
+    phase: "Implementation Request",
+    owner: "Requester supplies authorized organization information.",
+  },
+  {
+    phase: "Discovery",
+    owner: "Requester completes discovery; ProCrow reviews and validates submissions.",
+  },
+  {
+    phase: "Blueprint",
+    owner: "Crow generates advisory blueprint outputs; customer approves formal scope.",
+  },
+  {
+    phase: "Pricing Intelligence",
+    owner: "Crow issues advisory pricing; customer approves proposal — no automatic billing.",
+  },
+  {
+    phase: "Tenant Provisioning",
+    owner: "Authorized internal staff provisions tenant runtime after approvals.",
+  },
+  {
+    phase: "Security Init",
+    owner: "CyberCrow initializes trust and security controls for the tenant.",
+  },
+  {
+    phase: "SAREA Init",
+    owner: "SAREA configures experience profiles — composition only; no access grants.",
+  },
+  {
+    phase: "Go-Live",
+    owner: "Explicit readiness approval required; no auto-activation of production or billing.",
+  },
+] as const;
+
 /** Crow Ecosystem platform identities */
 export const PLATFORM_IDENTITIES = {
   cem: {

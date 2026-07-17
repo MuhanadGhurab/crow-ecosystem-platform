@@ -2,13 +2,13 @@ import { UserMenu } from "@/components/portal/auth/user-menu";
 import { RoleBadge } from "@/components/auth/role-badge";
 import { AreaShell, type NavGroup } from "@/components/ui/area-shell";
 import { Permission, hasPermission } from "@/lib/auth/permissions";
-import { getCrowAuth } from "@/lib/auth/roles";
-import { getSessionUser, requirePlatformConsole } from "@/lib/auth/session";
+import type { CrowRole } from "@/lib/auth/roles";
+import { requireAuthoritativeCrowAuth, requirePlatformConsole } from "@/lib/auth/session";
 import { buildPlatformEngineHubLinks } from "@/lib/constants/platform-engine-hub";
 import { PROCROW_ADMIN_NAV_GROUPS } from "@/lib/constants/procrow-admin-nav";
 import { routes } from "@/lib/routes";
 
-function buildProcrowNavGroups(role: ReturnType<typeof getCrowAuth>["role"]): NavGroup[] {
+function buildProcrowNavGroups(role: CrowRole | null): NavGroup[] {
   const groups: NavGroup[] = [];
   for (const group of PROCROW_ADMIN_NAV_GROUPS) {
     const items = group.items
@@ -23,10 +23,8 @@ function buildProcrowNavGroups(role: ReturnType<typeof getCrowAuth>["role"]): Na
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requirePlatformConsole();
-  const user = await getSessionUser();
-  const { role } = getCrowAuth(user);
-  // Nav routes: routes.admin.queue · routes.admin.goNoGo · routes.admin.operatorConsole (PROCROW_ADMIN_NAV_GROUPS)
-  const navGroups = buildProcrowNavGroups(role);
+  const { auth } = await requireAuthoritativeCrowAuth();
+  const navGroups = buildProcrowNavGroups(auth.role);
   const fallbackNav =
     navGroups.length > 0
       ? navGroups
@@ -46,7 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       navGroups={fallbackNav}
       headerActions={
         <div className="flex items-center gap-2">
-          <RoleBadge role={role} />
+          <RoleBadge role={auth.role} />
           <UserMenu />
         </div>
       }

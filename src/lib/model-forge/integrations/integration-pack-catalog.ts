@@ -1,0 +1,46 @@
+import type { IntegrationPackDefinition } from "../domain-types";
+
+const integration = (
+  key: string,
+  displayName: string,
+  purpose: string,
+  status: IntegrationPackDefinition["availabilityStatus"] = "PLANNED",
+): IntegrationPackDefinition => ({
+  key,
+  displayName,
+  description: purpose,
+  status: status === "REQUIRES_PROVIDER_APPROVAL" ? "PLANNED" : status,
+  version: "1.0.0",
+  provenance: "crow_core",
+  integrationType: key,
+  dataFlowDirection: "bidirectional",
+  identityMethod: "oauth_or_service_account",
+  dataSensitivity: "internal",
+  consentRequirements: [],
+  auditRequirements: ["integration.access_logged"],
+  tenantConfigurationNeeds: ["tenant_admin_configuration"],
+  availabilityStatus: status,
+  riskNotes: [],
+  createsIdentity: false,
+});
+
+export const INTEGRATION_PACK_CATALOG: readonly IntegrationPackDefinition[] = [
+  { ...integration("google_workspace", "Google Workspace", "Email, calendar, and document collaboration.", "PARTIAL"), dataFlowDirection: "bidirectional", identityMethod: "google_oauth" },
+  { ...integration("microsoft_365", "Microsoft 365", "Office productivity integration.", "PLANNED"), identityMethod: "entra_id" },
+  { ...integration("microsoft_entra_id", "Microsoft Entra ID", "Enterprise identity federation.", "PLANNED"), identityMethod: "saml_oidc", dataSensitivity: "restricted" },
+  { ...integration("email_connector", "Email connector", "Transactional and operational email.", "PARTIAL"), dataFlowDirection: "outbound" },
+  { ...integration("calendar_sync", "Calendar sync", "Appointment and schedule sync.", "PLANNED") },
+  { ...integration("document_storage", "Document storage", "External document repository.", "PLANNED"), dataSensitivity: "confidential" },
+  { ...integration("crm_connector", "CRM connector", "External CRM sync.", "PLANNED") },
+  { ...integration("accounting_connector", "Accounting connector", "Operational finance sync — not regulated audit.", "PLANNED"), riskNotes: ["Does not replace certified accounting controls"] },
+  { ...integration("payment_status_connector", "Payment status connector", "Payment status visibility — not payment processing.", "CONCEPT") },
+  { ...integration("mapping_geolocation", "Mapping and geolocation", "Maps and routing data.", "PARTIAL") },
+  { ...integration("fleet_telematics", "Fleet telematics", "Vehicle telemetry advisory.", "PLANNED") },
+  { ...integration("ecommerce_storefront", "E-commerce storefront", "Online sales channel.", "PLANNED") },
+  { ...integration("learning_platform", "Learning platform", "LMS integration.", "PLANNED") },
+  { ...integration("support_system", "Support system", "External ticketing.", "PLANNED") },
+  { ...integration("identity_provider", "Identity provider", "SSO federation.", "PARTIAL"), dataSensitivity: "restricted" },
+  { ...integration("nafath", "Nafath", "Saudi digital identity — requires official provider approval.", "REQUIRES_PROVIDER_APPROVAL"), riskNotes: ["No direct API assumed", "Requires provider approval and legal review"] },
+  { ...integration("gosi", "GOSI", "Saudi social insurance workflows — advisory only.", "REQUIRES_PROVIDER_APPROVAL"), riskNotes: ["No direct API assumed", "Operational workflow support only"] },
+  { ...integration("absher_workflows", "Absher-related workflows", "Government workflow support where officially supported.", "REQUIRES_PROVIDER_APPROVAL"), riskNotes: ["No API availability assumed"] },
+] as const;
