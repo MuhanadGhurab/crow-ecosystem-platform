@@ -3,9 +3,20 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Adaptive Discovery intake stages and outputs |
-| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 |
+| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 · **D3 Stages 1–3 implemented local-first (CROW.DISCOVERY.3)** |
 | **Authority** | [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Date** | 2026-07-18 |
+
+## Implementation note (CROW.DISCOVERY.3)
+
+Stages **1–3** adaptive field catalog + form foundation are implemented local-first:
+
+- Catalog: `src/lib/discovery/discovery-mvp-d3-catalog.ts`
+- Visibility / validation / summary: `discovery-mvp-d3-visibility.ts`, `discovery-mvp-d3-validation.ts`, `discovery-mvp-d3-summary.ts`
+- Browser drafts only: `discovery-mvp-d3-answers.ts` (no hosted writes)
+- UX: `discovery-mvp-adaptive-field-form.tsx`
+
+Stages **4–7** remain planned. `mapsToBlueprintSection` is inert metadata only.
 
 ## Purpose
 

@@ -283,7 +283,9 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DISCOVERY.1 (plan):** audit + phases D0–D6 — see [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md), [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md).
 
-**CROW.DISCOVERY.2 (build slice):** D0–D2 local-first implemented — see [`milestones/CROW-DISCOVERY-2.md`](milestones/CROW-DISCOVERY-2.md). D3–D6 pending.
+**CROW.DISCOVERY.2 (build slice):** D0–D2 local-first — see [`milestones/CROW-DISCOVERY-2.md`](milestones/CROW-DISCOVERY-2.md).
+
+**CROW.DISCOVERY.3 (build slice):** D3 Stages 1–3 adaptive form local-first — see [`milestones/CROW-DISCOVERY-3.md`](milestones/CROW-DISCOVERY-3.md). D4–D6 pending.
 
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft · **stop before Blueprint generation**.
 
@@ -337,7 +339,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · **CROW.DISCOVERY.2** (D0–D2)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · CROW.DISCOVERY.2 · **CROW.DISCOVERY.3** (D3)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

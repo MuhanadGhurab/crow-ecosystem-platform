@@ -3,9 +3,13 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery question metadata and field type system |
-| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 |
+| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 · **MVP typed catalog started in CROW.DISCOVERY.3** |
 | **Authority** | [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Date** | 2026-07-18 |
+
+## Implementation note (CROW.DISCOVERY.3)
+
+A typed Stage 1–3 MVP catalog now exists in code (`discovery-mvp-d3-types.ts` + `discovery-mvp-d3-catalog.ts`) matching this metadata schema for the first form foundation. Full taxonomy coverage and Stages 4–7 questions remain later.
 
 ## Purpose
 

@@ -11,7 +11,7 @@
 
 **This milestone produces the plan only.** No Operating Model runtime, Blueprint, or tenant activation.
 
-**Boundary (CROW.DISCOVERY.2):** D0–D2 delivers Discovery safety + workspace overview only. Operating Model **capture** remains Phase D4 — do not treat workspace stage labels as OM persistence.
+**Boundary (CROW.DISCOVERY.2 / .3):** D0–D3 delivers Discovery safety, workspace overview, and adaptive Stages 1–3 **input** fields (local draft). Operating Model **capture** (structured OM artifact) remains Phase D4 — do not treat D3 answers as an approved Operating Model.
 
 ---
 
