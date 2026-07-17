@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.3) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -56,28 +56,26 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.RECON.3** — Draft public-only reconciliation PR opened; Preview smoke passed.
+**CROW.PUBLIC.RECON.4** — Owner Preview UAT accepted; PR #14 squash-merged into `main`.
 
-Evidence: [`milestones/CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md) · PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) (DRAFT) · Preview https://crow-ecosystem-platform-git-reco-370f0e-muhanadghurabs-projects.vercel.app
+Evidence: [`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) · PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** · `main` @ `e8cb812`
 
-**Prior:** CROW.PUBLIC.RECON.2 — recon branch prepared ([`milestones/CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md)).
+**Prior:** CROW.PUBLIC.RECON.3 — draft PR + Preview smoke ([`milestones/CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md)).
 
-**Prior:** CROW.PM.1A — PM.1 documentation committed ([`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md)).
+**Production:** https://crow-ecosystem-platform.vercel.app · prior accepted pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · Vercel also auto-created production-target `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` from merge (owner must confirm alias/rollback policy).
 
-**Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
+**Hold:** no PR #10 merge; no further Production promote without explicit authorization; resolve auto-deploy side-effect first.
 
-**Hold:** no merge of PR #14, no PR #10 merge, no Production redeploy without authorization; keep #14 DRAFT.
+**Recommended next:** Owner confirm Production pin/rollback for auto deploy · then CROW.PM.2 or CROW.REQUEST.1.
 
-**Recommended next:** Owner Preview UAT → authorize merge of PR #14 → separate Production promotion.
-
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** OPEN DRAFT public recon
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** MERGED
 
 ## Current implementation summary
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, **`main` / Production reconciliation (GAP-012)**, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Production pin policy after GAP-012 mitigation, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

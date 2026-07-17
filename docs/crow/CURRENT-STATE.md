@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.3) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,11 +18,11 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PUBLIC.RECON.3 docs (verify with `git rev-parse HEAD`) |
-| Reconciliation PR | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) DRAFT — `reconcile/public-experience-from-ftgp` @ `67d6ff1` → `main` |
-| Default branch | `main` at `18237d1` (includes ENGINEERING.1 docs #11; public UI still legacy until #14 merges) |
-| PR #10 | OPEN, DRAFT, MERGEABLE, unmerged — **untouched** |
-| Working tree | Docs updates for RECON.3 |
+| HEAD | CROW.PUBLIC.RECON.4 docs (verify with `git rev-parse HEAD`) |
+| Reconciliation PR | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** — squash → `main` @ `e8cb812` |
+| Default branch | `main` at `e8cb812` — **accepted public experience on `main`** |
+| PR #10 | OPEN, DRAFT, unmerged — **untouched** |
+| Working tree | Docs updates for RECON.4 |
 
 ## Stack
 
@@ -169,14 +169,14 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Local | Docker Postgres via `docker-compose.local.yml` |
 | Preview / Staging | Vercel + Supabase hosted |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
-| Production | Live — **accepted public UI** (`dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`); owner reviewed POSTPROD.1; **`main` still legacy** |
+| Production | Live — accepted public UI; prior pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`; Vercel auto production-target from #14 merge `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (owner pin/rollback decision pending) |
 
 ### PR and branch state
 
-- **PR #10:** OPEN DRAFT MERGEABLE — `feat/first-tenant-golden-path` → `main` — **untouched**
-- **PR #14:** OPEN DRAFT MERGEABLE — `reconcile/public-experience-from-ftgp` @ `67d6ff1` → `main` — public-only recon (RECON.3)
+- **PR #10:** OPEN DRAFT — `feat/first-tenant-golden-path` → `main` — **untouched**
+- **PR #14:** **MERGED** — public-only recon squash onto `main` @ `e8cb812` (RECON.4)
 - **PR #2:** OPEN DRAFT — invite email delivery (separate track)
-- **main:** `18237d1` — legacy public UI until #14 merges (includes ENGINEERING.1 docs)
+- **main:** `e8cb812` — accepted public experience + deploy-safe `vercel.json`
 - FTGP work continues on feature branch; not merged
 
 ### Project management / delivery system — DOCUMENTED (not applied on GitHub)
@@ -187,13 +187,14 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | **NOT IMPLEMENTED (GitHub)** | Labels, Projects board, seed Issues — blocked until CROW.PM.2 owner authorization |
 | Evidence | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md), [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md), [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) |
 
-### Public reconciliation — DRAFT PR OPEN (Preview smoke passed)
+### Public reconciliation — MERGED TO MAIN (Production pin decision pending)
 
 | Status | Evidence |
 |--------|----------|
-| **IMPLEMENTED (PR)** | Draft PR #14 + Preview smoke green + CI pass |
-| **NOT DONE** | Merge, Production promote |
-| Evidence | [`milestones/CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md) |
+| **IMPLEMENTED (`main`)** | Accepted public experience + no `db:migrate:deploy` in buildCommand |
+| **SIDE-EFFECT** | Vercel Git auto production-target deploy on merge |
+| **NOT DONE** | Owner-confirmed Production alias/rollback policy |
+| Evidence | [`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) |
 
 ### Known technical debt
 
@@ -202,7 +203,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - Milestone ledger (`MILESTONES.md`) percentages not reliable as implementation truth
 - Stripe fields coupled in schema but commercial domain incomplete
 - JourneyKind in crow-story types; OrganizationContext in request types — separate (correct)
-- Production pinned to feature-branch deploy while `main` remains legacy (GAP-012)
+- Production vs `main` public gap mitigated on git (`main` @ `e8cb812`); Production domain pin/auto-deploy policy still open (GAP-012 partial)
 
 ## Classification legend
 

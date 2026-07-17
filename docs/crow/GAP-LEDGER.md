@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.3) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -72,13 +72,13 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
-| **Current state** | Draft PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) open; Preview smoke passed; Production still feature-branch deploy (`33e48f5`); `main` @ `18237d1` still has legacy public until #14 merges |
-| **Severity** | **High** until #14 merges and Production can safely come from `main` |
-| **Security/authority impact** | Medium if FTGP merged without review; High if migrations run from legacy `main` build |
-| **Dependency** | Owner merge authorization for #14 + separate Production auth — [`CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md) |
-| **Proposed milestone** | CROW.PUBLIC.RECON.3 complete (draft PR + smoke); merge/promote pending |
-| **Owner decision required** | Preview UAT · merge #14 · Production promote separately |
-| **Status** | **Open** — draft PR + Preview smoke green; not merged |
+| **Current state** | PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **merged**; `main` @ `e8cb812` contains accepted public experience + safe `vercel.json`; live URL still showed accepted markers post-merge; Vercel Git also auto-created production-target `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (owner pin/rollback decision pending) |
+| **Severity** | **Medium** — git reconciliation done; Production alias policy unfinished |
+| **Security/authority impact** | Medium — auto Production deploys from `main` can bypass explicit promote authorization |
+| **Dependency** | Owner confirm Production alias / Instant Rollback / disable auto Production from `main` — [`CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) |
+| **Proposed milestone** | CROW.PUBLIC.RECON.4 complete (merge); Production pin decision separate |
+| **Owner decision required** | Accept/cancel/rollback auto Production deploy · gate future `main` Production auto-deploys |
+| **Status** | **Mitigated (partial)** — `main` reconciled; Production promote/pin not fully owner-confirmed |
 
 ## GAP-004 — Preview/Production database isolation
 
