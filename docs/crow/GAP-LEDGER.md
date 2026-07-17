@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -72,13 +72,13 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
-| **Current state** | PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **merged**; `main` @ `e8cb812` contains accepted public experience + safe `vercel.json`; live URL still showed accepted markers post-merge; Vercel Git also auto-created production-target `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (owner pin/rollback decision pending) |
-| **Severity** | **Medium** — git reconciliation done; Production alias policy unfinished |
-| **Security/authority impact** | Medium — auto Production deploys from `main` can bypass explicit promote authorization |
-| **Dependency** | Owner confirm Production alias / Instant Rollback / disable auto Production from `main` — [`CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) |
-| **Proposed milestone** | CROW.PUBLIC.RECON.4 complete (merge); Production pin decision separate |
-| **Owner decision required** | Accept/cancel/rollback auto Production deploy · gate future `main` Production auto-deploys |
-| **Status** | **Mitigated (partial)** — `main` reconciled; Production promote/pin not fully owner-confirmed |
+| **Current state** | PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) merged; `main` @ `e8cb812` has accepted public + safe `vercel.json`; auto Production deploy `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` **accepted** (RECON.5); live URL still pinned to `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (smoke pass). Residual: main→Production auto-deploy policy (Option B/C). |
+| **Severity** | **Low** — git + artifact acceptance done; domain pin optional |
+| **Security/authority impact** | Medium if future `main` merges auto-create Production targets without owner awareness |
+| **Dependency** | Optional Instant Promote of `dpl_8xT92…`; Vercel auto-deploy gate — [`CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) |
+| **Proposed milestone** | CROW.PUBLIC.RECON.5 complete; optional Production domain reassign / settings gate |
+| **Owner decision required** | Instant Promote `dpl_8xT92…`? Disable/gate main Production auto-deploy (Option B)? |
+| **Status** | **Mitigated** — `main` reconciled; auto deploy accepted; live pin remains prior accepted deployment |
 
 ## GAP-004 — Preview/Production database isolation
 

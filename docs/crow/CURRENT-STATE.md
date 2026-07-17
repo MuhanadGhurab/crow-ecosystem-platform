@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,11 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PUBLIC.RECON.4 docs (verify with `git rev-parse HEAD`) |
+| HEAD | CROW.PUBLIC.RECON.5 docs (verify with `git rev-parse HEAD`) |
 | Reconciliation PR | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** — squash → `main` @ `e8cb812` |
-| Default branch | `main` at `e8cb812` — **accepted public experience on `main`** |
+| Default branch | `main` at `e8cb812` — accepted public experience on `main` |
+| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (verified via CSS `dpl=` tag) |
+| Production auto (#14) | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` — **accepted** as main-aligned artifact (RECON.5) |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs updates for RECON.4 |
+| Working tree | Docs updates for RECON.5 |
 
 ## Stack
 
@@ -169,7 +171,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Local | Docker Postgres via `docker-compose.local.yml` |
 | Preview / Staging | Vercel + Supabase hosted |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
-| Production | Live — accepted public UI; prior pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`; Vercel auto production-target from #14 merge `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (owner pin/rollback decision pending) |
+| Production | Live — accepted public UI on pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`; auto Production-target from #14 `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` **accepted** (RECON.5); domain not reassigned this milestone |
 
 ### PR and branch state
 
@@ -187,14 +189,14 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | **NOT IMPLEMENTED (GitHub)** | Labels, Projects board, seed Issues — blocked until CROW.PM.2 owner authorization |
 | Evidence | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md), [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md), [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) |
 
-### Public reconciliation — MERGED TO MAIN (Production pin decision pending)
+### Public reconciliation — MERGED + AUTO DEPLOY ACCEPTED (RECON.5)
 
 | Status | Evidence |
 |--------|----------|
 | **IMPLEMENTED (`main`)** | Accepted public experience + no `db:migrate:deploy` in buildCommand |
-| **SIDE-EFFECT** | Vercel Git auto production-target deploy on merge |
-| **NOT DONE** | Owner-confirmed Production alias/rollback policy |
-| Evidence | [`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) |
+| **AUTO DEPLOY** | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` accepted as main-aligned Production artifact |
+| **LIVE DOMAIN** | Still `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (smoke passed); Instant Promote separate |
+| Evidence | [`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) |
 
 ### Known technical debt
 

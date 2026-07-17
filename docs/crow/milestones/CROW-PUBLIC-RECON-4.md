@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Complete — PR #14 merged; Production auto-deploy side-effect requires owner attention |
+| **Status** | Superseded by RECON.5 — auto deploy accepted; live domain remains prior pin |
 | **Date** | 2026-07-18 |
 | **Docs branch** | `feat/first-tenant-golden-path` |
 | **PR** | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) — **MERGED** |
@@ -78,6 +78,8 @@ Merging to `main` caused **Vercel Git integration** to create an automatic **pro
 | Live URL check after merge | https://crow-ecosystem-platform.vercel.app still showed accepted markers (`pv2-signature-hero`, amber/purple CTAs, `data-pv2-locked-design`) |
 
 **Owner must decide:** Instant Rollback / re-pin to `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`, accept the new main-based production artifact, and/or disable auto Production deploys from `main` until promote policy is explicit.
+
+**RECON.5 resolution:** Owner accepts `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` as main-aligned; live domain verified still on `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — see [`CROW-PUBLIC-RECON-5.md`](CROW-PUBLIC-RECON-5.md).
 
 ## Safety deltas
 

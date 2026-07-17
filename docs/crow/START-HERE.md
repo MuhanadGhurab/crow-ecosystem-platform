@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.4) |
+| **Last reviewed** | 2026-07-18 (CROW.PUBLIC.RECON.5) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -56,17 +56,17 @@
 
 ## Current milestone
 
-**CROW.PUBLIC.RECON.4** — Owner Preview UAT accepted; PR #14 squash-merged into `main`.
+**CROW.PUBLIC.RECON.5** — Auto Production deploy verified and accepted as main-aligned; live URL remains prior pin.
 
-Evidence: [`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md) · PR [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** · `main` @ `e8cb812`
+Evidence: [`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md) · accepted auto deploy `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` · live domain still `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`
 
-**Prior:** CROW.PUBLIC.RECON.3 — draft PR + Preview smoke ([`milestones/CROW-PUBLIC-RECON-3.md`](milestones/CROW-PUBLIC-RECON-3.md)).
+**Prior:** CROW.PUBLIC.RECON.4 — PR #14 merged ([`milestones/CROW-PUBLIC-RECON-4.md`](milestones/CROW-PUBLIC-RECON-4.md)) · `main` @ `e8cb812`
 
-**Production:** https://crow-ecosystem-platform.vercel.app · prior accepted pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · Vercel also auto-created production-target `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` from merge (owner must confirm alias/rollback policy).
+**Production:** https://crow-ecosystem-platform.vercel.app · live pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · auto deploy from #14 accepted as main-aligned artifact (domain not reassigned this milestone)
 
-**Hold:** no PR #10 merge; no further Production promote without explicit authorization; resolve auto-deploy side-effect first.
+**Hold:** no PR #10 merge; no Vercel settings change without authorization; Instant Promote of `dpl_8xT92…` to public domain requires separate owner auth
 
-**Recommended next:** Owner confirm Production pin/rollback for auto deploy · then CROW.PM.2 or CROW.REQUEST.1.
+**Recommended next:** Owner Instant Promote decision (optional) · gate/disable main→Production auto-deploy (Option B) · CROW.PM.2 or CROW.REQUEST.1
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** MERGED
 
