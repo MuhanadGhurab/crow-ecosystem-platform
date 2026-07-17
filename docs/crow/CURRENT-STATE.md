@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,14 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PROD-POLICY.1 docs (verify with `git rev-parse HEAD`) |
-| Reconciliation PR | [#14](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/14) **MERGED** — squash → `main` @ `e8cb812` |
-| Default branch | `main` at `e8cb812` — accepted public experience on `main` |
-| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (verified) |
-| Production auto (#14) | `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` — accepted artifact; **not** Instant-Promoted |
-| Production policy | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) — Option C interim |
+| HEAD | CROW.PM.2 docs (verify with `git rev-parse HEAD`) |
+| Default branch | `main` at `e8cb812` |
+| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
+| GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
+| Seed Issues | #15–#24 |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs updates for PROD-POLICY.1 |
+| Working tree | Docs updates for CROW.PM.2 |
 
 ## Stack
 
@@ -182,13 +181,13 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - **main:** `e8cb812` — accepted public experience + deploy-safe `vercel.json`
 - FTGP work continues on feature branch; not merged
 
-### Project management / delivery system — DOCUMENTED (not applied on GitHub)
+### Project management / delivery system — IMPLEMENTED (GitHub)
 
 | Status | Evidence |
 |--------|----------|
-| **IMPLEMENTED (docs)** | Hybrid PM model, roadmap, backlog taxonomy, Projects design |
-| **NOT IMPLEMENTED (GitHub)** | Labels, Projects board, seed Issues — blocked until CROW.PM.2 owner authorization |
-| Evidence | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md), [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md), [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) |
+| **IMPLEMENTED** | Labels, Phase 0–12 milestones, Project #2, seed Issues #15–#24 |
+| **NOT DONE** | Project views (manual UI); Option B Vercel settings |
+| Evidence | [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
 
 ### Public reconciliation — MERGED + AUTO DEPLOY ACCEPTED (RECON.5)
 

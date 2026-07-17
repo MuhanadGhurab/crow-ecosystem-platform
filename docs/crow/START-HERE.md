@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -57,19 +57,19 @@
 
 ## Current milestone
 
-**CROW.PROD-POLICY.1** — Production deployment policy created for main-aligned Crow releases.
+**CROW.PM.2** — GitHub Projects, labels, and seed backlog created.
 
-Evidence: [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) · [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md)
+Evidence: [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md) · Project [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) · Issues #15–#24
 
-**Prior:** CROW.PUBLIC.RECON.5 — auto Production deploy accepted; live domain remains prior pin ([`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md)).
+**Prior:** CROW.PROD-POLICY.1 — Production deployment policy ([`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md)).
 
-**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · accepted artifact `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` (not Instant-Promoted)
+**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no Instant Promote of `dpl_8xT92…`; no PR #10 merge; no Vercel settings change without authorization; treat `main` merges as potential Production events (Option C)
+**Hold:** no Instant Promote; no PR #10 merge; no Vercel settings without auth; Option C interim for main merges
 
-**Recommended next:** Owner decide Option B (gate/disable main→Production auto-deploy) · optional Instant Promote · CROW.PM.2 or CROW.REQUEST.1
+**Recommended next:** Owner create Project views · triage #15/#16 · then CROW.REQUEST.1 (#17) planning or CROW.PROD-POLICY.2
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (untouched) · **PR #14:** MERGED · **main:** `e8cb812`
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 
 ## Current implementation summary
 

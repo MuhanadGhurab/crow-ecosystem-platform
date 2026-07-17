@@ -7,7 +7,7 @@
 | **Authority** | Owner direction — CROW.PM.1 |
 | **Last reviewed** | 2026-07-17 (CROW.PM.1) |
 | **Related** | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
-| **Implementation state** | Recommended taxonomy — **labels/Issues not created** until CROW.PM.2 authorization |
+| **Implementation state** | Labels, Project #2, and seed Issues #15–#24 created in CROW.PM.2 |
 
 ## Purpose
 

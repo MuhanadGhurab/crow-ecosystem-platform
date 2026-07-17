@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.PROD-POLICY.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PM.2) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -92,6 +92,7 @@
 | **Dependency** | Owner authorization to change Vercel Git/Production settings |
 | **Proposed milestone** | CROW.PROD-POLICY.2 (settings application only) |
 | **Owner decision required** | Enable Option B settings? Keep Option C only? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
 | **Status** | **Open** |
 
 ## GAP-004 — Preview/Production database isolation
@@ -106,6 +107,7 @@
 | **Dependency** | Dedicated Preview Supabase provisioning |
 | **Proposed milestone** | Infrastructure owner decision |
 | **Owner decision required** | Provision separate Preview database |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Status** | Open — blocker |
 
 ## GAP-005 — First Tenant Golden Path completion
@@ -198,13 +200,13 @@
 |-------|-------|
 | **Domain** | Governance / Project management |
 | **Intended state** | Labels, Projects views, and seed backlog per [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) and [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
-| **Current state** | Canonical PM docs exist (CROW.PM.1); GitHub Issues/Projects/labels **not created** (by design) |
+| **Current state** | **CROW.PM.2 executed** — labels, Phase 0–12 milestones, Project #2, seed Issues #15–#24; Project **views** still manual UI residual |
 | **Severity** | Low (process) |
 | **Security/authority impact** | None |
-| **Dependency** | Owner authorization for CROW.PM.2 |
-| **Proposed milestone** | CROW.PM.2 |
-| **Owner decision required** | Approve labels, project visibility, and seed Issues |
-| **Status** | Open — waiting on owner |
+| **Dependency** | Owner creates suggested views in Project UI |
+| **Proposed milestone** | CROW.PM.2 (complete); views = owner residual |
+| **Owner decision required** | Create suggested Project views; triage #15/#16 |
+| **Status** | **Mitigated** — core system created; views pending |
 
 ## GAP-014 — Portfolio repos require Crow-theme discipline
 
