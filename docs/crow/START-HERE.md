@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1A) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.1A) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -66,19 +66,21 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.1** — Discovery and Operating Model MVP audit, design, and build plan (docs only; no product code).
+**CROW.DISCOVERY.1A** — Discovery MVP audit and build plan pushed and baselined on origin.
 
-Evidence: [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · [`discovery/OPERATING-MODEL-MVP-PLAN.md`](discovery/OPERATING-MODEL-MVP-PLAN.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
+Evidence: [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · plan [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
 
-**Prior:** CROW.DISCOVERY.FIELD.1A (architecture origin @ `e90fcda`) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)) · CROW.REQUEST.2 ([#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
+**Origin tip (plan push):** `0d11482` on `feat/first-tenant-golden-path` · content `9162839`
+
+**Prior:** CROW.DISCOVERY.1 (audit/plan) · CROW.DISCOVERY.FIELD.1A (`e90fcda`) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges; no Discovery product build until owner approves plan
+**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge (PR remains CONFLICTING); Option C interim; no Discovery product build until owner approves
 
 **Recommended next:** Owner-approved **Discovery MVP build** (phases D0–D2 local-first) · or owner triage #15/#16 (GAP-004 / GAP-015)
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING · **Project:** #2 private
 
 ## Current implementation summary
 

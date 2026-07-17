@@ -244,11 +244,11 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.1** audit + MVP/OM plans prepared (phases D0–D6). Runtime still fragmented: dual client tracks, FTGP catalog ahead of UI, operator Complete creates Blueprint |
+| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.1** audit + MVP/OM plans **origin-baselined** in CROW.DISCOVERY.1A @ `0d11482` (content `9162839`). Runtime still fragmented: dual client tracks, FTGP catalog ahead of UI, operator Complete creates Blueprint |
 | **Severity** | Medium (blocks enterprise-scale Discovery quality) |
 | **Security/authority impact** | Low if authority non-claims preserved |
-| **Dependency** | Owner-approved build after CROW.DISCOVERY.1 plan; GAP-004 before hosted certify / migrations |
+| **Dependency** | Owner-approved build; GAP-004 before hosted certify / migrations |
 | **Proposed milestone** | Discovery MVP build (D0–D6) · industry packs later |
 | **Owner decision required** | Approve build; unify client tracks; quarantine Blueprint Complete; early profile invariant; MVP field subset |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) |
-| **Status** | Open — audit + build plan complete; product implementation not started |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) |
+| **Status** | Open — plan pushed and baselined; product implementation not started |

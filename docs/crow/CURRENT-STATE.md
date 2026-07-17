@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.1) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.1A) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `59c6a72` on `feat/first-tenant-golden-path` (CROW.DISCOVERY.1 plan; content `9162839`; field arch `e90fcda`) |
+| HEAD | `0d11482` on `origin/feat/first-tenant-golden-path` (CROW.DISCOVERY.1A plan push; content `9162839`; field arch `e90fcda`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #17 updated for REQUEST.2 |
 | PR #10 | OPEN, DRAFT, unmerged — **untouched** |
-| Working tree | Docs — Discovery MVP audit + build plan |
+| Working tree | Docs — CROW.DISCOVERY.1A closeout after origin push |
 
 ## Stack
 
@@ -83,9 +83,10 @@
 | IMPLEMENTED | Client and operator discovery routes; Start Discovery gated on `qualified_for_discovery` |
 | DESIGNED | **Adaptive field architecture** — 10 layers, taxonomy, question model, stages 1–7 (FIELD.1 @ `e90fcda`) |
 | AUDITED | **CROW.DISCOVERY.1** — route/UI/data/auth/handoff/Blueprint boundary audit |
+| BASELINED | CROW.DISCOVERY.1A — plan docs pushed to origin @ `0d11482` (content `9162839`) |
 | PLANNED | MVP build phases D0–D6 — no product code yet; no migration |
 | PARTIAL | FTGP catalog ahead of UI; dual client tracks; operator Complete still creates Blueprint (out of MVP success) |
-| Evidence | [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md), [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md), [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md), Issue #18 |
+| Evidence | [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md), [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md), [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md), Issue #18 |
 
 ### Blueprint — PARTIAL
 
