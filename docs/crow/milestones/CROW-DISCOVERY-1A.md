@@ -10,6 +10,8 @@
 | **Content commit** | `9162839` — docs(discovery): audit Discovery MVP and prepare CROW.DISCOVERY.1 build plan |
 | **Pushed tip (pre-closeout)** | `0d11482` |
 | **Origin HEAD after plan push** | `0d11482` |
+| **Closeout commit** | `6e698b8` — docs(discovery): record CROW.DISCOVERY.1A push closeout |
+| **Final origin HEAD** | `6e698b8` |
 | **main** | `e8cb812` (unchanged) |
 | **PR #10** | OPEN · DRAFT · unmerged · **CONFLICTING** · untouched |
 | **Production** | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (unchanged · no deploy) |

@@ -70,7 +70,7 @@
 
 Evidence: [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · plan [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
 
-**Origin tip (plan push):** `0d11482` on `feat/first-tenant-golden-path` · content `9162839`
+**Origin tip:** `6e698b8` on `feat/first-tenant-golden-path` · plan tip `0d11482` · content `9162839`
 
 **Prior:** CROW.DISCOVERY.1 (audit/plan) · CROW.DISCOVERY.FIELD.1A (`e90fcda`) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
 
