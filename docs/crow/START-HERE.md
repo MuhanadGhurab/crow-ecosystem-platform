@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PR10.2) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -49,7 +49,7 @@
 | [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
 | [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) | PR #10 draft archive + slice extraction rules (owner accepted) |
 | [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) | PR #10 conflict inventory |
-| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D2 implemented; D3–D6 pending) |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -68,11 +68,11 @@
 
 ## Current milestone
 
-**CROW.PR10.2** — Owner accepted PR #10 draft-archive + split-PR strategy; slice rules baselined.
+**CROW.DISCOVERY.2** — Discovery MVP D0–D2 local-first (safety, status mapping, workspace foundation).
 
-Evidence: [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · prior audit [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md)
+Evidence: [`milestones/CROW-DISCOVERY-2.md`](milestones/CROW-DISCOVERY-2.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · `npm run discovery-mvp-d0-d2:test`
 
-**Prior:** CROW.PR10.REBASE.1 @ `2879650` · CROW.DISCOVERY.1A · Discovery plan content `9162839`.
+**Prior:** CROW.PR10.2 @ `23cce9d` · CROW.PR10.REBASE.1 @ `2879650` · CROW.DISCOVERY.1A · plan content `9162839`.
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 

@@ -3,26 +3,28 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery MVP audit (verified repository truth) |
-| **Status** | CANONICAL audit — CROW.DISCOVERY.1 |
+| **Status** | CANONICAL audit — CROW.DISCOVERY.1 · **implementation note CROW.DISCOVERY.2** |
 | **Authority** | Owner decisions + [`00-CROW-CONSTITUTION.md`](../00-CROW-CONSTITUTION.md) |
 | **Date** | 2026-07-18 |
-| **Branch / HEAD** | `feat/first-tenant-golden-path` @ `1f580aa` |
+| **Branch / HEAD** | `feat/first-tenant-golden-path` (see CURRENT-STATE for tip) |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
-| **Milestone** | [`milestones/CROW-DISCOVERY-1.md`](../milestones/CROW-DISCOVERY-1.md) |
+| **Milestone** | [`milestones/CROW-DISCOVERY-1.md`](../milestones/CROW-DISCOVERY-1.md) · [`milestones/CROW-DISCOVERY-2.md`](../milestones/CROW-DISCOVERY-2.md) |
 | **Field architecture** | [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) (FIELD.1 @ `e90fcda`) |
 | **Plan** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) · [`OPERATING-MODEL-MVP-PLAN.md`](OPERATING-MODEL-MVP-PLAN.md) |
 
-**Scope of this document:** Audit only. No product code, migrations, hosted writes, or Production changes.
+**Original scope of this document:** Audit only. Product implementation for D0–D2 landed under CROW.DISCOVERY.2 (see below).
 
 ---
 
 ## Executive summary
 
-Crow already has a **functional Discovery runtime shell** (operator workspace, client wizard, enterprise-design journey, Prisma persistence, FTGP catalog plumbing, ProCrow review panels) **and** an **approved adaptive field architecture** (FIELD.1/1A). They are **not yet aligned**.
+Crow already has a **functional Discovery runtime shell** (operator workspace, client wizard, enterprise-design journey, Prisma persistence, FTGP catalog plumbing, ProCrow review panels) **and** an **approved adaptive field architecture** (FIELD.1/1A). They are **not yet fully aligned**.
 
-Three surfaces share one `DiscoveryProfile` but use **fragmented field keys**. Request → Discovery handoff is **qualified and gated**. Operator **Complete Discovery** still creates a Blueprint draft — that must stay a **hard boundary** for Discovery MVP (no Blueprint generation as a Discovery success criterion).
+**CROW.DISCOVERY.2 (D0–D2)** added: safety baseline certification, migration-free product status mapping, workspace foundation shell (Stages 1–7 overview), and **default quarantine** of `completeDiscovery` → Blueprint create (`assertDiscoveryBlueprintCompleteAllowed`; override only via `CROW_ALLOW_DISCOVERY_BLUEPRINT_COMPLETE=1`).
 
-**GAP-017** remains open: architecture ready; MVP build pending owner-approved phases in this plan.
+Three surfaces still share one `DiscoveryProfile` with **fragmented field keys** for D3+. Request → Discovery handoff remains **qualified and gated**.
+
+**GAP-017** remains open for D3–D6 (adaptive fields, OM capture, modeling review, intentional Blueprint handoff).
 
 ---
 

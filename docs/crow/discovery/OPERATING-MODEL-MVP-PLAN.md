@@ -3,13 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Operating Model capture — plan for Discovery MVP stream |
-| **Status** | CANONICAL plan — design only under CROW.DISCOVERY.1 |
+| **Status** | CANONICAL plan — design only; **D0–D2 does not implement OM capture** (CROW.DISCOVERY.2) |
 | **Authority** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) · [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTERPRISE-BLUEPRINT.md) |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Audit** | [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) |
 
 **This milestone produces the plan only.** No Operating Model runtime, Blueprint, or tenant activation.
+
+**Boundary (CROW.DISCOVERY.2):** D0–D2 delivers Discovery safety + workspace overview only. Operating Model **capture** remains Phase D4 — do not treat workspace stage labels as OM persistence.
 
 ---
 

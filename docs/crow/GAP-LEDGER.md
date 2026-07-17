@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.FIELD.1A) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.2) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -244,14 +244,14 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.1** audit + MVP/OM plans **origin-baselined** in CROW.DISCOVERY.1A @ `0d11482` (content `9162839`). Runtime still fragmented: dual client tracks, FTGP catalog ahead of UI, operator Complete creates Blueprint |
+| **Current state** | Architecture @ `e90fcda`. Plans @ CROW.DISCOVERY.1A. **CROW.DISCOVERY.2** delivered D0–D2 local-first (safety, product status mapping, workspace foundation, Blueprint-complete quarantine). Still fragmented for D3+: dual client tracks, FTGP catalog ahead of adaptive UI; OM capture / modeling / Blueprint handoff not built |
 | **Severity** | Medium (blocks enterprise-scale Discovery quality) |
-| **Security/authority impact** | Low if authority non-claims preserved |
-| **Dependency** | Owner-approved build; GAP-004 before hosted certify / migrations |
-| **Proposed milestone** | Discovery MVP build (D0–D6) · industry packs later |
-| **Owner decision required** | Approve build; unify client tracks; quarantine Blueprint Complete; early profile invariant; MVP field subset |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) |
-| **Status** | Open — plan pushed and baselined; product implementation not started |
+| **Security/authority impact** | Low if authority non-claims preserved (D0–D2 tests certify non-authority) |
+| **Dependency** | Owner-approved D3–D6 slices; GAP-004 before hosted certify / migrations |
+| **Proposed milestone** | **CROW.DISCOVERY.3** (D3 adaptive fields) → D4–D6 |
+| **Owner decision required** | Authorize D3 slice; unify client tracks; when to allow Blueprint complete override |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-2.md`](milestones/CROW-DISCOVERY-2.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) |
+| **Status** | **Partial** — D0–D2 implemented; D3–D6 pending |
 
 ## GAP-018 — PR #10 breadth vs safe merge to main
 
@@ -263,7 +263,7 @@
 | **Severity** | High if someone merges monolith; **policy mitigates** |
 | **Security/authority impact** | High if merged wholesale; low while DRAFT archive discipline holds |
 | **Dependency** | Slice execution; GAP-004 before hosted/runtime; GAP-015 for Production auto-deploy |
-| **Proposed milestone** | Slice execution (Discovery D0–D2, GAP-004, GAP-015, …) |
-| **Owner decision required** | First slice to authorize; optional GitHub Issue for GAP-018 / CROW.PR10.1 |
+| **Proposed milestone** | Slice execution (Discovery D0–D2 done; next D3 / GAP-004 / GAP-015, …) |
+| **Owner decision required** | Next slice to authorize; optional GitHub Issue for GAP-018 / CROW.PR10.1 |
 | **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · ledger only (no Issue yet) |
-| **Status** | **Mitigated (policy)** — archive + slice rule accepted; slice execution pending |
+| **Status** | **Mitigated (policy)** — archive + slice rule accepted; first Discovery slice executed (D0–D2); further slices pending |
