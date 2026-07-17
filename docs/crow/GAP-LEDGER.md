@@ -252,3 +252,18 @@
 | **Owner decision required** | Approve build; unify client tracks; quarantine Blueprint Complete; early profile invariant; MVP field subset |
 | **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) |
 | **Status** | Open — plan pushed and baselined; product implementation not started |
+
+## GAP-018 — PR #10 breadth vs safe merge to main
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Delivery / Release |
+| **Intended state** | FTGP work lands via small, reviewable PRs; `main` stays Production-safe |
+| **Current state** | PR #10 OPEN DRAFT CONFLICTING — **407** commits / **1324** files. Simulated merge shows only **2** content conflicts (`route-protection.ts`, `routes.ts`). Conflict surface is small; merge risk is breadth + GAP-004/015 |
+| **Severity** | High (accidental monolith merge) |
+| **Security/authority impact** | High if merged wholesale (auth, migrations tooling, runtime domains) |
+| **Dependency** | Owner PR strategy; GAP-004 before hosted/runtime slices; GAP-015 for Production auto-deploy |
+| **Proposed milestone** | CROW.PR10.REBASE.1 (audit done) · future CROW.PR10.1 execute split |
+| **Owner decision required** | Accept Option D+B (archive draft + split); first slice priority |
+| **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md) · [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) |
+| **Status** | Open — audit + plan prepared; conflicts not resolved; PR not merged |

@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.1A) |
+| **Last reviewed** | 2026-07-18 (CROW.PR10.REBASE.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -66,19 +66,17 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.1A** — Discovery MVP audit and build plan pushed and baselined on origin.
+**CROW.PR10.REBASE.1** — PR #10 conflict audit and safe resolution plan (analysis only; conflicts not resolved).
 
-Evidence: [`milestones/CROW-DISCOVERY-1A.md`](milestones/CROW-DISCOVERY-1A.md) · plan [`milestones/CROW-DISCOVERY-1.md`](milestones/CROW-DISCOVERY-1.md) · [`discovery/DISCOVERY-AUDIT.md`](discovery/DISCOVERY-AUDIT.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18)
+Evidence: [`milestones/CROW-PR10-REBASE-1.md`](milestones/CROW-PR10-REBASE-1.md) · [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) · [`pr10/PR10-SAFE-RESOLUTION-PLAN.md`](pr10/PR10-SAFE-RESOLUTION-PLAN.md)
 
-**Origin tip:** `6e698b8` on `feat/first-tenant-golden-path` · plan tip `0d11482` · content `9162839`
-
-**Prior:** CROW.DISCOVERY.1 (audit/plan) · CROW.DISCOVERY.FIELD.1A (`e90fcda`) · CROW.PROCROW.1A ([#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)).
+**Prior:** CROW.DISCOVERY.1A (origin tip included `73dda5d`) · Discovery plan content `9162839`.
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge (PR remains CONFLICTING); Option C interim; no Discovery product build until owner approves
+**Hold:** no PR #10 merge; no conflict resolution yet; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim; no Discovery product build until owner approves
 
-**Recommended next:** Owner-approved **Discovery MVP build** (phases D0–D2 local-first) · or owner triage #15/#16 (GAP-004 / GAP-015)
+**Recommended next:** Owner accepts Option D+B (keep PR #10 draft archive + split) · or Discovery MVP build · or GAP-004 / GAP-015 triage
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING · **Project:** #2 private
 

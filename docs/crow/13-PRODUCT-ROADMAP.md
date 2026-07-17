@@ -327,13 +327,13 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Discovery MVP build** (post CROW.DISCOVERY.1 plan) | Local-first phases D0–D2 under Issue #18 |
-| 2 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
-| 3 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
-| 4 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
+| 1 | **Owner: PR #10 strategy** (CROW.PR10.REBASE.1) | Accept keep-draft + split; do not merge monolith |
+| 2 | **Discovery MVP build** (post plan) | Local-first phases D0–D2 under Issue #18 |
+| 3 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
+| 4 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 | 5 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · **CROW.DISCOVERY.1** (audit + MVP build plan)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · **CROW.PR10.REBASE.1** (conflict audit + safe plan)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
