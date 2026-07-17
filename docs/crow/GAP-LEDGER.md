@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.REQUEST.2) |
+| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -222,3 +222,18 @@
 | **Proposed milestone** | Ongoing Kanban + CROW.PORTFOLIO.* when authorized |
 | **Owner decision required** | Which deferred ideas (SecSky productization, robotics, desktop) stay deferred |
 | **Status** | Open |
+
+## GAP-016 — ProCrow qualification persistence vs product vocabulary
+
+| Field | Value |
+|-------|-------|
+| **Domain** | ProCrow / Request |
+| **Intended state** | Full product qualification vocabulary available to operators and clients |
+| **Current state** | **Mitigated locally in CROW.PROCROW.1** — outcomes in brief `procrowQualification`; DB enum unchanged; Discovery gated |
+| **Severity** | Low |
+| **Security/authority impact** | None when product-layer only (current) |
+| **Dependency** | Optional future enum migration (not preferred) |
+| **Proposed milestone** | CROW.PROCROW.1 (local complete); hosted certify after GAP-004 |
+| **Owner decision required** | Whether to ever migrate DB enums vs keep product-layer mapping |
+| **Tracking** | Issue [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19) · [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md) |
+| **Status** | **Mitigated** (local-first); hosted certify deferred |

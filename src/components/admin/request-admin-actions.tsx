@@ -15,6 +15,7 @@ export function RequestAdminActions({
   status,
   blueprintId,
   tenantSlug,
+  qualifiedForDiscovery = false,
 }: RequestAdminActionsState) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -54,13 +55,25 @@ export function RequestAdminActions({
 
   return (
     <div className="space-y-4">
+      {status === "PENDING_REVIEW" && (
+        <p className="text-xs text-slate-400">
+          Discovery handoff requires ProCrow qualification outcome “Qualified for Discovery”.
+          Submission alone does not start Discovery, create a tenant, or generate a Blueprint.
+        </p>
+      )}
+
       <div className="flex flex-wrap gap-3">
         {status === "PENDING_REVIEW" && (
           <>
             <button
               type="button"
               onClick={handleStartDiscovery}
-              disabled={pending}
+              disabled={pending || !qualifiedForDiscovery}
+              title={
+                qualifiedForDiscovery
+                  ? "Start Discovery workspace (controlled handoff)"
+                  : "Record “Qualified for Discovery” first"
+              }
               className="cc-btn-primary disabled:opacity-50"
             >
               {pending ? "Starting…" : "Start discovery"}
@@ -104,6 +117,13 @@ export function RequestAdminActions({
           ))}
       </div>
 
+      {status === "PENDING_REVIEW" && !qualifiedForDiscovery && (
+        <p className="text-xs text-amber-300/90">
+          Start Discovery is disabled until qualification is recorded. Prefer Decline via the
+          qualification panel when closing without Discovery.
+        </p>
+      )}
+
       {showReject && status === "PENDING_REVIEW" && (
         <div className="cc-glass-card space-y-3">
           <label className="block text-sm text-slate-400">
@@ -140,5 +160,3 @@ export function RequestAdminActions({
     </div>
   );
 }
-
-

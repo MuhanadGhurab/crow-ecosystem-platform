@@ -1,5 +1,6 @@
 import type { ClientServiceRequestBrief, ClientServiceRequestBriefInput } from "./types";
 import { CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION } from "./types";
+import { parseProcrowQualification } from "@/lib/procrow/procrow-qualification";
 
 function newIdempotencyKey(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -27,6 +28,7 @@ export function parseRequestBriefFromNotes(notes: string | null | undefined): Cl
         parsed.journeyKind === "NEW" || parsed.journeyKind === "TRANSFORM"
           ? parsed.journeyKind
           : null,
+      procrowQualification: parseProcrowQualification(parsed.procrowQualification),
     };
   } catch {
     return null;

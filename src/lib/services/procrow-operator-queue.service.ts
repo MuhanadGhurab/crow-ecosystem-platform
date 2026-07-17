@@ -168,7 +168,7 @@ export function deriveProCrowOperatorQueueSnapshot(input: ProCrowQueueDeriveInpu
       status: "needs_review",
       owner: "procrow",
       title: "Submitted request — needs qualification review",
-      description: `Intake ${row.referenceCode} is submitted (DB: PENDING_REVIEW). Product stage: Needs review / Qualification review. Open workspace before Discovery.`,
+      description: `Intake ${row.referenceCode} is submitted (DB: PENDING_REVIEW). Product stage: Needs qualification review. Open workspace, record outcome, then start Discovery only if qualified — no tenant provisioning.`,
       reason: "Derived from implementation request status — operator-guided qualification; no tenant provisioning.",
       relatedRoute: routes.admin.request(row.requestId),
       actionLabel: "Open request",

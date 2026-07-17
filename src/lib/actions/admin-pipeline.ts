@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireActionRequestReview } from "@/lib/auth/action-guard";
 import { routes } from "@/lib/routes";
+import { briefIsQualifiedForDiscovery } from "@/lib/services/client-service-request.service";
 import {
   getImplementationRequest,
   rejectImplementationRequest,
@@ -19,6 +20,11 @@ export async function adminStartDiscovery(requestId: string) {
   }
   if (request.status !== "PENDING_REVIEW") {
     throw new Error(`Cannot start discovery from status ${request.status}`);
+  }
+  if (!briefIsQualifiedForDiscovery(request.notes)) {
+    throw new Error(
+      "Discovery handoff requires ProCrow qualification outcome “Qualified for Discovery”. Record qualification first — this does not create a tenant or Blueprint.",
+    );
   }
 
   await startDiscovery(requestId);
@@ -49,4 +55,6 @@ export type RequestAdminActionsState = {
   status: ImplementationRequestStatus;
   blueprintId: string | null;
   tenantSlug: string | null;
+  /** CROW.PROCROW.1 — Discovery start requires brief qualification outcome. */
+  qualifiedForDiscovery?: boolean;
 };

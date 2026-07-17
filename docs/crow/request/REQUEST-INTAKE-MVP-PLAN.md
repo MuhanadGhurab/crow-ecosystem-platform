@@ -12,6 +12,8 @@
 
 **CROW.REQUEST.2 applied:** JourneyKind on brief · client-process phone gate · product status mapping · queue clarity · authority tests. Server drafts deferred. No migrations / hosted writes.
 
+**CROW.PROCROW.1 handoff:** Qualification outcomes persist in brief `procrowQualification`. Discovery starts only after `qualified_for_discovery` (UI + server). See [`procrow/PROCROW-QUALIFICATION-MVP-PLAN.md`](../procrow/PROCROW-QUALIFICATION-MVP-PLAN.md).
+
 ---
 
 ## Recommended MVP scope

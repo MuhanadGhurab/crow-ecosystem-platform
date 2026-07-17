@@ -208,3 +208,51 @@ export async function applyProcrowFieldResolution(
 
   return updated;
 }
+
+/**
+ * CROW.PROCROW.1 — record qualification outcome in brief notes JSON.
+ * Does not create tenant, membership, platform role, Blueprint, or payment.
+ * Declined outcomes should call rejectImplementationRequest separately (notes-preserving).
+ */
+export async function applyProcrowQualification(
+  requestId: string,
+  input: {
+    outcome: import("@/lib/procrow/procrow-qualification").ProcrowQualificationOutcome;
+    operatorNote?: string | null;
+    recordedByPlatformAccountId: string;
+  },
+): Promise<ClientServiceRequestBrief | null> {
+  const request = await prisma.implementationRequest.findUnique({
+    where: { id: requestId },
+    select: { notes: true, status: true },
+  });
+  if (!request) return null;
+
+  const brief = parseRequestBriefFromNotes(request.notes);
+  if (!brief) return null;
+
+  const updated: ClientServiceRequestBrief = {
+    ...brief,
+    procrowQualification: {
+      outcome: input.outcome,
+      operatorNote: input.operatorNote?.trim() || null,
+      recordedAt: new Date().toISOString(),
+      recordedByPlatformAccountId: input.recordedByPlatformAccountId,
+    },
+  };
+
+  await prisma.implementationRequest.update({
+    where: { id: requestId },
+    data: {
+      notes: serializeRequestBriefToNotes(sanitizeBriefForPersistence(updated)),
+    },
+  });
+
+  return updated;
+}
+
+/** True when brief marks request qualified for Discovery handoff. */
+export function briefIsQualifiedForDiscovery(notes: string | null | undefined): boolean {
+  const brief = parseRequestBriefFromNotes(notes);
+  return brief?.procrowQualification?.outcome === "qualified_for_discovery";
+}

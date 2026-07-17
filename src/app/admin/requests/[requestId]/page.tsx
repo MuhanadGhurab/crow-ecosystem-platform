@@ -4,6 +4,7 @@ import { AdminClientReviewFeedbackPanel } from "@/components/admin/admin-client-
 import { AdminProcrowDiscoveryReviewPanel } from "@/components/admin/admin-procrow-discovery-review-panel";
 import { AdminClientEnterpriseDesignPanel } from "@/components/admin/admin-client-enterprise-design-panel";
 import { AdminRequestBriefPanel } from "@/components/admin/admin-request-brief-panel";
+import { AdminProcrowQualificationPanel } from "@/components/admin/admin-procrow-qualification-panel";
 import { AdminDiscoveryIntelligencePanel } from "@/components/admin/admin-discovery-intelligence-panel";
 import { AdminOnboardingReadinessPanel } from "@/components/admin/admin-onboarding-readiness-panel";
 import { OperatorE2eChecklistPanel } from "@/components/admin/operator-e2e-checklist-panel";
@@ -54,9 +55,12 @@ import { buildSareaExperienceMappingPreviewForRequest } from "@/lib/services/sar
 import { AdminProcrowPricingPackagePanel } from "@/components/admin/admin-procrow-pricing-package-panel";
 import { AdminCybercrowTrustReadinessPanel } from "@/components/admin/admin-cybercrow-trust-readiness-panel";
 import { AdminSareaExperienceMappingPanel } from "@/components/admin/admin-sarea-experience-mapping-panel";
+import { findPlatformAccountBySupabaseUserId } from "@/lib/account/platform-account.service";
 import { getImplementationRequest } from "@/lib/services/implementation-request.service";
 import { listBusinessFields } from "@/lib/business-field-catalog/fields";
 import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
+import { isQualifiedForDiscovery } from "@/lib/procrow/procrow-qualification";
+import { productStatusLabelForPersisted } from "@/lib/procrow/request-status-product-mapping";
 import { isUseMockData } from "@/lib/mock/env";
 import { getMockProposalApprovalOverrides, MOCK_PROPOSAL_TOKEN } from "@/lib/mock/blueprint";
 import { MOCK_PIPELINE_REQUESTS, MOCK_PRICING_ESTIMATE } from "@/lib/mock/pipeline";
@@ -92,6 +96,15 @@ export default async function AdminRequestDetailPage({
   const orgName = request?.organizationName ?? mockRow!.organizationName;
   const refCode = request?.referenceCode ?? mockRow!.referenceCode;
   const requestBrief = request?.notes ? parseRequestBriefFromNotes(request.notes) : null;
+  const qualifiedForDiscovery = isQualifiedForDiscovery(requestBrief?.procrowQualification);
+  const productStatusLabel = productStatusLabelForPersisted(
+    status,
+    requestBrief?.procrowQualification,
+  );
+  const submitterAccount =
+    request?.submittedByUserId && !isUseMockData()
+      ? await findPlatformAccountBySupabaseUserId(request.submittedByUserId).catch(() => null)
+      : null;
   const planKey = request?.requestedPlans[0]?.planKey ?? mockRow?.planKey;
   const primaryContact = request?.contacts.find((c) => c.isPrimary) ?? request?.contacts[0];
   const mockBlueprintId = mockRow?.blueprintId ?? null;
@@ -190,8 +203,8 @@ export default async function AdminRequestDetailPage({
       <ProCrowWorkbenchPageHeader
         eyebrow="ProCrow · Request workspace"
         title={orgName}
-        purpose={`${refCode} — work this company from intake through tenant handoff. Client portal actions feed this workspace.`}
-        statusChip={humanLabel}
+        purpose={`${refCode} — product status: ${productStatusLabel}. Qualification is not tenant membership, Blueprint approval, or payment.`}
+        statusChip={productStatusLabel}
         actions={
           <div className="flex flex-col items-end gap-2">
             <RequestStatusBadge status={status} />
@@ -201,7 +214,10 @@ export default async function AdminRequestDetailPage({
       />
 
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-        <ProCrowStageSummaryCard label="Queue stage" value={requestStatusToOperatorQueueHint(status)} />
+        <ProCrowStageSummaryCard
+          label="Queue stage"
+          value={requestStatusToOperatorQueueHint(status, requestBrief?.procrowQualification)}
+        />
         <ProCrowStageSummaryCard
           label="Operator bucket"
           value={humanLabel}
@@ -251,7 +267,15 @@ export default async function AdminRequestDetailPage({
           <AdminRequestBriefPanel
             brief={requestBrief}
             requestId={requestId}
+            status={status}
             fieldOptions={listBusinessFields().map((f) => ({ key: f.key, label: f.displayNameEn }))}
+          />
+        )}
+        {request && (
+          <AdminProcrowQualificationPanel
+            requestId={request.id}
+            status={status}
+            qualification={requestBrief?.procrowQualification}
           />
         )}
         <AdminProcrowDiscoveryReviewPanel snapshot={procrowDiscoveryReview} />
@@ -344,6 +368,7 @@ export default async function AdminRequestDetailPage({
                 status={status}
                 blueprintId={request.enterpriseBlueprint?.id ?? null}
                 tenantSlug={tenantSlug}
+                qualifiedForDiscovery={qualifiedForDiscovery}
               />
             </ProCrowWorkbenchSection>
           )}
@@ -387,9 +412,32 @@ export default async function AdminRequestDetailPage({
                       <dt>Email</dt>
                       <dd className="text-cyan-300">{primaryContact.email}</dd>
                     </div>
+                    {primaryContact.phone && (
+                      <div>
+                        <dt>Phone</dt>
+                        <dd>{primaryContact.phone}</dd>
+                      </div>
+                    )}
                   </dl>
                 ) : (
                   <p className="text-sm text-slate-500">No contact on file.</p>
+                )}
+                {submitterAccount && (
+                  <dl className="mt-3 space-y-1 border-t border-white/5 pt-3 text-xs text-slate-400">
+                    <p className="font-medium text-slate-300">Submitter verification (account control only)</p>
+                    <div className="flex justify-between gap-2">
+                      <span>Email</span>
+                      <span>{submitterAccount.emailVerifiedAt ? "Verified" : "Not verified"}</span>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <span>Phone</span>
+                      <span>{submitterAccount.phoneVerifiedAt ? "Verified" : "Not verified"}</span>
+                    </div>
+                    <p className="pt-1 text-[10px] text-slate-500">
+                      Legal terms are required via C3 before client-process submit. Verification proves
+                      account control — not tenant membership or ProCrow access.
+                    </p>
+                  </dl>
                 )}
               </div>
             </div>

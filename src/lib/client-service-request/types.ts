@@ -3,10 +3,15 @@
 import type { ClientConfigurationMode } from "@/lib/client-enterprise-design/types";
 import type { BusinessFieldResolutionStatus } from "@/lib/client-enterprise-design/types";
 import type { ClientGrowthIntention, ClientTeamSizeRange } from "@/lib/business-field-catalog/team-scale";
+import type {
+  ProcrowQualification,
+  ProcrowQualificationOutcome,
+} from "@/lib/procrow/procrow-qualification";
 
 import type { RequestJourneyKind } from "./journey";
 
 export type { RequestJourneyKind } from "./journey";
+export type { ProcrowQualification, ProcrowQualificationOutcome };
 
 /** Additive fields stay on v1.0.0 — unknown keys ignored by older readers; missing journeyKind → null. */
 export const CLIENT_SERVICE_REQUEST_BRIEF_SCHEMA_VERSION = "client-service-request-brief-v1.0.0" as const;
@@ -72,6 +77,8 @@ export type ClientServiceRequestBrief = {
   originalClientStatement?: string | null;
   /** ProCrow internal field resolution — does not replace client statement */
   procrowFieldResolution?: ProcrowFieldResolution | null;
+  /** CROW.PROCROW.1 — qualification outcome in notes JSON (no DB enum migration) */
+  procrowQualification?: ProcrowQualification | null;
 };
 
 export type ClientServiceRequestBriefInput = Omit<

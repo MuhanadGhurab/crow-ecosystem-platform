@@ -323,13 +323,13 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Owner accept CROW.REQUEST.1 plan** | Phone policy, GAP-004 sequencing, authorize implementation |
-| 2 | **CROW.REQUEST.2** (suggested) or **#16 GAP-004** | Local-first intake completion **or** Preview DB isolation first |
-| 3 | **CROW.DISCOVERY.1** | Discovery and Operating Model MVP design (after Request handoff) |
-| 4 | **CROW.PROCROW.1** | ProCrow qualification and review queue MVP |
-| 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
-| 6 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
-| 7 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
+| 1 | **#16 GAP-004** or hosted Preview certify | Preview/Production DB isolation before hosted writes |
+| 2 | **CROW.DISCOVERY.1** | Discovery and Operating Model MVP design (handoff from qualified requests) |
+| 3 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
+| 4 | **CROW.BLUEPRINT.1** | Blueprint freeze/evidence MVP after discovery/control foundations |
+| 5 | **#15 GAP-015** | Production auto-deploy settings (parallel, independent) |
+
+**Completed recently:** CROW.REQUEST.2 · **CROW.PROCROW.1** (local-first qualification UX)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

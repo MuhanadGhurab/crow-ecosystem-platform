@@ -95,7 +95,7 @@ export default async function AdminRequestsPage({
       <ProCrowWorkbenchPageHeader
         eyebrow="ProCrow · Request workspace"
         title="Implementation requests"
-        purpose="One row per company — stage, client posture, and next ProCrow action. Open a workspace for full context."
+        purpose="Submitted requests need qualification review before Discovery. Qualification is not tenant creation, membership, Blueprint approval, or payment."
         statusChip={`${requests.length} in list`}
         backHref={routes.admin.queue}
         backLabel="← Operator queue"

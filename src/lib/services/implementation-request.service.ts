@@ -1,4 +1,9 @@
 import type { Prisma } from "@prisma/client";
+import {
+  isModernServiceRequest,
+  parseRequestBriefFromNotes,
+  serializeRequestBriefToNotes,
+} from "@/lib/client-service-request/constants";
 import { prisma } from "@/lib/db";
 import { refreshRequestPricingEstimate } from "@/lib/services/commercial.service";
 import { notifyPipelineEvent } from "@/lib/services/notification.service";
@@ -129,11 +134,44 @@ export async function getImplementationRequest(id: string) {
 }
 
 export async function rejectImplementationRequest(id: string, reason?: string) {
+  const existing = await prisma.implementationRequest.findUnique({
+    where: { id },
+    select: { notes: true },
+  });
+
+  const trimmed = reason?.trim();
+  let notesUpdate: string | undefined;
+
+  if (trimmed) {
+    const brief = parseRequestBriefFromNotes(existing?.notes);
+    if (brief) {
+      // Preserve brief JSON — store rejection note inside qualification / operator note.
+      const merged = {
+        ...brief,
+        procrowQualification: {
+          outcome: "declined" as const,
+          operatorNote: trimmed,
+          recordedAt: new Date().toISOString(),
+          recordedByPlatformAccountId:
+            brief.procrowQualification?.recordedByPlatformAccountId ?? "system-reject",
+        },
+      };
+      notesUpdate = serializeRequestBriefToNotes(merged);
+    } else if (existing?.notes && isModernServiceRequest(existing.notes)) {
+      notesUpdate = existing.notes;
+    } else {
+      // Legacy non-brief notes: append rather than replace when possible.
+      notesUpdate = existing?.notes
+        ? `${existing.notes}\n\n[Rejected] ${trimmed}`
+        : trimmed;
+    }
+  }
+
   return prisma.implementationRequest.update({
     where: { id },
     data: {
       status: "REJECTED",
-      ...(reason ? { notes: reason } : {}),
+      ...(notesUpdate !== undefined ? { notes: notesUpdate } : {}),
     },
   });
 }

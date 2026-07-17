@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.REQUEST.2) |
+| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -41,6 +41,8 @@
 | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) | Production release authority, main merge, Instant Promote, auto-deploy |
 | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
+| [`procrow/PROCROW-QUALIFICATION-AUDIT.md`](procrow/PROCROW-QUALIFICATION-AUDIT.md) | ProCrow qualification outcome audit |
+| [`procrow/PROCROW-QUALIFICATION-MVP-PLAN.md`](procrow/PROCROW-QUALIFICATION-MVP-PLAN.md) | ProCrow qualification MVP plan |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -59,17 +61,17 @@
 
 ## Current milestone
 
-**CROW.REQUEST.2** — Local-first Request Intake alignment implemented and certified.
+**CROW.PROCROW.1** — ProCrow qualification outcome UX implemented and certified (local-first).
 
-Evidence: [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md) · Issue [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)
+Evidence: [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md) · Issue [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)
 
-**Prior:** CROW.REQUEST.1 — audit + plan ([`milestones/CROW-REQUEST-1.md`](milestones/CROW-REQUEST-1.md)).
+**Prior:** CROW.REQUEST.2 — Request Intake local-first alignment ([`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md) · [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
 **Hold:** no hosted migrations/writes (GAP-004); no Instant Promote; no PR #10 merge; Option C interim for main merges
 
-**Recommended next:** Owner triage #15/#16 · CROW.PROCROW.1 queue outcome UX · or CROW.DISCOVERY.1 design
+**Recommended next:** Owner triage #15/#16 · CROW.DISCOVERY.1 design · or hosted Preview certify after GAP-004
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT · **Project:** #2 private
 

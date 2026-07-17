@@ -1,16 +1,25 @@
 import { getBusinessField } from "@/lib/business-field-catalog/fields";
 import { getBusinessPurpose } from "@/lib/client-enterprise-design/purposes/business-purpose-catalog";
+import { organizationContextLabel } from "@/lib/client-service-request/org-context-labels";
 import type { ClientServiceRequestBrief } from "@/lib/client-service-request/types";
+import { REQUEST_JOURNEY_KIND_LABELS } from "@/lib/client-service-request/journey";
+import {
+  PROCROW_QUALIFICATION_OUTCOME_LABELS,
+} from "@/lib/procrow/procrow-qualification";
+import { productStatusLabelForPersisted } from "@/lib/procrow/request-status-product-mapping";
+import type { ImplementationRequestStatus } from "@/lib/types/platform";
 import { AdminFieldResolutionPanel } from "@/components/admin/admin-field-resolution-panel";
 
 export function AdminRequestBriefPanel({
   brief,
   requestId,
   fieldOptions = [],
+  status,
 }: {
   brief: ClientServiceRequestBrief;
   requestId?: string;
   fieldOptions?: Array<{ key: string; label: string }>;
+  status?: ImplementationRequestStatus;
 }) {
   const fieldLabel =
     (brief.primaryBusinessFieldKey && getBusinessField(brief.primaryBusinessFieldKey)?.displayNameEn) ||
@@ -20,6 +29,13 @@ export function AdminRequestBriefPanel({
     (brief.primaryPurposeKey && getBusinessPurpose(brief.primaryPurposeKey)?.displayName) ||
     brief.customPurposeDescription ||
     "—";
+  const journeyLabel = brief.journeyKind
+    ? REQUEST_JOURNEY_KIND_LABELS[brief.journeyKind]
+    : "Not specified";
+  const productStatus =
+    status != null
+      ? productStatusLabelForPersisted(status, brief.procrowQualification)
+      : null;
 
   return (
     <section className="cc-glass-card space-y-4">
@@ -29,6 +45,28 @@ export function AdminRequestBriefPanel({
       </div>
 
       <dl className="grid gap-3 text-sm sm:grid-cols-2">
+        <div>
+          <dt className="text-slate-500">Journey</dt>
+          <dd className="text-white">{journeyLabel}</dd>
+        </div>
+        <div>
+          <dt className="text-slate-500">Organization context</dt>
+          <dd className="text-white">{organizationContextLabel(brief.organizationContext)}</dd>
+        </div>
+        {productStatus && (
+          <div className="sm:col-span-2">
+            <dt className="text-slate-500">Product status</dt>
+            <dd className="text-cyan-200">{productStatus}</dd>
+          </div>
+        )}
+        {brief.procrowQualification && (
+          <div className="sm:col-span-2">
+            <dt className="text-slate-500">Qualification outcome</dt>
+            <dd className="text-emerald-300">
+              {PROCROW_QUALIFICATION_OUTCOME_LABELS[brief.procrowQualification.outcome]}
+            </dd>
+          </div>
+        )}
         <div>
           <dt className="text-slate-500">Primary field</dt>
           <dd className="text-white">{fieldLabel}</dd>
