@@ -4,7 +4,7 @@
 |-------|-------|
 | **Status** | Complete — audit + plan only; no product implementation |
 | **Date** | 2026-07-18 |
-| **Branch** | `feat/first-tenant-golden-path` |
+| **Branch** | `feat/first-tenant-golden-path` @ `6ca6bc2` |
 | **Issue** | [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17) |
 | **main** | `e8cb812` (unchanged) |
 | **PR #10** | OPEN · DRAFT · unmerged · untouched |
