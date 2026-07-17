@@ -1,4 +1,9 @@
 /** Reserved first path segments — not tenant workspace slugs. */
+import {
+  PUBLIC_RESERVED_SEGMENTS,
+  PUBLIC_PATH_PREFIXES,
+} from "@/lib/public/public-access-policy";
+
 export const RESERVED_PATH_SEGMENTS = new Set([
   "admin",
   "api",
@@ -27,28 +32,11 @@ export const RESERVED_PATH_SEGMENTS = new Set([
   "tenant-invite",
   "_next",
   "favicon.ico",
+  ...PUBLIC_RESERVED_SEGMENTS,
 ]);
 
-const PUBLIC_PREFIXES = [
-  "/",
-  "/modules",
-  "/loyalty-programs",
-  "/security",
-  "/pricing",
-  "/about",
-  "/architecture",
-  "/services",
-  "/clients",
-  "/industries",
-  "/case-studies",
-  "/login",
-  "/signup",
-  "/auth/callback",
-  "/auth/entra",
-  "/proposal",
-  "/unauthorized",
-  "/access",
-] as const;
+/** Public browse prefixes — delegated to CROW.PUBLIC access policy (no C3 API path additions). */
+const PUBLIC_PREFIXES = PUBLIC_PATH_PREFIXES;
 
 const PLATFORM_PREFIXES = ["/admin", "/discovery", "/blueprints", "/sarea"] as const;
 
