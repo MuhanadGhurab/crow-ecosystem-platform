@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-17 (CROW.PM.1A) |
+| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.2) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -72,13 +72,13 @@
 |-------|-------|
 | **Domain** | Public experience / Operations |
 | **Intended state** | `main` reflects Production public UI; safe deploy path from `main` |
-| **Current state** | Production runs feature-branch deploy (`33e48f5`); `main` @ `a5620c3` has legacy public + `db:migrate:deploy` in `vercel.json` |
-| **Severity** | **High** — accidental `main` Production deploy would revert public site |
-| **Security/authority impact** | Medium if FTGP merged without review; High if migrations run from `main` build |
-| **Dependency** | Owner reconciliation decision — [`CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md) |
-| **Proposed milestone** | Public-only cherry-pick PR (Option D) — **plan READY** RECON.1 |
-| **Owner decision required** | §11 in RECON.1 — auth slice · middleware gate · vercel migrate removal · GAP-004 timing |
-| **Status** | **Open** — cherry-pick safety audit complete (RECON.1) |
+| **Current state** | Production still on feature-branch deploy (`33e48f5`); **recon branch ready** — `reconcile/public-experience-from-ftgp` @ `3ebc2a9` (public-only + vercel migrate removal; PR not opened) |
+| **Severity** | **High** until recon merges and Production can safely come from `main` |
+| **Security/authority impact** | Medium if FTGP merged without review; High if migrations run from legacy `main` build |
+| **Dependency** | Owner PR open → Preview certify → merge → separate Production auth — [`CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md) |
+| **Proposed milestone** | CROW.PUBLIC.RECON.2 execution complete (branch); merge/promote pending |
+| **Owner decision required** | Open draft PR for recon branch? Merge after Preview? Production promote separately? |
+| **Status** | **Open** — branch prepared; not merged |
 
 ## GAP-004 — Preview/Production database isolation
 

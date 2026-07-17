@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-17 (CROW.PM.1A) |
+| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.2) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-17 · **Branch:** `feat/first-tenant-golden-path` · **HEAD:** CROW.PM.1A docs commit (verify with `git rev-parse HEAD`)
+**Evidence date:** 2026-07-17 · **Branch:** `feat/first-tenant-golden-path`
 
 ## Repository and branch state
 
@@ -18,12 +18,12 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PM.1A — hybrid PM model and Phase 0–12 roadmap docs baselined |
-| Parent before PM.1A | `90ea95e` — CROW.PUBLIC.RECON.1 docs |
-| Remote sync | Push `feat/first-tenant-golden-path` only (CROW.PM.1A) |
-| Default branch | `main` at `a5620c3` (legacy public — **not** Production source) |
+| HEAD | CROW.PUBLIC.RECON.2 docs (verify with `git rev-parse HEAD`) |
+| Prior docs HEAD | `c803d3f` — CROW.PM.1A |
+| Reconciliation branch | `reconcile/public-experience-from-ftgp` @ `3ebc2a9` (based on `main`; **no PR yet**) |
+| Default branch | `main` at `a5620c3` (legacy public — **not** Production source until recon merges) |
 | PR #10 | OPEN, DRAFT, MERGEABLE, unmerged — FTGP + public; merge **not** authorized |
-| Working tree | Clean after CROW.PM.1A commit |
+| Working tree | Docs updates for RECON.2 |
 
 ## Stack
 
@@ -176,7 +176,8 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 
 - **PR #10:** OPEN DRAFT MERGEABLE — `feat/first-tenant-golden-path` → `main`
 - **PR #2:** OPEN DRAFT — invite email delivery (separate track)
-- **main:** `a5620c3` — legacy public; **public-only reconciliation plan** in [`CROW-PUBLIC-RECON-1.md`](milestones/CROW-PUBLIC-RECON-1.md) (~78 core files cherry-pickable)
+- **Recon branch:** `reconcile/public-experience-from-ftgp` @ `3ebc2a9` — public-only onto `main`; **no PR opened** (RECON.2)
+- **main:** `a5620c3` — legacy public until recon merges
 - FTGP work continues on feature branch; not merged
 
 ### Project management / delivery system — DOCUMENTED (not applied on GitHub)
@@ -186,6 +187,14 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | **IMPLEMENTED (docs)** | Hybrid PM model, roadmap, backlog taxonomy, Projects design |
 | **NOT IMPLEMENTED (GitHub)** | Labels, Projects board, seed Issues — blocked until CROW.PM.2 owner authorization |
 | Evidence | [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md), [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md), [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md), [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) |
+
+### Public reconciliation — BRANCH READY
+
+| Status | Evidence |
+|--------|----------|
+| **IMPLEMENTED (branch)** | Public-only recon from `main` + deploy-safety `vercel.json` |
+| **NOT DONE** | PR open, merge, Production promote |
+| Evidence | [`milestones/CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md) |
 
 ### Known technical debt
 

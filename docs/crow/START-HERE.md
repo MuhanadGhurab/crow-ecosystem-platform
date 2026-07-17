@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-17 (CROW.PM.1) |
+| **Last reviewed** | 2026-07-17 (CROW.PUBLIC.RECON.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -56,9 +56,11 @@
 
 ## Current milestone
 
-**CROW.PM.1A** — PM.1 documentation committed and hybrid roadmap baselined (docs-only closeout).
+**CROW.PUBLIC.RECON.2** — Public-only reconciliation branch prepared from `main` for owner PR decision.
 
-Evidence: [`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md) · [`milestones/CROW-PM-1.md`](milestones/CROW-PM-1.md) · [`12-PROJECT-MANAGEMENT-OPERATING-MODEL.md`](12-PROJECT-MANAGEMENT-OPERATING-MODEL.md) · [`13-PRODUCT-ROADMAP.md`](13-PRODUCT-ROADMAP.md).
+Evidence: [`milestones/CROW-PUBLIC-RECON-2.md`](milestones/CROW-PUBLIC-RECON-2.md) · branch `reconcile/public-experience-from-ftgp` @ `3ebc2a9`.
+
+**Prior:** CROW.PM.1A — PM.1 documentation committed ([`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md)).
 
 **Prior:** CROW.PM.1 — GitHub ecosystem review and adaptive delivery roadmap (planning complete).
 
@@ -68,11 +70,11 @@ Evidence: [`milestones/CROW-PM-1A.md`](milestones/CROW-PM-1A.md) · [`milestones
 
 **Production:** https://crow-ecosystem-platform.vercel.app · `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · deployed from `33e48f5`.
 
-**Hold:** no PR #10 merge, no casual `main` push as Production source, **no Production redeploy** without authorization; **no GitHub Projects/labels/Issues creation** until CROW.PM.2.
+**Hold:** no PR #10 merge, no casual `main` push as Production source, **no Production redeploy** without authorization; **no recon PR open** until owner authorizes; **no GitHub Projects/labels** until CROW.PM.2.
 
-**Recommended next:** Owner RECON §11 decisions / public-only reconciliation execution · then CROW.PM.2 (Projects setup) after label/board approval · then CROW.REQUEST.1.
+**Recommended next:** Owner decision — open draft PR for `reconcile/public-experience-from-ftgp` → `main` (do not merge/deploy yet).
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge)
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT (do not merge) · **Recon branch:** `reconcile/public-experience-from-ftgp` (pushed, no PR)
 
 ## Current implementation summary
 
