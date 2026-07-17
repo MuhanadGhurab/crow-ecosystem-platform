@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1A) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,7 +18,7 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | CROW.PROCROW.1 (verify with `git rev-parse HEAD`) |
+| HEAD | `cecd450` on `feat/first-tenant-golden-path` (CROW.PROCROW.1A pushed) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
@@ -93,7 +93,7 @@
 | PARTIAL | Full commercial proposal workflow; scope freeze enforcement |
 | Evidence | `/blueprints/*`, `src/lib/crow-core/blueprint-studio/` |
 
-### ProCrow — PARTIAL (CROW.PROCROW.1 qualification UX local)
+### ProCrow — PARTIAL (CROW.PROCROW.1 qualification UX · 1A pushed)
 
 | Status | Evidence |
 |--------|----------|
@@ -102,9 +102,10 @@
 | IMPLEMENTED | Platform admin guards (`requirePlatformConsole`) |
 | IMPLEMENTED | **Qualification outcomes** in brief notes JSON; Discovery start gated on `qualified_for_discovery` |
 | IMPLEMENTED | Request workspace qualification panel + product status overlay (no DB enum migration) |
+| BASELINED | CROW.PROCROW.1A — pushed to `origin/feat/first-tenant-golden-path` @ `cecd450` |
 | PARTIAL | FTGP platform admin bootstrap, procrow owner-admin dual role |
 | DEFERRED | Hosted Preview certify (GAP-004) |
-| Evidence | `/admin/*`, `src/lib/procrow/`, [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md), Issue #19 |
+| Evidence | `/admin/*`, `src/lib/procrow/`, [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md), [`milestones/CROW-PROCROW-1A.md`](milestones/CROW-PROCROW-1A.md), Issue #19 |
 
 ### Tenant runtime — PARTIAL
 

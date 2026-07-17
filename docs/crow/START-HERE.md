@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1) |
+| **Last reviewed** | 2026-07-18 (CROW.PROCROW.1A) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -61,11 +61,13 @@
 
 ## Current milestone
 
-**CROW.PROCROW.1** — ProCrow qualification outcome UX implemented and certified (local-first).
+**CROW.PROCROW.1A** — ProCrow local-first certification pushed and baselined on origin.
 
-Evidence: [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md) · Issue [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)
+Evidence: [`milestones/CROW-PROCROW-1A.md`](milestones/CROW-PROCROW-1A.md) · prior implementation [`milestones/CROW-PROCROW-1.md`](milestones/CROW-PROCROW-1.md) · Issue [#19](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/19)
 
-**Prior:** CROW.REQUEST.2 — Request Intake local-first alignment ([`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md) · [#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
+**Origin HEAD:** `cecd450` on `feat/first-tenant-golden-path` (pushed)
+
+**Prior:** CROW.PROCROW.1 — qualification outcome UX (local) · CROW.REQUEST.2 — Request Intake alignment ([#17](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/17)).
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
