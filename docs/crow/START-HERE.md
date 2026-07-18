@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.7) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT — GAP-015 Mitigated) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -82,19 +82,19 @@
 
 ## Current milestone
 
-**CROW.GAP015.7** — Formal authorized Production deploy operator procedure **prepared**. GAP-015 remains **open (mostly mitigated)** until owner **accepts** the procedure.
+**CROW.GAP015.ACCEPT** — GAP-015 **Mitigated**. Authorized Production deploy procedure **owner-accepted**. No Production deploy authorized by this acceptance.
 
-Evidence: [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
+Evidence: [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
 
-**Prior:** CROW.GAP015.6 · CROW.GAP015.5 · CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
+**Prior:** CROW.GAP015.7 · CROW.GAP015.6 · CROW.GAP015.5 · CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected)
 
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked · no Production deploy without `CROW.PRODUCTION.DEPLOY`
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked · intentional Production only via `CROW.PRODUCTION.DEPLOY`
 
-**Owner next:** Accept GAP015.7 procedure (`OWNER ACCEPTS CROW.GAP015.7…`) · then GAP-015 can be marked Mitigated
+**Owner next:** Resume Discovery / FTGP local-first under GAP-004A · any Production build needs separate `CROW.PRODUCTION.DEPLOY`
 
-**Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
+**Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) (GAP-015 mitigated) · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
 ## Current implementation summary
 

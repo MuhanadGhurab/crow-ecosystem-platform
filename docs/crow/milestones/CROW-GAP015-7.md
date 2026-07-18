@@ -2,10 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Complete (docs) — **awaiting owner acceptance** |
+| **Status** | **Accepted** — owner accepted 2026-07-18; GAP-015 **Mitigated** |
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
+| **Acceptance** | [`CROW-GAP015-ACCEPT.md`](CROW-GAP015-ACCEPT.md) |
 
 ## Purpose
 
@@ -29,9 +30,9 @@ Prepare documentation, checklists, dry-run examples, and evidence templates only
 - `PRODUCTION_ENV_CHANGED_COUNT=0`
 - `MAIN_PUSH_COUNT=0`
 - `PR10_MERGED_COUNT=0`
-- `GAP015_OWNER_ACCEPTANCE_RECORDED_COUNT=0`
+- `GAP015_OWNER_ACCEPTANCE_RECORDED_COUNT=1` (see [`CROW-GAP015-ACCEPT.md`](CROW-GAP015-ACCEPT.md))
 
-## GAP-015 status after this milestone
+## GAP-015 status after acceptance
 
 | Layer | Status |
 |-------|--------|
@@ -39,21 +40,11 @@ Prepare documentation, checklists, dry-run examples, and evidence templates only
 | Guard on `main` | Done |
 | Unauthorized skip proven | Done |
 | GitHub `main` protection | Done |
-| Authorized deploy procedure documented | **Done** |
-| Owner accepts procedure | **Pending** |
+| Authorized deploy procedure documented | Done |
+| Owner accepts procedure | **Accepted** |
 
-GAP-015 remains **open (mostly mitigated)** until owner acceptance.
-
-## Suggested owner acceptance phrase
-
-```text
-OWNER ACCEPTS CROW.GAP015.7 — Authorized Production deploy operator procedure accepted as the sole intentional Production build path under the SHA-bound guard.
-```
-
-## Recommended next
-
-After acceptance: mark GAP-015 **Mitigated** in the gap ledger and close or update Issue #15 per owner. Actual Production deploy remains a separate `CROW.PRODUCTION.DEPLOY` authorization.
+GAP-015 is **Mitigated**. Actual Production deploy still requires separate `CROW.PRODUCTION.DEPLOY`.
 
 ## Final verdict
 
-**READY — GAP-015 AUTHORIZED PRODUCTION DEPLOY PROCEDURE PREPARED**
+**READY — GAP-015 AUTHORIZED PRODUCTION DEPLOY PROCEDURE PREPARED AND ACCEPTED**

@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Prepared — **awaiting owner acceptance** |
+| **Status** | **Owner accepted** — sole intentional Production build path (CROW.GAP015.ACCEPT) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP015-7.md`](../milestones/CROW-GAP015-7.md) |
+| **Milestone** | [`../milestones/CROW-GAP015-ACCEPT.md`](../milestones/CROW-GAP015-ACCEPT.md) |
 | **Evidence template** | [`GAP-015-PRODUCTION-DEPLOY-EVIDENCE-TEMPLATE.md`](GAP-015-PRODUCTION-DEPLOY-EVIDENCE-TEMPLATE.md) |
 | **Guard** | [`GAP-015-PRODUCTION-DEPLOY-GUARD.md`](GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 | **Policy** | [`../16-PRODUCTION-DEPLOYMENT-POLICY.md`](../16-PRODUCTION-DEPLOYMENT-POLICY.md) |
@@ -226,21 +226,15 @@ Use [`GAP-015-PRODUCTION-DEPLOY-EVIDENCE-TEMPLATE.md`](GAP-015-PRODUCTION-DEPLOY
 
 ## 9. GAP-015 completion criteria
 
-GAP-015 may be marked **Mitigated** only when **all** are true:
+GAP-015 is **Mitigated** when **all** are true:
 
-| Criterion | Status as of CROW.GAP015.7 |
-|-----------|----------------------------|
+| Criterion | Status |
+|-----------|--------|
 | Guard configured (Ignored Build Step) | Done |
 | Guard exists on `main` | Done |
 | Unauthorized Production skip proven | Done |
 | GitHub `main` protection configured | Done |
-| Authorized deploy procedure documented | **Done (this doc)** |
-| Owner **accepts** this procedure | **Pending** |
+| Authorized deploy procedure documented | Done |
+| Owner **accepts** this procedure | **Accepted** 2026-07-18 — [`../milestones/CROW-GAP015-ACCEPT.md`](../milestones/CROW-GAP015-ACCEPT.md) |
 
-Do **not** close Issue #15 or mark GAP-015 Mitigated until owner acceptance is recorded.
-
-### Suggested owner acceptance phrase
-
-```text
-OWNER ACCEPTS CROW.GAP015.7 — Authorized Production deploy operator procedure accepted as the sole intentional Production build path under the SHA-bound guard.
-```
+Actual Production deploy still requires a separate `CROW.PRODUCTION.DEPLOY` phrase with exact SHA and reason.

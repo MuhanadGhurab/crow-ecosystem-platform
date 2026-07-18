@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.7) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip (see branch); GAP015.5–7: `main` @ `f97a835` + protection + deploy procedure docs |
+| HEAD | FTGP tip (see branch); GAP-015 **Mitigated** (CROW.GAP015.ACCEPT); `main` @ `f97a835` protected |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #15 GAP-015 (**open / mostly mitigated** — procedure prepared; owner acceptance pending) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
+| Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated** — procedure owner-accepted; deploy still needs `CROW.PRODUCTION.DEPLOY`) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.GAP015.7 docs |
+| Working tree | Post CROW.GAP015.ACCEPT |
 
 ## Stack
 
@@ -85,7 +85,7 @@
 | IMPLEMENTED | **CROW.DISCOVERY.6** — Blueprint handoff package; `readyForBlueprintHandoff` may be true; draft/generation false |
 | CERT PACKAGE | **CROW.DISCOVERY.MVP-CERT.1** — local-first certification + owner checklist (acceptance not auto-applied) |
 | IMPLEMENTED | Blueprint **complete path quarantined** by default |
-| PENDING | Owner acceptance; GAP-004/015; Stages 4–7 depth; dual tracks; hosted persistence; Blueprint drafting |
+| PENDING | Owner acceptance (Discovery cert); GAP-004; Stages 4–7 depth; dual tracks; hosted persistence; Blueprint drafting |
 | Evidence | [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md), [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md), Issue #18 |
 
 ### Blueprint — PARTIAL
@@ -198,7 +198,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Status | Evidence |
 |--------|----------|
 | **IMPLEMENTED** | Labels, Phase 0–12 milestones, Project #2, seed Issues #15–#24 |
-| **NOT DONE** | Project views (manual UI); GAP-015 owner acceptance of authorized deploy procedure |
+| **NOT DONE** | Project views (manual UI) |
 | Evidence | [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
 
 ### Public reconciliation — MERGED + AUTO DEPLOY ACCEPTED (RECON.5)
@@ -214,9 +214,9 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 
 | Status | Evidence |
 |--------|----------|
-| **IMPLEMENTED (docs + repo + Vercel + GitHub)** | Release authority; Ignored Build Step; guard on `main`; skip proven; GitHub protection; **authorized deploy procedure documented** (GAP015.7) |
-| **NOT APPLIED** | Option B auto-deploy disable; dashboard migrate removal; owner acceptance of GAP015.7; any Production deploy |
-| Evidence | [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), `npm run vercel-production-deploy-guard:test` |
+| **IMPLEMENTED (docs + repo + Vercel + GitHub)** | Release authority; Ignored Build Step; guard on `main`; skip proven; GitHub protection; authorized deploy procedure **owner-accepted** (GAP-015 **Mitigated**) |
+| **NOT APPLIED** | Option B auto-deploy disable; dashboard migrate removal; any Production deploy (needs `CROW.PRODUCTION.DEPLOY`) |
+| Evidence | [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), `npm run vercel-production-deploy-guard:test` |
 
 ### Known technical debt
 
@@ -225,7 +225,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - Milestone ledger (`MILESTONES.md`) percentages not reliable as implementation truth
 - Stripe fields coupled in schema but commercial domain incomplete
 - JourneyKind in crow-story types; OrganizationContext in request types — separate (correct)
-- Production vs `main` public gap mitigated on git; GAP-015 **open (mostly mitigated)** — guard + skip + protection + procedure docs; owner acceptance pending
+- Production vs `main` public gap mitigated on git; GAP-015 **Mitigated** (owner-accepted procedure); intentional Production still requires `CROW.PRODUCTION.DEPLOY`
 
 ## Classification legend
 

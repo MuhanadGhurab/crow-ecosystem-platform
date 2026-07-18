@@ -86,14 +86,14 @@
 |-------|-------|
 | **Domain** | Operations / Release |
 | **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
-| **Current state** | Guard on `main` @ `f97a835`. Ignored Build Step + unauthorized skip proven. GitHub `main` protected (GAP015.6). Authorized deploy procedure **documented** (GAP015.7) — **owner acceptance pending**. Live domain still `dpl_QeDhnxz…` |
-| **Severity** | Medium |
-| **Security/authority impact** | Low–Medium — Option E controls live; intentional Production path documented but not yet owner-accepted |
-| **Dependency** | Owner acceptance of GAP015.7 procedure |
-| **Proposed milestone** | CROW.GAP015.7 complete (docs); mark GAP-015 Mitigated after owner acceptance |
-| **Owner decision required** | `OWNER ACCEPTS CROW.GAP015.7…`? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
-| **Status** | **Open (mostly mitigated)** — procedure prepared; acceptance pending |
+| **Current state** | Guard on `main` @ `f97a835`. Ignored Build Step + unauthorized skip proven. GitHub `main` protected. Authorized deploy procedure **owner-accepted** (CROW.GAP015.ACCEPT). Live domain still `dpl_QeDhnxz…`. Intentional Production still requires separate `CROW.PRODUCTION.DEPLOY` |
+| **Severity** | Medium (mitigated) |
+| **Security/authority impact** | Controlled — Option E live; Production builds SHA-bound; Instant Promote separate |
+| **Dependency** | None for mitigation; actual deploys need `CROW.PRODUCTION.DEPLOY` |
+| **Proposed milestone** | None — mitigated; optional Option B later |
+| **Owner decision required** | None for GAP-015 mitigation; use `CROW.PRODUCTION.DEPLOY` for any real Production build |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
+| **Status** | **Mitigated** — does **not** authorize any Production deploy by itself |
 
 ## GAP-004 — Preview/Production database isolation
 
@@ -105,7 +105,7 @@
 | **Severity** | **High** |
 | **Security/authority impact** | Preview bleed mitigated via accepted GAP-004A; isolation still unproven |
 | **Dependency** | GAP-004A standing mitigation active; true isolation optional/deferred |
-| **Proposed milestone** | Optional free/isolated Preview DB later; **GAP-015** next release-plane candidate |
+| **Proposed milestone** | Optional free/isolated Preview DB later |
 | **Owner decision required** | None for GAP-004A standing path; optional future isolation project |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
 | **Status** | **Open / blocked** (isolation) — Preview safety via **accepted GAP-004A** |

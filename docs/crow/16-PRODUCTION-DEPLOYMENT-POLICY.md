@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.7 authorized Production deploy procedure) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT — GAP-015 Mitigated) |
 | **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
-| **Evidence** | [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
+| **Evidence** | [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
@@ -142,19 +142,19 @@ Always record: failed deployment ID, rollback target ID, smoke evidence, owner a
 
 Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · plan: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md).
 
-### Interim operating mode — **Option E live; intentional Production only via documented procedure**
+### Interim operating mode — **GAP-015 Mitigated; intentional Production only via accepted procedure**
 
 - Ignored Build Step is **configured** (CROW.GAP015.3)
 - Guard script is **on `main`** @ `f97a835` (PR #25 / CROW.GAP015.5)
 - Unauthorized Production for `f97a835` was **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0)
 - GitHub `main` protection is **configured** (CROW.GAP015.6)
-- Authorized Production deploy operator procedure is **documented** (CROW.GAP015.7) — see [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
+- Authorized Production deploy operator procedure is **owner-accepted** (CROW.GAP015.ACCEPT)
 - Live domain remains `dpl_QeDhnxz…` (no Instant Promote)
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
 - Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only)
 
-### Option E progress (CROW.GAP015.7)
+### Option E progress (CROW.GAP015.ACCEPT)
 
 | Layer | Status |
 |-------|--------|
@@ -162,8 +162,8 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 | Vercel Ignored Build Step | **Configured** |
 | Unauthorized Production skip | **Proven** |
 | GitHub `main` protection | **Applied** |
-| Authorized deploy procedure | **Documented** — owner acceptance pending |
-| Formal owner acceptance | **Pending** |
+| Authorized deploy procedure | **Owner accepted** |
+| GAP-015 | **Mitigated** |
 
 **When** authorizing a Production build, follow [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md):
 
@@ -172,15 +172,14 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 - Clear env after window
 - Instant Promote remains a **separate** authorization
 
-### Recommended control mode (Option E) — **controls live; procedure awaiting acceptance**
+### Recommended control mode (Option E) — **GAP-015 Mitigated**
 
 1. **Option D (repo)** — Production deploy guard — **done**
 2. Wire Ignored Build Step — **done** (CROW.GAP015.3)
 3. Bring guard to `main` — **done** (CROW.GAP015.5 / PR #25)
 4. **Option C** — GitHub `main` protection — **done** (CROW.GAP015.6)
-5. Document authorized deploy procedure — **done** (CROW.GAP015.7)
-6. Owner accepts procedure — **pending**
-7. **Option B** — optional additional disable/gate of automatic Production deploys
+5. Document + accept authorized deploy procedure — **done** (CROW.GAP015.7 / ACCEPT)
+6. **Option B** — optional additional disable/gate of automatic Production deploys
 
 ### Other options
 
@@ -190,9 +189,9 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 | B — Vercel settings gate | Optional complementary settings layer |
 | C — GitHub branch protection | **Applied** (GAP015.6) |
 | D — Ignored build / deploy guard | **Configured** and **proven** on `main` |
-| E — Combined | **Recommended** — largely live; accept GAP015.7 to close GAP-015 |
+| E — Combined | **Live** — GAP-015 Mitigated |
 
-**Mark GAP-015 Mitigated only after owner acceptance of the authorized deploy procedure.** Dashboard `buildCommand` migrate residual is tracked separately.
+**GAP-015 is Mitigated.** Actual Production deploy still requires `CROW.PRODUCTION.DEPLOY`. Dashboard `buildCommand` migrate residual is tracked separately.
 
 ## 10. PR #10 handling
 
