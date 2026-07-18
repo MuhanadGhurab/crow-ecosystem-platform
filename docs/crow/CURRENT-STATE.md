@@ -24,7 +24,7 @@
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; GAP-004A planned) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | CROW.GAP004.ALT1 plan docs in progress |
+| Working tree | Clean after CROW.GAP004.ALT1 |
 
 ## Stack
 
