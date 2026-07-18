@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -62,6 +62,9 @@
 | [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) | No-cost Preview DB-disabled safety mode plan |
 | [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) | Production auto-deploy behavior audit |
 | [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) | Production deployment control plan (Option E recommended) |
+| [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) | Production deploy guard (Ignored Build Step script) |
+| [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) | Exact Vercel Ignored Build Step setup (not applied yet) |
+| [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) | Exact GitHub main protection recommendations (not applied yet) |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
 ## Reading order
@@ -77,26 +80,26 @@
 
 ## Current milestone
 
-**CROW.GAP015.1** — Production auto-deploy **audit + safe control plan** prepared. Settings **not** changed. Recommended path: **Option E** (combined). GAP-015 remains **open** until controls applied.
+**CROW.GAP015.2** — Production deploy guard package prepared and certified. Vercel Ignored Build Step and GitHub protection **not** applied. GAP-015 remains **open**.
 
-Evidence: [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md)
+Evidence: [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md) · `npm run vercel-production-deploy-guard:test` · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
 
-**Prior:** CROW.GAP004A.ACCEPT.1 · GAP004.ALT2 · Discovery MVP-CERT.1
+**Prior:** CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1 · Discovery MVP-CERT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 archive · unsafe Preview DB fail-closed (GAP-004A) · no hosted migrations/writes · Production env unchanged · Option A/C interim until GAP-015 mitigated · Discovery hosted / Blueprint generation blocked
+**Hold:** PR #10 archive · unsafe Preview DB fail-closed (GAP-004A) · no hosted migrations/writes · Production env unchanged · Option A/C interim until Ignored Build Step live · Discovery hosted / Blueprint generation blocked
 
-**Owner next:** Authorize GAP-015 Option E implementation (GAP015.2 / PROD-POLICY.2) · and/or FTGP / Discovery local-first under holds
+**Owner next:** **CROW.GAP015.3** — authorize Vercel Ignored Build Step configuration · and/or GitHub `main` protection · and/or FTGP/Discovery under holds
 
-**Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN (auto-deploy gate) · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN (isolation)
+**Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
 ## Current implementation summary
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015 Option E controls (Vercel gate + branch protection + deploy guard), Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.3+ Ignored Build Step / branch protection wiring, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

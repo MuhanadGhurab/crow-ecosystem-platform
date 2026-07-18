@@ -85,15 +85,15 @@
 | Field | Value |
 |-------|-------|
 | **Domain** | Operations / Release |
-| **Intended state** | Main→Production auto-deploys disabled or gated (Option B), plus GitHub protection and optional deploy guard (Option E), or explicitly retained under Option C discipline |
-| **Current state** | **Audit + plan prepared** (CROW.GAP015.1). Option C interim active. Vercel settings unchanged. `main` **unprotected**. Merges to `main` still create Production-target artifacts. Live domain on `dpl_QeDhnxz…` |
+| **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
+| **Current state** | Audit/plan done (GAP015.1). **Guard package prepared & certified** (GAP015.2): `vercel-production-deploy-guard.mjs`. Vercel Ignored Build Step **not** configured. GitHub `main` **unprotected**. Live domain on `dpl_QeDhnxz…`. Option A/C interim until Ignored Build Step live |
 | **Severity** | Medium |
-| **Security/authority impact** | Medium — accidental Production-target creation without Instant Promote still creates operator confusion; unprotected `main` amplifies risk |
-| **Dependency** | Owner authorization to apply Option E layers (Vercel Git/Production settings, branch protection, optional ignore guard) |
-| **Proposed milestone** | CROW.GAP015.1 complete (audit/plan); **CROW.GAP015.2 / PROD-POLICY.2** for settings application if authorized |
-| **Owner decision required** | Authorize Option E (recommended)? Or B-only / C-only / keep A-only? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) · [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md) |
-| **Status** | **Open** — audit/plan ready; controls **not** applied |
+| **Security/authority impact** | Medium — until Ignored Build Step is wired, `main` merges remain Production-target risk |
+| **Dependency** | Owner auth to configure Ignored Build Step + optional branch protection |
+| **Proposed milestone** | CROW.GAP015.2 complete; **CROW.GAP015.3** configure Ignored Build Step; **CROW.GAP015.4** GitHub protection |
+| **Owner decision required** | Authorize Vercel Ignored Build Step? Authorize GitHub `main` protection? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) · [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md) |
+| **Status** | **Open** — guard package ready; settings **not** applied |
 
 ## GAP-004 — Preview/Production database isolation
 
