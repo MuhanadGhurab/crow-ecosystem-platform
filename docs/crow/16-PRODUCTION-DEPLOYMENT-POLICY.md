@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.6 GitHub main protection) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.7 authorized Production deploy procedure) |
 | **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
-| **Evidence** | [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md), [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
+| **Evidence** | [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
@@ -142,42 +142,45 @@ Always record: failed deployment ID, rollback target ID, smoke evidence, owner a
 
 Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · plan: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md).
 
-### Interim operating mode — **Option E layers live on `main`; formal authorized deploy procedure still pending**
+### Interim operating mode — **Option E live; intentional Production only via documented procedure**
 
 - Ignored Build Step is **configured** (CROW.GAP015.3)
 - Guard script is **on `main`** @ `f97a835` (PR #25 / CROW.GAP015.5)
 - Unauthorized Production for `f97a835` was **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0)
-- GitHub `main` protection is **configured** (CROW.GAP015.6): require PR + `verify` / `production-gate` / `postgres-smoke`; force-push/deletion blocked; `enforce_admins=false`
+- GitHub `main` protection is **configured** (CROW.GAP015.6)
+- Authorized Production deploy operator procedure is **documented** (CROW.GAP015.7) — see [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
 - Live domain remains `dpl_QeDhnxz…` (no Instant Promote)
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
 - Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only)
 
-### Option E progress (CROW.GAP015.6)
+### Option E progress (CROW.GAP015.7)
 
 | Layer | Status |
 |-------|--------|
-| Guard script + tests | **On `main`** — `scripts/safety/vercel-production-deploy-guard.mjs` |
-| Vercel Ignored Build Step | **Configured** → `node scripts/safety/vercel-production-deploy-guard.mjs` |
-| Unauthorized Production skip | **Proven** on `main` @ `f97a835` |
-| GitHub `main` protection | **Applied** — see [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
-| Formal authorized Production deploy procedure | **Pending** |
+| Guard script + tests | **On `main`** |
+| Vercel Ignored Build Step | **Configured** |
+| Unauthorized Production skip | **Proven** |
+| GitHub `main` protection | **Applied** |
+| Authorized deploy procedure | **Documented** — owner acceptance pending |
+| Formal owner acceptance | **Pending** |
 
-**When** authorizing a Production build:
+**When** authorizing a Production build, follow [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md):
 
-- Set `CROW_PRODUCTION_DEPLOY_AUTHORIZED=true` + `CROW_PRODUCTION_DEPLOY_SHA` exact match to `VERCEL_GIT_COMMIT_SHA` + non-empty `CROW_PRODUCTION_DEPLOY_REASON`
-- Clear authorization env vars after the deploy window
-- Production-target build ≠ Instant Promote / public domain change (remain separate concepts)
+- Owner phrase `OWNER AUTHORIZES CROW.PRODUCTION.DEPLOY — Deploy commit <SHA>…`
+- Temporary env: `CROW_PRODUCTION_DEPLOY_AUTHORIZED=true` + SHA match + non-empty reason
+- Clear env after window
+- Instant Promote remains a **separate** authorization
 
-### Recommended control mode (Option E) — **Ignored Build Step + guard on main + GitHub protection live**
+### Recommended control mode (Option E) — **controls live; procedure awaiting acceptance**
 
 1. **Option D (repo)** — Production deploy guard — **done**
 2. Wire Ignored Build Step — **done** (CROW.GAP015.3)
 3. Bring guard to `main` — **done** (CROW.GAP015.5 / PR #25)
-4. **Option C** — GitHub `main` protection + required CI checks (`verify`, `production-gate`, `postgres-smoke`) — **done** (CROW.GAP015.6)
-5. **Option B** — optional additional disable/gate of automatic Production deploys
-6. Keep explicit owner phrases for Instant Promote and settings changes
-7. Document formal authorized Production deploy operator procedure — **pending (CROW.GAP015.7)**
+4. **Option C** — GitHub `main` protection — **done** (CROW.GAP015.6)
+5. Document authorized deploy procedure — **done** (CROW.GAP015.7)
+6. Owner accepts procedure — **pending**
+7. **Option B** — optional additional disable/gate of automatic Production deploys
 
 ### Other options
 
@@ -187,9 +190,9 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 | B — Vercel settings gate | Optional complementary settings layer |
 | C — GitHub branch protection | **Applied** (GAP015.6) |
 | D — Ignored build / deploy guard | **Configured** and **proven** on `main` |
-| E — Combined | **Recommended** safest no-cost path — largely live |
+| E — Combined | **Recommended** — largely live; accept GAP015.7 to close GAP-015 |
 
-**Formal authorized Production deploy procedure still requires a dedicated owner-authorized milestone (CROW.GAP015.7).** Dashboard `buildCommand` migrate residual is tracked separately.
+**Mark GAP-015 Mitigated only after owner acceptance of the authorized deploy procedure.** Dashboard `buildCommand` migrate residual is tracked separately.
 
 ## 10. PR #10 handling
 

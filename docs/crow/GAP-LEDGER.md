@@ -86,14 +86,14 @@
 |-------|-------|
 | **Domain** | Operations / Release |
 | **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
-| **Current state** | Guard on `main` @ `f97a835` (PR #25). Ignored Build Step configured + unauthorized skip **proven**. GitHub `main` **protected** (GAP015.6): require PR + `verify` / `production-gate` / `postgres-smoke`; force-push/deletion blocked. Live domain still `dpl_QeDhnxz…` |
+| **Current state** | Guard on `main` @ `f97a835`. Ignored Build Step + unauthorized skip proven. GitHub `main` protected (GAP015.6). Authorized deploy procedure **documented** (GAP015.7) — **owner acceptance pending**. Live domain still `dpl_QeDhnxz…` |
 | **Severity** | Medium |
-| **Security/authority impact** | Medium — Option E layers largely live; formal authorized Production deploy procedure still pending |
-| **Dependency** | Owner acceptance of authorized Production deploy operator procedure |
-| **Proposed milestone** | CROW.GAP015.6 complete; **CROW.GAP015.7** authorized Production deploy procedure |
-| **Owner decision required** | Accept formal authorized Production deploy procedure? Optional docs PR #26? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md) · [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
-| **Status** | **Open (partially mitigated)** — guard + skip + GitHub protection done; authorized deploy procedure pending |
+| **Security/authority impact** | Low–Medium — Option E controls live; intentional Production path documented but not yet owner-accepted |
+| **Dependency** | Owner acceptance of GAP015.7 procedure |
+| **Proposed milestone** | CROW.GAP015.7 complete (docs); mark GAP-015 Mitigated after owner acceptance |
+| **Owner decision required** | `OWNER ACCEPTS CROW.GAP015.7…`? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-7.md`](milestones/CROW-GAP015-7.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
+| **Status** | **Open (mostly mitigated)** — procedure prepared; acceptance pending |
 
 ## GAP-004 — Preview/Production database isolation
 

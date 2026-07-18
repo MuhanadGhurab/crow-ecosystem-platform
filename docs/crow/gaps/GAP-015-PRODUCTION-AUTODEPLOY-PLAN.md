@@ -2,11 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Option E largely live — Ignored Build Step + guard on `main` + GitHub protection (GAP015.3–6); authorized deploy procedure pending |
+| **Status** | Option E largely live — procedure documented (GAP015.7); owner acceptance pending to mark GAP-015 Mitigated |
 | **Date** | 2026-07-18 |
 | **Audit** | [`GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) |
 | **Guard** | [`GAP-015-PRODUCTION-DEPLOY-GUARD.md`](GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
-| **Milestone** | [`../milestones/CROW-GAP015-6.md`](../milestones/CROW-GAP015-6.md) |
+| **Procedure** | [`GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
+| **Milestone** | [`../milestones/CROW-GAP015-7.md`](../milestones/CROW-GAP015-7.md) |
 | **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
 
 ## Goal
@@ -77,42 +78,42 @@ Stop Crow from accidentally creating Production-target deployments (or confusing
 | Cost | No paid Vercel features required for the core path |
 | Pros | Defense in depth; addresses both Git movement and Vercel auto-create |
 | Cons | Multi-step; needs sequenced owner-authorized milestones |
-| Implement now? | Guard + Ignored Build Step + guard-on-main + GitHub protection **done**; authorized deploy procedure pending |
+| Implement now? | Guard + Ignored Build Step + guard-on-main + GitHub protection + procedure docs **done**; owner acceptance pending |
 
 ## Recommendation
 
-**Recommend Option E (combined) — largely live.**
+**Recommend Option E (combined) — largely live; accept GAP015.7 to close.**
 
 Rationale:
 
-1. Audit showed Production-target auto-create from `main` and unprotected `main` (addressed).
-2. Option B alone is ideal for Vercel but needs owner UI confirmation and does not fix unprotected merges.
-3. Option C alone does not stop Vercel after a legitimate or mistaken `main` change — deploy guard covers that.
-4. Option D alone is easy to get wrong without Preview regression tests — **guard package certified and Ignored Build Step wired**.
-5. Combined E is the safest **no-cost** path: protect `main` → wire deploy guard → keep owner authorization phrases.
+1. Production-target auto-create from `main` is gated by the SHA-bound guard.
+2. GitHub `main` protection reduces unsafe merges.
+3. Documented operator procedure is the sole intentional Production build path.
+4. Instant Promote remains a separate owner phrase.
 
-**Remaining GAP-015 work:** formal authorized Production deploy operator procedure (CROW.GAP015.7).
+**Remaining:** owner acceptance of [`GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md).
 
 ## Owner authorization phrases (for later use)
 
 Suggested explicit phrases:
 
-- `AUTHORIZE: Formal Production deploy procedure (GAP-015.7)`
+- `OWNER ACCEPTS CROW.GAP015.7 — Authorized Production deploy operator procedure accepted…`
+- `OWNER AUTHORIZES CROW.PRODUCTION.DEPLOY — Deploy commit <SHA> to Production for <reason>…`
+- `OWNER AUTHORIZES CROW.PRODUCTION.INSTANT_PROMOTE — Promote deployment <dpl_...>…`
 - `AUTHORIZE: Vercel Production auto-deploy settings change (GAP-015 Option B)`
-- `AUTHORIZE: Instant Promote <deployment-id>` (separate from GAP-015)
 
 ## Implementation sequence
 
 | Step | Milestone | Action | Status |
 |------|-----------|--------|--------|
 | 0 | CROW.GAP015.1 | Audit + plan | **Done** |
-| 1 | CROW.GAP015.2 | Guard script + tests + Vercel/GitHub checklists | **Done** |
+| 1 | CROW.GAP015.2 | Guard script + tests + checklists | **Done** |
 | 2 | CROW.GAP015.3 | Apply Vercel Ignored Build Step | **Done** |
-| 3 | CROW.GAP015.4–5 | Bring guard script to `main`; prove unauthorized Production skip | **Done** |
-| 4 | CROW.GAP015.6 | Enable GitHub `main` protection + required checks | **Done** |
-| 5 | CROW.GAP015.7 | Formal authorized Production deploy procedure | Pending owner auth |
-| 6 | Optional | Option B disable auto Production if still needed after guard | Pending owner auth |
-| 7 | Acceptance | Update GAP-015 → Mitigated when procedure accepted; Instant Promote remains separate | Pending |
+| 3 | CROW.GAP015.4–5 | Guard on `main`; prove unauthorized skip | **Done** |
+| 4 | CROW.GAP015.6 | GitHub `main` protection | **Done** |
+| 5 | CROW.GAP015.7 | Formal authorized Production deploy procedure | **Done (docs)** |
+| 6 | Acceptance | Owner accepts GAP015.7 → GAP-015 Mitigated | Pending |
+| 7 | Optional | Option B disable auto Production if still needed | Pending |
 
 Owner may still authorize Option B separately; **do not** Instant Promote `dpl_8xT92…` as part of GAP-015 mitigation.
 

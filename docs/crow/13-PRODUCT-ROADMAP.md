@@ -339,14 +339,14 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **#15 GAP-015.7** | Formal authorized Production deploy operator procedure (document + accept) |
+| 1 | **#15 GAP-015 acceptance** | Owner accepts GAP015.7 procedure → mark GAP-015 Mitigated |
 | 2 | **Discovery / FTGP local-first** | Continue under GAP-004A holds — does **not** merge PR #10 |
 | 3 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
 | 4 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1–**6** (Ignored Build Step + guard on `main` + GitHub protection)
+**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1–**7** (guard + protection + authorized deploy procedure docs)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
