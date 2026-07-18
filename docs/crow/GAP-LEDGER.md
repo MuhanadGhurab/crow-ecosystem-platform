@@ -101,14 +101,14 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | C2.1 BLOCKED — fingerprint match on shared Supabase project |
+| **Current state** | **CROW.GAP004.1 audit+plan prepared.** Engineering: build-time migrate removed (C2.2). Isolation **not proven** — historical C2.1 shared ref `wbwnsndcxrgyqwppurms`; shared-backend mode still documented for Preview work |
 | **Severity** | **High** |
-| **Security/authority impact** | Medium — migration and data bleed risk |
-| **Dependency** | Dedicated Preview Supabase provisioning |
-| **Proposed milestone** | Infrastructure owner decision |
-| **Owner decision required** | Provision separate Preview database |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
-| **Status** | Open — blocker |
+| **Security/authority impact** | Medium–High — Preview/runtime/operator writes can hit Production while shared; migrate-on-build mitigated |
+| **Dependency** | Dedicated Preview Supabase provisioning + Vercel Preview env bind (owner dashboard) |
+| **Proposed milestone** | Owner executes Phase 1–4 of [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md); then re-certify |
+| **Owner decision required** | Provision Preview DB; bind Preview env; end shared as normal; authorize Preview controlled migrate after proof |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-1.md`](milestones/CROW-GAP004-1.md) · [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) |
+| **Status** | **Open / blocked** — audit complete; isolation implementation pending |
 
 ## GAP-005 — First Tenant Golden Path completion
 

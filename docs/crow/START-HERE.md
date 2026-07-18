@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.MVP-CERT.1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -55,6 +55,8 @@
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
+| [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) | Preview/Production DB isolation audit |
+| [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) | Isolation decision / implementation plan |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
 ## Reading order
@@ -70,19 +72,19 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.MVP-CERT.1** — Local-first Discovery MVP D0–D6 certification package (awaiting owner acceptance).
+**CROW.GAP004.1** — Preview/Production database isolation audit and decision plan (execution not authorized).
 
-Evidence: [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · checklist [`discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md)
+Evidence: [`milestones/CROW-GAP004-1.md`](milestones/CROW-GAP004-1.md) · [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) · [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md)
 
-**Prior build slices:** CROW.DISCOVERY.6 @ `229d874` · D5 @ `e96f71e` · D4 @ `1cdcffe`
+**Prior:** CROW.DISCOVERY.MVP-CERT.1 @ `a210013` · Discovery D0–D6 local-first
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 remains DRAFT archive — **do not merge**; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim
+**Hold:** PR #10 archive · no hosted migrations/writes while GAP-004 open · no Instant Promote · Option C interim
 
-**Recommended next:** **GAP-004** then **GAP-015** before hosted persistence, `main` merge, Production movement, or Blueprint drafting · Owner may accept local-first via prepared wording (Issue #18 stays OPEN until accepted)
+**Recommended next:** Owner provisions dedicated Preview Supabase + binds Vercel Preview env (plan Phases 1–3) · then **GAP-015** · keep Discovery hosted persistence blocked
 
-**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING (archive) · **Project:** #2 private
+**Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING (archive) · **Project:** #2 private · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16)
 
 ## Current implementation summary
 

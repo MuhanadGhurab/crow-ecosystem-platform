@@ -28,7 +28,7 @@ Statuses use: Live · Accepted · Implemented · Partial · Planned · Blocked �
 | Public route model | **Accepted** | CROW.PUBLIC.9/10; browse vs gated process |
 | PR #10 | **Blocked** (merge hold) | OPEN DRAFT MERGEABLE — FTGP + public; do not merge casually |
 | `main` | **Partial** / risk | `a5620c3` legacy public; GAP-012 open |
-| GAP-004 DB isolation | **Blocked** | Preview/Production shared fingerprint |
+| GAP-004 DB isolation | **Open / blocked** | Audit+plan: [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md); isolation not implemented |
 | GAP-012 main vs Production | **Open** | RECON.1 cherry-pick plan READY |
 | Client journey | **Partial** | Request/discovery/blueprint scaffolding |
 | ProCrow | **Partial** | Control tower, queues, studio |
@@ -340,14 +340,14 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 | Order | Milestone | Intent |
 |-------|-----------|--------|
 | 1 | **Discovery MVP D0–D2** local-first | Build under Issue #18 — does **not** merge PR #10 |
-| 2 | **#16 GAP-004** | Preview/Production DB isolation before hosted writes |
+| 2 | **#16 GAP-004** | Preview/Production DB isolation — audit/plan ready (`CROW.GAP004.1`); owner must provision Preview DB |
 | 3 | **#15 GAP-015** | Production auto-deploy settings (parallel) |
 | 4 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
 | 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · CROW.DISCOVERY.2–6 · **CROW.DISCOVERY.MVP-CERT.1** (cert package)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · CROW.DISCOVERY.2–6 · CROW.DISCOVERY.MVP-CERT.1 · **CROW.GAP004.1** (DB isolation audit/plan)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

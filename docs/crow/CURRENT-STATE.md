@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.MVP-CERT.1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `dd8a53e` — CROW.DISCOVERY.MVP-CERT.1 (start `229d874`) |
+| HEAD | `a210013` start — CROW.GAP004.1 audit/plan |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #18 certification package (OPEN; awaiting owner acceptance) |
+| Seed Issues | #15–#24 · #16 GAP-004 · #18 Discovery cert (OPEN) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Discovery MVP-CERT.1 docs package |
+| Working tree | GAP-004 audit and decision plan docs |
 
 ## Stack
 
@@ -171,9 +171,10 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | Extensive Prisma schema (~80+ models) |
-| RISK | Preview/Production shared hosted backend — isolation not fully proven (C2.1 BLOCKED) |
-| IMPLEMENTED | Controlled migration CLI, build-time migrate removed (C2.2) |
-| Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts` |
+| RISK | Preview/Production isolation **not proven** — shared ref risk (`wbwnsndcxrgyqwppurms`); GAP-004 open/blocked |
+| IMPLEMENTED | Controlled migration CLI; build-time migrate removed (C2.2); `vercel.json` = generate + build only |
+| AUDIT | **CROW.GAP004.1** — [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) · plan [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) |
+| Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/lib/database-environment.ts` |
 
 ### Environments
 
