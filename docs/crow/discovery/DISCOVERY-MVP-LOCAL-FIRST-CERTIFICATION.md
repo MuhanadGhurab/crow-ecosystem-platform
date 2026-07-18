@@ -1,12 +1,12 @@
-# Discovery MVP — Local-First Certification (D0–D6)
+# Discovery MVP — Local-First Certification (D0–D7)
 
 | Field | Value |
 |-------|-------|
-| **Title** | Discovery MVP D0–D6 local-first certification |
+| **Title** | Discovery MVP D0–D7 local-first certification |
 | **Status** | CANONICAL certification evidence — awaiting owner acceptance |
-| **Authority** | Owner decisions · CROW.DISCOVERY.2–6 · [`CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) |
+| **Authority** | Owner decisions · CROW.DISCOVERY.2–7 · [`CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md) |
 | **Date** | 2026-07-18 |
-| **Branch / start HEAD** | `feat/first-tenant-golden-path` @ `229d874` |
+| **Branch / start HEAD** | `feat/first-tenant-golden-path` (D7 from `dc03254`) |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Plan** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) |
 
@@ -23,8 +23,9 @@
 | **D4** | Operating Model input draft | `discovery-mvp-d4-*.ts`, `discovery-mvp-operating-model-draft-preview.tsx` |
 | **D5** | ProCrow modeling review | `discovery-mvp-d5-*.ts`, `discovery-mvp-procrow-modeling-review-panel.tsx` |
 | **D6** | Blueprint handoff contract | `discovery-mvp-d6-*.ts`, `discovery-mvp-blueprint-handoff-panel.tsx` |
+| **D7** | Stages 4–7 depth | `discovery-mvp-d7-fields.ts`, enriched D4–D6, Stages 4–7 UI, `discovery-mvp-d7:test` |
 
-Milestones: [`CROW-DISCOVERY-2.md`](../milestones/CROW-DISCOVERY-2.md) … [`CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md)
+Milestones: [`CROW-DISCOVERY-2.md`](../milestones/CROW-DISCOVERY-2.md) … [`CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md)
 
 ---
 

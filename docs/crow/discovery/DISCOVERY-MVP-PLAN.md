@@ -3,13 +3,13 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery and Operating Model MVP — Delivery Plan |
-| **Status** | CANONICAL plan — **D0–D6 local-first complete; MVP-CERT.1 certification package prepared** |
-| **Authority** | Owner decisions in CROW.DISCOVERY.1–6 · MVP-CERT.1 |
+| **Status** | CANONICAL plan — **D0–D7 local-first complete (Stages 1–7 depth); MVP-CERT.1 package prepared** |
+| **Authority** | Owner decisions in CROW.DISCOVERY.1–7 · MVP-CERT.1 |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Audit** | [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) |
 | **Operating Model plan** | [`OPERATING-MODEL-MVP-PLAN.md`](OPERATING-MODEL-MVP-PLAN.md) |
-| **Milestone** | [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · build [`milestones/CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md) |
+| **Milestone** | [`milestones/CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md) · cert [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) |
 | **Certification** | [`DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · [`DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md) |
 | **Field architecture** | FIELD.1 @ `e90fcda` · [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Prior** | CROW.DISCOVERY.4 · CROW.DISCOVERY.3 · CROW.DISCOVERY.2 |
@@ -27,9 +27,10 @@
 | D4 Operating Model capture | **Done** (local input draft) | `OperatingModelInputDraft` from D3 answers; preview UX; `readyForBlueprintDraft` always false |
 | D5 ProCrow modeling review | **Done** (local readiness) | `evaluateProCrowModelingReadiness`; review panel; `readyForModeling` may be true; Blueprint still blocked |
 | D6 Blueprint handoff | **Done** (local contract) | `DiscoveryBlueprintHandoffPackage`; handoff panel; `readyForBlueprintHandoff` may be true; draft/generation remain false |
+| D7 Stages 4–7 depth | **Done** (local-first) | Trust/risk, build/transform intent, evidence refs-only, ProCrow review prep; D4–D6 enriched; `npm run discovery-mvp-d7:test` |
 | MVP-CERT.1 | **Package prepared** | Local-first certification + owner checklist; acceptance not auto-applied |
 
-Evidence: [`DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · `npm run discovery-mvp-d6:test`
+Evidence: [`DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · [`milestones/CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md) · `npm run discovery-mvp-d7:test`
 
 ---
 

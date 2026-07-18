@@ -9,7 +9,7 @@
 
 ## Implementation note (CROW.DISCOVERY.3)
 
-A typed Stage 1–3 MVP catalog now exists in code (`discovery-mvp-d3-types.ts` + `discovery-mvp-d3-catalog.ts`) matching this metadata schema for the first form foundation. Full taxonomy coverage and Stages 4–7 questions remain later.
+A typed Stages 1–7 MVP catalog now exists in code (`discovery-mvp-d3-types.ts` + `discovery-mvp-d3-catalog.ts` + `discovery-mvp-d7-fields.ts`) matching this metadata schema for local-first Discovery. Full 23-category taxonomy coverage remains later; D7 prioritizes trust/risk, build/transform intent, evidence refs-only, and ProCrow review prep.
 
 ## Purpose
 

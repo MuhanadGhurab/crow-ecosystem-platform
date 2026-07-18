@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Operating Model capture — plan for Discovery MVP stream |
-| **Status** | CANONICAL plan — **D4–D6 local-first (OM draft → ProCrow review → Blueprint handoff package)** |
+| **Status** | CANONICAL plan — **D4–D7 local-first (OM draft → ProCrow review → Blueprint handoff; Stages 4–7 enrich OM)** |
 | **Authority** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) · [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTERPRISE-BLUEPRINT.md) |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |

@@ -293,7 +293,9 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DISCOVERY.6 (build slice):** D6 Blueprint handoff contract local-first — see [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md). Generation / draft records remain blocked.
 
-**CROW.DISCOVERY.MVP-CERT.1 (cert package):** D0–D6 local-first certification + owner checklist — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md). Acceptance not auto-applied.
+**CROW.DISCOVERY.7 (build slice):** Stages 4–7 depth local-first — see [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md). Hosted persistence / Blueprint generation remain blocked.
+
+**CROW.DISCOVERY.MVP-CERT.1 (cert package):** D0–D7 local-first certification + owner checklist — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md). Acceptance not auto-applied.
 
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft · **stop before Blueprint generation**.
 

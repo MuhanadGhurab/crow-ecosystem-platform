@@ -259,14 +259,14 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–6** local-first through Blueprint handoff package (`readyForBlueprintHandoff` possible; draft/generation still blocked). Still open: Stages 4–7 field depth, dual client tracks, hosted persistence, owner-authorized Blueprint drafting |
+| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–7** local-first through Stages 1–7 depth + Blueprint handoff package (`readyForBlueprintHandoff` possible; draft/generation still blocked). Still open: dual client tracks, hosted persistence, owner-authorized Blueprint drafting |
 | **Severity** | Medium |
-| **Security/authority impact** | Low if authority non-claims preserved (D0–D6 tests; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false) |
+| **Security/authority impact** | Low if authority non-claims preserved (D0–D7 tests; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false) |
 | **Dependency** | GAP-004 before hosted certify / migrations; owner gate before Blueprint drafting |
-| **Proposed milestone** | Future Blueprint drafting (owner-gated) · Stages 4–7 depth · client-track unify |
-| **Owner decision required** | Accept D0–D6 local-first (MVP-CERT.1 wording); hosted persistence after GAP-004; client-track unify; when to allow Blueprint drafting / complete override |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
-| **Status** | **Partial** — D0–D6 local-first implemented + cert package prepared; owner acceptance / hosted / depth / drafting remain |
+| **Proposed milestone** | Future Blueprint drafting (owner-gated) · client-track unify · hosted persistence |
+| **Owner decision required** | Accept D0–D7 local-first (MVP-CERT.1 wording + D7); hosted persistence after GAP-004; client-track unify; when to allow Blueprint drafting / complete override |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md) · [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
+| **Status** | **Partial** — D0–D7 local-first Stages 1–7 depth implemented; owner acceptance / hosted / drafting remain |
 
 ## GAP-018 — PR #10 breadth vs safe merge to main
 

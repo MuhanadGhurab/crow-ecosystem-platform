@@ -3,21 +3,23 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Adaptive Discovery intake stages and outputs |
-| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 · **D3–D6 local-first through Blueprint handoff package** |
+| **Status** | CANONICAL design — CROW.DISCOVERY.FIELD.1 · **D3–D7 local-first Stages 1–7 depth + Blueprint handoff package** |
 | **Authority** | [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Date** | 2026-07-18 |
 
-## Implementation note (CROW.DISCOVERY.3–.6)
+## Implementation note (CROW.DISCOVERY.3–.7)
 
-Stages **1–3** adaptive field catalog + form foundation are implemented local-first (D3).
+Stages **1–7** adaptive field catalog + form are implemented local-first (D3 foundation + **D7** Stage 4–7 depth).
 
-**D4** adds a local **Draft Operating Model Input** summary derived from those answers.
+**D4** adds a local **Draft Operating Model Input** summary derived from those answers (enriched by Stage 4–7).
 
 **D5** adds **ProCrow Modeling Review** (`evaluateProCrowModelingReadiness`) with local status (`NOT_READY` → `READY_FOR_MODELING`), clarification prompts, coverage, and optional local risk acknowledgment / evidence waiver. `readyForModeling` may be true; **`readyForBlueprintDraft` remains false**.
 
-**D6** adds **Discovery Blueprint Handoff Package** (`buildDiscoveryBlueprintHandoffPackage`) with future-section coverage, required ProCrow/owner gates, and UI boundary. `readyForBlueprintHandoff` may be true; **`readyForBlueprintDraft` and `blueprintGenerationAllowed` remain false**. Stage 7 hosted approval and Blueprint draft creation remain future owner-authorized work.
+**D6** adds **Discovery Blueprint Handoff Package** (`buildDiscoveryBlueprintHandoffPackage`) with future-section coverage, required ProCrow/owner gates, and UI boundary. `readyForBlueprintHandoff` may be true; **`readyForBlueprintDraft` and `blueprintGenerationAllowed` remain false**.
 
-Stages **4–7** field depth remain planned. `mapsToBlueprintSection` is inert metadata only.
+**D7** deepens Stages **4–7** (trust/risk, build/transform intent, evidence refs-only, ProCrow review preparation). Stage 7 does **not** approve Blueprint. Hosted approval and Blueprint draft creation remain future owner-authorized work.
+
+`mapsToBlueprintSection` is inert metadata only.
 
 ## Purpose
 
