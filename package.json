@@ -255,6 +255,7 @@
     "discovery-mvp-d3:test": "npx tsx src/lib/discovery/discovery-mvp-d3-authority.test.ts",
     "discovery-mvp-d4:test": "npx tsx src/lib/discovery/discovery-mvp-d4-authority.test.ts",
     "discovery-mvp-d5:test": "npx tsx src/lib/discovery/discovery-mvp-d5-authority.test.ts",
+    "discovery-mvp-d6:test": "npx tsx src/lib/discovery/discovery-mvp-d6-authority.test.ts",
     "request-client-process-phone-gate:test": "npx tsx src/lib/account/request-client-process-phone-gate.test.ts",
     "business-field-search-relevance:test": "npx tsx src/lib/business-field-catalog/business-field-search-relevance.test.ts",
     "uat-readiness:test": "npx tsx src/lib/uat/uat-readiness.test.ts",
