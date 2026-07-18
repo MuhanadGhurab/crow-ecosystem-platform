@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.5) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.6) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip (see branch); GAP015.5 evidence on `main` @ `f97a835` |
-| Default branch | `main` at `f97a835` (PR #25 guard-on-main) |
+| HEAD | FTGP tip (see branch); GAP015.5/6 evidence: `main` @ `f97a835` + GitHub protection |
+| Default branch | `main` at `f97a835` (PR #25 guard-on-main; GAP015.6 protected) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #15 GAP-015 (**open / partially mitigated** — guard on main + skip proven; GitHub protection pending) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
+| Seed Issues | #15–#24 · #15 GAP-015 (**open / partially mitigated** — guard + skip + GitHub protection; authorized deploy procedure pending) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.GAP015.5 docs sync |
+| Working tree | Post CROW.GAP015.6 docs sync |
 
 ## Stack
 
@@ -198,7 +198,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Status | Evidence |
 |--------|----------|
 | **IMPLEMENTED** | Labels, Phase 0–12 milestones, Project #2, seed Issues #15–#24 |
-| **NOT DONE** | Project views (manual UI); GAP-015.6 GitHub protection |
+| **NOT DONE** | Project views (manual UI); GAP-015 authorized Production deploy procedure |
 | Evidence | [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
 
 ### Public reconciliation — MERGED + AUTO DEPLOY ACCEPTED (RECON.5)
@@ -214,9 +214,9 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 
 | Status | Evidence |
 |--------|----------|
-| **IMPLEMENTED (docs + repo + Vercel)** | Release authority; Ignored Build Step; **guard on `main`** (PR #25); unauthorized Production skip **proven** (GAP015.5) |
-| **NOT APPLIED** | GitHub `main` protection; Option B auto-deploy disable; dashboard migrate removal |
-| Evidence | [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md), `npm run vercel-production-deploy-guard:test` |
+| **IMPLEMENTED (docs + repo + Vercel + GitHub)** | Release authority; Ignored Build Step; guard on `main`; unauthorized Production skip proven; **GitHub `main` protection** (GAP015.6) |
+| **NOT APPLIED** | Option B auto-deploy disable; dashboard migrate removal; formal authorized Production deploy procedure |
+| Evidence | [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md), [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md), `npm run vercel-production-deploy-guard:test` |
 
 ### Known technical debt
 
@@ -225,7 +225,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - Milestone ledger (`MILESTONES.md`) percentages not reliable as implementation truth
 - Stripe fields coupled in schema but commercial domain incomplete
 - JourneyKind in crow-story types; OrganizationContext in request types — separate (correct)
-- Production vs `main` public gap mitigated on git; GAP-015 **open (partially mitigated)** — guard on `main` @ `f97a835` + skip proven; GitHub protection pending
+- Production vs `main` public gap mitigated on git; GAP-015 **open (partially mitigated)** — guard on `main` @ `f97a835` + skip proven + GitHub protection; authorized deploy procedure pending
 
 ## Classification legend
 

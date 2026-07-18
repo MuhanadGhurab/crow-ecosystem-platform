@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.5 guard-on-main + Production skip proven) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.6 GitHub main protection) |
 | **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
-| **Evidence** | [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md), [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) |
+| **Evidence** | [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md), [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
@@ -142,24 +142,26 @@ Always record: failed deployment ID, rollback target ID, smoke evidence, owner a
 
 Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · plan: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md).
 
-### Interim operating mode — **Vercel Production skip active on `main`; GitHub protection still pending**
+### Interim operating mode — **Option E layers live on `main`; formal authorized deploy procedure still pending**
 
 - Ignored Build Step is **configured** (CROW.GAP015.3)
 - Guard script is **on `main`** @ `f97a835` (PR #25 / CROW.GAP015.5)
-- Unauthorized Production for `f97a835` was **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0, Canceled by Ignored Build Step)
+- Unauthorized Production for `f97a835` was **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0)
+- GitHub `main` protection is **configured** (CROW.GAP015.6): require PR + `verify` / `production-gate` / `postgres-smoke`; force-push/deletion blocked; `enforce_admins=false`
 - Live domain remains `dpl_QeDhnxz…` (no Instant Promote)
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
 - Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only)
 
-### Option E progress (CROW.GAP015.5)
+### Option E progress (CROW.GAP015.6)
 
 | Layer | Status |
 |-------|--------|
 | Guard script + tests | **On `main`** — `scripts/safety/vercel-production-deploy-guard.mjs` |
 | Vercel Ignored Build Step | **Configured** → `node scripts/safety/vercel-production-deploy-guard.mjs` |
 | Unauthorized Production skip | **Proven** on `main` @ `f97a835` |
-| GitHub `main` protection | **Not applied** — see [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
+| GitHub `main` protection | **Applied** — see [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
+| Formal authorized Production deploy procedure | **Pending** |
 
 **When** authorizing a Production build:
 
@@ -167,14 +169,15 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 - Clear authorization env vars after the deploy window
 - Production-target build ≠ Instant Promote / public domain change (remain separate concepts)
 
-### Recommended control mode (Option E) — **Ignored Build Step + guard on main live; GitHub protection pending**
+### Recommended control mode (Option E) — **Ignored Build Step + guard on main + GitHub protection live**
 
 1. **Option D (repo)** — Production deploy guard — **done**
 2. Wire Ignored Build Step — **done** (CROW.GAP015.3)
 3. Bring guard to `main` — **done** (CROW.GAP015.5 / PR #25)
-4. **Option C** — GitHub `main` protection + required CI checks (`verify`, `production-gate`, `postgres-smoke`) — **pending (CROW.GAP015.6)**
+4. **Option C** — GitHub `main` protection + required CI checks (`verify`, `production-gate`, `postgres-smoke`) — **done** (CROW.GAP015.6)
 5. **Option B** — optional additional disable/gate of automatic Production deploys
 6. Keep explicit owner phrases for Instant Promote and settings changes
+7. Document formal authorized Production deploy operator procedure — **pending (CROW.GAP015.7)**
 
 ### Other options
 
@@ -182,11 +185,11 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 |--------|------|
 | A — Process only | Still useful for Instant Promote and intentional deploy windows |
 | B — Vercel settings gate | Optional complementary settings layer |
-| C — GitHub branch protection | Necessary; not sufficient alone — **next residual** |
+| C — GitHub branch protection | **Applied** (GAP015.6) |
 | D — Ignored build / deploy guard | **Configured** and **proven** on `main` |
-| E — Combined | **Recommended** safest no-cost path |
+| E — Combined | **Recommended** safest no-cost path — largely live |
 
-**Branch protection still requires a dedicated owner-authorized milestone (CROW.GAP015.6).** Dashboard `buildCommand` migrate residual is tracked separately.
+**Formal authorized Production deploy procedure still requires a dedicated owner-authorized milestone (CROW.GAP015.7).** Dashboard `buildCommand` migrate residual is tracked separately.
 
 ## 10. PR #10 handling
 

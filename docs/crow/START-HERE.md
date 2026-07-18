@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.5) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.6) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -64,7 +64,7 @@
 | [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) | Production deployment control plan (Option E recommended) |
 | [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) | Production deploy guard (Ignored Build Step script) |
 | [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) | Exact Vercel Ignored Build Step setup (configured GAP015.3) |
-| [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) | Exact GitHub main protection recommendations (not applied yet) |
+| [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) | GitHub main protection — **applied** (CROW.GAP015.6) |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
 ## Reading order
@@ -80,17 +80,17 @@
 
 ## Current milestone
 
-**CROW.GAP015.5** — Guard-on-main **merged** (PR [#25](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/25) → `main` @ `f97a835`). Unauthorized Production build **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`). GitHub `main` protection still pending. GAP-015 remains **open** (partially mitigated).
+**CROW.GAP015.6** — GitHub `main` protection **configured and verified** (require PR + `verify` / `production-gate` / `postgres-smoke`; force-push/deletion blocked; admin enforce off for lockout safety). GAP-015 remains **open** (partially mitigated) until authorized Production deploy procedure is documented and accepted.
 
-Evidence: [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md) · [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md)
+Evidence: [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md) · [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md)
 
-**Prior:** CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
+**Prior:** CROW.GAP015.5 · CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835`
 
 **Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked
 
-**Owner next:** **CROW.GAP015.6** GitHub `main` protection · authorized Production deploy operator procedure when intentionally promoting
+**Owner next:** Formal authorized Production deploy operator procedure · optional docs PR #26 merge
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
@@ -99,7 +99,7 @@ Evidence: [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md) · [`gaps
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.6 GitHub branch protection, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015 authorized Production deploy procedure, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

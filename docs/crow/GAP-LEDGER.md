@@ -86,14 +86,14 @@
 |-------|-------|
 | **Domain** | Operations / Release |
 | **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
-| **Current state** | Guard on `main` @ `f97a835` (PR #25 / GAP015.5). Ignored Build Step configured. Unauthorized Production skip **proven** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`). GitHub `main` **unprotected**. Live domain still `dpl_QeDhnxz…` |
+| **Current state** | Guard on `main` @ `f97a835` (PR #25). Ignored Build Step configured + unauthorized skip **proven**. GitHub `main` **protected** (GAP015.6): require PR + `verify` / `production-gate` / `postgres-smoke`; force-push/deletion blocked. Live domain still `dpl_QeDhnxz…` |
 | **Severity** | Medium |
-| **Security/authority impact** | Medium — Vercel Production skip proven; GitHub can still push/merge without required checks |
-| **Dependency** | Owner auth for GitHub `main` protection |
-| **Proposed milestone** | CROW.GAP015.5 complete; **CROW.GAP015.6** GitHub protection |
-| **Owner decision required** | Authorize GitHub `main` protection? Authorize intentional Production deploy window when needed? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md) · [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
-| **Status** | **Open (partially mitigated)** — guard-on-main + skip proven; GitHub protection pending |
+| **Security/authority impact** | Medium — Option E layers largely live; formal authorized Production deploy procedure still pending |
+| **Dependency** | Owner acceptance of authorized Production deploy operator procedure |
+| **Proposed milestone** | CROW.GAP015.6 complete; **CROW.GAP015.7** authorized Production deploy procedure |
+| **Owner decision required** | Accept formal authorized Production deploy procedure? Optional docs PR #26? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-6.md`](milestones/CROW-GAP015-6.md) · [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
+| **Status** | **Open (partially mitigated)** — guard + skip + GitHub protection done; authorized deploy procedure pending |
 
 ## GAP-004 — Preview/Production database isolation
 
