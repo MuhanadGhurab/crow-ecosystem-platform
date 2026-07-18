@@ -37,10 +37,21 @@ const catalog = getDiscoveryMvpD3Catalog();
 
 console.log("discovery-mvp-d3:test");
 
-test("Field catalog includes Stage 1–3 MVP fields", () => {
+test("Field catalog includes Stage 1–3 MVP fields (extended through Stage 7 in D7)", () => {
   const stages = new Set(catalog.map((f) => f.stageId));
   assert.ok(stages.has(1) && stages.has(2) && stages.has(3));
-  assert.ok(catalog.every((f) => f.stageId === 1 || f.stageId === 2 || f.stageId === 3));
+  assert.ok(
+    catalog.every(
+      (f) =>
+        f.stageId === 1 ||
+        f.stageId === 2 ||
+        f.stageId === 3 ||
+        f.stageId === 4 ||
+        f.stageId === 5 ||
+        f.stageId === 6 ||
+        f.stageId === 7,
+    ),
+  );
   assert.ok(catalog.some((f) => f.fieldKey === "organization_display_name"));
   assert.ok(catalog.some((f) => f.fieldKey === "purpose_mission"));
   assert.ok(catalog.some((f) => f.fieldKey === "industry_sector"));

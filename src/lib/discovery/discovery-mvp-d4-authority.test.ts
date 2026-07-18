@@ -16,6 +16,10 @@ import type { DiscoveryMvpAnswerMap } from "@/lib/discovery/discovery-mvp-d3-typ
 import { isDiscoveryMvpFieldVisible } from "@/lib/discovery/discovery-mvp-d3-visibility";
 import { buildOperatingModelInputDraft } from "@/lib/discovery/discovery-mvp-d4-mapper";
 import { OPERATING_MODEL_DRAFT_AUTHORITY } from "@/lib/discovery/discovery-mvp-d4-types";
+import {
+  completeNewAnswersD7,
+  completeTransformAnswersD7,
+} from "@/lib/discovery/discovery-mvp-d7-fixtures";
 
 function test(name: string, fn: () => void) {
   try {
@@ -29,49 +33,13 @@ function test(name: string, fn: () => void) {
 
 const root = process.cwd();
 
-/** Sufficient TRANSFORM answers for readyForProCrowReview. */
+/** Sufficient TRANSFORM answers for readyForProCrowReview (includes Stage 4–7). */
 function completeTransformAnswers(): DiscoveryMvpAnswerMap {
-  return {
-    organization_display_name: "Acme Field Services",
-    primary_contact_role: "Operations director",
-    purpose_mission: "Deliver reliable field maintenance for commercial properties nationwide.",
-    build_transform_objective: "Unify approvals and project delivery across regional branches.",
-    transformation_target: "Replace spreadsheet approvals with governed workflows while keeping field crews productive.",
-    industry_sector: "Facilities services",
-    organization_size_range: "TEAM_51_200",
-    location_model: "MULTI_BRANCH",
-    branch_site_count: 12,
-    department_division_scope: "Operations, Finance, HR, and regional branch management.",
-    customer_beneficiary_type: "Commercial property managers",
-    key_teams_or_groups: "Field crews, dispatch, finance, branch managers.",
-    core_responsibilities: "Dispatch schedules work; finance invoices; managers approve overtime and purchases.",
-    main_workflows: "Work order to close, purchase to pay, hire to onboard.",
-    current_systems_tools: "Excel, email, legacy CMMS, QuickBooks.",
-    important_records_data: "Work orders, invoices, employee schedules, vendor contracts.",
-    major_pain_points: "Approvals stall in email; no single view of work-in-progress across branches.",
-    evidence_reference_note: "https://example.com/ops-overview",
-  };
+  return completeTransformAnswersD7();
 }
 
 function completeNewAnswers(): DiscoveryMvpAnswerMap {
-  return {
-    organization_display_name: "Northwind Launch Co",
-    primary_contact_role: "Founder",
-    purpose_mission: "Launch a new specialty contracting business with clear operating roles.",
-    build_transform_objective: "Design an operating model ready for first 20 employees.",
-    expected_operating_start: "Q4 2026 target window",
-    industry_sector: "Specialty contracting",
-    organization_size_range: "TEAM_6_20",
-    location_model: "SINGLE_SITE",
-    branch_site_count: 0,
-    department_division_scope: "Delivery, sales, and finance at launch.",
-    customer_beneficiary_type: "Commercial builders",
-    key_teams_or_groups: "Delivery pod, sales, finance support.",
-    core_responsibilities: "Delivery owns jobs; sales owns pipeline; finance owns billing.",
-    main_workflows: "Lead to award, project delivery, invoice to cash.",
-    target_systems_intent: "Lightweight CRM, project tracker, accounting package.",
-    important_records_data: "Contracts, job files, invoices.",
-  };
+  return completeNewAnswersD7();
 }
 
 console.log("discovery-mvp-d4:test");

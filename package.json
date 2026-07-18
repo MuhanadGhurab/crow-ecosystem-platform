@@ -256,6 +256,7 @@
     "discovery-mvp-d4:test": "npx tsx src/lib/discovery/discovery-mvp-d4-authority.test.ts",
     "discovery-mvp-d5:test": "npx tsx src/lib/discovery/discovery-mvp-d5-authority.test.ts",
     "discovery-mvp-d6:test": "npx tsx src/lib/discovery/discovery-mvp-d6-authority.test.ts",
+    "discovery-mvp-d7:test": "npx tsx src/lib/discovery/discovery-mvp-d7-authority.test.ts",
     "db-isolation-env:check": "node scripts/safety/check-db-isolation-env.mjs",
     "db-isolation-env:test": "node scripts/safety/check-db-isolation-env.test.mjs",
     "preview-db-safety:test": "npx tsx src/lib/runtime/preview-db-safety.test.ts",
