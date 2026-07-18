@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.3) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.4) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -244,14 +244,14 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. Plans @ CROW.DISCOVERY.1A. **CROW.DISCOVERY.2** D0–D2. **CROW.DISCOVERY.3** Stages 1–3 adaptive catalog + local form. Still open: Stages 4–7, dual client tracks, FTGP catalog vs MVP UI, OM capture / modeling / Blueprint handoff |
+| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–4** local-first: safety, Stages 1–3 adaptive form, Operating Model **input draft** preview. Still open: Stages 4–7 field depth, dual client tracks, ProCrow modeling review (D5), Blueprint handoff (D6), hosted persistence |
 | **Severity** | Medium (blocks enterprise-scale Discovery quality) |
-| **Security/authority impact** | Low if authority non-claims preserved (D0–D3 tests certify non-authority) |
-| **Dependency** | Owner-approved D4–D6 slices; GAP-004 before hosted certify / migrations |
-| **Proposed milestone** | **CROW.DISCOVERY.4** (OM capture) → D5–D6 |
-| **Owner decision required** | Authorize D4; unify client tracks; hosted persistence plan; when to allow Blueprint complete override |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-3.md`](milestones/CROW-DISCOVERY-3.md) · [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) |
-| **Status** | **Partial** — D0–D3 implemented; D4–D6 pending |
+| **Security/authority impact** | Low if authority non-claims preserved (D0–D4 tests certify non-authority; `readyForBlueprintDraft` false) |
+| **Dependency** | Owner-approved D5–D6 slices; GAP-004 before hosted certify / migrations |
+| **Proposed milestone** | **CROW.DISCOVERY.5** (ProCrow modeling review) → D6 |
+| **Owner decision required** | Authorize D5; hosted OM persistence plan; client-track unify; when to allow Blueprint complete override |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-4.md`](milestones/CROW-DISCOVERY-4.md) · [`discovery/OPERATING-MODEL-MVP-PLAN.md`](discovery/OPERATING-MODEL-MVP-PLAN.md) |
+| **Status** | **Partial** — D0–D4 implemented; D5–D6 pending |
 
 ## GAP-018 — PR #10 breadth vs safe merge to main
 
@@ -266,4 +266,4 @@
 | **Proposed milestone** | Slice execution (Discovery D0–D2 done; next D3 / GAP-004 / GAP-015, …) |
 | **Owner decision required** | Next slice to authorize; optional GitHub Issue for GAP-018 / CROW.PR10.1 |
 | **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · ledger only (no Issue yet) |
-| **Status** | **Mitigated (policy)** — archive + slice rule accepted; Discovery D0–D3 slices executed; further slices pending |
+| **Status** | **Mitigated (policy)** — archive + slice rule accepted; Discovery D0–D4 slices executed; further slices pending |

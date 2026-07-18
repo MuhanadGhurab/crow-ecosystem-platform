@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.3) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.4) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `05c4146` — CROW.DISCOVERY.3 (start `08b38c6`) |
+| HEAD | CROW.DISCOVERY.4 on `feat/first-tenant-golden-path` (start `e7e322e`) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #18 updated for DISCOVERY.3 |
+| Seed Issues | #15–#24 · #18 updated for DISCOVERY.4 |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Discovery D3 adaptive field form slice |
+| Working tree | Discovery D4 Operating Model capture slice |
 
 ## Stack
 
@@ -75,20 +75,18 @@
 | DEFERRED | Server-persisted DRAFT; hosted Preview certify (GAP-004) |
 | Evidence | [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md), `/client/requests/*`, Issue #17 |
 
-### Discovery — PARTIAL (D0–D3 local-first · D4–D6 pending)
+### Discovery — PARTIAL (D0–D4 local-first · D5–D6 pending)
 
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | `DiscoveryProfile`, answers, departments, roles, workflows models |
 | IMPLEMENTED | Client and operator discovery routes; Start Discovery gated on `qualified_for_discovery` |
-| IMPLEMENTED | **CROW.DISCOVERY.2 D0–D2** — safety baseline, product status mapping, workspace foundation |
-| IMPLEMENTED | **CROW.DISCOVERY.3 D3** — Stages 1–3 adaptive catalog + form (localStorage drafts); visibility by JourneyKind / OrganizationContext |
-| IMPLEMENTED | Blueprint **complete path quarantined** by default (`assertDiscoveryBlueprintCompleteAllowed`) |
-| DESIGNED | **Adaptive field architecture** — 10 layers, taxonomy, question model, stages 1–7 (FIELD.1 @ `e90fcda`) |
-| AUDITED | **CROW.DISCOVERY.1** — route/UI/data/auth/handoff/Blueprint boundary audit |
-| PENDING | D4 OM capture · D5 modeling review · D6 intentional Blueprint handoff |
-| PARTIAL | FTGP catalog still ahead of full adaptive UI; dual client tracks remain; Stages 4–7 not built |
-| Evidence | [`milestones/CROW-DISCOVERY-3.md`](milestones/CROW-DISCOVERY-3.md), `discovery-mvp-d3:test`, Issue #18 |
+| IMPLEMENTED | **CROW.DISCOVERY.2–3** — safety, status mapping, Stages 1–3 adaptive form (localStorage) |
+| IMPLEMENTED | **CROW.DISCOVERY.4** — local `OperatingModelInputDraft` mapper + workspace preview; `readyForBlueprintDraft` false |
+| IMPLEMENTED | Blueprint **complete path quarantined** by default |
+| PENDING | D5 ProCrow modeling review · D6 intentional Blueprint handoff |
+| PARTIAL | Stages 4–7 field depth; dual client tracks; hosted OM persistence not started |
+| Evidence | [`milestones/CROW-DISCOVERY-4.md`](milestones/CROW-DISCOVERY-4.md), `discovery-mvp-d4:test`, Issue #18 |
 
 ### Blueprint — PARTIAL
 

@@ -24,7 +24,7 @@ Crow already has a **functional Discovery runtime shell** (operator workspace, c
 
 Three surfaces still share one `DiscoveryProfile` with **fragmented field keys** for D3+. Request → Discovery handoff remains **qualified and gated**.
 
-**GAP-017** remains open for D4–D6 (Operating Model capture, modeling review, intentional Blueprint handoff). Stages 1–3 adaptive form foundation landed in CROW.DISCOVERY.3.
+**GAP-017** remains open for D5–D6 (ProCrow modeling review, intentional Blueprint handoff). Stages 1–3 form + local Operating Model input draft landed through CROW.DISCOVERY.4.
 
 ---
 
