@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.3) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.5) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -63,7 +63,7 @@
 | [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) | Production auto-deploy behavior audit |
 | [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) | Production deployment control plan (Option E recommended) |
 | [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) | Production deploy guard (Ignored Build Step script) |
-| [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) | Exact Vercel Ignored Build Step setup (not applied yet) |
+| [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) | Exact Vercel Ignored Build Step setup (configured GAP015.3) |
 | [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) | Exact GitHub main protection recommendations (not applied yet) |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
@@ -80,17 +80,17 @@
 
 ## Current milestone
 
-**CROW.GAP015.3** — Vercel Ignored Build Step **configured** to the certified Production deploy guard. GitHub protection pending. Residual: guard script not on `main`. GAP-015 remains **open**.
+**CROW.GAP015.5** — Guard-on-main **merged** (PR [#25](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/25) → `main` @ `f97a835`). Unauthorized Production build **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`). GitHub `main` protection still pending. GAP-015 remains **open** (partially mitigated).
 
-Evidence: [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md) · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
+Evidence: [`milestones/CROW-GAP015-5.md`](milestones/CROW-GAP015-5.md) · [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md)
 
-**Prior:** CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
+**Prior:** CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
 
-**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
+**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835`
 
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Option A/C for `main` until guard-on-main residual closed · Discovery hosted / Blueprint blocked
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked
 
-**Owner next:** **CROW.GAP015.4** GitHub `main` protection · and/or authorize guard script onto `main` / fail-closed wrapper
+**Owner next:** **CROW.GAP015.6** GitHub `main` protection · authorized Production deploy operator procedure when intentionally promoting
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
@@ -99,7 +99,7 @@ Evidence: [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md) · [`gaps
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.4 branch protection + guard-on-main residual, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.6 GitHub branch protection, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

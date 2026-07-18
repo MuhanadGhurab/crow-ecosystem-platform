@@ -2,17 +2,19 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Repository package prepared — Vercel Ignored Build Step **not** configured |
+| **Status** | Guard on `main` + unauthorized Production skip **proven** (CROW.GAP015.5) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP015-2.md`](../milestones/CROW-GAP015-2.md) |
+| **Milestone** | [`../milestones/CROW-GAP015-5.md`](../milestones/CROW-GAP015-5.md) |
 | **Script** | `scripts/safety/vercel-production-deploy-guard.mjs` |
 | **Tests** | `npm run vercel-production-deploy-guard:test` |
-| **Setup** | [`GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) |
 | **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
+| **main HEAD** | `f97a835` (PR [#25](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/25)) |
 
 ## Purpose
 
 Provide a no-cost, repository-owned Production deployment guard for Option E (layer D): **block Production builds by default** unless the owner sets an explicit SHA-bound authorization. Preview and local builds continue.
+
+This file lands on `main` so Vercel’s configured Ignored Build Step can resolve the script on Production-target commits.
 
 ## Vercel Ignored Build Step semantics
 
@@ -20,6 +22,12 @@ Provide a no-cost, repository-owned Production deployment guard for Option E (la
 |-------------|----------------|
 | `0` | **Ignore / skip** the build |
 | `1` | **Do not ignore** — allow the build |
+
+Configured project command (already set in Vercel):
+
+```text
+node scripts/safety/vercel-production-deploy-guard.mjs
+```
 
 Guard decisions:
 
@@ -52,10 +60,14 @@ Set these only for an authorized Production deploy window, then **clear/reset** 
 
 | Control | Status |
 |---------|--------|
-| Guard script + tests in repo | **Done** (CROW.GAP015.2) |
-| Vercel Ignored Build Step wired | **Done** (CROW.GAP015.3) — `node scripts/safety/vercel-production-deploy-guard.mjs` |
-| Guard script on `main` | **Residual** — not on `e8cb812` |
-| GitHub `main` protection | **Not applied** |
-| Live Production | Unchanged |
+| Guard script + tests on `main` | **Present** @ `f97a835` |
+| Vercel Ignored Build Step | **Configured** (CROW.GAP015.3) |
+| Unauthorized Production skip | **Proven** — `BLOCK_UNAUTHORIZED_PRODUCTION_BUILD` / exit `0` / Canceled by Ignored Build Step |
+| Live Production domain | Still `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (no Instant Promote) |
+| GitHub `main` protection | **Not applied** (remaining GAP-015 residual) |
 
-Until the guard script is on `main` (or a fail-closed wrapper is authorized), treat `main` merges as Production-risk under Option A/C.
+## Remaining residuals (GAP-015 not fully closed)
+
+1. GitHub `main` branch protection (require PR + checks)
+2. Formal authorized Production deploy operator procedure (env window + clear after)
+3. Dashboard `buildCommand` still includes `db:migrate:deploy` (separate concern from Ignored Build Step)
