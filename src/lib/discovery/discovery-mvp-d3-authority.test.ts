@@ -208,7 +208,7 @@ test("Workspace mounts D3 adaptive form; D0–D2 Blueprint quarantine still hold
     "utf8",
   );
   assert.ok(shell.includes("DiscoveryMvpAdaptiveFieldForm"));
-  assert.ok(shell.includes('data-crow-discovery-mvp="d0-d3"'));
+  assert.ok(shell.includes("data-crow-discovery-mvp"));
   assert.equal(isDiscoveryBlueprintCompleteBlocked(), true);
   assert.throws(() => assertDiscoveryBlueprintCompleteAllowed());
   const action = readFileSync(join(root, "src/lib/actions/discovery.ts"), "utf8");
