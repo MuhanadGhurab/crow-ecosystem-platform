@@ -86,14 +86,14 @@
 |-------|-------|
 | **Domain** | Operations / Release |
 | **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
-| **Current state** | Audit/plan done (GAP015.1). **Guard package prepared & certified** (GAP015.2): `vercel-production-deploy-guard.mjs`. Vercel Ignored Build Step **not** configured. GitHub `main` **unprotected**. Live domain on `dpl_QeDhnxz…`. Option A/C interim until Ignored Build Step live |
+| **Current state** | Guard package certified (GAP015.2). **Ignored Build Step configured** (GAP015.3) to `node scripts/safety/vercel-production-deploy-guard.mjs`. Residual: guard script **not on `main`**. GitHub `main` **unprotected**. Live domain on `dpl_QeDhnxz…` |
 | **Severity** | Medium |
-| **Security/authority impact** | Medium — until Ignored Build Step is wired, `main` merges remain Production-target risk |
-| **Dependency** | Owner auth to configure Ignored Build Step + optional branch protection |
-| **Proposed milestone** | CROW.GAP015.2 complete; **CROW.GAP015.3** configure Ignored Build Step; **CROW.GAP015.4** GitHub protection |
-| **Owner decision required** | Authorize Vercel Ignored Build Step? Authorize GitHub `main` protection? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) · [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md) |
-| **Status** | **Open** — guard package ready; settings **not** applied |
+| **Security/authority impact** | Medium — Ignored Build Step live for commits that include the guard; `main` @ `e8cb812` still lacks script so Production skip is incomplete there |
+| **Dependency** | Owner auth for guard-on-main residual + GitHub protection |
+| **Proposed milestone** | CROW.GAP015.3 complete; **CROW.GAP015.4** GitHub protection; residual guard-on-main follow-up |
+| **Owner decision required** | Authorize guard on `main` / fail-closed wrapper? Authorize GitHub `main` protection? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md) · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) |
+| **Status** | **Open** — Ignored Build Step configured; GitHub protection + `main` residual pending |
 
 ## GAP-004 — Preview/Production database isolation
 

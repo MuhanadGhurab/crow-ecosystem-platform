@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Option E in progress — **guard package prepared** (CROW.GAP015.2); Vercel/GitHub settings not applied |
+| **Status** | Option E in progress — Ignored Build Step **configured** (CROW.GAP015.3); GitHub protection + guard-on-main residual pending |
 | **Date** | 2026-07-18 |
 | **Audit** | [`GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) |
 | **Guard** | [`GAP-015-PRODUCTION-DEPLOY-GUARD.md`](GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
@@ -69,7 +69,7 @@ Stop Crow from accidentally creating Production-target deployments (or confusing
 | Process | Retain Option A/C interim phrases until settings applied |
 | GitHub | Enable Option C branch protection + required CI checks |
 | Vercel | Apply Option B when owner confirms free-tier support |
-| Guard | **Repository package ready** — `scripts/safety/vercel-production-deploy-guard.mjs` (CROW.GAP015.2); Ignored Build Step **not** wired yet |
+| Guard | **Ignored Build Step configured** (CROW.GAP015.3) → `node scripts/safety/vercel-production-deploy-guard.mjs`; residual: script not yet on `main` |
 | Authority | Explicit owner phrase for any Production-target, Instant Promote, or settings change |
 
 | Aspect | Detail |
@@ -77,7 +77,7 @@ Stop Crow from accidentally creating Production-target deployments (or confusing
 | Cost | No paid Vercel features required for the core path |
 | Pros | Defense in depth; addresses both Git movement and Vercel auto-create |
 | Cons | Multi-step; needs sequenced owner-authorized milestones |
-| Implement now? | Guard script/tests/docs **done** in CROW.GAP015.2; settings application deferred |
+| Implement now? | Guard + Ignored Build Step **done**; GitHub protection + guard-on-main residual pending |
 
 ## Recommendation
 
@@ -88,41 +88,43 @@ Rationale:
 1. Audit shows Production-target auto-create from `main` is real and GitHub `main` is **unprotected**.
 2. Option B alone is ideal for Vercel but needs owner UI confirmation and does not fix unprotected merges.
 3. Option C alone does not stop Vercel after a legitimate or mistaken `main` change.
-4. Option D alone is easy to get wrong without Preview regression tests — **guard package now certified**.
+4. Option D alone is easy to get wrong without Preview regression tests — **guard package certified and Ignored Build Step wired**.
 5. Combined E is the safest **no-cost** path: protect `main` → gate/disable Production auto-deploy → wire deploy guard → keep owner authorization phrases.
 
-Until Vercel Ignored Build Step is configured, **Option A interim remains mandatory** (every `main` merge = Production-risk).
+**Option A interim remains mandatory for `main` merges** until the guard script (or fail-closed wrapper) is effective on production-branch commits.
+
+## Owner authorization phrases (for later use)
+
+Suggested explicit phrases:
+
+- `AUTHORIZE: Bring production deploy guard to main (GAP-015 residual)`
+- `AUTHORIZE: Vercel Production auto-deploy settings change (GAP-015 Option B)`
+- `AUTHORIZE: GitHub main branch protection (GAP-015 Option C)`
+- `AUTHORIZE: Instant Promote <deployment-id>` (separate from GAP-015)
 
 ## Implementation sequence
 
 | Step | Milestone | Action | Status |
 |------|-----------|--------|--------|
 | 0 | CROW.GAP015.1 | Audit + plan | **Done** |
-| 1 | CROW.GAP015.2 | Guard script + tests + Vercel/GitHub checklists | **Done** (settings not applied) |
-| 2 | CROW.GAP015.3 | Apply Vercel Ignored Build Step per checklist; verify Preview allow / Production skip | Pending owner auth |
+| 1 | CROW.GAP015.2 | Guard script + tests + Vercel/GitHub checklists | **Done** |
+| 2 | CROW.GAP015.3 | Apply Vercel Ignored Build Step; verify Preview allow / Production skip (local) | **Done** (residual: script not on `main`) |
 | 3 | CROW.GAP015.4 | Enable GitHub `main` protection + required checks | Pending owner auth |
-| 4 | Optional | Option B disable auto Production if still needed after guard | Pending owner auth |
-| 5 | Acceptance | Update GAP-015 → Mitigated; Instant Promote remains separate | Pending |
+| 4 | Follow-up | Bring guard script to `main` or fail-closed wrapper so Production skips apply to production-branch commits | Pending owner auth |
+| 5 | Optional | Option B disable auto Production if still needed after guard | Pending owner auth |
+| 6 | Acceptance | Update GAP-015 → Mitigated; Instant Promote remains separate | Pending |
 
-Owner may reorder 3 vs 4; **do not** Instant Promote `dpl_8xT92…` as part of GAP-015 mitigation.
+Owner may reorder protection vs guard-on-main; **do not** Instant Promote `dpl_8xT92…` as part of GAP-015 mitigation.
 
-## Owner authorization phrases (for later use)
-
-Suggested explicit phrases:
-
-- `AUTHORIZE: Vercel Ignored Build Step (GAP-015 Option D/E)`
-- `AUTHORIZE: Vercel Production auto-deploy settings change (GAP-015 Option B)`
-- `AUTHORIZE: GitHub main branch protection (GAP-015 Option C)`
-- `AUTHORIZE: Instant Promote <deployment-id>` (separate from GAP-015)
-
-## Interim operating rules (active until mitigated)
+## Interim operating rules (active until fully mitigated)
 
 1. No merge to `main` without owner acceptance of Production-target risk
 2. No Instant Promote / public domain move without separate owner auth
 3. No DB-affecting / hosted-persistence / Blueprint-generation merges to `main`
 4. PR #10 stays archive/reference only
 5. Verify live domain ID after any future authorized `main` merge
-6. After Ignored Build Step is live: unauthorized Production builds should be skipped; authorized builds require exact SHA + reason + flag, then clear auth vars
+6. Ignored Build Step is configured; **effective Production skip requires the guard script on the deployed commit** (present on FTGP; **absent on current `main`**)
+7. After script is on `main` (or fail-closed wrapper): unauthorized Production builds should be skipped; authorized builds require exact SHA + reason + flag, then clear auth vars
 
 ## Success criteria (when later configured)
 
@@ -141,6 +143,7 @@ This plan does **not** claim:
 
 - GAP-004 isolation is proven
 - Live Production was updated
-- Vercel Ignored Build Step is already configured
+- Guard script is present on `main` (residual open)
 - GitHub branch protection is already applied
 - Owner acceptance of Instant Promote
+- GAP-015 is fully mitigated

@@ -339,7 +339,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **#15 GAP-015.3** | Owner-authorized Vercel Ignored Build Step + verify Preview allow / Production skip |
+| 1 | **#15 GAP-015 residual / guard-on-main** | Bring guard script to `main` or fail-closed wrapper (owner auth) |
 | 2 | **#15 GAP-015.4** | Owner-authorized GitHub `main` protection (`verify`, `production-gate`, `postgres-smoke`) |
 | 3 | **Discovery / FTGP local-first** | Continue under GAP-004A holds — does **not** merge PR #10 |
 | 4 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
@@ -347,7 +347,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.DISCOVERY.* · CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1 · **CROW.GAP015.2** (Production deploy guard package certified; settings not applied)
+**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1 · CROW.GAP015.2 · **CROW.GAP015.3** (Ignored Build Step configured; residual documented)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

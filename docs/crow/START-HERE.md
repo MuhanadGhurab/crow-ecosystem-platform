@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.2) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.3) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -80,17 +80,17 @@
 
 ## Current milestone
 
-**CROW.GAP015.2** — Production deploy guard package prepared and certified. Vercel Ignored Build Step and GitHub protection **not** applied. GAP-015 remains **open**.
+**CROW.GAP015.3** — Vercel Ignored Build Step **configured** to the certified Production deploy guard. GitHub protection pending. Residual: guard script not on `main`. GAP-015 remains **open**.
 
-Evidence: [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md) · `npm run vercel-production-deploy-guard:test` · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
+Evidence: [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md) · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
 
-**Prior:** CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1 · Discovery MVP-CERT.1
+**Prior:** CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 archive · unsafe Preview DB fail-closed (GAP-004A) · no hosted migrations/writes · Production env unchanged · Option A/C interim until Ignored Build Step live · Discovery hosted / Blueprint generation blocked
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Option A/C for `main` until guard-on-main residual closed · Discovery hosted / Blueprint blocked
 
-**Owner next:** **CROW.GAP015.3** — authorize Vercel Ignored Build Step configuration · and/or GitHub `main` protection · and/or FTGP/Discovery under holds
+**Owner next:** **CROW.GAP015.4** GitHub `main` protection · and/or authorize guard script onto `main` / fail-closed wrapper
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
@@ -99,7 +99,7 @@ Evidence: [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md) · `npm r
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.3+ Ignored Build Step / branch protection wiring, Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015.4 branch protection + guard-on-main residual, Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

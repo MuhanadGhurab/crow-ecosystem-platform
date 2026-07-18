@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.2) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.3) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `f28a8dc` — CROW.GAP015.2 (guard package) |
+| HEAD | CROW.GAP015.3 Ignored Build Step configuration evidence (pending pin) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #15 GAP-015 (**open** — guard package ready; settings pending) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
+| Seed Issues | #15–#24 · #15 GAP-015 (**open** — Ignored Build Step configured; GitHub protection + main residual pending) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Clean after CROW.GAP015.2 |
+| Working tree | Clean after CROW.GAP015.3 |
 
 ## Stack
 
@@ -198,7 +198,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Status | Evidence |
 |--------|----------|
 | **IMPLEMENTED** | Labels, Phase 0–12 milestones, Project #2, seed Issues #15–#24 |
-| **NOT DONE** | Project views (manual UI); GAP-015.3+ Vercel/GitHub settings application |
+| **NOT DONE** | Project views (manual UI); GAP-015.4 GitHub protection; guard-on-main residual |
 | Evidence | [`milestones/CROW-PM-2.md`](milestones/CROW-PM-2.md), [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) |
 
 ### Public reconciliation — MERGED + AUTO DEPLOY ACCEPTED (RECON.5)
@@ -214,9 +214,9 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 
 | Status | Evidence |
 |--------|----------|
-| **IMPLEMENTED (docs + repo)** | Release authority; Option A/C interim; **GAP-015.2 Production deploy guard** script + tests; setup checklists |
-| **NOT APPLIED** | Vercel Ignored Build Step; GitHub `main` protection; Option B auto-deploy disable |
-| Evidence | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md), [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md), `npm run vercel-production-deploy-guard:test` |
+| **IMPLEMENTED (docs + repo + Vercel)** | Release authority; **GAP-015.3 Ignored Build Step** → guard script; guard tests |
+| **NOT APPLIED** | GitHub `main` protection; guard script on `main`; Option B auto-deploy disable; dashboard migrate removal |
+| Evidence | [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md), [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md), `npm run vercel-production-deploy-guard:test` |
 
 ### Known technical debt
 
@@ -225,7 +225,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 - Milestone ledger (`MILESTONES.md`) percentages not reliable as implementation truth
 - Stripe fields coupled in schema but commercial domain incomplete
 - JourneyKind in crow-story types; OrganizationContext in request types — separate (correct)
-- Production vs `main` public gap mitigated on git (`main` @ `e8cb812`); GAP-015 **open** — deploy guard package ready; Ignored Build Step not configured
+- Production vs `main` public gap mitigated on git (`main` @ `e8cb812`); GAP-015 **open** — Ignored Build Step configured; guard not on `main`; GitHub protection pending
 
 ## Classification legend
 

@@ -52,9 +52,10 @@ Set these only for an authorized Production deploy window, then **clear/reset** 
 
 | Control | Status |
 |---------|--------|
-| Guard script + tests in repo | **Done** (this milestone) |
-| Vercel Ignored Build Step wired | **Not applied** — see setup checklist |
-| GitHub `main` protection | **Not applied** — see GitHub checklist |
+| Guard script + tests in repo | **Done** (CROW.GAP015.2) |
+| Vercel Ignored Build Step wired | **Done** (CROW.GAP015.3) — `node scripts/safety/vercel-production-deploy-guard.mjs` |
+| Guard script on `main` | **Residual** — not on `e8cb812` |
+| GitHub `main` protection | **Not applied** |
 | Live Production | Unchanged |
 
-Until the Ignored Build Step is configured in Vercel, `main` merges remain Production-risk under Option A/C process control.
+Until the guard script is on `main` (or a fail-closed wrapper is authorized), treat `main` merges as Production-risk under Option A/C.

@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.2 guard package) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.3 Ignored Build Step) |
 | **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
-| **Evidence** | [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md), [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md), [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
+| **Evidence** | [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md), [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
@@ -142,23 +142,25 @@ Always record: failed deployment ID, rollback target ID, smoke evidence, owner a
 
 Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · plan: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md).
 
-### Interim operating mode (Option A/C process) — **active now until Ignored Build Step is configured**
+### Interim operating mode (Option A/C process) — **active for `main` until guard is effective on production-branch commits**
 
-- Assume merges to `main` create Production-target deployments **until** Vercel Ignored Build Step runs the repo guard
+- Ignored Build Step is **configured** (CROW.GAP015.3)
+- Effective Production skip requires the guard script on the deployed commit (present on FTGP; **absent on `main` @ `e8cb812`**)
 - Require owner authorization before merging `main`
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
-- Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only — it is not a substitute for Production release discipline)
+- Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only)
 
-### Option E progress (CROW.GAP015.2)
+### Option E progress (CROW.GAP015.3)
 
 | Layer | Status |
 |-------|--------|
 | Guard script + tests | **Prepared and certified** — `scripts/safety/vercel-production-deploy-guard.mjs` |
-| Vercel Ignored Build Step | **Not configured** — see [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) |
+| Vercel Ignored Build Step | **Configured** → `node scripts/safety/vercel-production-deploy-guard.mjs` · [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md) |
 | GitHub `main` protection | **Not applied** — see [`gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md`](gaps/GAP-015-GITHUB-PROTECTION-CHECKLIST.md) |
+| Guard on `main` | **Residual** — script not on `main` yet |
 
-**After** Ignored Build Step is configured:
+**When** the guard script is present on the Production-target commit:
 
 - Unauthorized Production builds should be **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0)
 - Authorized Production builds require `CROW_PRODUCTION_DEPLOY_AUTHORIZED=true` + `CROW_PRODUCTION_DEPLOY_SHA` exact match to `VERCEL_GIT_COMMIT_SHA` + non-empty `CROW_PRODUCTION_DEPLOY_REASON`
@@ -166,25 +168,26 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 - Production-target build ≠ Instant Promote / public domain change (remain separate concepts)
 - Instant Promote of `dpl_8xT92…` remains **not** authorized unless separately stated
 
-### Recommended control mode (Option E) — **guard ready; settings pending**
+### Recommended control mode (Option E) — **Ignored Build Step live; protection + residual pending**
 
-1. **Option D (repo)** — Production deploy guard — **done in repo**
-2. Wire Ignored Build Step (owner settings milestone)
-3. **Option C** — GitHub `main` protection + required CI checks (`verify`, `production-gate`, `postgres-smoke`)
-4. **Option B** — optional additional disable/gate of automatic Production deploys
-5. Keep explicit owner phrases for Instant Promote and settings changes
+1. **Option D (repo)** — Production deploy guard — **done**
+2. Wire Ignored Build Step — **done** (CROW.GAP015.3)
+3. Bring guard to `main` or fail-closed wrapper — **pending**
+4. **Option C** — GitHub `main` protection + required CI checks (`verify`, `production-gate`, `postgres-smoke`)
+5. **Option B** — optional additional disable/gate of automatic Production deploys
+6. Keep explicit owner phrases for Instant Promote and settings changes
 
 ### Other options
 
 | Option | Role |
 |--------|------|
-| A — Process only | Interim only until Ignored Build Step is live |
+| A — Process only | Still required for `main` until residual closed |
 | B — Vercel settings gate | Optional complementary settings layer |
 | C — GitHub branch protection | Necessary; not sufficient alone |
-| D — Ignored build / deploy guard | **Repo package ready**; wire in Vercel next |
+| D — Ignored build / deploy guard | **Configured** in Vercel |
 | E — Combined | **Recommended** safest no-cost path |
 
-**This policy does not change Vercel or GitHub settings by itself.** Applying Ignored Build Step / branch protection requires a dedicated owner-authorized milestone (proposed CROW.GAP015.3+).
+**Branch protection still requires a dedicated owner-authorized milestone (CROW.GAP015.4).** Dashboard `buildCommand` migrate residual is tracked separately and was **not** changed in GAP015.3.
 
 ## 10. PR #10 handling
 
@@ -217,8 +220,8 @@ Every Production-affecting action must leave durable evidence under `docs/crow/`
 
 - [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md)
 - [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md)
-- [`milestones/CROW-GAP015-2.md`](milestones/CROW-GAP015-2.md)
-- [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md)
+- [`milestones/CROW-GAP015-3.md`](milestones/CROW-GAP015-3.md)
+- [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
 - [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md)
 - [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md)
 - [`gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md`](gaps/GAP-015-VERCEL-GUARD-SETUP-CHECKLIST.md)
