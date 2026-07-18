@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.2) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `7f2b68e` — CROW.GAP004.1 (start `a210013`) |
+| HEAD | `3dfde99` start — CROW.GAP004.2 execution/evidence |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #16 GAP-004 · #18 Discovery cert (OPEN) |
+| Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; evidence package) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | GAP-004 audit and decision plan docs |
+| Working tree | GAP-004.2 checklist + redacted isolation checker |
 
 ## Stack
 
@@ -171,10 +171,10 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | Extensive Prisma schema (~80+ models) |
-| RISK | Preview/Production isolation **not proven** — shared ref risk (`wbwnsndcxrgyqwppurms`); GAP-004 open/blocked |
-| IMPLEMENTED | Controlled migration CLI; build-time migrate removed (C2.2); `vercel.json` = generate + build only |
-| AUDIT | **CROW.GAP004.1** — [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) · plan [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) |
-| Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/lib/database-environment.ts` |
+| RISK | Preview/Production isolation **not proven** — operator Preview/Production share `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`) |
+| IMPLEMENTED | Controlled migration CLI; build-time migrate removed; `vercel.json` = generate + build only |
+| PACKAGE | **CROW.GAP004.2** — owner checklist + redacted `db-isolation-env:check` · evidence [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) |
+| Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/safety/check-db-isolation-env.mjs` |
 
 ### Environments
 

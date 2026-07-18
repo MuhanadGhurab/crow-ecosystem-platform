@@ -3,11 +3,12 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Safe implementation plan for DB isolation |
-| **Status** | DECISION PLAN — awaiting owner authorization to execute |
-| **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) |
+| **Status** | DECISION PLAN — Phase 0–1 docs ready; **CROW.GAP004.2** execution checklist + evidence workflow active; isolation **not proven** |
+| **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004-OWNER-EXECUTION-CHECKLIST.md`](GAP-004-OWNER-EXECUTION-CHECKLIST.md) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-1.md`](../milestones/CROW-GAP004-1.md) |
+| **Milestone** | [`../milestones/CROW-GAP004-2.md`](../milestones/CROW-GAP004-2.md) · prior [`../milestones/CROW-GAP004-1.md`](../milestones/CROW-GAP004-1.md) |
 | **Issue** | [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
+| **Evidence** | [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
 **Agents must not execute provisioning, Vercel env edits, or hosted migrations without explicit owner authorization.**
 
@@ -52,57 +53,46 @@ App alignment:
 
 ## Phased path
 
-### Phase 0 — Decision (this milestone)
+### Phase 0 — Decision
 
-- [x] Audit published  
+- [x] Audit published (CROW.GAP004.1)  
+- [x] Execution checklist + redacted checker (CROW.GAP004.2)  
 - [ ] Owner accepts isolation plan  
 - [ ] Owner names Preview project name / billing home  
 - [ ] Owner confirms Production project remains `wbwnsndcxrgyqwppurms` (or documents change)
 
 ### Phase 1 — Provision Preview Supabase (owner)
 
-1. Create Supabase project (e.g. `crow-ecosystem-preview`)  
-2. Record project **ref** (password manager — not git)  
-3. Confirm ref ≠ Production  
-4. Obtain pooler + direct connection strings  
+- [ ] Create Supabase project (e.g. `crow-ecosystem-preview`)  
+- [ ] Record project **ref** (password manager — not git)  
+- [ ] Confirm ref ≠ Production  
+- [ ] Obtain pooler + direct connection strings  
+
+See [`GAP-004-OWNER-EXECUTION-CHECKLIST.md`](GAP-004-OWNER-EXECUTION-CHECKLIST.md).
 
 Reference runbook: [`C2_2_PREVIEW_DATABASE_SETUP_RUNBOOK.md`](../../architecture/crow-core/c2/C2_2_PREVIEW_DATABASE_SETUP_RUNBOOK.md)
 
 ### Phase 2 — Bind Vercel Preview env (owner dashboard only)
 
-Set **Preview** scope variables (do not paste secrets into chat/git):
-
-| Variable | Value |
-|----------|-------|
-| `DATABASE_URL` | Preview pooler |
-| `DIRECT_URL` | Preview direct |
-| `DATABASE_ENVIRONMENT` | `preview` |
-| `EXPECTED_DATABASE_FINGERPRINT` | Hash of Preview `DATABASE_URL` |
-| `EXPECTED_DIRECT_DATABASE_FINGERPRINT` | Hash of Preview `DIRECT_URL` (or same policy as C2.2) |
-| `BACKEND_ISOLATION` | `isolated` |
-
-Confirm **Production** scope still points only at Production URLs + `DATABASE_ENVIRONMENT=production`.
-
-Do **not** set `ALLOW_DATABASE_MIGRATION` on Vercel.
+- [ ] Preview `DATABASE_URL` / `DIRECT_URL` → Preview project only  
+- [ ] `DATABASE_ENVIRONMENT=preview` · `BACKEND_ISOLATION=isolated`  
+- [ ] Preview fingerprint secret set  
+- [ ] Production scope unchanged  
 
 ### Phase 3 — Prove isolation (read-only / check-only)
 
-1. Compute fingerprints for Preview and Production (operator machine; no commit of URLs)  
-2. Confirm hashes differ  
-3. Run controlled migration **check-only** against Preview (no apply):
+- [x] Repo `vercel.json` has no build migrate (verified)  
+- [x] Local operator Preview vs Production compared (2026-07-18) → **shared** (`wbwnsndcxrgyqwppurms`)  
+- [ ] Vercel dashboard redacted evidence with differing refs  
+- [ ] `npm run db-isolation-env:check` → `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=1`  
 
-```bash
-# Operator only — Preview env loaded; no shared-production-backend flag
-npm run db:migrate:controlled -- --environment preview --check-only
-```
+Evidence log: [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md)
 
-4. Optional: re-run read-only preview audit script against Preview URL; expect non-shared classification  
-
-**Exit criteria:** check-only succeeds; fingerprint ≠ Production; no hosted mutation.
+**Exit criteria:** check succeeds; fingerprint/ref ≠ Production; no hosted mutation.
 
 ### Phase 4 — Controlled Preview schema apply (separate owner auth)
 
-Only after Phase 3:
+Only after Phase 3 proven — **not authorized in GAP004.2**.
 
 1. Owner authorizes phrase `APPLY PREVIEW DATABASE MIGRATIONS`  
 2. Apply via controlled wrapper / GitHub workflow_dispatch (not Vercel build)  

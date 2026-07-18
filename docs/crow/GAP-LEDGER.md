@@ -101,14 +101,14 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | **CROW.GAP004.1 audit+plan prepared.** Engineering: build-time migrate removed (C2.2). Isolation **not proven** — historical C2.1 shared ref `wbwnsndcxrgyqwppurms`; shared-backend mode still documented for Preview work |
+| **Current state** | **CROW.GAP004.2** execution checklist + redacted checker ready. Local operator Preview/Production still share ref `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`). Dedicated Preview Supabase + Vercel Preview bind **pending owner**. Build-time migrate already removed |
 | **Severity** | **High** |
-| **Security/authority impact** | Medium–High — Preview/runtime/operator writes can hit Production while shared; migrate-on-build mitigated |
-| **Dependency** | Dedicated Preview Supabase provisioning + Vercel Preview env bind (owner dashboard) |
-| **Proposed milestone** | Owner executes Phase 1–4 of [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md); then re-certify |
-| **Owner decision required** | Provision Preview DB; bind Preview env; end shared as normal; authorize Preview controlled migrate after proof |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-1.md`](milestones/CROW-GAP004-1.md) · [`gaps/GAP-004-DB-ISOLATION-AUDIT.md`](gaps/GAP-004-DB-ISOLATION-AUDIT.md) |
-| **Status** | **Open / blocked** — audit complete; isolation implementation pending |
+| **Security/authority impact** | Medium–High — Preview/runtime/operator writes can hit Production while shared |
+| **Dependency** | Owner provisions Preview Supabase + binds Vercel Preview env |
+| **Proposed milestone** | Owner completes Phases 1–3 per [`gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md`](gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md); then re-certify evidence |
+| **Owner decision required** | Provision Preview DB; bind Preview env; record redacted evidence; authorize Preview migrate only after proof |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-2.md`](milestones/CROW-GAP004-2.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) |
+| **Status** | **Open / blocked** — package ready; isolation not proven |
 
 ## GAP-005 — First Tenant Golden Path completion
 
