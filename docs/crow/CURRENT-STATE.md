@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.PORTABLE.1 — portable Alpha workflow) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.3 — Alpha Demo Backend Mode plan) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,14 +18,14 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip · **CROW.DEVFLOW.PORTABLE.1** (portable multi-device workflow) · DEVFLOW.2 banner · Alpha Mode · Discovery D0–D7 accepted · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
-| Runtime class | **Alpha development + demo sandbox** — portable via GitHub; not commercial production · banner in root layout |
+| HEAD | FTGP tip · **CROW.DEVFLOW.3** (demo backend **plan**; not enabled) · PORTABLE.1 · DEVFLOW.2 banner · Alpha Mode · Discovery D0–D7 accepted · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
+| Runtime class | **Alpha development + demo sandbox** — portable via GitHub; demo backend planned (`ALPHA_DEMO_BACKEND_ENABLED_COUNT=0`) |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** a commercial Production claim under Alpha Mode |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**future commercial gate**; Alpha Mode recorded) · #18 Discovery (**local-first accepted**; OPEN) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.DEVFLOW.PORTABLE.1 |
+| Working tree | Post CROW.DEVFLOW.3 |
 
 ## Stack
 

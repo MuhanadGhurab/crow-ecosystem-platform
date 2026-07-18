@@ -81,19 +81,27 @@ Helpers: `src/lib/runtime/crow-runtime-mode.ts` · tests: `npm run crow-runtime-
 
 Does **not** replace `PreviewDbDisabledNotice` (GAP-004A).
 
-## Controlled Alpha Demo Backend Mode (plan only — DEVFLOW.3)
+## Controlled Alpha Demo Backend Mode (CROW.DEVFLOW.3 — plan prepared)
 
-Future explicit flags (not implemented in DEVFLOW.1):
+**Plan complete; mode not enabled.** See:
 
-| Variable | Intended meaning |
-|----------|------------------|
-| `CROW_RUNTIME_MODE=alpha_development` | Runtime is alpha, not commercial production |
-| `CROW_DATA_CLASSIFICATION=demo_only` | Only demo/test data allowed |
-| `ALLOW_SHARED_DEMO_BACKEND=true` | Selected demo/backend writes may proceed under alpha rules |
+- [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md)
+- [`ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](ALPHA-DEMO-BACKEND-GUARD-PLAN.md)
+- [`../milestones/CROW-DEVFLOW-3.md`](../milestones/CROW-DEVFLOW-3.md)
 
-Even with those flags set, keep blocked: official Blueprint generation, tenant go-live, payment, CroAI production actions, real customer data, unauthorized migrations, unauthorized Production deploy.
+Required future flags for enablement:
 
-See GAP-004A adjustment plan in [`../gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](../gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md).
+| Variable | Value |
+|----------|-------|
+| `CROW_RUNTIME_MODE` | `alpha_development` |
+| `CROW_DATA_CLASSIFICATION` | `demo_only` |
+| `ALLOW_SHARED_DEMO_BACKEND` | `true` |
+
+Even with those flags set later, keep blocked: official Blueprint generation, tenant go-live, payment, CroAI production actions, real customer data, unauthorized migrations, unauthorized Production deploy.
+
+GAP-004A fail-closed Preview DB-disabled remains default until **DEVFLOW.4+** implementation and owner enablement.
+
+**Counters:** `CONTROLLED_ALPHA_DEMO_BACKEND_PLAN_COUNT=1` · `ALPHA_DEMO_BACKEND_ENABLED_COUNT=0`
 
 ## Relationship to existing policies
 

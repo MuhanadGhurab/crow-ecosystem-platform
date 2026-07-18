@@ -31,11 +31,15 @@
 
 ---
 
-## Alpha Mode adjustment plan (CROW.DEVFLOW.1 — docs only)
+## Alpha Mode adjustment plan (CROW.DEVFLOW.1–3)
 
-GAP-004A fail-closed Preview DB-disabled remains the **default safety guard** until a controlled Alpha Demo Backend Mode is owner-authorized and implemented (**CROW.DEVFLOW.3**).
+GAP-004A fail-closed Preview DB-disabled remains the **default safety guard** until a controlled Alpha Demo Backend Mode is **implemented and owner-enabled**.
 
-### Future env flags (do not implement in DEVFLOW.1)
+**Plan prepared:** CROW.DEVFLOW.3 — [`../development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](../development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) · [`../development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](../development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md)
+
+**Not enabled:** `ALPHA_DEMO_BACKEND_ENABLED_COUNT=0` · no runtime guard loosening in DEVFLOW.3.
+
+### Future env flags (implement in DEVFLOW.4+)
 
 | Variable | Intended meaning |
 |----------|------------------|
@@ -45,14 +49,15 @@ GAP-004A fail-closed Preview DB-disabled remains the **default safety guard** un
 
 ### Rules if those flags are later explicitly set
 
-- Demo/backend writes may be allowed for **selected** dev/demo flows only
+- Demo/backend writes may be allowed for **selected** allowlisted demo flows only
 - Still blocked: official Blueprint generation · tenant go-live/provisioning · payment · CroAI production actions · real customer data · migrations unless separately authorized · Production deploy unless separately authorized
 - Does **not** prove GAP-004 isolation
 - Does **not** authorize commercial Production claims
+- Missing any activation condition → **fail closed**
 
-See [`../development/CROW-ALPHA-DEVELOPMENT-MODE.md`](../development/CROW-ALPHA-DEVELOPMENT-MODE.md).
+**UI:** Alpha banner (DEVFLOW.2) + planned demo-write warnings (DEVFLOW.3 plan / DEVFLOW.4+).
 
-**UI:** Alpha/demo banner planned in **CROW.DEVFLOW.2** (alongside or refining Preview DB-disabled notices).
+**Next implementation:** CROW.DEVFLOW.4 — runtime gate + demo-write guard only (no domain persistence yet).
 
 ---
 

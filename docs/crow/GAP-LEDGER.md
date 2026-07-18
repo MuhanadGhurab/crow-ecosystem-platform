@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.PORTABLE.1) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.3) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -105,7 +105,7 @@
 | **Severity** | **High** for commercial go-live; **does not block** alpha/demo development |
 | **Security/authority impact** | Blocks commercial Production claims, real customer data, production-safe hosted persistence, official tenant go-live — until proven or separately authorized |
 | **Dependency** | GAP-004A standing mitigation; Alpha Mode docs [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
-| **Proposed milestone** | Future isolation project at commercialization; alpha path via DEVFLOW.2–3 |
+| **Proposed milestone** | Future isolation at commercialization; alpha demo path via DEVFLOW.4+ after DEVFLOW.3 plan |
 | **Owner decision required** | When to fund/prove isolation for commercial Production; until then Alpha Mode risk accepted |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) · [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) |
 | **Status** | **Open — future commercial / production-readiness gate** (isolation unproven; alpha/demo allowed under policy) |
@@ -116,14 +116,14 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Owner accepted** standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · ALT2 fail-closed implemented · **CROW.DEVFLOW.1** records Alpha Mode adjustment **plan** (controlled demo backend → DEVFLOW.3; do not weaken fail-closed until then) |
+| **Current state** | **Owner accepted** standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · ALT2 fail-closed implemented · **CROW.DEVFLOW.3** plan prepared for controlled demo backend · **not enabled** (`ALPHA_DEMO_BACKEND_ENABLED_COUNT=0`); fail-closed until DEVFLOW.4+ |
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
 | **Security/authority impact** | Fail-closed on unsafe Preview — **accepted**; future alpha demo-backend must keep commercial gates blocked |
 | **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
-| **Proposed milestone** | CROW.DEVFLOW.3 (controlled alpha demo backend) · optional ALT3/ALT4 · future isolation at commercialization |
-| **Owner decision required** | Authorize DEVFLOW.3 before relaxing Preview DB-disabled for demo writes |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-2.md`](milestones/CROW-DEVFLOW-2.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
-| **Status** | **Accepted standing mitigation** — Alpha banner (DEVFLOW.2) coexists; fail-closed until DEVFLOW.3 · Issue #16 stays open |
+| **Proposed milestone** | **CROW.DEVFLOW.4** (gate + demo-write guard) · then limited demo persistence · optional ALT3/ALT4 · future isolation at commercialization |
+| **Owner decision required** | Authorize DEVFLOW.4 before any guard loosening; authorize persistence slice separately |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-3.md`](milestones/CROW-DEVFLOW-3.md) · [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | **Accepted standing mitigation** — DEVFLOW.3 **plan** prepared; fail-closed until DEVFLOW.4+ · Issue #16 stays open |
 
 ## GAP-005 — First Tenant Golden Path completion
 
@@ -259,12 +259,12 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–7** local-first D0–D7 **owner-accepted**. Under **Alpha Mode** (DEVFLOW.1): local-first + alpha/demo review continue; **production-safe** hosted persistence still blocked by GAP-004 commercial gate |
+| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–7** local-first D0–D7 **owner-accepted**. Under **Alpha Mode**: local-first + Preview review continue. Controlled demo backend **planned** (DEVFLOW.3) but **not enabled**. Production-safe hosted persistence still blocked (GAP-004 commercial gate) |
 | **Severity** | Medium |
 | **Security/authority impact** | Low if authority non-claims preserved (D0–D7 tests; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false) |
-| **Dependency** | GAP-004 before **commercial** hosted certify; Alpha Mode for demo review; owner gate before Blueprint drafting |
-| **Proposed milestone** | CROW.DISCOVERY.TRACKS.1 · optional demo-backend after DEVFLOW.3 · Blueprint drafting (owner-gated) |
-| **Owner decision required** | Dual-track unify; when to allow demo-backend vs commercial hosted persistence; Blueprint drafting |
+| **Dependency** | GAP-004 before **commercial** hosted certify; DEVFLOW.4+ before demo hosted writes; owner gate before Blueprint drafting |
+| **Proposed milestone** | CROW.DISCOVERY.TRACKS.1 · demo persistence after DEVFLOW.4+ · Blueprint drafting (owner-gated) |
+| **Owner decision required** | Dual-track unify; when to enable demo-backend persistence vs commercial hosted; Blueprint drafting |
 | **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
 | **Status** | **Partial** — local-first D0–D7 depth **accepted**; hosted / dual-track / drafting remain |
 

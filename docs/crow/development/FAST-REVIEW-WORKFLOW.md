@@ -66,6 +66,6 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 
 ## Recommended next implementation milestone
 
-**CROW.DEVFLOW.3** — Controlled alpha demo backend mode (selected demo writes under explicit flags).
+**CROW.DEVFLOW.4** — Alpha demo backend runtime gate + demo-write guard (no domain persistence yet).
 
-**Done:** **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** (multi-device workflow + doctor scripts).
+**Done:** **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** (multi-device) · **CROW.DEVFLOW.3** (demo backend **plan**).

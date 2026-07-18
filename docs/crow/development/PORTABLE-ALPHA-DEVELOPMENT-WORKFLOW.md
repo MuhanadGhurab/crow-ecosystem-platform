@@ -106,7 +106,7 @@ CROW_DATA_CLASSIFICATION=demo_only
 - No real customer / sensitive / payment data
 - No production-safe hosted persistence claim (GAP-004 future gate)
 - Migrations only with explicit owner authorization
-- Controlled demo-backend writes = future **DEVFLOW.3**
+- Controlled demo-backend writes = **planned** in [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) (CROW.DEVFLOW.3); **not enabled** until DEVFLOW.4+ implementation + owner enablement
 
 ## Safety boundaries (always blocked)
 
