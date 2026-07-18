@@ -24,7 +24,7 @@ Crow already has a **functional Discovery runtime shell** (operator workspace, c
 
 Three surfaces still share one `DiscoveryProfile` with **fragmented field keys** for D3+. Request → Discovery handoff remains **qualified and gated**.
 
-**GAP-017** remains open for D6 (intentional Blueprint handoff). Local Discovery through ProCrow modeling review landed in CROW.DISCOVERY.5 (`readyForModeling` possible; Blueprint still blocked).
+**GAP-017** remains **partial**: D0–D6 local-first Discovery MVP is implemented (`readyForBlueprintHandoff` possible; draft/generation still blocked). Still open: Stages 4–7 field depth, dual client tracks, hosted persistence, owner-authorized Blueprint drafting.
 
 ---
 

@@ -3,12 +3,12 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Operating Model capture — plan for Discovery MVP stream |
-| **Status** | CANONICAL plan — **D4 OM input draft + D5 ProCrow modeling review local-first (CROW.DISCOVERY.4 / .5)** |
+| **Status** | CANONICAL plan — **D4–D6 local-first (OM draft → ProCrow review → Blueprint handoff package)** |
 | **Authority** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) · [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTERPRISE-BLUEPRINT.md) |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Audit** | [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) |
-| **Milestone** | [`milestones/CROW-DISCOVERY-4.md`](../milestones/CROW-DISCOVERY-4.md) |
+| **Milestone** | [`milestones/CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md) |
 
 **Boundary:** D4 produces a **Draft Operating Model Input** from local Discovery answers. It is pre-Blueprint, not approved, not tenant runtime, and does **not** generate Blueprint.
 
@@ -86,7 +86,7 @@ Discovery collects structured information so ProCrow can later draft an **Operat
 | D2–D3 | UI capture for people, workflows, trust, risks, current/future |
 | D4 | **Done** — Explicit OM draft summary view (client + operator) |
 | D5 | **Done** — ProCrow modeling readiness / ready-for-modeling (local; no Blueprint) |
-| D6 | Freeze OM draft for Blueprint handoff (future milestone executes handoff) |
+| D6 | **Done** — Local Blueprint handoff package / boundary (no draft records; generation blocked) |
 
 ---
 
@@ -109,7 +109,7 @@ Discovery collects structured information so ProCrow can later draft an **Operat
 
 ## Owner decisions still required
 
-1. Authorize D5 ProCrow modeling review workflow
+1. Owner acceptance of D0–D6 local-first Discovery MVP
 2. Unify client enterprise-design OM variants into Discovery stages or keep deferred
-3. Whether OM draft needs a dedicated hosted table later (prefer answers first)
-4. When to allow Blueprint complete override
+3. Whether OM draft needs a dedicated hosted table later (prefer answers first; GAP-004 first)
+4. When to authorize a future Blueprint drafting milestone (still gated; do not casually enable override)

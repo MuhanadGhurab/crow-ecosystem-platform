@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.5) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.6) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -49,7 +49,7 @@
 | [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
 | [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) | PR #10 draft archive + slice extraction rules (owner accepted) |
 | [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) | PR #10 conflict inventory |
-| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D5 implemented; D6 pending) |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D6 local-first complete) |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -68,17 +68,19 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.5** — ProCrow modeling review and ready-for-modeling (local-first; Blueprint still blocked).
+**CROW.DISCOVERY.6** — Blueprint handoff contract and owner-gated boundary (local-first; generation still blocked).
 
-Evidence: [`milestones/CROW-DISCOVERY-5.md`](milestones/CROW-DISCOVERY-5.md) · `npm run discovery-mvp-d5:test` · prior [`milestones/CROW-DISCOVERY-4.md`](milestones/CROW-DISCOVERY-4.md)
+Evidence: [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md) · `npm run discovery-mvp-d6:test` · prior [`milestones/CROW-DISCOVERY-5.md`](milestones/CROW-DISCOVERY-5.md)
 
-**Prior:** CROW.DISCOVERY.4 @ `1cdcffe` · CROW.DISCOVERY.3 @ `e7e322e` · CROW.DISCOVERY.2
+**Prior:** CROW.DISCOVERY.5 @ `e96f71e` · CROW.DISCOVERY.4 @ `1cdcffe` · CROW.DISCOVERY.3 @ `e7e322e`
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
 **Hold:** PR #10 remains DRAFT archive — **do not merge**; no conflict resolution for monolith merge; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim
 
-**Recommended next:** **CROW.DISCOVERY.6** (intentional Blueprint handoff under owner gate) under Issue #18 · or GAP-004 / GAP-015 triage
+**Recommended next:** Owner acceptance of D0–D6 local-first · or future Blueprint drafting under explicit gate · or GAP-004 / GAP-015 triage
+
+Under Issue #18 · keep Issue OPEN until owner accepts Discovery MVP outcomes
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING (archive) · **Project:** #2 private
 

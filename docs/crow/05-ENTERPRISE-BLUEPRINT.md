@@ -5,7 +5,7 @@
 | **Title** | Enterprise Blueprint |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-04 |
+| **Last reviewed** | 2026-07-18 |
 | **Supersedes** | — |
 | **Related decisions** | [ADR-004](decisions/ADR-004-blueprint-approval-precedes-tenant-build.md) |
 | **Implementation state** | PARTIAL — Studio, versioning (C2), review cycles implemented |
@@ -50,6 +50,18 @@ The Blueprint must explain **why** important recommendations exist.
 ## Approval gate
 
 **Blueprint approval must precede tenant build.** Tenant provisioning from unapproved blueprint is prohibited.
+
+## Discovery handoff boundary (CROW.DISCOVERY.6)
+
+Discovery may produce a **local Blueprint handoff package** (`DiscoveryBlueprintHandoffPackage`) that is explicitly **pre-Blueprint**:
+
+- `readyForBlueprintHandoff` may be true after ProCrow modeling readiness
+- `readyForBlueprintDraft` remains false until a future owner-authorized drafting milestone
+- `blueprintGenerationAllowed` remains false while Discovery Complete quarantine holds
+- Owner gate and ProCrow gate remain required
+- GAP-004 must be resolved before hosted Blueprint persistence
+
+This package does **not** create `EnterpriseBlueprint` records, call `completeDiscovery`, or provision a tenant.
 
 ## Implementation evidence
 

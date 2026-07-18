@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.5) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.6) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `2b30e93` — CROW.DISCOVERY.5 (start `1cdcffe`) |
+| HEAD | `e96f71e` start — CROW.DISCOVERY.6 in progress / tip pinned in milestone |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #18 updated for DISCOVERY.5 |
+| Seed Issues | #15–#24 · #18 updated for DISCOVERY.6 |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Discovery D5 ProCrow modeling review slice |
+| Working tree | Discovery D6 Blueprint handoff contract slice |
 
 ## Stack
 
@@ -75,17 +75,17 @@
 | DEFERRED | Server-persisted DRAFT; hosted Preview certify (GAP-004) |
 | Evidence | [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md), `/client/requests/*`, Issue #17 |
 
-### Discovery — PARTIAL (D0–D5 local-first · D6 pending)
+### Discovery — PARTIAL (D0–D6 local-first · depth/hosted pending)
 
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | Client/operator Discovery; qualification gate; D0–D3 adaptive Stages 1–3 (localStorage) |
 | IMPLEMENTED | **CROW.DISCOVERY.4** — local Operating Model input draft + preview |
-| IMPLEMENTED | **CROW.DISCOVERY.5** — ProCrow modeling review; `readyForModeling` may be true locally; `readyForBlueprintDraft` false |
+| IMPLEMENTED | **CROW.DISCOVERY.5** — ProCrow modeling review; `readyForModeling` may be true locally |
+| IMPLEMENTED | **CROW.DISCOVERY.6** — Blueprint handoff package; `readyForBlueprintHandoff` may be true; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false |
 | IMPLEMENTED | Blueprint **complete path quarantined** by default |
-| PENDING | D6 intentional Blueprint handoff (owner-authorized) |
-| PARTIAL | Stages 4–7 field depth; dual client tracks; hosted persistence not started |
-| Evidence | [`milestones/CROW-DISCOVERY-5.md`](milestones/CROW-DISCOVERY-5.md), `discovery-mvp-d5:test`, Issue #18 |
+| PENDING | Owner-authorized Blueprint drafting; Stages 4–7 field depth; dual client tracks; hosted persistence |
+| Evidence | [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md), `discovery-mvp-d6:test`, Issue #18 |
 
 ### Blueprint — PARTIAL
 
