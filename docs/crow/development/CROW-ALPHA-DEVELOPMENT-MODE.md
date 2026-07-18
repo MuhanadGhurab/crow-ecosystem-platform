@@ -7,7 +7,7 @@
 | **Authority** | Owner decision — CROW.DEVFLOW.1 |
 | **Date** | 2026-07-18 |
 | **Milestone** | [`../milestones/CROW-DEVFLOW-2.md`](../milestones/CROW-DEVFLOW-2.md) · prior [`../milestones/CROW-DEVFLOW-1.md`](../milestones/CROW-DEVFLOW-1.md) |
-| **Related** | [`FAST-REVIEW-WORKFLOW.md`](FAST-REVIEW-WORKFLOW.md) · [`DEMO-DATA-POLICY.md`](DEMO-DATA-POLICY.md) · [`../16-PRODUCTION-DEPLOYMENT-POLICY.md`](../16-PRODUCTION-DEPLOYMENT-POLICY.md) |
+| **Related** | [`FAST-REVIEW-WORKFLOW.md`](FAST-REVIEW-WORKFLOW.md) · [`DEMO-DATA-POLICY.md`](DEMO-DATA-POLICY.md) · [`PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md) · [`../16-PRODUCTION-DEPLOYMENT-POLICY.md`](../16-PRODUCTION-DEPLOYMENT-POLICY.md) |
 
 ## Owner direction (recorded)
 
@@ -39,8 +39,8 @@ Constraints accepted by owner:
 
 | Channel | Role in Alpha Mode |
 |---------|-------------------|
-| Cursor | Build engine |
-| GitHub | Control / history (`main` protected; PR #10 archive) |
+| Cursor | Build engine — portable across desktop/laptop ([`PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md)) |
+| GitHub | Control / history (`main` protected; PR #10 archive) — **source of truth** |
 | Vercel Preview / branch URLs | Live development review channel |
 | Vercel Production domain | May exist as a live artifact — **do not treat as commercial Production** |
 | Supabase (existing project) | Demo/dev sandbox data only |

@@ -301,6 +301,8 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DEVFLOW.2 (build):** Alpha banner + runtime classification helpers — see [`milestones/CROW-DEVFLOW-2.md`](milestones/CROW-DEVFLOW-2.md). `npm run crow-runtime-mode:test`.
 
+**CROW.DEVFLOW.PORTABLE.1 (workflow):** Multi-device portable Alpha Development — see [`milestones/CROW-DEVFLOW-PORTABLE-1.md`](milestones/CROW-DEVFLOW-PORTABLE-1.md). `npm run crow-dev:doctor`.
+
 **CROW.DISCOVERY.MVP-CERT.1 (cert package):** Superseded for acceptance status by LOCAL-FIRST.ACCEPT.1 — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md).
 
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft · **stop before Blueprint generation**.
@@ -355,7 +357,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** **CROW.DEVFLOW.2** · **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1**
+**Completed recently:** **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.2** · **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1**
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

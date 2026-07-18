@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.2 — Alpha banner + runtime helpers) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.PORTABLE.1 — portable multi-device Alpha workflow) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -42,6 +42,9 @@
 | [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) | Crow Alpha Development Mode (fast review; not commercial Production) |
 | [`development/FAST-REVIEW-WORKFLOW.md`](development/FAST-REVIEW-WORKFLOW.md) | Cursor → Preview → feedback loop |
 | [`development/DEMO-DATA-POLICY.md`](development/DEMO-DATA-POLICY.md) | Demo/test data allowed; real customer data forbidden |
+| [`development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md) | Multi-device portable Alpha workflow (GitHub source of truth) |
+| [`development/LAPTOP-SETUP-CHECKLIST.md`](development/LAPTOP-SETUP-CHECKLIST.md) | First-time laptop / new-device setup |
+| [`development/CURSOR-MULTI-DEVICE-GUIDE.md`](development/CURSOR-MULTI-DEVICE-GUIDE.md) | Cursor on desktop or laptop |
 | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
 | [`procrow/PROCROW-QUALIFICATION-AUDIT.md`](procrow/PROCROW-QUALIFICATION-AUDIT.md) | ProCrow qualification outcome audit |
@@ -85,19 +88,19 @@
 
 ## Current milestone
 
-**CROW.DEVFLOW.2** — Alpha banner + runtime classification helpers **implemented**. Next: **CROW.DEVFLOW.3** (controlled alpha demo backend).
+**CROW.DEVFLOW.PORTABLE.1** — Portable multi-device Alpha Development workflow **prepared** (docs + local doctor/bootstrap scripts). Next product slice: **CROW.DEVFLOW.3** (controlled alpha demo backend).
 
-Evidence: [`milestones/CROW-DEVFLOW-2.md`](milestones/CROW-DEVFLOW-2.md) · `src/lib/runtime/crow-runtime-mode.ts` · `CrowAlphaRuntimeBanner`
+Evidence: [`milestones/CROW-DEVFLOW-PORTABLE-1.md`](milestones/CROW-DEVFLOW-PORTABLE-1.md) · [`development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md)
 
-**Prior:** CROW.DEVFLOW.1 · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · …
+**Prior:** CROW.DEVFLOW.2 · CROW.DEVFLOW.1 · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · …
 
-**Runtime class:** Alpha development + demo sandbox — **not** commercial production · visible alpha banner on hosted/local review.
+**Runtime class:** Alpha development + demo sandbox — **not** commercial production · portable across devices via GitHub
 
 **Production domain:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected) — not a commercial Production claim under Alpha Mode
 
 **Hold:** PR #10 archive · GAP-004A Preview fail-closed until DEVFLOW.3 · no unauthorized migrations/writes · no Instant Promote · no official Blueprint / payment / tenant go-live · intentional Production only via `CROW.PRODUCTION.DEPLOY`
 
-**Owner next:** **CROW.DEVFLOW.3** (recommended) · Discovery track unify · demo seed · friend/tester checklist · GAP-004 when commercializing
+**Owner next:** Use laptop checklist · **CROW.DEVFLOW.3** when ready · Discovery track unify · GAP-004 when commercializing
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN
 

@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.2) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.PORTABLE.1) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |

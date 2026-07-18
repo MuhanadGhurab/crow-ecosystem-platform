@@ -57,6 +57,7 @@ Until controlled Alpha Demo Backend Mode is implemented (DEVFLOW.3):
 - Prefer **local-first** and fail-closed Preview DB-disabled (GAP-004A) where still active
 - Do not write hosted business data without explicit owner authorization for a demo/backend slice
 - Existing Supabase may be conceptually classified as demo/dev sandbox — **writing** still requires a later authorized mode or explicit owner exception
+- Multi-device work uses GitHub + Vercel Preview; see [`PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md)
 
 ## Counters (policy)
 
