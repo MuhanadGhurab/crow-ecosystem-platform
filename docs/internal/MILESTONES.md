@@ -1243,6 +1243,23 @@ Documentation below is **G1 through G10** in order, then **H1** (demo polish).
 
 ---
 
+## M4D — Business Portal Invite Email Delivery
+
+**Scope:** Add controlled transactional email for Business Portal invites while preserving M4C token security and manual copy-link fallback. Provider-neutral abstraction; Resend when configured; no migration.
+
+| Deliverable | Location |
+|-------------|----------|
+| Phase doc | `docs/internal/M4D_BUSINESS_PORTAL_INVITE_EMAIL_DELIVERY.md` |
+| Email module | `src/lib/email/` |
+| Integration | `tenant-invite-token.service.ts`, `tenant-invite-acceptance.ts`, `admin-tenant-membership-invite-panel.tsx` |
+| Verifier | `npm run tenant-invite-email:verify` |
+
+**Status:** **IMPLEMENTATION PASSED** (6 Jun 2026) — server-only provider abstraction; delivery outcomes in UI; retry when invite URL still in session; audit without token leakage; full verifier + validation suite green on `feat/m4d-invite-email-delivery`; operator live-email smoke deferred until Resend configured.
+
+**Recommended next:** Merge M4D when approved · operator email delivery smoke · **M4E — Tenant Membership Management UX** · **M3.6**
+
+---
+
 ## A1.1 — Public Homepage Hero & Website Visual Reset
 
 **Scope:** Rebuild public homepage hero and first sections for premium enterprise SaaS feel. Remove hero side card; add 5-step flow, three workspaces, and product engine cards. Visual/UX only — no auth, backend, database, migrations, or payments.

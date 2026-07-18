@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 
 import { prisma } from "@/lib/db";
+import { sendBusinessPortalInviteEmail } from "@/lib/email/send-business-portal-invite-email";
 import { grantTenantAccess } from "@/lib/services/membership.service";
 import { getTenantById } from "@/lib/services/tenant.service";
 import {
@@ -8,6 +9,7 @@ import {
   TENANT_INVITE_ACCEPTANCE_DISCLAIMERS,
   type AcceptTenantInviteResult,
   type CreateTenantInviteTokenResult,
+  type InviteEmailDeliverySummary,
   type TenantInviteAcceptanceAuditSource,
   type TenantInviteAcceptancePublicView,
   type TenantInviteAcceptanceViewStatus,
@@ -47,6 +49,25 @@ function siteOrigin(): string {
 
 export function buildTenantInviteAcceptanceUrl(rawToken: string): string {
   return `${siteOrigin()}/tenant-invite/${rawToken}`;
+}
+
+export function extractRawTokenFromInviteUrl(inviteUrl: string): string | null {
+  try {
+    const url = new URL(inviteUrl);
+    const segments = url.pathname.split("/").filter(Boolean);
+    const rawToken = segments[segments.length - 1];
+    if (!rawToken || rawToken.length < 16) return null;
+    return rawToken;
+  } catch {
+    return null;
+  }
+}
+
+function buildInviteResultMessage(delivery: InviteEmailDeliverySummary): string {
+  if (delivery.outcome === "delivered") {
+    return `${delivery.operatorMessage} Copy the invite link below if you need a manual fallback.`;
+  }
+  return `${delivery.operatorMessage} Copy the invite link below.`;
 }
 
 function toRecordStatus(status: TenantMembershipInviteStatus): TenantMembershipInviteRecordStatus {
@@ -90,6 +111,61 @@ async function expireInviteIfNeeded(invite: {
     data: { status: "expired" },
   });
   return "expired";
+}
+
+async function logInviteEmailDeliveryAudit(input: {
+  tenantId: string;
+  tenantSlug: string;
+  inviteId: string;
+  email: string;
+  role: TenantInviteRole;
+  actorLabel: string;
+  source: TenantInviteAcceptanceAuditSource;
+  outcome: InviteEmailDeliverySummary["outcome"];
+}) {
+  try {
+    const eventByOutcome = {
+      delivered: "tenant_invite_email_delivered",
+      provider_unconfigured: "tenant_invite_email_delivery_attempted",
+      provider_rejected: "tenant_invite_email_failed",
+      invalid_recipient: "tenant_invite_email_failed",
+      delivery_error: "tenant_invite_email_failed",
+    } as const;
+
+    const subjectByOutcome = {
+      delivered: `Business Portal invite email delivered · /${input.tenantSlug}`,
+      provider_unconfigured: `Business Portal invite email skipped (unconfigured) · /${input.tenantSlug}`,
+      provider_rejected: `Business Portal invite email rejected · /${input.tenantSlug}`,
+      invalid_recipient: `Business Portal invite email invalid recipient · /${input.tenantSlug}`,
+      delivery_error: `Business Portal invite email failed · /${input.tenantSlug}`,
+    } as const;
+
+    await prisma.platformNotification.create({
+      data: {
+        eventType: "tenant_invite_email",
+        recipientEmail: PLATFORM_ADVISORY_EMAIL,
+        subject: subjectByOutcome[input.outcome],
+        body: `${input.actorLabel} attempted invite email for ${input.email} (${input.role}). Outcome: ${input.outcome}.`,
+        status: "logged",
+        deliveryStatus: input.outcome === "delivered" ? "sent" : "logged",
+        inboxStatus: "open",
+        severity: input.outcome === "delivered" ? "low" : "medium",
+        metadata: {
+          tenantId: input.tenantId,
+          tenantSlug: input.tenantSlug,
+          inviteId: input.inviteId,
+          inviteEmail: input.email,
+          inviteRole: input.role,
+          inviteEmailOutcome: input.outcome,
+          inviteEmailEvent: eventByOutcome[input.outcome],
+          inviteSource: input.source,
+          invitedBy: input.actorLabel,
+        },
+      },
+    });
+  } catch {
+    /* never block invite flow */
+  }
 }
 
 async function logInviteAcceptanceAudit(input: {
@@ -232,15 +308,105 @@ export async function createTenantInviteToken(
     note: input.operatorNote,
   });
 
+  const emailDelivery = await sendBusinessPortalInviteEmail({
+    recipientEmail: email,
+    tenantName: tenant.organization.displayName,
+    invitedRole: input.role,
+    inviteUrl,
+    expiresAt,
+    invitedByDisplayName: input.invitedByLabel,
+  });
+
+  await logInviteEmailDeliveryAudit({
+    tenantId: tenant.id,
+    tenantSlug: tenant.slug,
+    inviteId: invite.id,
+    email,
+    role: input.role,
+    actorLabel: input.invitedByLabel,
+    source: input.source,
+    outcome: emailDelivery.outcome,
+  });
+
   return {
     inviteId: invite.id,
     inviteUrl,
     email,
     role: input.role,
     expiresAt: expiresAt.toISOString(),
-    message:
-      "Copy the invite link and share it manually with the invited user. Crow does not send email in this phase.",
+    message: buildInviteResultMessage(emailDelivery),
+    emailDelivery,
   };
+}
+
+export type RetryTenantInviteEmailDeliveryInput = {
+  inviteId: string;
+  tenantId: string;
+  inviteUrl: string;
+  invitedByUserId: string;
+  invitedByLabel: string;
+  source: TenantInviteAcceptanceAuditSource;
+};
+
+export async function retryTenantInviteEmailDelivery(
+  input: RetryTenantInviteEmailDeliveryInput
+): Promise<InviteEmailDeliverySummary> {
+  const rawToken = extractRawTokenFromInviteUrl(input.inviteUrl);
+  if (!rawToken) {
+    return {
+      outcome: "delivery_error",
+      operatorMessage:
+        "Retry is unavailable because the invite link is no longer in this session. Create a new invite instead.",
+    };
+  }
+
+  const tokenHash = hashInviteToken(rawToken);
+  const invite = await prisma.tenantMembershipInvite.findFirst({
+    where: { id: input.inviteId, tenantId: input.tenantId, tokenHash },
+    include: { tenant: { include: { organization: true } } },
+  });
+
+  if (!invite) {
+    return {
+      outcome: "delivery_error",
+      operatorMessage:
+        "Retry is unavailable — the invite link does not match this invite. Create a new invite instead.",
+    };
+  }
+
+  const status = await expireInviteIfNeeded(invite);
+  if (status !== "pending") {
+    return {
+      outcome: "delivery_error",
+      operatorMessage: "Retry is only available for pending invites.",
+    };
+  }
+
+  if (!isTenantInviteRole(invite.role)) {
+    throw new Error("Invite role is not allowed.");
+  }
+
+  const emailDelivery = await sendBusinessPortalInviteEmail({
+    recipientEmail: invite.email,
+    tenantName: invite.tenant.organization.displayName,
+    invitedRole: invite.role,
+    inviteUrl: input.inviteUrl,
+    expiresAt: invite.expiresAt,
+    invitedByDisplayName: input.invitedByLabel,
+  });
+
+  await logInviteEmailDeliveryAudit({
+    tenantId: invite.tenantId,
+    tenantSlug: invite.tenant.slug,
+    inviteId: invite.id,
+    email: invite.email,
+    role: invite.role,
+    actorLabel: input.invitedByLabel,
+    source: input.source,
+    outcome: emailDelivery.outcome,
+  });
+
+  return emailDelivery;
 }
 
 async function findInviteByRawToken(rawToken: string) {

@@ -10,10 +10,14 @@ import { routes } from "@/lib/routes";
 import {
   acceptTenantInviteByToken,
   createTenantInviteToken,
+  retryTenantInviteEmailDelivery,
   revokeTenantInvite,
 } from "@/lib/services/tenant-invite-token.service";
 import { getTenantById, getTenantBySlug } from "@/lib/services/tenant.service";
-import type { CreateTenantInviteTokenResult } from "@/lib/tenant/tenant-invite-acceptance-contract";
+import type {
+  CreateTenantInviteTokenResult,
+  InviteEmailDeliverySummary,
+} from "@/lib/tenant/tenant-invite-acceptance-contract";
 import {
   isTenantInviteRole,
   type TenantInviteRole,
@@ -29,6 +33,10 @@ export type TenantInviteAcceptState =
   | undefined;
 
 export type TenantInviteRevokeState = { error?: string; success?: string } | undefined;
+
+export type TenantInviteEmailRetryState =
+  | { error?: string; success?: string; emailDelivery?: InviteEmailDeliverySummary }
+  | undefined;
 
 async function resolveInviteActor(tenantSlug: string): Promise<
   | { error: string }
@@ -156,6 +164,57 @@ export async function acceptTenantInviteAndRedirectAction(
     redirect(state.redirectPath);
   }
   return state;
+}
+
+export async function retryTenantInviteEmailAction(
+  _prev: TenantInviteEmailRetryState,
+  formData: FormData
+): Promise<TenantInviteEmailRetryState> {
+  const inviteId = String(formData.get("inviteId") ?? "").trim();
+  const tenantId = String(formData.get("tenantId") ?? "").trim();
+  const tenantSlug = String(formData.get("tenantSlug") ?? "").trim();
+  const inviteUrl = String(formData.get("inviteUrl") ?? "").trim();
+
+  if (!inviteId || !tenantId || !inviteUrl) {
+    return { error: "Invite id, tenant, and invite link are required to retry email delivery." };
+  }
+
+  const tenant = await getTenantById(tenantId);
+  if (!tenant) {
+    return { error: "Tenant not found." };
+  }
+
+  const actor = await resolveInviteActor(tenantSlug || tenant.slug);
+  if ("error" in actor) {
+    return { error: actor.error };
+  }
+
+  try {
+    const emailDelivery = await retryTenantInviteEmailDelivery({
+      inviteId,
+      tenantId: tenant.id,
+      inviteUrl,
+      invitedByUserId: actor.user.id,
+      invitedByLabel: actor.user.email ?? actor.user.id,
+      source: actor.source,
+    });
+
+    if (emailDelivery.outcome === "delivered") {
+      return {
+        success: emailDelivery.operatorMessage,
+        emailDelivery,
+      };
+    }
+
+    return {
+      error: emailDelivery.operatorMessage,
+      emailDelivery,
+    };
+  } catch (err) {
+    return {
+      error: err instanceof Error ? err.message : "Failed to retry invite email delivery.",
+    };
+  }
 }
 
 export async function revokeTenantInviteAction(

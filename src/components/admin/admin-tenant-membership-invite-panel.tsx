@@ -3,7 +3,9 @@
 import { useActionState, useState } from "react";
 import {
   createTenantInviteTokenAction,
+  retryTenantInviteEmailAction,
   revokeTenantInviteAction,
+  type TenantInviteEmailRetryState,
   type TenantInviteRevokeState,
   type TenantInviteTokenState,
 } from "@/lib/actions/tenant-invite-acceptance";
@@ -15,11 +17,13 @@ import {
   WORKFORCE_ACTIVATION_PURPOSE,
   WORKFORCE_ACTIVATION_SAFETY_NOTES,
   WORKFORCE_ACTIVATION_STATUS_CHIP,
+  WORKFORCE_ACTIVATION_STATUS_CHIP_EMAIL,
 } from "@/lib/constants/crow-workforce-activation";
 import type { TenantMembershipAccessSummary } from "@/lib/tenant/tenant-membership-contract";
 import { TENANT_WORKFORCE_SECTION_ID } from "@/lib/constants/tenant-command-center";
 import {
   DEFAULT_TENANT_INVITE_EXPIRY_DAYS,
+  type InviteEmailDeliveryOutcome,
   type TenantMembershipInviteListItem,
   type TenantMembershipInviteRecordStatus,
 } from "@/lib/tenant/tenant-invite-acceptance-contract";
@@ -29,6 +33,7 @@ type Props = {
   tenantSlug: string;
   accessSummary?: TenantMembershipAccessSummary | null;
   inviteHistory: TenantMembershipInviteListItem[];
+  inviteEmailConfigured: boolean;
 };
 
 function statusLabel(status: TenantMembershipInviteRecordStatus): string {
@@ -97,20 +102,61 @@ function CopyInviteLink({ url }: { url: string }) {
   );
 }
 
+function deliveryBannerTitle(outcome: InviteEmailDeliveryOutcome): string {
+  switch (outcome) {
+    case "delivered":
+      return WORKFORCE_ACTIVATION_COPY.deliveryDelivered;
+    case "provider_unconfigured":
+      return WORKFORCE_ACTIVATION_COPY.deliveryUnavailable;
+    default:
+      return WORKFORCE_ACTIVATION_COPY.deliveryFailed;
+  }
+}
+
+function deliveryBannerTone(outcome: InviteEmailDeliveryOutcome): string {
+  if (outcome === "delivered") {
+    return "border-teal-500/35 bg-teal-500/10 text-teal-100";
+  }
+  if (outcome === "provider_unconfigured") {
+    return "border-amber-500/35 bg-amber-500/10 text-amber-100";
+  }
+  return "border-red-500/35 bg-red-500/10 text-red-100";
+}
+
+function canRetryEmailDelivery(outcome: InviteEmailDeliveryOutcome): boolean {
+  return outcome === "delivery_error" || outcome === "provider_rejected";
+}
+
 export function AdminTenantMembershipInvitePanel({
   tenantId,
   tenantSlug,
   accessSummary,
   inviteHistory,
+  inviteEmailConfigured,
 }: Props) {
   const [tokenState, tokenAction, tokenPending] = useActionState<TenantInviteTokenState, FormData>(
     createTenantInviteTokenAction,
     undefined
   );
+  const [retryState, retryAction, retryPending] = useActionState<
+    TenantInviteEmailRetryState,
+    FormData
+  >(retryTenantInviteEmailAction, undefined);
   const [revokeState, revokeAction, revokePending] = useActionState<TenantInviteRevokeState, FormData>(
     revokeTenantInviteAction,
     undefined
   );
+
+  const activeDelivery =
+    retryState?.emailDelivery ?? tokenState?.result?.emailDelivery ?? null;
+  const activeInviteUrl = tokenState?.result?.inviteUrl ?? null;
+  const activeInviteId = tokenState?.result?.inviteId ?? null;
+  const activeRecipientEmail = tokenState?.result?.email ?? null;
+  const activeExpiresAt = tokenState?.result?.expiresAt ?? null;
+
+  const createButtonLabel = inviteEmailConfigured
+    ? WORKFORCE_ACTIVATION_COPY.createAndEmail
+    : WORKFORCE_ACTIVATION_COPY.createLink;
 
   return (
     <div id={TENANT_WORKFORCE_SECTION_ID} className="scroll-mt-24 space-y-6">
@@ -118,7 +164,9 @@ export function AdminTenantMembershipInvitePanel({
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-base font-semibold text-slate-100">{TENANT_WORKFORCE_ACTIVATION_TITLE}</h2>
           <span className="inline-flex rounded-full border border-cyan-500/35 bg-cyan-500/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-cyan-200">
-            {WORKFORCE_ACTIVATION_STATUS_CHIP}
+            {inviteEmailConfigured
+              ? WORKFORCE_ACTIVATION_STATUS_CHIP_EMAIL
+              : WORKFORCE_ACTIVATION_STATUS_CHIP}
           </span>
         </div>
         <p className="max-w-2xl text-sm text-slate-400">{WORKFORCE_ACTIVATION_PURPOSE}</p>
@@ -129,8 +177,10 @@ export function AdminTenantMembershipInvitePanel({
         <div>
           <h3 className="text-sm font-semibold text-cyan-100">{BUSINESS_PORTAL_INVITE_TITLE}</h3>
           <p className="mt-1 text-xs text-slate-500">
-            Business Portal access only. {WORKFORCE_ACTIVATION_COPY.manualDelivery} Email delivery is not
-            active in this phase.
+            Business Portal access only.{" "}
+            {inviteEmailConfigured
+              ? WORKFORCE_ACTIVATION_COPY.emailConfiguredHint
+              : WORKFORCE_ACTIVATION_COPY.emailUnconfiguredHint}
           </p>
         </div>
 
@@ -193,7 +243,9 @@ export function AdminTenantMembershipInvitePanel({
                   defaultValue={DEFAULT_TENANT_INVITE_EXPIRY_DAYS}
                   className="input-cc w-20"
                 />
-                <span className="text-xs text-slate-500">days (default {WORKFORCE_ACTIVATION_COPY.expiryDefaultDays})</span>
+                <span className="text-xs text-slate-500">
+                  days (default {WORKFORCE_ACTIVATION_COPY.expiryDefaultDays})
+                </span>
               </div>
             </div>
             <div className="sm:col-span-2">
@@ -211,13 +263,56 @@ export function AdminTenantMembershipInvitePanel({
           </div>
 
           {tokenState?.error && <p className="text-sm text-red-400">{tokenState.error}</p>}
-          {tokenState?.success && <p className="text-sm text-teal-300">{tokenState.success}</p>}
-          {tokenState?.result?.inviteUrl && (
+          {tokenState?.success && !activeDelivery && (
+            <p className="text-sm text-teal-300">{tokenState.success}</p>
+          )}
+
+          {activeDelivery && (
+            <div className={`rounded-lg border p-3 text-sm ${deliveryBannerTone(activeDelivery.outcome)}`}>
+              <p className="font-medium">{deliveryBannerTitle(activeDelivery.outcome)}</p>
+              <p className="mt-1 text-xs opacity-90">{activeDelivery.operatorMessage}</p>
+              {activeRecipientEmail && (
+                <p className="mt-2 text-xs opacity-80">Recipient: {activeRecipientEmail}</p>
+              )}
+              {activeExpiresAt && (
+                <p className="mt-1 text-xs opacity-80">
+                  Expires {new Date(activeExpiresAt).toLocaleString()}
+                </p>
+              )}
+            </div>
+          )}
+
+          {retryState?.error && (
+            <p className="text-sm text-red-400">{retryState.error}</p>
+          )}
+          {retryState?.success && (
+            <p className="text-sm text-teal-300">{retryState.success}</p>
+          )}
+
+          {activeInviteUrl && (
             <div className="space-y-2">
-              <CopyInviteLink url={tokenState.result.inviteUrl} />
-              <p className="text-xs text-slate-500">
-                Expires {new Date(tokenState.result.expiresAt).toLocaleString()}
-              </p>
+              <CopyInviteLink url={activeInviteUrl} />
+              {inviteEmailConfigured &&
+                activeDelivery &&
+                canRetryEmailDelivery(activeDelivery.outcome) &&
+                activeInviteId && (
+                  <form action={retryAction} className="flex flex-wrap items-center gap-2">
+                    <input type="hidden" name="inviteId" value={activeInviteId} />
+                    <input type="hidden" name="tenantId" value={tenantId} />
+                    <input type="hidden" name="tenantSlug" value={tenantSlug} />
+                    <input type="hidden" name="inviteUrl" value={activeInviteUrl} />
+                    <button
+                      type="submit"
+                      disabled={retryPending}
+                      className="cc-btn-secondary text-xs disabled:opacity-50"
+                    >
+                      {retryPending ? "Retrying…" : WORKFORCE_ACTIVATION_COPY.retryEmail}
+                    </button>
+                    <span className="text-xs text-slate-500">
+                      Reuses this invite link — no new token is generated.
+                    </span>
+                  </form>
+                )}
             </div>
           )}
 
@@ -226,7 +321,7 @@ export function AdminTenantMembershipInvitePanel({
             disabled={tokenPending}
             className="cc-btn-primary text-sm disabled:opacity-50"
           >
-            {tokenPending ? "Creating…" : WORKFORCE_ACTIVATION_COPY.createLink}
+            {tokenPending ? "Creating…" : createButtonLabel}
           </button>
         </form>
 
@@ -304,6 +399,7 @@ export function AdminTenantMembershipInvitePanel({
               <li key={note}>{note}</li>
             ))}
           </ul>
+          <p className="mt-2 text-xs text-slate-600">{WORKFORCE_ACTIVATION_COPY.manualDelivery}</p>
         </div>
       </section>
     </div>
