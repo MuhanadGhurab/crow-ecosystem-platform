@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.3 — Controlled Alpha Demo Backend Mode plan) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.4 — Alpha Demo Backend gate + write guard) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -45,7 +45,7 @@
 | [`development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](development/PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md) | Multi-device portable Alpha workflow (GitHub source of truth) |
 | [`development/LAPTOP-SETUP-CHECKLIST.md`](development/LAPTOP-SETUP-CHECKLIST.md) | First-time laptop / new-device setup |
 | [`development/CURSOR-MULTI-DEVICE-GUIDE.md`](development/CURSOR-MULTI-DEVICE-GUIDE.md) | Cursor on desktop or laptop |
-| [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) | Controlled Alpha Demo Backend Mode (plan — not enabled) |
+| [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) | Controlled Alpha Demo Backend Mode (gate/guard implemented; persistence not wired) |
 | [`development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md) | Demo backend guard / phase plan |
 | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
@@ -90,19 +90,19 @@
 
 ## Current milestone
 
-**CROW.DEVFLOW.3** — Controlled Alpha Demo Backend Mode **plan prepared** (not enabled). Next implementation: **CROW.DEVFLOW.4** (runtime gate + demo-write guard only).
+**CROW.DEVFLOW.4** — Alpha demo backend **runtime gate + demo-write guard** implemented. Domain persistence **not** wired. Mode **not** app-enabled by default.
 
-Evidence: [`milestones/CROW-DEVFLOW-3.md`](milestones/CROW-DEVFLOW-3.md) · [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md)
+Evidence: [`milestones/CROW-DEVFLOW-4.md`](milestones/CROW-DEVFLOW-4.md) · [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) · `npm run alpha-demo-backend-guard:test`
 
-**Prior:** CROW.DEVFLOW.PORTABLE.1 · CROW.DEVFLOW.2 · CROW.DEVFLOW.1 · …
+**Prior:** CROW.DEVFLOW.3 (plan) · PORTABLE.1 · DEVFLOW.2 · DEVFLOW.1 · …
 
-**Runtime class:** Alpha development + demo sandbox — **not** commercial production · portable via GitHub · demo backend **planned**, not enabled
+**Runtime class:** Alpha development + demo sandbox — **not** commercial production · portable via GitHub · gate/guard ready · `ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0`
 
 **Production domain:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected) — not a commercial Production claim under Alpha Mode
 
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed until DEVFLOW.4+ enablement · no unauthorized migrations/writes · no Instant Promote · no official Blueprint / payment / tenant go-live · intentional Production only via `CROW.PRODUCTION.DEPLOY`
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed for DB · no unauthorized migrations/writes · no Instant Promote · no official Blueprint / payment / tenant go-live · intentional Production only via `CROW.PRODUCTION.DEPLOY`
 
-**Owner next:** Authorize **CROW.DEVFLOW.4** · Discovery track unify · GAP-004 when commercializing
+**Owner next:** Authorize demo persistence slice (DEVFLOW.5+) · Discovery track unify · GAP-004 when commercializing
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN
 

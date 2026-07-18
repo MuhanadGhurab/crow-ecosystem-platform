@@ -81,15 +81,17 @@ Helpers: `src/lib/runtime/crow-runtime-mode.ts` · tests: `npm run crow-runtime-
 
 Does **not** replace `PreviewDbDisabledNotice` (GAP-004A).
 
-## Controlled Alpha Demo Backend Mode (CROW.DEVFLOW.3 — plan prepared)
+## Controlled Alpha Demo Backend Mode (CROW.DEVFLOW.4 — gate/guard implemented)
 
-**Plan complete; mode not enabled.** See:
+**Runtime gate + demo-write guard implemented; domain persistence not wired; app enablement off by default.** See:
 
 - [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md)
 - [`ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](ALPHA-DEMO-BACKEND-GUARD-PLAN.md)
-- [`../milestones/CROW-DEVFLOW-3.md`](../milestones/CROW-DEVFLOW-3.md)
+- [`../milestones/CROW-DEVFLOW-4.md`](../milestones/CROW-DEVFLOW-4.md)
+- Helpers: `src/lib/runtime/alpha-demo-backend-mode.ts` · `alpha-demo-write-guard.ts`
+- Tests: `npm run alpha-demo-backend-guard:test`
 
-Required future flags for enablement:
+Required flags for enablement (opt-in):
 
 | Variable | Value |
 |----------|-------|
@@ -97,11 +99,9 @@ Required future flags for enablement:
 | `CROW_DATA_CLASSIFICATION` | `demo_only` |
 | `ALLOW_SHARED_DEMO_BACKEND` | `true` |
 
-Even with those flags set later, keep blocked: official Blueprint generation, tenant go-live, payment, CroAI production actions, real customer data, unauthorized migrations, unauthorized Production deploy.
+Even with those flags set, keep blocked: official Blueprint generation, tenant go-live, payment, CroAI production actions, real customer data, unauthorized migrations, unauthorized Production deploy. Preview DB-disabled remains for Prisma/DB until a future persistence slice.
 
-GAP-004A fail-closed Preview DB-disabled remains default until **DEVFLOW.4+** implementation and owner enablement.
-
-**Counters:** `CONTROLLED_ALPHA_DEMO_BACKEND_PLAN_COUNT=1` · `ALPHA_DEMO_BACKEND_ENABLED_COUNT=0`
+**Counters:** `ALPHA_DEMO_BACKEND_RUNTIME_GATE_IMPLEMENTED_COUNT=1` · `DEMO_WRITE_GUARD_IMPLEMENTED_COUNT=1` · `ALPHA_DEMO_BACKEND_DOMAIN_PERSISTENCE_WIRED_COUNT=0` · `ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0`
 
 ## Relationship to existing policies
 

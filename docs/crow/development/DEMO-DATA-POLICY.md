@@ -52,13 +52,15 @@ Anyone using a hosted alpha/demo URL must understand:
 
 ## Backend implication
 
-Until controlled Alpha Demo Backend Mode is **implemented and owner-enabled** (plan: CROW.DEVFLOW.3 · implement: DEVFLOW.4+):
+**CROW.DEVFLOW.4** implemented the runtime gate + demo-write guard. Domain persistence is **not** wired. Until a future persistence slice is **owner-authorized**:
 
-- Prefer **local-first** and fail-closed Preview DB-disabled (GAP-004A) where still active
-- Do not write hosted business data without explicit owner authorization for a demo/backend slice
-- Existing Supabase may be conceptually classified as demo/dev sandbox — **writing** still requires a later authorized mode or explicit owner exception
+- Prefer **local-first** and fail-closed Preview DB-disabled (GAP-004A) for Prisma/DB access
+- Do not write hosted business data without explicit owner authorization for a demo/backend persistence slice
+- Call `evaluateAlphaDemoWriteGuard` / `assertAlphaDemoWriteAllowed` before any future allowlisted demo write
+- Existing Supabase may be conceptually classified as demo/dev sandbox — **writing** still requires a later authorized persistence slice
 - Multi-device work uses GitHub + Vercel Preview; see [`PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md`](PORTABLE-ALPHA-DEVELOPMENT-WORKFLOW.md)
 - Mode definition: [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md)
+- Milestone: [`../milestones/CROW-DEVFLOW-4.md`](../milestones/CROW-DEVFLOW-4.md)
 
 ## Counters (policy)
 

@@ -3,18 +3,18 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Controlled Alpha Demo Backend Mode — definition |
-| **Status** | CANONICAL plan (not implemented) |
-| **Authority** | Owner decision — CROW.DEVFLOW.3 |
+| **Status** | CANONICAL — gate/guard **implemented** (CROW.DEVFLOW.4); domain persistence **not** wired; app enablement **off** by default |
+| **Authority** | Owner decision — CROW.DEVFLOW.3 (plan) · CROW.DEVFLOW.4 (gate/guard) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-DEVFLOW-3.md`](../milestones/CROW-DEVFLOW-3.md) |
+| **Milestone** | [`../milestones/CROW-DEVFLOW-4.md`](../milestones/CROW-DEVFLOW-4.md) · plan [`../milestones/CROW-DEVFLOW-3.md`](../milestones/CROW-DEVFLOW-3.md) |
 | **Guard plan** | [`ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](ALPHA-DEMO-BACKEND-GUARD-PLAN.md) |
 | **Related** | [`CROW-ALPHA-DEVELOPMENT-MODE.md`](CROW-ALPHA-DEVELOPMENT-MODE.md) · [`DEMO-DATA-POLICY.md`](DEMO-DATA-POLICY.md) · [`../gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](../gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
 
 ## Purpose
 
-Define how Crow may later allow **selected demo/backend actions** during Alpha Development while using the existing Supabase project as a **demo/dev sandbox** — without claiming production-safe isolation (GAP-004) or commercial Production.
+Define how Crow may allow **selected demo/backend actions** during Alpha Development while using the existing Supabase project as a **demo/dev sandbox** — without claiming production-safe isolation (GAP-004) or commercial Production.
 
-**This document is plan only.** Runtime guards are **not** loosened in CROW.DEVFLOW.3. `ALPHA_DEMO_BACKEND_ENABLED_COUNT=0`.
+**CROW.DEVFLOW.4** implemented the runtime gate + demo-write guard. Domain persistence is **not** wired. Preview DB-disabled (GAP-004A) is **not** loosened globally. Mode remains disabled unless all activation flags are set. `ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0`.
 
 ## Definitions
 
@@ -67,9 +67,17 @@ Demo backend writes may be allowed **only when all** of the following hold:
 
 **If any condition is missing → fail closed** (no demo write).
 
-Default today (GAP-004A): Preview DB-disabled remains fail-closed until a future implementation milestone enables this mode with owner authorization.
+Default today (GAP-004A): Preview DB-disabled remains fail-closed for Prisma/DB access. The DEVFLOW.4 gate/guard does **not** open DB connections; future persistence slices must still respect Preview DB-disabled unless separately authorized.
 
-## Allowed demo actions (proposed allowlist)
+### Implemented helpers (CROW.DEVFLOW.4)
+
+| Module | API |
+|--------|-----|
+| `src/lib/runtime/alpha-demo-backend-mode.ts` | `getAlphaDemoBackendModeStatus` · `isAlphaDemoBackendModeEnabled` · `evaluateAlphaDemoBackendMode` |
+| `src/lib/runtime/alpha-demo-write-guard.ts` | `evaluateAlphaDemoWriteGuard` · `assertAlphaDemoWriteAllowed` · allowlist types |
+| Tests | `npm run alpha-demo-backend-guard:test` |
+
+## Allowed demo actions (typed allowlist — no handlers yet)
 
 All must be clearly demo/test:
 
@@ -101,7 +109,7 @@ Even when demo backend flags are set:
 | Env secret dumping | Secrets policy |
 | Claiming GAP-004 isolation proven | Truth |
 
-## Demo data marking plan (future — no schema migration in DEVFLOW.3)
+## Demo data marking plan (markers validated by guard; no schema migration in DEVFLOW.4)
 
 Future demo records should carry explicit markers, for example:
 
@@ -124,7 +132,7 @@ Future demo records should carry explicit markers, for example:
 | Naming conventions (`DEMO-` prefix on display names) | Supplement markers, not replace them |
 | Dedicated columns / enums | Only after owner-authorized migration |
 
-**Do not** implement schema changes in DEVFLOW.3.
+**Do not** implement schema changes in DEVFLOW.4. Persistence wiring is a future slice.
 
 ## UI warning plan
 
@@ -146,13 +154,16 @@ Coexists with:
 | Gap | Effect of this plan |
 |-----|---------------------|
 | GAP-004 | Still **future commercial gate** — demo backend ≠ isolation proven |
-| GAP-004A | Default fail-closed remains until **implementation** + owner enablement; this plan documents how an explicit opt-in may later coexist |
+| GAP-004A | Default fail-closed for DB access remains; DEVFLOW.4 gate/guard is pure evaluation only |
 
-## Counters (this plan milestone)
+## Counters (post DEVFLOW.4)
 
 ```
 CONTROLLED_ALPHA_DEMO_BACKEND_PLAN_COUNT=1
-ALPHA_DEMO_BACKEND_ENABLED_COUNT=0
+ALPHA_DEMO_BACKEND_RUNTIME_GATE_IMPLEMENTED_COUNT=1
+DEMO_WRITE_GUARD_IMPLEMENTED_COUNT=1
+ALPHA_DEMO_BACKEND_DOMAIN_PERSISTENCE_WIRED_COUNT=0
+ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0
 HOSTED_BUSINESS_WRITE_COUNT=0
 REAL_CUSTOMER_DATA_ALLOWED_COUNT=0
 BLUEPRINT_GENERATION_ALLOWED_COUNT=0
