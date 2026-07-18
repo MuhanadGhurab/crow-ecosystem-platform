@@ -14,6 +14,7 @@ import {
   unexpectedIntakeFailure,
 } from "@/lib/security/public-intake-guard";
 import { assertLegacyImplementationRequestIntakeDisabled } from "@/lib/client-service-request/legacy-intake-guard";
+import { assertHostedBusinessWriteAllowed } from "@/lib/runtime/preview-db-safety";
 import type { ImplementationRequestInput } from "@/lib/types/platform";
 
 export type PublicIntakeSubmissionMeta = {
@@ -25,6 +26,7 @@ export async function submitImplementationRequest(
   input: ImplementationRequestInput,
   meta?: PublicIntakeSubmissionMeta
 ) {
+  assertHostedBusinessWriteAllowed("implementation request submit");
   assertLegacyImplementationRequestIntakeDisabled();
   const hdrs = await headers();
   const guard = await runPublicIntakeGuards({

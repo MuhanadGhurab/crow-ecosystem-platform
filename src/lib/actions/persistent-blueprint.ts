@@ -12,8 +12,10 @@ import {
 import type { BlueprintReviewActionType } from "@/lib/crow-core/blueprint-engine/types";
 import { prisma } from "@/lib/db";
 import { routes } from "@/lib/routes";
+import { assertHostedBusinessWriteAllowed } from "@/lib/runtime/preview-db-safety";
 
 export async function listPersistableRequestsForStudio() {
+  assertHostedBusinessWriteAllowed("blueprint studio list (hosted read)");
   const { platformAccountId: _ } = await requireBlueprintPlatformAdmin(routes.admin.blueprintStudio);
   return prisma.implementationRequest.findMany({
     where: { discoveryProfile: { isNot: null } },
@@ -34,6 +36,7 @@ export async function persistBlueprintInternalDraftAction(input: {
   expectedContentHash: string;
   confirmed: boolean;
 }) {
+  assertHostedBusinessWriteAllowed("persistBlueprintInternalDraft");
   if (!input.confirmed) {
     return { ok: false as const, error: "Confirmation required" };
   }
@@ -66,6 +69,7 @@ export async function blueprintLifecycleAction(input: {
   expectedRowVersion: number;
   reason?: string | null;
 }) {
+  assertHostedBusinessWriteAllowed("blueprintLifecycleAction");
   try {
     const { actor } = await requireBlueprintPlatformAdmin(routes.admin.persistentBlueprint(input.blueprintId));
     const result = await executeBlueprintLifecycleAction({
@@ -91,6 +95,7 @@ export async function clientBlueprintReviewAction(input: {
   if (input.action === "CLIENT_ACCEPT" && !input.confirmed) {
     return { ok: false as const, error: "Explicit acceptance confirmation required" };
   }
+  assertHostedBusinessWriteAllowed("clientBlueprintReviewAction");
   try {
     const { actor, supabaseUserId } = await requireBlueprintRequestOwner(
       input.requestId,

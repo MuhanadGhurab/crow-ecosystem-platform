@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled, isSupabaseAuthConfigured } from "@/lib/supabase/env";
 import { prisma } from "@/lib/db";
 import { createSubscriptionCheckout } from "@/lib/services/billing.service";
+import { assertHostedBusinessWriteAllowed } from "@/lib/runtime/preview-db-safety";
 
 const bodySchema = z.object({
   tenantId: z.string().min(1),
@@ -48,6 +49,7 @@ async function authorizeCheckout(tenantId: string) {
 
 export async function POST(request: Request) {
   try {
+    assertHostedBusinessWriteAllowed("billing checkout");
     const json = await request.json();
     const parsed = bodySchema.parse(json);
 

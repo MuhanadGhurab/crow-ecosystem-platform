@@ -7,6 +7,7 @@ import { requireClientAccess } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import { createModernServiceRequest } from "@/lib/services/client-service-request.service";
 import type { ClientServiceRequestBriefInput } from "@/lib/client-service-request/types";
+import { assertHostedBusinessWriteAllowed } from "@/lib/runtime/preview-db-safety";
 
 export type SubmitClientServiceRequestResult =
   | { ok: true; requestId: string; referenceCode: string; duplicate: boolean }
@@ -15,6 +16,12 @@ export type SubmitClientServiceRequestResult =
 export async function submitClientServiceRequestAction(
   input: ClientServiceRequestBriefInput,
 ): Promise<SubmitClientServiceRequestResult> {
+  try {
+    assertHostedBusinessWriteAllowed("client service request submit");
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Request submission blocked.";
+    return { ok: false, error: msg, code: "preview_db_disabled" };
+  }
   const user = await requireClientAccess(routes.client.requestNew);
   try {
     const result = await createModernServiceRequest(user, input);

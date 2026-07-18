@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { UserMenu } from "@/components/portal/auth/user-menu";
+import { PreviewDbDisabledNotice } from "@/components/runtime/preview-db-disabled-notice";
 import { AreaShell } from "@/components/ui/area-shell";
 import { Permission } from "@/lib/auth/permissions";
 import { requirePermission } from "@/lib/auth/session";
@@ -14,6 +15,7 @@ import { DiscoveryIntelligenceRail } from "@/components/discovery/discovery-inte
 import { parseRequestBriefFromNotes } from "@/lib/client-service-request/constants";
 import { isDiscoveryBlueprintCompleteBlocked } from "@/lib/discovery/discovery-mvp-boundaries";
 import { buildDiscoveryMvpWorkspaceModel } from "@/lib/discovery/discovery-workspace-context";
+import { isPreviewDbDisabledMode } from "@/lib/runtime/preview-db-safety";
 import { routes } from "@/lib/routes";
 import { getDiscoveryContext } from "@/lib/services/discovery.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
@@ -27,6 +29,39 @@ export default async function DiscoveryLayout({
 }) {
   const { requestId } = await params;
   await requirePermission(Permission["platform.discovery.view"]);
+
+  if (isPreviewDbDisabledMode()) {
+    const d = routes.discovery(requestId);
+    return (
+      <AreaShell
+        title="Discovery (Preview)"
+        subtitle="Hosted Discovery is blocked in Preview DB-disabled mode"
+        badge="Discovery"
+        nav={[{ href: d.summary, label: "Summary" }]}
+        headerActions={<UserMenu />}
+      >
+        <PreviewDbDisabledNotice className="mb-6 rounded-md border border-amber-700/40 bg-amber-950/20 px-4 py-3 text-sm text-amber-100" />
+        <DiscoveryMvpWorkspaceShell
+          variant="operator"
+          model={buildDiscoveryMvpWorkspaceModel({
+            requestId,
+            referenceCode: "PREVIEW-LOCAL",
+            organizationName: "Preview local-first Discovery",
+            requestStatus: "PENDING_REVIEW",
+            discoveryProfileStatus: null,
+            brief: null,
+            blueprintCompleteBlocked: isDiscoveryBlueprintCompleteBlocked(),
+          })}
+        />
+        <p className="mt-4 text-sm text-slate-400">
+          Operator hosted Discovery routes require an isolated Preview database or local
+          development. Local-first MVP panels above remain available for UI review.
+        </p>
+        {children}
+      </AreaShell>
+    );
+  }
+
   const request = await getDiscoveryContext(requestId);
 
   if (!request?.discoveryProfile) {

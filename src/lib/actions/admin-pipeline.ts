@@ -11,8 +11,10 @@ import {
 } from "@/lib/services/implementation-request.service";
 import { startDiscovery } from "@/lib/services/pipeline.service";
 import type { ImplementationRequestStatus } from "@/lib/types/platform";
+import { assertHostedBusinessWriteAllowed } from "@/lib/runtime/preview-db-safety";
 
 export async function adminStartDiscovery(requestId: string) {
+  assertHostedBusinessWriteAllowed("adminStartDiscovery");
   await requireActionRequestReview();
   const request = await getImplementationRequest(requestId);
   if (!request) {
@@ -35,6 +37,7 @@ export async function adminStartDiscovery(requestId: string) {
 }
 
 export async function adminRejectRequest(requestId: string, reason?: string) {
+  assertHostedBusinessWriteAllowed("adminRejectRequest");
   await requireActionRequestReview();
   const request = await getImplementationRequest(requestId);
   if (!request) {
