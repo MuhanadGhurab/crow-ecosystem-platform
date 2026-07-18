@@ -6,7 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `73213b0` (CROW.DEVFLOW.3 tip) |
-| **Final HEAD** | _(pin after docs commit)_ |
+| **Final HEAD** | `9e68bf7` |
 | **Owner decision** | Implement only runtime gate + reusable demo-write guard; do not wire domain persistence |
 | **Prior** | CROW.DEVFLOW.3 (plan) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
