@@ -85,36 +85,53 @@ export function getOperatingModelCoverage(
 }
 
 export function getTrustRiskCoverage(draft: OperatingModelInputDraft): CoverageSummary {
-  return coverageFromSections(draft, ["trustAndRiskSignals", "dataAndRecords"], [
-    "Stage 4 trust depth is not required for D5 ready-for-modeling.",
+  return coverageFromSections(draft, ["trustAndRiskSignals", "dataAndRecords", "decisionsAndApprovals"], [
+    "Stage 4 trust/risk depth feeds ProCrow modeling review.",
   ]);
 }
 
 export function getEvidenceReferenceCoverage(
   draft: OperatingModelInputDraft,
   options: ProCrowModelingReviewOptions = {},
+  answers: DiscoveryMvpAnswerMap = {},
 ): CoverageSummary {
-  if (options.evidenceNotAvailable) {
+  const availability = answers.evidence_availability_status
+    ? String(answers.evidence_availability_status).trim()
+    : "";
+  if (options.evidenceNotAvailable || availability === "not_available_yet") {
     return {
       level: "waived",
       capturedCount: 0,
       missingCount: 0,
-      notes: ["Evidence references explicitly marked not available (local waiver)."],
+      notes: [
+        availability === "not_available_yet"
+          ? "Evidence availability marked not available yet (Stage 6 local waiver)."
+          : "Evidence references explicitly marked not available (local waiver).",
+      ],
     };
   }
   if (draft.evidenceReferences.status === "captured") {
+    const hasStage6 =
+      isAnswerPresent(answers.evidence_title) ||
+      isAnswerPresent(answers.evidence_reference_description) ||
+      isAnswerPresent(answers.evidence_reference_note) ||
+      isAnswerPresent(answers.evidence_availability_status);
     return {
       level: "adequate",
       capturedCount: 1,
       missingCount: 0,
-      notes: ["At least one evidence reference (name/URL) captured."],
+      notes: [
+        hasStage6
+          ? "Stage 6 evidence reference fields captured (refs-only)."
+          : "Evidence references captured on Operating Model draft (refs-only).",
+      ],
     };
   }
   return {
     level: "none",
     capturedCount: 0,
     missingCount: 1,
-    notes: ["No evidence reference yet — provide a URL/name or mark not available."],
+    notes: ["No evidence reference yet — provide Stage 6 refs or mark not available yet."],
   };
 }
 
@@ -175,6 +192,14 @@ function detectCriticalRiskFlags(
       "Data/records answer may contain sensitive sample values — ProCrow should sanitize",
     );
   }
+  if (isAnswerPresent(answers.sensitive_data_types) && SENSITIVE_SAMPLE_RE.test(String(answers.sensitive_data_types))) {
+    critical.push(
+      "Sensitive data types answer may contain sample secrets — ProCrow should sanitize",
+    );
+  }
+  if (isAnswerPresent(answers.trust_risk_priority) && String(answers.trust_risk_priority) === "high") {
+    critical.push("Trust/risk priority marked high");
+  }
   if (evidence.level === "none") {
     critical.push("Evidence references missing and not waived");
   }
@@ -199,7 +224,7 @@ export function evaluateProCrowModelingReadiness(
   const clarificationQuestions = getDiscoveryClarificationQuestions(answers, ctx);
   const operatingModelCoverage = getOperatingModelCoverage(draft);
   const trustAndRiskCoverage = getTrustRiskCoverage(draft);
-  const evidenceReferenceCoverage = getEvidenceReferenceCoverage(draft, options);
+  const evidenceReferenceCoverage = getEvidenceReferenceCoverage(draft, options, answers);
   const contradictionFlags = detectContradictionFlags(answers, ctx, draft);
   const criticalRiskFlagsAll = detectCriticalRiskFlags(
     answers,
@@ -277,6 +302,10 @@ export function evaluateProCrowModelingReadiness(
       stage1Percent: draft.readinessSignals.stageCompletenessPercent.stage1,
       stage2Percent: draft.readinessSignals.stageCompletenessPercent.stage2,
       stage3Percent: draft.readinessSignals.stageCompletenessPercent.stage3,
+      stage4Percent: draft.readinessSignals.stageCompletenessPercent.stage4,
+      stage5Percent: draft.readinessSignals.stageCompletenessPercent.stage5,
+      stage6Percent: draft.readinessSignals.stageCompletenessPercent.stage6,
+      stage7Percent: draft.readinessSignals.stageCompletenessPercent.stage7,
       overallCompletionPercent: draft.readinessSignals.overallCompletionPercent,
       requiredMissingCount: draft.readinessSignals.missingCoreFieldCount,
       omSectionsMissingCount: draft.readinessSignals.missingOperatingModelFieldCount,

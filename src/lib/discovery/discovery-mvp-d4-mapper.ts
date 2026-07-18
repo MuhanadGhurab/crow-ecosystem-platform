@@ -72,7 +72,11 @@ function sectionFromKeys(
   return section(content, present, "captured");
 }
 
-function stagePercent(stageId: 1 | 2 | 3, answers: DiscoveryMvpAnswerMap, ctx: DiscoveryMvpAdaptiveContext): number {
+function stagePercent(
+  stageId: 1 | 2 | 3 | 4 | 5 | 6 | 7,
+  answers: DiscoveryMvpAnswerMap,
+  ctx: DiscoveryMvpAdaptiveContext,
+): number {
   const catalog = getDiscoveryMvpD3Catalog();
   const fields = catalog.filter((f) => f.stageId === stageId && isDiscoveryMvpFieldVisible(f, ctx));
   if (fields.length === 0) return 100;
@@ -133,42 +137,100 @@ export function buildOperatingModelInputDraft(
   const responsibilities = sectionFromKeys(answers, ctx, ["core_responsibilities"]);
   const workflows = sectionFromKeys(answers, ctx, ["main_workflows"]);
 
-  // Decisions/approvals not yet a dedicated D3 field — flag as missing for deeper modeling.
-  const decisionsAndApprovals = section(
-    null,
-    [],
-    "missing",
+  // Decisions/approvals from Stage 4 depth.
+  const decisionsAndApprovals = sectionFromKeys(
+    answers,
+    ctx,
+    ["approval_risk_areas", "segregation_of_duties_concerns"],
+    true,
   );
 
   const systemsAndTools = sectionFromKeys(
     answers,
     ctx,
-    ["current_systems_tools", "legacy_systems_modernization", "target_systems_intent"],
+    ["current_systems_tools", "legacy_systems_modernization", "target_systems_intent", "legacy_system_constraints"],
     true,
   );
 
-  const dataAndRecords = sectionFromKeys(answers, ctx, ["important_records_data"]);
+  const dataAndRecords = sectionFromKeys(answers, ctx, [
+    "important_records_data",
+    "sensitive_data_types",
+  ], true);
 
-  const trustAndRiskSignals = sectionFromKeys(answers, ctx, ["major_pain_points", "important_records_data"], true);
-  // For NEW without pain points visible, trust/risk from records only; pain is N/A.
-  if (ctx.journeyKind === "NEW") {
-    const painVisible = isDiscoveryMvpFieldVisible(
-      catalog.find((f) => f.fieldKey === "major_pain_points")!,
-      ctx,
-    );
-    if (!painVisible && trustAndRiskSignals.status === "captured" && !textOf(answers, "major_pain_points")) {
-      // keep records-only content
-    }
-  }
+  const trustAndRiskSignals = sectionFromKeys(
+    answers,
+    ctx,
+    [
+      "sensitive_data_types",
+      "identity_access_concerns",
+      "approval_risk_areas",
+      "audit_requirements",
+      "compliance_regulation_notes",
+      "segregation_of_duties_concerns",
+      "operational_risk_areas",
+      "security_priorities",
+      "trust_constraints",
+      "trust_risk_priority",
+      "new_business_foundation_risks",
+      "major_pain_points",
+      "stage7_trust_risk_flags_notes",
+    ],
+    true,
+  );
 
   const transformationIntent =
     ctx.journeyKind === "TRANSFORM"
-      ? sectionFromKeys(answers, ctx, ["transformation_target", "major_pain_points", "build_transform_objective"], true)
+      ? sectionFromKeys(
+          answers,
+          ctx,
+          [
+            "transformation_target",
+            "major_pain_points",
+            "build_transform_objective",
+            "current_state_problems",
+            "legacy_system_constraints",
+            "process_change_goals",
+            "migration_concerns",
+            "change_readiness_notes",
+            "target_state_improvements",
+            "modernization_program_notes",
+          ],
+          true,
+        )
       : ctx.journeyKind === "NEW"
-        ? sectionFromKeys(answers, ctx, ["expected_operating_start", "build_transform_objective", "target_systems_intent"], true)
+        ? sectionFromKeys(
+            answers,
+            ctx,
+            [
+              "expected_operating_start",
+              "build_transform_objective",
+              "target_systems_intent",
+              "target_launch_model",
+              "initial_operating_capabilities",
+              "first_teams_to_activate",
+              "required_go_live_readiness",
+              "expected_constraints_new",
+              "modernization_program_notes",
+            ],
+            true,
+          )
         : section(null, [], "missing");
 
-  const evidenceReferences = sectionFromKeys(answers, ctx, ["evidence_reference_note"]);
+  const evidenceReferences = sectionFromKeys(
+    answers,
+    ctx,
+    [
+      "evidence_reference_note",
+      "evidence_title",
+      "evidence_type",
+      "evidence_reference_description",
+      "evidence_related_question_keys",
+      "evidence_availability_status",
+      "evidence_not_available_reason",
+      "evidence_local_metadata_note",
+    ],
+    true,
+  );
 
   const missingInformation: string[] = [];
   if (purpose.status === "missing") missingInformation.push("Purpose / mission objective incomplete");
@@ -179,8 +241,13 @@ export function buildOperatingModelInputDraft(
   if (systemsAndTools.status === "missing") missingInformation.push("Systems / tools not captured");
   if (dataAndRecords.status === "missing") missingInformation.push("Important records / data not captured");
   if (transformationIntent.status === "missing") missingInformation.push("Transformation / launch intent incomplete");
+  if (trustAndRiskSignals.status === "missing") missingInformation.push("Trust and risk signals incomplete (Stage 4)");
+  if (evidenceReferences.status === "missing") missingInformation.push("Evidence references incomplete (Stage 6)");
   if (decisionsAndApprovals.status === "missing") {
-    missingInformation.push("Decisions / approvals not yet captured (Stage 4 planned)");
+    missingInformation.push("Decisions / approvals / SoD concerns not captured (Stage 4)");
+  }
+  if (textOf(answers, "stage7_missing_information_notes")) {
+    missingInformation.push(`Stage 7 notes: ${textOf(answers, "stage7_missing_information_notes")}`);
   }
   for (const key of d3.missingRequiredKeys) {
     const label = catalog.find((f) => f.fieldKey === key)?.label ?? key;
@@ -191,9 +258,19 @@ export function buildOperatingModelInputDraft(
 
   const assumptions: string[] = [
     "Draft is derived from local Discovery answers only — not an approved Operating Model.",
-    "Stages 4–7 (trust depth, evidence package, ProCrow modeling review) are not complete.",
+    "Stage 7 is ProCrow review preparation — not Blueprint approval or generation.",
     "Blueprint generation remains blocked until a future owner-authorized milestone.",
   ];
+  if (textOf(answers, "stage7_handoff_readiness_notes")) {
+    assumptions.push(`Handoff readiness notes: ${textOf(answers, "stage7_handoff_readiness_notes")}`);
+  }
+  if (textOf(answers, "evidence_availability_status") === "not_available_yet") {
+    assumptions.push(
+      textOf(answers, "evidence_not_available_reason")
+        ? `Evidence not available yet: ${textOf(answers, "evidence_not_available_reason")}`
+        : "Evidence marked not available yet without a detailed reason.",
+    );
+  }
   if (ctx.journeyKind === "NEW") {
     assumptions.push("NEW journey: legacy pain-point inventory is not required for this draft.");
   }
@@ -211,11 +288,23 @@ export function buildOperatingModelInputDraft(
   if (ctx.journeyKind === "TRANSFORM" && !textOf(answers, "major_pain_points")) {
     riskFlags.push("Transform journey without major pain points");
   }
+  if (textOf(answers, "trust_risk_priority") === "high") {
+    riskFlags.push("Trust/risk priority marked high — ProCrow should prioritize Stage 4 signals");
+  }
   if (textOf(answers, "important_records_data") && /secret|password|ssn|api[_-]?key/i.test(textOf(answers, "important_records_data")!)) {
     riskFlags.push("Data/records answer may contain sensitive sample values — ProCrow should sanitize");
   }
+  if (textOf(answers, "sensitive_data_types") && /secret|password|ssn|api[_-]?key/i.test(textOf(answers, "sensitive_data_types")!)) {
+    riskFlags.push("Sensitive data types answer may contain sample secrets — ProCrow should sanitize");
+  }
   if (organizationShape.status === "captured" && peopleAndTeams.status === "missing") {
     riskFlags.push("Organization shape present but people/teams not yet described");
+  }
+  if (textOf(answers, "stage7_critical_blockers_notes")) {
+    riskFlags.push(`Stage 7 critical blockers noted: ${textOf(answers, "stage7_critical_blockers_notes")}`);
+  }
+  if (textOf(answers, "stage7_trust_risk_flags_notes")) {
+    riskFlags.push(`Stage 7 trust/risk flags: ${textOf(answers, "stage7_trust_risk_flags_notes")}`);
   }
 
   const clarificationPrompts: string[] = [];
@@ -228,13 +317,25 @@ export function buildOperatingModelInputDraft(
   if (peopleAndTeams.status === "missing") {
     clarificationPrompts.push("Clarify key teams before proposing role/persona candidates.");
   }
+  if (trustAndRiskSignals.status === "missing") {
+    clarificationPrompts.push("Complete Stage 4 trust and risk fields before modeling security baselines.");
+  }
+  if (textOf(answers, "stage7_clarification_questions_local")) {
+    clarificationPrompts.push(textOf(answers, "stage7_clarification_questions_local")!);
+  }
   if (d3.missingRequiredCount === 0 && riskFlags.length === 0) {
-    clarificationPrompts.push("Core Stages 1–3 look complete — ProCrow can begin deeper modeling review (D5).");
+    clarificationPrompts.push(
+      "Core Stages 1–7 required fields look complete — ProCrow can deepen modeling review (D5).",
+    );
   }
 
   const stage1 = stagePercent(1, answers, ctx);
   const stage2 = stagePercent(2, answers, ctx);
   const stage3 = stagePercent(3, answers, ctx);
+  const stage4 = stagePercent(4, answers, ctx);
+  const stage5 = stagePercent(5, answers, ctx);
+  const stage6 = stagePercent(6, answers, ctx);
+  const stage7 = stagePercent(7, answers, ctx);
 
   const omSectionsMissing = [
     purpose,
@@ -245,6 +346,9 @@ export function buildOperatingModelInputDraft(
     systemsAndTools,
     dataAndRecords,
     transformationIntent,
+    trustAndRiskSignals,
+    evidenceReferences,
+    decisionsAndApprovals,
   ].filter((s) => s.status === "missing").length;
 
   const readyForProCrowReview =
@@ -264,6 +368,7 @@ export function buildOperatingModelInputDraft(
         peopleAndTeams,
         responsibilities,
         workflows,
+        decisionsAndApprovals,
         systemsAndTools,
         dataAndRecords,
         trustAndRiskSignals,
@@ -296,7 +401,15 @@ export function buildOperatingModelInputDraft(
     assumptions,
     riskFlags,
     readinessSignals: {
-      stageCompletenessPercent: { stage1, stage2, stage3 },
+      stageCompletenessPercent: {
+        stage1,
+        stage2,
+        stage3,
+        stage4,
+        stage5,
+        stage6,
+        stage7,
+      },
       overallCompletionPercent: d3.completionPercent,
       missingCoreFieldCount: d3.missingRequiredCount,
       missingOperatingModelFieldCount: omSectionsMissing,

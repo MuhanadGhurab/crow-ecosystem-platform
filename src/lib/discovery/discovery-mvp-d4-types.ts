@@ -37,8 +37,18 @@ export const OPERATING_MODEL_DRAFT_AUTHORITY: OperatingModelDraftAuthority = {
   readyForBlueprintDraft: false,
 };
 
+export type OperatingModelStageCompletenessPercent = {
+  stage1: number;
+  stage2: number;
+  stage3: number;
+  stage4: number;
+  stage5: number;
+  stage6: number;
+  stage7: number;
+};
+
 export type OperatingModelReadinessSignals = {
-  stageCompletenessPercent: { stage1: number; stage2: number; stage3: number };
+  stageCompletenessPercent: OperatingModelStageCompletenessPercent;
   overallCompletionPercent: number;
   missingCoreFieldCount: number;
   missingOperatingModelFieldCount: number;

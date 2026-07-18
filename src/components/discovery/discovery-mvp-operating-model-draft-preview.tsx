@@ -125,9 +125,13 @@ export function DiscoveryMvpOperatingModelDraftPreview({
         <h4 className="text-sm font-medium text-slate-200">Readiness signals</h4>
         <ul className="space-y-1 text-sm text-slate-400">
           <li>
-            Stages 1–3 completeness: {draft.readinessSignals.stageCompletenessPercent.stage1}% /{" "}
+            Stages 1–7 completeness: {draft.readinessSignals.stageCompletenessPercent.stage1}% /{" "}
             {draft.readinessSignals.stageCompletenessPercent.stage2}% /{" "}
-            {draft.readinessSignals.stageCompletenessPercent.stage3}%
+            {draft.readinessSignals.stageCompletenessPercent.stage3}% /{" "}
+            {draft.readinessSignals.stageCompletenessPercent.stage4}% /{" "}
+            {draft.readinessSignals.stageCompletenessPercent.stage5}% /{" "}
+            {draft.readinessSignals.stageCompletenessPercent.stage6}% /{" "}
+            {draft.readinessSignals.stageCompletenessPercent.stage7}%
           </li>
           <li>Missing core Discovery fields: {draft.readinessSignals.missingCoreFieldCount}</li>
           <li>Missing OM sections: {draft.readinessSignals.missingOperatingModelFieldCount}</li>

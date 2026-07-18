@@ -52,6 +52,10 @@ export type ProCrowModelingReview = {
     stage1Percent: number;
     stage2Percent: number;
     stage3Percent: number;
+    stage4Percent: number;
+    stage5Percent: number;
+    stage6Percent: number;
+    stage7Percent: number;
     overallCompletionPercent: number;
     requiredMissingCount: number;
     omSectionsMissingCount: number;

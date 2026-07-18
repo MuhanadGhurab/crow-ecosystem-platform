@@ -69,6 +69,6 @@ export function buildDiscoveryMvpWorkspaceModel(input: {
     nonClaims: DISCOVERY_MVP_NON_CLAIMS,
     blueprintCompleteBlocked: input.blueprintCompleteBlocked,
     d0d2ScopeNote:
-      "D0–D6 foundation: safety, adaptive Stages 1–3, local Operating Model input draft, ProCrow modeling review, and pre-Blueprint handoff package. Blueprint generation remains blocked.",
+      "D0–D7 foundation: safety, adaptive Stages 1–7, local Operating Model input draft, ProCrow modeling review, and pre-Blueprint handoff package. Blueprint generation remains blocked.",
   };
 }

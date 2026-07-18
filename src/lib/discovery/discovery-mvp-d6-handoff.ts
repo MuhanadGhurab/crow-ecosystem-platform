@@ -184,7 +184,7 @@ export function buildDiscoveryBlueprintHandoffPackage(
   switch (handoffStatus) {
     case "NOT_READY":
       recommendedNextAction =
-        "Ensure JourneyKind is present and Discovery Stages 1–3 have started before handoff.";
+        "Ensure JourneyKind is present and Discovery Stages 1–7 have started before handoff.";
       break;
     case "NEEDS_MORE_INFORMATION":
       recommendedNextAction =
@@ -256,7 +256,7 @@ export function buildDiscoveryBlueprintHandoffPackage(
       "Tenant provisioning",
       "Tenant membership / platform roles",
       "Payment / CroAI",
-      "Stages 4–7 full field depth (deferred)",
+      "Hosted evidence file storage / uploads",
     ],
     assumptions: [
       ...draft.assumptions,
