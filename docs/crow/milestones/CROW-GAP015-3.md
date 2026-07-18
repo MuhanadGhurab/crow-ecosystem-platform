@@ -39,8 +39,8 @@ Verify Preview allow / unauthorized Production skip behavior without deploying P
 | Check | Result |
 |-------|--------|
 | Local: `VERCEL_ENV=preview` | `ALLOW_NON_PRODUCTION_BUILD` · exit `1` |
+| Live Preview after FTGP push (`6b6bc3f`) | Guard ran: `decision=ALLOW_NON_PRODUCTION_BUILD` · `exit_code=1` · then `Running "vercel build"` (deployment may still Error later for unrelated build reasons) |
 | `PREVIEW_BUILD_ALLOWED_COUNT` | **1** |
-| Live Preview after FTGP docs push | Expected to run (script present on FTGP) |
 
 ### Unauthorized Production build guarded
 
