@@ -261,6 +261,7 @@
     "db-isolation-env:test": "node scripts/safety/check-db-isolation-env.test.mjs",
     "preview-db-safety:test": "npx tsx src/lib/runtime/preview-db-safety.test.ts",
     "crow-runtime-mode:test": "npx tsx src/lib/runtime/crow-runtime-mode.test.ts",
+    "alpha-demo-backend-guard:test": "npx tsx src/lib/runtime/alpha-demo-backend-guard.test.ts",
     "crow-dev:doctor": "node scripts/dev/crow-dev-doctor.mjs",
     "crow-dev:bootstrap-check": "node scripts/dev/crow-dev-bootstrap-check.mjs",
     "crow-dev:portable:test": "node scripts/dev/crow-dev-portable.test.mjs",
