@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Development Mode) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.2 — Alpha banner + runtime helpers) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,14 +18,14 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip · **CROW.DEVFLOW.1** (Alpha Mode policy) · Discovery D0–D7 local-first **accepted** · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
-| Runtime class | **Alpha development + demo sandbox** — not commercial production |
+| HEAD | FTGP tip · **CROW.DEVFLOW.2** (alpha banner + runtime helpers) · DEVFLOW.1 Alpha Mode · Discovery D0–D7 local-first **accepted** · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
+| Runtime class | **Alpha development + demo sandbox** — not commercial production · banner live in root layout |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** a commercial Production claim under Alpha Mode |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**future commercial gate**; Alpha Mode recorded) · #18 Discovery (**local-first accepted**; OPEN) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.DEVFLOW.1 |
+| Working tree | Post CROW.DEVFLOW.2 |
 
 ## Stack
 
@@ -186,7 +186,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Environment | Status |
 |-------------|--------|
 | Local | Docker Postgres via `docker-compose.local.yml` |
-| Preview / live review | Vercel Preview = **fast review channel** (Alpha Mode) |
+| Preview / live review | Vercel Preview = **fast review channel** (Alpha Mode) · `CrowAlphaRuntimeBanner` in root layout |
 | Supabase (shared) | Demo/dev sandbox data only — not commercial Production |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
 | Vercel Production domain | Live pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** commercial Production claim under Alpha Mode |

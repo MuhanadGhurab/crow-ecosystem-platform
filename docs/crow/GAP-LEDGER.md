@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Development Mode) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.2) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -120,10 +120,10 @@
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
 | **Security/authority impact** | Fail-closed on unsafe Preview — **accepted**; future alpha demo-backend must keep commercial gates blocked |
 | **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
-| **Proposed milestone** | CROW.DEVFLOW.2 (banner) · CROW.DEVFLOW.3 (controlled alpha demo backend) · optional ALT3/ALT4 |
-| **Owner decision required** | Authorize DEVFLOW.2/3 before relaxing Preview DB-disabled for demo writes |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
-| **Status** | **Accepted standing mitigation** — review against Alpha Mode; fail-closed until DEVFLOW.3 · Issue #16 stays open |
+| **Proposed milestone** | CROW.DEVFLOW.3 (controlled alpha demo backend) · optional ALT3/ALT4 · future isolation at commercialization |
+| **Owner decision required** | Authorize DEVFLOW.3 before relaxing Preview DB-disabled for demo writes |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-2.md`](milestones/CROW-DEVFLOW-2.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | **Accepted standing mitigation** — Alpha banner (DEVFLOW.2) coexists; fail-closed until DEVFLOW.3 · Issue #16 stays open |
 
 ## GAP-005 — First Tenant Golden Path completion
 

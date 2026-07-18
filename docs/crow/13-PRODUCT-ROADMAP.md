@@ -299,6 +299,8 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DEVFLOW.1 (operating model):** Alpha Development Mode + fast review — see [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md). GAP-004 = future commercial gate (not alpha-dev blocker).
 
+**CROW.DEVFLOW.2 (build):** Alpha banner + runtime classification helpers — see [`milestones/CROW-DEVFLOW-2.md`](milestones/CROW-DEVFLOW-2.md). `npm run crow-runtime-mode:test`.
+
 **CROW.DISCOVERY.MVP-CERT.1 (cert package):** Superseded for acceptance status by LOCAL-FIRST.ACCEPT.1 — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md).
 
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft · **stop before Blueprint generation**.
@@ -345,16 +347,15 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **CROW.DEVFLOW.2** | Alpha banner + runtime classification helpers — **recommended immediate next** |
-| 2 | **CROW.DEVFLOW.3** | Controlled alpha demo backend mode (selected demo writes) |
-| 3 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) |
-| 4 | **CROW.DEMO.1** / **CROW.REVIEW.1** | Demo seed · friend/tester checklist |
+| 1 | **CROW.DEVFLOW.3** | Controlled alpha demo backend mode — **recommended immediate next** |
+| 2 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) |
+| 3 | **CROW.DEMO.1** / **CROW.REVIEW.1** | Demo seed · friend/tester checklist |
 | — | **GAP-004 isolation** | Future commercialization — not required to continue alpha/demo |
 | — | **Production deploy (when needed)** | Separate `CROW.PRODUCTION.DEPLOY` |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1** (GAP-015 **Mitigated**)
+**Completed recently:** **CROW.DEVFLOW.2** · **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1**
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

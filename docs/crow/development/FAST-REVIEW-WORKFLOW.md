@@ -66,4 +66,6 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 
 ## Recommended next implementation milestone
 
-**CROW.DEVFLOW.2** — Alpha banner + runtime classification helpers (visible alpha/demo labeling on hosted review URLs).
+**CROW.DEVFLOW.3** — Controlled alpha demo backend mode (selected demo writes under explicit flags).
+
+**Done:** **CROW.DEVFLOW.2** — Alpha banner + runtime classification helpers.

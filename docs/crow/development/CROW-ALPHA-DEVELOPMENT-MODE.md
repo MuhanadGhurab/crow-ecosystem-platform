@@ -6,7 +6,7 @@
 | **Status** | CANONICAL strategy / policy |
 | **Authority** | Owner decision — CROW.DEVFLOW.1 |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-DEVFLOW-1.md`](../milestones/CROW-DEVFLOW-1.md) |
+| **Milestone** | [`../milestones/CROW-DEVFLOW-2.md`](../milestones/CROW-DEVFLOW-2.md) · prior [`../milestones/CROW-DEVFLOW-1.md`](../milestones/CROW-DEVFLOW-1.md) |
 | **Related** | [`FAST-REVIEW-WORKFLOW.md`](FAST-REVIEW-WORKFLOW.md) · [`DEMO-DATA-POLICY.md`](DEMO-DATA-POLICY.md) · [`../16-PRODUCTION-DEPLOYMENT-POLICY.md`](../16-PRODUCTION-DEPLOYMENT-POLICY.md) |
 
 ## Owner direction (recorded)
@@ -71,11 +71,15 @@ Constraints accepted by owner:
 | CroAI production / autonomous actions | Constitution |
 | Platform roles / membership as go-live authority | Authority gate |
 
-## Alpha UI requirement (implement in DEVFLOW.2)
+## Alpha UI requirement (CROW.DEVFLOW.2 — implemented)
 
-Hosted alpha/demo environments must show a visible banner:
+Hosted alpha/demo environments show a visible banner via `CrowAlphaRuntimeBanner` (root layout):
 
 > Crow Alpha Development Environment — demo/test data only. Not production. Do not enter real customer or sensitive data.
+
+Helpers: `src/lib/runtime/crow-runtime-mode.ts` · tests: `npm run crow-runtime-mode:test` · milestone: [`../milestones/CROW-DEVFLOW-2.md`](../milestones/CROW-DEVFLOW-2.md)
+
+Does **not** replace `PreviewDbDisabledNotice` (GAP-004A).
 
 ## Controlled Alpha Demo Backend Mode (plan only — DEVFLOW.3)
 

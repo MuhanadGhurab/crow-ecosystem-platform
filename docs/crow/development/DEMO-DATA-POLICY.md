@@ -41,7 +41,7 @@ Anyone using a hosted alpha/demo URL must understand:
 
 > Demo/test data only. Not production. Do not enter real customer or sensitive data.
 
-(Visible banner planned in **CROW.DEVFLOW.2**.)
+**Implemented:** Visible banner `CrowAlphaRuntimeBanner` (CROW.DEVFLOW.2) — see [`../milestones/CROW-DEVFLOW-2.md`](../milestones/CROW-DEVFLOW-2.md).
 
 ## Friend / tester guidance
 
