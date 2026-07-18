@@ -101,14 +101,14 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | Isolation **not proven**. Owner **cost constraint**: no paid second Supabase. Alternate mitigation path **GAP-004A** (Preview DB-disabled) planned in CROW.GAP004.ALT1. Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
+| **Current state** | Isolation **not proven**. Owner no-cost path: **GAP-004A implemented** (CROW.GAP004.ALT2 fail-closed). Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
 | **Severity** | **High** |
-| **Security/authority impact** | Medium–High — without GAP-004A enforcement, Preview can still hit Production if credentials present |
-| **Dependency** | Either proven isolated Preview DB **or** certified GAP-004A fail-closed mode |
-| **Proposed milestone** | CROW.GAP004.ALT2 (implement DB-disabled) · full GAP-004 remains open until isolation proven or accepted as permanently deferred |
-| **Owner decision required** | Keep no-cost path (GAP-004A) · later optional free/isolated Preview DB if available |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · [`milestones/CROW-GAP004-ALT1.md`](milestones/CROW-GAP004-ALT1.md) |
-| **Status** | **Open / blocked** (isolation) — **not closed**; mitigated only via GAP-004A once implemented |
+| **Security/authority impact** | Mitigated on Preview via GAP-004A when `VERCEL_ENV=preview` without isolation proof |
+| **Dependency** | GAP-004A enforcement active; true isolation still optional/deferred |
+| **Proposed milestone** | Optional free/isolated Preview DB later; GAP-015 parallel |
+| **Owner decision required** | Accept GAP-004A as sufficient for current Preview work? Keep Issue #16 open until acceptance |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) |
+| **Status** | **Open / blocked** (isolation) — Preview bleed risk **mitigated** by GAP-004A |
 
 ## GAP-004A — Preview DB-disabled safety mode
 
@@ -116,14 +116,14 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Plan ready** (CROW.GAP004.ALT1) — implementation not started |
+| **Current state** | **Implemented** — helpers, Prisma Proxy, mutation asserts, Discovery Preview local-first, `preview-db-safety:test` PASS (CROW.GAP004.ALT2) |
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
-| **Security/authority impact** | High if unimplemented while Preview has Production credentials |
+| **Security/authority impact** | Fail-closed on unsafe Preview |
 | **Dependency** | Owner accepted no-cost path 2026-07-18 |
-| **Proposed milestone** | CROW.GAP004.ALT2 (helpers + Prisma fail-closed) → ALT3 (UI) → ALT4 (cert) |
-| **Owner decision required** | Authorize ALT2 implementation when ready |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
-| **Status** | **Open / planned** — does **not** prove GAP-004 isolation |
+| **Proposed milestone** | Optional ALT3 UI polish · ALT4 Preview smoke |
+| **Owner decision required** | Accept GAP-004A as sufficient standing mitigation for current work |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) |
+| **Status** | **Mitigated (implemented)** — does **not** prove GAP-004 isolation |
 
 ## GAP-005 — First Tenant Golden Path completion
 

@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.ALT1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.ALT2) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -75,17 +75,17 @@
 
 ## Current milestone
 
-**CROW.GAP004.ALT1** — No-cost **Preview DB-disabled safety mode** plan (**GAP-004A**). GAP-004 isolation remains **blocked** (no paid second Supabase).
+**CROW.GAP004.ALT2** — Preview DB-disabled **fail-closed** runtime guard **implemented** (GAP-004A). GAP-004 isolation remains **not proven**.
 
-Evidence: [`milestones/CROW-GAP004-ALT1.md`](milestones/CROW-GAP004-ALT1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md)
+Evidence: [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) · `npm run preview-db-safety:test` · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md)
 
-**Prior:** CROW.GAP004.3 @ `23070f6` · GAP004.2 · GAP004.1 · Discovery MVP-CERT.1
+**Prior:** CROW.GAP004.ALT1 @ `a743048` · GAP004.3 · Discovery MVP-CERT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
 **Hold:** PR #10 archive · no hosted migrations/writes · Production env unchanged · Option C interim · Discovery hosted / Blueprint generation blocked
 
-**Owner next:** Authorize **CROW.GAP004.ALT2** (implement fail-closed Preview DB-disabled) · optional later free/isolated Preview DB for true GAP-004 · **GAP-015** when ready
+**Owner next:** Accept GAP-004A as standing Preview mitigation (Issue #16 stays open until acceptance) · optional ALT3 polish · **GAP-015** when ready
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 

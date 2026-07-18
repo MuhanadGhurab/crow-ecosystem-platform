@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | No-cost alternate mitigation: Preview database access disabled |
-| **Status** | **PLAN READY** — implementation not started (CROW.GAP004.ALT1) |
+| **Status** | **IMPLEMENTED** — fail-closed runtime guard certified (CROW.GAP004.ALT2) |
 | **Authority** | Owner decision 2026-07-18 · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) |
+| **Milestone** | [`../milestones/CROW-GAP004-ALT2.md`](../milestones/CROW-GAP004-ALT2.md) · plan [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) |
 | **Related** | [`GAP-004-DB-ISOLATION-PLAN.md`](GAP-004-DB-ISOLATION-PLAN.md) · [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
 ## Relationship to GAP-004
@@ -176,14 +176,24 @@ Suggested counters for implement milestone:
 
 ---
 
-## 8. Implementation phases (next milestones — not ALT1)
+## 8. Implementation phases
 
 | Phase | Work | Owner |
 |-------|------|-------|
-| **ALT1** (this) | Plan + ledger + Issue #16 | Done as docs |
-| **ALT2** | Helpers + Prisma fail-closed + unit tests | Agent after owner “implement” |
-| **ALT3** | UI banner / blocked pages + Discovery Preview wiring | Agent |
-| **ALT4** | Preview deploy smoke (no DB) + evidence cert | Agent + owner |
+| **ALT1** | Plan + ledger + Issue #16 | Done |
+| **ALT2** | Helpers + Prisma fail-closed + mutation asserts + tests | **Done** |
+| **ALT3** | Broader UI banners / remaining route soft-fail polish | Optional |
+| **ALT4** | Preview deploy smoke evidence (no DB) | Owner + agent |
+
+### ALT2 code map
+
+| Artifact | Path |
+|----------|------|
+| Helpers | `src/lib/runtime/preview-db-safety.ts` |
+| Tests | `src/lib/runtime/preview-db-safety.test.ts` · `npm run preview-db-safety:test` |
+| Prisma | `src/lib/db.ts` Proxy |
+| Notice | `src/components/runtime/preview-db-disabled-notice.tsx` |
+| Proven flag | `PREVIEW_DATABASE_ISOLATION_PROVEN=true` only with `DATABASE_ENVIRONMENT=preview` + `BACKEND_ISOLATION=isolated` + `VERCEL_ENV=preview` |
 
 ---
 
