@@ -3,15 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery and Operating Model MVP — Delivery Plan |
-| **Status** | CANONICAL plan — **CROW.DISCOVERY.4 D4 OM input draft local-first; D5–D6 pending** |
-| **Authority** | Owner decisions in CROW.DISCOVERY.1–4 |
+| **Status** | CANONICAL plan — **CROW.DISCOVERY.5 D5 ProCrow modeling review local-first; D6 pending** |
+| **Authority** | Owner decisions in CROW.DISCOVERY.1–5 |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Audit** | [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) |
 | **Operating Model plan** | [`OPERATING-MODEL-MVP-PLAN.md`](OPERATING-MODEL-MVP-PLAN.md) |
-| **Milestone** | [`milestones/CROW-DISCOVERY-4.md`](../milestones/CROW-DISCOVERY-4.md) · prior [`milestones/CROW-DISCOVERY-3.md`](../milestones/CROW-DISCOVERY-3.md) |
+| **Milestone** | [`milestones/CROW-DISCOVERY-5.md`](../milestones/CROW-DISCOVERY-5.md) · prior [`milestones/CROW-DISCOVERY-4.md`](../milestones/CROW-DISCOVERY-4.md) |
 | **Field architecture** | FIELD.1 @ `e90fcda` · [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
-| **Prior** | CROW.DISCOVERY.3 · CROW.DISCOVERY.2 · CROW.PR10.2 |
+| **Prior** | CROW.DISCOVERY.4 · CROW.DISCOVERY.3 · CROW.DISCOVERY.2 |
 
 ---
 
@@ -24,10 +24,10 @@
 | D2 Workspace UX | **Done** (foundation) | `DiscoveryMvpWorkspaceShell` — linked request, JourneyKind, OrganizationContext, Stages 1–7 overview, evidence refs-only |
 | D3 Adaptive fields | **Done** (Stages 1–3 foundation) | Typed catalog, NEW/TRANSFORM + org-context visibility, localStorage drafts, validation, ProCrow prep summary |
 | D4 Operating Model capture | **Done** (local input draft) | `OperatingModelInputDraft` from D3 answers; preview UX; `readyForBlueprintDraft` always false |
-| D5 ProCrow modeling review | Pending | Final review / ready-for-modeling workflow |
+| D5 ProCrow modeling review | **Done** (local readiness) | `evaluateProCrowModelingReadiness`; review panel; `readyForModeling` may be true; Blueprint still blocked |
 | D6 Blueprint handoff | Pending | Complete→Blueprint remains blocked by default |
 
-Evidence: [`milestones/CROW-DISCOVERY-4.md`](../milestones/CROW-DISCOVERY-4.md) · `npm run discovery-mvp-d4:test`
+Evidence: [`milestones/CROW-DISCOVERY-5.md`](../milestones/CROW-DISCOVERY-5.md) · `npm run discovery-mvp-d5:test`
 
 ---
 
@@ -221,7 +221,7 @@ See [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) §15 and milestone doc.
 
 ## Recommended next after this plan
 
-1. **CROW.DISCOVERY.5** (or D5 slice) — ProCrow modeling review / ready-for-modeling signal (still no Blueprint generate)
+1. **CROW.DISCOVERY.6** (or D6 slice) — intentional Blueprint handoff under explicit owner authorization (still gated)
 2. Or triage GAP-004 / GAP-015 if platform risk takes priority
 
-**Do not** close Issue #18 until Discovery MVP product outcomes (through intended D5–D6) are owner-accepted.
+**Do not** close Issue #18 until Discovery MVP product outcomes (through intended D6) are owner-accepted.

@@ -7,11 +7,13 @@
 | **Authority** | [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Date** | 2026-07-18 |
 
-## Implementation note (CROW.DISCOVERY.3 / .4)
+## Implementation note (CROW.DISCOVERY.3 / .4 / .5)
 
 Stages **1–3** adaptive field catalog + form foundation are implemented local-first (D3).
 
-**D4** adds a local **Draft Operating Model Input** summary derived from those answers (`buildOperatingModelInputDraft`) with ProCrow-facing missing/risk signals. Stage 7 final review and Blueprint handoff remain later (D5–D6).
+**D4** adds a local **Draft Operating Model Input** summary derived from those answers.
+
+**D5** adds **ProCrow Modeling Review** (`evaluateProCrowModelingReadiness`) with local status (`NOT_READY` → `READY_FOR_MODELING`), clarification prompts, coverage, and optional local risk acknowledgment / evidence waiver. `readyForModeling` may be true; **`readyForBlueprintDraft` remains false**. Stage 7 hosted approval and Blueprint handoff remain D6+.
 
 Stages **4–7** field depth remain planned. `mapsToBlueprintSection` is inert metadata only.
 

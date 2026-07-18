@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Operating Model capture — plan for Discovery MVP stream |
-| **Status** | CANONICAL plan — **D4 local Operating Model input draft implemented (CROW.DISCOVERY.4)** |
+| **Status** | CANONICAL plan — **D4 OM input draft + D5 ProCrow modeling review local-first (CROW.DISCOVERY.4 / .5)** |
 | **Authority** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) · [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTERPRISE-BLUEPRINT.md) |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
@@ -85,7 +85,7 @@ Discovery collects structured information so ProCrow can later draft an **Operat
 | D1 | Define OM draft JSON / answer key map |
 | D2–D3 | UI capture for people, workflows, trust, risks, current/future |
 | D4 | **Done** — Explicit OM draft summary view (client + operator) |
-| D5 | ProCrow completeness against OM checklist / ready-for-modeling |
+| D5 | **Done** — ProCrow modeling readiness / ready-for-modeling (local; no Blueprint) |
 | D6 | Freeze OM draft for Blueprint handoff (future milestone executes handoff) |
 
 ---
