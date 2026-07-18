@@ -6,6 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `208983e` (LOCAL-FIRST.ACCEPT.1 tip) |
+| **Final HEAD** | `d6fa695` |
 | **Owner decision** | Crow Alpha Development Mode — fast review; GAP-004 = future commercial gate |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **main** | `f97a835` (unchanged) |
