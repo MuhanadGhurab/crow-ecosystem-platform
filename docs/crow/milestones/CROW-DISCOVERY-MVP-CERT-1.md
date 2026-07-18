@@ -6,7 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `229d874` (CROW.DISCOVERY.6 pin tip) |
-| **Final HEAD** | _(pinned after docs commit)_ |
+| **Final HEAD** | `dd8a53e` |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **main** | `e8cb812` (unchanged) |
 | **PR #10** | OPEN · DRAFT · CONFLICTING · **archive only** |
