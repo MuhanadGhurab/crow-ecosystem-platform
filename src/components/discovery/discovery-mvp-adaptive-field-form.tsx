@@ -20,6 +20,7 @@ import {
   isDiscoveryMvpFieldRequired,
 } from "@/lib/discovery/discovery-mvp-d3-visibility";
 import { buildOperatingModelInputDraft } from "@/lib/discovery/discovery-mvp-d4-mapper";
+import { DiscoveryMvpBlueprintHandoffPanel } from "@/components/discovery/discovery-mvp-blueprint-handoff-panel";
 import { DiscoveryMvpOperatingModelDraftPreview } from "@/components/discovery/discovery-mvp-operating-model-draft-preview";
 import { DiscoveryMvpProCrowModelingReviewPanel } from "@/components/discovery/discovery-mvp-procrow-modeling-review-panel";
 import { DISCOVERY_MVP_STAGES } from "@/lib/discovery/discovery-mvp-boundaries";
@@ -282,13 +283,13 @@ export function DiscoveryMvpAdaptiveFieldForm({
         variant={variant}
       />
 
-      <div className="rounded-lg border border-dashed border-white/15 p-3">
-        <p className="text-xs font-medium text-slate-300">D6 — Blueprint handoff coming next</p>
-        <p className="mt-1 text-sm text-slate-500">
-          Intentional Blueprint handoff remains out of scope. Stages 4–7 field depth and hosted
-          persistence stay deferred.
-        </p>
-      </div>
+      <DiscoveryMvpBlueprintHandoffPanel
+        requestId={requestId}
+        answers={answers}
+        journeyKind={journeyKind}
+        organizationContext={organizationContext}
+        variant={variant}
+      />
     </div>
   );
 }

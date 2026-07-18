@@ -234,8 +234,8 @@ export function DiscoveryMvpProCrowModelingReviewPanel({
       <div className="rounded-lg border border-amber-500/30 bg-amber-950/20 p-3">
         <p className="text-xs font-medium text-amber-200">Blueprint generation remains blocked</p>
         <p className="mt-1 text-sm text-amber-100/80">
-          Even when ready-for-modeling is yes, Blueprint draft creation stays out of scope for D5.
-          D6 owns intentional Blueprint handoff under owner authorization.
+          Even when ready-for-modeling is yes, Blueprint draft creation stays out of scope until a future
+          owner-authorized milestone. D6 shows the handoff boundary package only.
         </p>
       </div>
 
