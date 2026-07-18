@@ -6,6 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `dc03254` (CROW.GAP015.ACCEPT.1) |
+| **Final HEAD** | `ff43960` |
 | **Prior** | CROW.DISCOVERY.6 · CROW.DISCOVERY.5 · … · CROW.DISCOVERY.2 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) — keep OPEN |
 | **main** | `f97a835` (unchanged) |
