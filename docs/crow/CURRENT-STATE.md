@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.7 — Stages 4–7 depth local-first) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 — D0–D7 local-first accepted) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip (see branch); CROW.DISCOVERY.7 Stages 4–7 depth; GAP-015 **Mitigated**; `main` @ `f97a835` protected |
+| HEAD | FTGP tip · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 (D0–D7 accepted) · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN (D7 depth landed) |
+| Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery (**local-first D0–D7 accepted**; OPEN for hosted / dual-track / Blueprint) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.DISCOVERY.7 |
+| Working tree | Post CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 |
 
 ## Stack
 
@@ -75,7 +75,7 @@
 | DEFERRED | Server-persisted DRAFT; hosted Preview certify (GAP-004) |
 | Evidence | [`milestones/CROW-REQUEST-2.md`](milestones/CROW-REQUEST-2.md), `/client/requests/*`, Issue #17 |
 
-### Discovery — PARTIAL (D0–D7 local-first · Stages 1–7 depth · cert package · hosted pending)
+### Discovery — PARTIAL (D0–D7 local-first **owner-accepted** · hosted pending)
 
 | Status | Evidence |
 |--------|----------|
@@ -84,11 +84,12 @@
 | IMPLEMENTED | **CROW.DISCOVERY.5** — ProCrow modeling review; `readyForModeling` may be true locally |
 | IMPLEMENTED | **CROW.DISCOVERY.6** — Blueprint handoff package; `readyForBlueprintHandoff` may be true; draft/generation false |
 | IMPLEMENTED | **CROW.DISCOVERY.7** — Stages 4–7 depth (trust/risk, build/transform intent, evidence refs-only, ProCrow review prep) |
-| CERT PACKAGE | **CROW.DISCOVERY.MVP-CERT.1** — local-first certification + owner checklist (acceptance not auto-applied; scope now includes D7 depth) |
+| **ACCEPTED** | **CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1** — D0–D7 local-first MVP scope owner-accepted (no hosted / Blueprint / Production / main) |
+| CERT PACKAGE | MVP-CERT.1 superseded by LOCAL-FIRST.ACCEPT.1 for acceptance status |
 | IMPLEMENTED | Blueprint **complete path quarantined** by default |
 | BLOCKED | Hosted Discovery persistence (GAP-004); Blueprint generation / `completeDiscovery` |
-| PENDING | Owner acceptance (Discovery cert); dual client tracks; hosted persistence; Blueprint drafting |
-| Evidence | [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md), [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md), [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md), Issue #18 |
+| PENDING | Dual client tracks; hosted persistence; Blueprint drafting |
+| Evidence | [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md), [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md), [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md), Issue #18 |
 
 ### Blueprint — PARTIAL
 

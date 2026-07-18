@@ -3,12 +3,13 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery MVP D0–D7 local-first certification |
-| **Status** | CANONICAL certification evidence — awaiting owner acceptance |
-| **Authority** | Owner decisions · CROW.DISCOVERY.2–7 · [`CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md) |
+| **Status** | CANONICAL certification evidence — **owner-accepted** (CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1) |
+| **Authority** | Owner decisions · CROW.DISCOVERY.2–7 · [`CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](../milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md) · [`CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md) |
 | **Date** | 2026-07-18 |
-| **Branch / start HEAD** | `feat/first-tenant-golden-path` (D7 from `dc03254`) |
-| **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
+| **Branch / start HEAD** | `feat/first-tenant-golden-path` @ `f0d7575` (acceptance baseline) |
+| **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) — OPEN (remaining hosted / dual-track / Blueprint work) |
 | **Plan** | [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md) |
+| **Acceptance** | [`../milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](../milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md) |
 
 ---
 
@@ -34,18 +35,19 @@ Milestones: [`CROW-DISCOVERY-2.md`](../milestones/CROW-DISCOVERY-2.md) … [`CRO
 | Boundary | Certified state |
 |----------|-----------------|
 | Answer / review draft persistence | Browser `localStorage` / component state where applicable |
-| Hosted business writes from D0–D6 slices | **None** |
+| Hosted business writes from D0–D7 slices | **None** |
 | Schema migrations | **None** authorized or applied for this stream |
-| Prisma schema changes for Discovery MVP | **None** in D0–D6 slices |
+| Prisma schema changes for Discovery MVP | **None** in D0–D7 slices |
 | Production deploy | **Not** performed for Discovery MVP slices |
-| `main` merge | **Not** performed; `main` remains `e8cb812` |
+| `main` merge | **Not** performed; `main` remains `f97a835` |
 | PR #10 | OPEN · DRAFT · CONFLICTING · **archive / reference only** |
+| Owner acceptance | **Accepted** — CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 @ `f0d7575` |
 
 ---
 
 ## 3. Authority safety
 
-Discovery MVP D0–D6 **does not**:
+Discovery MVP D0–D7 **does not**:
 
 | Side effect | Certified |
 |-------------|-----------|
@@ -139,12 +141,12 @@ Canonical Blueprint doc clarification: [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTE
 | Option | Topic | When |
 |--------|-------|------|
 | **1** | GAP-004 Preview/Production DB isolation | **Recommended first** — blocks safe hosted work |
-| **2** | GAP-015 Production auto-deploy settings | **Recommended with / after GAP-004** — Production safety |
-| **3** | Stages 4–7 depth local-first | After platform isolation or if owner prioritizes Discovery depth only |
-| **4** | Discovery hosted persistence design | Only after GAP-004 |
-| **5** | Blueprint drafting design only | After owner acceptance of local-first + gates; still no generation |
+| **2** | Discovery hosted persistence design | Only after GAP-004 |
+| **3** | Dual client Discovery track unification | After hosted design clarity |
+| **4** | Blueprint drafting design only | After GAP-004 + owner gates; still no generation |
+| **5** | Production movement / `main` merge | Only with explicit owner authorization |
 
-**Safest recommended next:** Option **1** then **2** (GAP-004 → GAP-015) before hosted persistence, `main` merge, Production movement, or Blueprint drafting.
+**Safest recommended next:** **GAP-004** (Preview/Production DB isolation) before hosted Discovery persistence, dual-track unification, `main` merge, Production movement, or Blueprint drafting. GAP-015 is already **Mitigated**.
 
 ---
 
@@ -153,8 +155,8 @@ Canonical Blueprint doc clarification: [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTE
 | Blocker | Why |
 |---------|-----|
 | GAP-004 | Preview/Production DB isolation open / blocked |
-| GAP-015 | Production auto-deploy settings gate open |
-| Owner acceptance | Local-first complete ≠ hosted / Production authorized |
+| GAP-015 | **Mitigated** — intentional Production still needs `CROW.PRODUCTION.DEPLOY` |
+| Local-first acceptance | D0–D7 accepted ≠ hosted / Production / Blueprint authorized |
 | Blueprint Complete override | Must remain off unless explicitly authorized |
 | PR #10 | Archive only — not a merge vehicle |
 
@@ -162,7 +164,8 @@ Canonical Blueprint doc clarification: [`05-ENTERPRISE-BLUEPRINT.md`](../05-ENTE
 
 ## 9. Related documents
 
-- Owner checklist: [`DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md)  
-- Milestone: [`../milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md)  
-- Plan: [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md)  
+- Owner acceptance: [`../milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](../milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md)
+- Owner checklist: [`DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md)
+- Milestone (build): [`../milestones/CROW-DISCOVERY-7.md`](../milestones/CROW-DISCOVERY-7.md)
+- Plan: [`DISCOVERY-MVP-PLAN.md`](DISCOVERY-MVP-PLAN.md)
 - Gaps: [`../GAP-LEDGER.md`](../GAP-LEDGER.md) (GAP-004, GAP-015, GAP-017)

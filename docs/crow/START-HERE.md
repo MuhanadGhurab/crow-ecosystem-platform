@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.7 — Stages 4–7 depth local-first) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 — D0–D7 local-first accepted) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -49,8 +49,8 @@
 | [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
 | [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) | PR #10 draft archive + slice extraction rules (owner accepted) |
 | [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) | PR #10 conflict inventory |
-| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D7 local-first Stages 1–7 depth) |
-| [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) | D0–D7 local-first certification evidence |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D7 local-first **owner-accepted**) |
+| [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) | D0–D7 local-first certification evidence (accepted) |
 | [`discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md) | Owner UX / boundary acceptance checklist |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
@@ -82,19 +82,19 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.7** — Discovery Stages 4–7 depth implemented and certified local-first. Hosted persistence and Blueprint generation remain blocked.
+**CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1** — Discovery D0–D7 local-first MVP scope **owner-accepted**. Does **not** authorize hosted persistence, Blueprint generation, Production, or `main` merge.
 
-Evidence: [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md)
+Evidence: [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md)
 
-**Prior:** CROW.GAP015.ACCEPT.1 (GAP-015 Mitigated) · CROW.DISCOVERY.6 · … · CROW.DISCOVERY.2
+**Prior:** CROW.DISCOVERY.7 · CROW.GAP015.ACCEPT.1 · CROW.DISCOVERY.6 · … · CROW.DISCOVERY.2
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected)
 
 **Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked · intentional Production only via `CROW.PRODUCTION.DEPLOY`
 
-**Owner next:** Accept Discovery local-first scope (Issue #18) · GAP-004 when ready · any Production build needs separate `CROW.PRODUCTION.DEPLOY`
+**Owner next:** GAP-004 when ready for hosted persistence · dual-track unify · Blueprint drafting (separate auth) · any Production build needs separate `CROW.PRODUCTION.DEPLOY`
 
-**Branch:** `feat/first-tenant-golden-path` · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
+**Branch:** `feat/first-tenant-golden-path` · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN (remaining work) · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 
 ## Current implementation summary
 
