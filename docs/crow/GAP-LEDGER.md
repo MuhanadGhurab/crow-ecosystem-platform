@@ -249,9 +249,9 @@
 | **Security/authority impact** | Low if authority non-claims preserved (D0–D6 tests; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false) |
 | **Dependency** | GAP-004 before hosted certify / migrations; owner gate before Blueprint drafting |
 | **Proposed milestone** | Future Blueprint drafting (owner-gated) · Stages 4–7 depth · client-track unify |
-| **Owner decision required** | Accept D0–D6 local-first; hosted persistence; client-track unify; when to allow Blueprint drafting / complete override |
-| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md) |
-| **Status** | **Partial** — D0–D6 local-first implemented; hosted/depth/drafting remain |
+| **Owner decision required** | Accept D0–D6 local-first (MVP-CERT.1 wording); hosted persistence after GAP-004; client-track unify; when to allow Blueprint drafting / complete override |
+| **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
+| **Status** | **Partial** — D0–D6 local-first implemented + cert package prepared; owner acceptance / hosted / depth / drafting remain |
 
 ## GAP-018 — PR #10 breadth vs safe merge to main
 

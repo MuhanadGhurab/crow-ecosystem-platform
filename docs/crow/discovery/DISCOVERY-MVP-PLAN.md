@@ -3,13 +3,14 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Discovery and Operating Model MVP — Delivery Plan |
-| **Status** | CANONICAL plan — **CROW.DISCOVERY.6 D6 Blueprint handoff contract local-first (D0–D6)** |
-| **Authority** | Owner decisions in CROW.DISCOVERY.1–6 |
+| **Status** | CANONICAL plan — **D0–D6 local-first complete; MVP-CERT.1 certification package prepared** |
+| **Authority** | Owner decisions in CROW.DISCOVERY.1–6 · MVP-CERT.1 |
 | **Date** | 2026-07-18 |
 | **Issue** | [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
 | **Audit** | [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) |
 | **Operating Model plan** | [`OPERATING-MODEL-MVP-PLAN.md`](OPERATING-MODEL-MVP-PLAN.md) |
-| **Milestone** | [`milestones/CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md) · prior [`milestones/CROW-DISCOVERY-5.md`](../milestones/CROW-DISCOVERY-5.md) |
+| **Milestone** | [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · build [`milestones/CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md) |
+| **Certification** | [`DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · [`DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md) |
 | **Field architecture** | FIELD.1 @ `e90fcda` · [`DISCOVERY-FIELD-ARCHITECTURE.md`](DISCOVERY-FIELD-ARCHITECTURE.md) |
 | **Prior** | CROW.DISCOVERY.4 · CROW.DISCOVERY.3 · CROW.DISCOVERY.2 |
 
@@ -26,8 +27,9 @@
 | D4 Operating Model capture | **Done** (local input draft) | `OperatingModelInputDraft` from D3 answers; preview UX; `readyForBlueprintDraft` always false |
 | D5 ProCrow modeling review | **Done** (local readiness) | `evaluateProCrowModelingReadiness`; review panel; `readyForModeling` may be true; Blueprint still blocked |
 | D6 Blueprint handoff | **Done** (local contract) | `DiscoveryBlueprintHandoffPackage`; handoff panel; `readyForBlueprintHandoff` may be true; draft/generation remain false |
+| MVP-CERT.1 | **Package prepared** | Local-first certification + owner checklist; acceptance not auto-applied |
 
-Evidence: [`milestones/CROW-DISCOVERY-6.md`](../milestones/CROW-DISCOVERY-6.md) · `npm run discovery-mvp-d6:test`
+Evidence: [`DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](../milestones/CROW-DISCOVERY-MVP-CERT-1.md) · `npm run discovery-mvp-d6:test`
 
 ---
 
@@ -224,8 +226,8 @@ See [`DISCOVERY-AUDIT.md`](DISCOVERY-AUDIT.md) §15 and milestone doc.
 
 ## Recommended next after this plan
 
-1. Owner acceptance of D0–D6 local-first Discovery MVP (Issue #18) — keep OPEN until accepted
-2. Future owner-authorized Blueprint drafting milestone (still must not casually enable override)
-3. Or triage GAP-004 / GAP-015 if platform risk takes priority
+1. **Owner acceptance** of D0–D6 local-first via MVP-CERT.1 wording (Issue #18 stays OPEN until accepted)
+2. **GAP-004** then **GAP-015** before hosted persistence, `main` merge, or Production movement
+3. Optional later: Stages 4–7 depth, client-track unify, hosted persistence design, Blueprint drafting design
 
-**Do not** close Issue #18 until Discovery MVP product outcomes are owner-accepted (local-first D0–D6 is implementation-complete; acceptance is separate).
+**Do not** close Issue #18 until Discovery MVP outcomes are owner-accepted. Local-first D0–D6 implementation + cert package ≠ hosted/Production authorization.

@@ -293,6 +293,8 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DISCOVERY.6 (build slice):** D6 Blueprint handoff contract local-first — see [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md). Generation / draft records remain blocked.
 
+**CROW.DISCOVERY.MVP-CERT.1 (cert package):** D0–D6 local-first certification + owner checklist — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md). Acceptance not auto-applied.
+
 Discovery questions · org context · Build New vs Transform · responsibilities/workflows/trust capture · operating model draft · **stop before Blueprint generation**.
 
 ### Phase 4 — Enterprise Blueprint MVP
@@ -345,7 +347,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · CROW.DISCOVERY.2 · CROW.DISCOVERY.3 · CROW.DISCOVERY.4 · CROW.DISCOVERY.5 · **CROW.DISCOVERY.6** (D6 handoff)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.FIELD.1 / 1A · CROW.DISCOVERY.1 / 1A · CROW.PR10.REBASE.1 · CROW.PR10.2 · CROW.DISCOVERY.2–6 · **CROW.DISCOVERY.MVP-CERT.1** (cert package)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

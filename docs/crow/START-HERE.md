@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.6) |
+| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.MVP-CERT.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -49,7 +49,9 @@
 | [`discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md`](discovery/DISCOVERY-ADAPTIVE-INTAKE-MODEL.md) | Stages, outputs, ProCrow review, tests plan |
 | [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) | PR #10 draft archive + slice extraction rules (owner accepted) |
 | [`pr10/PR10-CONFLICT-AUDIT.md`](pr10/PR10-CONFLICT-AUDIT.md) | PR #10 conflict inventory |
-| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D6 local-first complete) |
+| [`discovery/DISCOVERY-MVP-PLAN.md`](discovery/DISCOVERY-MVP-PLAN.md) | Discovery MVP delivery plan (D0–D6 local-first; cert package prepared) |
+| [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) | D0–D6 local-first certification evidence |
+| [`discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md) | Owner UX / boundary acceptance checklist |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terms defined once |
 | [`CURRENT-STATE.md`](CURRENT-STATE.md) | Verified implementation map |
 | [`GAP-LEDGER.md`](GAP-LEDGER.md) | Design–implementation gaps |
@@ -68,19 +70,17 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.6** — Blueprint handoff contract and owner-gated boundary (local-first; generation still blocked).
+**CROW.DISCOVERY.MVP-CERT.1** — Local-first Discovery MVP D0–D6 certification package (awaiting owner acceptance).
 
-Evidence: [`milestones/CROW-DISCOVERY-6.md`](milestones/CROW-DISCOVERY-6.md) · `npm run discovery-mvp-d6:test` · prior [`milestones/CROW-DISCOVERY-5.md`](milestones/CROW-DISCOVERY-5.md)
+Evidence: [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) · checklist [`discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md)
 
-**Prior:** CROW.DISCOVERY.5 @ `e96f71e` · CROW.DISCOVERY.4 @ `1cdcffe` · CROW.DISCOVERY.3 @ `e7e322e`
+**Prior build slices:** CROW.DISCOVERY.6 @ `229d874` · D5 @ `e96f71e` · D4 @ `1cdcffe`
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 remains DRAFT archive — **do not merge**; no conflict resolution for monolith merge; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim
+**Hold:** PR #10 remains DRAFT archive — **do not merge**; no hosted migrations/writes (GAP-004); no Instant Promote; Option C interim
 
-**Recommended next:** Owner acceptance of D0–D6 local-first · or future Blueprint drafting under explicit gate · or GAP-004 / GAP-015 triage
-
-Under Issue #18 · keep Issue OPEN until owner accepts Discovery MVP outcomes
+**Recommended next:** **GAP-004** then **GAP-015** before hosted persistence, `main` merge, Production movement, or Blueprint drafting · Owner may accept local-first via prepared wording (Issue #18 stays OPEN until accepted)
 
 **Branch:** `feat/first-tenant-golden-path` · **PR #10:** OPEN DRAFT CONFLICTING (archive) · **Project:** #2 private
 
