@@ -25,6 +25,7 @@ import { isOnboardingGenerationCurrent } from "@/lib/account/onboarding-generati
 import { createClient } from "@/lib/supabase/server";
 import { isAuthDisabled } from "@/lib/supabase/env";
 import { routes } from "@/lib/routes";
+import { isPreviewDbDisabledMode } from "@/lib/runtime/preview-db-safety";
 
 export async function getSessionUser(): Promise<User | null> {
   if (isAuthDisabled()) {
@@ -176,6 +177,11 @@ export async function enforceC3HumanAccessGate(
   nextPath?: string
 ): Promise<void> {
   if (isAuthDisabled() || !isC3PlatformAccountGateEnabled()) {
+    return;
+  }
+
+  // CROW.GAP004.ALT2 — Preview cannot read PlatformAccount from shared/unproven DB.
+  if (isPreviewDbDisabledMode()) {
     return;
   }
 

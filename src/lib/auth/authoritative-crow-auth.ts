@@ -13,13 +13,23 @@ import {
   type CrowAuth,
   type CrowRole,
 } from "@/lib/auth/roles";
+import { isPreviewDbDisabledMode } from "@/lib/runtime/preview-db-safety";
 
 /**
  * Crow role for routing/authorization — Supabase metadata alone must not grant access.
  * Platform internal roles and customer relationships are resolved from the Crow database.
+ *
+ * CROW.GAP004.ALT2: On Preview DB-disabled mode, skip hosted DB authority resolution
+ * (JWT metadata only for UI routing). Hosted writes remain blocked elsewhere.
  */
 export async function resolveAuthoritativeCrowAuth(user: User): Promise<CrowAuth> {
   const meta = getCrowAuth(user);
+
+  if (isPreviewDbDisabledMode()) {
+    return meta.role
+      ? { role: meta.role, tenantSlugs: meta.tenantSlugs }
+      : { role: null, tenantSlugs: [] };
+  }
 
   const [internalRoles, customerEvidence, tenantMemberships] = await Promise.all([
     listActiveInternalRolesForSupabaseUser(user.id),
