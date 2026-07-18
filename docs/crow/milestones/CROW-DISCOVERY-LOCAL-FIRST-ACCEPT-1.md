@@ -6,7 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `f0d7575` (CROW.DISCOVERY.7 tip) |
-| **Final HEAD** | _(set in follow-up pin commit)_ |
+| **Final HEAD** | `b54181a` |
 | **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) — **remains OPEN** (hosted / dual-track / Blueprint drafting) |
 | **Certification** | [`../discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](../discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
 | **Checklist** | [`../discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md`](../discovery/DISCOVERY-MVP-OWNER-ACCEPTANCE-CHECKLIST.md) |
