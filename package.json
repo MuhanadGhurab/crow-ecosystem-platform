@@ -384,7 +384,8 @@
     "demo": "node scripts/free-port.mjs && node scripts/run-demo.mjs",
     "demo:meem": "node scripts/free-port.mjs && node scripts/run-demo.mjs meem",
     "demo:win": "powershell -ExecutionPolicy Bypass -File scripts/demo-session.ps1",
-    "demo:stop": "powershell -ExecutionPolicy Bypass -File scripts/stop-demo.ps1"
+    "demo:stop": "powershell -ExecutionPolicy Bypass -File scripts/stop-demo.ps1",
+    "vercel-production-deploy-guard:test": "node scripts/safety/vercel-production-deploy-guard.test.mjs"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
