@@ -23,8 +23,12 @@ function matchesCondition(
       return ctx.journeyKind === "NEW";
     case "if_journey_TRANSFORM":
       return ctx.journeyKind === "TRANSFORM";
+    case "if_org_NEW_BUSINESS":
+      return ctx.organizationContext === "NEW_BUSINESS";
     case "if_org_NEW_DIVISION":
       return ctx.organizationContext === "NEW_DIVISION";
+    case "if_org_EXISTING_ORGANIZATION":
+      return ctx.organizationContext === "EXISTING_ORGANIZATION";
     case "if_org_MODERNIZATION":
       return ctx.organizationContext === "MODERNIZATION";
     default: {

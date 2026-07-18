@@ -47,19 +47,21 @@ export function computeDiscoveryMvpD3ReviewSummary(
     .filter((f) => f.procrowReviewFlag === "review" || f.procrowReviewFlag === "blocking_if_missing")
     .map((f) => f.fieldKey);
 
-  const stageProgress: DiscoveryMvpStageProgress[] = ([1, 2, 3] as const).map((stageId) => {
-    const stageFields = visible.filter((f) => f.stageId === stageId);
-    const missing = stageFields
-      .filter((f) => isDiscoveryMvpFieldRequired(f, ctx) && !isAnswerPresent(answers[f.fieldKey]))
-      .map((f) => f.fieldKey);
-    return {
-      stageId,
-      visibleCount: stageFields.length,
-      answeredCount: stageFields.filter((f) => isAnswerPresent(answers[f.fieldKey])).length,
-      requiredCount: stageFields.filter((f) => isDiscoveryMvpFieldRequired(f, ctx)).length,
-      missingRequiredKeys: missing,
-    };
-  });
+  const stageProgress: DiscoveryMvpStageProgress[] = ([1, 2, 3, 4, 5, 6, 7] as const).map(
+    (stageId) => {
+      const stageFields = visible.filter((f) => f.stageId === stageId);
+      const missing = stageFields
+        .filter((f) => isDiscoveryMvpFieldRequired(f, ctx) && !isAnswerPresent(answers[f.fieldKey]))
+        .map((f) => f.fieldKey);
+      return {
+        stageId,
+        visibleCount: stageFields.length,
+        answeredCount: stageFields.filter((f) => isAnswerPresent(answers[f.fieldKey])).length,
+        requiredCount: stageFields.filter((f) => isDiscoveryMvpFieldRequired(f, ctx)).length,
+        missingRequiredKeys: missing,
+      };
+    },
+  );
 
   return {
     visibleFieldCount: visible.length,

@@ -1,13 +1,13 @@
 /**
- * CROW.DISCOVERY.3 — pure answer validation (no hosted writes).
+ * CROW.DISCOVERY.3 / D7 — pure answer validation (no hosted writes).
  */
 
 import type {
   DiscoveryMvpAnswerMap,
+  DiscoveryMvpAdaptiveContext,
   DiscoveryMvpFieldDefinition,
 } from "@/lib/discovery/discovery-mvp-d3-types";
 import { isDiscoveryMvpFieldRequired } from "@/lib/discovery/discovery-mvp-d3-visibility";
-import type { DiscoveryMvpAdaptiveContext } from "@/lib/discovery/discovery-mvp-d3-types";
 
 export type DiscoveryMvpFieldValidationResult = {
   fieldKey: string;
@@ -25,13 +25,35 @@ export function isAnswerPresent(value: string | number | null | undefined): bool
   return asString(value).length > 0;
 }
 
+/** Reject upload / path cues — evidence must stay references-only. */
+export function looksLikeFileUploadPath(text: string): boolean {
+  if (/^https?:\/\//i.test(text)) return false;
+  if (/\.(pdf|docx?|xlsx?|png|jpe?g|gif|zip|csv)$/i.test(text)) return true;
+  if (/^(file|content|blob):/i.test(text)) return true;
+  if (/[\\/].+\.(pdf|docx?|xlsx?|png|jpe?g|zip)$/i.test(text)) return true;
+  return false;
+}
+
 export function validateDiscoveryMvpFieldAnswer(
   field: DiscoveryMvpFieldDefinition,
   value: string | number | null | undefined,
   ctx: DiscoveryMvpAdaptiveContext,
+  answers: DiscoveryMvpAnswerMap = {},
 ): DiscoveryMvpFieldValidationResult {
   const required = isDiscoveryMvpFieldRequired(field, ctx);
   const present = isAnswerPresent(value);
+
+  // Cross-field: not-available reason required when status says so.
+  if (field.fieldKey === "evidence_not_available_reason") {
+    const status = asString(answers.evidence_availability_status);
+    if (status === "not_available_yet" && !present) {
+      return {
+        fieldKey: field.fieldKey,
+        ok: false,
+        message: "Provide a reason when evidence is not available yet.",
+      };
+    }
+  }
 
   if (!present) {
     if (required) {
@@ -78,15 +100,12 @@ export function validateDiscoveryMvpFieldAnswer(
     };
   }
 
-  if (v.refsOnly) {
-    // Reject obvious upload / path cues — refs are text/URL only.
-    if (/\.(pdf|docx?|xlsx?|png|jpe?g|zip)$/i.test(text) && !/^https?:\/\//i.test(text)) {
-      return {
-        fieldKey: field.fieldKey,
-        ok: false,
-        message: "Evidence must be a name or URL reference — file uploads are not allowed.",
-      };
-    }
+  if (v.refsOnly && looksLikeFileUploadPath(text)) {
+    return {
+      fieldKey: field.fieldKey,
+      ok: false,
+      message: "Evidence must be a name or URL reference — file uploads are not allowed.",
+    };
   }
 
   return { fieldKey: field.fieldKey, ok: true, message: null };
@@ -97,5 +116,17 @@ export function validateVisibleDiscoveryMvpAnswers(
   answers: DiscoveryMvpAnswerMap,
   ctx: DiscoveryMvpAdaptiveContext,
 ): DiscoveryMvpFieldValidationResult[] {
-  return fields.map((f) => validateDiscoveryMvpFieldAnswer(f, answers[f.fieldKey], ctx));
+  return fields.map((f) => validateDiscoveryMvpFieldAnswer(f, answers[f.fieldKey], ctx, answers));
+}
+
+/** Explicit product invariant: Discovery MVP has no file-upload field type. */
+export function discoveryMvpCatalogAllowsFileUpload(
+  catalog: readonly DiscoveryMvpFieldDefinition[],
+): boolean {
+  return catalog.some(
+    (f) =>
+      (f.fieldType as string) === "file" ||
+      (f.fieldType as string) === "file_upload" ||
+      f.fieldKey.toLowerCase().includes("upload"),
+  );
 }

@@ -1,8 +1,10 @@
 /**
- * CROW.DISCOVERY.3 — Stage 1–3 MVP adaptive field catalog (local-first).
- * Stages 4–7 remain planned placeholders in the workspace shell.
+ * CROW.DISCOVERY.3 / D7 — MVP adaptive field catalog (Stages 1–7 local-first).
+ * Stages 4–7 depth fields merge from discovery-mvp-d7-fields.ts.
  */
 
+import type { DiscoveryMvpStageId } from "@/lib/discovery/discovery-mvp-boundaries";
+import { DISCOVERY_MVP_D7_STAGE_FIELDS } from "@/lib/discovery/discovery-mvp-d7-fields";
 import type { DiscoveryMvpFieldDefinition } from "@/lib/discovery/discovery-mvp-d3-types";
 import { DISCOVERY_MVP_D3_FIELD_VERSION } from "@/lib/discovery/discovery-mvp-d3-types";
 
@@ -518,14 +520,14 @@ export const DISCOVERY_MVP_D3_CATALOG: readonly DiscoveryMvpFieldDefinition[] = 
     operatorVisible: true,
     procrowReviewFlag: "none",
   },
-] as const;
+] as const satisfies readonly DiscoveryMvpFieldDefinition[];
 
 export function getDiscoveryMvpD3Catalog(): readonly DiscoveryMvpFieldDefinition[] {
-  return DISCOVERY_MVP_D3_CATALOG;
+  return [...DISCOVERY_MVP_D3_CATALOG, ...DISCOVERY_MVP_D7_STAGE_FIELDS];
 }
 
 export function getDiscoveryMvpD3FieldsByStage(
-  stageId: 1 | 2 | 3,
+  stageId: DiscoveryMvpStageId,
 ): readonly DiscoveryMvpFieldDefinition[] {
-  return DISCOVERY_MVP_D3_CATALOG.filter((f) => f.stageId === stageId);
+  return getDiscoveryMvpD3Catalog().filter((f) => f.stageId === stageId);
 }

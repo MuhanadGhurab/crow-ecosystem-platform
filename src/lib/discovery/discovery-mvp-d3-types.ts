@@ -1,5 +1,5 @@
 /**
- * CROW.DISCOVERY.3 — typed MVP field metadata (Stages 1–3 foundation).
+ * CROW.DISCOVERY.3 / D7 — typed MVP field metadata (Stages 1–7 local-first).
  * mapsToBlueprintSection is inert metadata only — never triggers Blueprint generation.
  */
 
@@ -21,7 +21,9 @@ export type DiscoveryMvpRequiredCondition =
   | "never"
   | "if_journey_NEW"
   | "if_journey_TRANSFORM"
+  | "if_org_NEW_BUSINESS"
   | "if_org_NEW_DIVISION"
+  | "if_org_EXISTING_ORGANIZATION"
   | "if_org_MODERNIZATION";
 
 export type DiscoveryMvpJourneyApplicability = RequestJourneyKind | "BOTH";
@@ -56,7 +58,7 @@ export type DiscoveryMvpFieldDefinition = {
   label: string;
   helperText: string;
   fieldType: DiscoveryMvpFieldType;
-  stageId: 1 | 2 | 3;
+  stageId: DiscoveryMvpStageId;
   version: typeof DISCOVERY_MVP_D3_FIELD_VERSION;
   layer: string;
   category: string;
@@ -65,7 +67,7 @@ export type DiscoveryMvpFieldDefinition = {
   organizationContextApplicability: DiscoveryMvpOrgApplicability;
   visibilityCondition: DiscoveryMvpRequiredCondition | "always";
   validation: DiscoveryMvpFieldValidation;
-  /** Advisory OM mapping — D4 capture not implemented. */
+  /** Advisory OM mapping — enriched by D4 mapper. */
   mapsToOperatingModel: readonly string[];
   /** Inert Blueprint section id — must never generate Blueprint. */
   mapsToBlueprintSection: string;

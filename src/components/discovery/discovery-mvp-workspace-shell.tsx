@@ -50,13 +50,13 @@ export function DiscoveryMvpWorkspaceShell({
   return (
     <section
       className="cc-glass-card space-y-6"
-      data-crow-discovery-mvp="d0-d6"
+      data-crow-discovery-mvp="d0-d7"
       data-evidence-mode={model.evidenceMode}
       data-blueprint-complete-blocked={model.blueprintCompleteBlocked ? "true" : "false"}
     >
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-cyan-400/90">
-          Discovery MVP · D0–D6 foundation
+          Discovery MVP · D0–D7 foundation
         </p>
         <h2 className="text-lg font-semibold text-slate-100">Discovery workspace</h2>
         <p className="text-sm text-slate-400">{model.d0d2ScopeNote}</p>
@@ -114,7 +114,8 @@ export function DiscoveryMvpWorkspaceShell({
       <div>
         <h3 className="text-sm font-medium text-slate-200">Stages 1–7 overview</h3>
         <p className="mt-1 text-xs text-slate-500">
-          Stages 1–3 adaptive fields are in D3. Stages 4–7 remain planned.
+          Stages 1–7 adaptive fields are active (local-first). Hosted persistence and Blueprint
+          generation remain blocked.
         </p>
         <ol className="mt-3 space-y-2">
           {model.stages.map((stage) => (
@@ -128,7 +129,7 @@ export function DiscoveryMvpWorkspaceShell({
                 <p className="text-sm text-slate-200">{stage.title}</p>
                 <p className="text-xs text-slate-500">{stage.summary}</p>
                 <p className="mt-1 text-[11px] uppercase tracking-wide text-slate-600">
-                  {stage.id <= 3 ? "Active (D3)" : "Planned (D4+)"}
+                  Active (D7 local-first)
                 </p>
               </div>
             </li>
@@ -145,17 +146,18 @@ export function DiscoveryMvpWorkspaceShell({
 
       <div className="rounded-lg border border-dashed border-white/15 bg-black/10 p-3">
         <p className="text-xs font-medium text-slate-300">Evidence references</p>
-        <p className="mt-1 text-sm text-slate-400" data-crow-evidence-mode="refs_only_planned">
-          Planned as text names and URLs only. File uploads are not part of Discovery MVP.
+        <p className="mt-1 text-sm text-slate-400" data-crow-evidence-mode="refs_only">
+          Stage 6 captures text names, types, descriptions, and availability only. File uploads are
+          not part of Discovery MVP.
         </p>
       </div>
 
       {model.blueprintCompleteBlocked && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-950/30 p-3">
-          <p className="text-xs font-medium text-amber-200">Blueprint generation blocked (D0–D6)</p>
+          <p className="text-xs font-medium text-amber-200">Blueprint generation blocked (D0–D7)</p>
           <p className="mt-1 text-sm text-amber-100/80">
-            Completing Discovery to create a Blueprint remains out of scope. D6 provides a local
-            handoff package only — no tenant build, payment, or CroAI from Discovery.
+            Completing Discovery to create a Blueprint remains out of scope. D6–D7 provide local
+            handoff and review preparation only — no tenant build, payment, or CroAI from Discovery.
           </p>
         </div>
       )}

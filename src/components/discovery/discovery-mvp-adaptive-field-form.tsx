@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * CROW.DISCOVERY.3 — local-first adaptive Stages 1–3 form foundation.
+ * CROW.DISCOVERY.3 / D7 — local-first adaptive Stages 1–7 form foundation.
  */
 
 import { useEffect, useMemo, useState, useTransition } from "react";
@@ -25,9 +25,10 @@ import { DiscoveryMvpOperatingModelDraftPreview } from "@/components/discovery/d
 import { DiscoveryMvpProCrowModelingReviewPanel } from "@/components/discovery/discovery-mvp-procrow-modeling-review-panel";
 import { DISCOVERY_MVP_STAGES } from "@/lib/discovery/discovery-mvp-boundaries";
 
-const STAGE_TITLES = Object.fromEntries(
-  DISCOVERY_MVP_STAGES.filter((s) => s.id <= 3).map((s) => [s.id, s.title]),
-) as Record<1 | 2 | 3, string>;
+const STAGE_TITLES = Object.fromEntries(DISCOVERY_MVP_STAGES.map((s) => [s.id, s.title])) as Record<
+  1 | 2 | 3 | 4 | 5 | 6 | 7,
+  string
+>;
 
 function AdaptiveFieldInput({
   field,
@@ -35,13 +36,18 @@ function AdaptiveFieldInput({
   error,
   required,
   onChange,
+  variant,
 }: {
   field: DiscoveryMvpFieldDefinition;
   value: string;
   error: string | null;
   required: boolean;
   onChange: (next: string) => void;
+  variant: "client" | "operator";
 }) {
+  if (!field.clientVisible && variant === "client") return null;
+  if (!field.operatorVisible && variant === "operator") return null;
+
   const id = `d3-${field.fieldKey}`;
   const common = "mt-1 w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-slate-100";
 
@@ -80,6 +86,11 @@ function AdaptiveFieldInput({
       {field.validation.refsOnly ? (
         <p className="mt-1 text-[11px] text-slate-500" data-crow-evidence-refs-only="true">
           References only — no file upload.
+        </p>
+      ) : null}
+      {field.stageId === 7 ? (
+        <p className="mt-1 text-[11px] text-teal-400/80" data-crow-stage7-prep="true">
+          ProCrow review preparation — not Blueprint approval.
         </p>
       ) : null}
       {error ? <p className="mt-1 text-xs text-amber-300">{error}</p> : null}
@@ -163,17 +174,23 @@ export function DiscoveryMvpAdaptiveFieldForm({
   }
 
   return (
-    <div className="space-y-6" data-crow-discovery-mvp-d3="stages-1-3" data-variant={variant}>
+    <div
+      className="space-y-6"
+      data-crow-discovery-mvp-d3="stages-1-7"
+      data-crow-discovery-mvp-d7="true"
+      data-variant={variant}
+    >
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-teal-400/90">
-          Discovery MVP · D3 adaptive fields
+          Discovery MVP · D7 adaptive fields (Stages 1–7)
         </p>
         <h3 className="text-base font-semibold text-slate-100">
           Crow is learning how this organization should operate
         </h3>
         <p className="text-sm text-slate-400">
-          Stages 1–3 capture context, shape, and operating reality. Answers stay in this browser
-          (local draft) — no Blueprint, tenant, payment, or CroAI from this form.
+          Stages 1–7 capture context through ProCrow review preparation. Answers stay in this
+          browser (local draft) — no Blueprint, tenant, payment, or CroAI from this form. Hosted
+          persistence remains blocked.
         </p>
       </div>
 
@@ -200,7 +217,7 @@ export function DiscoveryMvpAdaptiveFieldForm({
         </div>
       </div>
 
-      {([1, 2, 3] as const).map((stageId) => {
+      {([1, 2, 3, 4, 5, 6, 7] as const).map((stageId) => {
         const stageFields = visible.filter((f) => f.stageId === stageId);
         const progress = summary.stageProgress.find((s) => s.stageId === stageId);
         return (
@@ -208,6 +225,7 @@ export function DiscoveryMvpAdaptiveFieldForm({
             key={stageId}
             className="space-y-4 rounded-lg border border-white/10 bg-black/15 p-4"
             data-crow-discovery-d3-stage={stageId}
+            data-crow-discovery-d7-stage={stageId >= 4 ? stageId : undefined}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h4 className="text-sm font-semibold text-slate-100">
@@ -220,6 +238,18 @@ export function DiscoveryMvpAdaptiveFieldForm({
                   : ""}
               </p>
             </div>
+            {stageId === 6 ? (
+              <p className="text-xs text-slate-500" data-crow-evidence-mode="refs_only">
+                Evidence is references-only (title, type, description, availability). No file
+                uploads, hosted storage, or parsers.
+              </p>
+            ) : null}
+            {stageId === 7 ? (
+              <p className="text-xs text-teal-300/90" data-crow-stage7-banner="true">
+                Stage 7 prepares ProCrow modeling review. It does not approve Blueprint, set
+                readyForBlueprintDraft, or allow generation.
+              </p>
+            ) : null}
             {stageFields.length === 0 ? (
               <p className="text-sm text-slate-500">No fields visible for this adaptive context.</p>
             ) : (
@@ -228,7 +258,7 @@ export function DiscoveryMvpAdaptiveFieldForm({
                   const raw = answers[field.fieldKey];
                   const value = raw === null || raw === undefined ? "" : String(raw);
                   const required = isDiscoveryMvpFieldRequired(field, ctx);
-                  const result = validateDiscoveryMvpFieldAnswer(field, raw, ctx);
+                  const result = validateDiscoveryMvpFieldAnswer(field, raw, ctx, answers);
                   return (
                     <AdaptiveFieldInput
                       key={field.fieldKey}
@@ -237,6 +267,7 @@ export function DiscoveryMvpAdaptiveFieldForm({
                       required={required}
                       error={result.ok ? null : result.message}
                       onChange={(next) => setField(field.fieldKey, next)}
+                      variant={variant}
                     />
                   );
                 })}
@@ -252,19 +283,24 @@ export function DiscoveryMvpAdaptiveFieldForm({
       >
         <h4 className="text-sm font-medium text-slate-200">ProCrow review preparation</h4>
         <p className="mt-1 text-xs text-slate-500">
-          Stage 7 final review is not implemented yet. D4 produces a draft Operating Model input for
-          ProCrow — not ready-for-Blueprint.
+          Stage 7 fields above are local preparation only. D4–D6 panels remain advisory —
+          readyForBlueprintDraft and blueprintGenerationAllowed stay false.
         </p>
         <ul className="mt-3 space-y-1 text-sm text-slate-400">
           <li>Missing required: {summary.missingRequiredCount}</li>
           <li>Fields flagged for ProCrow review: {summary.procrowReviewFlaggedKeys.length}</li>
-          <li data-ready-for-procrow-review={operatingModelDraft.readinessSignals.readyForProCrowReview ? "true" : "false"}>
+          <li
+            data-ready-for-procrow-review={
+              operatingModelDraft.readinessSignals.readyForProCrowReview ? "true" : "false"
+            }
+          >
             Ready for ProCrow review:{" "}
             {operatingModelDraft.readinessSignals.readyForProCrowReview ? "yes" : "not yet"}
           </li>
-          <li data-ready-for-modeling="false">Ready for modeling approval: no (D5)</li>
+          <li data-ready-for-modeling="false">Ready for modeling approval: see D5 panel</li>
           <li data-creates-blueprint="false">Creates Blueprint: no</li>
           <li data-ready-for-blueprint-draft="false">Ready for Blueprint draft: no</li>
+          <li data-blueprint-generation-allowed="false">Blueprint generation allowed: no</li>
         </ul>
         {variant === "operator" ? (
           <p className="mt-2 text-xs text-teal-300/90">
