@@ -6,6 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `7bf54bc` (CROW.DEVFLOW.PORTABLE.1 tip) |
+| **Final HEAD** | `f200939` |
 | **Owner decision** | Plan controlled Alpha Demo Backend Mode; do not implement yet |
 | **Prior** | CROW.DEVFLOW.1 · DEVFLOW.2 · DEVFLOW.PORTABLE.1 |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) |
