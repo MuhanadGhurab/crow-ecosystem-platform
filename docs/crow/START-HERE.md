@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 — D0–D7 local-first accepted) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Development Mode) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -39,6 +39,9 @@
 | [`14-DELIVERY-BACKLOG-MODEL.md`](14-DELIVERY-BACKLOG-MODEL.md) | Backlog taxonomy, labels design, portfolio map |
 | [`15-GITHUB-PROJECTS-SETUP-PLAN.md`](15-GITHUB-PROJECTS-SETUP-PLAN.md) | Projects board design — create only after CROW.PM.2 |
 | [`16-PRODUCTION-DEPLOYMENT-POLICY.md`](16-PRODUCTION-DEPLOYMENT-POLICY.md) | Production release authority, main merge, Instant Promote, auto-deploy |
+| [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) | Crow Alpha Development Mode (fast review; not commercial Production) |
+| [`development/FAST-REVIEW-WORKFLOW.md`](development/FAST-REVIEW-WORKFLOW.md) | Cursor → Preview → feedback loop |
+| [`development/DEMO-DATA-POLICY.md`](development/DEMO-DATA-POLICY.md) | Demo/test data allowed; real customer data forbidden |
 | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
 | [`procrow/PROCROW-QUALIFICATION-AUDIT.md`](procrow/PROCROW-QUALIFICATION-AUDIT.md) | ProCrow qualification outcome audit |
@@ -82,19 +85,21 @@
 
 ## Current milestone
 
-**CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1** — Discovery D0–D7 local-first MVP scope **owner-accepted**. Does **not** authorize hosted persistence, Blueprint generation, Production, or `main` merge.
+**CROW.DEVFLOW.1** — Crow Alpha Development Mode and fast review workflow **prepared** (strategy/policy). Next build: **CROW.DEVFLOW.2** (alpha banner + runtime helpers).
 
-Evidence: [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md)
+Evidence: [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) · [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md)
 
-**Prior:** CROW.DISCOVERY.7 · CROW.GAP015.ACCEPT.1 · CROW.DISCOVERY.6 · … · CROW.DISCOVERY.2
+**Prior:** CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP015.ACCEPT.1 · …
 
-**Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected)
+**Runtime class:** Alpha development + demo sandbox — **not** commercial production.
 
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed · no hosted migrations/writes · no Instant Promote · Discovery hosted / Blueprint blocked · intentional Production only via `CROW.PRODUCTION.DEPLOY`
+**Production domain:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `f97a835` (protected) — not a commercial Production claim under Alpha Mode
 
-**Owner next:** GAP-004 when ready for hosted persistence · dual-track unify · Blueprint drafting (separate auth) · any Production build needs separate `CROW.PRODUCTION.DEPLOY`
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed until DEVFLOW.3 · no unauthorized migrations/writes · no Instant Promote · no official Blueprint / payment / tenant go-live · intentional Production only via `CROW.PRODUCTION.DEPLOY`
 
-**Branch:** `feat/first-tenant-golden-path` · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN (remaining work) · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
+**Owner next:** **CROW.DEVFLOW.2** (recommended) · Discovery track unify · demo seed · friend/tester checklist · GAP-004 when commercializing
+
+**Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN (GAP-004 commercial gate) · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN
 
 ## Current implementation summary
 

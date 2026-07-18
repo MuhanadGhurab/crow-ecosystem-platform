@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.5) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Development Mode) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -99,16 +99,16 @@
 
 | Field | Value |
 |-------|-------|
-| **Domain** | Database / Operations |
-| **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | Isolation **not proven**. **GAP-004A owner-accepted** standing mitigation (CROW.GAP004A.ACCEPT.1) with fail-closed runtime (ALT2). Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
-| **Severity** | **High** |
-| **Security/authority impact** | Preview bleed mitigated via accepted GAP-004A; isolation still unproven |
-| **Dependency** | GAP-004A standing mitigation active; true isolation optional/deferred |
-| **Proposed milestone** | Optional free/isolated Preview DB later |
-| **Owner decision required** | None for GAP-004A standing path; optional future isolation project |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
-| **Status** | **Open / blocked** (isolation) — Preview safety via **accepted GAP-004A** |
+| **Domain** | Database / Operations / Commercialization |
+| **Intended state** | Isolated Preview and Production Postgres backends **before commercial production** |
+| **Current state** | Isolation **not proven**. **Reclassified (CROW.DEVFLOW.1):** future commercialization / production-readiness gate — **not** an alpha-dev blocker under demo-data rules. **GAP-004A** standing fail-closed mitigation remains. Known Production ref `wbwnsndcxrgyqwppurms` |
+| **Severity** | **High** for commercial go-live; **does not block** alpha/demo development |
+| **Security/authority impact** | Blocks commercial Production claims, real customer data, production-safe hosted persistence, official tenant go-live — until proven or separately authorized |
+| **Dependency** | GAP-004A standing mitigation; Alpha Mode docs [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
+| **Proposed milestone** | Future isolation project at commercialization; alpha path via DEVFLOW.2–3 |
+| **Owner decision required** | When to fund/prove isolation for commercial Production; until then Alpha Mode risk accepted |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) · [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) |
+| **Status** | **Open — future commercial / production-readiness gate** (isolation unproven; alpha/demo allowed under policy) |
 
 ## GAP-004A — Preview DB-disabled safety mode
 
@@ -116,14 +116,14 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Owner accepted** as standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · implemented in ALT2 |
+| **Current state** | **Owner accepted** standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · ALT2 fail-closed implemented · **CROW.DEVFLOW.1** records Alpha Mode adjustment **plan** (controlled demo backend → DEVFLOW.3; do not weaken fail-closed until then) |
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
-| **Security/authority impact** | Fail-closed on unsafe Preview — **accepted** |
-| **Dependency** | Owner acceptance recorded 2026-07-18 |
-| **Proposed milestone** | Optional ALT3 polish · ALT4 Preview smoke |
-| **Owner decision required** | None (accepted) |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) |
-| **Status** | **Accepted standing mitigation** — does **not** prove GAP-004 isolation · Issue #16 stays open |
+| **Security/authority impact** | Fail-closed on unsafe Preview — **accepted**; future alpha demo-backend must keep commercial gates blocked |
+| **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
+| **Proposed milestone** | CROW.DEVFLOW.2 (banner) · CROW.DEVFLOW.3 (controlled alpha demo backend) · optional ALT3/ALT4 |
+| **Owner decision required** | Authorize DEVFLOW.2/3 before relaxing Preview DB-disabled for demo writes |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | **Accepted standing mitigation** — review against Alpha Mode; fail-closed until DEVFLOW.3 · Issue #16 stays open |
 
 ## GAP-005 — First Tenant Golden Path completion
 
@@ -259,12 +259,12 @@
 |-------|-------|
 | **Domain** | Discovery / Operating Model |
 | **Intended state** | Adaptive enterprise field system (layers L1–L10) with progressive disclosure, Blueprint mapping, ProCrow review |
-| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–7** local-first D0–D7 **owner-accepted** (LOCAL-FIRST.ACCEPT.1). Still open: dual client tracks, hosted persistence (GAP-004), owner-authorized Blueprint drafting |
+| **Current state** | Architecture @ `e90fcda`. **CROW.DISCOVERY.2–7** local-first D0–D7 **owner-accepted**. Under **Alpha Mode** (DEVFLOW.1): local-first + alpha/demo review continue; **production-safe** hosted persistence still blocked by GAP-004 commercial gate |
 | **Severity** | Medium |
 | **Security/authority impact** | Low if authority non-claims preserved (D0–D7 tests; `readyForBlueprintDraft` / `blueprintGenerationAllowed` false) |
-| **Dependency** | GAP-004 before hosted certify / migrations; owner gate before Blueprint drafting |
-| **Proposed milestone** | Future Blueprint drafting (owner-gated) · client-track unify · hosted persistence |
-| **Owner decision required** | Hosted persistence after GAP-004; client-track unify; when to allow Blueprint drafting / complete override |
+| **Dependency** | GAP-004 before **commercial** hosted certify; Alpha Mode for demo review; owner gate before Blueprint drafting |
+| **Proposed milestone** | CROW.DISCOVERY.TRACKS.1 · optional demo-backend after DEVFLOW.3 · Blueprint drafting (owner-gated) |
+| **Owner decision required** | Dual-track unify; when to allow demo-backend vs commercial hosted persistence; Blueprint drafting |
 | **Tracking** | Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) · [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md) · [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md) |
 | **Status** | **Partial** — local-first D0–D7 depth **accepted**; hosted / dual-track / drafting remain |
 

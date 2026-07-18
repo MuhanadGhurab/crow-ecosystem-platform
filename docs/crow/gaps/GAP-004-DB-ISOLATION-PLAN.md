@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Safe implementation plan for DB isolation |
-| **Status** | DECISION PLAN — isolation **still not proven**; owner **no-cost** alternate **GAP-004A** (Preview DB-disabled) planned via CROW.GAP004.ALT1 |
-| **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | DECISION PLAN — isolation **still not proven**; **reclassified** (CROW.DEVFLOW.1) as **future commercialization / production-readiness gate** — not an alpha-dev blocker under demo-data rules |
+| **Authority** | Owner decisions · CROW.DEVFLOW.1 · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · [`../development/CROW-ALPHA-DEVELOPMENT-MODE.md`](../development/CROW-ALPHA-DEVELOPMENT-MODE.md) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) · prior GAP004.1–3 |
+| **Milestone** | [`../milestones/CROW-DEVFLOW-1.md`](../milestones/CROW-DEVFLOW-1.md) · [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) · prior GAP004.1–3 |
 | **Issue** | [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Evidence** | [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
@@ -14,14 +14,27 @@
 
 ---
 
+## Reclassification (CROW.DEVFLOW.1)
+
+| Old meaning | New meaning |
+|-------------|-------------|
+| Preview/Production DB isolation blocks **all** hosted work | GAP-004 blocks **commercial production**, real customer data, hosted **production-safe** persistence claims, and official tenant go-live |
+| — | GAP-004 does **not** block **alpha/demo** development when: data is demo-only · UI states alpha/demo · dangerous actions remain blocked · no real customer data · owner accepts the risk |
+
+Crow is currently **alpha development + demo sandbox**, not commercial production. See [`../development/CROW-ALPHA-DEVELOPMENT-MODE.md`](../development/CROW-ALPHA-DEVELOPMENT-MODE.md).
+
+---
+
 ## Goal
 
-Prove **isolated** Preview and Production Postgres backends before:
+Prove **isolated** Preview and Production Postgres backends before **commercial production** claims, including:
 
-- Hosted Discovery persistence  
-- Hosted Blueprint drafting / Complete override  
-- Treating Preview as a safe sandbox  
-- `main` merge / Production movement that assumes Preview ≠ Production data  
+- Hosted Discovery persistence treated as **production-safe**
+- Hosted Blueprint drafting / Complete override as **official** output
+- Treating Preview as a **customer-safe** sandbox
+- `main` merge / Production movement that assumes Preview ≠ Production data for commercial go-live
+
+Alpha/demo development may proceed without this proof under [`../development/DEMO-DATA-POLICY.md`](../development/DEMO-DATA-POLICY.md).
 
 ---
 
@@ -142,7 +155,8 @@ Both before treating `main` → Production as routine.
 | D2 | Bind Vercel Preview env to Preview project? | Yes / N/A while on GAP-004A (prefer **unset** Preview DB URLs) |
 | D3 | End shared Preview→Production as normal mode? | Yes via isolation **or** via DB-disabled fail-closed |
 | D4 | Authorize first Preview controlled migrate? | Only after isolation proof (not under GAP-004A) |
-| D5 | Authorize any Discovery hosted persistence? | **No** until GAP-004 mitigated **or** separate owner exception |
+| D5 | Authorize Discovery hosted persistence as production-safe? | **No** until GAP-004 mitigated **or** separate commercial-gate exception |
+| D8 | Alpha Development Mode (no second DB cost)? | **Yes** — owner chose CROW.DEVFLOW.1 (2026-07-18) |
 | D6 | Change Vercel Production auto-deploy (GAP-015)? | Separate milestone |
 | D7 | Authorize GAP-004A ALT2 implementation? | Pending owner “implement” |
 
@@ -171,12 +185,14 @@ Both before treating `main` → Production as routine.
 
 ---
 
-## Relationship to Discovery / Blueprint
+## Relationship to Discovery / Blueprint / Alpha Mode
 
-| Work | Allowed before GAP-004 mitigated? |
-|------|-----------------------------------|
-| Discovery D0–D6 local-first | Yes (already certified package) |
-| Discovery hosted persistence | **No** |
-| Blueprint generation / Complete override | **No** |
-| Hosted ProCrow approval writes | **No** (treat as hosted) |
-| Local-only feature depth (Stages 4–7) | Yes, if owner prioritizes (does not close GAP-004) |
+| Work | Allowed while GAP-004 isolation unproven? |
+|------|-------------------------------------------|
+| Discovery D0–D7 local-first | **Yes** (owner-accepted LOCAL-FIRST.ACCEPT.1) |
+| Alpha/demo UI review on Vercel Preview | **Yes** under Alpha Mode + demo-data policy |
+| Controlled alpha demo-backend writes (future DEVFLOW.3) | Only with explicit flags + owner authorization — still not a production-safe claim |
+| Discovery hosted persistence as **production-safe** | **No** |
+| Official Blueprint generation / Complete override | **No** |
+| Hosted ProCrow approval writes as commercial truth | **No** |
+| Tenant go-live / real customer data | **No** |

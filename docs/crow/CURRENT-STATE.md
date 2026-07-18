@@ -5,12 +5,12 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 — D0–D7 local-first accepted) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Development Mode) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
 
-**Evidence date:** 2026-07-17 · **Branch:** `feat/first-tenant-golden-path`
+**Evidence date:** 2026-07-18 · **Branch:** `feat/first-tenant-golden-path`
 
 ## Repository and branch state
 
@@ -18,13 +18,14 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 (D0–D7 accepted) · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
+| HEAD | FTGP tip · **CROW.DEVFLOW.1** (Alpha Mode policy) · Discovery D0–D7 local-first **accepted** · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
+| Runtime class | **Alpha development + demo sandbox** — not commercial production |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
-| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
+| Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** a commercial Production claim under Alpha Mode |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery (**local-first D0–D7 accepted**; OPEN for hosted / dual-track / Blueprint) |
+| Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**future commercial gate**; Alpha Mode recorded) · #18 Discovery (**local-first accepted**; OPEN) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 |
+| Working tree | Post CROW.DEVFLOW.1 |
 
 ## Stack
 
@@ -87,9 +88,9 @@
 | **ACCEPTED** | **CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1** — D0–D7 local-first MVP scope owner-accepted (no hosted / Blueprint / Production / main) |
 | CERT PACKAGE | MVP-CERT.1 superseded by LOCAL-FIRST.ACCEPT.1 for acceptance status |
 | IMPLEMENTED | Blueprint **complete path quarantined** by default |
-| BLOCKED | Hosted Discovery persistence (GAP-004); Blueprint generation / `completeDiscovery` |
-| PENDING | Dual client tracks; hosted persistence; Blueprint drafting |
-| Evidence | [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md), [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md), [`discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md`](discovery/DISCOVERY-MVP-LOCAL-FIRST-CERTIFICATION.md), Issue #18 |
+| BLOCKED | Production-safe hosted Discovery persistence (GAP-004 commercial gate); Blueprint generation / `completeDiscovery` |
+| PENDING | Dual client tracks; optional alpha demo-backend (DEVFLOW.3); Blueprint drafting |
+| Evidence | [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md), [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md), Issue #18 |
 
 ### Blueprint — PARTIAL
 
@@ -169,14 +170,15 @@ A1/A1.1 homepage visual reset passed. Approved v2 direction documented but not f
 
 Cinematic scroll-story at `/experience/architects-map`. Homepage includes preview link. Status: FROZEN per [`09-PUBLIC-EXPERIENCE.md`](09-PUBLIC-EXPERIENCE.md).
 
-### Database — PARTIAL
+### Database — PARTIAL (Alpha Mode)
 
 | Status | Evidence |
 |--------|----------|
 | IMPLEMENTED | Extensive Prisma schema (~80+ models) |
-| RISK | Preview/Production isolation **not proven** — operator Preview/Production share `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`) |
+| RISK | Preview/Production isolation **not proven** — GAP-004 = **future commercial gate** (CROW.DEVFLOW.1); `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0` |
+| POLICY | Existing Supabase = **demo/dev sandbox** conceptually under Alpha Mode — not production-safe claim |
 | IMPLEMENTED | Controlled migration CLI; build-time migrate removed; `vercel.json` = generate + build only |
-| PACKAGE | **CROW.GAP004A.ACCEPT.1** — owner **accepted** GAP-004A standing mitigation · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · isolation still unproven |
+| PACKAGE | **CROW.GAP004A.ACCEPT.1** — fail-closed Preview DB-disabled until DEVFLOW.3 · [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md) |
 | Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/safety/check-db-isolation-env.mjs` |
 
 ### Environments
@@ -184,9 +186,10 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | Environment | Status |
 |-------------|--------|
 | Local | Docker Postgres via `docker-compose.local.yml` |
-| Preview / Staging | Vercel + Supabase hosted |
+| Preview / live review | Vercel Preview = **fast review channel** (Alpha Mode) |
+| Supabase (shared) | Demo/dev sandbox data only — not commercial Production |
 | FTGP Certification | Private Vercel certification environment (FTGP_1H) |
-| Production | Live — accepted public UI on pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz`; auto Production-target from #14 `dpl_8xT92RFHmsNRR5tihFwkd5aLNFQS` **accepted** (RECON.5); domain not reassigned this milestone |
+| Vercel Production domain | Live pin `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** commercial Production claim under Alpha Mode |
 
 ### PR and branch state
 

@@ -16,17 +16,43 @@
 | **GAP-004** | Preview Postgres ≠ Production Postgres (isolation **proven**) | Dedicated Preview DB + evidence · `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=1` |
 | **GAP-004A** | Preview must not touch any hosted DB while isolation unproven | Fail-closed Preview DB-disabled mode certified |
 
-**GAP-004A does not close GAP-004.** It is the **owner-accepted standing mitigation** (2026-07-18) for Production bleed risk under the **no-cost** constraint (no second paid Supabase project). True isolation remains open/blocked.
+**GAP-004A does not close GAP-004.** It is the **owner-accepted standing mitigation** (2026-07-18) for Production bleed risk under the **no-cost** constraint (no second paid Supabase project). True isolation remains a **future commercialization gate** (CROW.DEVFLOW.1) — not an alpha-dev blocker under demo-data rules.
 
 ---
 
 ## Owner constraints (recorded)
 
-- Do **not** create a paid second Supabase project  
-- Do **not** require a paid Preview database  
-- Do **not** pause all development  
-- Production remains unchanged  
-- Local development and tests continue  
+- Do **not** create a paid second Supabase project
+- Do **not** require a paid Preview database
+- Do **not** pause all development
+- Production remains unchanged
+- Local development and tests continue
+- **CROW.DEVFLOW.1:** Alpha Development Mode + fast review; existing Supabase = demo/dev sandbox **conceptually**; production-grade isolation still future
+
+---
+
+## Alpha Mode adjustment plan (CROW.DEVFLOW.1 — docs only)
+
+GAP-004A fail-closed Preview DB-disabled remains the **default safety guard** until a controlled Alpha Demo Backend Mode is owner-authorized and implemented (**CROW.DEVFLOW.3**).
+
+### Future env flags (do not implement in DEVFLOW.1)
+
+| Variable | Intended meaning |
+|----------|------------------|
+| `CROW_RUNTIME_MODE=alpha_development` | Runtime is alpha, not commercial production |
+| `CROW_DATA_CLASSIFICATION=demo_only` | Only demo/test data allowed |
+| `ALLOW_SHARED_DEMO_BACKEND=true` | Selected demo/backend writes may proceed under alpha rules |
+
+### Rules if those flags are later explicitly set
+
+- Demo/backend writes may be allowed for **selected** dev/demo flows only
+- Still blocked: official Blueprint generation · tenant go-live/provisioning · payment · CroAI production actions · real customer data · migrations unless separately authorized · Production deploy unless separately authorized
+- Does **not** prove GAP-004 isolation
+- Does **not** authorize commercial Production claims
+
+See [`../development/CROW-ALPHA-DEVELOPMENT-MODE.md`](../development/CROW-ALPHA-DEVELOPMENT-MODE.md).
+
+**UI:** Alpha/demo banner planned in **CROW.DEVFLOW.2** (alongside or refining Preview DB-disabled notices).
 
 ---
 

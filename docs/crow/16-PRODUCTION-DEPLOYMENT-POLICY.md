@@ -5,13 +5,25 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT.1 — GAP-015 Mitigated) |
-| **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
+| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.1 — Alpha Mode; GAP-015 Mitigated) |
+| **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
 | **Evidence** | [`milestones/CROW-GAP015-ACCEPT-1.md`](milestones/CROW-GAP015-ACCEPT-1.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
 Prevent accidental Production changes while preserving a clean, owner-authorized release path now that `main` contains the accepted public experience.
+
+## Alpha Development Mode clarification (CROW.DEVFLOW.1)
+
+Under **Crow Alpha Development Mode**:
+
+- The Vercel Production domain may serve a live artifact for review — that is **not** a **commercial Production** claim
+- Fast iteration uses **Vercel Preview** / feature-branch deployments as the primary review channel
+- GAP-004 (DB isolation) is a **future commercialization gate**, not a ban on alpha/demo development
+- Intentional Production domain changes, Instant Promote, and commercial go-live still require separate owner authorization (`CROW.PRODUCTION.DEPLOY` and related gates)
+- Real customer data, payments, tenant go-live, and official Blueprint generation remain blocked
+
+See [`development/CROW-ALPHA-DEVELOPMENT-MODE.md`](development/CROW-ALPHA-DEVELOPMENT-MODE.md).
 
 ## Verified deployment facts (baseline)
 
@@ -98,11 +110,11 @@ Before assigning or promoting the **public domain** to a new deployment:
 
 **Current hold:** Instant Promote of `dpl_8xT92…` is **not** authorized (owner decision in CROW.PROD-POLICY.1 / RECON.5 follow-up).
 
-## 6. Migration rules while GAP-004 is open
+## 6. Migration rules while GAP-004 isolation is unproven
 
-GAP-004 (Preview/Production database isolation) remains **open / blocked**.
+GAP-004 (Preview/Production database isolation) remains **open** as a **future commercial / production-readiness gate** (CROW.DEVFLOW.1). Alpha/demo development may proceed under demo-data policy; isolation is still required before commercial Production claims.
 
-While open:
+While isolation is unproven:
 
 - **Forbidden:** `db:migrate:deploy` (or equivalent) in Production/Preview build commands
 - **Forbidden:** Hosted migrations outside controlled-migration workflow
@@ -115,7 +127,7 @@ Release automation and agents must **not**:
 
 - Seed, mutate, or delete hosted business data
 - Run hosted write scripts as part of deploy
-- Treat Preview/Production shared DB as a sandbox
+- Treat shared Supabase as **production-safe** customer sandbox (Alpha Mode may later allow **demo-only** writes under DEVFLOW.3 — still not commercial Production)
 
 ## 8. Rollback rules
 

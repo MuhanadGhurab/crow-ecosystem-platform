@@ -295,7 +295,9 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DISCOVERY.7 (build slice):** Stages 4–7 depth local-first — see [`milestones/CROW-DISCOVERY-7.md`](milestones/CROW-DISCOVERY-7.md). Hosted persistence / Blueprint generation remain blocked.
 
-**CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 (acceptance):** Owner accepted D0–D7 local-first MVP scope — see [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md). Does not authorize hosted, Blueprint, Production, or `main`.
+**CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 (acceptance):** Owner accepted D0–D7 local-first MVP scope — see [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md). Does not authorize commercial hosted persistence, Blueprint, Production, or `main`.
+
+**CROW.DEVFLOW.1 (operating model):** Alpha Development Mode + fast review — see [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md). GAP-004 = future commercial gate (not alpha-dev blocker).
 
 **CROW.DISCOVERY.MVP-CERT.1 (cert package):** Superseded for acceptance status by LOCAL-FIRST.ACCEPT.1 — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md).
 
@@ -343,14 +345,16 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Discovery / FTGP local-first** | Continue under GAP-004A holds — does **not** merge PR #10 |
-| 2 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
-| 3 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
-| — | **Production deploy (when needed)** | Separate `CROW.PRODUCTION.DEPLOY` — not a default next milestone |
+| 1 | **CROW.DEVFLOW.2** | Alpha banner + runtime classification helpers — **recommended immediate next** |
+| 2 | **CROW.DEVFLOW.3** | Controlled alpha demo backend mode (selected demo writes) |
+| 3 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) |
+| 4 | **CROW.DEMO.1** / **CROW.REVIEW.1** | Demo seed · friend/tester checklist |
+| — | **GAP-004 isolation** | Future commercialization — not required to continue alpha/demo |
+| — | **Production deploy (when needed)** | Separate `CROW.PRODUCTION.DEPLOY` |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1–7 · **CROW.GAP015.ACCEPT.1** (GAP-015 **Mitigated**)
+**Completed recently:** **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1** (GAP-015 **Mitigated**)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
