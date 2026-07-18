@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004A.ACCEPT.1) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -60,6 +60,8 @@
 | [`gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md`](gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md) | Owner Phase 1–3 execution checklist |
 | [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) | Redacted isolation evidence log |
 | [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) | No-cost Preview DB-disabled safety mode plan |
+| [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) | Production auto-deploy behavior audit |
+| [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) | Production deployment control plan (Option E recommended) |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
 ## Reading order
@@ -75,26 +77,26 @@
 
 ## Current milestone
 
-**CROW.GAP004A.ACCEPT.1** — Owner **accepted** GAP-004A Preview DB-disabled fail-closed as **standing no-cost mitigation**. GAP-004 isolation remains **open / blocked**.
+**CROW.GAP015.1** — Production auto-deploy **audit + safe control plan** prepared. Settings **not** changed. Recommended path: **Option E** (combined). GAP-015 remains **open** until controls applied.
 
-Evidence: [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) · `npm run preview-db-safety:test`
+Evidence: [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md)
 
-**Prior:** CROW.GAP004.ALT2 @ `c06a97f` · ALT1 · GAP004.3 · Discovery MVP-CERT.1
+**Prior:** CROW.GAP004A.ACCEPT.1 · GAP004.ALT2 · Discovery MVP-CERT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 archive · unsafe Preview DB fail-closed · no hosted migrations/writes · Production env unchanged · Option C interim · Discovery hosted / Blueprint generation blocked
+**Hold:** PR #10 archive · unsafe Preview DB fail-closed (GAP-004A) · no hosted migrations/writes · Production env unchanged · Option A/C interim until GAP-015 mitigated · Discovery hosted / Blueprint generation blocked
 
-**Owner next:** **GAP-015** (Production auto-deploy settings) and/or FTGP / Discovery local-first under GAP-004A holds · optional later isolation DB
+**Owner next:** Authorize GAP-015 Option E implementation (GAP015.2 / PROD-POLICY.2) · and/or FTGP / Discovery local-first under holds
 
-**Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN (isolation still open)
+**Branch:** `feat/first-tenant-golden-path` · Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) OPEN (auto-deploy gate) · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN (isolation)
 
 ## Current implementation summary
 
 See [`CURRENT-STATE.md`](CURRENT-STATE.md). High level:
 
 - **IMPLEMENTED (partial):** Public site (**accepted on certification**), account registration/verification (C3), Request/Discovery/Blueprint scaffolding, ProCrow console, tenant runtime (MEEM/Rimal demos), Stripe scaffold (advisory)
-- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, Vercel Option B auto-deploy gate (owner settings), Saudi government integrations
+- **PLANNED:** Full commercial domain, recurring billing enforcement, CroAI runtime, GAP-015 Option E controls (Vercel gate + branch protection + deploy guard), Saudi government integrations
 - **FROZEN:** Cinematic scroll-story experiment (`/experience/architects-map`)
 
 ## Major protected boundaries

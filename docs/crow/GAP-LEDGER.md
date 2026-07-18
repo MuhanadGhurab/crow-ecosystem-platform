@@ -85,15 +85,15 @@
 | Field | Value |
 |-------|-------|
 | **Domain** | Operations / Release |
-| **Intended state** | Main→Production auto-deploys disabled or gated (Option B), or explicitly retained under Option C discipline |
-| **Current state** | Policy documents Option C interim; Vercel settings unchanged; merges to `main` still create Production-target artifacts |
+| **Intended state** | Main→Production auto-deploys disabled or gated (Option B), plus GitHub protection and optional deploy guard (Option E), or explicitly retained under Option C discipline |
+| **Current state** | **Audit + plan prepared** (CROW.GAP015.1). Option C interim active. Vercel settings unchanged. `main` **unprotected**. Merges to `main` still create Production-target artifacts. Live domain on `dpl_QeDhnxz…` |
 | **Severity** | Medium |
-| **Security/authority impact** | Medium — accidental Production-target creation without Instant Promote still creates operator confusion |
-| **Dependency** | Owner authorization to change Vercel Git/Production settings |
-| **Proposed milestone** | CROW.PROD-POLICY.2 (settings application only) |
-| **Owner decision required** | Enable Option B settings? Keep Option C only? |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
-| **Status** | **Open** |
+| **Security/authority impact** | Medium — accidental Production-target creation without Instant Promote still creates operator confusion; unprotected `main` amplifies risk |
+| **Dependency** | Owner authorization to apply Option E layers (Vercel Git/Production settings, branch protection, optional ignore guard) |
+| **Proposed milestone** | CROW.GAP015.1 complete (audit/plan); **CROW.GAP015.2 / PROD-POLICY.2** for settings application if authorized |
+| **Owner decision required** | Authorize Option E (recommended)? Or B-only / C-only / keep A-only? |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md) · [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md) |
+| **Status** | **Open** — audit/plan ready; controls **not** applied |
 
 ## GAP-004 — Preview/Production database isolation
 

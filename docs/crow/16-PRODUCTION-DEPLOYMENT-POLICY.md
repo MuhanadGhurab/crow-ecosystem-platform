@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 |
-| **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012) |
-| **Evidence** | [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.1 audit) |
+| **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
+| **Evidence** | [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md), [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md), [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) |
 
 ## Purpose
 
@@ -129,29 +129,47 @@ Always record: failed deployment ID, rollback target ID, smoke evidence, owner a
 
 ## 9. Vercel auto-deploy handling
 
-### Interim operating mode (Option C) — **active now**
+### Audit status (CROW.GAP015.1 — 2026-07-18)
+
+| Finding | Status |
+|---------|--------|
+| `main` → Production-target auto-create | **Confirmed** (historical #11 / #14) |
+| Feature branches → Preview | **Confirmed** (FTGP pushes) |
+| Live domain auto-reassign on every Production-target | **Not always** — live still `dpl_QeDhnxz…` |
+| GitHub `main` branch protection | **Absent** |
+| Ignored Build Step | **Not configured** |
+| Vercel settings changed this audit | **No** |
+
+Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) · plan: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md).
+
+### Interim operating mode (Option A/C process) — **active now until GAP-015 mitigated**
 
 - Assume merges to `main` create Production-target deployments
 - Require owner authorization before merging `main`
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
+- Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 open and GAP-015 unmitigated
 
-### Preferred settings mode (Option B) — **owner settings decision pending**
+### Recommended control mode (Option E) — **plan ready; not applied**
 
-If/when owner authorizes Vercel project settings change:
+Combined no-cost path (owner-authorized follow-up milestones):
 
-- Disable or gate automatic Production deploys from `main`
-- Keep Preview deploys for PRs
-- Promote to live Production only via explicit Instant Promote / authorized Production deploy
+1. **Option B** — disable/gate automatic Production deploys from `main` in Vercel
+2. **Option C** — GitHub `main` protection + required CI checks
+3. **Option D** — Ignored Build Step / Production allow-marker guard (Preview still builds)
+4. Keep explicit owner phrases for Instant Promote and settings changes
 
-### Other options (not selected as interim)
+### Other options
 
 | Option | Role |
 |--------|------|
-| A — Keep auto Production; rely on PR checks | Insufficient alone while domain/alias behavior is non-obvious |
-| D — Separate production branch | Possible later; not required for interim |
+| A — Process only | Interim only; highest human-error risk |
+| B — Vercel settings gate | Preferred settings layer inside Option E |
+| C — GitHub branch protection | Necessary; not sufficient alone |
+| D — Ignored build / deploy guard | Belt-and-suspenders; design carefully |
+| E — Combined | **Recommended** safest no-cost path |
 
-**This policy does not change Vercel settings.** Settings changes require a dedicated owner-authorized milestone.
+**This policy does not change Vercel settings.** Settings/protection/guard application requires a dedicated owner-authorized milestone (proposed CROW.GAP015.2 / PROD-POLICY.2).
 
 ## 10. PR #10 handling
 
@@ -183,6 +201,9 @@ Every Production-affecting action must leave durable evidence under `docs/crow/`
 ## Related documents
 
 - [`milestones/CROW-PROD-POLICY-1.md`](milestones/CROW-PROD-POLICY-1.md)
+- [`milestones/CROW-GAP015-1.md`](milestones/CROW-GAP015-1.md)
+- [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md)
+- [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md`](gaps/GAP-015-PRODUCTION-AUTODEPLOY-PLAN.md)
 - [`milestones/CROW-PUBLIC-RECON-5.md`](milestones/CROW-PUBLIC-RECON-5.md)
 - [`CURRENT-STATE.md`](CURRENT-STATE.md)
 - [`GAP-LEDGER.md`](GAP-LEDGER.md)

@@ -339,15 +339,15 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Discovery MVP D0–D2** local-first | Build under Issue #18 — does **not** merge PR #10 |
-| 2 | **#16 GAP-004 / GAP-004A** | Isolation **blocked**; GAP-004A **owner accepted** standing mitigation (ACCEPT.1) |
-| 3 | **#15 GAP-015** | Production auto-deploy settings (parallel) |
+| 1 | **#15 GAP-015.2 / PROD-POLICY.2** | Apply Option E layers (owner-authorized) — Vercel gate ± branch protection ± deploy guard |
+| 2 | **Discovery / FTGP local-first** | Continue under GAP-004A holds — does **not** merge PR #10 |
+| 3 | **#16 GAP-004 / GAP-004A** | Isolation **blocked**; GAP-004A **owner accepted** standing mitigation |
 | 4 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
 | 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.* · CROW.DISCOVERY.MVP-CERT.1 · CROW.GAP004.1–3 · CROW.GAP004.ALT1–2 · **CROW.GAP004A.ACCEPT.1** (GAP-004A standing mitigation accepted)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.* · CROW.DISCOVERY.MVP-CERT.1 · CROW.GAP004.1–3 · CROW.GAP004.ALT1–2 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.1** (auto-deploy audit + Option E plan; settings not applied)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
