@@ -19,6 +19,8 @@ import {
   filterVisibleDiscoveryMvpFields,
   isDiscoveryMvpFieldRequired,
 } from "@/lib/discovery/discovery-mvp-d3-visibility";
+import { buildOperatingModelInputDraft } from "@/lib/discovery/discovery-mvp-d4-mapper";
+import { DiscoveryMvpOperatingModelDraftPreview } from "@/components/discovery/discovery-mvp-operating-model-draft-preview";
 import { DISCOVERY_MVP_STAGES } from "@/lib/discovery/discovery-mvp-boundaries";
 
 const STAGE_TITLES = Object.fromEntries(
@@ -133,6 +135,10 @@ export function DiscoveryMvpAdaptiveFieldForm({
     () => computeDiscoveryMvpD3ReviewSummary(catalog, answers, ctx),
     [catalog, answers, ctx],
   );
+  const operatingModelDraft = useMemo(
+    () => buildOperatingModelInputDraft(answers, ctx),
+    [answers, ctx],
+  );
 
   const setField = (fieldKey: string, value: string) => {
     startTransition(() => {
@@ -244,14 +250,19 @@ export function DiscoveryMvpAdaptiveFieldForm({
       >
         <h4 className="text-sm font-medium text-slate-200">ProCrow review preparation</h4>
         <p className="mt-1 text-xs text-slate-500">
-          Stage 7 review is not implemented yet. This summary is local readiness only — not
-          ready-for-modeling and not Blueprint.
+          Stage 7 final review is not implemented yet. D4 produces a draft Operating Model input for
+          ProCrow — not ready-for-Blueprint.
         </p>
         <ul className="mt-3 space-y-1 text-sm text-slate-400">
           <li>Missing required: {summary.missingRequiredCount}</li>
           <li>Fields flagged for ProCrow review: {summary.procrowReviewFlaggedKeys.length}</li>
-          <li data-ready-for-modeling="false">Ready for modeling: no (D4–D5)</li>
+          <li data-ready-for-procrow-review={operatingModelDraft.readinessSignals.readyForProCrowReview ? "true" : "false"}>
+            Ready for ProCrow review:{" "}
+            {operatingModelDraft.readinessSignals.readyForProCrowReview ? "yes" : "not yet"}
+          </li>
+          <li data-ready-for-modeling="false">Ready for modeling approval: no (D5)</li>
           <li data-creates-blueprint="false">Creates Blueprint: no</li>
+          <li data-ready-for-blueprint-draft="false">Ready for Blueprint draft: no</li>
         </ul>
         {variant === "operator" ? (
           <p className="mt-2 text-xs text-teal-300/90">
@@ -260,11 +271,13 @@ export function DiscoveryMvpAdaptiveFieldForm({
         ) : null}
       </div>
 
+      <DiscoveryMvpOperatingModelDraftPreview draft={operatingModelDraft} variant={variant} />
+
       <div className="rounded-lg border border-dashed border-white/15 p-3">
-        <p className="text-xs font-medium text-slate-300">Stages 4–7 — coming next</p>
+        <p className="text-xs font-medium text-slate-300">Stages 4–7 / D5–D6 — coming next</p>
         <p className="mt-1 text-sm text-slate-500">
-          Trust & risk, build/transform intent depth, evidence package, and ProCrow modeling review
-          remain out of D3.
+          Trust & risk depth, evidence package, ProCrow modeling review (D5), and intentional Blueprint
+          handoff (D6) remain out of this slice.
         </p>
       </div>
     </div>

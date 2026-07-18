@@ -50,13 +50,13 @@ export function DiscoveryMvpWorkspaceShell({
   return (
     <section
       className="cc-glass-card space-y-6"
-      data-crow-discovery-mvp="d0-d3"
+      data-crow-discovery-mvp="d0-d4"
       data-evidence-mode={model.evidenceMode}
       data-blueprint-complete-blocked={model.blueprintCompleteBlocked ? "true" : "false"}
     >
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-cyan-400/90">
-          Discovery MVP · D0–D3 foundation
+          Discovery MVP · D0–D4 foundation
         </p>
         <h2 className="text-lg font-semibold text-slate-100">Discovery workspace</h2>
         <p className="text-sm text-slate-400">{model.d0d2ScopeNote}</p>
@@ -152,7 +152,7 @@ export function DiscoveryMvpWorkspaceShell({
 
       {model.blueprintCompleteBlocked && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-950/30 p-3">
-          <p className="text-xs font-medium text-amber-200">Blueprint handoff blocked (D0–D3)</p>
+          <p className="text-xs font-medium text-amber-200">Blueprint handoff blocked (D0–D4)</p>
           <p className="mt-1 text-sm text-amber-100/80">
             Completing Discovery to create a Blueprint remains out of scope. No tenant build,
             payment, or CroAI from Discovery.
