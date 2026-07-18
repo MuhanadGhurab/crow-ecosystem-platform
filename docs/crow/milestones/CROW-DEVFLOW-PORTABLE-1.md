@@ -6,6 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `86b946a` (CROW.DEVFLOW.2 tip) |
+| **Final HEAD** | `3a406f4` |
 | **Owner decision** | Portable Alpha workflow — GitHub source of truth; any trusted device |
 | **Prior** | CROW.DEVFLOW.1 · CROW.DEVFLOW.2 |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
