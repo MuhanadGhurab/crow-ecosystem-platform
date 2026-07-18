@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Safe implementation plan for DB isolation |
-| **Status** | DECISION PLAN — Phase 0–1 docs ready; **CROW.GAP004.2** execution checklist + evidence workflow active; isolation **not proven** |
+| **Status** | DECISION PLAN — **CROW.GAP004.3** recheck complete; isolation **still not proven** (Vercel DB URLs remain Production+Preview shared) |
 | **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004-OWNER-EXECUTION-CHECKLIST.md`](GAP-004-OWNER-EXECUTION-CHECKLIST.md) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-2.md`](../milestones/CROW-GAP004-2.md) · prior [`../milestones/CROW-GAP004-1.md`](../milestones/CROW-GAP004-1.md) |
+| **Milestone** | [`../milestones/CROW-GAP004-3.md`](../milestones/CROW-GAP004-3.md) · prior [`../milestones/CROW-GAP004-2.md`](../milestones/CROW-GAP004-2.md) · [`../milestones/CROW-GAP004-1.md`](../milestones/CROW-GAP004-1.md) |
 | **Issue** | [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Evidence** | [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
@@ -57,13 +57,14 @@ App alignment:
 
 - [x] Audit published (CROW.GAP004.1)  
 - [x] Execution checklist + redacted checker (CROW.GAP004.2)  
+- [x] Isolation recheck after claimed bind (CROW.GAP004.3) → **still blocked**  
 - [ ] Owner accepts isolation plan  
 - [ ] Owner names Preview project name / billing home  
 - [ ] Owner confirms Production project remains `wbwnsndcxrgyqwppurms` (or documents change)
 
 ### Phase 1 — Provision Preview Supabase (owner)
 
-- [ ] Create Supabase project (e.g. `crow-ecosystem-preview`)  
+- [ ] Create Supabase project (e.g. `crow-ecosystem-preview`) — **claimed; not verified via Preview DB URL**  
 - [ ] Record project **ref** (password manager — not git)  
 - [ ] Confirm ref ≠ Production  
 - [ ] Obtain pooler + direct connection strings  
@@ -74,15 +75,19 @@ Reference runbook: [`C2_2_PREVIEW_DATABASE_SETUP_RUNBOOK.md`](../../architecture
 
 ### Phase 2 — Bind Vercel Preview env (owner dashboard only)
 
+- [ ] **Split** shared `DATABASE_URL` / `DIRECT_URL` so Preview is not Production+Preview  
 - [ ] Preview `DATABASE_URL` / `DIRECT_URL` → Preview project only  
 - [ ] `DATABASE_ENVIRONMENT=preview` · `BACKEND_ISOLATION=isolated`  
 - [ ] Preview fingerprint secret set  
 - [ ] Production scope unchanged  
 
+**GAP004.3 finding:** CLI still shows `DATABASE_URL` / `DIRECT_URL` as **Production, Preview** (shared). Production `BACKEND_ISOLATION=shared`.
+
 ### Phase 3 — Prove isolation (read-only / check-only)
 
 - [x] Repo `vercel.json` has no build migrate (verified)  
 - [x] Local operator Preview vs Production compared (2026-07-18) → **shared** (`wbwnsndcxrgyqwppurms`)  
+- [x] Vercel scope recheck (CROW.GAP004.3) → **still shared binding**  
 - [ ] Vercel dashboard redacted evidence with differing refs  
 - [ ] `npm run db-isolation-env:check` → `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=1`  
 
@@ -92,7 +97,7 @@ Evidence log: [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md)
 
 ### Phase 4 — Controlled Preview schema apply (separate owner auth)
 
-Only after Phase 3 proven — **not authorized in GAP004.2**.
+Only after Phase 3 proven — **not authorized in GAP004.2 / GAP004.3**.
 
 1. Owner authorizes phrase `APPLY PREVIEW DATABASE MIGRATIONS`  
 2. Apply via controlled wrapper / GitHub workflow_dispatch (not Vercel build)  

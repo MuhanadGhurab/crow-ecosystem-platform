@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.2) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.3) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -74,17 +74,17 @@
 
 ## Current milestone
 
-**CROW.GAP004.2** — Preview DB isolation owner execution checklist + evidence certification (**isolation still blocked**).
+**CROW.GAP004.3** — Preview DB isolation recheck (**still blocked** — Vercel `DATABASE_URL` remains Production+Preview shared).
 
-Evidence: [`milestones/CROW-GAP004-2.md`](milestones/CROW-GAP004-2.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) · `npm run db-isolation-env:check`
+Evidence: [`milestones/CROW-GAP004-3.md`](milestones/CROW-GAP004-3.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) · `npm run db-isolation-env:check`
 
-**Prior:** CROW.GAP004.1 @ `3dfde99` · Discovery MVP-CERT.1
+**Prior:** CROW.GAP004.2 @ `2713701` · GAP004.1 · Discovery MVP-CERT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
 **Hold:** PR #10 archive · no hosted migrations/writes · Production env unchanged · Option C interim
 
-**Owner next:** Provision dedicated Preview Supabase + bind Vercel Preview env (checklist Phases 1–2) · then re-prove isolation · **GAP-015** after/with
+**Owner next:** Split Vercel Preview DB URLs from Production · set Preview `BACKEND_ISOLATION=isolated` · re-prove isolation · **GAP-015** after/with
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 

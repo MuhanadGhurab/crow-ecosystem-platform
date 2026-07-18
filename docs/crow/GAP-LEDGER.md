@@ -101,14 +101,14 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | **CROW.GAP004.2** execution checklist + redacted checker ready. Local operator Preview/Production still share ref `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`). Dedicated Preview Supabase + Vercel Preview bind **pending owner**. Build-time migrate already removed |
+| **Current state** | **CROW.GAP004.3** recheck: Vercel `DATABASE_URL`/`DIRECT_URL` still scoped **Production, Preview** (shared). Production `BACKEND_ISOLATION=shared`. Local operator still shares ref `wbwnsndcxrgyqwppurms`. `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`. Build-time migrate already removed |
 | **Severity** | **High** |
 | **Security/authority impact** | Medium–High — Preview/runtime/operator writes can hit Production while shared |
-| **Dependency** | Owner provisions Preview Supabase + binds Vercel Preview env |
-| **Proposed milestone** | Owner completes Phases 1–3 per [`gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md`](gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md); then re-certify evidence |
-| **Owner decision required** | Provision Preview DB; bind Preview env; record redacted evidence; authorize Preview migrate only after proof |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-2.md`](milestones/CROW-GAP004-2.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) |
-| **Status** | **Open / blocked** — package ready; isolation not proven |
+| **Dependency** | Owner must **split** Vercel Preview DB env from Production and bind dedicated Preview Supabase |
+| **Proposed milestone** | Owner completes Phase 2 split per checklist; then GAP004.3-style recheck until proven |
+| **Owner decision required** | Preview-only `DATABASE_URL`/`DIRECT_URL`; confirm refs differ; authorize Preview migrate only after proof |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-3.md`](milestones/CROW-GAP004-3.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) |
+| **Status** | **Open / blocked** — claimed bind not evidenced; isolation not proven |
 
 ## GAP-005 — First Tenant Golden Path completion
 

@@ -28,6 +28,7 @@ out/
 .env.production.operator
 .env.production.pulled.tmp
 .env.vercel
+.env.vercel.*
 
 # Prisma
 prisma/*.db
