@@ -101,14 +101,29 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | **CROW.GAP004.3** recheck: Vercel `DATABASE_URL`/`DIRECT_URL` still scoped **Production, Preview** (shared). Production `BACKEND_ISOLATION=shared`. Local operator still shares ref `wbwnsndcxrgyqwppurms`. `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`. Build-time migrate already removed |
+| **Current state** | Isolation **not proven**. Owner **cost constraint**: no paid second Supabase. Alternate mitigation path **GAP-004A** (Preview DB-disabled) planned in CROW.GAP004.ALT1. Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
 | **Severity** | **High** |
-| **Security/authority impact** | Medium–High — Preview/runtime/operator writes can hit Production while shared |
-| **Dependency** | Owner must **split** Vercel Preview DB env from Production and bind dedicated Preview Supabase |
-| **Proposed milestone** | Owner completes Phase 2 split per checklist; then GAP004.3-style recheck until proven |
-| **Owner decision required** | Preview-only `DATABASE_URL`/`DIRECT_URL`; confirm refs differ; authorize Preview migrate only after proof |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-3.md`](milestones/CROW-GAP004-3.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) |
-| **Status** | **Open / blocked** — claimed bind not evidenced; isolation not proven |
+| **Security/authority impact** | Medium–High — without GAP-004A enforcement, Preview can still hit Production if credentials present |
+| **Dependency** | Either proven isolated Preview DB **or** certified GAP-004A fail-closed mode |
+| **Proposed milestone** | CROW.GAP004.ALT2 (implement DB-disabled) · full GAP-004 remains open until isolation proven or accepted as permanently deferred |
+| **Owner decision required** | Keep no-cost path (GAP-004A) · later optional free/isolated Preview DB if available |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · [`milestones/CROW-GAP004-ALT1.md`](milestones/CROW-GAP004-ALT1.md) |
+| **Status** | **Open / blocked** (isolation) — **not closed**; mitigated only via GAP-004A once implemented |
+
+## GAP-004A — Preview DB-disabled safety mode
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Database / Operations / Preview safety |
+| **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
+| **Current state** | **Plan ready** (CROW.GAP004.ALT1) — implementation not started |
+| **Severity** | High (mitigation for GAP-004 under cost constraint) |
+| **Security/authority impact** | High if unimplemented while Preview has Production credentials |
+| **Dependency** | Owner accepted no-cost path 2026-07-18 |
+| **Proposed milestone** | CROW.GAP004.ALT2 (helpers + Prisma fail-closed) → ALT3 (UI) → ALT4 (cert) |
+| **Owner decision required** | Authorize ALT2 implementation when ready |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | **Open / planned** — does **not** prove GAP-004 isolation |
 
 ## GAP-005 — First Tenant Golden Path completion
 

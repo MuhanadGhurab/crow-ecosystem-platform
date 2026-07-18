@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.3) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.ALT1) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -59,6 +59,7 @@
 | [`gaps/GAP-004-DB-ISOLATION-PLAN.md`](gaps/GAP-004-DB-ISOLATION-PLAN.md) | Isolation decision / implementation plan |
 | [`gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md`](gaps/GAP-004-OWNER-EXECUTION-CHECKLIST.md) | Owner Phase 1–3 execution checklist |
 | [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) | Redacted isolation evidence log |
+| [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) | No-cost Preview DB-disabled safety mode plan |
 | [`AI-HANDOFF-PROTOCOL.md`](AI-HANDOFF-PROTOCOL.md) | Agent-to-agent handoff fields |
 
 ## Reading order
@@ -74,17 +75,17 @@
 
 ## Current milestone
 
-**CROW.GAP004.3** — Preview DB isolation recheck (**still blocked** — Vercel `DATABASE_URL` remains Production+Preview shared).
+**CROW.GAP004.ALT1** — No-cost **Preview DB-disabled safety mode** plan (**GAP-004A**). GAP-004 isolation remains **blocked** (no paid second Supabase).
 
-Evidence: [`milestones/CROW-GAP004-3.md`](milestones/CROW-GAP004-3.md) · [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) · `npm run db-isolation-env:check`
+Evidence: [`milestones/CROW-GAP004-ALT1.md`](milestones/CROW-GAP004-ALT1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md)
 
-**Prior:** CROW.GAP004.2 @ `2713701` · GAP004.1 · Discovery MVP-CERT.1
+**Prior:** CROW.GAP004.3 @ `23070f6` · GAP004.2 · GAP004.1 · Discovery MVP-CERT.1
 
 **Production:** https://crow-ecosystem-platform.vercel.app · live `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` · `main` @ `e8cb812`
 
-**Hold:** PR #10 archive · no hosted migrations/writes · Production env unchanged · Option C interim
+**Hold:** PR #10 archive · no hosted migrations/writes · Production env unchanged · Option C interim · Discovery hosted / Blueprint generation blocked
 
-**Owner next:** Split Vercel Preview DB URLs from Production · set Preview `BACKEND_ISOLATION=isolated` · re-prove isolation · **GAP-015** after/with
+**Owner next:** Authorize **CROW.GAP004.ALT2** (implement fail-closed Preview DB-disabled) · optional later free/isolated Preview DB for true GAP-004 · **GAP-015** when ready
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN
 

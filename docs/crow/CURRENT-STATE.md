@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.3) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004.ALT1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `73564b8` content — CROW.GAP004.3 (isolation still blocked) |
+| HEAD | `23070f6` start — CROW.GAP004.ALT1 (GAP-004A plan) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; recheck failed to prove isolation) · #18 Discovery cert OPEN |
+| Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; GAP-004A planned) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Clean after CROW.GAP004.3 content commit |
+| Working tree | CROW.GAP004.ALT1 plan docs in progress |
 
 ## Stack
 
@@ -173,7 +173,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | IMPLEMENTED | Extensive Prisma schema (~80+ models) |
 | RISK | Preview/Production isolation **not proven** — operator Preview/Production share `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`) |
 | IMPLEMENTED | Controlled migration CLI; build-time migrate removed; `vercel.json` = generate + build only |
-| PACKAGE | **CROW.GAP004.3** — recheck: Vercel DB URLs still Production+Preview shared; `BACKEND_ISOLATION=shared` · evidence [`gaps/GAP-004-ISOLATION-EVIDENCE.md`](gaps/GAP-004-ISOLATION-EVIDENCE.md) · [`milestones/CROW-GAP004-3.md`](milestones/CROW-GAP004-3.md) |
+| PACKAGE | **CROW.GAP004.ALT1** — GAP-004A Preview DB-disabled safety mode **plan** · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · isolation still unproven |
 | Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/safety/check-db-isolation-env.mjs` |
 
 ### Environments

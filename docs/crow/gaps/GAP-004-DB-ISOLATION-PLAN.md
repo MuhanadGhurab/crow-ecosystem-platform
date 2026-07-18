@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Safe implementation plan for DB isolation |
-| **Status** | DECISION PLAN — **CROW.GAP004.3** recheck complete; isolation **still not proven** (Vercel DB URLs remain Production+Preview shared) |
-| **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004-OWNER-EXECUTION-CHECKLIST.md`](GAP-004-OWNER-EXECUTION-CHECKLIST.md) |
+| **Status** | DECISION PLAN — isolation **still not proven**; owner **no-cost** alternate **GAP-004A** (Preview DB-disabled) planned via CROW.GAP004.ALT1 |
+| **Authority** | Owner decisions · [`GAP-004-DB-ISOLATION-AUDIT.md`](GAP-004-DB-ISOLATION-AUDIT.md) · [`GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-3.md`](../milestones/CROW-GAP004-3.md) · prior [`../milestones/CROW-GAP004-2.md`](../milestones/CROW-GAP004-2.md) · [`../milestones/CROW-GAP004-1.md`](../milestones/CROW-GAP004-1.md) |
+| **Milestone** | [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) · prior GAP004.1–3 |
 | **Issue** | [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Evidence** | [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
@@ -97,25 +97,37 @@ Evidence log: [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md)
 
 ### Phase 4 — Controlled Preview schema apply (separate owner auth)
 
-Only after Phase 3 proven — **not authorized in GAP004.2 / GAP004.3**.
+Only after Phase 3 proven — **not authorized** while on GAP-004A path.
 
 1. Owner authorizes phrase `APPLY PREVIEW DATABASE MIGRATIONS`  
 2. Apply via controlled wrapper / GitHub workflow_dispatch (not Vercel build)  
 3. Record migration inventory outcome  
 4. Smoke Preview deploy against Preview DB  
 
+### Alternate path — GAP-004A (no-cost; owner 2026-07-18)
+
+When a paid second Supabase project is **not** authorized:
+
+1. Keep GAP-004 **open / blocked** (isolation not proven)  
+2. Adopt **Preview DB-disabled safety mode** — see [`GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md)  
+3. Plan packaged in CROW.GAP004.ALT1 · implement in ALT2+  
+4. Preview may render public/local-first UI only; fail closed before any DB or hosted business mutation  
+5. Hosted Discovery / Blueprint / tenant ops remain forbidden on Preview  
+
+**This path mitigates bleed risk; it does not satisfy Phase 3 isolation proof.**
+
 ### Phase 5 — Decommission shared Preview posture
 
 1. Remove / rotate any Preview env that still points at Production  
 2. Update operator runbooks that still say `BACKEND_ISOLATION=shared` as default  
-3. Mark GAP-004 **mitigated** or **closed** only after owner acceptance of isolation proof  
+3. Mark GAP-004 **mitigated** only after isolation proof **or** accept GAP-004A as standing mitigation with GAP-004 remaining open  
 4. Then reconsider hosted Discovery persistence / certify  
 
 ### Parallel track — GAP-015
 
 Do **not** wait forever on GAP-004 to ignore Production auto-deploy risk. Prefer:
 
-1. GAP-004 isolation (data plane)  
+1. GAP-004 isolation **or** GAP-004A fail-closed (data plane)  
 2. GAP-015 auto-deploy settings (release plane)  
 
 Both before treating `main` → Production as routine.
@@ -126,12 +138,13 @@ Both before treating `main` → Production as routine.
 
 | # | Decision | Options |
 |---|----------|---------|
-| D1 | Provision dedicated Preview Supabase? | Yes / Defer (GAP-004 stays blocked) |
-| D2 | Bind Vercel Preview env to Preview project? | Yes (owner dashboard) / Defer |
-| D3 | End shared Preview→Production as normal mode? | Yes / Temporary exception (document expiry) |
-| D4 | Authorize first Preview controlled migrate? | Only after D1–D3 proof |
-| D5 | Authorize any Discovery hosted persistence? | **No** until GAP-004 mitigated |
+| D1 | Provision dedicated Preview Supabase? | Yes / **Defer (no-cost → GAP-004A)** ← owner chose |
+| D2 | Bind Vercel Preview env to Preview project? | Yes / N/A while on GAP-004A (prefer **unset** Preview DB URLs) |
+| D3 | End shared Preview→Production as normal mode? | Yes via isolation **or** via DB-disabled fail-closed |
+| D4 | Authorize first Preview controlled migrate? | Only after isolation proof (not under GAP-004A) |
+| D5 | Authorize any Discovery hosted persistence? | **No** until GAP-004 mitigated **or** separate owner exception |
 | D6 | Change Vercel Production auto-deploy (GAP-015)? | Separate milestone |
+| D7 | Authorize GAP-004A ALT2 implementation? | Pending owner “implement” |
 
 ---
 
