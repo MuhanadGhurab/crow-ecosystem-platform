@@ -101,14 +101,14 @@
 |-------|-------|
 | **Domain** | Database / Operations |
 | **Intended state** | Isolated Preview and Production Postgres backends |
-| **Current state** | Isolation **not proven**. Owner no-cost path: **GAP-004A implemented** (CROW.GAP004.ALT2 fail-closed). Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
+| **Current state** | Isolation **not proven**. **GAP-004A owner-accepted** standing mitigation (CROW.GAP004A.ACCEPT.1) with fail-closed runtime (ALT2). Known Production ref `wbwnsndcxrgyqwppurms`. Build-time migrate already removed |
 | **Severity** | **High** |
-| **Security/authority impact** | Mitigated on Preview via GAP-004A when `VERCEL_ENV=preview` without isolation proof |
-| **Dependency** | GAP-004A enforcement active; true isolation still optional/deferred |
-| **Proposed milestone** | Optional free/isolated Preview DB later; GAP-015 parallel |
-| **Owner decision required** | Accept GAP-004A as sufficient for current Preview work? Keep Issue #16 open until acceptance |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) |
-| **Status** | **Open / blocked** (isolation) — Preview bleed risk **mitigated** by GAP-004A |
+| **Security/authority impact** | Preview bleed mitigated via accepted GAP-004A; isolation still unproven |
+| **Dependency** | GAP-004A standing mitigation active; true isolation optional/deferred |
+| **Proposed milestone** | Optional free/isolated Preview DB later; **GAP-015** next release-plane candidate |
+| **Owner decision required** | None for GAP-004A standing path; optional future isolation project |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · [`gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md`](gaps/GAP-004A-PREVIEW-DB-DISABLED-SAFETY-MODE.md) |
+| **Status** | **Open / blocked** (isolation) — Preview safety via **accepted GAP-004A** |
 
 ## GAP-004A — Preview DB-disabled safety mode
 
@@ -116,14 +116,14 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Implemented** — helpers, Prisma Proxy, mutation asserts, Discovery Preview local-first, `preview-db-safety:test` PASS (CROW.GAP004.ALT2) |
+| **Current state** | **Owner accepted** as standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · implemented in ALT2 |
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
-| **Security/authority impact** | Fail-closed on unsafe Preview |
-| **Dependency** | Owner accepted no-cost path 2026-07-18 |
-| **Proposed milestone** | Optional ALT3 UI polish · ALT4 Preview smoke |
-| **Owner decision required** | Accept GAP-004A as sufficient standing mitigation for current work |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) |
-| **Status** | **Mitigated (implemented)** — does **not** prove GAP-004 isolation |
+| **Security/authority impact** | Fail-closed on unsafe Preview — **accepted** |
+| **Dependency** | Owner acceptance recorded 2026-07-18 |
+| **Proposed milestone** | Optional ALT3 polish · ALT4 Preview smoke · parallel GAP-015 |
+| **Owner decision required** | None (accepted) |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) |
+| **Status** | **Accepted standing mitigation** — does **not** prove GAP-004 isolation · Issue #16 stays open |
 
 ## GAP-005 — First Tenant Golden Path completion
 

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | No-cost alternate mitigation: Preview database access disabled |
-| **Status** | **IMPLEMENTED** — fail-closed runtime guard certified (CROW.GAP004.ALT2) |
-| **Authority** | Owner decision 2026-07-18 · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
+| **Status** | **OWNER ACCEPTED** — standing no-cost mitigation (CROW.GAP004A.ACCEPT.1) · fail-closed implemented (CROW.GAP004.ALT2) |
+| **Authority** | Owner acceptance 2026-07-18 · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP004-ALT2.md`](../milestones/CROW-GAP004-ALT2.md) · plan [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) |
+| **Milestone** | [`../milestones/CROW-GAP004A-ACCEPT-1.md`](../milestones/CROW-GAP004A-ACCEPT-1.md) · [`../milestones/CROW-GAP004-ALT2.md`](../milestones/CROW-GAP004-ALT2.md) · plan [`../milestones/CROW-GAP004-ALT1.md`](../milestones/CROW-GAP004-ALT1.md) |
 | **Related** | [`GAP-004-DB-ISOLATION-PLAN.md`](GAP-004-DB-ISOLATION-PLAN.md) · [`GAP-004-ISOLATION-EVIDENCE.md`](GAP-004-ISOLATION-EVIDENCE.md) |
 
 ## Relationship to GAP-004
@@ -16,7 +16,7 @@
 | **GAP-004** | Preview Postgres ≠ Production Postgres (isolation **proven**) | Dedicated Preview DB + evidence · `PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=1` |
 | **GAP-004A** | Preview must not touch any hosted DB while isolation unproven | Fail-closed Preview DB-disabled mode certified |
 
-**GAP-004A does not close GAP-004.** It mitigates Production bleed risk under the owner **no-cost** constraint (no second paid Supabase project).
+**GAP-004A does not close GAP-004.** It is the **owner-accepted standing mitigation** (2026-07-18) for Production bleed risk under the **no-cost** constraint (no second paid Supabase project). True isolation remains open/blocked.
 
 ---
 
@@ -199,7 +199,7 @@ Suggested counters for implement milestone:
 
 ## 9. Exit / supersede
 
-GAP-004A remains **mitigated** while isolation unproven.
+GAP-004A is **owner-accepted standing mitigation** (CROW.GAP004A.ACCEPT.1, 2026-07-18) while isolation unproven.
 
 If owner later provisions a **free or already-paid** isolated Preview DB and isolation is proven:
 

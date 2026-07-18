@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP004.ALT2) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP004A.ACCEPT.1) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,13 +18,13 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | `e04469a` content — CROW.GAP004.ALT2 (GAP-004A implemented) |
+| HEAD | `c06a97f` start — CROW.GAP004A.ACCEPT.1 (owner acceptance) |
 | Default branch | `main` at `e8cb812` |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
-| Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; GAP-004A **implemented**) · #18 Discovery cert OPEN |
+| Seed Issues | #15–#24 · #16 GAP-004 (**blocked**; GAP-004A **owner accepted**) · #18 Discovery cert OPEN |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Clean after CROW.GAP004.ALT2 |
+| Working tree | CROW.GAP004A.ACCEPT.1 docs in progress |
 
 ## Stack
 
@@ -173,7 +173,7 @@ Cinematic scroll-story at `/experience/architects-map`. Homepage includes previe
 | IMPLEMENTED | Extensive Prisma schema (~80+ models) |
 | RISK | Preview/Production isolation **not proven** — operator Preview/Production share `wbwnsndcxrgyqwppurms` (`PREVIEW_DATABASE_ISOLATION_PROVEN_COUNT=0`) |
 | IMPLEMENTED | Controlled migration CLI; build-time migrate removed; `vercel.json` = generate + build only |
-| PACKAGE | **CROW.GAP004.ALT2** — Preview DB-disabled fail-closed **implemented** · `preview-db-safety:test` · [`milestones/CROW-GAP004-ALT2.md`](milestones/CROW-GAP004-ALT2.md) |
+| PACKAGE | **CROW.GAP004A.ACCEPT.1** — owner **accepted** GAP-004A standing mitigation · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) · isolation still unproven |
 | Evidence | `prisma/migrations/`, `scripts/run-controlled-migration.ts`, `scripts/safety/check-db-isolation-env.mjs` |
 
 ### Environments

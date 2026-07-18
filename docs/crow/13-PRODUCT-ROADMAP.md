@@ -28,7 +28,7 @@ Statuses use: Live · Accepted · Implemented · Partial · Planned · Blocked �
 | Public route model | **Accepted** | CROW.PUBLIC.9/10; browse vs gated process |
 | PR #10 | **Blocked** (merge hold) | OPEN DRAFT MERGEABLE — FTGP + public; do not merge casually |
 | `main` | **Partial** / risk | `a5620c3` legacy public; GAP-012 open |
-| GAP-004 DB isolation | **Open / blocked** | Isolation unproven; **GAP-004A fail-closed implemented** (ALT2) |
+| GAP-004 DB isolation | **Open / blocked** | Isolation unproven; **GAP-004A owner-accepted** standing fail-closed mitigation |
 | GAP-012 main vs Production | **Open** | RECON.1 cherry-pick plan READY |
 | Client journey | **Partial** | Request/discovery/blueprint scaffolding |
 | ProCrow | **Partial** | Control tower, queues, studio |
@@ -340,14 +340,14 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 | Order | Milestone | Intent |
 |-------|-----------|--------|
 | 1 | **Discovery MVP D0–D2** local-first | Build under Issue #18 — does **not** merge PR #10 |
-| 2 | **#16 GAP-004 / GAP-004A** | Isolation **blocked**; GAP-004A **implemented** (ALT2) — owner acceptance pending |
+| 2 | **#16 GAP-004 / GAP-004A** | Isolation **blocked**; GAP-004A **owner accepted** standing mitigation (ACCEPT.1) |
 | 3 | **#15 GAP-015** | Production auto-deploy settings (parallel) |
 | 4 | Later **Blueprint boundary quarantine** | Separate slice when Discovery ready-for-modeling lands |
 | 5 | **CROW.CEM.1** | Enterprise Manager runtime MVP architecture |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.* · CROW.DISCOVERY.MVP-CERT.1 · CROW.GAP004.1–3 · CROW.GAP004.ALT1 · **CROW.GAP004.ALT2** (GAP-004A fail-closed implemented)
+**Completed recently:** CROW.REQUEST.2 · CROW.PROCROW.1 / 1A · CROW.DISCOVERY.* · CROW.DISCOVERY.MVP-CERT.1 · CROW.GAP004.1–3 · CROW.GAP004.ALT1–2 · **CROW.GAP004A.ACCEPT.1** (GAP-004A standing mitigation accepted)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 
