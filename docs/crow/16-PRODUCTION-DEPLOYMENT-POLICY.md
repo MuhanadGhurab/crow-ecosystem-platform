@@ -5,9 +5,9 @@
 | **Title** | Production Deployment Policy |
 | **Status** | CANONICAL |
 | **Authority** | Owner decision — CROW.PROD-POLICY.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT — GAP-015 Mitigated) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT.1 — GAP-015 Mitigated) |
 | **Related** | [`10-IMPLEMENTATION-BOUNDARIES.md`](10-IMPLEMENTATION-BOUNDARIES.md), [`11-DEVELOPMENT-OPERATING-MODEL.md`](11-DEVELOPMENT-OPERATING-MODEL.md), [`GAP-LEDGER.md`](GAP-LEDGER.md) (GAP-004, GAP-012, GAP-015) |
-| **Evidence** | [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
+| **Evidence** | [`milestones/CROW-GAP015-ACCEPT-1.md`](milestones/CROW-GAP015-ACCEPT-1.md), [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md), [`gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md`](gaps/GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 
 ## Purpose
 
@@ -148,13 +148,13 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 - Guard script is **on `main`** @ `f97a835` (PR #25 / CROW.GAP015.5)
 - Unauthorized Production for `f97a835` was **skipped** (`BLOCK_UNAUTHORIZED_PRODUCTION_BUILD`, exit 0)
 - GitHub `main` protection is **configured** (CROW.GAP015.6)
-- Authorized Production deploy operator procedure is **owner-accepted** (CROW.GAP015.ACCEPT)
+- Authorized Production deploy operator procedure is **owner-accepted** (CROW.GAP015.ACCEPT.1)
 - Live domain remains `dpl_QeDhnxz…` (no Instant Promote)
 - Do not Instant Promote unless separately authorized
 - Verify live domain after every `main` merge (`?dpl=` / deployment ID)
 - Do not merge DB-affecting / hosted-persistence / Blueprint-generation work to `main` while GAP-004 isolation is unproven (GAP-004A fail-closed applies on unsafe Preview only)
 
-### Option E progress (CROW.GAP015.ACCEPT)
+### Option E progress (CROW.GAP015.ACCEPT.1)
 
 | Layer | Status |
 |-------|--------|
@@ -178,7 +178,7 @@ Full evidence: [`gaps/GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](gaps/GAP-015-PROD
 2. Wire Ignored Build Step — **done** (CROW.GAP015.3)
 3. Bring guard to `main` — **done** (CROW.GAP015.5 / PR #25)
 4. **Option C** — GitHub `main` protection — **done** (CROW.GAP015.6)
-5. Document + accept authorized deploy procedure — **done** (CROW.GAP015.7 / ACCEPT)
+5. Document + accept authorized deploy procedure — **done** (CROW.GAP015.7 / ACCEPT.1)
 6. **Option B** — optional additional disable/gate of automatic Production deploys
 
 ### Other options

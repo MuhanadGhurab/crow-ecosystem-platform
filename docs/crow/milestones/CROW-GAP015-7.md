@@ -6,7 +6,7 @@
 | **Date** | 2026-07-18 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
-| **Acceptance** | [`CROW-GAP015-ACCEPT.md`](CROW-GAP015-ACCEPT.md) |
+| **Acceptance** | [`CROW-GAP015-ACCEPT-1.md`](CROW-GAP015-ACCEPT-1.md) |
 
 ## Purpose
 
@@ -30,7 +30,7 @@ Prepare documentation, checklists, dry-run examples, and evidence templates only
 - `PRODUCTION_ENV_CHANGED_COUNT=0`
 - `MAIN_PUSH_COUNT=0`
 - `PR10_MERGED_COUNT=0`
-- `GAP015_OWNER_ACCEPTANCE_RECORDED_COUNT=1` (see [`CROW-GAP015-ACCEPT.md`](CROW-GAP015-ACCEPT.md))
+- `GAP015_OWNER_ACCEPTANCE_RECORDED_COUNT=1` (see [`CROW-GAP015-ACCEPT-1.md`](CROW-GAP015-ACCEPT-1.md))
 
 ## GAP-015 status after acceptance
 

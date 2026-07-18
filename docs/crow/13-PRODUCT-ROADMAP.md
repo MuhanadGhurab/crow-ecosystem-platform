@@ -346,7 +346,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1–7 · **CROW.GAP015.ACCEPT** (GAP-015 **Mitigated**)
+**Completed recently:** CROW.GAP004A.ACCEPT.1 · CROW.GAP015.1–7 · **CROW.GAP015.ACCEPT.1** (GAP-015 **Mitigated**)
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

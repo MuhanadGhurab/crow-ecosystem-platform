@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT — GAP-015 Mitigated) |
+| **Last reviewed** | 2026-07-18 (CROW.GAP015.ACCEPT.1 — GAP-015 Mitigated) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -82,9 +82,9 @@
 
 ## Current milestone
 
-**CROW.GAP015.ACCEPT** — GAP-015 **Mitigated**. Authorized Production deploy procedure **owner-accepted**. No Production deploy authorized by this acceptance.
+**CROW.GAP015.ACCEPT.1** — GAP-015 **Mitigated**. Authorized Production deploy operator procedure **owner-accepted**. No Production deploy authorized by this acceptance.
 
-Evidence: [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
+Evidence: [`milestones/CROW-GAP015-ACCEPT-1.md`](milestones/CROW-GAP015-ACCEPT-1.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md)
 
 **Prior:** CROW.GAP015.7 · CROW.GAP015.6 · CROW.GAP015.5 · CROW.GAP015.4 · CROW.GAP015.3 · CROW.GAP015.2 · CROW.GAP015.1 · CROW.GAP004A.ACCEPT.1
 

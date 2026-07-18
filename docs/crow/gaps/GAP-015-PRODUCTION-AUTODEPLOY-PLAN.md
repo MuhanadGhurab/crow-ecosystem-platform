@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Option E live — GAP-015 **Mitigated** (CROW.GAP015.ACCEPT); intentional Production via `CROW.PRODUCTION.DEPLOY` only |
+| **Status** | Option E live — GAP-015 **Mitigated** (CROW.GAP015.ACCEPT.1); intentional Production via `CROW.PRODUCTION.DEPLOY` only |
 | **Date** | 2026-07-18 |
 | **Audit** | [`GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md`](GAP-015-PRODUCTION-AUTODEPLOY-AUDIT.md) |
 | **Guard** | [`GAP-015-PRODUCTION-DEPLOY-GUARD.md`](GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 | **Procedure** | [`GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
-| **Milestone** | [`../milestones/CROW-GAP015-ACCEPT.md`](../milestones/CROW-GAP015-ACCEPT.md) |
+| **Milestone** | [`../milestones/CROW-GAP015-ACCEPT-1.md`](../milestones/CROW-GAP015-ACCEPT-1.md) |
 | **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) |
 
 ## Goal
@@ -104,7 +104,7 @@ Suggested explicit phrases:
 | 3 | CROW.GAP015.4–5 | Guard on `main`; prove unauthorized skip | **Done** |
 | 4 | CROW.GAP015.6 | GitHub `main` protection | **Done** |
 | 5 | CROW.GAP015.7 | Formal authorized Production deploy procedure | **Done (docs)** |
-| 6 | CROW.GAP015.ACCEPT | Owner accepts procedure → GAP-015 **Mitigated** | **Done** |
+| 6 | CROW.GAP015.ACCEPT.1 | Owner accepts procedure → GAP-015 **Mitigated** | **Done** |
 | 7 | Optional | Option B disable auto Production if still needed | Pending |
 
 Owner may still authorize Option B separately; **do not** Instant Promote `dpl_8xT92…` without explicit Instant Promote phrase.

@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | **Owner accepted** — sole intentional Production build path (CROW.GAP015.ACCEPT) |
+| **Status** | **Owner accepted** — sole intentional Production build path (CROW.GAP015.ACCEPT.1) |
 | **Date** | 2026-07-18 |
-| **Milestone** | [`../milestones/CROW-GAP015-ACCEPT.md`](../milestones/CROW-GAP015-ACCEPT.md) |
+| **Milestone** | [`../milestones/CROW-GAP015-ACCEPT-1.md`](../milestones/CROW-GAP015-ACCEPT-1.md) |
 | **Evidence template** | [`GAP-015-PRODUCTION-DEPLOY-EVIDENCE-TEMPLATE.md`](GAP-015-PRODUCTION-DEPLOY-EVIDENCE-TEMPLATE.md) |
 | **Guard** | [`GAP-015-PRODUCTION-DEPLOY-GUARD.md`](GAP-015-PRODUCTION-DEPLOY-GUARD.md) |
 | **Policy** | [`../16-PRODUCTION-DEPLOYMENT-POLICY.md`](../16-PRODUCTION-DEPLOYMENT-POLICY.md) |
@@ -235,6 +235,6 @@ GAP-015 is **Mitigated** when **all** are true:
 | Unauthorized Production skip proven | Done |
 | GitHub `main` protection configured | Done |
 | Authorized deploy procedure documented | Done |
-| Owner **accepts** this procedure | **Accepted** 2026-07-18 — [`../milestones/CROW-GAP015-ACCEPT.md`](../milestones/CROW-GAP015-ACCEPT.md) |
+| Owner **accepts** this procedure | **Accepted** 2026-07-18 — [`../milestones/CROW-GAP015-ACCEPT-1.md`](../milestones/CROW-GAP015-ACCEPT-1.md) |
 
 Actual Production deploy still requires a separate `CROW.PRODUCTION.DEPLOY` phrase with exact SHA and reason.

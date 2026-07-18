@@ -86,13 +86,13 @@
 |-------|-------|
 | **Domain** | Operations / Release |
 | **Intended state** | Option E: Vercel gate + GitHub protection + deploy guard + owner phrases |
-| **Current state** | Guard on `main` @ `f97a835`. Ignored Build Step + unauthorized skip proven. GitHub `main` protected. Authorized deploy procedure **owner-accepted** (CROW.GAP015.ACCEPT). Live domain still `dpl_QeDhnxz…`. Intentional Production still requires separate `CROW.PRODUCTION.DEPLOY` |
+| **Current state** | Guard on `main` @ `f97a835`. Ignored Build Step + unauthorized skip proven. GitHub `main` protected. Authorized deploy procedure **owner-accepted** (CROW.GAP015.ACCEPT.1). Live domain still `dpl_QeDhnxz…`. Intentional Production still requires separate `CROW.PRODUCTION.DEPLOY` |
 | **Severity** | Medium (mitigated) |
 | **Security/authority impact** | Controlled — Option E live; Production builds SHA-bound; Instant Promote separate |
 | **Dependency** | None for mitigation; actual deploys need `CROW.PRODUCTION.DEPLOY` |
 | **Proposed milestone** | None — mitigated; optional Option B later |
 | **Owner decision required** | None for GAP-015 mitigation; use `CROW.PRODUCTION.DEPLOY` for any real Production build |
-| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-ACCEPT.md`](milestones/CROW-GAP015-ACCEPT.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
+| **Tracking** | Issue [#15](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/15) · [`milestones/CROW-GAP015-ACCEPT-1.md`](milestones/CROW-GAP015-ACCEPT-1.md) · [`gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md`](gaps/GAP-015-AUTHORIZED-PRODUCTION-DEPLOY-PROCEDURE.md) |
 | **Status** | **Mitigated** — does **not** authorize any Production deploy by itself |
 
 ## GAP-004 — Preview/Production database isolation
@@ -120,7 +120,7 @@
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
 | **Security/authority impact** | Fail-closed on unsafe Preview — **accepted** |
 | **Dependency** | Owner acceptance recorded 2026-07-18 |
-| **Proposed milestone** | Optional ALT3 polish · ALT4 Preview smoke · parallel GAP-015 |
+| **Proposed milestone** | Optional ALT3 polish · ALT4 Preview smoke |
 | **Owner decision required** | None (accepted) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-GAP004A-ACCEPT-1.md`](milestones/CROW-GAP004A-ACCEPT-1.md) |
 | **Status** | **Accepted standing mitigation** — does **not** prove GAP-004 isolation · Issue #16 stays open |
@@ -277,8 +277,8 @@
 | **Current state** | **Owner accepted CROW.PR10.2** — PR #10 is draft archive/reference; Option D+B slice rules baselined. Conflicts remain unresolved by design. No GitHub Issue yet — tracked here until owner requests one |
 | **Severity** | High if someone merges monolith; **policy mitigates** |
 | **Security/authority impact** | High if merged wholesale; low while DRAFT archive discipline holds |
-| **Dependency** | Slice execution; GAP-004 before hosted/runtime; GAP-015 for Production auto-deploy |
-| **Proposed milestone** | Slice execution (Discovery D0–D2 done; next D3 / GAP-004 / GAP-015, …) |
+| **Dependency** | Slice execution; GAP-004 before hosted/runtime; GAP-015 **Mitigated** (use `CROW.PRODUCTION.DEPLOY` for Production) |
+| **Proposed milestone** | Slice execution (Discovery D0–D6 done; next GAP-004 / Blueprint gate / FTGP slices) |
 | **Owner decision required** | Next slice to authorize; optional GitHub Issue for GAP-018 / CROW.PR10.1 |
 | **Tracking** | PR [#10](https://github.com/MuhanadGhurab/crow-ecosystem-platform/pull/10) · [`milestones/CROW-PR10-2.md`](milestones/CROW-PR10-2.md) · [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md) · ledger only (no Issue yet) |
 | **Status** | **Mitigated (policy)** — archive + slice rule accepted; Discovery D0–D6 slices executed; further slices / GAP-004 pending |
