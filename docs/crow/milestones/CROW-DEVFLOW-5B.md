@@ -6,7 +6,7 @@
 | **Date** | 2026-07-19 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `a86d6c1` (CROW.DEVFLOW.5A tip) |
-| **Final HEAD** | _(pin after docs)_ |
+| **Final HEAD** | `d341703` |
 | **Owner authorization** | Resume 5A as 5B after owner-claimed Preview `DATABASE_URL` / `DIRECT_URL` |
 | **Prior** | CROW.DEVFLOW.5A (flags set; E2E blocked on missing Preview DB URL) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
