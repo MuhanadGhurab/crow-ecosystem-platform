@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5B — Preview DB URL still absent) |
+| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5B — Preview READY; DB auth fail) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -91,17 +91,11 @@
 
 ## Current milestone
 
-**CROW.DEVFLOW.5B** — Resume Preview demo feedback E2E: **still blocked**. Vercel CLI shows FTGP Preview has alpha flags but **no** `DATABASE_URL`/`DIRECT_URL` (Production-only). Latest Preview `dpl_9Yqg3VLLX7scJcaFUhwPANkyCz1t` ERROR.
+**CROW.DEVFLOW.5B** — Preview demo feedback E2E: Preview **READY**; alpha banner + `/alpha-feedback` OK; hosted write **fails** (invalid Preview DB credentials — Prisma auth). Production unchanged.
 
-Evidence: [`milestones/CROW-DEVFLOW-5B.md`](milestones/CROW-DEVFLOW-5B.md) · [`milestones/CROW-DEVFLOW-5A.md`](milestones/CROW-DEVFLOW-5A.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md)
+Evidence: [`milestones/CROW-DEVFLOW-5B.md`](milestones/CROW-DEVFLOW-5B.md)
 
-**Prior:** CROW.DEVFLOW.5A (flags) · DEVFLOW.5 (pilot) · DEVFLOW.4 · …
-
-**Runtime class:** Alpha development + demo sandbox — FTGP Preview flags set · hosted write still unverified on Preview
-
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed for general DB · no Request/Discovery hosted persistence · no Instant Promote · no official Blueprint / payment / tenant go-live · no Production env change
-
-**Owner next:** Add Preview FTGP `DATABASE_URL`/`DIRECT_URL` on project `crow-ecosystem-platform` (see DEVFLOW.5B exact UI steps) · Redeploy · submit fake feedback · then Discovery track unify or admin feedback list · GAP-004 when commercializing
+**Owner next:** Re-paste valid Preview FTGP `DATABASE_URL`/`DIRECT_URL` · Redeploy · submit fake feedback · tell Cursor
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN
 

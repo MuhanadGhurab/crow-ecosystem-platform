@@ -2,76 +2,74 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | **Blocked** — Preview DB URLs still not visible for FTGP |
+| **Status** | **Blocked** — Preview READY + form OK; DB credentials invalid |
 | **Date** | 2026-07-19 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `a86d6c1` (CROW.DEVFLOW.5A tip) |
-| **Final HEAD** | `d341703` |
-| **Owner authorization** | Resume 5A as 5B after owner-claimed Preview `DATABASE_URL` / `DIRECT_URL` |
+| **Final HEAD** | _(pin after docs)_ |
+| **Owner authorization** | Resume 5A as 5B after Preview `DATABASE_URL` / `DIRECT_URL` |
 | **Prior** | CROW.DEVFLOW.5A (flags set; E2E blocked on missing Preview DB URL) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
 | **main** | `f97a835` (unchanged) |
 | **PR #10** | OPEN · DRAFT · CONFLICTING · archive only |
 | **Production live** | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` (unchanged) |
 
-## Verified env inspection (names/scopes only — no secrets)
+## Retry verification (same day)
 
-CLI: `vercel env ls` and `vercel env ls preview feat/first-tenant-golden-path --format json`
+### Env (names/scopes only — no secrets)
 
 | Variable | Production | Preview (`feat/first-tenant-golden-path`) |
 |----------|------------|-------------------------------------------|
 | `CROW_RUNTIME_MODE` | absent | **present** |
 | `CROW_DATA_CLASSIFICATION` | absent | **present** |
 | `ALLOW_SHARED_DEMO_BACKEND` | absent | **present** |
-| `DATABASE_URL` | present | **absent** |
-| `DIRECT_URL` | present | **absent** |
+| `DATABASE_URL` | present | **present** (owner-added) |
+| `DIRECT_URL` | present | **present** (owner-added) |
 | `CROW_ALLOW_REAL_CUSTOMER_DATA` | absent | absent |
 
-**Production env was not modified by this milestone.**
+**Production env was not modified.**
 
-Owner stated Preview DB URLs were set before 5B. **Repository/Vercel CLI truth disagrees:** branch-scoped Preview list for FTGP returns only the three alpha flags (3 rows). No Preview-scoped `DATABASE_URL` / `DIRECT_URL` for this branch.
-
-## Preview deployment evidence
+### Preview deployment
 
 | Item | Value |
 |------|-------|
-| Latest FTGP tip deploy | `dpl_9Yqg3VLLX7scJcaFUhwPANkyCz1t` @ `a86d6c1` |
-| Target | Preview (`target: null` / not Production) |
-| State | **ERROR** |
-| Build error | `DATABASE_URL is not set` (`vercel-build-guard`) |
+| Deployment | `dpl_2Rt7fnwbbMkDUttphGtZa4WBxoQR` @ `12b27a5` |
+| Target | Preview (not Production) |
+| State | **READY** |
+| URL | `https://crow-ecosystem-platform-76g2zef3s-muhanadghurabs-projects.vercel.app` |
 | Branch alias | `crow-ecosystem-platform-git-feat-2491ce-muhanadghurabs-projects.vercel.app` |
 
-No READY Preview URL for `/alpha-feedback` E2E. No new Production deploy. No Instant Promote.
+Deployment Protection is on (anonymous fetch hits Vercel auth gate). Access used temporary Vercel share link for automated check only — tokens not committed.
 
-## E2E status
+### E2E results
 
 | Check | Result |
 |-------|--------|
-| Preview READY | **No** |
-| Alpha banner | Not verified (no READY Preview) |
-| `/alpha-feedback` submit | Not verified |
-| `PlatformNotification` `alpha_demo_feedback` | Not verified |
-| ProCrow inbox exclusion | Not verified on Preview |
+| Preview READY | **Yes** |
+| Alpha banner in rendered UI | **Yes** (“Crow Alpha Development Environment…”, “Send demo feedback”) |
+| `/alpha-feedback` reachable | **Yes** (title `Alpha Demo Feedback · Crow`, form present) |
+| Fake feedback submit | **Attempted** — UI returned persist error |
+| `PlatformNotification` created | **No** |
+| Root cause (runtime log, redacted) | Prisma `platformNotification.create` → **Authentication failed against database server** (invalid Preview DB credentials) |
+| ProCrow inbox exclusion | N/A (no row created) |
 | Request/Discovery/Blueprint/tenant/payment/CroAI | Not triggered |
 
-## Owner action required (exact Vercel UI)
+Alpha demo write-guard **passed** (error was `persist_failed`, not `alpha_demo_write_blocked`). Failure is credential/connectivity to the DB URL configured on Preview FTGP.
 
-Confirm you are on project **`crow-ecosystem-platform`** (team **muhanadghurabs-projects**).
+## Owner action required (exact)
 
-1. Open [Vercel Dashboard](https://vercel.com) → **crow-ecosystem-platform** → **Settings** → **Environment Variables**
-2. Find or **Add** `DATABASE_URL`:
-   - Environment: **Preview**
-   - Git Branch: **`feat/first-tenant-golden-path`** (custom branch — not “All Preview Environments” alone unless you also intend all Preview branches)
-   - Value: paste from your local `.env.staging` / demo sandbox pooler URL (**do not paste into chat**)
-3. Find or **Add** `DIRECT_URL` the same way (Preview + `feat/first-tenant-golden-path`)
-4. Confirm Production rows for `DATABASE_URL` / `DIRECT_URL` are **unchanged** (do not edit Production)
-5. Confirm `CROW_ALLOW_REAL_CUSTOMER_DATA` is **not** set to `true`
-6. Confirm the three alpha flags remain on Preview FTGP
-7. After save, open **Deployments** → select latest FTGP Preview → **Redeploy** (or push a no-op docs commit on FTGP)
-8. Wait until state is **Ready** (not Error)
-9. Open Preview URL → `/alpha-feedback` → submit fake feedback (see below) → tell Cursor “submitted”
+1. Vercel → **crow-ecosystem-platform** → **Settings** → **Environment Variables**
+2. Edit Preview (Git Branch **`feat/first-tenant-golden-path`**) **`DATABASE_URL`**:
+   - Re-paste the **full** pooler connection string from local `.env.staging` (or known-good demo sandbox)
+   - Common failures: truncated password, missing `?pgbouncer=true`, wrong project ref, extra whitespace/quotes
+3. Edit Preview FTGP **`DIRECT_URL`** the same way (direct/non-pooler URL if that is what Prisma expects)
+4. Do **not** change Production `DATABASE_URL` / `DIRECT_URL`
+5. Do **not** set `CROW_ALLOW_REAL_CUSTOMER_DATA=true`
+6. **Redeploy** FTGP Preview (Deployments → Redeploy, or empty push)
+7. Open Preview `/alpha-feedback` (Vercel login / share if protection on)
+8. Submit fake feedback below → tell Cursor “submitted” so PlatformNotification can be verified
 
-### Fake feedback (when READY)
+### Fake feedback
 
 - Reviewer name: `Alpha Tester`
 - Reviewer type: `tester`
@@ -80,24 +78,18 @@ Confirm you are on project **`crow-ecosystem-platform`** (team **muhanadghurabs-
 - Message: `Demo feedback test from CROW.DEVFLOW.5B. This is fake alpha review data only.`
 - Severity: `low`
 
-### Common mistakes
-
-- Added vars to a **different** Vercel project
-- Added to **Production** only (already present) and assumed Preview inherits them — Preview does **not** inherit Production secrets
-- Added to **All Preview** but CLI/branch filter still missing — re-check with Git Branch = `feat/first-tenant-golden-path`
-- Typo in branch name (`feat/first-tenant-golden-path`)
-
-## Counters (this attempt)
+## Counters (this retry)
 
 ```
-PREVIEW_DATABASE_URL_CONFIGURED_COUNT=0
-PREVIEW_DIRECT_URL_CONFIGURED_COUNT=0
+PREVIEW_DATABASE_URL_CONFIGURED_COUNT=1
+PREVIEW_DIRECT_URL_CONFIGURED_COUNT=1
 PREVIEW_ENV_FLAGS_CONFIGURED_COUNT=1
 PRODUCTION_ENV_CHANGED_COUNT=0
-PREVIEW_DEPLOYMENT_TRIGGERED_COUNT=0
-PREVIEW_DEPLOYMENT_READY_COUNT=0
+PREVIEW_DEPLOYMENT_TRIGGERED_COUNT=1
+PREVIEW_DEPLOYMENT_READY_COUNT=1
 DEMO_FEEDBACK_PREVIEW_VERIFIED_COUNT=0
 DEMO_FEEDBACK_TEST_RECORD_CREATED_COUNT=0
+DEMO_ONLY_HOSTED_WRITE_COUNT=0
 SECRET_PRINTED_COUNT=0
 MAIN_PUSH_COUNT=0
 PR10_MERGED_COUNT=0

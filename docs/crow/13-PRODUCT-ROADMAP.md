@@ -359,7 +359,7 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **Resume CROW.DEVFLOW.5B** | Owner adds Preview FTGP `DATABASE_URL`/`DIRECT_URL` on correct Vercel project · Redeploy · E2E verify — **blocking** |
+| 1 | **Resume CROW.DEVFLOW.5B** | Fix Preview FTGP DB credentials · Redeploy · E2E verify `alpha_demo_feedback` — **blocking** |
 | 2 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) |
 | 3 | Optional admin demo-feedback list | Read-only operator view for `alpha_demo_feedback` |
 | — | **CROW.DEMO.1** / **CROW.REVIEW.1** | Demo seed · friend/tester checklist |

@@ -116,14 +116,10 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Owner accepted** standing no-cost mitigation · ALT2 fail-closed · DEVFLOW.4 gate/guard · **DEVFLOW.5** narrow escape hatch · **DEVFLOW.5A** Preview flags on FTGP · **DEVFLOW.5B** re-verify: Preview FTGP still has **no** `DATABASE_URL`/`DIRECT_URL` (CLI) · builds ERROR · E2E unverified · general Preview DB-disabled **unchanged** |
-| **Severity** | High (mitigation for GAP-004 under cost constraint) |
-| **Security/authority impact** | Fail-closed on unsafe Preview — **accepted**; demo feedback writes are demo-only + allowlisted |
-| **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode · DEVFLOW.4/5/5A/5B |
-| **Proposed milestone** | Resume **CROW.DEVFLOW.5B** after Preview FTGP DB URLs appear in Vercel · optional admin list · future isolation at commercialization |
-| **Owner decision required** | Add Preview-scoped `DATABASE_URL`/`DIRECT_URL` for Git Branch `feat/first-tenant-golden-path` on project `crow-ecosystem-platform` (Production already has them; Preview does not inherit) |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-5B.md`](milestones/CROW-DEVFLOW-5B.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) |
-| **Status** | **Accepted standing mitigation** — general DB fail-closed; feedback pilot opt-in; Preview E2E **blocked** (DB URL not on FTGP Preview) · Issue #16 stays open |
+| **Current state** | **Owner accepted** standing mitigation · DEVFLOW.5 escape hatch · **DEVFLOW.5B** Preview FTGP has alpha flags + `DATABASE_URL`/`DIRECT_URL` keys · Preview **READY** · demo feedback form works · Prisma write **auth fails** (invalid Preview credentials) · general Preview DB-disabled for non-allowlisted paths **unchanged** |
+| **Owner decision required** | Re-paste valid Preview FTGP `DATABASE_URL`/`DIRECT_URL` from known-good demo sandbox (do not edit Production); Redeploy; complete E2E |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-5B.md`](milestones/CROW-DEVFLOW-5B.md) |
+| **Status** | **Accepted standing mitigation** — Preview E2E **blocked** on invalid Preview DB credentials · Issue #16 stays open · GAP-004 remains future commercial gate |
 
 ## GAP-005 — First Tenant Golden Path completion
 

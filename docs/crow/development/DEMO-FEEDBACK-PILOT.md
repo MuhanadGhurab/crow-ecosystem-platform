@@ -54,8 +54,8 @@ Default (flags unset): form available; hosted write **blocked**.
 |------|--------|
 | Preview branch flags (`feat/first-tenant-golden-path`) | **Configured** |
 | Production env for those flags | **Unchanged** (not set) |
-| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Still absent** per Vercel CLI (5B verify) — builds fail `vercel-build-guard` |
-| End-to-end Preview submit + `PlatformNotification` verify | **Blocked** — owner must add Preview-scoped DB URLs on correct project/branch |
+| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Present** (names only) — values **invalid** (Prisma auth failed on write) |
+| End-to-end Preview submit + `PlatformNotification` verify | **Blocked** — fix Preview FTGP DB credentials, Redeploy, resubmit |
 
 See [`../milestones/CROW-DEVFLOW-5B.md`](../milestones/CROW-DEVFLOW-5B.md) for exact Vercel UI steps.
 

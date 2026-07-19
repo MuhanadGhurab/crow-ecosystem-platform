@@ -58,8 +58,8 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 |------|--------|
 | Preview flags (`CROW_RUNTIME_MODE`, `CROW_DATA_CLASSIFICATION`, `ALLOW_SHARED_DEMO_BACKEND`) on `feat/first-tenant-golden-path` | Done |
 | Production env for those flags | Unchanged |
-| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Still missing** (CLI verify 5B) — Preview build fails |
-| Submit + verify `alpha_demo_feedback` on Preview | **Blocked** — add DB URLs on correct Vercel project + branch |
+| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Present but invalid credentials** — Preview READY; form works; Prisma auth fails |
+| Submit + verify `alpha_demo_feedback` on Preview | **Blocked** — re-paste correct pooler/direct URLs on Preview FTGP |
 
 Exact owner steps: [`../milestones/CROW-DEVFLOW-5B.md`](../milestones/CROW-DEVFLOW-5B.md).
 
