@@ -45,6 +45,8 @@ export const routes = {
     requests: "/portal/requests",
     request: (id: string) => `/portal/requests/${id}`,
   },
+  /** CROW.DEVFLOW.5 — alpha demo feedback (public; hosted write fail-closed without flags). */
+  alphaFeedback: "/alpha-feedback",
   /** I3 — authenticated Client Portal skeleton (parallel to legacy /portal). */
   client: {
     home: "/client",

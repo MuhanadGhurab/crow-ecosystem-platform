@@ -3,12 +3,15 @@ import {
   getRuntimeSafetyNotice,
   shouldShowCrowAlphaRuntimeBanner,
 } from "@/lib/runtime/crow-runtime-mode";
+import Link from "next/link";
+import { routes } from "@/lib/routes";
 
 /**
  * CROW.DEVFLOW.2 — Visible Alpha Development / demo-data banner.
  *
  * Classification notice only. Does not enable hosted writes, Blueprint generation,
  * payment, or tenant go-live. Does not replace PreviewDbDisabledNotice.
+ * CROW.DEVFLOW.5 — link to demo feedback (hosted write still fail-closed without flags).
  */
 export function CrowAlphaRuntimeBanner({
   className,
@@ -32,6 +35,14 @@ export function CrowAlphaRuntimeBanner({
       <p className="mt-0.5 text-[11px] text-amber-200/75 sm:text-xs">
         Alpha Development · Demo/Test Data Only · Local-first Review · Not a commercial Production
         claim
+        {" · "}
+        <Link
+          href={routes.alphaFeedback}
+          className="underline decoration-amber-400/50 underline-offset-2 hover:text-amber-50"
+          data-crow-alpha-feedback-link="true"
+        >
+          Send demo feedback
+        </Link>
       </p>
       {notice !== CROW_ALPHA_RUNTIME_SAFETY_NOTICE ? (
         <p className="mt-1 text-[11px] text-amber-200/70">{notice}</p>

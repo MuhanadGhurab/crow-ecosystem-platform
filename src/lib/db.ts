@@ -2,6 +2,7 @@ import "@/lib/server-only-guard";
 
 import type { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
+import { registerAlphaDemoRawPrisma } from "@/lib/runtime/alpha-demo-db-access";
 import {
   assertPreviewDbAccessAllowed,
   isPreviewDbDisabledMode,
@@ -48,6 +49,8 @@ function guardPrismaClient(client: PrismaClient): PrismaClient {
 }
 
 const rawPrisma = globalForPrisma.prisma ?? createBaseClient();
+/** Register unguarded client for DEVFLOW.5 allowlisted alpha demo writes only. */
+registerAlphaDemoRawPrisma(rawPrisma);
 export const prisma = guardPrismaClient(rawPrisma);
 
 /** Interactive transactions require a direct/session DB connection (not PgBouncer transaction pooler). */

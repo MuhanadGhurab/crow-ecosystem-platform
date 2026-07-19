@@ -28,6 +28,7 @@ export const PUBLIC_BROWSE_PATHS = [
   "/register",
   "/legal",
   "/preview/public-home",
+  "/alpha-feedback",
 ] as const;
 
 /** First URL segment reserved so paths are not mistaken for tenant slugs. */
@@ -41,6 +42,7 @@ export const PUBLIC_RESERVED_SEGMENTS = [
   "preview",
   "experience",
   "story",
+  "alpha-feedback",
 ] as const;
 
 /** Prefixes for isPublicPath — includes legacy redirects still reachable. */
@@ -65,6 +67,7 @@ export const PUBLIC_PATH_PREFIXES = [
   "/access",
   "/auth-canary",
   "/experience",
+  "/alpha-feedback",
 ] as const;
 
 /** Client-process paths that require authentication (static policy check). */

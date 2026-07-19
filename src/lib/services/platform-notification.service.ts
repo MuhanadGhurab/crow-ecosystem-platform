@@ -4,6 +4,7 @@
  */
 
 import { prisma } from "@/lib/db";
+import { DEMO_FEEDBACK_EVENT_TYPE } from "@/lib/demo-feedback/demo-feedback-contract";
 import type { PlatformNotification, Prisma } from "@prisma/client";
 export {
   ADVISORY_SUBSCRIPTION_EVENT_TYPES,
@@ -75,6 +76,9 @@ const OPEN_INBOX = "open" as const;
 function buildWhere(filters: PlatformNotificationInboxFilters): Prisma.PlatformNotificationWhereInput {
   const where: Prisma.PlatformNotificationWhereInput = {};
   const and: Prisma.PlatformNotificationWhereInput[] = [];
+
+  // DEVFLOW.5 — keep alpha demo feedback out of the official ProCrow notification inbox.
+  and.push({ eventType: { not: DEMO_FEEDBACK_EVENT_TYPE } });
 
   if (filters.tenantId) {
     and.push({ metadata: { path: ["tenantId"], equals: filters.tenantId } });
