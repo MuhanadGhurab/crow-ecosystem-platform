@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Controlled Alpha Demo Feedback — hosted write pilot |
-| **Status** | CANONICAL — implemented (CROW.DEVFLOW.5); Preview E2E **blocked** (CROW.DEVFLOW.5A) |
-| **Authority** | Owner decision — CROW.DEVFLOW.5 / CROW.DEVFLOW.5A |
+| **Status** | CANONICAL — implemented (CROW.DEVFLOW.5); Preview E2E **still blocked** (CROW.DEVFLOW.5B) |
+| **Authority** | Owner decision — CROW.DEVFLOW.5 / 5A / 5B |
 | **Date** | 2026-07-19 |
-| **Milestone** | [`../milestones/CROW-DEVFLOW-5.md`](../milestones/CROW-DEVFLOW-5.md) · [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md) |
+| **Milestone** | [`../milestones/CROW-DEVFLOW-5.md`](../milestones/CROW-DEVFLOW-5.md) · [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md) · [`../milestones/CROW-DEVFLOW-5B.md`](../milestones/CROW-DEVFLOW-5B.md) |
 | **Guards** | [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) · DEVFLOW.4 gate/guard |
 
 ## Purpose
@@ -48,16 +48,16 @@ ALLOW_SHARED_DEMO_BACKEND=true
 
 Default (flags unset): form available; hosted write **blocked**.
 
-### Preview activation status (CROW.DEVFLOW.5A)
+### Preview activation status (CROW.DEVFLOW.5A → 5B)
 
 | Item | Status |
 |------|--------|
 | Preview branch flags (`feat/first-tenant-golden-path`) | **Configured** |
 | Production env for those flags | **Unchanged** (not set) |
-| Preview `DATABASE_URL` / `DIRECT_URL` | **Absent** — Preview builds fail `vercel-build-guard` |
-| End-to-end Preview submit + `PlatformNotification` verify | **Blocked** — needs owner-authorized Preview DB URL |
+| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Still absent** per Vercel CLI (5B verify) — builds fail `vercel-build-guard` |
+| End-to-end Preview submit + `PlatformNotification` verify | **Blocked** — owner must add Preview-scoped DB URLs on correct project/branch |
 
-See [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md) for exact Vercel UI steps.
+See [`../milestones/CROW-DEVFLOW-5B.md`](../milestones/CROW-DEVFLOW-5B.md) for exact Vercel UI steps.
 
 ## Non-claims
 

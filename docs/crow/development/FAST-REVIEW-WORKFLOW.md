@@ -52,16 +52,16 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 4. Re-preview
 5. Do **not** escalate to commercial Production gates casually
 
-### Preview feedback activation (CROW.DEVFLOW.5A)
+### Preview feedback activation (CROW.DEVFLOW.5B)
 
 | Step | Status |
 |------|--------|
 | Preview flags (`CROW_RUNTIME_MODE`, `CROW_DATA_CLASSIFICATION`, `ALLOW_SHARED_DEMO_BACKEND`) on `feat/first-tenant-golden-path` | Done |
 | Production env for those flags | Unchanged |
-| Preview `DATABASE_URL` / `DIRECT_URL` | **Missing** — Preview build fails before E2E |
-| Submit + verify `alpha_demo_feedback` on Preview | **Blocked** — owner must authorize Preview DB URL |
+| Preview `DATABASE_URL` / `DIRECT_URL` for FTGP | **Still missing** (CLI verify 5B) — Preview build fails |
+| Submit + verify `alpha_demo_feedback` on Preview | **Blocked** — add DB URLs on correct Vercel project + branch |
 
-Exact owner steps: [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md).
+Exact owner steps: [`../milestones/CROW-DEVFLOW-5B.md`](../milestones/CROW-DEVFLOW-5B.md).
 
 ## What this workflow does not authorize
 
@@ -79,6 +79,6 @@ Exact owner steps: [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFL
 
 ## Recommended next implementation milestone
 
-**CROW.DEVFLOW.5B** (or resume 5A) — owner-authorized Preview `DATABASE_URL` + E2E verify · then **CROW.DISCOVERY.TRACKS.1** or optional admin demo-feedback list.
+**Resume CROW.DEVFLOW.5B** after Preview FTGP `DATABASE_URL`/`DIRECT_URL` appear in Vercel · then **CROW.DISCOVERY.TRACKS.1** or optional admin demo-feedback list.
 
-**Done:** **CROW.DEVFLOW.5** (demo feedback pilot) · **CROW.DEVFLOW.5A** (Preview flags; E2E blocked on DB URL) · **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.3** (plan).
+**Done:** **CROW.DEVFLOW.5** (pilot) · **CROW.DEVFLOW.5A/5B** (Preview flags; E2E still blocked — DB URL not on FTGP Preview) · **CROW.DEVFLOW.4** · **CROW.DEVFLOW.2** · PORTABLE.1 · **CROW.DEVFLOW.3**.
