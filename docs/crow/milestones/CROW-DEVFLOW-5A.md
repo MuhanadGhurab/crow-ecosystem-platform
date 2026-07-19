@@ -6,7 +6,7 @@
 | **Date** | 2026-07-19 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `b96e27f` (CROW.DEVFLOW.5 tip) |
-| **Final HEAD** | _(docs commit on FTGP — pin after push)_ |
+| **Final HEAD** | `1ce063d` |
 | **Owner authorization** | CROW.DEVFLOW.5A — Preview-scoped demo flags + Preview verification only |
 | **Prior** | CROW.DEVFLOW.5 (demo feedback pilot implemented) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
