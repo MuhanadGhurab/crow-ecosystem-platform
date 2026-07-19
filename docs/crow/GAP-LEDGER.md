@@ -5,7 +5,7 @@
 | **Title** | Design–Implementation Gap Ledger |
 | **Status** | CANONICAL |
 | **Authority** | CROW.GOVERNANCE.1 reconciliation |
-| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5) |
+| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5A) |
 | **Supersedes** | — |
 | **Related decisions** | — |
 | **Implementation state** | Living document |
@@ -116,14 +116,14 @@
 |-------|-------|
 | **Domain** | Database / Operations / Preview safety |
 | **Intended state** | When `VERCEL_ENV=preview` and isolation unproven: no DB read/write, no migrations, no hosted business mutations; public/local-first UI only |
-| **Current state** | **Owner accepted** standing no-cost mitigation · ALT2 fail-closed · DEVFLOW.4 gate/guard · **DEVFLOW.5** narrow escape hatch for `demo_feedback_save` only when alpha demo backend enabled · general Preview DB-disabled **unchanged** |
+| **Current state** | **Owner accepted** standing no-cost mitigation · ALT2 fail-closed · DEVFLOW.4 gate/guard · **DEVFLOW.5** narrow escape hatch for `demo_feedback_save` · **DEVFLOW.5A** Preview flags set on FTGP · Preview still has **no** `DATABASE_URL` (builds fail; E2E unverified) · general Preview DB-disabled **unchanged** |
 | **Severity** | High (mitigation for GAP-004 under cost constraint) |
 | **Security/authority impact** | Fail-closed on unsafe Preview — **accepted**; demo feedback writes are demo-only + allowlisted |
-| **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode · DEVFLOW.4/5 |
-| **Proposed milestone** | Optional admin demo-feedback list · further allowlisted demo writes · future isolation at commercialization |
-| **Owner decision required** | Set Preview env flags to enable feedback writes; authorize further persistence slices separately |
-| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-5.md`](milestones/CROW-DEVFLOW-5.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) |
-| **Status** | **Accepted standing mitigation** — general DB fail-closed; feedback pilot opt-in · Issue #16 stays open |
+| **Dependency** | Owner acceptance 2026-07-18 · Alpha Mode · DEVFLOW.4/5/5A |
+| **Proposed milestone** | **CROW.DEVFLOW.5B** / resume 5A after Preview DB URL · optional admin list · future isolation at commercialization |
+| **Owner decision required** | Authorize Preview-scoped `DATABASE_URL`/`DIRECT_URL` (shared demo sandbox vs isolated Preview DB) so Preview builds and feedback E2E can complete |
+| **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) · [`milestones/CROW-DEVFLOW-5A.md`](milestones/CROW-DEVFLOW-5A.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) |
+| **Status** | **Accepted standing mitigation** — general DB fail-closed; feedback pilot opt-in; Preview E2E **blocked** on DB URL · Issue #16 stays open |
 
 ## GAP-005 — First Tenant Golden Path completion
 

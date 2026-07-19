@@ -5,7 +5,7 @@
 | **Title** | Crow Canonical Documentation Index |
 | **Status** | CANONICAL |
 | **Authority** | Owner decisions in CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5 — demo feedback hosted write pilot) |
+| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5A — Preview flags; E2E blocked) |
 | **Supersedes** | Informal doc sprawl as sole AI entry (see [`docs/internal/MILESTONES.md`](../internal/MILESTONES.md) for historical ledger) |
 | **Related decisions** | [`decisions/`](decisions/) |
 | **Implementation state** | Governance layer established; see [`CURRENT-STATE.md`](CURRENT-STATE.md) |
@@ -47,7 +47,7 @@
 | [`development/CURSOR-MULTI-DEVICE-GUIDE.md`](development/CURSOR-MULTI-DEVICE-GUIDE.md) | Cursor on desktop or laptop |
 | [`development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](development/CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) | Controlled Alpha Demo Backend Mode (gate/guard; feedback pilot wired) |
 | [`development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md`](development/ALPHA-DEMO-BACKEND-GUARD-PLAN.md) | Demo backend guard / phase plan |
-| [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) | Demo feedback hosted write pilot (DEVFLOW.5) |
+| [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) | Demo feedback hosted write pilot (DEVFLOW.5 / 5A) |
 | [`request/REQUEST-INTAKE-AUDIT.md`](request/REQUEST-INTAKE-AUDIT.md) | Client Request Intake current-state audit |
 | [`request/REQUEST-INTAKE-MVP-PLAN.md`](request/REQUEST-INTAKE-MVP-PLAN.md) | Client Request Intake MVP delivery plan |
 | [`procrow/PROCROW-QUALIFICATION-AUDIT.md`](procrow/PROCROW-QUALIFICATION-AUDIT.md) | ProCrow qualification outcome audit |
@@ -91,17 +91,17 @@
 
 ## Current milestone
 
-**CROW.DEVFLOW.5** — Controlled **demo feedback** hosted write pilot (migration-free `PlatformNotification`). Request/Discovery persistence still not wired.
+**CROW.DEVFLOW.5A** — Preview demo feedback activation: **flags configured** on FTGP Preview; **E2E blocked** (Preview `DATABASE_URL` absent → builds ERROR).
 
-Evidence: [`milestones/CROW-DEVFLOW-5.md`](milestones/CROW-DEVFLOW-5.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md) · `npm run demo-feedback-pilot:test`
+Evidence: [`milestones/CROW-DEVFLOW-5A.md`](milestones/CROW-DEVFLOW-5A.md) · [`milestones/CROW-DEVFLOW-5.md`](milestones/CROW-DEVFLOW-5.md) · [`development/DEMO-FEEDBACK-PILOT.md`](development/DEMO-FEEDBACK-PILOT.md)
 
-**Prior:** CROW.DEVFLOW.4 (gate/guard) · DEVFLOW.3 (plan) · …
+**Prior:** CROW.DEVFLOW.5 (pilot code) · DEVFLOW.4 (gate/guard) · …
 
-**Runtime class:** Alpha development + demo sandbox — gate/guard + feedback pilot · `ALLOW_SHARED_DEMO_BACKEND` opt-in for hosted write
+**Runtime class:** Alpha development + demo sandbox — FTGP Preview flags set · hosted write still unverified on Preview
 
-**Hold:** PR #10 archive · GAP-004A Preview fail-closed for general DB · no Request/Discovery hosted persistence · no Instant Promote · no official Blueprint / payment / tenant go-live
+**Hold:** PR #10 archive · GAP-004A Preview fail-closed for general DB · no Request/Discovery hosted persistence · no Instant Promote · no official Blueprint / payment / tenant go-live · no Production env change
 
-**Owner next:** Set Preview env flags to enable feedback writes · optional admin demo-feedback list · Discovery track unify · GAP-004 when commercializing
+**Owner next:** Authorize Preview `DATABASE_URL`/`DIRECT_URL` (see DEVFLOW.5A) · re-run E2E · then Discovery track unify or admin feedback list · GAP-004 when commercializing
 
 **Branch:** `feat/first-tenant-golden-path` · Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) OPEN · Issue [#18](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/18) OPEN
 

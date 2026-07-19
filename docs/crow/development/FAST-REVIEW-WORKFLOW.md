@@ -52,6 +52,17 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 4. Re-preview
 5. Do **not** escalate to commercial Production gates casually
 
+### Preview feedback activation (CROW.DEVFLOW.5A)
+
+| Step | Status |
+|------|--------|
+| Preview flags (`CROW_RUNTIME_MODE`, `CROW_DATA_CLASSIFICATION`, `ALLOW_SHARED_DEMO_BACKEND`) on `feat/first-tenant-golden-path` | Done |
+| Production env for those flags | Unchanged |
+| Preview `DATABASE_URL` / `DIRECT_URL` | **Missing** — Preview build fails before E2E |
+| Submit + verify `alpha_demo_feedback` on Preview | **Blocked** — owner must authorize Preview DB URL |
+
+Exact owner steps: [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md).
+
 ## What this workflow does not authorize
 
 - Merging PR #10
@@ -64,9 +75,10 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 - Migrations without separate owner authorization
 - Changing Vercel or GitHub protection settings without owner authorization
 - Request / Discovery hosted persistence (not part of DEVFLOW.5)
+- Copying Production DB URLs to Preview without explicit owner authorization
 
 ## Recommended next implementation milestone
 
-**CROW.DISCOVERY.TRACKS.1** or optional admin demo-feedback list.
+**CROW.DEVFLOW.5B** (or resume 5A) — owner-authorized Preview `DATABASE_URL` + E2E verify · then **CROW.DISCOVERY.TRACKS.1** or optional admin demo-feedback list.
 
-**Done:** **CROW.DEVFLOW.5** (demo feedback pilot) · **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.3** (plan).
+**Done:** **CROW.DEVFLOW.5** (demo feedback pilot) · **CROW.DEVFLOW.5A** (Preview flags; E2E blocked on DB URL) · **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.3** (plan).

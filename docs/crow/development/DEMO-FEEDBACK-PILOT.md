@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Controlled Alpha Demo Feedback — hosted write pilot |
-| **Status** | CANONICAL — implemented (CROW.DEVFLOW.5) |
-| **Authority** | Owner decision — CROW.DEVFLOW.5 |
+| **Status** | CANONICAL — implemented (CROW.DEVFLOW.5); Preview E2E **blocked** (CROW.DEVFLOW.5A) |
+| **Authority** | Owner decision — CROW.DEVFLOW.5 / CROW.DEVFLOW.5A |
 | **Date** | 2026-07-19 |
-| **Milestone** | [`../milestones/CROW-DEVFLOW-5.md`](../milestones/CROW-DEVFLOW-5.md) |
+| **Milestone** | [`../milestones/CROW-DEVFLOW-5.md`](../milestones/CROW-DEVFLOW-5.md) · [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md) |
 | **Guards** | [`CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md`](CONTROLLED-ALPHA-DEMO-BACKEND-MODE.md) · DEVFLOW.4 gate/guard |
 
 ## Purpose
@@ -47,6 +47,17 @@ ALLOW_SHARED_DEMO_BACKEND=true
 ```
 
 Default (flags unset): form available; hosted write **blocked**.
+
+### Preview activation status (CROW.DEVFLOW.5A)
+
+| Item | Status |
+|------|--------|
+| Preview branch flags (`feat/first-tenant-golden-path`) | **Configured** |
+| Production env for those flags | **Unchanged** (not set) |
+| Preview `DATABASE_URL` / `DIRECT_URL` | **Absent** — Preview builds fail `vercel-build-guard` |
+| End-to-end Preview submit + `PlatformNotification` verify | **Blocked** — needs owner-authorized Preview DB URL |
+
+See [`../milestones/CROW-DEVFLOW-5A.md`](../milestones/CROW-DEVFLOW-5A.md) for exact Vercel UI steps.
 
 ## Non-claims
 
