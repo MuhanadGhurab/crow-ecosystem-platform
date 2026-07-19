@@ -6,7 +6,7 @@
 | **Date** | 2026-07-19 |
 | **Branch** | `feat/first-tenant-golden-path` |
 | **Starting HEAD** | `e9ca4ff` (CROW.DEVFLOW.4 tip) |
-| **Final HEAD** | _(pin after docs)_ |
+| **Final HEAD** | `29f13da` |
 | **Owner decision** | Implement first controlled alpha demo hosted write — **demo feedback only** |
 | **Prior** | CROW.DEVFLOW.4 (runtime gate + write guard) |
 | **Tracking** | Issue [#16](https://github.com/MuhanadGhurab/crow-ecosystem-platform/issues/16) |
