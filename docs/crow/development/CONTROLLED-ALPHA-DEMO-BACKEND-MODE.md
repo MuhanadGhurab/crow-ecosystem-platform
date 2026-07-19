@@ -67,28 +67,29 @@ Demo backend writes may be allowed **only when all** of the following hold:
 
 **If any condition is missing → fail closed** (no demo write).
 
-Default today (GAP-004A): Preview DB-disabled remains fail-closed for Prisma/DB access. The DEVFLOW.4 gate/guard does **not** open DB connections; future persistence slices must still respect Preview DB-disabled unless separately authorized.
+Default today (GAP-004A): Preview DB-disabled remains fail-closed for general Prisma/DB access. DEVFLOW.5 adds a **narrow** escape hatch for `demo_feedback_save` only after the write guard passes.
 
-### Implemented helpers (CROW.DEVFLOW.4)
+### Implemented helpers (CROW.DEVFLOW.4–5)
 
 | Module | API |
 |--------|-----|
-| `src/lib/runtime/alpha-demo-backend-mode.ts` | `getAlphaDemoBackendModeStatus` · `isAlphaDemoBackendModeEnabled` · `evaluateAlphaDemoBackendMode` |
-| `src/lib/runtime/alpha-demo-write-guard.ts` | `evaluateAlphaDemoWriteGuard` · `assertAlphaDemoWriteAllowed` · allowlist types |
-| Tests | `npm run alpha-demo-backend-guard:test` |
+| `src/lib/runtime/alpha-demo-backend-mode.ts` | Runtime gate |
+| `src/lib/runtime/alpha-demo-write-guard.ts` | Allowlist + markers |
+| `src/lib/runtime/alpha-demo-db-access.ts` | Narrow Prisma escape (`demo_feedback_save` only) |
+| `src/lib/services/demo-feedback.service.ts` | Guarded demo feedback persist |
+| Tests | `alpha-demo-backend-guard:test` · `demo-feedback-pilot:test` |
 
-## Allowed demo actions (typed allowlist — no handlers yet)
+## Allowed demo actions (typed allowlist)
 
 All must be clearly demo/test:
 
-| Action | Notes |
-|--------|-------|
-| Create fake demo request | Fake org / journey labels only |
-| Save demo Discovery draft | Answers / local-first migration to hosted demo draft |
-| Update demo Discovery answer | Same request · demo markers required |
-| Save demo ProCrow note | Operator notes · demo only |
-| Save demo feedback | Friend/tester feedback records |
-| Create demo-only review package | Inert handoff / modeling package — **not** official Blueprint |
+| Action | Status |
+|--------|--------|
+| `demo_feedback_save` | **Implemented** (DEVFLOW.5) |
+| `demo_request_create` | Allowlisted only — not wired |
+| `demo_discovery_draft_save` / `demo_discovery_answer_save` | Allowlisted only — not wired |
+| `demo_procrow_note_save` | Allowlisted only — not wired |
+| `demo_review_package_create` | Allowlisted only — not wired |
 
 ## Forbidden actions (always)
 
@@ -154,16 +155,19 @@ Coexists with:
 | Gap | Effect of this plan |
 |-----|---------------------|
 | GAP-004 | Still **future commercial gate** — demo backend ≠ isolation proven |
-| GAP-004A | Default fail-closed for DB access remains; DEVFLOW.4 gate/guard is pure evaluation only |
+| GAP-004A | Default fail-closed for general DB; DEVFLOW.5 narrow escape for demo feedback only when flags set |
 
-## Counters (post DEVFLOW.4)
+## Counters (post DEVFLOW.5)
 
 ```
 CONTROLLED_ALPHA_DEMO_BACKEND_PLAN_COUNT=1
 ALPHA_DEMO_BACKEND_RUNTIME_GATE_IMPLEMENTED_COUNT=1
 DEMO_WRITE_GUARD_IMPLEMENTED_COUNT=1
+DEMO_FEEDBACK_HOSTED_WRITE_IMPLEMENTED_COUNT=1
+DEMO_ONLY_HOSTED_WRITE_COUNT=1
 ALPHA_DEMO_BACKEND_DOMAIN_PERSISTENCE_WIRED_COUNT=0
-ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0
+REQUEST_PERSISTENCE_ENABLED_BY_DEVFLOW5_COUNT=0
+DISCOVERY_PERSISTENCE_ENABLED_BY_DEVFLOW5_COUNT=0
 HOSTED_BUSINESS_WRITE_COUNT=0
 REAL_CUSTOMER_DATA_ALLOWED_COUNT=0
 BLUEPRINT_GENERATION_ALLOWED_COUNT=0

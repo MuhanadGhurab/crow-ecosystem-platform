@@ -46,7 +46,7 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 
 ## Feedback loop
 
-1. Capture tester notes (recommend future checklist: CROW.REVIEW.1)
+1. Use `/alpha-feedback` (or banner link) for demo/test notes when Preview has alpha demo backend flags set — see [`DEMO-FEEDBACK-PILOT.md`](DEMO-FEEDBACK-PILOT.md)
 2. Convert into a scoped milestone (one domain when possible)
 3. Implement on feature branch
 4. Re-preview
@@ -56,16 +56,17 @@ Move fast during Crow Alpha Development Mode without pretending the system is co
 
 - Merging PR #10
 - Official Production deploy / Instant Promote / domain change
-- Hosted persistence **claim** as production-safe
+- Hosted persistence **claim** as production-safe (GAP-004 still open)
 - Real customer data
 - Payment enablement
 - Tenant go-live
 - Official Blueprint generation
 - Migrations without separate owner authorization
 - Changing Vercel or GitHub protection settings without owner authorization
+- Request / Discovery hosted persistence (not part of DEVFLOW.5)
 
 ## Recommended next implementation milestone
 
-**CROW.DEVFLOW.4** — Alpha demo backend runtime gate + demo-write guard (no domain persistence yet).
+**CROW.DISCOVERY.TRACKS.1** or optional admin demo-feedback list.
 
-**Done:** **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** (multi-device) · **CROW.DEVFLOW.3** (demo backend **plan**).
+**Done:** **CROW.DEVFLOW.5** (demo feedback pilot) · **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.2** (banner) · **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.3** (plan).

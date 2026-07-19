@@ -305,7 +305,9 @@ Public request handoff · signup/login · verification boundaries · client requ
 
 **CROW.DEVFLOW.3 (plan):** Controlled Alpha Demo Backend Mode — see [`milestones/CROW-DEVFLOW-3.md`](milestones/CROW-DEVFLOW-3.md).
 
-**CROW.DEVFLOW.4 (build):** Alpha demo backend runtime gate + demo-write guard — see [`milestones/CROW-DEVFLOW-4.md`](milestones/CROW-DEVFLOW-4.md). `npm run alpha-demo-backend-guard:test`. Persistence **not** wired (`ALPHA_DEMO_BACKEND_DOMAIN_PERSISTENCE_WIRED_COUNT=0`).
+**CROW.DEVFLOW.4 (build):** Alpha demo backend runtime gate + demo-write guard — see [`milestones/CROW-DEVFLOW-4.md`](milestones/CROW-DEVFLOW-4.md).
+
+**CROW.DEVFLOW.5 (build):** Controlled demo feedback hosted write pilot — see [`milestones/CROW-DEVFLOW-5.md`](milestones/CROW-DEVFLOW-5.md). `npm run demo-feedback-pilot:test`. Migration-free `PlatformNotification`.
 
 **CROW.DISCOVERY.MVP-CERT.1 (cert package):** Superseded for acceptance status by LOCAL-FIRST.ACCEPT.1 — see [`milestones/CROW-DISCOVERY-MVP-CERT-1.md`](milestones/CROW-DISCOVERY-MVP-CERT-1.md).
 
@@ -353,15 +355,16 @@ Public architecture summaries · demo-safe screenshots · interview walkthroughs
 
 | Order | Milestone | Intent |
 |-------|-----------|--------|
-| 1 | **CROW.DEVFLOW.5** / demo persistence slice | Wire limited allowlisted demo writes behind DEVFLOW.4 guard — **recommended immediate next** |
-| 2 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) |
+| 1 | **CROW.DISCOVERY.TRACKS.1** | Client/operator track unification (local-first) — **recommended immediate next** |
+| 2 | Optional admin demo-feedback list | Read-only operator view for `alpha_demo_feedback` |
 | 3 | **CROW.DEMO.1** / **CROW.REVIEW.1** | Demo seed · friend/tester checklist |
-| — | **GAP-004 isolation** | Future commercialization — not required to continue alpha/demo |
+| — | Further demo persistence | Request/Discovery behind same guards (owner-gated) |
+| — | **GAP-004 isolation** | Future commercialization |
 | — | **Production deploy (when needed)** | Separate `CROW.PRODUCTION.DEPLOY` |
 
 **PR #10 policy (owner accepted CROW.PR10.2):** draft archive only — extract slices; never merge as monolith. See [`pr10/PR10-ARCHIVE-AND-SLICE-RULE.md`](pr10/PR10-ARCHIVE-AND-SLICE-RULE.md).
 
-**Completed recently:** **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.3** (plan) · **CROW.DEVFLOW.PORTABLE.1** · **CROW.DEVFLOW.2** · **CROW.DEVFLOW.1** · CROW.DISCOVERY.LOCAL-FIRST.ACCEPT.1 · CROW.DISCOVERY.7 · CROW.GAP004A.ACCEPT.1 · **CROW.GAP015.ACCEPT.1**
+**Completed recently:** **CROW.DEVFLOW.5** (feedback pilot) · **CROW.DEVFLOW.4** (gate/guard) · **CROW.DEVFLOW.3** (plan) · PORTABLE.1 · DEVFLOW.2 · DEVFLOW.1 · LOCAL-FIRST.ACCEPT.1 · …
 
 **Parallel Kanban:** portfolio proof packaging, docs hygiene, security fixes — never substitute for Phase 0 safety.
 

@@ -5,7 +5,7 @@
 | **Title** | Current Implementation State |
 | **Status** | CANONICAL |
 | **Authority** | Verified repository evidence — CROW.GOVERNANCE.1 |
-| **Last reviewed** | 2026-07-18 (CROW.DEVFLOW.4 — Alpha Demo Backend gate + write guard) |
+| **Last reviewed** | 2026-07-19 (CROW.DEVFLOW.5 — demo feedback hosted write pilot) |
 | **Supersedes** | Percentage claims in [`MILESTONES.md`](../internal/MILESTONES.md) as implementation truth |
 | **Related decisions** | — |
 | **Implementation state** | This document **is** implementation truth |
@@ -18,14 +18,14 @@
 |------|-------|
 | Repository | `D:/CYBERCROW` / `MuhanadGhurab/crow-ecosystem-platform` |
 | Branch | `feat/first-tenant-golden-path` |
-| HEAD | FTGP tip · **CROW.DEVFLOW.4** (runtime gate + demo-write guard; persistence **not** wired) · DEVFLOW.3 plan · PORTABLE.1 · DEVFLOW.2 banner · Alpha Mode · Discovery D0–D7 accepted · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
-| Runtime class | **Alpha development + demo sandbox** — portable via GitHub; gate/guard ready; `ALPHA_DEMO_BACKEND_ENABLED_IN_APP_COUNT=0` |
+| HEAD | FTGP tip · **CROW.DEVFLOW.5** (demo feedback hosted write pilot) · DEVFLOW.4 gate/guard · Alpha Mode · Discovery D0–D7 accepted · GAP-015 **Mitigated** · `main` @ `f97a835` protected |
+| Runtime class | **Alpha development + demo sandbox** — feedback pilot behind `ALLOW_SHARED_DEMO_BACKEND`; Request/Discovery persistence still off |
 | Default branch | `main` at `f97a835` (protected; PR #25 guard-on-main) |
 | Production live | `dpl_QeDhnxzp9eowKNxAg5XmJW8vuhsz` — **not** a commercial Production claim under Alpha Mode |
 | GitHub Project | [Crow Ecosystem Delivery OS](https://github.com/users/MuhanadGhurab/projects/2) (#2 private) |
 | Seed Issues | #15–#24 · #15 GAP-015 (**Mitigated**) · #16 GAP-004 (**future commercial gate**; Alpha Mode recorded) · #18 Discovery (**local-first accepted**; OPEN) |
 | PR #10 | OPEN, DRAFT, CONFLICTING — **draft archive (owner accepted)**; not a merge vehicle |
-| Working tree | Post CROW.DEVFLOW.4 |
+| Working tree | Post CROW.DEVFLOW.5 |
 
 ## Stack
 
@@ -89,7 +89,8 @@
 | CERT PACKAGE | MVP-CERT.1 superseded by LOCAL-FIRST.ACCEPT.1 for acceptance status |
 | IMPLEMENTED | Blueprint **complete path quarantined** by default |
 | BLOCKED | Production-safe hosted Discovery persistence (GAP-004 commercial gate); Blueprint generation / `completeDiscovery` |
-| PENDING | Dual client tracks; optional alpha demo persistence (after DEVFLOW.4 guard; owner-gated); Blueprint drafting |
+| PENDING | Dual client tracks; optional further demo persistence (request/discovery); Blueprint drafting |
+| IMPLEMENTED | **CROW.DEVFLOW.5** — guarded demo feedback → `PlatformNotification` (`alpha_demo_feedback`); UI `/alpha-feedback` |
 | Evidence | [`milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md`](milestones/CROW-DISCOVERY-LOCAL-FIRST-ACCEPT-1.md), [`milestones/CROW-DEVFLOW-1.md`](milestones/CROW-DEVFLOW-1.md), Issue #18 |
 
 ### Blueprint — PARTIAL
