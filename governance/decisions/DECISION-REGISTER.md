@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.2.0 |
+| **Version** | 1.3.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
-| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) · [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.LEARNING.1A |
+| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](../../product/learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
 
@@ -634,3 +634,62 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
 | **Evidence** | product/interactions · product/wireframes |
+
+## DEC-052 — Learning research source hierarchy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Six-tier source hierarchy (frameworks → tech docs → Saudi strategic → employment patterns → professional/academic → community supplementary) governs Route research |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+| **Evidence** | [LEARNING-RESEARCH-METHODOLOGY.md](../../product/learning/research/LEARNING-RESEARCH-METHODOLOGY.md) |
+
+## DEC-053 — Research freshness model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Stable 18–24mo; slow practice 12mo; fast tech 3–6mo; regulatory on edition change — content-governance baselines, not legal commitments |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+
+## DEC-054 — Route candidate + scorecard standards
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Candidate records and 100-point scorecard are mandatory before recommendation; scores inform but do not auto-select |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+| **Evidence** | ROUTE-CANDIDATE-REGISTER · ROUTE-SELECTION-SCORECARD |
+
+## DEC-055 — Portfolio-size and Evidence-first selection
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Launch target 4–6 Routes + 1 CW + 1 SE (+ Nest); Evidence feasibility required; vendor certs are reference only |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+
+## DEC-056 — Vendor-neutral foundation + Arabic-first feasibility
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Foundations remain vendor-neutral; Arabic-first feasibility required per shortlisted Route; English technical terms allowed contextually |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+
+## DEC-057 — Cross-Wing and Secure Extension research thresholds
+
+| Field | Value |
+|-------|-------|
+| **Decision** | ≥5 CW and ≥5 SE candidates researched before recommending one each; SE extends a real capability and is not a full PROTECT Route |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+
+## DEC-058 — No final Route lock in LEARNING.1A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 1A may recommend only (RECOMMENDED — NOT YET LOCKED). Final Route lock deferred to GHV.LEARNING.1D |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1A |
+| **Evidence** | [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](../../product/learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |

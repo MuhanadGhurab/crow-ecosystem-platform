@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED AT CAPABILITY + WIREFRAME LEVEL — GHV.PRODUCT-DEFINITION.3 |
-| **Version** | 1.2.0 |
+| **Status** | REVIEWED — GHV.LEARNING.1A (learning research links) |
+| **Version** | 1.3.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
-| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [CRITICAL-FLOWS.md](./interactions/CRITICAL-FLOWS.md) |
+| **Source Gate** | GHV.LEARNING.1A |
+| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |
 
 ## Traceability chain
 
@@ -18,34 +18,34 @@ Product Pillar
 → Screen or State
 → Wireframe
 → Capability
+→ Learning research / Route candidate
 → Domain
 → Requirement
 → Test
 → Evidence
 ```
 
-PD.3 populates through **Wireframe**. Engineering tests remain TBD.
+## Learning research links (1A)
 
-## CONTROLLED LAUNCH → Wireframe mapping (summary)
+| Capability / theme | Research artifact | Status |
+|--------------------|-------------------|--------|
+| Nest | [NEST-DEPENDENCY-MAP.md](./learning/nest/NEST-DEPENDENCY-MAP.md) | Mapped |
+| Horizons | Role matrix + candidates | Covered |
+| Route selection | Portfolio recommendation + scorecard | RECOMMENDED — NOT YET LOCKED |
+| Cross-Wing | [LAUNCH-CROSS-WING-STUDY.md](./learning/cross-wing/LAUNCH-CROSS-WING-STUDY.md) | CXW-001 recommended |
+| Secure Extensions | [LAUNCH-SECURE-EXTENSION-STUDY.md](./learning/secure-extensions/LAUNCH-SECURE-EXTENSION-STUDY.md) | SEX-001 recommended |
+| Missions / Evidence / Capstones | Evidence matrix + capstone concepts | Conceptual |
+| Content lifecycle | [CONTENT-FRESHNESS-AND-LIFECYCLE.md](./learning/content/CONTENT-FRESHNESS-AND-LIFECYCLE.md) | Defined |
+| Expert review | Dependency DEP-027 | Planned |
 
-| Capability group | Screens | Wireframe pack | Critical flows |
-|------------------|---------|----------------|----------------|
-| CAP-ONB-* | PUB/ACT/IDN/ONB | public, activation, identity, onboarding | FLOW-001 |
-| CAP-LRN-* | LRN/WLD | learning, core/world | FLOW-002/003 |
-| CAP-PRG-* | PRG | progression | FLOW-002 |
-| CAP-EBUX-* | SKY | core + Skyboard variants | FLOW-006/007 |
-| CAP-SOC-* | COM/LIV | community, live | FLOW-009–012 |
-| CAP-PAY-* | PAY | commercial | FLOW-004/005/013/014 |
-| CAP-TRU-* | TRU/IDN-005 | account | FLOW-015/016 |
-
-Every controlled-launch user-facing Capability maps to ≥1 Pillar, user type, journey, screen family, and wireframe (or family). See Capability Registry + Wireframe Registry for IDs.
+Scope Baseline §3.8 unchanged. No silent Scope modification.
 
 ## Gaps intentionally open
 
 | Item | Status |
 |------|--------|
-| Exact Route names | PENDING GHV.LEARNING.1 |
+| Exact Route lock | PENDING GHV.LEARNING.1D |
+| Stage/Mission design | PENDING GHV.LEARNING.1B / 1C |
 | Progression formulas | PENDING GHV.PROGRESSION.1 |
-| Payment provider | PENDING TECHNICAL VALIDATION |
-| Usability tests | PLANNED — NOT RUN |
-| Detailed engineering tests | Deferred to implementation Gates |
+| Usability tests | NOT RUN |
+| Product Code | BLOCKED |

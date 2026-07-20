@@ -6,7 +6,7 @@
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Source Gate** | GHV.LEARNING.1A |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -134,5 +134,22 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-UX-007 | Live Sky information leakage | H | H | H | Spectator UI | Participant/spectator separation | Spectate-only until fixed | Founder | Open | Live | LIV |
 | RISK-UX-008 | Untested wireframe assumptions | H | M | H | No sessions yet | Usability plan NOT RUN | Do not start Product Code UI waves | Founder | Open | Usability | RES |
 | RISK-UX-009 | Wireframes drifting beyond Scope | M | H | H | Designer invent | Registry Scope column; impact model | Reject out-of-Scope WF | Founder | Open | Continuous | GOV |
+| RISK-LRN-001 | Routes selected from trends not capability | H | H | H | Hype | Methodology + scorecard + sources | Defer Route | Founder | Open | 1B–1D | LRN |
+| RISK-LRN-002 | Curriculum obsolescence | H | H | H | Fast tech | Freshness lifecycle | Urgent update triggers | Founder | Open | Continuous | CONTENT |
+| RISK-LRN-003 | Excessive vendor dependence | M | H | H | Cloud labs | Vendor-neutral foundations | Swap vendor illustrations | Founder | Open | 1B | OPR/BLD |
+| RISK-LRN-004 | Too many launch Routes | H | H | H | Ambition | Portfolio size rule + WIP | Drop optional ANL | Founder | Open | 1D | PORT |
+| RISK-LRN-005 | Weak Evidence quality | H | H | H | Passive video | Evidence-first selection | Redesign Missions | Founder | Open | 1C | EVID |
+| RISK-LRN-006 | Inaccessible / costly labs | M | H | H | Specialized ranges | Prefer browser/local/container | Cut lab-heavy Routes | Founder | Open | Tech | LAB |
+| RISK-LRN-007 | Arabic content lag | H | M | H | Bilingual load | Arabic feasibility assessments | Prioritize LEAD/Nest Arabic | Founder | Open | Loc | AR |
+| RISK-LRN-008 | Incorrect prerequisites | M | H | H | Graph errors | Nest map + 1B graph | Remediation edges | Founder | Open | 1B | GRAPH |
+| RISK-LRN-009 | Duplicate / superficial CW or SE | M | M | M | Checklist fill | ≥5 candidates + definition tests | Reject weak CXW/SEX | Founder | Open | 1D | CW/SE |
+| RISK-LRN-010 | Misleading career promises | H | H | H | Marketing drift | Role/title boundaries | Remove claims | Founder | Open | Continuous | GOV |
+| RISK-LRN-011 | AI content inaccuracy / integrity | H | H | H | GenAI drafts | Expert review + Evidence integrity | Human gate | Founder | Open | 1C | EVID |
+| RISK-LRN-012 | Expert reviewer unavailable | M | H | H | Capacity | Identify SMEs early | Narrow portfolio | Founder | Open | 1B | DEP |
+| RISK-LRN-013 | Content-maintenance overload | H | H | H | Small team | Freshness classes + WIP | Freeze fast-change depth | Founder | Open | Continuous | CONTENT |
+| RISK-LRN-014 | Unsafe cyber laboratories | H | H | H | Offensive labs | Defensive scenarios only | Ban live attack labs | Founder | Open | 1C | PRT |
+| RISK-LRN-015 | Assessment integrity weakness | H | H | H | Copy/AI | Evidence matrix risks | Human review | Founder | Open | 1C | EVID |
+| RISK-LRN-016 | Excessive beginner difficulty | M | H | H | Advanced first | Nest + accessibility scores | Micro-Missions | Founder | Open | Usability | NEST |
+| RISK-LRN-017 | Fragmented learning journey | M | M | M | Siloed Horizons | Graph Bridges + CW | Coherence review 1B | Founder | Open | 1B | GRAPH |
 
 **Contingency owners** default to Founder until roles are staffed.

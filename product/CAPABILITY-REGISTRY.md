@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · reviewed GHV.PRODUCT-DEFINITION.3 |
-| **Version** | 1.2.0 |
+| **Status** | LOCKED inventory · reviewed GHV.LEARNING.1A |
+| **Version** | 1.3.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [SCOPE-TRACEABILITY-MATRIX.md](./SCOPE-TRACEABILITY-MATRIX.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [CRITICAL-FLOWS.md](./interactions/CRITICAL-FLOWS.md) |
+| **Source Gate** | GHV.LEARNING.1A |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -56,7 +56,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-LRN-006 | Cross-Wing | Learning | CONTROLLED LAUNCH | Learning | LRN | Defined | Atlas; LEARNING.1 | Founder | Learning |
 | CAP-LRN-007 | Secure Extensions | Trust/Learning | CONTROLLED LAUNCH | Learning | LRN | Defined | Atlas | Founder | Learning |
 | CAP-LRN-008 | Content lifecycle | Learning | CORE FOUNDATION | Ops | ADM | Defined | Admin | Founder | Ops |
-| CAP-LRN-009 | Launch catalogue selection | Learning | PENDING TECHNICAL VALIDATION | Route | WLD | Defined | GHV.LEARNING.1 | Founder | Learning |
+| CAP-LRN-009 | Launch catalogue selection | Learning | PENDING TECHNICAL VALIDATION | Route | WLD | Defined | GHV.LEARNING.1A researched; lock in 1D | Founder | Learning |
 
 ## Progression
 
@@ -141,3 +141,4 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - CAP-TRU-014 tracks Preview DB gap without implying Product Code.
 - Breadth / Prestige / Titles: CONTROLLED LAUNCH surface · POST-LAUNCH PLANNED depth (no custom Scope vocabulary).
 - PD.3: Controlled-launch user-facing Capabilities map to wireframe families via [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) and flows in [CRITICAL-FLOWS.md](./interactions/CRITICAL-FLOWS.md).
+- LEARNING.1A: Nest, Horizons, Route selection research, Cross-Wing, Secure Extensions, Evidence, capstones, content lifecycle → [product/learning/](./learning/README.md). Catalogue **RECOMMENDED — NOT YET LOCKED**.

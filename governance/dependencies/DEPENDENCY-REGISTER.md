@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.2.0 |
+| **Version** | 1.3.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Source Gate** | GHV.LEARNING.1A |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -19,8 +19,16 @@
 | DEP-007 | VAT / e-invoicing setup | External | Blocked | Invoicing legality | Accountant TBD | Manual billing only | PAY invoices |
 | DEP-008 | Learning content production | Organizational | Planned | Nest + launch Routes | Founder + SMEs TBD | Thin catalogue | Learning launch |
 | DEP-009 | Pre-push Vercel verification | Infrastructure | **Satisfied (1B)** | Branch published with deploy guard | Founder | — | Branch publish |
-| DEP-010 | Capability Atlas for Cross-Wing / Secure Extension | Product | Planned | One of each for launch | GHV.LEARNING.1 | Drop from MLGW | LRN Cross-Wing/SE |
-| DEP-011 | Learning design Gate (GHV.LEARNING.1) | Product | Planned | Route catalogue + Nest content architecture | Founder | Cannot lock Routes | Launch catalogue |
+| DEP-010 | Capability Atlas for Cross-Wing / Secure Extension | Product | **In progress (1A recommend)** | CXW-001 + SEX-001 recommended; Atlas detail in 1B | Founder | Drop from MLGW | LRN Cross-Wing/SE |
+| DEP-011 | Learning design Gate (GHV.LEARNING.1) | Product | **In progress (1A done)** | Subgates 1B–1D remain | Founder | Cannot lock Routes | Launch catalogue |
+| DEP-022 | LEARNING.1B Route architecture + graph | Product | Planned | Stages, edges, Nest Missions | Founder | Weak coherence | Lock path to 1D |
+| DEP-023 | LEARNING.1C Mission/Evidence/Capstone blueprints | Product | Planned | Mission catalogues | Founder | Thin Evidence | Capstones |
+| DEP-024 | LEARNING.1D final portfolio lock | Product | Planned | Lock working names | Founder | Ambiguous catalogue | CAP-LRN-009 |
+| DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
+| DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
+| DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |
+| DEP-028 | IP review of learning materials | External | Planned | Avoid proprietary copy | Counsel TBD | Rewrite sources | Content |
+| DEP-029 | Arabic localization for Nest + P0 Routes | Organizational | Planned | Terminology packs | Founder + linguists | English-heavy UX | Launch |
 | DEP-012 | Progression Gate (GHV.PROGRESSION.1) | Product | Planned | Formulas for XP/Momentum/Mastery/Merit criteria | Founder | Shallow progression UX | Progression depth |
 | DEP-013 | Identity Spike | Technical | Planned | Passkeys + IdP candidate | Engineering TBD | Weak auth | A2 |
 | DEP-014 | Billing Spike | Technical | Planned | Provider + recurring | Engineering TBD | No paid plans | Commercial |

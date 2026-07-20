@@ -55,6 +55,9 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Vision 2030 alignment | [VISION-2030-ALIGNMENT.md](../vision-2030/VISION-2030-ALIGNMENT.md) | Non-endorsement |
 | Vercel pre-push evidence | [VERCEL-PRE-PUSH-VERIFICATION.md](../../docs/operations/VERCEL-PRE-PUSH-VERIFICATION.md) | — |
 | Usability plan | [USABILITY-VALIDATION-PLAN.md](../../product/research/USABILITY-VALIDATION-PLAN.md) | NOT RUN |
+| Learning research method | [LEARNING-RESEARCH-METHODOLOGY.md](../../product/learning/research/LEARNING-RESEARCH-METHODOLOGY.md) | — |
+| Launch Route portfolio | [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](../../product/learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) | NOT LOCKED until 1D |
+| Research sources | [RESEARCH-SOURCE-REGISTER.md](../../product/learning/research/RESEARCH-SOURCE-REGISTER.md) | — |
 
 ## Intentional summaries
 

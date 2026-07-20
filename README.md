@@ -9,7 +9,7 @@
 | **Current stage** | Product Foundation and Governance |
 | **Development status** | PRODUCT CODE BLOCKED |
 | **Official working branch** | `feat/ghuravia-foundation` (deploy guard active) |
-| **Current Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Current Gate** | GHV.LEARNING.1A |
 
 ## Status board
 
