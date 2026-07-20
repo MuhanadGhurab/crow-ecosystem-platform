@@ -2,44 +2,41 @@
 
 | Field | Value |
 |-------|-------|
-| **Project** | GHURAVIA |
+| **Product** | GHURAVIA — غُرافيا |
 | **Founder** | Muhanad Haitham Fouad Ghurab |
-| **Founder identity** | RAVEN |
+| **Founder identity** | RAVEN — Responsive Adaptive Virtual Education Navigator |
+| **Management method** | RAVEN DEVFLOW — Adaptive Hybrid Product Development |
 | **Current stage** | Product Foundation and Governance |
-| **Development status** | Product Code Blocked |
-| **Official working branch** | `feat/ghuravia-foundation` |
-| **Gate** | GHV.REPOSITORY-TRANSITION.1A |
+| **Development status** | PRODUCT CODE BLOCKED |
+| **Official working branch** | `feat/ghuravia-foundation` (local until pre-push verification) |
+| **Current Gate** | GHV.FOUNDATION.1A |
 
-## Status
+## Status board
 
-See **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** for the live gate and verdict board.
+See **[PROJECT_STATUS.md](./PROJECT_STATUS.md)**.
 
-## Repository transition note
+## Authoritative baselines
 
-This Git working tree is preparing the GHURAVIA product foundation.
+| Document | Path |
+|----------|------|
+| Product Constitution | [governance/constitution/PRODUCT-CONSTITUTION.md](./governance/constitution/PRODUCT-CONSTITUTION.md) |
+| Scope Baseline | [governance/scope/SCOPE-BASELINE.md](./governance/scope/SCOPE-BASELINE.md) |
+| Master User Journey | [product/journeys/MASTER-USER-JOURNEY.md](./product/journeys/MASTER-USER-JOURNEY.md) |
+| Master Screen Registry | [product/screens/MASTER-SCREEN-REGISTRY.md](./product/screens/MASTER-SCREEN-REGISTRY.md) |
+| Capability Registry | [product/CAPABILITY-REGISTRY.md](./product/CAPABILITY-REGISTRY.md) |
+| Decision Register | [governance/decisions/DECISION-REGISTER.md](./governance/decisions/DECISION-REGISTER.md) |
+| Baseline Manifest | [governance/releases/BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md) |
 
-The following infrastructure identities remain **unchanged** during this transition:
+## Infrastructure transition note
 
-- GitHub repository (existing remote)
-- Vercel project (existing Production and Preview linkage)
-- Database configuration (existing connection variables)
-
-Renaming and infrastructure separation will be studied in a later controlled gate.
-
-## Product Code policy
-
-**Product Code is blocked** until governance gates authorize technical foundation work.
-
-This branch holds governance, product definition scaffolding, and repository structure only.
+Existing GitHub, Vercel, and database identities remain **unchanged**. Renaming is deferred. Branch push is **blocked** until `GHV.REPOSITORY-TRANSITION.1B`.
 
 ## CyberCrow archive
 
-The final verified CyberCrow implementation state is permanently recoverable from the annotated Git tag:
-
 ```text
-cybercrow-final-snapshot-20260720
+cybercrow-final-snapshot-20260720 → b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c
 ```
 
-## Maintainer
+## Claims discipline
 
-**Muhanad Haitham Fouad Ghurab (RAVEN)** — Founder.
+Strategic alignment language only. No NCA, ISO, Vision 2030 endorsement, or government-affiliation claims.
