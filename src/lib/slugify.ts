@@ -1,9 +1,0 @@
-/** URL-safe tenant slug from organization name */
-export function slugifyOrganization(name: string): string {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 48);
-}

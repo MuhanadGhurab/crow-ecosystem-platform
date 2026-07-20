@@ -1,48 +1,38 @@
-# Security policy
+# SECURITY.md — GHURAVIA
 
 ## Supported versions
 
-| Version | Supported |
-|---------|-----------|
-| `main` (active development) | Yes |
+| Branch / surface | Supported |
+|------------------|-----------|
+| `main` (default) | Yes — after authorized merges |
+| `feat/ghuravia-foundation` | Transition workspace — Product Code blocked |
 
 ## Reporting a vulnerability
 
 **Do not** open public GitHub issues for security vulnerabilities.
 
-Use **[GitHub Security Advisories](https://github.com/MuhanadGhurab/crow-ecosystem-platform/security/advisories/new)** (Report a vulnerability) on this repository, or contact maintainers via a **private** channel on GitHub.
+Use **[GitHub Security Advisories](https://github.com/MuhanadGhurab/crow-ecosystem-platform/security/advisories/new)** on the connected repository, or contact maintainers via a **private** GitHub channel.
 
 Include:
 
 - Description of the issue
 - Steps to reproduce
-- Impact assessment (tenant isolation, auth bypass, data exposure)
+- Impact assessment (auth bypass, data exposure, secret leakage)
 
 We will acknowledge within 7 days and work on remediation for confirmed issues.
 
-## Public repository scope
+## Transition safeguards
 
-This repository is a **curated public presentation**. It may not include all production deployment paths. Still report issues found in:
+During the CyberCrow → GHURAVIA repository transition:
 
-- Authentication and session handling
-- Authorization / RBAC bypass
-- Cross-tenant data leakage
-- Secret exposure in committed files
+- Local `.env*` files must remain untracked
+- No secret values in governance documents
+- No Production or database changes without explicit owner authorization
+- Legacy application code is recoverable only from the archive tag `cybercrow-final-snapshot-20260720`
 
-## Before publishing (maintainers)
+## Before any Product Code lands
 
 - [ ] `.env` is gitignored and never committed
-- [ ] `.env.example` contains placeholders only
-- [ ] No service role keys, Resend keys, or Stripe secrets in history
-- [ ] `docs/internal/` excluded from public mirror
-- [ ] Real request/blueprint IDs sanitized in public docs
-- [ ] `AUTH_DISABLED` must not be `true` in production deployments
-
-## Production hardening (private ops)
-
-Full production checklist lives in private operational docs. Public readers should assume:
-
-- `AUTH_DISABLED=false` in production
-- `USE_MOCK_DATA=false` for go-live paths
-- Microsoft Entra redirect URLs registered for production domain only
-- Database URLs never point at `localhost` on cloud build hosts
+- [ ] Example env files (if any) contain placeholders only
+- [ ] No service role keys, payment keys, or API secrets in history of new commits
+- [ ] Auth and tenant isolation designs reviewed in a dedicated security gate
