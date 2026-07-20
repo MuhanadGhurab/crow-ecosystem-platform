@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.FOUNDATION.1B |
-| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) · [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
 
@@ -556,3 +556,81 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Reversible** | Foundational rebaseline process only |
 | **Related Gate** | GHV.FOUNDATION.1B |
 | **Evidence** | Constitution · Scope Baseline · Baseline Manifest |
+
+## DEC-043 — Interaction grammar
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Primary/secondary/tertiary/destructive/back/modal/drawer/inline/toast/banner patterns in INTERACTION-GRAMMAR.md are authoritative for Product Code |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | [INTERACTION-GRAMMAR.md](../../product/interactions/INTERACTION-GRAMMAR.md) |
+
+## DEC-044 — Page composition system
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Experience shells (Public, Activation, Onboarding, Adaptive World, Mission Focus, Live Sky, Admin) are locked at low fidelity |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | [PAGE-COMPOSITION-SYSTEM.md](../../product/interactions/PAGE-COMPOSITION-SYSTEM.md) |
+
+## DEC-045 — Wireframe priority model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Every registered screen has WF status: DETAILED / FAMILY / STATE-ONLY / POST-LAUNCH DEFERRED / CONDITIONAL; IDs GHV-WF-* map 1:1 to locked Screen IDs |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) |
+
+## DEC-046 — Low-fidelity notation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Markdown + monospace ASCII diagrams; no Product Code, Storybook, or final visual assets in this Gate |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+
+## DEC-047 — Ethical plan presentation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Plans contextual; Open Flight and Merit visible; no deceptive Expedition preselect; no fake urgency; free users not incomplete; no mid-Mission subscription interrupt |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | Commercial wireframes · Interaction Grammar |
+
+## DEC-048 — Explainable Locks and Skyboard variants
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Eight lock types distinct; Adaptive Skyboard has 16 documented variants; ≤3 priority cards above fold |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+
+## DEC-049 — Mobile-first + no DMs + Live separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Web/PWA responsive first; unrestricted DMs remain OUT OF SCOPE; participant/spectator information visibly separated |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+
+## DEC-050 — Usability validation before implementation waves
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Usability plan required; tests NOT RUN at PD.3; do not claim UI validated until evidence exists |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | [USABILITY-VALIDATION-PLAN.md](../../product/research/USABILITY-VALIDATION-PLAN.md) |
+
+## DEC-051 — PD.3 interaction and wireframe lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Interaction grammar, page composition, 90-screen wireframe statuses, 16 critical flows, and launch-critical low-fi wireframes locked at low fidelity |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Evidence** | product/interactions · product/wireframes |

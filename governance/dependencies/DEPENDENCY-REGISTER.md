@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.FOUNDATION.1B |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -27,5 +27,7 @@
 | DEP-015 | Legal review (T&Cs, refunds, renewal) | External | Blocked | Launch legal copy | Counsel TBD | Soft-launch legal risk | Activation/commercial copy |
 | DEP-016 | Tax/accounting review | External | Blocked | VAT and recognition | Accountant TBD | Invoice gaps | CAP-PAY-008 |
 | DEP-017 | Preview-environment remediation | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview (TECH-018) | Founder | No Preview runtime | GHV.ARCHITECTURE.1 |
-| DEP-018 | UX wireframing Gate | Product | Planned | GHV.PRODUCT-DEFINITION.3 | Founder | Ambiguous UI | Interaction specs |
+| DEP-018 | UX wireframing Gate | Product | **Satisfied (PD.3)** | GHV.PRODUCT-DEFINITION.3 | Founder | — | Interaction specs |
 | DEP-019 | Content creation capacity | Organizational | Planned | Missions/Evidence assets | Founder + creators | Empty Routes | Learning launch |
+| DEP-020 | Usability test sessions | Product/Research | Planned | Execute USABILITY-VALIDATION-PLAN | Founder | Untested UI risk | Implementation waves |
+| DEP-021 | High-fidelity visual design | Product | Deferred | Brand tokens after low-fi lock | Founder/design | Visual inconsistency | Marketing surfaces |

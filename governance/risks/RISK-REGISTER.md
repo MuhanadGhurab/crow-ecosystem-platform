@@ -6,7 +6,7 @@
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.FOUNDATION.1B |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -125,5 +125,14 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-020 | Launch deadline compression | M | H | H | Scope adds | MLGW checklist; impact model | Shrink MLGW only via foundational CR | Founder | Open | Quarterly | CAP-GOV-* |
 | RISK-OPS-021 | Conditional legal requirements (15–17) | H | H | H | Legal delay | Fallback 18+ | Age-gate | Founder | Open | 2026-10-01 | CAP-GOV-002 |
 | RISK-OPS-022 | Preview environment not yet available | H | H | H | Missing Preview DB vars | TECH-018; keep deploy guard | Local-only validation longer | Founder | Open | 2026-08-01 | CAP-TRU-014 |
+| RISK-UX-001 | Excessive screens / inconsistent behavior | M | H | H | 90 IDs | Wireframe registry + grammar + families | Cut non-MLGW build order | Founder | Open | 2026-09-01 | WF-REG |
+| RISK-UX-002 | Onboarding length fatigue | M | M | M | Many ONB steps | Quick Crow path; Nest choice clarity | Skip non-critical cosmetics | Founder | Open | Usability | ONB |
+| RISK-UX-003 | Plans confused with Skill | H | H | H | Checkout copy | Ethical plan rules; Explainable Locks | Usability fix before code | Founder | Open | Usability | PAY |
+| RISK-UX-004 | World Map complexity on mobile | M | M | M | Spatial UI | List alternative; reduced motion | Horizon cards only | Founder | Open | Usability | WLD |
+| RISK-UX-005 | Inaccessible motion / RTL breakage | M | H | H | Locale/a11y | Motion + RTL specs; checklist | Block ship of failing flows | Founder | Open | Usability | TRU-011/012 |
+| RISK-UX-006 | Incomplete offline / Evidence confusion | M | H | H | Sync ambiguity | Save-Sync-Offline + Evidence lifecycle | Disable unsupported offline | Founder | Open | Tech | SYNC |
+| RISK-UX-007 | Live Sky information leakage | H | H | H | Spectator UI | Participant/spectator separation | Spectate-only until fixed | Founder | Open | Live | LIV |
+| RISK-UX-008 | Untested wireframe assumptions | H | M | H | No sessions yet | Usability plan NOT RUN | Do not start Product Code UI waves | Founder | Open | Usability | RES |
+| RISK-UX-009 | Wireframes drifting beyond Scope | M | H | H | Designer invent | Registry Scope column; impact model | Reject out-of-Scope WF | Founder | Open | Continuous | GOV |
 
 **Contingency owners** default to Founder until roles are staffed.

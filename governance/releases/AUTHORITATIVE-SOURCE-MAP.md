@@ -48,9 +48,13 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Master User Journey phases | [MASTER-USER-JOURNEY.md](../../product/journeys/MASTER-USER-JOURNEY.md) | — |
 | Screen IDs (90) | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | — |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
+| Wireframe statuses (90 screens) | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity |
+| Interaction grammar | [INTERACTION-GRAMMAR.md](../../product/interactions/INTERACTION-GRAMMAR.md) | — |
+| Critical flows | [CRITICAL-FLOWS.md](../../product/interactions/CRITICAL-FLOWS.md) | FLOW-001–016 |
 | Commercial narrative | [COMMERCIAL-BASELINE.md](../commercial/COMMERCIAL-BASELINE.md) | Prices link to Scope |
 | Vision 2030 alignment | [VISION-2030-ALIGNMENT.md](../vision-2030/VISION-2030-ALIGNMENT.md) | Non-endorsement |
 | Vercel pre-push evidence | [VERCEL-PRE-PUSH-VERIFICATION.md](../../docs/operations/VERCEL-PRE-PUSH-VERIFICATION.md) | — |
+| Usability plan | [USABILITY-VALIDATION-PLAN.md](../../product/research/USABILITY-VALIDATION-PLAN.md) | NOT RUN |
 
 ## Intentional summaries
 

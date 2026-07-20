@@ -9,7 +9,7 @@
 | **Current stage** | Product Foundation and Governance |
 | **Development status** | PRODUCT CODE BLOCKED |
 | **Official working branch** | `feat/ghuravia-foundation` (deploy guard active) |
-| **Current Gate** | GHV.FOUNDATION.1B |
+| **Current Gate** | GHV.PRODUCT-DEFINITION.3 |
 
 ## Status board
 
@@ -24,6 +24,8 @@ See **[PROJECT_STATUS.md](./PROJECT_STATUS.md)**.
 | Authoritative Source Map | [governance/releases/AUTHORITATIVE-SOURCE-MAP.md](./governance/releases/AUTHORITATIVE-SOURCE-MAP.md) |
 | Master User Journey | [product/journeys/MASTER-USER-JOURNEY.md](./product/journeys/MASTER-USER-JOURNEY.md) |
 | Master Screen Registry | [product/screens/MASTER-SCREEN-REGISTRY.md](./product/screens/MASTER-SCREEN-REGISTRY.md) |
+| Wireframe Registry | [product/wireframes/WIREFRAME-REGISTRY.md](./product/wireframes/WIREFRAME-REGISTRY.md) |
+| Interaction Grammar | [product/interactions/INTERACTION-GRAMMAR.md](./product/interactions/INTERACTION-GRAMMAR.md) |
 | Capability Registry | [product/CAPABILITY-REGISTRY.md](./product/CAPABILITY-REGISTRY.md) |
 | Decision Register | [governance/decisions/DECISION-REGISTER.md](./governance/decisions/DECISION-REGISTER.md) |
 | Baseline Manifest | [governance/releases/BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md) |

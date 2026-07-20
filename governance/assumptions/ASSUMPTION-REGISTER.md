@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.FOUNDATION.1B |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -25,3 +25,6 @@
 | ASM-013 | Product remains Web/PWA first | Active | Architecture | Architecture Gate | Native apps stay OUT OF SCOPE | 1B |
 | ASM-014 | Existing Vercel project can later support validated Preview environments | Active | Tech path | TECH-018 remediation | New Preview project (later Gate) | Arch |
 | ASM-015 | Shared infrastructure names may remain temporarily unchanged | Active | Continuity | Rename Gate | Document dual naming | 1B |
+| ASM-016 | Low-fidelity wireframes are sufficient to guide first implementation without high-fi branding | Active | PD.3 | Usability + build feedback | Add hi-fi Gate | PD.3 |
+| ASM-017 | Six primary nav destinations remain adequate through controlled launch | Active | Nav lock | Usability | Foundational CR only | PD.3 |
+| ASM-018 | Public-safe Live directory can use LIV-001 visitor variant without a 91st screen ID | Active | Registry integrity | Live usability | Add screen via Material CR | PD.3 |

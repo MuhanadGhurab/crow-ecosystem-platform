@@ -1,4 +1,3 @@
-﻿# Research
+﻿# Research — Index
 
-Placeholder for research notes and evidence pointers.
-
+- [USABILITY-VALIDATION-PLAN.md](./USABILITY-VALIDATION-PLAN.md) — status **NOT RUN**
