@@ -5,11 +5,11 @@
 | **Product** | GHURAVIA — غُرافيا |
 | **Founder** | Muhanad Haitham Fouad Ghurab |
 | **Founder identity** | RAVEN — Responsive Adaptive Virtual Education Navigator |
-| **Management method** | RAVEN DEVFLOW — Adaptive Hybrid Product Development |
+| **Management method** | RAVEN DEVFLOW |
 | **Current stage** | Product Foundation and Governance |
 | **Development status** | PRODUCT CODE BLOCKED |
-| **Official working branch** | `feat/ghuravia-foundation` (local until pre-push verification) |
-| **Current Gate** | GHV.FOUNDATION.1A |
+| **Official working branch** | `feat/ghuravia-foundation` (deploy guard active) |
+| **Current Gate** | GHV.FOUNDATION.1B |
 
 ## Status board
 
@@ -21,6 +21,7 @@ See **[PROJECT_STATUS.md](./PROJECT_STATUS.md)**.
 |----------|------|
 | Product Constitution | [governance/constitution/PRODUCT-CONSTITUTION.md](./governance/constitution/PRODUCT-CONSTITUTION.md) |
 | Scope Baseline | [governance/scope/SCOPE-BASELINE.md](./governance/scope/SCOPE-BASELINE.md) |
+| Authoritative Source Map | [governance/releases/AUTHORITATIVE-SOURCE-MAP.md](./governance/releases/AUTHORITATIVE-SOURCE-MAP.md) |
 | Master User Journey | [product/journeys/MASTER-USER-JOURNEY.md](./product/journeys/MASTER-USER-JOURNEY.md) |
 | Master Screen Registry | [product/screens/MASTER-SCREEN-REGISTRY.md](./product/screens/MASTER-SCREEN-REGISTRY.md) |
 | Capability Registry | [product/CAPABILITY-REGISTRY.md](./product/CAPABILITY-REGISTRY.md) |

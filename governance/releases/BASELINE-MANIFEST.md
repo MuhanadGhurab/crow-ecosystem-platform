@@ -3,43 +3,51 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
+| **Source Gate** | GHV.FOUNDATION.1B |
 
-## Accepted foundation inputs
+## Active baseline set
 
 | Input | Status |
 |-------|--------|
-| GHURAVIA Foundation and Trust Baselines through v1.5 (product-definition lineage) | ACCEPTED as input |
+| GHURAVIA Product Constitution v1.0 | **ACTIVE — LOCKED** |
+| GHURAVIA Scope Baseline v1.0 | **ACTIVE — LOCKED** |
+| Authoritative Source Map v1.0 | **ACTIVE — LOCKED** |
+| Scope Change Impact Model v1.0 | **ACTIVE — LOCKED** |
 | GHV.PRODUCT-DEFINITION.1 | PASS |
 | GHV.PRODUCT-DEFINITION.2 | PASS |
 | GHV.REPOSITORY-TRANSITION.1A | ACCEPTED PARTIAL |
 | GHV.FOUNDATION.1A | PASS |
-| GHV.REPOSITORY-TRANSITION.1B | IN PROGRESS — pre-push verification |
+| GHV.REPOSITORY-TRANSITION.1B | PASS |
+| GHV.FOUNDATION.1B | PASS |
 
 ## Baseline status map
 
 | Area | Category |
 |------|----------|
-| Product identity, Pillars, anti-pay-to-win | LOCKED |
+| Product identity, Pillars, Principles, Integrity Rules | LOCKED (Constitution) |
+| Scope classification vocabulary | LOCKED |
+| Minimum Lovable Governed World | LOCKED |
 | Master User Journey | LOCKED |
 | Screen registry (90) + state contract | LOCKED |
-| First controlled launch scope + exclusions | LOCKED |
-| Nest bands; Horizons; graph edge types | LOCKED |
-| Access Plan prices and capacities | LOCKED |
-| Merit Access direction | LOCKED |
-| EBUX / Skyboard direction | LOCKED |
-| Ages 15–17 activation | CONDITIONALLY LOCKED |
-| Cross-Wing / Secure Extension catalogues | CONDITIONALLY LOCKED |
-| Modular Monolith / candidate stack | PENDING TECHNICAL VALIDATION |
-| IdP / payments / realtime / storage | PENDING TECHNICAL VALIDATION |
-| Trademark, domains, PDPL, VAT, age law | PENDING EXTERNAL VALIDATION |
-| Progression formulas | DEFERRED |
+| Nest bands; Horizons; Access Plan prices | LOCKED |
+| Merit direction; Cross-Wing/SE minima | LOCKED model · catalogue PENDING LEARNING.1 |
+| Controlled-launch Capability traceability | REVIEWED AT CAPABILITY LEVEL |
+| Ages 15–17 activation | CONDITIONAL |
+| Payment provider / VAT / trademark / domains | PENDING VALIDATION |
+| Progression formulas | PENDING GHV.PROGRESSION.1 |
+| Modular Monolith / stack vendors | PENDING TECHNICAL VALIDATION |
+| Preview DB readiness (TECH-018) | PENDING TECHNICAL VALIDATION |
 | Native apps, DMs, metaverse, crypto, etc. | OUT OF SCOPE |
-| Vercel project identity + Production branch `main` | VERIFIED (names/IDs only) |
-| Preview database readiness for GHURAVIA | PENDING TECHNICAL VALIDATION |
-| Branch auto-deploy guard for `feat/ghuravia-foundation` | LOCKED for this Gate |
+| Formal certification claims | OUTSIDE CURRENT CLAIMS |
 
 Conditional and pending items must not be presented as fully validated.
+
+## Superseded / reference
+
+| Item | Status |
+|------|--------|
+| Constitution/Scope content from 1A prior to 1B rebaseline | Superseded in place (same paths) |
+| CyberCrow archive tag `cybercrow-final-snapshot-20260720` | Reference only |

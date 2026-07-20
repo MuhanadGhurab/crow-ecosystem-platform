@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
-| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.FOUNDATION.1B |
+| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
 
@@ -422,9 +422,137 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 |-------|-------|
 | **Decision** | Disable automatic Vercel deployments only for `feat/ghuravia-foundation` via root `vercel.json` `git.deploymentEnabled` |
 | **Status** | Accepted |
-| **Rationale** | Allow first GitHub publish of governance baseline without Preview/Production builds against legacy CyberCrow project settings |
-| **Alternatives** | Dashboard-only ignore; leave deploy on and let build fail; delay all remotes |
+| **Rationale** | Allow GitHub publish of governance baseline without Preview/Production builds against legacy CyberCrow project settings |
+| **Alternatives** | Dashboard-only ignore; leave deploy on; delay remotes |
 | **Reversible** | Yes — remove branch key when Preview is intentionally enabled |
 | **Review trigger** | Architecture Preview Gate; accidental Preview creation |
 | **Related Gate** | GHV.REPOSITORY-TRANSITION.1B |
 | **Evidence** | [VERCEL-PRE-PUSH-VERIFICATION.md](../../docs/operations/VERCEL-PRE-PUSH-VERIFICATION.md) · `vercel.json` |
+
+## DEC-033 — Constitution authority hierarchy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Conflicts resolve per Authoritative Source Map order (Constitution → Scope → Manifest → Journey → Screens → Capabilities → Decisions → domain baselines → templates) |
+| **Status** | Accepted |
+| **Rationale** | Prevent competing active definitions |
+| **Alternatives** | Equal peer docs |
+| **Reversible** | Costly after adoption |
+| **Review trigger** | Foundational rebaseline |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) |
+
+## DEC-034 — Scope classification system
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt CORE FOUNDATION / CONTROLLED LAUNCH / POST-LAUNCH PLANNED / CONDITIONAL / PENDING TECHNICAL VALIDATION / PENDING EXTERNAL VALIDATION / DEFERRED / OUT OF SCOPE / REJECTED |
+| **Status** | Accepted |
+| **Rationale** | Separate durable architecture from launch delivery and pending work |
+| **Alternatives** | Binary in/out Scope |
+| **Reversible** | Via foundational CR |
+| **Review trigger** | Vocabulary conflict |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) |
+
+## DEC-035 — Minimum Lovable Governed World
+
+| Field | Value |
+|-------|-------|
+| **Decision** | First controlled Saudi launch must deliver the 20 MLGW outcomes in Scope Baseline |
+| **Status** | Accepted |
+| **Rationale** | Launch is a vertical world, not a thin demo |
+| **Alternatives** | Tech-demo launch |
+| **Reversible** | Foundational rebaseline only |
+| **Review trigger** | Outcome missing from plan |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope Baseline §2 |
+
+## DEC-036 — Limited launch catalogue principle
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Launch uses a coherent limited Route catalogue; exact names deferred to GHV.LEARNING.1; five Horizons represented |
+| **Status** | Accepted |
+| **Rationale** | Achievable vertical slice by 2029 |
+| **Alternatives** | Full catalogue at launch |
+| **Reversible** | Via Learning Gate |
+| **Review trigger** | Content capacity |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope §3.8 |
+
+## DEC-037 — Controlled launch progression depth
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Launch includes XP, Momentum, Maturity, initial Mastery, Crests, limited Leaderboards; Breadth/Prestige/title **surface** is CONTROLLED LAUNCH; full depth is POST-LAUNCH PLANNED; formulas pending PROGRESSION.1 |
+| **Status** | Accepted |
+| **Rationale** | Avoid overcommitment while preserving separation architecture |
+| **Alternatives** | Full Prestige economy at launch |
+| **Reversible** | Via Progression Gate |
+| **Review trigger** | User confusion metrics |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope §3.12 |
+
+## DEC-038 — Cross-Wing and Secure Extension launch minima
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Launch requires one validated Cross-Wing Route and one validated Secure Extension; catalogues pending LEARNING.1 + Atlas |
+| **Status** | Accepted |
+| **Rationale** | Prove models without catalogue sprawl |
+| **Alternatives** | Defer all Cross-Wing |
+| **Reversible** | Material Scope change |
+| **Review trigger** | Atlas infeasibility |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope §3.9–3.10 |
+
+## DEC-039 — Community and Live Sky launch minima
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Safe Rookery without unrestricted DMs; Live Sky foundation plus one controlled experience; large tournaments/ranges out of initial launch |
+| **Status** | Accepted |
+| **Rationale** | Safety and capacity |
+| **Alternatives** | Full social + tournament platform |
+| **Reversible** | Material Scope change |
+| **Review trigger** | Moderation overload |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope §3.16–3.17 |
+
+## DEC-040 — Founder-capacity / WIP constraint
+
+| Field | Value |
+|-------|-------|
+| **Decision** | At most one primary + one supporting Capability + one Research Spike; schedule ≤60–70% capacity; Scope additions state what they replace |
+| **Status** | Accepted |
+| **Rationale** | Protect 2029 deadline and quality |
+| **Alternatives** | Unbounded parallel work |
+| **Reversible** | If capacity expands (record CR) |
+| **Review trigger** | Overload symptoms |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Scope §6 |
+
+## DEC-041 — Scope Change Impact model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Material and Foundational Scope changes require impact analysis across Pillars, journey, screens, learning, progression, commercial, data, security, privacy, ops, schedule, cost, capacity, deadline, testing, migration, rollback, external validation |
+| **Status** | Accepted |
+| **Rationale** | Prevent silent Scope growth |
+| **Alternatives** | Informal tickets |
+| **Reversible** | Foundational CR |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | [SCOPE-CHANGE-IMPACT-MODEL.md](../scope/SCOPE-CHANGE-IMPACT-MODEL.md) |
+
+## DEC-042 — Constitution and Scope Baseline lock (1B)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Product Constitution v1.0 and Scope Baseline v1.0 are LOCKED foundation documents after GHV.FOUNDATION.1B review |
+| **Status** | Accepted |
+| **Rationale** | Single authoritative Constitution and Scope |
+| **Alternatives** | Keep 1A drafts as peers |
+| **Reversible** | Foundational rebaseline process only |
+| **Related Gate** | GHV.FOUNDATION.1B |
+| **Evidence** | Constitution · Scope Baseline · Baseline Manifest |

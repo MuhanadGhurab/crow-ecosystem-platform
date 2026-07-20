@@ -2,32 +2,39 @@
 
 ```text
 Current Gate:
-GHV.REPOSITORY-TRANSITION.1B — PRE-PUSH INFRASTRUCTURE VERIFICATION
+GHV.FOUNDATION.1B — PRODUCT CONSTITUTION AND SCOPE REVIEW
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
 - GHV.PRODUCT-DEFINITION.2 — PASS
 - GHV.REPOSITORY-TRANSITION.1A — ACCEPTED PARTIAL
 - GHV.FOUNDATION.1A — PASS
+- GHV.REPOSITORY-TRANSITION.1B — PASS
 
 Current Status:
-- Product Identity: Locked
-- Product Pillars: Locked
-- Master User Journey: Locked
-- Screen and State Architecture: Locked
-- Baseline Scope: Locked
-- Governance Repository: Materialized (GHV.FOUNDATION.1A)
-- Pre-Push Infrastructure Verification: In Progress
-- External Validation: Not Run
-- Technical Validation: Not Run (Preview DB readiness unresolved)
-- Product Code: Blocked
-- Branch Push: Guarded first publish (deployment disabled for this branch)
+- Product Constitution: LOCKED AND REVIEWED
+- Scope Baseline: LOCKED AND REVIEWED
+- Master User Journey: LOCKED
+- Screen and State Architecture: LOCKED
+- Capability Traceability: REVIEWED AT CAPABILITY LEVEL
+- External Validation: NOT RUN
+- Technical Validation: NOT RUN
+- Product Code: BLOCKED
+- Branch: feat/ghuravia-foundation (deploy guard active)
 ```
 
-## Next expected gate
+## Next Gate
 
 ```text
-GHV.FOUNDATION.1B — PRODUCT CONSTITUTION AND SCOPE REVIEW
+GHV.PRODUCT-DEFINITION.3 — INTERACTION AND WIREFRAME SPECIFICATION
+```
+
+## Parallel future Gates
+
+```text
+GHV.LEARNING.1 — LAUNCH LEARNING ARCHITECTURE
+GHV.PROGRESSION.1 — PROGRESSION AND MASTERY MODEL
+GHV.ARCHITECTURE.1 — TECHNICAL VALIDATION
 ```
 
 ## Identity
@@ -42,11 +49,11 @@ GHV.FOUNDATION.1B — PRODUCT CONSTITUTION AND SCOPE REVIEW
 | Launch target | Controlled Saudi public launch ≤ 2029-12-31 |
 | Branch | `feat/ghuravia-foundation` |
 | Archive tag | `cybercrow-final-snapshot-20260720` |
-| Vercel project | `crow-ecosystem-platform` (`prj_lsHQMiMZskg8CzRVd4EHfiAo8o7h`) — unchanged |
 
-## Evidence
+## Authoritative entry points
 
-- [VERCEL-PRE-PUSH-VERIFICATION.md](./docs/operations/VERCEL-PRE-PUSH-VERIFICATION.md)
-- [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)
 - [PRODUCT-CONSTITUTION.md](./governance/constitution/PRODUCT-CONSTITUTION.md)
 - [SCOPE-BASELINE.md](./governance/scope/SCOPE-BASELINE.md)
+- [AUTHORITATIVE-SOURCE-MAP.md](./governance/releases/AUTHORITATIVE-SOURCE-MAP.md)
+- [BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md)
+- [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)

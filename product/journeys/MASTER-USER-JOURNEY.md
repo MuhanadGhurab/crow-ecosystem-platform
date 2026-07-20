@@ -69,7 +69,7 @@ Login
 | Activate | Registration started | A1 basic account | Stuck at A0 until email + terms |
 | Personalize | A1 | Wingprint basics set | Skip limited cosmetics later |
 | Origin | Crow personalized | Origin recorded | Soft default with review prompt |
-| Nest decision | Origin set | Ready to Fly / Guided Skip / Nest Recommended | Nest path if < 50% |
+| Nest decision | Origin set | Ready to Fly / Guided Skip / Nest Recommended | Nest path if < 50% — see [Scope Baseline](../../governance/scope/SCOPE-BASELINE.md) §3.5 |
 | Horizon | Nest decision complete | Horizon selected | Browse World Map only |
 | Future preview | Horizon selected | Motivational preview acknowledged | Continue without deep preview |
 | Route | Preview done | Route chosen | Capacity/entitlement block |

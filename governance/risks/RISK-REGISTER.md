@@ -6,7 +6,7 @@
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
+| **Source Gate** | GHV.FOUNDATION.1B |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -115,5 +115,15 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-010 | Legacy CyberCrow env-variable carryover | H | M | M | Shared project | Inventory; deferred cleanup Gate | Do not reuse blindly | Founder | Open | 2026-08-01 | CAP-TRU-* |
 | RISK-OPS-011 | Root-directory / vercel.json mismatch | L | H | M | Non-root Vercel Root Directory | Confirmed root is repo root in 1B | Dashboard correction before push | Founder | Closed (verified root) | 2026-07-21 | CAP-GOV-* |
 | RISK-OPS-012 | Legacy Vercel build command references missing CyberCrow scripts | H | M | M | Accidental enable of deploy | Keep branch deploy disabled; rebuild settings in architecture Gate | Failed Preview only; never promote | Founder | Open | 2026-08-01 | CAP-GOV-* |
+| RISK-OPS-013 | Scope growth after baseline lock | H | H | H | Feature pressure | Classification system; impact model; WIP | Idea Vault / reject | Founder | Open | 2026-08-01 | CAP-GOV-* |
+| RISK-OPS-014 | 90-screen overcommitment | M | H | H | UI build sprawl | Screen families; PD.3 wireframes prioritize MLGW | Defer non-MLGW screens | Founder | Open | 2026-09-01 | CAP-EBUX-* |
+| RISK-OPS-015 | Insufficient launch content / thin Horizons | H | H | H | Content lag | Limited catalogue + LEARNING.1 | Cut Routes; keep Nest+one vertical | Founder | Open | 2026-10-01 | CAP-LRN-* |
+| RISK-OPS-016 | Commercial work delaying learning | M | H | H | Billing priority | Pillars; learning-before-commerce sequencing | Soft commercial later | Founder | Open | 2026-10-01 | CAP-PAY-* |
+| RISK-OPS-017 | Live Sky overengineering | M | H | H | Realtime ambition | One controlled experience | Directory-only fallback | Founder | Open | 2026-11-01 | CAP-SOC-005 |
+| RISK-OPS-018 | Excessive progression complexity | M | M | M | Many meters | LIMITED launch depth; PROGRESSION.1 | Hide advanced meters | Founder | Open | 2026-12-01 | CAP-PRG-* |
+| RISK-OPS-019 | Founder-capacity exhaustion | H | H | H | Parallelism | WIP 1+1+1; 60–70% schedule | Pause enhancements | Founder | Open | Continuous | CAP-GOV-* |
+| RISK-OPS-020 | Launch deadline compression | M | H | H | Scope adds | MLGW checklist; impact model | Shrink MLGW only via foundational CR | Founder | Open | Quarterly | CAP-GOV-* |
+| RISK-OPS-021 | Conditional legal requirements (15–17) | H | H | H | Legal delay | Fallback 18+ | Age-gate | Founder | Open | 2026-10-01 | CAP-GOV-002 |
+| RISK-OPS-022 | Preview environment not yet available | H | H | H | Missing Preview DB vars | TECH-018; keep deploy guard | Local-only validation longer | Founder | Open | 2026-08-01 | CAP-TRU-014 |
 
 **Contingency owners** default to Founder until roles are staffed.

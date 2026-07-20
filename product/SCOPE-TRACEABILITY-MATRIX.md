@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED model · Capability-level population |
-| **Version** | 1.0.0 |
+| **Status** | REVIEWED AT CAPABILITY LEVEL — GHV.FOUNDATION.1B |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.FOUNDATION.1B |
 
 ## Traceability chain
 
@@ -22,26 +22,46 @@ Product Pillar
 → Evidence
 ```
 
-No future Feature may enter implementation without this chain. Detailed engineering tests are **not** created in this Gate.
+This Gate populates through **Capability**. Requirement placeholders appear only where already locked. Engineering tests are **not** invented here.
 
-## Capability-level matrix (launch-critical sample → full registry coverage)
+No Feature enters implementation without this chain.
 
-| Pillar | User type | Journey phase | Screen / state | Capability | Domain | Requirement (summary) | Test (later) | Evidence |
-|--------|-----------|---------------|----------------|------------|--------|----------------------|--------------|----------|
-| Learning | Visitor | Discover | PUB-001 | CAP-ONB-001 | Public | Present GHURAVIA promise | TBD | Constitution |
-| Trust | A0→A1 | Activate | ACT-003–006 | CAP-ONB-003/004 | Identity | Email+terms for basic account | TBD | Constitution §7 |
-| Identity | A1 | Personalize | IDN-001 | CAP-ONB-006 | Wingprint | Crow ≠ competence | TBD | Constitution §6 |
-| Learning | A1 | Nest | ONB-004–006 | CAP-ONB-008 | Nest | 70/50 bands | TBD | Scope §4 |
-| Learning | A1 | Horizon/Route | ONB-007–011 | CAP-ONB-009/010 | Learning | Separate eligibility vs entitlement | TBD | Journey |
-| Learning | Learner | Missions | LRN-001 | CAP-LRN-003 | Learning | Mission progress + save | TBD | Scope |
-| Evidence | Learner | Evidence | LRN-003–005 | CAP-LRN-005 | Evidence | Submit ≠ auto Mastery | TBD | Constitution |
-| Learning | Learner | Skyboard | SKY-001 | CAP-EBUX-007 | EBUX | Six modules; degraded mode | TBD | Skyboard rules |
-| Community | A1+ | Community | COM-001–004 | CAP-SOC-001 | Rookery | Structured posts; no open DMs | TBD | Scope exclusions |
-| Community | Eligible | Live | LIV-001–004 | CAP-SOC-005/006 | Live Sky | Directory + participate/spectate | TBD | Scope |
-| Enabling | A1+ | Commercial | PAY-001–003 | CAP-PAY-001–004 | Commercial | Plans; anti-pay-to-win | TBD | Commercial Baseline |
-| Trust | Returning | Return | TRU-001–002 | CAP-TRU-001/003 | Trust | Session + terms version | TBD | Journey return |
-| Identity | A1+ | Progression | PRG-001–006 | CAP-PRG-* | Progression | Independent meters | TBD | Constitution |
-| Learning | Eligible | Cross-Wing | LRN-011 | CAP-LRN-006 | Cross-Wing | Atlas before publish | TBD | Atlas template |
-| Trust | Admin | Ops | ADM-* | CAP-TRU-013 | Admin | Staff shell separate | TBD | Screen registry |
+## CONTROLLED LAUNCH Capability coverage
 
-Full Capability IDs: [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md).
+Every CONTROLLED LAUNCH Capability below maps to ≥1 Pillar, ≥1 user type, ≥1 journey phase, ≥1 screen family.
+
+| Capability | Pillar | User type | Journey | Screen family | Domain | Locked requirement placeholder | Test | Evidence |
+|------------|--------|-----------|---------|---------------|--------|--------------------------------|------|----------|
+| CAP-ONB-001 | Learning | Visitor | Discover | PUB | Public | Present Constitution definition | TBD | Constitution |
+| CAP-ONB-002 | Identity | Visitor/A0 | Activate | ACT | Identity | Registration creates A0 | TBD | Constitution §7 summary |
+| CAP-ONB-003 | Trust | A0 | Activate | ACT | Identity | Email verify required for A1 | TBD | Constitution |
+| CAP-ONB-004 | Trust | Email-verified | Activate | ACT | Trust | Current terms for activation | TBD | Constitution |
+| CAP-ONB-005 | Trust | A1 | Activate | ACT | Trust | Mobile optional for ordinary learning | TBD | Constitution |
+| CAP-ONB-006 | Identity | A1 | Personalize | IDN | Wingprint | Visual Identity ≠ Knowledge | TBD | Constitution |
+| CAP-ONB-007 | Identity | A1 | Origin | ONB | Onboarding | Origin recorded | TBD | Journey |
+| CAP-ONB-008 | Learning | A1 | Nest | ONB/LRN | Nest | 70/50 bands | TBD | Scope §3.5 |
+| CAP-ONB-009 | Learning | A1 | Horizon/Route | ONB/WLD | Learning | Five Horizons visible | TBD | Scope |
+| CAP-ONB-010 | Learning | Eligible | Flight Plan | ONB | Learning | Eligibility ≠ entitlement | TBD | Constitution integrity |
+| CAP-LRN-003 | Learning | Learner | Missions | LRN | Learning | Mission progress + save | TBD | Scope MLGW |
+| CAP-LRN-004 | Evidence | Learner | Missions | LRN | Learning | Assessment integrity direction | TBD | Scope |
+| CAP-LRN-005 | Evidence | Learner | Evidence | LRN | Evidence | Evidence before Mastery | TBD | Constitution |
+| CAP-LRN-006 | Learning | Eligible | Learning | LRN | Cross-Wing | One launch Cross-Wing; Atlas | TBD | Scope |
+| CAP-LRN-007 | Trust/Learning | Eligible | Learning | LRN | Secure Ext | One launch Secure Extension | TBD | Scope |
+| CAP-PRG-001–004,009,010 | Identity/Evidence | A1+ | Progression/Wings | PRG | Progression | Separation architecture | TBD | Constitution |
+| CAP-EBUX-007 | Learning | A1+ | Skyboard | SKY | EBUX | Six modules; degraded mode | TBD | Scope Skyboard |
+| CAP-EBUX-006 | Learning | Learner | Return | LRN/SKY | State | Recover saved work | TBD | MLGW #19 |
+| CAP-SOC-001–004,007,008 | Community/Trust | A1+ | Community | COM/TRU | Rookery | No unrestricted DMs | TBD | Scope |
+| CAP-SOC-005–006 | Community | Eligible | Live | LIV | Live Sky | One controlled Live experience | TBD | MLGW #16 |
+| CAP-PAY-001–003,005,009 | Trust (enabling) | A1+ | Commercial | PAY | Commercial | Anti-pay-to-win | TBD | Constitution |
+| CAP-TRU-001–005,011–013 | Trust | A1+/Admin | Activate/Return/Ops | TRU/ADM | Platform | Hidden UI ≠ authorization | TBD | Constitution |
+
+Full Capability list and Scope statuses: [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md).
+
+## Gaps intentionally open
+
+| Item | Status |
+|------|--------|
+| Exact Route names | PENDING GHV.LEARNING.1 |
+| Progression formulas | PENDING GHV.PROGRESSION.1 |
+| Payment provider | PENDING TECHNICAL VALIDATION |
+| Detailed engineering tests | Deferred to implementation Gates |
