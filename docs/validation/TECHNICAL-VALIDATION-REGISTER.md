@@ -5,10 +5,10 @@
 | **Status** | ACTIVE |
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
 
-All items: **NOT RUN**. No final vendors selected in this Gate except where marked as **candidates**.
+Items remain **NOT RUN** for runtime readiness unless noted. No final vendors selected.
 
 | ID | Topic | Candidate notes | Blocking for | Status |
 |----|-------|-----------------|--------------|--------|
@@ -29,3 +29,7 @@ All items: **NOT RUN**. No final vendors selected in this Gate except where mark
 | TECH-015 | Observability | OpenTelemetry candidate | Ops readiness | NOT RUN |
 | TECH-016 | Backup and recovery | TBD | Launch readiness | NOT RUN |
 | TECH-017 | RTO and RPO | TBD targets | Launch readiness | NOT RUN |
+| TECH-018 | Preview database readiness | `DATABASE_URL`/`DIRECT_URL` absent for generic Preview and `feat/ghuravia-foundation`; Production present | GHV.ARCHITECTURE.1 Preview runtime | NOT RUN — inventoried in 1B |
+| TECH-019 | Production/Preview env value isolation | Names inventoried; shared-scope secret names need professional value-level review without display | Safe Preview reuse | NOT RUN |
+
+Evidence: [VERCEL-PRE-PUSH-VERIFICATION.md](../operations/VERCEL-PRE-PUSH-VERIFICATION.md)

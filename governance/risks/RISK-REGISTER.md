@@ -5,8 +5,8 @@
 | **Status** | ACTIVE — Initial |
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -110,5 +110,10 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-005 | Backup failure | L | H | H | Untested restore | Backup/recovery validation | Manual export | Founder | Open | 2027-01-01 | CAP-TRU-010 |
 | RISK-OPS-006 | Domain or trademark conflict | M | H | H | External search | External validation register | Rename contingency | Founder | Open | 2026-09-01 | CAP-GOV-002 |
 | RISK-OPS-007 | Missed 2029 launch target | M | H | H | Gate slips | Roadmap Gates; scope cuts | Reduce launch surface | Founder | Open | Quarterly | CAP-GOV-005 |
+| RISK-OPS-008 | Automatic Preview deploy on governance-only pushes | H | M | H | Push without guard | Branch `deploymentEnabled: false` in root `vercel.json` | Cancel/ignore Preview; do not promote | Founder | Mitigating | 2026-07-21 | CAP-GOV-* |
+| RISK-OPS-009 | Missing/unverified Preview database variables | H | H | H | Future Preview runtime | Record in TECH-018; add vars only in authorized Gate | Keep deploy disabled until ready | Founder | Open | 2026-08-01 | CAP-TRU-* |
+| RISK-OPS-010 | Legacy CyberCrow env-variable carryover | H | M | M | Shared project | Inventory; deferred cleanup Gate | Do not reuse blindly | Founder | Open | 2026-08-01 | CAP-TRU-* |
+| RISK-OPS-011 | Root-directory / vercel.json mismatch | L | H | M | Non-root Vercel Root Directory | Confirmed root is repo root in 1B | Dashboard correction before push | Founder | Closed (verified root) | 2026-07-21 | CAP-GOV-* |
+| RISK-OPS-012 | Legacy Vercel build command references missing CyberCrow scripts | H | M | M | Accidental enable of deploy | Keep branch deploy disabled; rebuild settings in architecture Gate | Failed Preview only; never promote | Founder | Open | 2026-08-01 | CAP-GOV-* |
 
 **Contingency owners** default to Founder until roles are staffed.

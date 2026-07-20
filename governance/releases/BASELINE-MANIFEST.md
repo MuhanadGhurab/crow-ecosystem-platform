@@ -5,8 +5,8 @@
 | **Status** | ACTIVE |
 | **Version** | 1.0.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
 
 ## Accepted foundation inputs
 
@@ -16,7 +16,8 @@
 | GHV.PRODUCT-DEFINITION.1 | PASS |
 | GHV.PRODUCT-DEFINITION.2 | PASS |
 | GHV.REPOSITORY-TRANSITION.1A | ACCEPTED PARTIAL |
-| GHV.FOUNDATION.1A | IN PROGRESS → PASS on commit | This materialization |
+| GHV.FOUNDATION.1A | PASS |
+| GHV.REPOSITORY-TRANSITION.1B | IN PROGRESS — pre-push verification |
 
 ## Baseline status map
 
@@ -37,5 +38,8 @@
 | Trademark, domains, PDPL, VAT, age law | PENDING EXTERNAL VALIDATION |
 | Progression formulas | DEFERRED |
 | Native apps, DMs, metaverse, crypto, etc. | OUT OF SCOPE |
+| Vercel project identity + Production branch `main` | VERIFIED (names/IDs only) |
+| Preview database readiness for GHURAVIA | PENDING TECHNICAL VALIDATION |
+| Branch auto-deploy guard for `feat/ghuravia-foundation` | LOCKED for this Gate |
 
 Conditional and pending items must not be presented as fully validated.

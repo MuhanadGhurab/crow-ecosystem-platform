@@ -9,7 +9,7 @@
 | **Source Gate** | GHV.FOUNDATION.1A |
 | **Related** | [SCOPE-TRACEABILITY-MATRIX.md](./SCOPE-TRACEABILITY-MATRIX.md) · [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) |
 
-Launch status: In-Launch · Conditional · Deferred · Out-of-Scope  
+Launch status: In-Launch · Conditional · Deferred · Out-of-Scope
 Maturity: Defined · Specified · Pending Validation · Not Built
 
 ---

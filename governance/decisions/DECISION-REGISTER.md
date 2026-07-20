@@ -415,3 +415,16 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Review trigger** | GHV.REPOSITORY-TRANSITION.1B |
 | **Related Gate** | GHV.FOUNDATION.1A |
 | **Evidence** | [GHV.REPOSITORY-TRANSITION.1A.md](../gates/GHV.REPOSITORY-TRANSITION.1A.md) |
+
+## DEC-032 — Branch-specific Vercel deployment guard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Disable automatic Vercel deployments only for `feat/ghuravia-foundation` via root `vercel.json` `git.deploymentEnabled` |
+| **Status** | Accepted |
+| **Rationale** | Allow first GitHub publish of governance baseline without Preview/Production builds against legacy CyberCrow project settings |
+| **Alternatives** | Dashboard-only ignore; leave deploy on and let build fail; delay all remotes |
+| **Reversible** | Yes — remove branch key when Preview is intentionally enabled |
+| **Review trigger** | Architecture Preview Gate; accidental Preview creation |
+| **Related Gate** | GHV.REPOSITORY-TRANSITION.1B |
+| **Evidence** | [VERCEL-PRE-PUSH-VERIFICATION.md](../../docs/operations/VERCEL-PRE-PUSH-VERIFICATION.md) · `vercel.json` |
