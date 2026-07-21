@@ -31,7 +31,7 @@
 | Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION BASELINE v0.1.0 PARTIAL** |
 | **GHURAVIA External Technical Validation Baseline v0.1.0** | **ACTIVE — PARTIAL** · most domains NOT AVAILABLE · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · Source Gate **GHV.VALIDATION.1A** (**PARTIAL**) |
 | **GHURAVIA Implementation Entry Validation Baseline v0.1.0** | **READY WITH CONDITIONS** · Architecture Design **LOCKED v1.0.0** · External Technical Validation **PARTIAL** · Local Implementation Readiness **READY WITH CONDITIONS** · Preview Readiness **NOT READY** · Controlled Launch Readiness **NOT READY** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED** · Source Gate **GHV.VALIDATION.1B** (**PASS**) |
-| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI and disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS**) |
+| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI PASS · disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · **Remote CI: PENDING CLOSURE-01** · Source Gate **GHV.IMPLEMENTATION.0A** (**PARTIAL — CI CLOSURE REQUIRED**) |
 
 ### GHURAVIA Implementation Entry Validation Baseline v0.1.0
 

@@ -4,10 +4,6 @@
   "checksum": "216139c4eb9cec230ae3f9da0be7349ba4285c04138ed6f83180f982f3d59aa3",
   "activeCount": 92,
   "shellCount": 7,
-  "excludedAliases": [
-    "ACT-004"
-  ],
-  "requiredActive": [
-    "ACT-013"
-  ]
+  "excludedAliases": ["ACT-004"],
+  "requiredActive": ["ACT-013"]
 }

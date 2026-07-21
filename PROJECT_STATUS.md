@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.IMPLEMENTATION.0A — PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
+GHV.IMPLEMENTATION.0A-CLOSURE-01 — PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -24,7 +24,8 @@ Accepted Previous Gates:
 - GHV.ARCHITECTURE.1E-AMENDMENT-01 — PASS — PREDECESSOR VERDICTS RECONCILED
 - GHV.VALIDATION.1A — PARTIAL — EXTERNAL TECHNICAL VALIDATION WITH IMPLEMENTATION READINESS CONDITIONS
 - GHV.VALIDATION.1B — PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW
-- GHV.IMPLEMENTATION.0A — PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
+- GHV.IMPLEMENTATION.0A — PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED
+  (authorization retained; remote CI closure in progress under CLOSURE-01)
 
 Product Definition:
 LOCKED
@@ -158,22 +159,23 @@ feat/ghuravia-foundation (deploy guard active)
 ```text
 GHV.IMPLEMENTATION.0B
 FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE
-ELIGIBLE TO START · NOT STARTED
+BLOCKED PENDING IMPLEMENTATION.0A CI CLOSURE
 ```
 
-## Post-success status — GHV.IMPLEMENTATION.0A
+## Post-bootstrap status — GHV.IMPLEMENTATION.0A (pending remote CI)
 
 ```text
-PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
+PARTIAL — FOUNDATION BOOTSTRAPPED
+CI CLOSURE REQUIRED
 ```
 
-- Product Code Bootstrap Baseline v0.1.0 is ACTIVE.
-- `apps/`, `packages/`, `workers/`, and `scripts/` are created under the bounded npm workspace.
-- `npm run ci` passed locally. Local database migration and reset passed on disposable PostgreSQL, which was torn down.
+- Product Code authorization retained (GHV-IMP-AUTH-001).
+- Product Code Bootstrap Baseline v0.1.0 remains ACTIVE.
+- Local `npm run ci` PASS after CLOSURE-01 generator fix; remote Actions verification pending.
 - Providers remain MOCKS ONLY. The screen registry remains 92 ACTIVE / 7 shells.
-- TypeScript is pinned at 6.0.3 as a documented compatibility deviation from the Validation.1B 7.0.2 candidate.
+- TypeScript remains 6.0.3 with reconciled documentation (Architecture contradiction: NO).
 - `vercel.json` continues to disable deployment for `feat/ghuravia-foundation`.
-
+- Dependency advisories: 6 moderate triaged · Critical/High 0 · Blocking 0.
 ## Programme status
 
 ```text
