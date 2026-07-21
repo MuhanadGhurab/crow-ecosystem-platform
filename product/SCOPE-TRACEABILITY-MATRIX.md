@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.VALIDATION.1A (External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED** · Progression Design Baseline v1.0.0 LOCKED · Learning Design Baseline v1.0.0 LOCKED) |
-| **Version** | 1.13.0 |
+| **Status** | REVIEWED — GHV.VALIDATION.1B (Implementation Entry Validation **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED** · Progression Design Baseline v1.0.0 LOCKED · Learning Design Baseline v1.0.0 LOCKED) |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1A |
+| **Source Gate** | GHV.VALIDATION.1B |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -112,6 +112,7 @@ No new screen lacks a capability owner. No affected capability points only to su
 | Runtime / Realtime / Integration / Operations | **PARTIAL** — GHV.ARCHITECTURE.1D Baseline v1.0.0 ACTIVE · external infra OPEN · spikes **25/25** · Product Code **BLOCKED** · final lock **COMPLETED BY 1E** |
 | Architecture Design Baseline | **LOCKED v1.0.0** — GHV.ARCHITECTURE.1E PARTIAL · external validation baseline **PARTIAL v0.1.0 @ VALIDATION.1A** · Product Code **BLOCKED** |
 | External Technical Validation | **PARTIAL @ VALIDATION.1A** — most domains NOT AVAILABLE · capabilities **NOT IMPLEMENTED** |
+| Implementation Entry Validation | **PASS @ VALIDATION.1B** — local readiness READY WITH CONDITIONS · Preview / launch NOT READY · Product Code **BLOCKED** pending GHV.IMPLEMENTATION.0A |
 | Core Technical Validation Plan | **LOCKED** (1A) — P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** |
 | Treating formulas as production calibrated | **Forbidden** until real-user + tech path |
 | Product Code / stack ACCEPTED | **BLOCKED** / core platform **ACCEPTED** (not Product Code) |

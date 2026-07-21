@@ -1,0 +1,4 @@
+$env:GHV_VAL_1B_DATABASE_URL='postgresql://ghv_val:ghv_val_synth_only@127.0.0.1:55432/ghuravia_val_1b'
+npm install --prefix .
+npm run contract
+Remove-Item Env:GHV_VAL_1B_DATABASE_URL

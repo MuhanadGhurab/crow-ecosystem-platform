@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-COND-001 |
-| **Version** | 1.0.1 |
+| **Version** | 1.0.2 |
 | **Status** | **ACTIVE** |
 | **Owner** | Founder (RAVEN) |
 | **Date** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E · **Validation.1A disposition note added** |
+| **Source Gate** | GHV.ARCHITECTURE.1E · **Validation.1A / Validation.1B disposition notes added** |
 | **Validation.1A @ 2026-07-21** | External items **RETAINED FOR VALIDATION.1B** · **0** falsely SATISFIED BY VALIDATION.1A · see [ARCHITECTURE-CONDITION-VALIDATION-RECONCILIATION.md](../../validation/ghuravia/external-1a/governance/ARCHITECTURE-CONDITION-VALIDATION-RECONCILIATION.md) |
 | **Branch HEAD** | `6f01d1fd2b7f570e712037a5c4f035861a68063d` |
 
@@ -67,6 +67,16 @@ External validation: NOT COMPLETE
 | COND-031 | Production SLO establishment | 1D | **RETAINED FOR LAUNCH** | **RETAINED** | DRAFT targets only |
 | COND-032 | Relational datastore host selection | 1B | **RETAINED FOR EXTERNAL VALIDATION** | **NOT AVAILABLE · VALIDATION.1B** | ADR-005 · TECH-018 |
 
+## Validation.1B reconciliation note
+
+Validation.1B reconciles local-first implementation-entry evidence only. It does not alter any Architecture Gate verdict, the Architecture Design Baseline v1.0.0 lock, or a condition's **Disposition @ 1E**.
+
+| Condition / class | Validation.1B reconciliation |
+|-------------------|-------------------------------|
+| COND-026 — Production migration ownership | Local migration and rollback rehearsal passed. This partially satisfies the local rehearsal evidence need; **RETAINED FOR IMPLEMENTATION** remains the 1E disposition because Preview and production migration ownership are still required later. |
+| Provider / Preview / launch conditions | Remain retained. Mocks are local adapter evidence only; Preview remains NOT READY and External Technical Validation remains PARTIAL. |
+| Architecture verdict history | Unchanged: 1A **PASS — AMENDED**; 1B **PARTIAL**; 1C **PARTIAL**; 1D **PARTIAL**; 1E **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION**. |
+
 ## Disposition definitions
 
 | Disposition | Meaning at 1E lock |
@@ -94,3 +104,4 @@ Closing a condition as **SATISFIED** at architecture level does **not** authoriz
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1E — final condition register |
 | 1.0.1 | 2026-07-21 | GHV.VALIDATION.1A — Validation.1A disposition note column (historical @ 1E preserved) |
+| 1.0.2 | 2026-07-21 | GHV.VALIDATION.1B — local-first reconciliation note; COND-026 local rehearsal partially satisfied without changing 1E disposition or Architecture Gate verdicts |

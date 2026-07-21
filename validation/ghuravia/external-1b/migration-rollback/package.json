@@ -1,0 +1,8 @@
+{
+  "name": "@ghv-val-1b/migration-rollback",
+  "private": true,
+  "version": "0.0.0-validation",
+  "type": "module",
+  "scripts": { "rehearse": "node scripts/rehearse.mjs" },
+  "dependencies": { "pg": "8.16.3" }
+}

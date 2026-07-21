@@ -1,0 +1,1 @@
+# Documentation-only validation; no executable CI workflow exists.

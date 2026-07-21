@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.17.0 |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E |
+| **Source Gate** | GHV.VALIDATION.1B |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -130,3 +130,5 @@
 | ASM-116 | Programme completion at governed design level will not be mistaken for upgrading PARTIAL Gate verdicts to PASS | Active | Verdict integrity | DEC-227 · DEC-228 · DEC-232 · 1E-AMENDMENT-01 | Enforce Gate Verdict Preservation Policy | ARCH.1E-AMEND |
 | ASM-117 | Validation.1A PARTIAL will not be mistaken for external validation complete or Product Code authorization | Active | Status clarity | DEC-234 · DEC-238 · Validation.1A gate | Correct messaging | VALIDATION.1A |
 | ASM-118 | NOT AVAILABLE external proof will not be recorded as PASS or FAIL | Active | Evidence integrity | DEC-235 · acceptance matrix | Honest domain status | VALIDATION.1A |
+| ASM-119 | Local-first implementation entry can proceed to authorization review with local PostgreSQL, secrets, synthetic data, and approved mocks | **Validated** | Local implementation readiness | IMP-ENTRY 14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE | Do not authorize Product Code; remediate entry criteria | VALIDATION.1B |
+| ASM-120 | Preview readiness is not required for local implementation entry, but is required for Preview deployment | **Validated** | Lifecycle separation | Preview-vs-local readiness separation · 4 Preview blockers retained | Keep Preview blocked until independent evidence passes | VALIDATION.1B |

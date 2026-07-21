@@ -68,3 +68,4 @@ Controlled launch minimum (identity + storage + scanning + payment): **BLK-VAL-0
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.VALIDATION.1A — implementation blocker register |
+| 1.0.1 | 2026-07-21 | Lifecycle-class pointer: Validation.1B [IMPLEMENTATION-BLOCKER-REGISTER-v2.md](../../external-1b/governance/IMPLEMENTATION-BLOCKER-REGISTER-v2.md) is authoritative for local-first lifecycle classification; this 1A register remains the preserved source definition. |

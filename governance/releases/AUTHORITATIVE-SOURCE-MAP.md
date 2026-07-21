@@ -3,13 +3,14 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.4.0 |
+| **Version** | 2.5.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.VALIDATION.1A |
+| **Source Gate** | GHV.VALIDATION.1B |
 | **Last updated** | 2026-07-21 |
 
 ```text
+IMPLEMENTATION-ENTRY VALIDATION EVIDENCE · PRODUCT CODE AUTHORIZATION NOT GRANTED
 ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION EVIDENCE · IMPLEMENTATION AUTHORIZATION NOT GRANTED
 EXTERNAL TECHNICAL VALIDATION BASELINE v0.1.0 PARTIAL
 GATE VERDICTS: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL
@@ -138,6 +139,15 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **External validation handoff** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Handoff to **GHV.VALIDATION.1A** — **COMPLETED PARTIAL** |
 | **External validation baseline** | [EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md) | **v0.1.0 PARTIAL** |
 | **Validation.1A gate report** | [GHV.VALIDATION.1A.md](../gates/GHV.VALIDATION.1A.md) | **PARTIAL** · Product Code **NOT GRANTED** |
+| **Validation.1B gate record** | [GHV.VALIDATION.1B.md](../gates/GHV.VALIDATION.1B.md) | **PASS** for local-first implementation-entry validation; Product Code **NOT GRANTED** |
+| **Implementation-entry evidence index** | [VALIDATION-EVIDENCE-INDEX.md](../../validation/ghuravia/external-1b/VALIDATION-EVIDENCE-INDEX.md) | Master evidence index for local runtime, workspace, DB, migration/rollback, secrets, synthetic data, mocks, CI, guard, boundary, slice, and separation evidence |
+| **Blocker lifecycle classification** | [BLOCKER-RECLASSIFICATION.md](../../validation/ghuravia/external-1b/BLOCKER-RECLASSIFICATION.md) | Authoritative lifecycle classes: Product Code **0**, Preview **4**, feature activation **8**, controlled launch **7**, satisfied rehearsal **2**, unclassified **0** |
+| **IMP-ENTRY criteria** | [IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md](../../validation/ghuravia/external-1b/IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md) | **14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE**; local entry readiness **READY WITH CONDITIONS** |
+| **Local runtime / workspace / database** | [local-runtime/](../../validation/ghuravia/external-1b/local-runtime/) · [local-workspace/](../../validation/ghuravia/external-1b/local-workspace/) · [local-database/RESULT.md](../../validation/ghuravia/external-1b/local-database/RESULT.md) | Local-only implementation evidence |
+| **Migration / rollback and secrets** | [migration-rollback/RESULT.md](../../validation/ghuravia/external-1b/migration-rollback/RESULT.md) · [secrets/RESULT.md](../../validation/ghuravia/external-1b/secrets/RESULT.md) | Local rehearsal PASS; no committed credentials |
+| **Synthetic data / provider mocks / CI / guard** | [test-data/](../../validation/ghuravia/external-1b/test-data/) · [provider-mocks/](../../validation/ghuravia/external-1b/provider-mocks/) · [ci-quality/](../../validation/ghuravia/external-1b/ci-quality/) · [deployment-guard/RESULT.md](../../validation/ghuravia/external-1b/deployment-guard/RESULT.md) | Local-only providers are mocks; deployment remains blocked by default |
+| **Boundary / slice / readiness separation / recommendation** | [implementation-boundary/](../../validation/ghuravia/external-1b/implementation-boundary/) · [initial-slice/](../../validation/ghuravia/external-1b/initial-slice/) · [governance/PREVIEW-VS-LOCAL-IMPLEMENTATION-READINESS.md](../../validation/ghuravia/external-1b/governance/PREVIEW-VS-LOCAL-IMPLEMENTATION-READINESS.md) · [IMPLEMENTATION-AUTHORIZATION-RECOMMENDATION.md](../../validation/ghuravia/external-1b/IMPLEMENTATION-AUTHORIZATION-RECOMMENDATION.md) | Governs local-first entry and recommends **GHV.IMPLEMENTATION.0A**; authorization remains separate |
+| **Blocker register v2** | [IMPLEMENTATION-BLOCKER-REGISTER-v2.md](../../validation/ghuravia/external-1b/governance/IMPLEMENTATION-BLOCKER-REGISTER-v2.md) | Authoritative 1B lifecycle register; 1A register remains preserved source definition |
 | **External evidence architecture impact** | [EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md) | **0 contradictions · 0 rebaseline** |
 | **Implementation readiness assessment** | [IMPLEMENTATION-READINESS-ASSESSMENT.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-READINESS-ASSESSMENT.md) | **NOT READY** |
 | **Implementation blocker register** | [IMPLEMENTATION-BLOCKER-REGISTER.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-BLOCKER-REGISTER.md) | **17** Product Code path blockers |

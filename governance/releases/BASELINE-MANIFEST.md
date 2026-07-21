@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1A |
+| **Source Gate** | GHV.VALIDATION.1B |
 
 ## Active baseline set
 
@@ -30,6 +30,22 @@
 | Usability Validation | **NOT RUN** |
 | Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION BASELINE v0.1.0 PARTIAL** |
 | **GHURAVIA External Technical Validation Baseline v0.1.0** | **ACTIVE — PARTIAL** · most domains NOT AVAILABLE · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · Source Gate **GHV.VALIDATION.1A** (**PARTIAL**) |
+| **GHURAVIA Implementation Entry Validation Baseline v0.1.0** | **READY WITH CONDITIONS** · Architecture Design **LOCKED v1.0.0** · External Technical Validation **PARTIAL** · Local Implementation Readiness **READY WITH CONDITIONS** · Preview Readiness **NOT READY** · Controlled Launch Readiness **NOT READY** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED** · Source Gate **GHV.VALIDATION.1B** (**PASS**) |
+
+### GHURAVIA Implementation Entry Validation Baseline v0.1.0
+
+```text
+Status: READY WITH CONDITIONS
+Architecture Design: LOCKED v1.0.0
+External Technical Validation: PARTIAL
+Local Implementation Readiness: READY WITH CONDITIONS
+Preview Readiness: NOT READY
+Controlled Launch Readiness: NOT READY
+Product Code: BLOCKED
+Implementation Authorization: NOT GRANTED
+```
+
+Source Gate: **GHV.VALIDATION.1B**
 | **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Amendment **GHV.ARCHITECTURE.1A-AMENDMENT-01** · Precondition correction **CR-002** · Source Gate **GHV.ARCHITECTURE.1A** (PASS — AMENDED) |
 | **GHURAVIA Core Platform Architecture and Stack Baseline v1.0.0** | **ACTIVE — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · P0 spikes **6/6 PASS** · P1–P3 open at 1B close · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1B** (**PARTIAL** — restored by 1E-AMENDMENT-01) |
 | **GHURAVIA Identity, Security, Data and Evidence Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · Provider and Legal Conditions **OPEN** · Full Technical Validation **NOT COMPLETE** · Product Code **BLOCKED** · ADR-ARC-013..023 · 1C spikes **6/6 PASS** · Source Gate **GHV.ARCHITECTURE.1C** (**PARTIAL**) |
@@ -50,6 +66,7 @@
 | GHV.ARCHITECTURE.1E | **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION** |
 | GHV.ARCHITECTURE.1E-AMENDMENT-01 | **PASS** |
 | GHV.VALIDATION.1A | **PARTIAL** — external validation with implementation readiness conditions |
+| GHV.VALIDATION.1B | **PASS** — implementation entry validation complete and ready for Product Code authorization review; Product Code **NOT GRANTED** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -60,6 +77,8 @@ Authoritative progression design baseline: [PROGRESSION-BASELINE-MANIFEST.md](..
 Authoritative architecture design baseline: [GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md](../../architecture/ghuravia/governance/GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md)
 
 Authoritative external validation baseline: [EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md)
+
+Authoritative implementation-entry validation baseline: [IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md](../../validation/ghuravia/external-1b/IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md)
 
 Authoritative master screen registry: [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) · [SCREEN-BASELINE-FREEZE-POLICY.md](../corrections/SCREEN-BASELINE-FREEZE-POLICY.md)
 

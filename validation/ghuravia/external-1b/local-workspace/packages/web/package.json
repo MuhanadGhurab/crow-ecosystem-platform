@@ -1,0 +1,10 @@
+{
+  "name": "@ghv-val-1b/web",
+  "private": true,
+  "version": "0.0.0-validation",
+  "type": "module",
+  "dependencies": {
+    "@ghv-val-1b/contracts": "file:../contracts",
+    "@ghv-val-1b/domain": "file:../domain"
+  }
+}

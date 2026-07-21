@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.18.0 |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1A |
+| **Source Gate** | GHV.VALIDATION.1B |
 | **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -312,3 +312,11 @@ Architecture, simulation, synthetic calibration, **Progression Design Baseline l
 ## 1E note (2026-07-21)
 
 GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. External infrastructure validation, provider sandbox validation, legal/privacy validation, accessibility user validation, Arabic UX user validation, penetration testing, and operational DR validation remain **OPEN / NOT RUN**. Do not downgrade Open risks based on design lock alone.
+
+## Validation.1B risk additions
+
+| ID | Description | P | I | Exp | Trigger | Mitigation | Contingency | Owner | Status | Review | Caps |
+|----|-------------|---|---|-----|---------|------------|-------------|-------|--------|--------|------|
+| RISK-VAL-001 | Preview remains unavailable after local-entry validation | H | H | H | Attempt to treat local PASS as Preview readiness | Preserve 4 Preview blockers; require separate environment, secrets, isolation, and KMS proof | Keep Preview deployment blocked | Founder | Open | Before Preview authorization | CAP-TRU-014 |
+| RISK-VAL-002 | Provider mocks are mistaken for provider sandbox validation | H | H | H | Mock adapters presented as real integration evidence | Contractually limit mocks to local adapter work; retain activation blockers | Disable affected capability activation | Founder | Open | Before provider activation | CAP-TRU-* |
+| RISK-VAL-003 | Product Code bootstrap begins without 0A authority | M | H | H | Workspace or root Product Code is created after 1B PASS | Boundary specification, deployment guard, and separate 0A Gate | Stop unauthorized Product Code through governance process | Founder | Open | Before implementation | CAP-GOV-* |

@@ -1,0 +1,6 @@
+{
+  "name": "@ghv-val-1b/contracts",
+  "private": true,
+  "version": "0.0.0-validation",
+  "type": "module"
+}

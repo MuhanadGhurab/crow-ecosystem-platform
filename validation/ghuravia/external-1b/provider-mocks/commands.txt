@@ -1,0 +1,2 @@
+npm run typecheck
+node scripts/run-mock-tests.mjs

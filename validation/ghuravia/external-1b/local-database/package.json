@@ -1,0 +1,12 @@
+{
+  "name": "@ghv-val-1b/local-database",
+  "private": true,
+  "version": "0.0.0-validation",
+  "type": "module",
+  "scripts": {
+    "contract": "node scripts/run-contract.mjs"
+  },
+  "dependencies": {
+    "pg": "8.16.3"
+  }
+}

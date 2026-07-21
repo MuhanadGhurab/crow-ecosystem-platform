@@ -2426,3 +2426,138 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.VALIDATION.1A |
 | **Evidence** | [EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md)
+
+## DEC-241 — Implementation-entry meaning
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Implementation entry means local-first readiness for authorization review, not Product Code authorization, Preview readiness, or controlled launch approval. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md](../../validation/ghuravia/external-1b/IMPLEMENTATION-ENTRY-MINIMUM-CRITERIA.md) |
+
+## DEC-242 — Blocker lifecycle classification
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Classify blockers by the lifecycle stage they actually prevent: Product Code 0; Preview 4; feature activation 8; controlled launch 7; satisfied rehearsal 2; unclassified 0. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [BLOCKER-RECLASSIFICATION.md](../../validation/ghuravia/external-1b/BLOCKER-RECLASSIFICATION.md) |
+
+## DEC-243 — Local-first implementation policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Local entry may use an isolated workspace, disposable PostgreSQL, locally injected secrets, synthetic data, and approved mocks while downstream validation remains open. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [README.md](../../validation/ghuravia/external-1b/README.md) |
+
+## DEC-244 — Preview separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Preview readiness is separate from local implementation entry. Preview remains NOT READY and requires its own infrastructure, secret, isolation, and KMS evidence. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [PREVIEW-VS-LOCAL-IMPLEMENTATION-READINESS.md](../../validation/ghuravia/external-1b/governance/PREVIEW-VS-LOCAL-IMPLEMENTATION-READINESS.md) |
+
+## DEC-245 — Approved provider-mock role
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Approved provider mocks are permitted only for local adapter work and must not be represented as real sandbox, Preview, or activation validation. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [PROVIDER-MOCK-CONTRACT-VALIDATION.md](../../validation/ghuravia/external-1b/provider-mocks/PROVIDER-MOCK-CONTRACT-VALIDATION.md) |
+
+## DEC-246 — Local database requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | A disposable local PostgreSQL topology is required for local implementation entry and has passed validation; it does not replace Preview datastore-host validation. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [RESULT.md](../../validation/ghuravia/external-1b/local-database/RESULT.md) |
+
+## DEC-247 — Migration rehearsal result
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Local migration, rollback, and reset rehearsals passed, satisfying BLK-VAL-015 and BLK-VAL-016 for local entry while production migration ownership remains retained. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [RESULT.md](../../validation/ghuravia/external-1b/migration-rollback/RESULT.md) |
+
+## DEC-248 — Secrets path
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Local secret injection and redaction are required; credentials must not be committed. This local path does not satisfy governed Preview secret injection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [RESULT.md](../../validation/ghuravia/external-1b/secrets/RESULT.md) |
+
+## DEC-249 — Synthetic-data policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Implementation-entry validation and local development use synthetic data only; production, customer, provider, and confidential data are excluded. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [SYNTHETIC-TEST-DATA-POLICY.md](../../validation/ghuravia/external-1b/test-data/SYNTHETIC-TEST-DATA-POLICY.md) |
+
+## DEC-250 — CI requirements
+
+| Field | Value |
+|-------|-------|
+| **Decision** | The initial slice must follow the defined local CI and quality-gate policy; deployment remains impossible by default until separately authorized. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [CI-QUALITY-GATE-READINESS.md](../../validation/ghuravia/external-1b/ci-quality/CI-QUALITY-GATE-READINESS.md) · [RESULT.md](../../validation/ghuravia/external-1b/deployment-guard/RESULT.md) |
+
+## DEC-251 — Product Code boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Validation artefacts remain outside the Product Code boundary. Product Code can be created only after a distinct GHV.IMPLEMENTATION.0A authorization. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [PRODUCT-CODE-BOUNDARY-SPECIFICATION.md](../../validation/ghuravia/external-1b/implementation-boundary/PRODUCT-CODE-BOUNDARY-SPECIFICATION.md) |
+
+## DEC-252 — Initial implementation slice
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHV.IMPLEMENTATION.0A, if granted, must remain limited to the governed initial local implementation slice and its acceptance criteria. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [INITIAL-IMPLEMENTATION-SLICE-PLAN.md](../../validation/ghuravia/external-1b/initial-slice/INITIAL-IMPLEMENTATION-SLICE-PLAN.md) · [IMPLEMENTATION-0A-ACCEPTANCE-CRITERIA.md](../../validation/ghuravia/external-1b/initial-slice/IMPLEMENTATION-0A-ACCEPTANCE-CRITERIA.md) |
+
+## DEC-253 — Operator authority
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Operator, branch, commit, review, and escalation authority for the future implementation workspace are governed before execution and remain subject to 0A authorization. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [IMPLEMENTATION-OPERATOR-RESPONSIBILITY-MODEL.md](../../validation/ghuravia/external-1b/governance/IMPLEMENTATION-OPERATOR-RESPONSIBILITY-MODEL.md) |
+
+## DEC-254 — Implementation recommendation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Recommend GHV.IMPLEMENTATION.0A because IMP-ENTRY records 0 FAIL and 0 NOT AVAILABLE with filed executable local evidence. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B |
+| **Evidence** | [IMPLEMENTATION-AUTHORIZATION-RECOMMENDATION.md](../../validation/ghuravia/external-1b/IMPLEMENTATION-AUTHORIZATION-RECOMMENDATION.md) |
+
+## DEC-255 — Product Code remains blocked pending IMPLEMENTATION.0A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHV.VALIDATION.1B PASS completes implementation-entry validation only. Product Code and implementation authorization remain BLOCKED / NOT GRANTED until GHV.IMPLEMENTATION.0A explicitly grants scoped authority. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1B → GHV.IMPLEMENTATION.0A |
+| **Evidence** | [GHV.VALIDATION.1B.md](../gates/GHV.VALIDATION.1B.md) |

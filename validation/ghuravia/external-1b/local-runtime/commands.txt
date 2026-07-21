@@ -1,0 +1,4 @@
+node --version
+npm --version
+npm install --prefix ../local-workspace
+npm run validate --prefix ../local-workspace

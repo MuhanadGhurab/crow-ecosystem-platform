@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.21.0 |
+| **Version** | 1.22.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1A · external technical validation PARTIAL |
+| **Source Gate** | GHV.VALIDATION.1B · implementation-entry validation PASS |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -33,21 +33,24 @@
 | GHV.ARCHITECTURE.1E | Architecture Reconciliation and Final Baseline Lock | **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION** | Original: Architecture Design Baseline v1.0.0 **LOCKED** · spikes **25/25** · ADR-ARC-001..038 · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1E.md) · [Amendment-01](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 | GHV.ARCHITECTURE.1E-AMENDMENT-01 | Predecessor Verdict Preservation | **PASS** | Restores **1B PARTIAL** · no baseline invalidation · no spike/ADR/condition/provider change · [Record](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 | GHV.VALIDATION.1A | External Technical Validation | **PARTIAL** | **GHURAVIA EXTERNAL TECHNICAL VALIDATION COMPLETED WITH IMPLEMENTATION READINESS CONDITIONS** · External Validation Baseline v0.1.0 **PARTIAL** · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · [Report](./GHV.VALIDATION.1A.md) |
-| GHV.VALIDATION.1B | Remaining External Validation Closure | **NOT STARTED** | Next recommended Gate after 1A PARTIAL |
+| GHV.VALIDATION.1B | Implementation Entry Validation | **PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW** | Local-first entry criteria met: IMP-ENTRY **14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE** · Local readiness **READY WITH CONDITIONS** · Preview / controlled launch remain NOT READY · Product Code **NOT GRANTED** · [Report](./GHV.VALIDATION.1B.md) |
+| GHV.IMPLEMENTATION.0A | Local Product Code Authorization | **ELIGIBLE TO START · NOT STARTED** | Separate authorization decision required; Product Code remains **BLOCKED** until this Gate grants scoped authorization |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
-## Programme status (post-Validation.1A)
+## Programme status (post-Validation.1B)
 
 ```text
 Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
-Gate verdicts: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL
+Gate verdicts: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL · VALIDATION.1B PASS
 Programme completion ≠ every Gate PASS
 Architecture Design Baseline LOCKED v1.0.0
-External Technical Validation Baseline v0.1.0 PARTIAL
-External Technical Validation OPEN — remaining closure @ VALIDATION.1B
+Architecture Design Baseline LOCKED v1.0.0
+External Technical Validation remains PARTIAL
+Implementation-entry validation COMPLETE — local readiness READY WITH CONDITIONS
+Preview readiness NOT READY · Controlled launch readiness NOT READY
 Product Code Authorization BLOCKED
 Implementation Authorization NOT GRANTED
-Next recommended Gate: GHV.VALIDATION.1B (NOT STARTED)
+Next recommended Gate: GHV.IMPLEMENTATION.0A (ELIGIBLE TO START · NOT STARTED)
 ```
 
 Reports:
@@ -74,5 +77,6 @@ Reports:
 - [GHV.ARCHITECTURE.1E.md](./GHV.ARCHITECTURE.1E.md)
 - [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md)
 - [GHV.VALIDATION.1A.md](./GHV.VALIDATION.1A.md)
+- [GHV.VALIDATION.1B.md](./GHV.VALIDATION.1B.md)
 - [GATE-VERDICT-PRESERVATION-POLICY.md](./GATE-VERDICT-PRESERVATION-POLICY.md)
 - [GATE-VERDICT-CONSISTENCY-CHECK.md](./GATE-VERDICT-CONSISTENCY-CHECK.md)
