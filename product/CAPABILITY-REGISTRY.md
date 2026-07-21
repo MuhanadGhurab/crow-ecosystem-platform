@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.12.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 | **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
@@ -146,11 +146,11 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-TRU-005 | Security / audit | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Specified | ADR-022 · SPK-ARC-019 · pen-test pending | Founder | ARCH.1C |
 | CAP-TRU-006 | Regional policy | Trust | CORE FOUNDATION | Ops | ADM | Defined | SAUDI readiness · OFFICIAL ACCESS NOT VERIFIED | Founder | ARCH.1C |
 | CAP-TRU-007 | Object storage | Trust | CONTROLLED LAUNCH | Evidence | LRN | Specified | ADR-020 S3 adapter locked · provider deferred | Founder | ARCH.1C |
-| CAP-TRU-008 | Realtime | Community | CONTROLLED LAUNCH | Live | LIV | Pending Validation | Tech | Founder | Tech |
-| CAP-TRU-009 | Observability | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Pending Validation | Tech | Founder | Tech |
-| CAP-TRU-010 | Backup and recovery | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | — | Pending Validation | Tech | Founder | Tech |
-| CAP-TRU-011 | Localization RTL/LTR | Trust | CONTROLLED LAUNCH | All | — | Defined | — | Founder | 1B |
-| CAP-TRU-012 | Accessibility | Trust | CONTROLLED LAUNCH | All | — | Defined | — | Founder | 1B |
+| CAP-TRU-008 | Realtime | Community | CONTROLLED LAUNCH | Live | LIV | Specified | ADR-030 adapter · provider deferred | Founder | ARCH.1D |
+| CAP-TRU-009 | Observability | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Specified | ADR-034 · provider conditional | Founder | ARCH.1D |
+| CAP-TRU-010 | Backup and recovery | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | — | Specified | ADR-035 operational conditions | Founder | ARCH.1D |
+| CAP-TRU-011 | Localization RTL/LTR | Trust | CONTROLLED LAUNCH | All | — | Specified | ADR-025 · SPK-002 | Founder | ARCH.1D |
+| CAP-TRU-012 | Accessibility | Trust | CONTROLLED LAUNCH | All | — | Specified | ADR-026 · user validation pending | Founder | ARCH.1D |
 | CAP-TRU-013 | Administration | Trust | CONTROLLED LAUNCH | Ops | ADM | Defined | — | Founder | 1B |
 | CAP-TRU-014 | Preview DB readiness | Trust | PENDING TECHNICAL VALIDATION | Ops | — | Not Built | TECH-018 | Founder | 1B/Arch |
 

@@ -85,3 +85,7 @@ Do **not** mark a risk **mitigated** merely because an ADR or spike PASS exists.
 |---------|------|--------|
 | 1.1.0 | 2026-07-21 | GHV.ARCHITECTURE.1C — identity/evidence risks added; spike counts updated |
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §47 — architecture risks opened/monitored |
+
+## 1D additions
+
+See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.

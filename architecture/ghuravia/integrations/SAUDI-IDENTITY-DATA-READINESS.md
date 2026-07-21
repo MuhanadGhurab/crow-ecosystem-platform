@@ -57,3 +57,20 @@ Nafath not integrated
 No government endorsement implied
 No PDPL compliance claim
 ```
+
+## 7. Architecture 1D runtime integration note
+
+| Item | Status |
+|------|--------|
+| Integration gateway port | Defined — not implemented |
+| Live Saudi verification | **OFFICIAL ACCESS NOT VERIFIED** |
+| Runtime ADR cross-ref | ADR-ARC-037 |
+| 1D spike impact | None — no Saudi spike executed |
+
+```text
+PLANNED CAPABILITY
+OFFICIAL ACCESS NOT VERIFIED
+Product Code: BLOCKED
+```
+
+This section appended by GHV.ARCHITECTURE.1D generator. Does not authorize integration work.

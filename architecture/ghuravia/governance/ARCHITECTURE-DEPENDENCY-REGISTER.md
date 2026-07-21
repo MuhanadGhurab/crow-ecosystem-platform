@@ -48,3 +48,7 @@ Satisfying a plan document does NOT satisfy technical dependencies
 ## 1C additions
 
 See global DEPENDENCY-REGISTER DEP-090..094. Source Gate GHV.ARCHITECTURE.1C.
+
+## 1D additions
+
+See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.15.0 |
+| **Version** | 1.16.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -120,3 +120,9 @@
 | ASM-107 | Provider adapters prevent unacceptable lock-in for identity/storage/scanning | Pending Validation | Integrations | DEC-204 · adapter contracts | Forced migration plan | ARCH.1C |
 | ASM-108 | Founder can operate security-critical workflows initially with SoD and audit | Pending Validation | Operability | PRIVILEGED-ACCESS · SPK-ARC-019 | Hire security ops | ARCH.1C |
 | ASM-109 | Domain architecture acceptance will not be mistaken for Product Code or compliance | Active | Status clarity | DEC-205 · PARTIAL gate · BASELINE-MANIFEST | Correct messaging | ARCH.1C |
+
+| ASM-110 | Modular monolith can support controlled-launch Live Sky with channel separation | Pending Validation | Live Sky | SPK-ARC-014/015 · ADR-030 | Defer Live depth | ARCH.1D |
+| ASM-111 | Relational FTS may support initial Arabic/English discovery | Pending Validation | Search | SPK-ARC-016 · ADR-031 | Add managed search later | ARCH.1D |
+| ASM-112 | Local worker/outbox remains founder-operable at controlled launch | Pending Validation | Jobs | ADR-024 · runbooks | External queue CR | ARCH.1D |
+| ASM-113 | Notification delivery can remain asynchronous without business-state coupling | Pending Validation — spike PASS | Notifications | SPK-ARC-018 · ADR-032 | Keep isolation | ARCH.1D |
+| ASM-114 | 25/25 spike completion will not be mistaken for Product Code or production readiness | Active | Status clarity | DEC-215 · PARTIAL gate | Correct messaging | ARCH.1D |

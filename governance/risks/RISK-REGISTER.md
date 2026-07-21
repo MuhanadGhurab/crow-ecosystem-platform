@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.15.0 |
+| **Version** | 1.16.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 | **Note** | Risks are identified, not claimed mitigated. **Core Platform Stack Baseline acceptance** and **P0 spike PASS** do **not** close Open validation-debt, provider-selection, or operational risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -291,6 +291,18 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-ARC-048 | Saudi integration assumption | M | H | H | Claim Nafath availability | SAUDI readiness · OFFICIAL ACCESS NOT VERIFIED | Defer federation | Founder | **OPEN** | Open | ARCH |
 | RISK-ARC-049 | Legal retention uncertainty | H | H | H | Wrong deletion/retention | ADR-017 DRAFT classes | Legal validation required | Founder | **OPEN** | Open | ARCH |
 | RISK-ARC-050 | Spike confidence exceeding evidence | H | H | H | Treat 1C harness as prod security | DEC-205 · PARTIAL gate | Require pen-test + provider sandbox | Founder | **OPEN** | Open | ARCH |
+
+| RISK-ARC-051 | Live Sky spectator fan-out / connection scaling | H | H | H | Unbounded spectators | Channel separation · capacity triggers | Degrade spectators first | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-052 | Reconnect contribution duplication | M | H | H | Client retry storms | SPK-ARC-015 command idempotency | Reject duplicates | Founder | **1D EVIDENCE — RUNTIME RISK OPEN** | Open | ARCH |
+| RISK-ARC-053 | Payment webhook forgery / entitlement drift | H | H | H | Unsigned events | ADR-029 signature + reconcile | Freeze entitlements | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-054 | Search privacy / Arabic relevance | M | H | H | Filter miss / poor AR search | SPK-ARC-016 · authZ filters | Narrow search surfaces | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-055 | Notification duplication / sensitive leak | M | H | H | Retry storms | Outbox idempotency · content minimization | Dead-letter | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-056 | Offline stale overwrite | H | H | H | Multi-device race | SPK-ARC-006 revision checks | Conflict UX | Founder | **1D EVIDENCE — IMPL RISK OPEN** | Open | ARCH |
+| RISK-ARC-057 | Observability PII / Evidence in logs | H | H | H | Over-logging | SPK-ARC-022 redaction | Block ship of loose logging | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-058 | Backup restore incompleteness | H | H | H | Partial restore | ADR-035 · restore drills | Hold cutover | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-059 | Environment / secret leakage | H | H | H | Preview=Prod | ADR-036 · SPK-021 | Block Preview runtime | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-060 | Spike confidence vs real infrastructure | H | H | H | 25/25 mistaken for prod-ready | DEC-215 · PARTIAL gate | Require 1E + infra tests | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-061 | Accessibility outcomes untested with users | H | H | H | Automated-only a11y | ADR-026 user-validation debt | Schedule user tests | Founder | **OPEN** | Open | ARCH |
 | RISK-GOV-001 | Gate work continuing after a mandatory stop condition | M | H | H | Precondition fail ignored; mixed correction + substantive Gate commit | Precondition checklist · stop checkpoint · separate correction commit/Gate · resumption record · reviewer confirmation · amendment if mixed (DEC-173) | Reopen Gate / issue amendment; do not rewrite history | Founder | **OPEN / MONITORED** — Amendment-01 recorded; **not eliminated** | Continuous | GOV |
 | RISK-GOV-002 | Stack acceptance messaging overclaims validation | M | H | H | “Architecture done” after 1B | PROJECT_STATUS · BASELINE-MANIFEST · DEC-190 | Correct to PARTIAL / domain continues | Founder | **OPEN** | Open | GOV |
 

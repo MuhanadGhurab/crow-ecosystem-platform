@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-TVT-001 |
-| **Version** | 1.2.0 |
-| **Status** | **PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE** |
+| **Version** | 1.3.0 |
+| **Status** | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL INFRA OPEN** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 | **Last updated** | 2026-07-21 |
 | **Screen baseline** | MASTER-SCREEN-REGISTRY v1.2.0 · **92 ACTIVE** · ACT-004 **HISTORICAL excluded** |
 
@@ -117,3 +117,23 @@ Core Platform Stack Baseline ACTIVE — Product Code BLOCKED
 | Trust privacy | SPK-ARC-013 | — | PASS |
 | Audit/corrections | SPK-ARC-019 | 022 | PASS |
 | Minor privacy | SPK-ARC-025 | 023 | PASS WITH LEGAL CONDITIONS |
+
+
+## 1D runtime additions
+
+| Domain | Spike | ADR | Status |
+|--------|-------|-----|--------|
+| Routes/shells | 004 | — | PASS 92/92 |
+| RTL/LTR | 002 | 025 | PASS |
+| Accessibility | 017 | 026 | PASS WITH USER-VALIDATION CONDITIONS |
+| Save/resume | 006 | 027 | PASS |
+| Skyboard | 023 | 028 | PASS WITH PERFORMANCE CONDITIONS |
+| Payments | 012 | 029 | PASS |
+| Live Sky | 014/015 | 030 | PASS WITH PROVIDER CONDITIONS |
+| Search | 016 | 031 | PASS |
+| Notifications | 018 | 032 | PASS |
+| Leaderboards | 024 | 033 | PASS |
+| Observability | 022 | 034 | PASS WITH CONDITIONS |
+| Backup | 020 | 035 | PASS WITH OPERATIONAL CONDITIONS |
+
+Registered spikes: **25 / 25 COMPLETE**

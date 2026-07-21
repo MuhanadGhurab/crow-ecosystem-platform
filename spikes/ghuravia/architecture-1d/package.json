@@ -1,0 +1,10 @@
+{
+  "name": "ghuravia-architecture-1d-spikes",
+  "private": true,
+  "description": "GHURAVIA TECHNICAL SPIKE — NON-PRODUCT CODE — NOT APPROVED FOR RUNTIME OR PRODUCTION",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test SPK-ARC-*/test/*.test.mjs"
+  }
+}

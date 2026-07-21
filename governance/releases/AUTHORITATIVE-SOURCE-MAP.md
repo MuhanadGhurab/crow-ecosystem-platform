@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.1.0 |
+| **Version** | 2.2.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -98,6 +98,25 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **1C spike evidence** | [ARCHITECTURE-1C-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1C-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1c/SPIKE-EVIDENCE-INDEX.md) | **6/6 PASS** · Product Code **BLOCKED** |
 | **Identity Security Data Evidence Baseline** | [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) | **ACTIVE v1.0.0** |
 | **Architecture options (comparisons)** | architecture/ghuravia/options/ | **Supporting evidence** — decisions recorded in ADRs |
+
+| **Runtime process topology** | [ADR-ARC-024](../../architecture/ghuravia/decisions/ADR-ARC-024-RUNTIME-PROCESS-TOPOLOGY.md) | **DOMAIN ARCHITECTURE ACCEPTED · EXTERNAL VALIDATION CONTINUES** |
+| **Route/shell runtime** | [ROUTE-SHELL-RUNTIME-RESULT.md](../../architecture/ghuravia/frontend/ROUTE-SHELL-RUNTIME-RESULT.md) · SPK-ARC-004 | **92/92 · 0 aliases** |
+| **Localization runtime** | [ADR-ARC-025](../../architecture/ghuravia/decisions/ADR-ARC-025-LOCALIZATION-RUNTIME-MODEL.md) · SPK-ARC-002 | **ACCEPTED WITH CONDITIONS** |
+| **Accessibility runtime** | [ADR-ARC-026](../../architecture/ghuravia/decisions/ADR-ARC-026-ACCESSIBILITY-RUNTIME-REQUIREMENTS.md) · SPK-ARC-017 | **ACCEPTED WITH USER-VALIDATION CONDITIONS** |
+| **Save/resume** | [ADR-ARC-027](../../architecture/ghuravia/decisions/ADR-ARC-027-SAVE-RESUME-CONFLICT-MODEL.md) · SPK-ARC-006 | **ACCEPTED** |
+| **Skyboard composition** | [ADR-ARC-028](../../architecture/ghuravia/decisions/ADR-ARC-028-SKYBOARD-COMPOSITION-AND-CACHING.md) · SPK-ARC-023 | **ACCEPTED WITH PERFORMANCE CONDITIONS** |
+| **Payment/entitlement runtime** | [ADR-ARC-029](../../architecture/ghuravia/decisions/ADR-ARC-029-PAYMENT-WEBHOOK-AND-ENTITLEMENT-RECONCILIATION.md) · SPK-ARC-012 | **ACCEPTED** |
+| **Live Sky / realtime** | [ADR-ARC-030](../../architecture/ghuravia/decisions/ADR-ARC-030-LIVE-SKY-REALTIME-PATTERN.md) · SPK-ARC-014/015 | **PATTERN ACCEPTED · PROVIDER DEFERRED** |
+| **Search** | [ADR-ARC-031](../../architecture/ghuravia/decisions/ADR-ARC-031-SEARCH-AND-DISCOVERY-PATTERN.md) · SPK-ARC-016 | **PATTERN ACCEPTED · PROVIDER DEFERRED** |
+| **Notifications** | [ADR-ARC-032](../../architecture/ghuravia/decisions/ADR-ARC-032-NOTIFICATION-DELIVERY-PATTERN.md) · SPK-ARC-018 | **PATTERN ACCEPTED · PROVIDER DEFERRED** |
+| **Leaderboards** | [ADR-ARC-033](../../architecture/ghuravia/decisions/ADR-ARC-033-LEADERBOARD-PUBLICATION-AND-SNAPSHOT-MODEL.md) · SPK-ARC-024 | **ACCEPTED** |
+| **Observability** | [ADR-ARC-034](../../architecture/ghuravia/decisions/ADR-ARC-034-OBSERVABILITY-AND-DIAGNOSTICS.md) · SPK-ARC-022 | **ACCEPTED WITH CONDITIONS** |
+| **Backup/restore** | [ADR-ARC-035](../../architecture/ghuravia/decisions/ADR-ARC-035-BACKUP-RESTORE-AND-CONTINUITY.md) · SPK-ARC-020 | **ACCEPTED WITH OPERATIONAL CONDITIONS** |
+| **Environment/deployment** | [ADR-ARC-036](../../architecture/ghuravia/decisions/ADR-ARC-036-ENVIRONMENT-AND-DEPLOYMENT-TOPOLOGY.md) · ADR-037 | **ACCEPTED CONCEPTUALLY** |
+| **Integration gateway** | [ADR-ARC-038](../../architecture/ghuravia/decisions/ADR-ARC-038-INTEGRATION-ADAPTER-AND-WEBHOOK-MODEL.md) | **ACCEPTED** |
+| **1D spike evidence** | [ARCHITECTURE-1D-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1D-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1d/SPIKE-EVIDENCE-INDEX.md) | **13/13 · registry 25/25** |
+| **Runtime/Ops Baseline** | [RUNTIME-REALTIME-INTEGRATION-OPERATIONS-BASELINE.md](../../architecture/ghuravia/governance/RUNTIME-REALTIME-INTEGRATION-OPERATIONS-BASELINE.md) | **ACTIVE v1.0.0** |
+| **Runbooks / capacity / degradation** | operations/runbooks/ · capacity/ · GRACEFUL-DEGRADATION-MATRIX.md | **DOMAIN ARCHITECTURE ACCEPTED · OPS PROOF PENDING** |
 | **Frontend validation** | architecture/ghuravia/frontend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-002 ACCEPTED WITH CONDITIONS |
 | **Backend validation** | architecture/ghuravia/backend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-003 ACCEPTED WITH CONDITIONS |
 | **Data validation** | architecture/ghuravia/data/ | **DOMAIN VALIDATION CONTINUES** — ADR-005/006 ACCEPTED (006 WITH CONDITIONS) |

@@ -40,3 +40,7 @@ Plan alone does NOT validate these assumptions
 ## 1C additions
 
 See global ASSUMPTION-REGISTER ASM-102..109. Source Gate GHV.ARCHITECTURE.1C.
+
+## 1D additions
+
+See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.

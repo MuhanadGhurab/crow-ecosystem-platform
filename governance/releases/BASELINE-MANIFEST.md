@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.16.0 |
+| **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1D |
 
 ## Active baseline set
 
@@ -28,10 +28,11 @@
 | Learning Pilot | **NOT RUN** |
 | Real-User Progression Calibration | **NOT RUN** |
 | Usability Validation | **NOT RUN** |
-| Technical Validation | **PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE** |
+| Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL INFRA OPEN** |
 | **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Amendment **GHV.ARCHITECTURE.1A-AMENDMENT-01** · Precondition correction **CR-002** · Source Gate **GHV.ARCHITECTURE.1A** (PASS — AMENDED) |
 | **GHURAVIA Core Platform Architecture and Stack Baseline v1.0.0** | **ACTIVE — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1B** (**PASS**) |
 | **GHURAVIA Identity, Security, Data and Evidence Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · Provider and Legal Conditions **OPEN** · Full Technical Validation **NOT COMPLETE** · Product Code **BLOCKED** · ADR-ARC-013..023 · 1C spikes **6/6 PASS** · Source Gate **GHV.ARCHITECTURE.1C** (**PARTIAL**) |
+| **GHURAVIA Runtime, Realtime, Integration and Operational Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · External Infrastructure Validation **OPEN** · Full Technical Validation **NOT COMPLETE** · Final Architecture Lock **PENDING 1E** · Product Code **BLOCKED** · ADR-ARC-024..038 · 1D spikes **13/13** · Source Gate **GHV.ARCHITECTURE.1D** (**PARTIAL**) |
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
@@ -43,6 +44,7 @@
 | GHV.ARCHITECTURE.1A | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** |
 | GHV.ARCHITECTURE.1B | **PASS** |
 | GHV.ARCHITECTURE.1C | **PARTIAL** |
+| GHV.ARCHITECTURE.1D | **PARTIAL** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -79,7 +81,9 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** · core decisions **ACCEPTED** · domain validation **CONTINUES** |
 | Identity / Security / Data / Evidence Baseline | **ACTIVE v1.0.0** · domain architecture **ACCEPTED** · providers/legal **OPEN** |
 | P0 architecture spikes | **COMPLETE** (6/6 PASS) |
-| 1C domain spikes | **COMPLETE** (6/6 PASS: 007 · 008 · 009 · 013 · 019 · 025) · remaining P1–P3 to 1D/1E |
+| 1C domain spikes | **COMPLETE** (6/6)
+| 1D runtime spikes | **COMPLETE** (13/13)
+| Registered spikes total | **25 / 25 COMPLETE** · external infra validation **OPEN** |
 | TECH-018 Preview DB | PENDING TECHNICAL VALIDATION · SPK-ARC-021 P0 PASS does not close remediation |
 
 ## Explicit non-claims
@@ -89,7 +93,7 @@ Formulas are NOT production calibrated
 Real-user validation NOT RUN
 Usability validation NOT RUN
 Technical validation PARTIAL — core + 1C domain spikes complete; full programme NOT RUN
-Technical Spikes Run = 12 / 25 (P0 6 + 1C 6)
+Technical Spikes Run = 25 / 25 (registry complete; external validation open)
 Core platform stack ADRs ACCEPTED — domain validation continues
 Identity/Evidence providers DEFERRED WITH ADAPTERS — not production-approved
 P1–P3 remaining spikes NOT RUN (owned by 1D/1E/launch)

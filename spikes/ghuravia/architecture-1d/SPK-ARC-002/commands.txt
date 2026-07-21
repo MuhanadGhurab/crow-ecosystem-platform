@@ -1,0 +1,4 @@
+﻿cd spikes/ghuravia/architecture-1d
+npm test -- SPK-ARC-002/test
+# or full suite:
+npm test

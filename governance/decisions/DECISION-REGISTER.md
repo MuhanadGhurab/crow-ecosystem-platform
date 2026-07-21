@@ -2111,3 +2111,93 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.ARCHITECTURE.1C → GHV.ARCHITECTURE.1D |
 | **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |
+
+## DEC-206 — Runtime Realtime Integration Operations Baseline v1.0.0
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept Runtime/Realtime/Integration/Operations Baseline v1.0.0; external infra validation open; final lock pending 1E; Product Code BLOCKED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | RUNTIME-REALTIME-INTEGRATION-OPERATIONS-BASELINE.md |
+
+## DEC-207 — Runtime process topology
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Controlled launch uses primary web deployable plus worker boundary (ADR-ARC-024). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | ADR-ARC-024 · SPK harness |
+
+## DEC-208 — 92-route shell runtime
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All 92 ACTIVE screens represented in route registry; 0 alias routes; ACT-004 excluded (SPK-ARC-004). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-004 |
+
+## DEC-209 — Localization and accessibility runtime
+
+| Field | Value |
+|-------|-------|
+| **Decision** | RTL default with LTR technical islands (ADR-025); a11y requirements accepted with user-validation pending (ADR-026). |
+| **Status** | Accepted with conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-002 · 017 |
+
+## DEC-210 — Save/resume and Skyboard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Stale-write rejection and server-authoritative completion (ADR-027); Skyboard composition with non-authoritative cache (ADR-028). |
+| **Status** | Accepted / with performance conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-006 · 023 |
+
+## DEC-211 — Payment entitlement neutrality
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Webhook idempotency and entitlement reconciliation; commercial events never affect progression (ADR-029). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-012 |
+
+## DEC-212 — Live Sky realtime pattern
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Participant/spectator separation; reconnect without duplicate contribution; realtime provider deferred with adapter (ADR-030). |
+| **Status** | Accepted with provider conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-014 · 015 |
+
+## DEC-213 — Search notifications leaderboards observability backup
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept patterns ADR-031..035 with provider/operational conditions as recorded. |
+| **Status** | Accepted with conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | SPK-ARC-016 · 018 · 024 · 022 · 020 |
+
+## DEC-214 — Environment deployment release integration
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept conceptual environment isolation, release/migration governance, and integration adapter/webhook model (ADR-036..038). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D |
+| **Evidence** | ADR-036..038 · SPK-ARC-021 prior |
+
+## DEC-215 — Product Code remains blocked; next Gate 1E
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Spike programme 25/25 does not authorize Product Code or final architecture lock; next Gate is GHV.ARCHITECTURE.1E. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1D → 1E |
+| **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |

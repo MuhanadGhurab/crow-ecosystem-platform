@@ -2,118 +2,99 @@
 
 `	ext
 Current Gate:
-GHV.ARCHITECTURE.1C — PARTIAL — DOMAIN ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
+GHV.ARCHITECTURE.1D — PARTIAL — RUNTIME REALTIME INTEGRATION AND OPERATIONAL ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
-- GHV.PRODUCT-DEFINITION.2 — PASS — AMENDED (BASELINE-CORRECTION.1 · CR-002)
+- GHV.PRODUCT-DEFINITION.2 — PASS — AMENDED
 - GHV.REPOSITORY-TRANSITION.1A — ACCEPTED PARTIAL
 - GHV.FOUNDATION.1A — PASS
 - GHV.REPOSITORY-TRANSITION.1B — PASS
 - GHV.FOUNDATION.1B — PASS
-- GHV.PRODUCT-DEFINITION.3 — PASS — AMENDED (BASELINE-CORRECTION.1)
-- GHV.LEARNING.1A — PASS
-- GHV.LEARNING.1B — PASS
-- GHV.LEARNING.1C — PASS
-- GHV.LEARNING.1D — PASS
-- GHV.PROGRESSION.1A — PASS
-- GHV.PROGRESSION.1B — PASS
-- GHV.PROGRESSION.1C — PASS
-- GHV.PROGRESSION.1D — PASS
+- GHV.PRODUCT-DEFINITION.3 — PASS — AMENDED
+- GHV.LEARNING.1A–1D — PASS
+- GHV.PROGRESSION.1A–1D — PASS
 - GHV.BASELINE-CORRECTION.1 — PASS — AMENDED BY CR-002
-- GHV.ARCHITECTURE.1A — PASS — AMENDED BY CR-002 PRECONDITION CORRECTION
+- GHV.ARCHITECTURE.1A — PASS — AMENDED
 - GHV.ARCHITECTURE.1A-AMENDMENT-01 — PASS
 - GHV.ARCHITECTURE.1B — PASS — CORE STACK ACCEPTED WITH CONDITIONS
-- GHV.ARCHITECTURE.1C — PARTIAL — DOMAIN ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
+- GHV.ARCHITECTURE.1C — PARTIAL — IDENTITY SECURITY DATA EVIDENCE ACCEPTED WITH CONDITIONS
+- GHV.ARCHITECTURE.1D — PARTIAL — RUNTIME REALTIME INTEGRATION OPERATIONS ACCEPTED WITH NON-BLOCKING CONDITIONS
 
 Product Definition:
 LOCKED
 
-Master Screen Registry / Screen Baseline:
-92 ACTIVE GOVERNED SCREENS
-NO ALIAS INFLATION
-ACT-004 HISTORICAL — NOT COUNTED
-ACT-013 ACTIVE — Accept Account Risk
+Master Screen Registry:
+92 ACTIVE — LOCKED · 7 shells · 0 aliases
 
 Learning Design:
-LOCKED AS DESIGN BASELINE v1.0.0
+LOCKED v1.0.0
 
 Progression Design:
-LOCKED AS DESIGN BASELINE v1.0.0
-
-Core Technical Validation Plan:
-PASS — AMENDED
+LOCKED v1.0.0
 
 Core Platform:
-PARTIAL — ACCEPTED WITH CONDITIONS (ADR-ARC-001..012)
+PARTIAL — ACCEPTED WITH CONDITIONS
 
-Identity Architecture:
-ACCEPTED WITH CONDITIONS (providers deferred with adapters)
+Identity / Security / Data / Evidence:
+PARTIAL — ACCEPTED WITH CONDITIONS
 
-Activation State:
-ACCEPTED — server-authoritative (ACT-003/011/012/013)
+Runtime Process:
+ACCEPTED
 
-Authentication and Sessions:
+92-Screen Routing:
+ACCEPTED
+
+Arabic RTL Runtime:
 ACCEPTED WITH CONDITIONS
 
-Authorization:
-ACCEPTED — hybrid RBAC + contextual policy · deny by default
+Accessibility Runtime:
+ACCEPTED WITH USER-VALIDATION CONDITIONS
 
-Privileged Access:
+Save and Resume:
 ACCEPTED
 
-Data Ownership:
+Adaptive Skyboard:
+ACCEPTED WITH PERFORMANCE CONDITIONS
+
+Commercial Reconciliation:
 ACCEPTED
 
-Data Classification:
+Live Sky Runtime:
+ACCEPTED WITH PROVIDER CONDITIONS
+
+Realtime:
+ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER LOCKED
+
+Search:
+ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER
+
+Notifications:
+ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER
+
+Leaderboard Runtime:
 ACCEPTED
 
-Retention and Deletion:
-ACCEPTED WITH LEGAL CONDITIONS
+Observability:
+ACCEPTED PATTERN · PROVIDER CONDITIONAL
 
-Evidence Metadata and Object Separation:
+Backup and Restore:
+ACCEPTED WITH OPERATIONAL CONDITIONS
+
+Environment Isolation:
 ACCEPTED
 
-Evidence Upload:
-ACCEPTED (SPK-ARC-007)
+Deployment Topology:
+ACCEPTED CONCEPTUALLY
 
-Evidence Storage:
-DEFERRED WITH S3-COMPATIBLE ADAPTER LOCKED
+Registered Technical Spikes:
+25 / 25 COMPLETE
 
-Evidence Scanning:
-PIPELINE ACCEPTED · PROVIDER DEFERRED · fail-closed (SPK-ARC-008)
+Full Technical Validation:
+NOT COMPLETE
 
-Evidence Access:
-ACCEPTED
-
-Audit:
-ACCEPTED (SPK-ARC-019)
-
-Trust Privacy:
-ACCEPTED (SPK-ARC-013)
-
-Minor Privacy:
-ACCEPTED WITH LEGAL CONDITIONS (SPK-ARC-025)
-
-Identity and Evidence Providers:
-DEFERRED WITH ADAPTERS LOCKED
-
-Realtime and Operations:
-PENDING GHV.ARCHITECTURE.1D
-
-Technical Spikes:
-P0 CORE COMPLETE — 6/6 PASS
-1C DOMAIN SPIKES COMPLETE — 6/6 PASS (+ SPK-ARC-003 reuse)
-Technical Spikes Run: 12 / 25 (P0 6 + 1C 6; 003 counted in P0)
-
-Technical Decisions:
-ADR-ARC-001..012 (1B) · ADR-ARC-013..023 (1C)
-
-Identity Security Data Evidence Baseline:
-ACTIVE v1.0.0 — DOMAIN ARCHITECTURE ACCEPTED · PROVIDER/LEGAL CONDITIONS OPEN
-
-Technical Validation:
-PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE
+Final Architecture Lock:
+PENDING GHV.ARCHITECTURE.1E
 
 Product Code:
 BLOCKED
@@ -125,19 +106,18 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 `	ext
-GHV.ARCHITECTURE.1D
-RUNTIME, REALTIME, INTEGRATION AND OPERATIONAL ARCHITECTURE
+GHV.ARCHITECTURE.1E
+ARCHITECTURE RECONCILIATION AND FINAL BASELINE LOCK
 `
 
 ## Explicit non-claims
 
 `	ext
-Full technical validation NOT COMPLETE
-P1–P3 programme NOT fully run (remaining spikes deferred to 1D/1E/launch)
-No identity/email/storage/scanner provider production-approved
-No Saudi/Nafath official access verified
-No legal retention periods finalized
-No penetration testing
+No production SLOs validated
+No real infrastructure / provider sandbox validation
+No accessibility user validation
+No disaster recovery operational proof
 No Product Code
 No compliance certification
+External infrastructure validation OPEN
 `
