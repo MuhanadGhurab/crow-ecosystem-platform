@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.0.0 |
+| **Version** | 1.4.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1A |
+| **Source Gate** | GHV.LEARNING.1B |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -151,5 +151,19 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-LRN-015 | Assessment integrity weakness | H | H | H | Copy/AI | Evidence matrix risks | Human review | Founder | Open | 1C | EVID |
 | RISK-LRN-016 | Excessive beginner difficulty | M | H | H | Advanced first | Nest + accessibility scores | Micro-Missions | Founder | Open | Usability | NEST |
 | RISK-LRN-017 | Fragmented learning journey | M | M | M | Siloed Horizons | Graph Bridges + CW | Coherence review 1B | Founder | Open | 1B | GRAPH |
+| RISK-LRN-018 | Cross-Wing dependency mismatch | M | H | H | Source Stages insufficient | BRG-PRT-BLD-01 + source Proven paths | Alternative CW research via CR | Founder | Open | 1C–1D | CXW |
+| RISK-LRN-019 | Cross-Wing / Secure Extension duplication | M | H | H | Overlapping Stages | Boundary doc + duplication test | Redesign overlapping Stage | Founder | Open | 1C | CW/SE |
+| RISK-LRN-020 | Insufficient application-security source capability | M | H | H | PRT SOC ≠ AppSec | Required Bridge BRG-PRT-BLD-01 | Expand Bridge or alt CW | Founder | Open | 1C | BRG |
+| RISK-LRN-021 | Stage over-fragmentation | M | M | M | Padding Stages | Stage integrity rule | Merge Stages | Founder | Open | 1C | STG |
+| RISK-LRN-022 | Stage under-specification | M | H | H | Vague outcomes | Stage architecture standard | Block 1D lock | Founder | Open | 1C | STG |
+| RISK-LRN-023 | Duplicated shared learning | M | M | M | Parallel rewrites | Shared-capability registry | Consolidate to SHC authority | Founder | Open | 1C | SHC |
+| RISK-LRN-024 | Graph cycles in mandatory prerequisites | L | H | H | Bad edges | Manual DAG check; invariants | Remove/reverse edge | Founder | Open | Continuous | GRAPH |
+| RISK-LRN-025 | Unclear Evidence anchors | M | H | H | Passive completion | Evidence Anchor Registry | Redesign in 1C | Founder | Open | 1C | EVD |
+| RISK-LRN-026 | Route-Proven ambiguity | M | H | H | Completion treated as Proven | Qualitative Proven standard | Clarify UX copy | Founder | Open | PROGRESSION.1 | PRV |
+| RISK-LRN-027 | Horizon-Proven overclaiming | M | H | H | Single Route award | Awarding deferred policy | Block Wing Key until catalogue expands | Founder | Open | Continuous | HRZ |
+| RISK-LRN-028 | Excessive remediation loops | M | M | M | Over-trigger Micro-Missions | Targeted remediation arch | Cap remediations per gap | Founder | Open | 1C | RMD |
+| RISK-LRN-029 | Architecture exceeding founder capacity | H | H | H | 5 Routes + CW + SE content | ANL reserve; WIP; 1D lock gate | Drop ANL permanently via CR | Founder | Open | Continuous | WIP |
+| RISK-LRN-030 | ANALYZE reserve becoming hidden Scope expansion | M | H | H | Quiet promotion to P0 | Explicit LAUNCH RESERVE status + CR | Reject unscoped ANL work | Founder | Open | Continuous | ANL |
+| RISK-LRN-031 | Expert-review availability for architecture domains | H | H | H | SME scarcity | Expert-review requirements (NOT RUN) | Narrow PUBLISHED set | Founder | Open | 1D | EXP |
 
 **Contingency owners** default to Founder until roles are staffed.

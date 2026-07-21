@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · reviewed GHV.LEARNING.1A |
-| **Version** | 1.3.0 |
+| **Status** | LOCKED inventory · reviewed GHV.LEARNING.1B |
+| **Version** | 1.4.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1A |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.LEARNING.1B |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LAUNCH-GRAPH-REGISTRY.md](./learning/graph/LAUNCH-GRAPH-REGISTRY.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -49,14 +49,20 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | ID | Name | Pillar | Scope status | Journey | Screens | Maturity | Deps | Owner | Gate |
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
 | CAP-LRN-001 | World taxonomy | Learning | CORE FOUNDATION | World | WLD | Specified | — | Founder | 1B |
-| CAP-LRN-002 | Learning Graph | Learning | CORE FOUNDATION | Route | WLD/LRN | Specified | Graph perf | Founder | Tech |
-| CAP-LRN-003 | Missions | Learning | CONTROLLED LAUNCH | Missions | LRN | Defined | Content | Founder | Learning |
+| CAP-LRN-002 | Learning Graph | Learning | CORE FOUNDATION | Route | WLD/LRN | Specified | Graph perf; conceptual registry 1B | Founder | Tech |
+| CAP-LRN-003 | Missions | Learning | CONTROLLED LAUNCH | Missions | LRN | Defined | Content; placeholders 1B → 1C | Founder | Learning |
 | CAP-LRN-004 | Assessments | Evidence | CONTROLLED LAUNCH | Missions | LRN | Defined | Integrity | Founder | Learning |
-| CAP-LRN-005 | Evidence | Evidence | CONTROLLED LAUNCH | Evidence | LRN/LOG | Defined | Storage | Founder | Tech |
-| CAP-LRN-006 | Cross-Wing | Learning | CONTROLLED LAUNCH | Learning | LRN | Defined | Atlas; LEARNING.1 | Founder | Learning |
-| CAP-LRN-007 | Secure Extensions | Trust/Learning | CONTROLLED LAUNCH | Learning | LRN | Defined | Atlas | Founder | Learning |
+| CAP-LRN-005 | Evidence | Evidence | CONTROLLED LAUNCH | Evidence | LRN/LOG | Defined | Storage; 24 anchors registered | Founder | Tech |
+| CAP-LRN-006 | Cross-Wing | Learning | CONTROLLED LAUNCH | Learning | LRN | Specified | CXW-001 + Bridge BRG-PRT-BLD-01 | Founder | Learning |
+| CAP-LRN-007 | Secure Extensions | Trust/Learning | CONTROLLED LAUNCH | Learning | LRN | Specified | SEX-001 extends RT-OPR-001 | Founder | Learning |
 | CAP-LRN-008 | Content lifecycle | Learning | CORE FOUNDATION | Ops | ADM | Defined | Admin | Founder | Ops |
-| CAP-LRN-009 | Launch catalogue selection | Learning | PENDING TECHNICAL VALIDATION | Route | WLD | Defined | GHV.LEARNING.1A researched; lock in 1D | Founder | Learning |
+| CAP-LRN-009 | Launch catalogue selection | Learning | PENDING TECHNICAL VALIDATION | Route | WLD | Specified | Architectures recommended; lock in 1D | Founder | Learning |
+| CAP-LRN-010 | Route architectures (P0) | Learning | CONTROLLED LAUNCH | Route | WLD/LRN | Specified | RT-OPR/BLD/PRT/LED-001 | Founder | Learning |
+| CAP-LRN-011 | ANALYZE Route reserve | Learning | CONDITIONAL | Route | WLD | Specified | RT-ANL-001 capacity conditional | Founder | Learning |
+| CAP-LRN-012 | Shared learning capabilities | Learning | CORE FOUNDATION | Missions | LRN | Specified | SHC-001..012 | Founder | Learning |
+| CAP-LRN-013 | Nest capability registry | Learning | CORE FOUNDATION | Nest | ONB/LRN | Specified | NST-CAP-001..013; thresholds unchanged | Founder | Learning |
+| CAP-LRN-014 | Route-Proven (qualitative) | Evidence | CONTROLLED LAUNCH | Evidence/Wings | PRG/LRN | Specified | Numeric thresholds → PROGRESSION.1 | Founder | Learning |
+| CAP-LRN-015 | Horizon-Proven model | Evidence | POST-LAUNCH PLANNED (award) | Progression | PRG | Defined | Awarding deferred at limited catalogue | Founder | Learning |
 
 ## Progression
 

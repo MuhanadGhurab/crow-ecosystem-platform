@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.3.0 |
+| **Version** | 1.4.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1A |
-| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](../../product/learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |
+| **Source Gate** | GHV.LEARNING.1B |
+| **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
 
@@ -693,3 +693,111 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.LEARNING.1A |
 | **Evidence** | [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](../../product/learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |
+
+## DEC-059 — Canonical learning-ID standard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Stable semantic IDs (WRLD/NST-CAP/HRZ/RT/CXW/SEX/STG/EVD/CAP/ULK/BRG/RMD) are independent of working titles |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) |
+
+## DEC-060 — Node-type registry and edge-type rules
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Only registered node types and approved learning edge types may appear in the Learning Graph; entitlement/plan data must not live on Learning Graph nodes or edges |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | NODE-TYPE-REGISTRY · EDGE-TYPE-RULES |
+
+## DEC-061 — Graph invariants and layer separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 25 conceptual invariants apply; Learning / Progress / Entitlement graphs remain separate and non-substituting |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | GRAPH-INVARIANTS · GRAPH-LAYER-SEPARATION |
+
+## DEC-062 — Route and Stage architecture standards
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Every Route/Stage follows architecture standards; foundation Routes normally 4–6 Stages; Mission IDs in 1B are placeholders only |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | ROUTE-ARCHITECTURE-STANDARD · STAGE-ARCHITECTURE-STANDARD |
+
+## DEC-063 — Shared-capability reuse
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Shared capabilities have one authoritative teaching location; Routes reinforce contextually and must not independently rewrite the same unit |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [SHARED-CAPABILITY-REGISTRY.md](../../product/learning/architecture/SHARED-CAPABILITY-REGISTRY.md) |
+
+## DEC-064 — Route-Proven qualitative standard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Route-Proven eligibility is qualitative (Stages + assessments + Evidence + capstone + integrity + remediation + Trust); numeric Mastery thresholds deferred to GHV.PROGRESSION.1; completion ≠ Proven; Proven ≠ subscription benefit |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [ROUTE-PROVEN-STANDARD.md](../../product/learning/proven/ROUTE-PROVEN-STANDARD.md) |
+
+## DEC-065 — Horizon-Proven awarding deferred
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Horizon-Proven foundation model is defined; awarding deferred; one foundation Route is insufficient; progress toward Horizon-Proven may display without awarding |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [HORIZON-PROVEN-STANDARD.md](../../product/learning/proven/HORIZON-PROVEN-STANDARD.md) |
+
+## DEC-066 — Cross-Wing versus Secure Extension boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Cross-Wing combines ≥2 domains into a new integrated outcome; Secure Extension hardens a source Route and is not a full PROTECT Route; mandatory Stages/Evidence must not be functionally identical |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [CROSS-WING-VS-SECURE-EXTENSION.md](../../product/learning/architecture/CROSS-WING-VS-SECURE-EXTENSION.md) |
+
+## DEC-067 — ANALYZE remains launch reserve
+
+| Field | Value |
+|-------|-------|
+| **Decision** | RT-ANL-001 is ARCHITECTURE RECOMMENDED — LAUNCH RESERVE (capacity conditional); not a controlled-launch commitment without Change Control |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [RT-ANL-001-PRACTICAL-DATA-ANALYSIS.md](../../product/learning/routes/architecture/RT-ANL-001-PRACTICAL-DATA-ANALYSIS.md) |
+
+## DEC-068 — CXW-001 requires Application-Security Bridge
+
+| Field | Value |
+|-------|-------|
+| **Decision** | CXW-001 challenge outcome is VALID WITH REQUIRED BRIDGE (BRG-PRT-BLD-01); status ARCHITECTURE RECOMMENDED — WITH REQUIRED BRIDGE; not silently replaced |
+| **Status** | Conditionally Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [CXW-001-SECURE-APPLICATION-DELIVERY-ARCHITECTURE.md](../../product/learning/cross-wing/CXW-001-SECURE-APPLICATION-DELIVERY-ARCHITECTURE.md) |
+
+## DEC-069 — SEX-001 Secure Cloud Operations Extension
+
+| Field | Value |
+|-------|-------|
+| **Decision** | SEX-001 extends RT-OPR-001 as ARCHITECTURE RECOMMENDED; distinct from CXW-001 and from full RT-PRT-001 |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [SEX-001-SECURE-CLOUD-OPERATIONS-ARCHITECTURE.md](../../product/learning/secure-extensions/SEX-001-SECURE-CLOUD-OPERATIONS-ARCHITECTURE.md) |
+
+## DEC-070 — No final Route lock in LEARNING.1B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 1B produces architecture recommendations only. Final Route lock remains deferred to GHV.LEARNING.1D. Expert review remains NOT RUN. No numeric progression formulas. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1B |
+| **Evidence** | [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |

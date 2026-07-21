@@ -9,10 +9,10 @@
 | **Source Gate** | GHV.LEARNING.1A |
 | **Last updated** | 2026-07-21 |
 | **Review date** | 2027-01-21 |
-| **Related** | [SCOPE-BASELINE.md](../../../governance/scope/SCOPE-BASELINE.md) §3.7 · [NEST-DEPENDENCY-MAP.md](../nest/NEST-DEPENDENCY-MAP.md) · [ROUTE-CANDIDATE-REGISTER.md](../routes/ROUTE-CANDIDATE-REGISTER.md) · [LAUNCH-CROSS-WING-STUDY.md](../cross-wing/LAUNCH-CROSS-WING-STUDY.md) · [LAUNCH-SECURE-EXTENSION-STUDY.md](../secure-extensions/LAUNCH-SECURE-EXTENSION-STUDY.md) · [LAUNCH-EVIDENCE-VALUE-MATRIX.md](../evidence/LAUNCH-EVIDENCE-VALUE-MATRIX.md) |
-| **Limitations** | Conceptual map only — **no database schema**, no Product Codes, no locked catalogue; edge instances are research proposals; Nest Mission IDs unresolved; progression thresholds not invented |
-| **Unresolved** | See § Unresolved questions for GHV.LEARNING.1B · cycle-prevention enforcement detail · EQUIVALENT policy for prior learning · bilingual node labeling · GHV.LEARNING.1C Atlas drafts · GHV.LEARNING.1D lock |
-| **Change history** | 1.0.0 (2026-07-21) — Initial RESEARCH BASELINE for GHV.LEARNING.1A |
+| **Related** | [SCOPE-BASELINE.md](../../../governance/scope/SCOPE-BASELINE.md) §3.7 · [NEST-DEPENDENCY-MAP.md](../nest/NEST-DEPENDENCY-MAP.md) · [ROUTE-CANDIDATE-REGISTER.md](../routes/ROUTE-CANDIDATE-REGISTER.md) · [LAUNCH-CROSS-WING-STUDY.md](../cross-wing/LAUNCH-CROSS-WING-STUDY.md) · [LAUNCH-SECURE-EXTENSION-STUDY.md](../secure-extensions/LAUNCH-SECURE-EXTENSION-STUDY.md) · [LAUNCH-EVIDENCE-VALUE-MATRIX.md](../evidence/LAUNCH-EVIDENCE-VALUE-MATRIX.md) · **Authoritative 1B registry:** [LAUNCH-GRAPH-REGISTRY.md](./LAUNCH-GRAPH-REGISTRY.md) |
+| **Limitations** | 1A conceptual map — **superseded as sole authority** by LEARNING.1B registries; retained as research provenance. No database schema, no Product Codes |
+| **Unresolved** | EQUIVALENT prior-learning policy detail · bilingual node labeling · GHV.LEARNING.1C Mission expansion · GHV.LEARNING.1D lock |
+| **Change history** | 1.0.0 (2026-07-21) — Initial RESEARCH BASELINE for GHV.LEARNING.1A · 1.0.1 (2026-07-21) — Point to 1B authoritative registry |
 
 ## Purpose
 

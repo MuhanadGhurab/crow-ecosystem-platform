@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.3.0 |
+| **Version** | 1.4.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1A |
+| **Source Gate** | GHV.LEARNING.1B |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -36,3 +36,11 @@
 | ASM-024 | Professional Evidence can be stored safely (pending object-storage validation) | Active | Trust | TECH storage Spike | Limit Evidence types | Tech |
 | ASM-025 | Learners will have suitable hardware for selected Routes (web-first) | Active | Access | Usability + tooling | Mobile-safe variants | 1A |
 | ASM-026 | One Cross-Wing and one Secure Extension are feasible at launch | Active | MLGW | CXW/SEX studies | Drop to Bridge Missions only | 1A |
+| ASM-027 | Canonical RT-* IDs remain stable through working-title changes | Active | Identifier standard | 1D lock review | Alias map if rename | 1B |
+| ASM-028 | Five Stages per P0 foundation Route is deliverable within founder WIP | Active | Stage architecture | 1C Mission load | Merge Stages via CR | 1B |
+| ASM-029 | BRG-PRT-BLD-01 can supply AppSec gap for CXW-001 without a sixth Route | Active | CXW challenge | 1C Bridge blueprint | Alternative CW research | 1B |
+| ASM-030 | Nest capability IDs NST-CAP-001..013 cover Route entry without threshold changes | Active | Nest lock | Nest bridge map | Add Micro-Missions only | 1B |
+| ASM-031 | Shared capabilities SHC-001..012 prevent duplicated foundational teaching | Active | Content reuse | 1C content plan | Consolidate duplicates | 1B |
+| ASM-032 | Qualitative Route-Proven is sufficient until PROGRESSION.1 | Active | Proven UX | Progression Gate | Temporary completion badges only | 1B |
+| ASM-033 | Horizon-Proven can remain non-awardable at initial limited catalogue | Active | Catalogue depth | Expanded Routes later | Display progress only | 1B |
+| ASM-034 | Exact conceptual graph counts (166 nodes / 129 edges) remain stable through 1C Mission placeholders | Active | Graph registry | 1C Mission expansion | Recount after 1C | 1B |
