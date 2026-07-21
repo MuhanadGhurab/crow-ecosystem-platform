@@ -18,7 +18,7 @@ WITH NON-BLOCKING DEPENDENCY CONDITIONS
 
 Moderate/High advisories ADV-001 / ADV-002 / ADV-003 remain **ACCEPT TEMPORARILY WITH OWNER** (Critical/Blocking: 0).
 
-Remote CI: **VERIFIED** — Actions run [`29876051545`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876051545) · job `verify` · conclusion `success` · HEAD `998eaef14929e4d766ae0cf4fce49b1fed964178`.
+Remote CI: **VERIFIED** — Implementation HEAD [`998eaef`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/998eaef14929e4d766ae0cf4fce49b1fed964178) Actions [`29876051545`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876051545); Final HEAD [`d6b13e3`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/d6b13e3658f062f94cfda6771bd55ed1b1fb4004) Actions [`29876126804`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876126804) · job `verify` · conclusion `success`.
 
 ## Completed scope
 
