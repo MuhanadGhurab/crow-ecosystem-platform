@@ -1,0 +1,10 @@
+{
+  "name": "ghv-spk-arc-011",
+  "version": "0.0.0-spike",
+  "private": true,
+  "type": "module",
+  "description": "GHURAVIA TECHNICAL SPIKE — NON-PRODUCT CODE — SPK-ARC-011",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}

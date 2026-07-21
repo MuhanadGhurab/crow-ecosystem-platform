@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.9.0 |
+| **Version** | 2.0.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -61,23 +61,38 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **System context** | architecture/ghuravia/context/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Domain catalogue** | architecture/ghuravia/domains/TECHNICAL-DOMAIN-CATALOGUE.md | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Quality attributes** | architecture/ghuravia/quality/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Architecture options / shape** | architecture/ghuravia/options/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** · stack PENDING 1B |
-| **Frontend validation** | architecture/ghuravia/frontend/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Backend validation** | architecture/ghuravia/backend/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Data validation** | architecture/ghuravia/data/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Identity validation** | architecture/ghuravia/identity/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Learning Graph validation** | architecture/ghuravia/learning/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Progression validation** | architecture/ghuravia/progression/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Evidence validation** | architecture/ghuravia/evidence/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Architecture options / shape** | [PLATFORM-STACK-BASELINE.md](../../architecture/ghuravia/governance/PLATFORM-STACK-BASELINE.md) · [ADR-ARC-001](../../architecture/ghuravia/decisions/ADR-ARC-001-PLATFORM-ARCHITECTURE-SHAPE.md) | **CORE PLATFORM DECISION ACCEPTED · DOMAIN VALIDATION CONTINUES** |
+| **Frontend stack** | [ADR-ARC-002](../../architecture/ghuravia/decisions/ADR-ARC-002-FRONTEND-STACK.md) | **CORE PLATFORM DECISION ACCEPTED WITH CONDITIONS** |
+| **Backend stack** | [ADR-ARC-003](../../architecture/ghuravia/decisions/ADR-ARC-003-BACKEND-STACK.md) | **CORE PLATFORM DECISION ACCEPTED WITH CONDITIONS** |
+| **API / internal interaction model** | [ADR-ARC-004](../../architecture/ghuravia/decisions/ADR-ARC-004-API-AND-INTERNAL-INTERACTION-MODEL.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Primary datastore** | [ADR-ARC-005](../../architecture/ghuravia/decisions/ADR-ARC-005-PRIMARY-DATASTORE.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Data access strategy** | [ADR-ARC-006](../../architecture/ghuravia/decisions/ADR-ARC-006-DATA-ACCESS-STRATEGY.md) | **CORE PLATFORM DECISION ACCEPTED WITH CONDITIONS** |
+| **Learning Graph representation** | [ADR-ARC-007](../../architecture/ghuravia/decisions/ADR-ARC-007-LEARNING-GRAPH-REPRESENTATION.md) | **CORE PLATFORM DECISION ACCEPTED** · P0 evidence SPK-ARC-005 |
+| **Progression event ledger** | [ADR-ARC-008](../../architecture/ghuravia/decisions/ADR-ARC-008-PROGRESSION-EVENT-LEDGER-PATTERN.md) | **CORE PLATFORM DECISION ACCEPTED** · P0 evidence SPK-ARC-010 · 011 |
+| **Background jobs / event publication** | [ADR-ARC-009](../../architecture/ghuravia/decisions/ADR-ARC-009-BACKGROUND-JOBS-AND-EVENT-PUBLICATION.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Cache boundary** | [ADR-ARC-010](../../architecture/ghuravia/decisions/ADR-ARC-010-CACHE-BOUNDARY.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Testing toolchain** | [ADR-ARC-011](../../architecture/ghuravia/decisions/ADR-ARC-011-CORE-TESTING-TOOLCHAIN.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Core language / type safety** | [ADR-ARC-012](../../architecture/ghuravia/decisions/ADR-ARC-012-CORE-LANGUAGE-AND-TYPE-SAFETY.md) | **CORE PLATFORM DECISION ACCEPTED** |
+| **Deployment topology** | [CORE-DEPLOYMENT-TOPOLOGY-DECISION.md](../../architecture/ghuravia/deployment/CORE-DEPLOYMENT-TOPOLOGY-DECISION.md) | **ACCEPTED WITH CONDITIONS** · P0 evidence SPK-ARC-021 |
+| **Deferred 1B providers / extractors** | [ARCHITECTURE-1B-DEFERRED-DECISIONS.md](../../architecture/ghuravia/governance/ARCHITECTURE-1B-DEFERRED-DECISIONS.md) | **DEFERRED** — identity provider · object storage · broker · graph DB · distributed cache · validator brand |
+| **1B P0 spike evidence** | [ARCHITECTURE-1B-P0-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1B-P0-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1b/SPIKE-EVIDENCE-INDEX.md) | **6/6 PASS** · spike harness only · Product Code **BLOCKED** |
+| **Architecture options (comparisons)** | architecture/ghuravia/options/ | **Supporting evidence** — decisions recorded in ADRs |
+| **Frontend validation** | architecture/ghuravia/frontend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-002 ACCEPTED WITH CONDITIONS |
+| **Backend validation** | architecture/ghuravia/backend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-003 ACCEPTED WITH CONDITIONS |
+| **Data validation** | architecture/ghuravia/data/ | **DOMAIN VALIDATION CONTINUES** — ADR-005/006 ACCEPTED (006 WITH CONDITIONS) |
+| **Identity validation** | architecture/ghuravia/identity/ | **DOMAIN VALIDATION CONTINUES** — provider selection deferred to 1C · SPK-ARC-003 P0 PASS |
+| **Learning Graph validation** | architecture/ghuravia/learning/ | **P0 EVIDENCE AVAILABLE** · ADR-007 ACCEPTED · domain validation continues |
+| **Progression validation** | architecture/ghuravia/progression/ | **P0 EVIDENCE AVAILABLE** · ADR-008 ACCEPTED · domain validation continues |
+| **Evidence validation** | architecture/ghuravia/evidence/ | **VALIDATION PLANNED** — deferred to 1C |
 | **Live Sky validation** | architecture/ghuravia/live/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Security validation** | architecture/ghuravia/security/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Privacy validation** | architecture/ghuravia/privacy/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Operations validation** | architecture/ghuravia/operations/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Deployment validation** | architecture/ghuravia/deployment/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Spike registry / standard / priority** | [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md) · [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md) · [TECHNICAL-SPIKE-PRIORITY-MATRIX.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-PRIORITY-MATRIX.md) | **VALIDATION PLAN · Spikes NOT RUN** |
-| **Architecture readiness** | [ARCHITECTURE-READINESS-MATRIX.md](../../architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md) | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **Technical traceability** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
-| **ADR framework / register** | [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) · [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) | **No ACCEPTED stack ADRs** |
+| **Spike registry / standard / priority** | [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md) · [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md) · [TECHNICAL-SPIKE-PRIORITY-MATRIX.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-PRIORITY-MATRIX.md) | **P0 6/6 PASS** · P1–P3 **NOT RUN** |
+| **Architecture readiness** | [ARCHITECTURE-READINESS-MATRIX.md](../../architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md) | **POST-1B** — core platform decisions accepted · domain validation continues |
+| **Technical traceability** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) | **PARTIAL** — P0 evidence mapped · Product Code **BLOCKED** |
+| **ADR framework / register** | [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) · [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) | **ADR-ARC-001..012 ACCEPTED** (some WITH CONDITIONS) |
 | Historical 90-count claims | PD.3 Gate report · DEC-051 count clause · registry v1.0.0 | **HISTORICAL / SUPERSEDED** — not active authority |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
 | Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · **92 ACTIVE** coverage (v1.2.0) |
@@ -158,4 +173,4 @@ If a lower-level document contradicts a higher-level document, correct the lower
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Active screen inventory authority is **92 ACTIVE / 7 shells · 0 aliases in inventory** (v1.2.0); historical **90** counts and alias-inflated inventory models are superseded.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, or Product Code authorized. Core Platform Stack Baseline acceptance must not be summarized as full technical validation, domain closure, or Product Code authorization. Active screen inventory authority is **92 ACTIVE / 7 shells · 0 aliases in inventory** (v1.2.0); historical **90** counts and alias-inflated inventory models are superseded.

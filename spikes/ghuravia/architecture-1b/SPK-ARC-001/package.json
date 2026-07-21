@@ -1,0 +1,14 @@
+{
+  "name": "ghv-spk-arc-001",
+  "version": "0.0.0-spike",
+  "private": true,
+  "type": "module",
+  "description": "GHURAVIA TECHNICAL SPIKE — NON-PRODUCT CODE — SPK-ARC-001",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "typecheck": "node -e \"console.log('spike uses plain ESM; typecheck N/A for harness')\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

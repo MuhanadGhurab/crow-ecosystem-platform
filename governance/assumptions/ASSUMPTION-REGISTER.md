@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.13.0 |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -101,3 +101,13 @@
 | ASM-089 | No DMs reduces moderation complexity vs full chat | Active | Community | CAP-SOC-009 · SPK-ARC-013 | Structured chat CR | ARCH.1A |
 | ASM-090 | Core Technical Validation Plan lock will not be mistaken for technical validation or stack lock | Active | Status clarity | PROJECT_STATUS · BASELINE-MANIFEST · DEC-165/166 | Correct messaging | ARCH.1A |
 | ASM-091 | Architecture.1A amendment + CR-002 process deviation recording is sufficient to preserve audit integrity without Gate rewrite or plan invalidation | Active | Governance honesty | Amendment-01 · impact review NO IMPACT · DEC-170/171 | Reopen Gate if contamination found | ARCH.1A-AMD-01 |
+| ASM-092 | Next.js App Router + React 19 + TypeScript are founder-operable for controlled launch | Pending Validation | Frontend stack lock | ADR-ARC-002 · SPK-ARC-001 · founder operability review | Revisit frontend option set | ARCH.1B |
+| ASM-093 | Drizzle ORM default access remains operable for graph and ledger domains | Pending Validation | Data access lock | ADR-ARC-006 · SPK-ARC-005 · 010 · 011 | Justified raw SQL expansion | ARCH.1B |
+| ASM-094 | Relational adjacency satisfies Learning Graph controlled-launch needs | Pending Validation | Graph representation | ADR-ARC-007 · SPK-ARC-005 | Reopen graph DB option | ARCH.1B |
+| ASM-095 | Append-only progression ledger + formula versioning remain operable at launch scale | Pending Validation | Progression integrity | ADR-ARC-008 · SPK-ARC-010 · 011 | Partition/archive policy | ARCH.1B |
+| ASM-096 | Transactional outbox + local/worker jobs meet async needs without external broker | Pending Validation | Jobs/eventing | ADR-ARC-009 · SPK-ARC-010 · 021 | External broker CR | ARCH.1B |
+| ASM-097 | PostgreSQL-family relational primary datastore is sufficient before provider selection | Pending Validation | Datastore lock | ADR-ARC-005 · provider deferred | Change datastore ADR | ARCH.1B |
+| ASM-098 | Modular monolith package boundaries reduce founder cognitive load vs early services | Pending Validation | Platform shape | ADR-ARC-001 · founder operability review | Extract services earlier | ARCH.1B |
+| ASM-099 | `node:test` spike harness evidence transfers to later Vitest Product Code baseline | Pending Validation | Testing toolchain | ADR-ARC-011 · P0 reproducibility report | Delay Vitest adoption | ARCH.1B |
+| ASM-100 | Launch can proceed without shared distributed cache | Pending Validation | Cache boundary | ADR-ARC-010 · load triggers | Introduce shared cache | ARCH.1B |
+| ASM-101 | Core platform stack acceptance will not be mistaken for Product Code authorization | Active | Status clarity | DEC-190 · PROJECT_STATUS · BASELINE-MANIFEST | Correct messaging | ARCH.1B |

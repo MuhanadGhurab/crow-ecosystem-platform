@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.13.0 |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -69,19 +69,23 @@
 | DEP-072 | GHV.PROGRESSION.1D Final Progression Baseline Lock | Product | **Satisfied (PASS)** | Progression Design Baseline v1.0.0 LOCKED | Founder | — | Change Freeze |
 | DEP-073 | Arabic-language review of progression explanations | Organizational | Planned | AR/EN explainability | Linguists TBD | EN-heavy UX | Launch |
 | DEP-074 | Legal age review for progression surfaces | External | Planned | Overlaps DEP-001/055 | Counsel TBD | Restrict minors | Launch |
-| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | **SATISFIED (PASS — AMENDED)** — validation **plan** locked; spikes still NOT RUN · Amendment-01 / CR-002 | Core Technical Validation Plan v1.0.0 | Founder | — | ARCH.1B |
+| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | **SATISFIED (PASS — AMENDED)** — validation **plan** locked · **GHV.ARCHITECTURE.1B now PASS** · Amendment-01 / CR-002 | Core Technical Validation Plan v1.0.0 | Founder | — | ARCH.1C |
 | DEP-075 | GHV.BASELINE-CORRECTION.1 — 92-screen reconciliation | Product/Governance | **SATISFIED** | Registry v1.2.0 = 92 ACTIVE / 7 shells / 0 aliases; CR-001 · CR-002; DEC-152 · DEC-153; post-CR-002 preflight PASS | Founder | — | ARCHITECTURE.1A |
 | DEP-086 | Gate precondition stop discipline (DEC-173) | Governance | **Active control** — RISK-GOV-001 OPEN | Separate correction commit/Gate + amendment if mixed | Founder | Process drift | Future Gates |
 | DEP-076 | Real-user progression validation pilot | Research/Org | Planned — **BLOCKING production confidence** | Real-user progression validation · NOT RUN | Founder | Synthetic≠real risk | Production cal |
-| DEP-077 | Progression technical validation | Technical | Planned — **BLOCKING Product Code** | Technical validation plan · NOT RUN | Engineering TBD | Undetected runtime defects | Runtime |
+| DEP-077 | Progression technical validation | Technical | Planned — **BLOCKING Product Code** | Technical validation plan · P0 partial only | Engineering TBD | Undetected runtime defects | Runtime |
 | DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |
-| DEP-079 | GHV.ARCHITECTURE.1B stack decisions | Technical | Planned — **Next** | Stack ADRs remain PROPOSED; no ACCEPTED stack in 1A | Founder | Premature implementation | Stack lock |
-| DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | Planned — **BLOCKING Product Code** | Spikes PLANNED · NOT RUN · code/db/deploy DENIED in 1A | Founder | Undetected feasibility defects | 1E / runtime |
-| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview | Founder | No Preview runtime | SPK-ARC-021 |
-| DEP-082 | Identity provider evaluation | Technical | Planned | Overlaps DEP-013 · SPK-ARC-003 | Engineering TBD | Weak auth | 1C |
-| DEP-083 | Object-storage + scanning validation | Technical | Planned | SPK-ARC-007 · 008 · overlaps DEP-025 | Engineering TBD | Limit Evidence | 1C |
-| DEP-084 | Event idempotency + formula-version technical proof | Technical | Planned — **BLOCKING implementation** | SPK-ARC-010 · 011 · DEC-160/161 | Engineering TBD | Ledger corruption | 1D–1E |
-| DEP-085 | Later Product Code authorization | Governance | Blocked | After spike evidence / programme Gates | Founder | Premature Product Code | Post-1E || DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
+| DEP-079 | GHV.ARCHITECTURE.1B stack decisions | Technical | **SATISFIED (PASS)** — Core Platform Stack Baseline v1.0.0 ACTIVE · ADR-ARC-001..012 ACCEPTED (some WITH CONDITIONS) | P0 6/6 PASS · provider choices deferred | Founder | Premature implementation if mistaken for Product Code | ARCH.1C |
+| DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | **PARTIALLY SATISFIED** — P0 **6/6 PASS** · P1–P3 **NOT RUN** · Product Code **BLOCKED** | Spike harness under spikes/ghuravia/architecture-1b/ | Founder | Undetected feasibility defects in deferred domains | 1C–1E |
+| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview; SPK-ARC-021 P0 PASS ≠ remediation complete | Founder | No Preview runtime | 1C / ops |
+| DEP-082 | Identity provider evaluation | Technical | Planned — **Next (1C)** | Overlaps DEP-013 · SPK-ARC-003 P0 PASS · provider selection deferred | Engineering TBD | Weak auth | 1C |
+| DEP-083 | Object-storage + scanning validation | Technical | Planned — **Next (1C)** | SPK-ARC-007 · 008 · overlaps DEP-025 · DEP-038 | Engineering TBD | Limit Evidence | 1C |
+| DEP-084 | Event idempotency + formula-version technical proof | Technical | **P0 EVIDENCE AVAILABLE** — production controls still required | SPK-ARC-010 · 011 PASS · DEC-160/161 | Engineering TBD | Ledger corruption | 1D–1E |
+| DEP-085 | Later Product Code authorization | Governance | Blocked | After spike evidence / programme Gates including 1C–1E | Founder | Premature Product Code | Post-1E |
+| DEP-087 | Identity architecture validation (1C programme) | Technical | Planned — **Next** | Passkeys · activation authority production path · DEP-082 | Engineering TBD | Weak A2 | 1C |
+| DEP-088 | Evidence platform provider selection (1C programme) | Technical | Planned — **Next** | Object storage · scanning · isolation · DEP-083 | Engineering TBD | Limit Evidence types | 1C |
+| DEP-089 | Security / privacy architecture validation (1C programme) | Technical | Planned — **Next** | Threat model · PDPL · classification plans | Engineering TBD | Compliance gaps | 1C |
+| DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage · overlaps DEP-083/088 | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
 | DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |
 | DEP-028 | IP review of learning materials | External | Planned | Avoid proprietary copy | Counsel TBD | Rewrite sources | Content |

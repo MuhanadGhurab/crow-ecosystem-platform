@@ -98,13 +98,14 @@ No new screen lacks a capability owner. No affected capability points only to su
 | Item | Status |
 |------|--------|
 | Progression Design Baseline | **LOCKED** (design) |
-| Real-user calibration / usability / technical validation | **NOT RUN** |
+| Real-user calibration / usability / technical validation | **NOT RUN** (technical validation **PARTIAL — P0 core spikes only**) |
 | Expert Review / Learning Pilot | NOT RUN |
 | Publication / Implementation / Product Code | BLOCKED |
 | Title catalogue | DEFERRED |
 | Prestige panel operations | PENDING staffing |
 | Screen registry reconciliation | **COMPLETE** (BASELINE-CORRECTION.1) |
-| Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1B–1E · plan locked in **1A** · spikes **NOT RUN** |
-| Core Technical Validation Plan | **LOCKED** (1A) — not technical validation complete |
+| Core Platform Stack Baseline | **ACTIVE v1.0.0** — core decisions **ACCEPTED** · domain validation **CONTINUES** |
+| Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1C–1E · P0 spike evidence available · Product Code **BLOCKED** |
+| Core Technical Validation Plan | **LOCKED** (1A) — P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** |
 | Treating formulas as production calibrated | **Forbidden** until real-user + tech path |
-| Product Code / stack ACCEPTED | **BLOCKED** / **none** |
+| Product Code / stack ACCEPTED | **BLOCKED** / core platform **ACCEPTED** (not Product Code) |

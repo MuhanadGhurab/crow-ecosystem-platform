@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.12.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1804,3 +1804,183 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Rationale** | Controls RISK-GOV-001 (Gate work after mandatory stop). |
 | **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 · future Gates |
 | **Evidence** | RISK-GOV-001 · Amendment-01 residual risk |
+
+## DEC-174 — Platform architecture shape accepted
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Platform shape is a **modular monolith with explicit domain packages** and one primary deployable at controlled launch. |
+| **Status** | Accepted |
+| **Rationale** | P0 spikes SPK-ARC-001 · 021 validated compatibility and isolation within founder-operable bounds. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-001](../../architecture/ghuravia/decisions/ADR-ARC-001-PLATFORM-ARCHITECTURE-SHAPE.md) · SPK-ARC-001 · SPK-ARC-021 |
+
+## DEC-175 — Governed workspace / repository model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Spike harness and future Product Code use a governed monorepo workspace model with explicit domain packages; inherited CyberCrow paths remain inventory inputs only. |
+| **Status** | Accepted |
+| **Rationale** | SPK-ARC-001 validated route registry and workspace boundaries without approving legacy stack by inheritance. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-001](../../architecture/ghuravia/decisions/ADR-ARC-001-PLATFORM-ARCHITECTURE-SHAPE.md) · SPK-ARC-001 · [spikes/ghuravia/architecture-1b/README.md](../../spikes/ghuravia/architecture-1b/README.md) |
+
+## DEC-176 — Core language and type safety
+
+| Field | Value |
+|-------|-------|
+| **Decision** | TypeScript is the core language with shared contracts and schema validators at boundaries. |
+| **Status** | Accepted |
+| **Rationale** | Cross-spike harness success and progression/learning integrity requirements. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-012](../../architecture/ghuravia/decisions/ADR-ARC-012-CORE-LANGUAGE-AND-TYPE-SAFETY.md) |
+
+## DEC-177 — Frontend stack accepted with conditions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Next.js App Router + React 19 + TypeScript form the launch frontend stack (**WITH CONDITIONS** on RTL, accessibility, and public-shell evidence). |
+| **Status** | Conditionally Accepted |
+| **Rationale** | SPK-ARC-001 compatibility PASS; SEO/public and Arabic-first needs. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-002](../../architecture/ghuravia/decisions/ADR-ARC-002-FRONTEND-STACK.md) · SPK-ARC-001 |
+
+## DEC-178 — Backend stack accepted with conditions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | TypeScript domain modules with Next.js Route Handlers initially; optional Hono extraction later (**WITH CONDITIONS**). |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Activation authority and progression ledger spikes validated in-process boundaries. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-003](../../architecture/ghuravia/decisions/ADR-ARC-003-BACKEND-STACK.md) · SPK-ARC-001 · 003 · 010 |
+
+## DEC-179 — API and internal interaction model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Command-oriented HTTP mutations, natural GET reads, in-process module calls, and transactional outbox for async side effects. |
+| **Status** | Accepted |
+| **Rationale** | Preserves mutation authority and audit clarity inside modular monolith. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-004](../../architecture/ghuravia/decisions/ADR-ARC-004-API-AND-INTERNAL-INTERACTION-MODEL.md) · SPK-ARC-003 · 010 · 011 |
+
+## DEC-180 — Primary datastore
+
+| Field | Value |
+|-------|-------|
+| **Decision** | PostgreSQL-family relational database is the primary datastore at launch. |
+| **Status** | Accepted |
+| **Rationale** | Learning graph, progression ledger, and formula-version spikes validated relational patterns. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-005](../../architecture/ghuravia/decisions/ADR-ARC-005-PRIMARY-DATASTORE.md) · SPK-ARC-005 · 010 · 011 |
+
+## DEC-181 — Data access strategy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Drizzle ORM is the default data-access layer with justified raw SQL exceptions (**WITH CONDITIONS** on query discipline and migration governance). |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Typed SQL met graph and ledger spike needs without ORM-only leakage in hot paths. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-006](../../architecture/ghuravia/decisions/ADR-ARC-006-DATA-ACCESS-STRATEGY.md) · SPK-ARC-005 · 010 · 011 |
+
+## DEC-182 — Learning Graph representation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Relational adjacency tables are the Learning Graph source of truth; graph database deferred. |
+| **Status** | Accepted |
+| **Rationale** | SPK-ARC-005 PASS on acyclicity and traversal within relational model. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-007](../../architecture/ghuravia/decisions/ADR-ARC-007-LEARNING-GRAPH-REPRESENTATION.md) · SPK-ARC-005 |
+
+## DEC-183 — Progression event ledger pattern
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Append-only progression event ledger with formula versioning and idempotent apply semantics. |
+| **Status** | Accepted |
+| **Rationale** | SPK-ARC-010 · 011 PASS; supports DEC-160/161 requirements. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-008](../../architecture/ghuravia/decisions/ADR-ARC-008-PROGRESSION-EVENT-LEDGER-PATTERN.md) · SPK-ARC-010 · 011 |
+
+## DEC-184 — Background jobs and event publication
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Transactional outbox with local or worker post-commit jobs; external broker deferred. |
+| **Status** | Accepted |
+| **Rationale** | Avoids dual-write async failures; SPK-ARC-010 · 021 evidence. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-009](../../architecture/ghuravia/decisions/ADR-ARC-009-BACKGROUND-JOBS-AND-EVENT-PUBLICATION.md) · SPK-ARC-010 · 021 |
+
+## DEC-185 — Cache boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | No shared distributed cache required at controlled launch; derivative caching only where integrity-safe. |
+| **Status** | Accepted |
+| **Rationale** | Integrity-first launch; shared cache deferred until load triggers fire. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-010](../../architecture/ghuravia/decisions/ADR-ARC-010-CACHE-BOUNDARY.md) |
+
+## DEC-186 — Core testing toolchain
+
+| Field | Value |
+|-------|-------|
+| **Decision** | `node:test` for spikes and early harnesses; Vitest and Playwright adopted later for Product Code phases. |
+| **Status** | Accepted |
+| **Rationale** | All six P0 spikes reproduced with node:test harness. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ADR-ARC-011](../../architecture/ghuravia/decisions/ADR-ARC-011-CORE-TESTING-TOOLCHAIN.md) · P0 evidence index |
+
+## DEC-187 — Core deployment topology
+
+| Field | Value |
+|-------|-------|
+| **Decision** | One primary web application deployment aligned to the modular monolith; optional worker only on documented extraction triggers (**WITH CONDITIONS**). |
+| **Status** | Conditionally Accepted |
+| **Rationale** | SPK-ARC-021 environment isolation PASS; founder operability. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [CORE-DEPLOYMENT-TOPOLOGY-DECISION.md](../../architecture/ghuravia/deployment/CORE-DEPLOYMENT-TOPOLOGY-DECISION.md) · SPK-ARC-021 |
+
+## DEC-188 — Deferred provider and extractor decisions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Identity provider, object storage provider, relational host provider, external broker, graph database, shared distributed cache, validator brand, and realtime transport remain **DEFERRED** with explicit revisit triggers. |
+| **Status** | Accepted |
+| **Rationale** | 1B locks core platform shape and patterns only; provider selection belongs to later gates. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [ARCHITECTURE-1B-DEFERRED-DECISIONS.md](../../architecture/ghuravia/governance/ARCHITECTURE-1B-DEFERRED-DECISIONS.md) |
+
+## DEC-189 — Spike isolation policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Architecture spikes execute only under `spikes/ghuravia/architecture-1b/` with synthetic data, no Product Code mutation, and explicit teardown; spike PASS does not authorize Product Code. |
+| **Status** | Accepted |
+| **Rationale** | Prevents spike harness contamination of governed product baselines. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [spikes/ghuravia/architecture-1b/README.md](../../spikes/ghuravia/architecture-1b/README.md) · [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md) |
+
+## DEC-190 — Product Code remains blocked after 1B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Core platform stack acceptance in 1B does **not** authorize Product Code, production schema, or runtime implementation. |
+| **Status** | Accepted |
+| **Rationale** | Domain validation, P1–P3 spikes, identity/evidence providers, and later architecture Gates remain open. |
+| **Related Gate** | GHV.ARCHITECTURE.1B |
+| **Evidence** | [PLATFORM-STACK-BASELINE.md](../../architecture/ghuravia/governance/PLATFORM-STACK-BASELINE.md) · DEC-166 · GHV.ARCHITECTURE.1B report |
+
+## DEC-191 — Next architecture Gate is 1C
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **GHV.ARCHITECTURE.1C** (Identity, Security, Data and Evidence Architecture) is the next Gate after 1B PASS. |
+| **Status** | Accepted |
+| **Rationale** | Provider selection and sensitive-domain validation deferred from 1B by design. |
+| **Related Gate** | GHV.ARCHITECTURE.1B → GHV.ARCHITECTURE.1C |
+| **Evidence** | [GHV.ARCHITECTURE.1B.md](../gates/GHV.ARCHITECTURE.1B.md) · PROJECT_STATUS.md |

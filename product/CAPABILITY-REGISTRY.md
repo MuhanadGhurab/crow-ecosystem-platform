@@ -166,7 +166,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - PROGRESSION.1C: Synthetic calibration COMPLETE · CALIBRATION RECOMMENDED · PENDING 1D · NOT production calibrated · red-team **20/20 PASS** · multi-seed **25k** · see [calibration/](./progression/calibration/).
 - BASELINE-CORRECTION.1: CAP-ONB-003 matured; CAP-ONB-011/012/013 + CAP-EBUX-009 map Pending / Result / Recovery / Explainable Locks to ACT-003 · ACT-011 · ACT-012. No Product Code.
 - CR-002: CAP-ONB-014 Account risk acceptance → **ACT-013**; CAP-ONB-004 exit → ACT-013; alias-safe 92 (ACT-004 appendix only).
-- ARCHITECTURE.1A: Core Technical Validation Plan **LOCKED**; capabilities remain mapped to domains/spikes for future validation — **Technical Validation NOT RUN**; **Product Code BLOCKED**. See [TECHNICAL-VALIDATION-TRACEABILITY.md](../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) · [TECHNICAL-SPIKE-REGISTRY.md](../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md).
+- ARCHITECTURE.1B: Core Platform Stack Baseline v1.0.0 **ACTIVE** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · P0 spikes **6/6 PASS** · **Technical Validation PARTIAL** · **Product Code BLOCKED**. See [PLATFORM-STACK-BASELINE.md](../architecture/ghuravia/governance/PLATFORM-STACK-BASELINE.md) · [TECHNICAL-VALIDATION-TRACEABILITY.md](../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) · [TECHNICAL-SPIKE-REGISTRY.md](../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

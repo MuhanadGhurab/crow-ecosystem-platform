@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-TVT-001 |
-| **Version** | 1.0.0 |
-| **Status** | **VALIDATION PLAN** |
+| **Version** | 1.1.0 |
+| **Status** | **PARTIAL — P0 CORE SPIKES COMPLETE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A §46 |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 | **Last updated** | 2026-07-21 |
 | **Screen baseline** | MASTER-SCREEN-REGISTRY v1.2.0 · **92 ACTIVE** · ACT-004 **HISTORICAL excluded** |
 
@@ -38,16 +38,16 @@ Learning Node / Event / Formula
 → Validation
 ```
 
-## Confirmations (1A)
+## Confirmations (post-1B)
 
 | Check | Result |
 |-------|--------|
-| All **92** ACTIVE screens map to a shell architecture question | **YES** — via SPK-ARC-004 + seven-shell composition; see shell map below |
+| All **92** ACTIVE screens map to a shell architecture question | **YES** — unchanged from 1A |
 | ACT-004 contributes to 92? | **NO** — HISTORICAL_REFERENCE / SUPERSEDED_ALIAS (appendix only) |
-| Controlled-launch capabilities map to ≥1 domain | **YES** — Capability Registry → domain catalogue (planned validation) |
-| P0 quality attributes map to a spike or explicit rationale | **YES** — QAS-001…020 covered by SPK-ARC cluster or deferred with rationale |
-| Sensitive decisions map to security/audit validation | **YES** — SPK-ARC-003 · 007 · 008 · 019 · 021 · 025 |
-| Locked formulas have a technical validation path | **YES** — SPK-ARC-010 · 011 · 009 (NOT RUN) |
+| Controlled-launch capabilities map to ≥1 domain | **YES** |
+| P0 quality attributes map to a spike or explicit rationale | **YES** — P0 **6/6 PASS** |
+| Sensitive decisions map to security/audit validation | **PARTIAL** — activation P0 PASS; identity provider / evidence deferred to **1C** |
+| Locked formulas have a technical validation path | **PARTIAL** — SPK-ARC-010 · 011 **PASS**; production controls still required |
 
 ## Shell → screen count → architecture question
 
@@ -81,25 +81,27 @@ ACT-004 historical excluded from 92
 
 | Source | Technical responsibility | Data owner (planned) | Consistency | Spike | Validation status |
 |--------|--------------------------|----------------------|-------------|-------|-------------------|
-| Learning Graph nodes/edges | Representation + acyclicity | Learning Graph domain | Strong read consistency for unlock | SPK-ARC-005 | NOT RUN |
+| Learning Graph nodes/edges | Representation + acyclicity | Learning Graph domain | Strong read consistency for unlock | SPK-ARC-005 | **P0 PASS** |
 | Mission lifecycle events | Save/resume / Flight Log | Mission Runtime | Conflict policy | SPK-ARC-006 | NOT RUN |
-| Evidence anchors / objects | Object isolation + scan | Evidence domain | Upload integrity | SPK-ARC-007 · 008 | NOT RUN |
+| Evidence anchors / objects | Object isolation + scan | Evidence domain | Upload integrity | SPK-ARC-007 · 008 | NOT RUN — **1C** |
 | Evidence approval → standing | Targeted recalculation | Progression | Local recompute | SPK-ARC-009 | NOT RUN |
-| Progression events (53) | Idempotent ingress + reversal | Progression | Exactly-once apply semantics | SPK-ARC-010 | NOT RUN |
-| Locked formulas (FINAL-FORMULA-VERSION-REGISTRY) | Versioned storage + replay | Progression | Historical reproducibility | SPK-ARC-011 | NOT RUN |
+| Progression events (53) | Idempotent ingress + reversal | Progression | Exactly-once apply semantics | SPK-ARC-010 | **P0 PASS** |
+| Locked formulas (FINAL-FORMULA-VERSION-REGISTRY) | Versioned storage + replay | Progression | Historical reproducibility | SPK-ARC-011 | **P0 PASS** |
 | Trust transitions (non-public) | Private Trust state | Moderation and Trust | No public numeric Trust | SPK-ARC-013 | NOT RUN |
 | Leaderboard population (POL-POP) | Threshold + privacy | Leaderboards | Hide unsafe boards | SPK-ARC-024 | NOT RUN |
 
 ## Explicit non-claims
 
 ```text
-Traceability ≠ technical validation complete
-Evidence columns remain empty until spikes RUN
-Product Code BLOCKED
+Traceability ≠ full technical validation complete
+P0 evidence available for selected domains only
+P1–P3 spikes NOT RUN
+Core Platform Stack Baseline ACTIVE — Product Code BLOCKED
 ```
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.1.0 | 2026-07-21 | GHV.ARCHITECTURE.1B — P0 spike evidence mapped; partial validation status |
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §46 — traceability + 92-screen confirm |

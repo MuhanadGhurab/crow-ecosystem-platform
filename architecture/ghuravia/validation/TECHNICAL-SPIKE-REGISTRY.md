@@ -3,8 +3,8 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-VAL-SPK-REG-001 |
-| **Version** | 1.0.0 |
-| **Status** | **VALIDATION PLAN · PLANNED · NOT RUN** |
+| **Version** | 1.1.0 |
+| **Status** | **ACTIVE - P0 UPDATED - P1-P3 NOT RUN** |
 | **Owner** | Founder (RAVEN) |
 | **Source Gate** | GHV.ARCHITECTURE.1A §42 |
 | **Last updated** | 2026-07-21 |
@@ -13,8 +13,8 @@
 
 ```text
 Technical Spikes registered: 25 (SPK-ARC-001…025)
-Technical Spikes Run: 0
-Status (all): PLANNED · NOT RUN
+Technical Spikes Run: 6
+Status (all): P0 PASS - P1-P3 NOT RUN
 Code permission (1A): DENIED
 Database permission: DENIED
 Deployment permission: DENIED
@@ -48,7 +48,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-001/RESULT.md` |
 | **Pass criteria** | Inherited tooling inventoried; GHURAVIA candidates scored without silent ACCEPTED ADRs; incompatibilities documented. |
 | **Fail criteria** | Any CyberCrow path treated as approved stack without evidence; Product Code introduced. |
 
@@ -86,7 +87,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-003/RESULT.md` |
 | **Pass criteria** | Server rejects forged activation; ACT-004 excluded from 92; ACT-013 risk accept enforced. |
 | **Fail criteria** | Client-only activation; alias inflation; risk accept bypassed. |
 
@@ -124,7 +126,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-005/RESULT.md` |
 | **Pass criteria** | Graph semantics validated on relational/typed model; acyclicity checks work; no DB-by-name assumption. |
 | **Fail criteria** | Requires unnamed graph vendor as sole option without comparison; cycles undetected. |
 
@@ -219,7 +222,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-010/RESULT.md` |
 | **Pass criteria** | Duplicate event keys do not double-apply; reversal restores prior standing with audit. |
 | **Fail criteria** | Double XP/standing; irreversible silent edits. |
 
@@ -238,7 +242,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-011/RESULT.md` |
 | **Pass criteria** | Replay under stored formula version matches historical standing. |
 | **Fail criteria** | Silent parameter drift changes history. |
 
@@ -428,7 +433,8 @@ Product Code: BLOCKED
 | **Code permission** | **DENIED** (1A) |
 | **Database permission** | **DENIED** |
 | **Deployment permission** | **DENIED** |
-| **Status** | **PLANNED · NOT RUN** |
+| **Status** | **PASS** |
+| **Evidence** | `spikes/ghuravia/architecture-1b/SPK-ARC-021/RESULT.md` |
 | **Pass criteria** | Preview cannot use Production DB URLs; branch deploy guard respected. |
 | **Fail criteria** | Shared Production credentials on Preview; accidental deploy. |
 
@@ -511,9 +517,9 @@ Product Code: BLOCKED
 ## Explicit non-claims
 
 ```text
-No spike has been run
-No spike PASS/FAIL evidence exists
-No stack ADR ACCEPTED from these rows
+P0 spikes have been run: SPK-ARC-001,003,005,010,011,021
+P0 PASS evidence exists under `spikes/ghuravia/architecture-1b/`
+P0 rows now support 1B core ADR acceptance; P1-P3 remain not run
 No Product Code authorized
 ```
 

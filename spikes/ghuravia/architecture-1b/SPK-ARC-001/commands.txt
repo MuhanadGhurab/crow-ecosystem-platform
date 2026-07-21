@@ -1,0 +1,3 @@
+cd spikes/ghuravia/architecture-1b/SPK-ARC-001
+npm test
+node -v

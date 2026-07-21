@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Source Gate** | GHV.ARCHITECTURE.1B |
 
 ## Active baseline set
 
@@ -28,8 +28,9 @@
 | Learning Pilot | **NOT RUN** |
 | Real-User Progression Calibration | **NOT RUN** |
 | Usability Validation | **NOT RUN** |
-| Technical Validation | **NOT RUN** |
-| **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Amendment **GHV.ARCHITECTURE.1A-AMENDMENT-01** · Precondition correction **CR-002** · Technical Decisions **NOT LOCKED** · Technical Spikes **NOT RUN** (0/25) · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1A** (PASS — AMENDED) |
+| Technical Validation | **PARTIAL — P0 CORE SPIKES COMPLETE** |
+| **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Amendment **GHV.ARCHITECTURE.1A-AMENDMENT-01** · Precondition correction **CR-002** · Source Gate **GHV.ARCHITECTURE.1A** (PASS — AMENDED) |
+| **GHURAVIA Core Platform Architecture and Stack Baseline v1.0.0** | **ACTIVE — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1B** (**PASS**) |
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
@@ -39,6 +40,7 @@
 | GHV.PROGRESSION.1D | **PASS** |
 | GHV.BASELINE-CORRECTION.1 | **PASS** |
 | GHV.ARCHITECTURE.1A | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** |
+| GHV.ARCHITECTURE.1B | **PASS** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -71,8 +73,10 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Publication / Implementation | BLOCKED |
 | Product Code | BLOCKED |
 | Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
-| Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) · spikes NOT RUN · stack NOT LOCKED |
-| TECH-018 Preview DB | PENDING TECHNICAL VALIDATION |
+| Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) |
+| Core Platform Stack Baseline | **ACTIVE v1.0.0** · core decisions **ACCEPTED** · domain validation **CONTINUES** |
+| P0 architecture spikes | **COMPLETE** (6/6 PASS) · P1–P3 **NOT RUN** |
+| TECH-018 Preview DB | PENDING TECHNICAL VALIDATION · SPK-ARC-021 P0 PASS does not close remediation |
 
 ## Explicit non-claims
 
@@ -80,11 +84,11 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 Formulas are NOT production calibrated
 Real-user validation NOT RUN
 Usability validation NOT RUN
-Technical validation NOT RUN
-Technical Spikes Run = 0
-Technical Decisions NOT LOCKED
-No stack ADR ACCEPTED
+Technical validation PARTIAL — P0 core spikes complete; full programme NOT RUN
+Technical Spikes Run = 6 / 25 (P0 only)
+Core platform stack ADRs ACCEPTED — domain validation continues
+P1–P3 spikes NOT RUN
 Product Code BLOCKED
 Master Screen Registry Baseline CORRECTED AND LOCKED (7 / 92 ACTIVE · 0 aliases) — not implemented
-Core Technical Validation Plan LOCKED — not a final architecture baseline
+Core Platform Stack Baseline ACTIVE — not production ready
 ```
