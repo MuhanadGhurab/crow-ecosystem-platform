@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -91,12 +91,12 @@
 | ASM-079 | Founder can operate the launch architecture under modular boundaries | Active | Capacity | SPK-ARC-001 · 021 · capacity reviews | Shrink shape / hire | ARCH.1A |
 | ASM-080 | A relational datastore can support primary launch needs | Pending Validation | Data architecture | SPK-ARC-005 · 010 · 011 | Revisit shape with evidence | ARCH.1A |
 | ASM-081 | Graph behavior can be represented without a dedicated graph database by name | Pending Validation | Learning Graph | SPK-ARC-005 · DEC-159 | Compare graph option only with evidence | ARCH.1A |
-| ASM-082 | Managed storage can isolate Evidence safely | Pending Validation | Evidence | SPK-ARC-007 · 008 · DEC-162 | Limit Evidence types | ARCH.1A |
+| ASM-082 | Managed storage can isolate Evidence safely | Pending Validation — 1C architecture PASS; provider deferred | Evidence | SPK-ARC-007 · 008 PASS · DEC-199/200 | Limit Evidence types | ARCH.1C |
 | ASM-083 | Realtime can be introduced without service sprawl | Pending Validation | Live Sky | SPK-ARC-014 · 015 | Defer Live depth | ARCH.1A |
 | ASM-084 | Arabic search can meet controlled-launch discovery needs | Pending Validation | Search | SPK-ARC-016 | Narrow discovery surfaces | ARCH.1A |
 | ASM-085 | External providers can offer appropriate Saudi support via adapters | Pending Validation | Integrations | Provider evals · DEC-163 | Narrow methods / delay paid | ARCH.1A |
 | ASM-086 | Evidence review can scale initially at controlled-launch depth | Pending Validation | Review ops | Staffing · pilot | Narrow review classes | ARCH.1A |
-| ASM-087 | Formula recalculation can remain local / targeted | Pending Validation | Progression | SPK-ARC-009 · 011 · DEC-161 | Batch windows only | ARCH.1A |
+| ASM-087 | Formula recalculation can remain local / targeted | Pending Validation — 1C spike PASS; production scale open | Progression | SPK-ARC-009 PASS · 011 · DEC-201 | Batch windows only | ARCH.1C |
 | ASM-088 | 92 ACTIVE screens can share governed shell components | Pending Validation | Frontend | SPK-ARC-004 | Material CR for shells | ARCH.1A |
 | ASM-089 | No DMs reduces moderation complexity vs full chat | Active | Community | CAP-SOC-009 · SPK-ARC-013 | Structured chat CR | ARCH.1A |
 | ASM-090 | Core Technical Validation Plan lock will not be mistaken for technical validation or stack lock | Active | Status clarity | PROJECT_STATUS · BASELINE-MANIFEST · DEC-165/166 | Correct messaging | ARCH.1A |
@@ -111,3 +111,12 @@
 | ASM-099 | `node:test` spike harness evidence transfers to later Vitest Product Code baseline | Pending Validation | Testing toolchain | ADR-ARC-011 · P0 reproducibility report | Delay Vitest adoption | ARCH.1B |
 | ASM-100 | Launch can proceed without shared distributed cache | Pending Validation | Cache boundary | ADR-ARC-010 · load triggers | Introduce shared cache | ARCH.1B |
 | ASM-101 | Core platform stack acceptance will not be mistaken for Product Code authorization | Active | Status clarity | DEC-190 · PROJECT_STATUS · BASELINE-MANIFEST | Correct messaging | ARCH.1B |
+
+| ASM-102 | Hybrid app-owned sessions + replaceable IdP adapter satisfy portability | Pending Validation | Identity | ADR-013 · sandbox IdP | Alternate IdP | ARCH.1C |
+| ASM-103 | Fail-closed scanning can operate asynchronously without fail-open release | Pending Validation — pipeline locked | Evidence | SPK-ARC-008 · ADR-021 | Keep quarantine | ARCH.1C |
+| ASM-104 | Sanitized public Evidence can remain a separate derivative from private objects | Pending Validation | Evidence | PUBLIC-EVIDENCE-SANITIZATION · ADR-019 | Block public Evidence | ARCH.1C |
+| ASM-105 | Legal retention periods can be configured later without changing lifecycle states | Active | Retention | ADR-017 DRAFT classes · legal review | Hold deletions | ARCH.1C |
+| ASM-106 | Minor public identity can remain Crow-only without private legal fields | Pending Validation — spike PASS; legal open | Privacy | SPK-ARC-025 · ADR-023 | Restrict minor public surfaces | ARCH.1C |
+| ASM-107 | Provider adapters prevent unacceptable lock-in for identity/storage/scanning | Pending Validation | Integrations | DEC-204 · adapter contracts | Forced migration plan | ARCH.1C |
+| ASM-108 | Founder can operate security-critical workflows initially with SoD and audit | Pending Validation | Operability | PRIVILEGED-ACCESS · SPK-ARC-019 | Hire security ops | ARCH.1C |
+| ASM-109 | Domain architecture acceptance will not be mistaken for Product Code or compliance | Active | Status clarity | DEC-205 · PARTIAL gate · BASELINE-MANIFEST | Correct messaging | ARCH.1C |

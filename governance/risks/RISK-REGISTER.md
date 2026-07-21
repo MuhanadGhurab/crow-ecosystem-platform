@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 | **Note** | Risks are identified, not claimed mitigated. **Core Platform Stack Baseline acceptance** and **P0 spike PASS** do **not** close Open validation-debt, provider-selection, or operational risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -267,9 +267,9 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-ARC-002 | Inherited-technology bias | H | H | H | Treat CyberCrow paths as approved | DEC-158 · SPK-ARC-001 reject/inherit table | Reject silent ACCEPTED | Founder | **OPEN** | Open | ARCH |
 | RISK-ARC-005 | Event duplication | H | H | H | Double-apply standing | SPK-ARC-010 P0 PASS · DEC-160 | Production-scale and replay controls still required | Founder | **P0 EVIDENCE — IMPLEMENTATION RISK OPEN** | Open | ARCH |
 | RISK-ARC-007 | Formula-version drift | H | H | H | Silent parameter rewrite | SPK-ARC-011 P0 PASS · DEC-161 | Runtime governance and migration controls still required | Founder | **P0 EVIDENCE — IMPLEMENTATION RISK OPEN** | Open | ARCH |
-| RISK-ARC-008 | Evidence-object exposure | H | H | H | Public Evidence URLs | SPK-ARC-007 · DEC-162 | Limit uploads until isolation | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-008 | Evidence-object exposure | H | H | H | Public Evidence URLs | SPK-ARC-007 PASS · DEC-199 · ADR-019/020 | Isolation architecture accepted; provider/runtime validation remains | Founder | **P1 EVIDENCE — IMPLEMENTATION RISK OPEN** | Open | ARCH |
 | RISK-ARC-020 | Entitlement/progression coupling | H | H | H | Pay-to-win path | SPK-ARC-012 | Keep ledgers separate | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
-| RISK-ARC-021 | Trust privacy leakage | H | H | H | Public Trust score | SPK-ARC-013 · 024 · 025 | Block launch surfaces | Founder | **BLOCKING LAUNCH** | Open | ARCH |
+| RISK-ARC-021 | Trust privacy leakage | H | H | H | Public Trust score | SPK-ARC-013 · 025 PASS · DEC-203 | Architecture forbids public score; launch UX still required | Founder | **1C EVIDENCE — LAUNCH UX RISK OPEN** | Open | ARCH |
 | RISK-ARC-029 | Preview/production isolation failure | H | H | H | Shared Production DB on Preview | SPK-ARC-021 P0 PASS · TECH-018 | Block Preview runtime until remediation | Founder | **P0 EVIDENCE — TECH-018 OPEN** | Open | ARCH |
 | RISK-ARC-031 | Founder operational overload | H | M | H | Over-wide architecture | Capacity ASM · modular monolith bias | Shrink WIP | Founder | **MONITORED** | Continuous | ARCH |
 | RISK-ARC-033 | Stale architecture documentation | M | M | M | Docs drift after 1A/1B | Source map · readiness matrix · 1E reconciliation | Reconcile in 1E | Founder | **MONITORED** | Continuous | ARCH |
@@ -278,6 +278,19 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-ARC-036 | Event ledger unbounded growth | M | H | H | Append-only ledger without lifecycle | Retention/archival policy in 1C/1D | Partition/archive + targeted replay | Founder | **OPEN** | Open | ARCH |
 | RISK-ARC-037 | Spike harness mistaken for Product Code | H | H | H | Copy spike libs into product tree | DEC-189 · spike root isolation | Reject Product Code until authorized Gate | Founder | **OPEN** | Open | ARCH |
 | RISK-ARC-038 | Monorepo operational burden | M | M | M | Package/workspace sprawl | Modular monolith package boundaries · founder WIP | Extract or simplify packages | Founder | **OPEN** | Open | ARCH |
+
+| RISK-ARC-039 | Identity-provider lock-in | M | H | H | Domain logic embeds vendor APIs | ADR-013 adapter lock · DEC-204 | Swap adapter | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-040 | Recovery abuse / assurance bypass | H | H | H | Support shortcuts activation | ACCOUNT-RECOVERY boundary · privileged SoD | Dual-control exceptions only | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-041 | Session theft / fixation | H | H | H | Stolen cookie/token | ADR-014 rotation/revocation | Force logout all devices | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-042 | Privilege escalation / policy misconfig | H | H | H | Role alone grants access | ADR-015 resource checks · deny default | Break-glass audit | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-043 | Malware / secret upload | H | H | H | Skip quarantine | SPK-ARC-008 fail-closed · ADR-021 | Keep fail-closed | Founder | **P2 EVIDENCE — PROVIDER RISK OPEN** | Open | ARCH |
+| RISK-ARC-044 | Scan false negative / positive | M | H | H | Scanner quality | Dual scanners · appeal path | Quarantine backlog ops | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-045 | Signed-URL / storage credential compromise | H | H | H | Long-lived URLs | Short TTL · credential isolation | Rotate keys · revoke | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-046 | Audit tampering / excess PII in audit | M | H | H | Mutable audit / over-logging | Append-only · SPK-ARC-019 | Tamper-evident store in 1D | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-047 | Minor public-profile leakage | H | H | H | Legal identity on public surface | SPK-ARC-025 · ADR-023 | Legal review + tests | Founder | **1C EVIDENCE — LEGAL OPEN** | Open | ARCH |
+| RISK-ARC-048 | Saudi integration assumption | M | H | H | Claim Nafath availability | SAUDI readiness · OFFICIAL ACCESS NOT VERIFIED | Defer federation | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-049 | Legal retention uncertainty | H | H | H | Wrong deletion/retention | ADR-017 DRAFT classes | Legal validation required | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-050 | Spike confidence exceeding evidence | H | H | H | Treat 1C harness as prod security | DEC-205 · PARTIAL gate | Require pen-test + provider sandbox | Founder | **OPEN** | Open | ARCH |
 | RISK-GOV-001 | Gate work continuing after a mandatory stop condition | M | H | H | Precondition fail ignored; mixed correction + substantive Gate commit | Precondition checklist · stop checkpoint · separate correction commit/Gate · resumption record · reviewer confirmation · amendment if mixed (DEC-173) | Reopen Gate / issue amendment; do not rewrite history | Founder | **OPEN / MONITORED** — Amendment-01 recorded; **not eliminated** | Continuous | GOV |
 | RISK-GOV-002 | Stack acceptance messaging overclaims validation | M | H | H | “Architecture done” after 1B | PROJECT_STATUS · BASELINE-MANIFEST · DEC-190 | Correct to PARTIAL / domain continues | Founder | **OPEN** | Open | GOV |
 

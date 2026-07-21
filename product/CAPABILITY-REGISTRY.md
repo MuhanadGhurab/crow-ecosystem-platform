@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.11.0 |
+| **Version** | 1.12.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -34,8 +34,8 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | ID | Name | Pillar | Scope status | Journey | Screens | Maturity | Deps | Owner | Gate |
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
 | CAP-ONB-001 | Landing Page | Learning | CONTROLLED LAUNCH | Discover | PUB | Defined | — | Founder | 1B |
-| CAP-ONB-002 | Registration | Identity | CONTROLLED LAUNCH | Activate | ACT | Defined | IdP | Founder | Tech |
-| CAP-ONB-003 | Email verification (Pending + Result) | Trust | CONTROLLED LAUNCH | Activate | **ACT-003 · ACT-011** | **Specified** | Email · CR-001 | Founder | BC.1 |
+| CAP-ONB-002 | Registration | Identity | CONTROLLED LAUNCH | Activate | ACT | Specified | IdP adapter · ADR-013 | Founder | ARCH.1C |
+| CAP-ONB-003 | Email verification (Pending + Result) | Trust | CONTROLLED LAUNCH | Activate | **ACT-003 · ACT-011** | **Specified** | Email adapter · ADR-016 · CR-001 | Founder | ARCH.1C |
 | CAP-ONB-004 | Terms acceptance | Trust | CONTROLLED LAUNCH | Activate | **ACT-005** | Defined | Legal copy | Founder | Ext |
 | CAP-ONB-005 | Optional mobile verification | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | SMS | Founder | Tech |
 | CAP-ONB-006 | Crow personalization | Identity | CONTROLLED LAUNCH | Personalize | IDN | Defined | — | Founder | 1B |
@@ -56,7 +56,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-LRN-002 | Learning Graph | Learning | CORE FOUNDATION | Route | WLD/LRN | Specified | Graph perf; conceptual registry 1B | Founder | Tech |
 | CAP-LRN-003 | Missions | Learning | CONTROLLED LAUNCH | Missions | LRN | Specified | **87** Mission Blueprints LOCKED AS DESIGN BASELINE; content production pending | Founder | Learning |
 | CAP-LRN-004 | Assessments | Evidence | CONTROLLED LAUNCH | Missions | LRN | Specified | **33** assessment anchors LOCKED AS ASSESSMENT DESIGN BASELINE; numeric → PROGRESSION.1 | Founder | Learning |
-| CAP-LRN-005 | Evidence | Evidence | CONTROLLED LAUNCH | Evidence | LRN/LOG | Specified | 24 anchors + rubrics LOCKED AS DESIGN BASELINE; safe handling | Founder | Tech |
+| CAP-LRN-005 | Evidence | Evidence | CONTROLLED LAUNCH | Evidence | LRN/LOG | Specified | Design baseline + 1C upload/scan/access architecture · providers deferred | Founder | ARCH.1C |
 | CAP-LRN-006 | Cross-Wing | Learning | CONTROLLED LAUNCH | Learning | LRN | Specified | CXW-001 LOCKED AS DESIGN BASELINE; VALID WITH REQUIRED BRIDGE; Publication BLOCKED | Founder | Learning |
 | CAP-LRN-007 | Secure Extensions | Trust/Learning | CONTROLLED LAUNCH | Learning | LRN | Specified | SEX-001 LOCKED AS DESIGN BASELINE; Publication BLOCKED | Founder | Learning |
 | CAP-LRN-008 | Content lifecycle | Learning | CORE FOUNDATION | Ops | ADM | Specified | Production handoff + freeze + capacity sequencing | Founder | Ops |
@@ -139,13 +139,13 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 
 | ID | Name | Pillar | Scope status | Journey | Screens | Maturity | Deps | Owner | Gate |
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
-| CAP-TRU-001 | Authentication | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Activate/Return | ACT/TRU | Pending Validation | IdP | Founder | Tech |
-| CAP-TRU-002 | Authorization | Trust | CORE FOUNDATION | All | — | Specified | — | Founder | 1B |
-| CAP-TRU-003 | Account assurance | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Activate | TRU | Specified | — | Founder | 1B |
-| CAP-TRU-004 | Privacy | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Account | TRU | Pending Validation | PDPL Ext | Founder | Ext |
-| CAP-TRU-005 | Security / audit | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Defined | — | Founder | Sec |
-| CAP-TRU-006 | Regional policy | Trust | CORE FOUNDATION | Ops | ADM | Defined | — | Founder | 1B |
-| CAP-TRU-007 | Object storage | Trust | CONTROLLED LAUNCH | Evidence | LRN | Pending Validation | Tech | Founder | Tech |
+| CAP-TRU-001 | Authentication | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Activate/Return | ACT/TRU | Specified | ADR-013/014 · IdP deferred with adapter | Founder | ARCH.1C |
+| CAP-TRU-002 | Authorization | Trust | CORE FOUNDATION | All | — | Specified | ADR-015 deny-by-default | Founder | ARCH.1C |
+| CAP-TRU-003 | Account assurance | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Activate | TRU | Specified | IDENTITY-ASSURANCE-ARCHITECTURE | Founder | ARCH.1C |
+| CAP-TRU-004 | Privacy | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Account | TRU | Specified | Classification · minor ADR-023 · PDPL Ext pending | Founder | ARCH.1C |
+| CAP-TRU-005 | Security / audit | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Specified | ADR-022 · SPK-ARC-019 · pen-test pending | Founder | ARCH.1C |
+| CAP-TRU-006 | Regional policy | Trust | CORE FOUNDATION | Ops | ADM | Defined | SAUDI readiness · OFFICIAL ACCESS NOT VERIFIED | Founder | ARCH.1C |
+| CAP-TRU-007 | Object storage | Trust | CONTROLLED LAUNCH | Evidence | LRN | Specified | ADR-020 S3 adapter locked · provider deferred | Founder | ARCH.1C |
 | CAP-TRU-008 | Realtime | Community | CONTROLLED LAUNCH | Live | LIV | Pending Validation | Tech | Founder | Tech |
 | CAP-TRU-009 | Observability | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | ADM | Pending Validation | Tech | Founder | Tech |
 | CAP-TRU-010 | Backup and recovery | Trust | CORE FOUNDATION + CONTROLLED LAUNCH | Ops | — | Pending Validation | Tech | Founder | Tech |

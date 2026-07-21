@@ -44,3 +44,7 @@ Satisfying a plan document does NOT satisfy technical dependencies
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §48 — architecture dependencies |
+
+## 1C additions
+
+See global DEPENDENCY-REGISTER DEP-090..094. Source Gate GHV.ARCHITECTURE.1C.

@@ -1,0 +1,2 @@
+cd spikes/ghuravia/architecture-1c
+npm run test:025

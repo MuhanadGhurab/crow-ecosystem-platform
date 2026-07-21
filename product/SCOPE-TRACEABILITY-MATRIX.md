@@ -105,7 +105,8 @@ No new screen lacks a capability owner. No affected capability points only to su
 | Prestige panel operations | PENDING staffing |
 | Screen registry reconciliation | **COMPLETE** (BASELINE-CORRECTION.1) |
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** — core decisions **ACCEPTED** · domain validation **CONTINUES** |
-| Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1C–1E · P0 spike evidence available · Product Code **BLOCKED** |
+| Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1D–1E · P0 + 1C domain spike evidence available · Product Code **BLOCKED** |
+| Identity / Evidence / Security domain architecture | **PARTIAL** — GHV.ARCHITECTURE.1C Baseline v1.0.0 ACTIVE · providers/legal OPEN · Product Code **BLOCKED** |
 | Core Technical Validation Plan | **LOCKED** (1A) — P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** |
 | Treating formulas as production calibrated | **Forbidden** until real-user + tech path |
 | Product Code / stack ACCEPTED | **BLOCKED** / core platform **ACCEPTED** (not Product Code) |

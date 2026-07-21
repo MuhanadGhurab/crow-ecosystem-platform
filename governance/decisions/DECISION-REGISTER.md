@@ -1984,3 +1984,130 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Rationale** | Provider selection and sensitive-domain validation deferred from 1B by design. |
 | **Related Gate** | GHV.ARCHITECTURE.1B → GHV.ARCHITECTURE.1C |
 | **Evidence** | [GHV.ARCHITECTURE.1B.md](../gates/GHV.ARCHITECTURE.1B.md) · PROJECT_STATUS.md |
+
+## DEC-192 — Identity, Security, Data and Evidence Baseline v1.0.0
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept **GHURAVIA Identity, Security, Data and Evidence Architecture Baseline v1.0.0** as ACTIVE domain architecture; provider and legal conditions remain open; Product Code remains BLOCKED. |
+| **Status** | Accepted |
+| **Rationale** | 1C spikes and ADRs define secure domain boundaries without authorizing Product Code or production providers. |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
+
+## DEC-193 — Identity concepts and Crow/private separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock separation of Account Identity, Crow Public Identity, Private Legal Identity, Contact Identity, Activation, Assurance, Authorization, Entitlement, Learning Eligibility, and Trust Eligibility. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | [IDENTITY-DOMAIN-ARCHITECTURE.md](../../architecture/ghuravia/identity/IDENTITY-DOMAIN-ARCHITECTURE.md) · ADR-ARC-013 |
+
+## DEC-194 — Server-authoritative activation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activation remains server-authoritative for ACT-003/011/012/013; frontend must not independently declare activation complete. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | [ACTIVATION-STATE-ARCHITECTURE.md](../../architecture/ghuravia/identity/ACTIVATION-STATE-ARCHITECTURE.md) · SPK-ARC-003 |
+
+## DEC-195 — Authentication and sessions boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept authentication/session architecture with revocation and sensitive reauthentication; timeouts remain candidate values pending UX/security validation (ADR-ARC-014). |
+| **Status** | Accepted with conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | ADR-ARC-014 |
+
+## DEC-196 — Authorization deny-by-default hybrid policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept hybrid RBAC + contextual policy with deny-by-default and separation of duties (ADR-ARC-015). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | ADR-ARC-015 · PRIVILEGED-ACCESS-ARCHITECTURE.md |
+
+## DEC-197 — Data ownership and classification
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept authoritative data ownership and classification architecture (PUBLIC→PROHIBITED). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | DATA-OWNERSHIP-ARCHITECTURE.md · DATA-CLASSIFICATION-ARCHITECTURE.md |
+
+## DEC-198 — Retention, deletion, export with legal conditions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept retention/deletion/export lifecycle architecture; exact legal periods remain DRAFT pending legal review (ADR-ARC-017). |
+| **Status** | Accepted with legal conditions |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | ADR-ARC-017 |
+
+## DEC-199 — Evidence metadata/object separation and upload
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Raw Evidence objects never enter progression ledgers; upload uses short-lived auth + quarantine before review (ADR-ARC-019; SPK-ARC-007). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SPK-ARC-007 · ADR-ARC-019 · EVIDENCE-DOMAIN-ARCHITECTURE.md |
+
+## DEC-200 — Evidence storage and scanning adapters
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock S3-compatible storage adapter and fail-closed scanning pipeline; specific providers deferred (ADR-ARC-020/021; SPK-ARC-008). |
+| **Status** | Accepted (pipeline) / Deferred with adapter (providers) |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SPK-ARC-007 · 008 · ADR-ARC-020 · 021 |
+
+## DEC-201 — Evidence revocation targeted recalculation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evidence approval/revocation/restoration triggers targeted Capability/Route recalculation only; historical events preserved (SPK-ARC-009). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SPK-ARC-009 · EVIDENCE-REVOCATION-TECHNICAL-ARCHITECTURE.md |
+
+## DEC-202 — Audit and privileged corrections
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Sensitive corrections require actor, reason, authority, dual-control where applicable; audit must not store Evidence content or secrets (ADR-ARC-022; SPK-ARC-019). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SPK-ARC-019 · ADR-ARC-022 |
+
+## DEC-203 — Trust privacy and minor public profile
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Trust remains non-public and non-numeric; minor public profiles expose Crow identity and approved public artifacts only (ADR-ARC-023; SPK-ARC-013/025). |
+| **Status** | Accepted with legal conditions (minors) |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SPK-ARC-013 · 025 · ADR-ARC-023 |
+
+## DEC-204 — Provider adapters and Saudi readiness posture
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All security-sensitive providers use replaceable adapters; Saudi/Nafath/Absher remain PLANNED CAPABILITY with OFFICIAL ACCESS NOT VERIFIED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C |
+| **Evidence** | SECURITY-SENSITIVE-PROVIDER-ADAPTERS.md · SAUDI-IDENTITY-DATA-READINESS.md |
+
+## DEC-205 — Product Code remains blocked after 1C; next Gate 1D
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Domain architecture acceptance does not authorize Product Code; next Gate is GHV.ARCHITECTURE.1D. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1C → GHV.ARCHITECTURE.1D |
+| **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |

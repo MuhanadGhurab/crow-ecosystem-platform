@@ -3,16 +3,16 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-RISK-001 |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | **ACTIVE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A §47 |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 | **Last updated** | 2026-07-21 |
 
 ```text
-Plan existence does NOT mitigate these risks
-Technical Spikes Run = 0
-Technical Validation = NOT RUN
+Architecture ADRs do NOT fully mitigate these risks
+Technical Spikes Run = 12 / 25 (P0 6 + 1C 6)
+Technical Validation = PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE
 ```
 
 ## Status vocabulary
@@ -63,13 +63,25 @@ BLOCKING LAUNCH
 | RISK-ARC-031 | Founder operational overload | **MONITORED** | Capacity assumptions | WIP constraint |
 | RISK-ARC-032 | 92-screen routing sprawl | **OPEN** | SPK-ARC-004 | Shell composition |
 | RISK-ARC-033 | Stale architecture documentation | **MONITORED** | Source map · freeze policies | Doc drift |
+| RISK-ARC-039 | Identity-provider lock-in | **OPEN** | ADR-013 adapter | Vendor embed |
+| RISK-ARC-040 | Recovery abuse / assurance bypass | **OPEN** | Recovery boundary | Support shortcut |
+| RISK-ARC-041 | Session theft | **OPEN** | ADR-014 | Stolen cookie |
+| RISK-ARC-042 | Privilege escalation | **OPEN** | ADR-015 | Role-only grants |
+| RISK-ARC-043 | Malware/secret upload | **ACCEPTED WITH CONDITION** | SPK-ARC-008 fail-closed | Provider quality open |
+| RISK-ARC-045 | Signed-URL / storage credential compromise | **OPEN** | Short TTL · isolation | Leak |
+| RISK-ARC-046 | Audit tampering / excess PII | **OPEN** | SPK-ARC-019 | Mutable audit |
+| RISK-ARC-047 | Minor public-profile leakage | **ACCEPTED WITH CONDITION** | SPK-ARC-025 · legal open | Private fields |
+| RISK-ARC-048 | Saudi integration assumption | **OPEN** | OFFICIAL ACCESS NOT VERIFIED | False availability |
+| RISK-ARC-049 | Legal retention uncertainty | **OPEN** | ADR-017 DRAFT | Wrong periods |
+| RISK-ARC-050 | Spike confidence exceeding evidence | **OPEN** | PARTIAL gate messaging | False prod readiness |
 
 ## Explicit rule
 
-Do **not** mark a risk **mitigated** merely because a validation plan exists.
+Do **not** mark a risk **mitigated** merely because an ADR or spike PASS exists.
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.1.0 | 2026-07-21 | GHV.ARCHITECTURE.1C — identity/evidence risks added; spike counts updated |
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §47 — architecture risks opened/monitored |

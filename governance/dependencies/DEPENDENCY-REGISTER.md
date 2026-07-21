@@ -6,7 +6,7 @@
 | **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -76,15 +76,15 @@
 | DEP-077 | Progression technical validation | Technical | Planned — **BLOCKING Product Code** | Technical validation plan · P0 partial only | Engineering TBD | Undetected runtime defects | Runtime |
 | DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |
 | DEP-079 | GHV.ARCHITECTURE.1B stack decisions | Technical | **SATISFIED (PASS)** — Core Platform Stack Baseline v1.0.0 ACTIVE · ADR-ARC-001..012 ACCEPTED (some WITH CONDITIONS) | P0 6/6 PASS · provider choices deferred | Founder | Premature implementation if mistaken for Product Code | ARCH.1C |
-| DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | **PARTIALLY SATISFIED** — P0 **6/6 PASS** · P1–P3 **NOT RUN** · Product Code **BLOCKED** | Spike harness under spikes/ghuravia/architecture-1b/ | Founder | Undetected feasibility defects in deferred domains | 1C–1E |
+| DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | **PARTIALLY SATISFIED** — P0 **6/6** · 1C domain **6/6 PASS** · remaining P1–P3 to 1D/1E · Product Code **BLOCKED** | spikes/ghuravia/architecture-1b/ + architecture-1c/ | Founder | Undetected feasibility defects in deferred domains | 1D–1E |
 | DEP-081 | Preview database remediation (TECH-018) | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview; SPK-ARC-021 P0 PASS ≠ remediation complete | Founder | No Preview runtime | 1C / ops |
-| DEP-082 | Identity provider evaluation | Technical | Planned — **Next (1C)** | Overlaps DEP-013 · SPK-ARC-003 P0 PASS · provider selection deferred | Engineering TBD | Weak auth | 1C |
-| DEP-083 | Object-storage + scanning validation | Technical | Planned — **Next (1C)** | SPK-ARC-007 · 008 · overlaps DEP-025 · DEP-038 | Engineering TBD | Limit Evidence | 1C |
+| DEP-082 | Identity provider evaluation | Technical | **PARTIALLY SATISFIED** — adapter locked; provider deferred | ADR-013 · DEC-204 · sandbox still required | Engineering TBD | Weak auth | 1D/ops |
+| DEP-083 | Object-storage + scanning validation | Technical | **PARTIALLY SATISFIED** — pipeline/upload PASS; providers deferred | SPK-ARC-007 · 008 PASS · ADR-020/021 | Engineering TBD | Limit Evidence | 1D/ops |
 | DEP-084 | Event idempotency + formula-version technical proof | Technical | **P0 EVIDENCE AVAILABLE** — production controls still required | SPK-ARC-010 · 011 PASS · DEC-160/161 | Engineering TBD | Ledger corruption | 1D–1E |
 | DEP-085 | Later Product Code authorization | Governance | Blocked | After spike evidence / programme Gates including 1C–1E | Founder | Premature Product Code | Post-1E |
-| DEP-087 | Identity architecture validation (1C programme) | Technical | Planned — **Next** | Passkeys · activation authority production path · DEP-082 | Engineering TBD | Weak A2 | 1C |
-| DEP-088 | Evidence platform provider selection (1C programme) | Technical | Planned — **Next** | Object storage · scanning · isolation · DEP-083 | Engineering TBD | Limit Evidence types | 1C |
-| DEP-089 | Security / privacy architecture validation (1C programme) | Technical | Planned — **Next** | Threat model · PDPL · classification plans | Engineering TBD | Compliance gaps | 1C |
+| DEP-087 | Identity architecture validation (1C programme) | Technical | **SATISFIED (PARTIAL gate)** — domain architecture accepted; providers open | IDENTITY-* · ADR-013..016 · SPK-ARC-003 | Engineering TBD | Weak A2 | 1D |
+| DEP-088 | Evidence platform provider selection (1C programme) | Technical | **PARTIALLY SATISFIED** — adapters locked; vendor selection open | ADR-020/021 · provider matrix | Engineering TBD | Limit Evidence types | 1D/ops |
+| DEP-089 | Security / privacy architecture validation (1C programme) | Technical | **PARTIALLY SATISFIED** — threat models + controls defined; pen-test/legal open | threat-models/ · SECURITY-CONTROL-MATRIX · ADR-017/023 | Engineering TBD | Compliance gaps | Legal/1D |
 | DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage · overlaps DEP-083/088 | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
 | DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |
@@ -99,3 +99,9 @@
 | DEP-019 | Content creation capacity | Organizational | Planned | Missions/Evidence assets | Founder + creators | Empty Routes | Learning launch |
 | DEP-020 | Usability test sessions | Product/Research | Planned | Execute USABILITY-VALIDATION-PLAN | Founder | Untested UI risk | Implementation waves |
 | DEP-021 | High-fidelity visual design | Product | Deferred | Brand tokens after low-fi lock | Founder/design | Visual inconsistency | Marketing surfaces |
+
+| DEP-090 | GHV.ARCHITECTURE.1C domain architecture | Technical | **SATISFIED (PARTIAL)** — Baseline v1.0.0 ACTIVE · ADR-ARC-013..023 | Provider/legal conditions OPEN · Product Code BLOCKED | Founder | Premature Product Code | ARCH.1D |
+| DEP-091 | Legal review — retention / minor activation / PDPL | External | Blocked | ADR-017 · ADR-023 · SAUDI readiness | Counsel TBD | Wrong retention / age policy | Legal |
+| DEP-092 | Identity/email/storage/scanner provider sandbox access | Technical | Blocked | No cloud accounts in 1C | Founder | Cannot accept providers | Ops |
+| DEP-093 | GHV.ARCHITECTURE.1D runtime/realtime/ops | Technical | Planned — **Next** | After 1C PARTIAL | Founder | Incomplete operational architecture | ARCH.1D |
+| DEP-094 | External security review / penetration test | External | Planned | SECURITY-TESTING-PLAN | Founder | Undetected vulnerabilities | Pre-launch |

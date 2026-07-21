@@ -1,8 +1,8 @@
 # PROJECT STATUS — GHURAVIA
 
-```text
+`	ext
 Current Gate:
-GHV.ARCHITECTURE.1B — PASS — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES
+GHV.ARCHITECTURE.1C — PARTIAL — DOMAIN ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -23,7 +23,8 @@ Accepted Previous Gates:
 - GHV.BASELINE-CORRECTION.1 — PASS — AMENDED BY CR-002
 - GHV.ARCHITECTURE.1A — PASS — AMENDED BY CR-002 PRECONDITION CORRECTION
 - GHV.ARCHITECTURE.1A-AMENDMENT-01 — PASS
-- GHV.ARCHITECTURE.1B — PASS
+- GHV.ARCHITECTURE.1B — PASS — CORE STACK ACCEPTED WITH CONDITIONS
+- GHV.ARCHITECTURE.1C — PARTIAL — DOMAIN ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
 
 Product Definition:
 LOCKED
@@ -43,113 +44,100 @@ LOCKED AS DESIGN BASELINE v1.0.0
 Core Technical Validation Plan:
 PASS — AMENDED
 
-Architecture Principles:
-DEFINED
+Core Platform:
+PARTIAL — ACCEPTED WITH CONDITIONS (ADR-ARC-001..012)
 
-System Context:
-DEFINED
+Identity Architecture:
+ACCEPTED WITH CONDITIONS (providers deferred with adapters)
 
-Technical Domains:
-DEFINED
+Activation State:
+ACCEPTED — server-authoritative (ACT-003/011/012/013)
 
-Quality Attributes:
-DRAFT VALIDATION BASELINE
+Authentication and Sessions:
+ACCEPTED WITH CONDITIONS
 
-Architecture Shape Decision:
-ACCEPTED — modular monolith with explicit domain packages (ADR-ARC-001)
+Authorization:
+ACCEPTED — hybrid RBAC + contextual policy · deny by default
 
-Frontend Architecture:
-CORE PLATFORM DECISION ACCEPTED · DOMAIN VALIDATION CONTINUES (ADR-ARC-002 WITH CONDITIONS)
+Privileged Access:
+ACCEPTED
 
-Backend Architecture:
-CORE PLATFORM DECISION ACCEPTED · DOMAIN VALIDATION CONTINUES (ADR-ARC-003 WITH CONDITIONS)
+Data Ownership:
+ACCEPTED
 
-Data Architecture:
-CORE PLATFORM DECISION ACCEPTED · DOMAIN VALIDATION CONTINUES (ADR-ARC-005 · ADR-ARC-006)
+Data Classification:
+ACCEPTED
 
-Identity and Activation:
-P0 EVIDENCE AVAILABLE · PROVIDER SELECTION DEFERRED TO 1C (SPK-ARC-003 PASS)
+Retention and Deletion:
+ACCEPTED WITH LEGAL CONDITIONS
 
-Learning Graph:
-P0 EVIDENCE AVAILABLE · DOMAIN VALIDATION CONTINUES (SPK-ARC-005 PASS · ADR-ARC-007)
+Evidence Metadata and Object Separation:
+ACCEPTED
 
-Progression Engine:
-P0 EVIDENCE AVAILABLE · DOMAIN VALIDATION CONTINUES (SPK-ARC-010 · SPK-ARC-011 PASS · ADR-ARC-008)
+Evidence Upload:
+ACCEPTED (SPK-ARC-007)
 
-Evidence Platform:
-VALIDATION PLANNED — DEFERRED TO 1C
+Evidence Storage:
+DEFERRED WITH S3-COMPATIBLE ADAPTER LOCKED
 
-Community and Moderation:
-VALIDATION PLANNED
+Evidence Scanning:
+PIPELINE ACCEPTED · PROVIDER DEFERRED · fail-closed (SPK-ARC-008)
 
-Live Sky:
-VALIDATION PLANNED
+Evidence Access:
+ACCEPTED
 
-Security and Privacy:
-VALIDATION PLANNED — DEFERRED TO 1C
+Audit:
+ACCEPTED (SPK-ARC-019)
+
+Trust Privacy:
+ACCEPTED (SPK-ARC-013)
+
+Minor Privacy:
+ACCEPTED WITH LEGAL CONDITIONS (SPK-ARC-025)
+
+Identity and Evidence Providers:
+DEFERRED WITH ADAPTERS LOCKED
+
+Realtime and Operations:
+PENDING GHV.ARCHITECTURE.1D
 
 Technical Spikes:
-P0 CORE COMPLETE — 6/6 PASS · P1–P3 NOT RUN
-Technical Spikes Run: 6 / 25
+P0 CORE COMPLETE — 6/6 PASS
+1C DOMAIN SPIKES COMPLETE — 6/6 PASS (+ SPK-ARC-003 reuse)
+Technical Spikes Run: 12 / 25 (P0 6 + 1C 6; 003 counted in P0)
 
 Technical Decisions:
-ACCEPTED — ADR-ARC-001..012 (some WITH CONDITIONS)
+ADR-ARC-001..012 (1B) · ADR-ARC-013..023 (1C)
 
-Core Platform Stack Baseline:
-ACTIVE v1.0.0 — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES
+Identity Security Data Evidence Baseline:
+ACTIVE v1.0.0 — DOMAIN ARCHITECTURE ACCEPTED · PROVIDER/LEGAL CONDITIONS OPEN
 
 Technical Validation:
-PARTIAL — P0 CORE SPIKES COMPLETE
+PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE
 
 Product Code:
 BLOCKED
 
-Real-User Calibration:
-NOT RUN
-
-Usability Validation:
-NOT RUN
-
 Branch:
 feat/ghuravia-foundation (deploy guard active)
-```
+`
 
 ## Next Gate
 
-```text
-GHV.ARCHITECTURE.1C
-IDENTITY, SECURITY, DATA AND EVIDENCE ARCHITECTURE
-```
+`	ext
+GHV.ARCHITECTURE.1D
+RUNTIME, REALTIME, INTEGRATION AND OPERATIONAL ARCHITECTURE
+`
 
-## Following Gates
+## Explicit non-claims
 
-```text
-GHV.ARCHITECTURE.1D — Runtime, Realtime, Integration and Operational Architecture
-GHV.ARCHITECTURE.1E — Technical Spikes, Architecture Reconciliation and Baseline Lock
-```
-
-## Identity
-
-| Item | Value |
-|------|-------|
-| Product | GHURAVIA — غُرافيا |
-| Founder | Muhanad Haitham Fouad Ghurab |
-| Founder identity | RAVEN |
-| Branch | `feat/ghuravia-foundation` |
-| Archive tag | `cybercrow-final-snapshot-20260720` |
-
-## Authoritative entry points
-
-- [GHV.ARCHITECTURE.1B.md](./governance/gates/GHV.ARCHITECTURE.1B.md)
-- [PLATFORM-STACK-BASELINE.md](./architecture/ghuravia/governance/PLATFORM-STACK-BASELINE.md)
-- [ADR-REGISTER.md](./architecture/ghuravia/governance/ADR-REGISTER.md)
-- [ARCHITECTURE-1B-P0-SPIKE-SET.md](./architecture/ghuravia/validation/ARCHITECTURE-1B-P0-SPIKE-SET.md)
-- [SPIKE-EVIDENCE-INDEX.md](./spikes/ghuravia/architecture-1b/SPIKE-EVIDENCE-INDEX.md)
-- [GHV.ARCHITECTURE.1A.md](./governance/gates/GHV.ARCHITECTURE.1A.md)
-- [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](./governance/gates/GHV.ARCHITECTURE.1A-AMENDMENT-01.md)
-- [ARCHITECTURE-READINESS-MATRIX.md](./architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md)
-- [MASTER-SCREEN-REGISTRY.md](./product/screens/MASTER-SCREEN-REGISTRY.md)
-- [PROGRESSION-BASELINE-MANIFEST.md](./product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md)
-- [LEARNING-PORTFOLIO-MANIFEST.md](./product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
-- [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)
-- [BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md)
+`	ext
+Full technical validation NOT COMPLETE
+P1–P3 programme NOT fully run (remaining spikes deferred to 1D/1E/launch)
+No identity/email/storage/scanner provider production-approved
+No Saudi/Nafath official access verified
+No legal retention periods finalized
+No penetration testing
+No Product Code
+No compliance certification
+`

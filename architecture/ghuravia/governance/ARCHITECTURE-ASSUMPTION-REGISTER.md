@@ -36,3 +36,7 @@ Plan alone does NOT validate these assumptions
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §48 — architecture assumptions |
+
+## 1C additions
+
+See global ASSUMPTION-REGISTER ASM-102..109. Source Gate GHV.ARCHITECTURE.1C.

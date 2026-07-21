@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-TVT-001 |
-| **Version** | 1.1.0 |
-| **Status** | **PARTIAL — P0 CORE SPIKES COMPLETE** |
+| **Version** | 1.2.0 |
+| **Status** | **PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 | **Last updated** | 2026-07-21 |
 | **Screen baseline** | MASTER-SCREEN-REGISTRY v1.2.0 · **92 ACTIVE** · ACT-004 **HISTORICAL excluded** |
 
@@ -46,7 +46,7 @@ Learning Node / Event / Formula
 | ACT-004 contributes to 92? | **NO** — HISTORICAL_REFERENCE / SUPERSEDED_ALIAS (appendix only) |
 | Controlled-launch capabilities map to ≥1 domain | **YES** |
 | P0 quality attributes map to a spike or explicit rationale | **YES** — P0 **6/6 PASS** |
-| Sensitive decisions map to security/audit validation | **PARTIAL** — activation P0 PASS; identity provider / evidence deferred to **1C** |
+| Sensitive decisions map to security/audit validation | **PARTIAL** — 1C domain PASS; provider sandbox / pen-test still open |
 | Locked formulas have a technical validation path | **PARTIAL** — SPK-ARC-010 · 011 **PASS**; production controls still required |
 
 ## Shell → screen count → architecture question
@@ -105,3 +105,15 @@ Core Platform Stack Baseline ACTIVE — Product Code BLOCKED
 |---------|------|--------|
 | 1.1.0 | 2026-07-21 | GHV.ARCHITECTURE.1B — P0 spike evidence mapped; partial validation status |
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §46 — traceability + 92-screen confirm |
+
+
+## 1C domain additions
+
+| Domain | Spike | ADR | Status |
+|--------|-------|-----|--------|
+| Evidence upload/storage | SPK-ARC-007 | 019/020 | PASS / adapter locked |
+| Evidence scanning | SPK-ARC-008 | 021 | PASS fail-closed |
+| Evidence→progression | SPK-ARC-009 | — | PASS targeted recalc |
+| Trust privacy | SPK-ARC-013 | — | PASS |
+| Audit/corrections | SPK-ARC-019 | 022 | PASS |
+| Minor privacy | SPK-ARC-025 | 023 | PASS WITH LEGAL CONDITIONS |

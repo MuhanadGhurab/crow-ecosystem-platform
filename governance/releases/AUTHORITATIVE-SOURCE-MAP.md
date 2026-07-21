@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.0.0 |
+| **Version** | 2.1.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1C |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -76,6 +76,27 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **Deployment topology** | [CORE-DEPLOYMENT-TOPOLOGY-DECISION.md](../../architecture/ghuravia/deployment/CORE-DEPLOYMENT-TOPOLOGY-DECISION.md) | **ACCEPTED WITH CONDITIONS** · P0 evidence SPK-ARC-021 |
 | **Deferred 1B providers / extractors** | [ARCHITECTURE-1B-DEFERRED-DECISIONS.md](../../architecture/ghuravia/governance/ARCHITECTURE-1B-DEFERRED-DECISIONS.md) | **DEFERRED** — identity provider · object storage · broker · graph DB · distributed cache · validator brand |
 | **1B P0 spike evidence** | [ARCHITECTURE-1B-P0-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1B-P0-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1b/SPIKE-EVIDENCE-INDEX.md) | **6/6 PASS** · spike harness only · Product Code **BLOCKED** |
+| **Identity domain architecture** | [IDENTITY-DOMAIN-ARCHITECTURE.md](../../architecture/ghuravia/identity/IDENTITY-DOMAIN-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED · EXTERNAL VALIDATION CONTINUES** |
+| **Activation state architecture** | [ACTIVATION-STATE-ARCHITECTURE.md](../../architecture/ghuravia/identity/ACTIVATION-STATE-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED** · ACT-003/011/012/013 |
+| **Authentication / sessions** | [ADR-ARC-014](../../architecture/ghuravia/decisions/ADR-ARC-014-AUTHENTICATION-AND-SESSIONS.md) | **ACCEPTED WITH CONDITIONS** |
+| **Assurance** | [IDENTITY-ASSURANCE-ARCHITECTURE.md](../../architecture/ghuravia/identity/IDENTITY-ASSURANCE-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Authorization** | [ADR-ARC-015](../../architecture/ghuravia/decisions/ADR-ARC-015-AUTHORIZATION-POLICY-MODEL.md) | **ACCEPTED** · deny by default |
+| **Privileged access** | [PRIVILEGED-ACCESS-ARCHITECTURE.md](../../architecture/ghuravia/security/PRIVILEGED-ACCESS-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Recovery / contact verification** | [ACCOUNT-RECOVERY-SECURITY-BOUNDARY.md](../../architecture/ghuravia/identity/ACCOUNT-RECOVERY-SECURITY-BOUNDARY.md) · [ADR-ARC-016](../../architecture/ghuravia/decisions/ADR-ARC-016-CONTACT-VERIFICATION-BOUNDARY.md) | **ACCEPTED / ADAPTER LOCKED** |
+| **Data ownership** | [DATA-OWNERSHIP-ARCHITECTURE.md](../../architecture/ghuravia/data/DATA-OWNERSHIP-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Data classification** | [DATA-CLASSIFICATION-ARCHITECTURE.md](../../architecture/ghuravia/privacy/DATA-CLASSIFICATION-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Retention / deletion / export** | [ADR-ARC-017](../../architecture/ghuravia/decisions/ADR-ARC-017-DATA-RETENTION-AND-DELETION.md) · [USER-DATA-EXPORT-ARCHITECTURE.md](../../architecture/ghuravia/privacy/USER-DATA-EXPORT-ARCHITECTURE.md) | **ACCEPTED WITH LEGAL CONDITIONS** |
+| **Encryption / secrets** | [ADR-ARC-018](../../architecture/ghuravia/decisions/ADR-ARC-018-ENCRYPTION-BOUNDARIES.md) · [SECRETS-MANAGEMENT-ARCHITECTURE.md](../../architecture/ghuravia/security/SECRETS-MANAGEMENT-ARCHITECTURE.md) | **ACCEPTED WITH CONDITIONS** |
+| **Evidence domain** | [EVIDENCE-DOMAIN-ARCHITECTURE.md](../../architecture/ghuravia/evidence/EVIDENCE-DOMAIN-ARCHITECTURE.md) | **DOMAIN ARCHITECTURE ACCEPTED · EXTERNAL VALIDATION CONTINUES** |
+| **Evidence upload / storage / scanning** | ADR-ARC-019..021 · SPK-ARC-007 · 008 | **Upload ACCEPTED · Storage ADAPTER LOCKED · Scanning PIPELINE ACCEPTED** |
+| **Evidence access / sanitization / revocation** | evidence/EVIDENCE-*-ARCHITECTURE.md · SPK-ARC-009 | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Audit / corrections** | [ADR-ARC-022](../../architecture/ghuravia/decisions/ADR-ARC-022-AUDIT-AND-SENSITIVE-CORRECTIONS.md) · SPK-ARC-019 | **ACCEPTED** |
+| **Trust privacy** | [TRUST-MODERATION-DATA-ARCHITECTURE.md](../../architecture/ghuravia/privacy/TRUST-MODERATION-DATA-ARCHITECTURE.md) · SPK-ARC-013 | **DOMAIN ARCHITECTURE ACCEPTED** |
+| **Minor privacy** | [ADR-ARC-023](../../architecture/ghuravia/decisions/ADR-ARC-023-MINOR-IDENTITY-PRIVACY.md) · SPK-ARC-025 | **ACCEPTED WITH LEGAL CONDITIONS** |
+| **Threat models / security controls** | architecture/ghuravia/security/threat-models/ · SECURITY-CONTROL-MATRIX.md | **DOMAIN ARCHITECTURE ACCEPTED · EXTERNAL TESTS NOT RUN** |
+| **Provider decisions (1C)** | [IDENTITY-EVIDENCE-PROVIDER-DECISION-MATRIX.md](../../architecture/ghuravia/governance/IDENTITY-EVIDENCE-PROVIDER-DECISION-MATRIX.md) | **DEFERRED WITH ADAPTERS / CONDITIONS** |
+| **1C spike evidence** | [ARCHITECTURE-1C-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1C-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1c/SPIKE-EVIDENCE-INDEX.md) | **6/6 PASS** · Product Code **BLOCKED** |
+| **Identity Security Data Evidence Baseline** | [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) | **ACTIVE v1.0.0** |
 | **Architecture options (comparisons)** | architecture/ghuravia/options/ | **Supporting evidence** — decisions recorded in ADRs |
 | **Frontend validation** | architecture/ghuravia/frontend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-002 ACCEPTED WITH CONDITIONS |
 | **Backend validation** | architecture/ghuravia/backend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-003 ACCEPTED WITH CONDITIONS |
