@@ -55,4 +55,4 @@ See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25
 
 ## 1E additions
 
-DEP-098 **SATISFIED (PARTIAL)** — Architecture Design Baseline v1.0.0 locked. DEP-099 external validation programme **depends on 1E handoff**; next Gate GHV.VALIDATION.1A (NOT STARTED). See [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](./EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md).
+DEP-098 **SATISFIED (PARTIAL)** — Architecture Design Baseline v1.0.0 locked. DEP-099 external validation programme **SATISFIED (PARTIAL) @ Validation.1A** — remaining closure @ **GHV.VALIDATION.1B**. See [EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md).

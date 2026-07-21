@@ -3,16 +3,18 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.3.1 |
+| **Version** | 2.4.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Source Gate** | GHV.VALIDATION.1A |
 | **Last updated** | 2026-07-21 |
 
 ```text
-ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION CONTINUES · IMPLEMENTATION NOT AUTHORIZED
-GATE VERDICTS: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED
+ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION EVIDENCE · IMPLEMENTATION AUTHORIZATION NOT GRANTED
+EXTERNAL TECHNICAL VALIDATION BASELINE v0.1.0 PARTIAL
+GATE VERDICTS: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL
 PROGRAMME COMPLETION ≠ EVERY GATE PASS
+Product Code: BLOCKED
 ```
 
 ## Authority order
@@ -133,7 +135,18 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **Architecture known limitations** | [ARCHITECTURE-KNOWN-LIMITATIONS.md](../../architecture/ghuravia/governance/ARCHITECTURE-KNOWN-LIMITATIONS.md) | Published post-1E lock |
 | **Architecture change freeze** | [ARCHITECTURE-CHANGE-FREEZE-POLICY.md](../../architecture/ghuravia/governance/ARCHITECTURE-CHANGE-FREEZE-POLICY.md) | Frozen decisions and change classes |
 | **Implementation authorization boundary** | [IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md](../../architecture/ghuravia/governance/IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md) | Product Code **BLOCKED** · Implementation **NOT GRANTED** |
-| **External validation handoff** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Recommends **GHV.VALIDATION.1A** (not started) |
+| **External validation handoff** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Handoff to **GHV.VALIDATION.1A** — **COMPLETED PARTIAL** |
+| **External validation baseline** | [EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md) | **v0.1.0 PARTIAL** |
+| **Validation.1A gate report** | [GHV.VALIDATION.1A.md](../gates/GHV.VALIDATION.1A.md) | **PARTIAL** · Product Code **NOT GRANTED** |
+| **External evidence architecture impact** | [EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md) | **0 contradictions · 0 rebaseline** |
+| **Implementation readiness assessment** | [IMPLEMENTATION-READINESS-ASSESSMENT.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-READINESS-ASSESSMENT.md) | **NOT READY** |
+| **Implementation blocker register** | [IMPLEMENTATION-BLOCKER-REGISTER.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-BLOCKER-REGISTER.md) | **17** Product Code path blockers |
+| **External validation acceptance matrix** | [EXTERNAL-VALIDATION-ACCEPTANCE-MATRIX.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-VALIDATION-ACCEPTANCE-MATRIX.md) | Domains mostly NOT AVAILABLE |
+| **Architecture condition reconciliation @ 1A** | [ARCHITECTURE-CONDITION-VALIDATION-RECONCILIATION.md](../../validation/ghuravia/external-1a/governance/ARCHITECTURE-CONDITION-VALIDATION-RECONCILIATION.md) | COND-001..032 · **0 falsely SATISFIED** |
+| **External validation condition register** | [EXTERNAL-VALIDATION-CONDITION-REGISTER.md](../../validation/ghuravia/external-1a/EXTERNAL-VALIDATION-CONDITION-REGISTER.md) | Validation.1A disposition |
+| **Environment availability @ 1A** | [ENVIRONMENT-AVAILABILITY-MATRIX.md](../../validation/ghuravia/external-1a/ENVIRONMENT-AVAILABILITY-MATRIX.md) | Preview NOT ESTABLISHED · TECH-018 OPEN |
+| **Provider access @ 1A** | [PROVIDER-ACCESS-MATRIX.md](../../validation/ghuravia/external-1a/PROVIDER-ACCESS-MATRIX.md) | Sandboxes NOT AVAILABLE |
+| **Validation evidence index** | [VALIDATION-EVIDENCE-INDEX.md](../../validation/ghuravia/external-1a/VALIDATION-EVIDENCE-INDEX.md) | Domain report index |
 | **Final acceptance matrix** | [FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md](../../architecture/ghuravia/governance/FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md) | RETURN TO SPIKE **0** |
 | **Runbooks / capacity / degradation** | operations/runbooks/ · capacity/ · GRACEFUL-DEGRADATION-MATRIX.md | **DOMAIN ARCHITECTURE ACCEPTED · OPS PROOF PENDING** |
 | **Frontend validation** | architecture/ghuravia/frontend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-002 ACCEPTED WITH CONDITIONS |

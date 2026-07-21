@@ -2363,3 +2363,66 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
 | **Evidence** | GATE-REGISTER.md · PROJECT_STATUS.md
+
+## DEC-234 — External validation PARTIAL does not authorize Product Code
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **GHV.VALIDATION.1A** closes as **PARTIAL**. External Technical Validation Baseline v0.1.0 is **PARTIAL**. This Gate **does not grant** Product Code Authorization or Implementation Authorization. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [GHV.VALIDATION.1A.md](../gates/GHV.VALIDATION.1A.md) · [IMPLEMENTATION-READINESS-ASSESSMENT.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-READINESS-ASSESSMENT.md) |
+
+## DEC-235 — Unavailable external resources are not FAIL
+
+| Field | Value |
+|-------|-------|
+| **Decision** | When required sandboxes, Preview, or credentials are absent, record **NOT AVAILABLE** — not FAIL. Unresolved failed mandatory validations @ Validation.1A close: **0**. Conditions remain open for **VALIDATION.1B**. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [EXTERNAL-VALIDATION-ACCEPTANCE-MATRIX.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-VALIDATION-ACCEPTANCE-MATRIX.md) · [ENVIRONMENT-AVAILABILITY-MATRIX.md](../../validation/ghuravia/external-1a/ENVIRONMENT-AVAILABILITY-MATRIX.md) |
+
+## DEC-236 — Preview DB absent blocks Product Code path
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Preview **NOT ESTABLISHED**; `DATABASE_URL` / `DIRECT_URL` **ABSENT**; **TECH-018 OPEN**. This blocks Preview-scoped proof, migration/rollback rehearsal, and relational host validation until remediated. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [IMPLEMENTATION-BLOCKER-REGISTER.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-BLOCKER-REGISTER.md) · BLK-VAL-001..003 |
+
+## DEC-237 — Implementation readiness NOT READY @ Validation.1A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Implementation readiness assessment recommendation is **NOT READY**. Seventeen Product Code path blockers remain open; controlled launch minimum (identity + storage + scanning + payment) is not proven. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [IMPLEMENTATION-READINESS-CRITERIA.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-READINESS-CRITERIA.md) · [IMPLEMENTATION-READINESS-ASSESSMENT.md](../../validation/ghuravia/external-1a/governance/IMPLEMENTATION-READINESS-ASSESSMENT.md) |
+
+## DEC-238 — Product Code remains separate authorization
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Product Code Authorization is a **separate governed decision**. Architecture Design Baseline lock and Validation.1A PARTIAL do **not** imply Product Code. Product Code status remains **BLOCKED**. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md](../../architecture/ghuravia/governance/IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md) · BASELINE-MANIFEST.md |
+
+## DEC-239 — Next Gate VALIDATION.1B remaining external closure
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Next recommended Gate is **GHV.VALIDATION.1B — REMAINING EXTERNAL VALIDATION CLOSURE** (**NOT STARTED**). Priority: Preview/TECH-018, provider sandboxes, migration/rollback/DR, legal, pen-test, user validation. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A → GHV.VALIDATION.1B |
+| **Evidence** | [GHV.VALIDATION.1A.md](../gates/GHV.VALIDATION.1A.md) · GATE-REGISTER.md · PROJECT_STATUS.md
+
+## DEC-240 — No architecture rebaseline from external review @ 1A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | External evidence @ Validation.1A introduces **0** material architecture contradictions, **0** Controlled Change proposals, and **0** Foundational Rebaseline proposals. Architecture Design Baseline v1.0.0 remains **LOCKED**. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.VALIDATION.1A |
+| **Evidence** | [EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md](../../validation/ghuravia/external-1a/governance/EXTERNAL-EVIDENCE-ARCHITECTURE-IMPACT-REVIEW.md)

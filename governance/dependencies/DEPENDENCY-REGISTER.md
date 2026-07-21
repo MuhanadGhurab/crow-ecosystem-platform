@@ -77,7 +77,7 @@
 | DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |
 | DEP-079 | GHV.ARCHITECTURE.1B stack decisions | Technical | **SATISFIED (PARTIAL)** — Core Platform Stack Baseline v1.0.0 ACTIVE · ADR-ARC-001..012 ACCEPTED (some WITH CONDITIONS) · Gate verdict **PARTIAL** | P0 6/6 PASS · provider choices deferred · Product Code BLOCKED | Founder | Premature implementation if mistaken for Product Code | ARCH.1C |
 | DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | **PARTIALLY SATISFIED** — P0 **6/6** · 1C domain **6/6 PASS** · remaining P1–P3 to 1D/1E · Product Code **BLOCKED** | spikes/ghuravia/architecture-1b/ + architecture-1c/ | Founder | Undetected feasibility defects in deferred domains | 1D–1E |
-| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview; SPK-ARC-021 P0 PASS ≠ remediation complete | Founder | No Preview runtime | 1C / ops |
+| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | **Blocked** | DATABASE_URL/DIRECT_URL for Preview **ABSENT** @ Validation.1A close; blocks migration/rollback proof | Founder | No Preview runtime | GHV.VALIDATION.1B |
 | DEP-082 | Identity provider evaluation | Technical | **PARTIALLY SATISFIED** — adapter locked; provider deferred | ADR-013 · DEC-204 · sandbox still required | Engineering TBD | Weak auth | 1D/ops |
 | DEP-083 | Object-storage + scanning validation | Technical | **PARTIALLY SATISFIED** — pipeline/upload PASS; providers deferred | SPK-ARC-007 · 008 PASS · ADR-020/021 | Engineering TBD | Limit Evidence | 1D/ops |
 | DEP-084 | Event idempotency + formula-version technical proof | Technical | **P0 EVIDENCE AVAILABLE** — production controls still required | SPK-ARC-010 · 011 PASS · DEC-160/161 | Engineering TBD | Ledger corruption | 1D–1E |
@@ -94,7 +94,7 @@
 | DEP-014 | Billing Spike | Technical | Planned | Provider + recurring | Engineering TBD | No paid plans | Commercial |
 | DEP-015 | Legal review (T&Cs, refunds, renewal) | External | Blocked | Launch legal copy | Counsel TBD | Soft-launch legal risk | Activation/commercial copy |
 | DEP-016 | Tax/accounting review | External | Blocked | VAT and recognition | Accountant TBD | Invoice gaps | CAP-PAY-008 |
-| DEP-017 | Preview-environment remediation | Infrastructure | Blocked | DATABASE_URL/DIRECT_URL for Preview (TECH-018) | Founder | No Preview runtime | GHV.ARCHITECTURE.1 |
+| DEP-017 | Preview-environment remediation | Infrastructure | **Blocked** | Preview NOT ESTABLISHED · TECH-018 OPEN @ Validation.1A | Founder | No Preview runtime | GHV.VALIDATION.1B |
 | DEP-018 | UX wireframing Gate | Product | **Satisfied (PD.3)** | GHV.PRODUCT-DEFINITION.3 | Founder | — | Interaction specs |
 | DEP-019 | Content creation capacity | Organizational | Planned | Missions/Evidence assets | Founder + creators | Empty Routes | Learning launch |
 | DEP-020 | Usability test sessions | Product/Research | Planned | Execute USABILITY-VALIDATION-PLAN | Founder | Untested UI risk | Implementation waves |
@@ -110,5 +110,5 @@
 | DEP-096 | Accessibility user testing and Arabic UX testing | Research | Planned | ADR-025/026 debt | Founder | Untested UX risk | Pre-launch |
 | DEP-097 | Backup restore drill on selected infrastructure | Operational | Planned | ADR-035 DRAFT RPO/RTO | Founder | Unproven continuity | Pre-launch |
 | DEP-098 | GHV.ARCHITECTURE.1E final baseline lock | Governance | **SATISFIED (PARTIAL)** — Architecture Design Baseline v1.0.0 LOCKED | External validation OPEN · Product Code BLOCKED | Founder | — | GHV.VALIDATION.1A |
-| DEP-099 | External technical validation programme | Governance/Technical | Planned — **ELIGIBLE TO START · NOT STARTED** | Depends on 1E + 1E-AMENDMENT-01 · [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Founder | No external proof | GHV.VALIDATION.1A |
+| DEP-099 | External technical validation programme | Governance/Technical | **SATISFIED (PARTIAL)** — Validation.1A **PARTIAL** · Baseline v0.1.0 **PARTIAL** | Remaining closure @ **GHV.VALIDATION.1B** · Product Code **BLOCKED** | Founder | No complete external proof | GHV.VALIDATION.1B |
 | DEP-100 | Gate-verdict consistency validation before every programme transition | Governance | **Active control** — RISK-GOV-003 OPEN | Compare Gate Register / Project Status / manifests to authoritative Gate records · [GATE-VERDICT-CONSISTENCY-CHECK.md](../gates/GATE-VERDICT-CONSISTENCY-CHECK.md) · [GATE-VERDICT-PRESERVATION-POLICY.md](../gates/GATE-VERDICT-PRESERVATION-POLICY.md) | Founder | Verdict drift | Pre-next-Gate |

@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.17.0 |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E |
-| **Note** | Risks are identified, not claimed mitigated. **Architecture Design Baseline v1.0.0 lock (1E)** does **not** resolve external, provider, legal, accessibility, DR, or operational validation risks. **Core Platform Stack Baseline acceptance** and **P0 spike PASS** do **not** close Open validation-debt, provider-selection, or operational risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
+| **Source Gate** | GHV.VALIDATION.1A |
+| **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -111,7 +111,7 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-006 | Domain or trademark conflict | M | H | H | External search | External validation register | Rename contingency | Founder | Open | 2026-09-01 | CAP-GOV-002 |
 | RISK-OPS-007 | Missed 2029 launch target | M | H | H | Gate slips | Roadmap Gates; scope cuts | Reduce launch surface | Founder | Open | Quarterly | CAP-GOV-005 |
 | RISK-OPS-008 | Automatic Preview deploy on governance-only pushes | H | M | H | Push without guard | Branch `deploymentEnabled: false` in root `vercel.json` | Cancel/ignore Preview; do not promote | Founder | Mitigating | 2026-07-21 | CAP-GOV-* |
-| RISK-OPS-009 | Missing/unverified Preview database variables | H | H | H | Future Preview runtime | Record in TECH-018; add vars only in authorized Gate | Keep deploy disabled until ready | Founder | Open | 2026-08-01 | CAP-TRU-* |
+| RISK-OPS-009 | Missing/unverified Preview database variables | H | H | H | Future Preview runtime | **TECH-018 OPEN @ Validation.1A**; add vars only in authorized Gate | Keep deploy disabled until ready | Founder | Open | 2026-08-01 | CAP-TRU-* |
 | RISK-OPS-010 | Legacy CyberCrow env-variable carryover | H | M | M | Shared project | Inventory; deferred cleanup Gate | Do not reuse blindly | Founder | Open | 2026-08-01 | CAP-TRU-* |
 | RISK-OPS-011 | Root-directory / vercel.json mismatch | L | H | M | Non-root Vercel Root Directory | Confirmed root is repo root in 1B | Dashboard correction before push | Founder | Closed (verified root) | 2026-07-21 | CAP-GOV-* |
 | RISK-OPS-012 | Legacy Vercel build command references missing CyberCrow scripts | H | M | M | Accidental enable of deploy | Keep branch deploy disabled; rebuild settings in architecture Gate | Failed Preview only; never promote | Founder | Open | 2026-08-01 | CAP-GOV-* |
@@ -124,7 +124,7 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-019 | Founder-capacity exhaustion | H | H | H | Parallelism | WIP 1+1+1; 60–70% schedule | Pause enhancements | Founder | Open | Continuous | CAP-GOV-* |
 | RISK-OPS-020 | Launch deadline compression | M | H | H | Scope adds | MLGW checklist; impact model | Shrink MLGW only via foundational CR | Founder | Open | Quarterly | CAP-GOV-* |
 | RISK-OPS-021 | Conditional legal requirements (15–17) | H | H | H | Legal delay | Fallback 18+ | Age-gate | Founder | Open | 2026-10-01 | CAP-GOV-002 |
-| RISK-OPS-022 | Preview environment not yet available | H | H | H | Missing Preview DB vars | TECH-018; keep deploy guard | Local-only validation longer | Founder | Open | 2026-08-01 | CAP-TRU-014 |
+| RISK-OPS-022 | Preview environment not yet available | H | H | H | Missing Preview DB vars | **TECH-018 OPEN · Validation.1A NOT ESTABLISHED**; keep deploy guard | Local-only validation longer | Founder | Open | 2026-08-01 | CAP-TRU-014 |
 | RISK-UX-001 | Excessive screens / inconsistent behavior | M | H | H | 90 IDs | Wireframe registry + grammar + families | Cut non-MLGW build order | Founder | Open | 2026-09-01 | WF-REG |
 | RISK-UX-002 | Onboarding length fatigue | M | M | M | Many ONB steps | Quick Crow path; Nest choice clarity | Skip non-critical cosmetics | Founder | Open | Usability | ONB |
 | RISK-UX-003 | Plans confused with Skill | H | H | H | Checkout copy | Ethical plan rules; Explainable Locks | Usability fix before code | Founder | Open | Usability | PAY |

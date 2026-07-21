@@ -128,3 +128,5 @@
 | ASM-114 | 25/25 spike completion will not be mistaken for Product Code or production readiness | Active | Status clarity | DEC-215 · PARTIAL gate | Correct messaging | ARCH.1D |
 | ASM-115 | Architecture Design Baseline lock will not be mistaken for external proof or implementation authorization | Active | Status clarity | DEC-216 · DEC-223 · DEC-225 · 1E PARTIAL gate | Correct messaging | ARCH.1E |
 | ASM-116 | Programme completion at governed design level will not be mistaken for upgrading PARTIAL Gate verdicts to PASS | Active | Verdict integrity | DEC-227 · DEC-228 · DEC-232 · 1E-AMENDMENT-01 | Enforce Gate Verdict Preservation Policy | ARCH.1E-AMEND |
+| ASM-117 | Validation.1A PARTIAL will not be mistaken for external validation complete or Product Code authorization | Active | Status clarity | DEC-234 · DEC-238 · Validation.1A gate | Correct messaging | VALIDATION.1A |
+| ASM-118 | NOT AVAILABLE external proof will not be recorded as PASS or FAIL | Active | Evidence integrity | DEC-235 · acceptance matrix | Honest domain status | VALIDATION.1A |

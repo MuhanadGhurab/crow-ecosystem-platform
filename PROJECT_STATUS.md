@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.ARCHITECTURE.1E-AMENDMENT-01 — PASS — PREDECESSOR VERDICT PRESERVATION
+GHV.VALIDATION.1A — PARTIAL — GHURAVIA EXTERNAL TECHNICAL VALIDATION COMPLETED WITH IMPLEMENTATION READINESS CONDITIONS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -22,6 +22,7 @@ Accepted Previous Gates:
 - GHV.ARCHITECTURE.1D — PARTIAL — RUNTIME REALTIME INTEGRATION OPERATIONS ACCEPTED WITH NON-BLOCKING CONDITIONS
 - GHV.ARCHITECTURE.1E — PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION
 - GHV.ARCHITECTURE.1E-AMENDMENT-01 — PASS — PREDECESSOR VERDICTS RECONCILED
+- GHV.VALIDATION.1A — PARTIAL — EXTERNAL TECHNICAL VALIDATION WITH IMPLEMENTATION READINESS CONDITIONS
 
 Product Definition:
 LOCKED
@@ -96,13 +97,31 @@ Registered Technical Spikes:
 25 / 25 COMPLETE
 
 External Infrastructure Validation:
-NOT COMPLETE
+PARTIAL — BASELINE v0.1.0 · MOST DOMAINS NOT AVAILABLE
+
+External Technical Validation Baseline:
+PARTIAL v0.1.0
+
+Preview Environment:
+NOT ESTABLISHED — TECH-018 OPEN
 
 Provider Sandbox Validation:
-NOT COMPLETE
+NOT AVAILABLE
+
+Migration / Rollback Rehearsal:
+NOT AVAILABLE — BLOCKING
+
+Operational DR Validation:
+NOT RUN — BLOCKING
+
+Implementation Readiness:
+NOT READY
+
+Product Code Authorization:
+NOT GRANTED BY VALIDATION.1A
 
 Legal and Privacy Validation:
-NOT COMPLETE
+NOT APPROVED
 
 Accessibility User Validation:
 NOT RUN
@@ -111,9 +130,6 @@ Arabic UX User Validation:
 NOT RUN
 
 Penetration Testing:
-NOT RUN
-
-Operational DR Validation:
 NOT RUN
 
 Full Technical Validation:
@@ -132,9 +148,8 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 ```text
-GHV.VALIDATION.1A
-EXTERNAL TECHNICAL VALIDATION AND IMPLEMENTATION READINESS
-ELIGIBLE TO START
+GHV.VALIDATION.1B
+REMAINING EXTERNAL VALIDATION CLOSURE
 NOT STARTED
 ```
 
@@ -142,10 +157,11 @@ NOT STARTED
 
 ```text
 Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
-Gate verdicts remain: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED
+Gate verdicts remain: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL
 Programme completion ≠ every Gate PASS
 Architecture Design Baseline LOCKED v1.0.0
-External Technical Validation OPEN
+External Technical Validation Baseline PARTIAL v0.1.0
+External Technical Validation OPEN — remaining @ VALIDATION.1B
 Product Code Authorization BLOCKED
 Implementation Authorization NOT GRANTED
 ```
