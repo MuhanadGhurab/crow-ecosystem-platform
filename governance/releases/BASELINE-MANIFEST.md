@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.13.0 |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
 
 ## Active baseline set
 
@@ -29,7 +29,7 @@
 | Real-User Progression Calibration | **NOT RUN** |
 | Usability Validation | **NOT RUN** |
 | Technical Validation | **NOT RUN** |
-| **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Technical Decisions **NOT LOCKED** · Technical Spikes **NOT RUN** (0/25) · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1A** |
+| **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Amendment **GHV.ARCHITECTURE.1A-AMENDMENT-01** · Precondition correction **CR-002** · Technical Decisions **NOT LOCKED** · Technical Spikes **NOT RUN** (0/25) · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1A** (PASS — AMENDED) |
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
@@ -38,7 +38,7 @@
 | GHV.PROGRESSION.1A–1C | PASS |
 | GHV.PROGRESSION.1D | **PASS** |
 | GHV.BASELINE-CORRECTION.1 | **PASS** |
-| GHV.ARCHITECTURE.1A | **PASS** |
+| GHV.ARCHITECTURE.1A | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -71,7 +71,7 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Publication / Implementation | BLOCKED |
 | Product Code | BLOCKED |
 | Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
-| Core Technical Validation Plan | **LOCKED** (plan) · spikes NOT RUN · stack NOT LOCKED |
+| Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) · spikes NOT RUN · stack NOT LOCKED |
 | TECH-018 Preview DB | PENDING TECHNICAL VALIDATION |
 
 ## Explicit non-claims

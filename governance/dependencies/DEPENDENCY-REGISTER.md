@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.12.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -69,8 +69,9 @@
 | DEP-072 | GHV.PROGRESSION.1D Final Progression Baseline Lock | Product | **Satisfied (PASS)** | Progression Design Baseline v1.0.0 LOCKED | Founder | — | Change Freeze |
 | DEP-073 | Arabic-language review of progression explanations | Organizational | Planned | AR/EN explainability | Linguists TBD | EN-heavy UX | Launch |
 | DEP-074 | Legal age review for progression surfaces | External | Planned | Overlaps DEP-001/055 | Counsel TBD | Restrict minors | Launch |
-| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | **SATISFIED (PASS)** — validation **plan** locked; spikes still NOT RUN | Core Technical Validation Plan v1.0.0 | Founder | — | ARCH.1B |
-| DEP-075 | GHV.BASELINE-CORRECTION.1 — 92-screen reconciliation | Product/Governance | **SATISFIED** | Registry v1.2.0 = 92 ACTIVE / 7 shells / 0 aliases; CR-001 · CR-002; DEC-152 · DEC-153; preflight PASS | Founder | — | ARCHITECTURE.1A |
+| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | **SATISFIED (PASS — AMENDED)** — validation **plan** locked; spikes still NOT RUN · Amendment-01 / CR-002 | Core Technical Validation Plan v1.0.0 | Founder | — | ARCH.1B |
+| DEP-075 | GHV.BASELINE-CORRECTION.1 — 92-screen reconciliation | Product/Governance | **SATISFIED** | Registry v1.2.0 = 92 ACTIVE / 7 shells / 0 aliases; CR-001 · CR-002; DEC-152 · DEC-153; post-CR-002 preflight PASS | Founder | — | ARCHITECTURE.1A |
+| DEP-086 | Gate precondition stop discipline (DEC-173) | Governance | **Active control** — RISK-GOV-001 OPEN | Separate correction commit/Gate + amendment if mixed | Founder | Process drift | Future Gates |
 | DEP-076 | Real-user progression validation pilot | Research/Org | Planned — **BLOCKING production confidence** | Real-user progression validation · NOT RUN | Founder | Synthetic≠real risk | Production cal |
 | DEP-077 | Progression technical validation | Technical | Planned — **BLOCKING Product Code** | Technical validation plan · NOT RUN | Engineering TBD | Undetected runtime defects | Runtime |
 | DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |

@@ -1735,3 +1735,72 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Related Gate** | GHV.ARCHITECTURE.1A |
 | **Evidence** | [PROJECT_STATUS.md](../../PROJECT_STATUS.md) · [BASELINE-MANIFEST.md](../releases/BASELINE-MANIFEST.md) |
 
+## DEC-167 — CR-002 precondition correction acceptance
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **CR-002** is accepted as a **CONTROLLED PRECONDITION CORRECTION** (alias-safe recount + ACT-013 Scope surface). It is **not** Product Scope expansion and introduces **no Product Code**. Commit reference: `e6efffa`. |
+| **Status** | Accepted |
+| **Rationale** | Closes alias inflation discovered during Architecture.1A preflight while preserving 92 ACTIVE / 7 shells. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 · GHV.BASELINE-CORRECTION.1 (amended) |
+| **Evidence** | [CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md](../changes/CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md) · [CR-002-ACTIVE-SCREEN-VALIDATION.md](../corrections/CR-002-ACTIVE-SCREEN-VALIDATION.md) |
+
+## DEC-168 — ACT-004 alias exclusion from active inventory
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **ACT-004** remains **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS** (redirect → ACT-011) and **must not** count toward the active 92. |
+| **Status** | Accepted |
+| **Rationale** | Prevents alias inflation; preserves ID for historical maps. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 · DEC-153 |
+| **Evidence** | MASTER-SCREEN-REGISTRY Historical Alias Appendix · SCREEN-ID-CORRECTION-MAP |
+
+## DEC-169 — ACT-013 active-screen inclusion (Scope-backed)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **ACT-013 Accept Account Risk** is an **ACTIVE** Activation screen exposing the already approved Scope activation condition `account_risk_status = acceptable`. It does **not** add a new user obligation, commercial requirement, or assurance level beyond locked Scope/Constitution. |
+| **Status** | Accepted |
+| **Rationale** | Scope authority test passed under Amendment-01; CAP-ONB-014 / journey / wireframe mapped. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Evidence** | SCOPE-BASELINE · PRODUCT-CONSTITUTION · CAPABILITY-REGISTRY · ACTIVATION-WIREFRAMES |
+
+## DEC-170 — Architecture 1A amendment treatment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Formal Architecture.1A verdict is **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION**. Substantive validation-plan deliverables remain **PASS**. Gate **not** rerun. Architecture deliverables **not** invalidated (impact review: **NO ARCHITECTURE IMPACT**). |
+| **Status** | Accepted |
+| **Rationale** | Honest governance of process deviation without discarding valid plan work. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Evidence** | [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](../gates/GHV.ARCHITECTURE.1A-AMENDMENT-01.md) · [ARCHITECTURE-1A-CR002-IMPACT-REVIEW.md](../../architecture/ghuravia/governance/ARCHITECTURE-1A-CR002-IMPACT-REVIEW.md) |
+
+## DEC-171 — No Gate-history rewrite
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Original Architecture.1A report, commit `e6efffa`, dates, and findings are **preserved**. Amendment notices record that the **initial** inventory failed alias-inflation validation. Do **not** rewrite history as if the preflight passed at Gate start. |
+| **Status** | Accepted |
+| **Rationale** | Audit integrity. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Evidence** | GHV.ARCHITECTURE.1A.md amendment notice · preflight amendment notice |
+
+## DEC-172 — No Product Scope expansion via ACT-013
+
+| Field | Value |
+|-------|-------|
+| **Decision** | ACT-013 / CR-002 do **not** expand controlled-launch Product Scope, Pillars, prices, Learning Design, or Progression Design. |
+| **Status** | Accepted |
+| **Rationale** | Acceptable risk was already mandatory in Scope/Constitution activation formula. |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Evidence** | SCOPE-BASELINE.md · PRODUCT-CONSTITUTION.md · CR-002 Scope impact |
+
+## DEC-173 — Future precondition failures must stop the active Gate
+
+| Field | Value |
+|-------|-------|
+| **Decision** | When a Gate’s mandatory precondition fails, the active Gate **must stop** before unrelated substantive work proceeds. Correction occurs via **separate correction commit or Gate**, then **resumption record**. Mixing correction with substantive Gate work without an amendment is forbidden. |
+| **Status** | Accepted |
+| **Rationale** | Controls RISK-GOV-001 (Gate work after mandatory stop). |
+| **Related Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 · future Gates |
+| **Evidence** | RISK-GOV-001 · Amendment-01 residual risk |

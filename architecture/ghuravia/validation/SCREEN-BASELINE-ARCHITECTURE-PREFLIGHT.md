@@ -16,6 +16,22 @@
 PASS — 92 GOVERNED SCREENS VERIFIED WITHOUT ALIAS INFLATION
 ```
 
+## AMENDMENT NOTICE
+
+```text
+AMENDMENT NOTICE
+
+The initial active-screen preflight identified alias inflation in the inherited 92-screen baseline.
+
+CR-002 corrected the inventory by excluding ACT-004 as an active screen and adding ACT-013 for the already approved Acceptable Risk activation requirement.
+
+The substantive Architecture.1A deliverables remain valid.
+
+See GHV.ARCHITECTURE.1A-AMENDMENT-01.
+```
+
+This verdict is the **post-CR-002** result. It is **not** a claim that the inventory passed at Architecture.1A Gate start (`637f9de`).
+
 ## Counting rules applied
 
 | Rule | Result |

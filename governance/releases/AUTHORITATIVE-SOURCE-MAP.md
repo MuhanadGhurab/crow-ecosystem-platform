@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.8.0 |
+| **Version** | 1.9.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -52,8 +52,11 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Screen ID correction map | [SCREEN-ID-CORRECTION-MAP.md](../../product/screens/SCREEN-ID-CORRECTION-MAP.md) | ACT-003/011/012/013 ACTIVE · ACT-004 appendix only |
 | PD.2 amendment | [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) · [GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md) | PASS — AMENDED, NOT RERUN |
 | PD.3 amendment | [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md) | PASS — AMENDED, NOT RERUN |
-| Screen baseline Change Record | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) · [CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md](../changes/CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md) | Approved · CONTROLLED BASELINE CORRECTION |
-| Architecture screen preflight | [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) | **PASS — 92 WITHOUT ALIAS INFLATION** |
+| Screen baseline Change Record | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) · [CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md](../changes/CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md) | Approved · **CONTROLLED PRECONDITION CORRECTION** · no Scope expansion · no Product Code |
+| CR-002 active-screen validation | [CR-002-ACTIVE-SCREEN-VALIDATION.md](../corrections/CR-002-ACTIVE-SCREEN-VALIDATION.md) | **PASS — 92 WITHOUT ALIAS INFLATION** |
+| Architecture.1A amendment | [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](../gates/GHV.ARCHITECTURE.1A-AMENDMENT-01.md) | Formal **PASS — AMENDED** · process deviation recorded |
+| Architecture.1A CR-002 impact | [ARCHITECTURE-1A-CR002-IMPACT-REVIEW.md](../../architecture/ghuravia/governance/ARCHITECTURE-1A-CR002-IMPACT-REVIEW.md) | **NO ARCHITECTURE IMPACT** |
+| Architecture screen preflight | [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) | **PASS after CR-002** · initial inventory failed alias inflation |
 | **Architecture principles** | architecture/ghuravia/principles/ARCHITECTURE-PRINCIPLES.md | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **System context** | architecture/ghuravia/context/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Domain catalogue** | architecture/ghuravia/domains/TECHNICAL-DOMAIN-CATALOGUE.md | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.12.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -100,3 +100,4 @@
 | ASM-088 | 92 ACTIVE screens can share governed shell components | Pending Validation | Frontend | SPK-ARC-004 | Material CR for shells | ARCH.1A |
 | ASM-089 | No DMs reduces moderation complexity vs full chat | Active | Community | CAP-SOC-009 · SPK-ARC-013 | Structured chat CR | ARCH.1A |
 | ASM-090 | Core Technical Validation Plan lock will not be mistaken for technical validation or stack lock | Active | Status clarity | PROJECT_STATUS · BASELINE-MANIFEST · DEC-165/166 | Correct messaging | ARCH.1A |
+| ASM-091 | Architecture.1A amendment + CR-002 process deviation recording is sufficient to preserve audit integrity without Gate rewrite or plan invalidation | Active | Governance honesty | Amendment-01 · impact review NO IMPACT · DEC-170/171 | Reopen Gate if contamination found | ARCH.1A-AMD-01 |

@@ -16,13 +16,31 @@
 ## Classification
 
 ```text
+CONTROLLED PRECONDITION CORRECTION
 CONTROLLED BASELINE CORRECTION
 NO PRODUCT SCOPE EXPANSION
 NO PRODUCT CODE
 NO EMAIL-VERIFICATION DUPLICATE
 ```
 
-Not a Product Enhancement. Not a Foundational rebaseline of Pillars, shells, or journey model. Does not invent a second email-verification screen.
+Not a Product Enhancement. Not a Foundational rebaseline of Pillars, shells, or journey model. Does not invent a second email-verification screen. Not merely an editorial correction.
+
+## Process context (Amendment-01)
+
+| Field | Value |
+|-------|-------|
+| **Discovery Gate** | GHV.ARCHITECTURE.1A preflight (starting HEAD `637f9de`) |
+| **Required stop** | BLOCKED · reopen GHV.BASELINE-CORRECTION.1 |
+| **Actual path** | CR-002 completed inside Architecture.1A documentation commit |
+| **Governing amendment** | [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](../gates/GHV.ARCHITECTURE.1A-AMENDMENT-01.md) |
+| **Commit reference** | `e6efffab55d3c564e8933ec2534fe8facc03aa10` (`docs: define GHURAVIA core technical validation plan`) |
+| **Active-inventory validation** | [CR-002-ACTIVE-SCREEN-VALIDATION.md](../corrections/CR-002-ACTIVE-SCREEN-VALIDATION.md) |
+
+```text
+CONTROLLED PRECONDITION CORRECTION
+NO PRODUCT SCOPE EXPANSION
+NO PRODUCT CODE
+```
 
 ## Summary
 
@@ -126,8 +144,17 @@ APPROVED — CONTROLLED BASELINE CORRECTION
 Founder (RAVEN) · 2026-07-21 · CR-002 · DEC-153
 ```
 
+## Validation result
+
+```text
+PASS — CR-002 PRODUCES 92 GOVERNED SCREENS WITHOUT ALIAS INFLATION
+```
+
+Post-correction: ACT-004 **not** counted · ACT-013 **counted** · shells **7** · ACTIVE **92** · aliases in inventory **0**.
+
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | Initial CR-002 — alias inflation remediation |
+| 1.1.0 | 2026-07-21 | Amendment-01: process context, commit ref, precondition-correction classification |

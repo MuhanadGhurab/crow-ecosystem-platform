@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.12.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A |
-| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock, synthetic 1D PASS, and **Core Technical Validation Plan lock** do **not** close Open validation-debt risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 |
+| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock, synthetic 1D PASS, and **Core Technical Validation Plan lock** do **not** close Open validation-debt risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -273,5 +273,6 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-ARC-029 | Preview/production isolation failure | H | H | H | Shared Production DB on Preview | SPK-ARC-021 · TECH-018 | Block Preview runtime | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
 | RISK-ARC-031 | Founder operational overload | H | M | H | Over-wide architecture | Capacity ASM · modular monolith bias | Shrink WIP | Founder | **MONITORED** | Continuous | ARCH |
 | RISK-ARC-033 | Stale architecture documentation | M | M | M | Docs drift after 1A | Source map · readiness matrix | Reconcile in 1E | Founder | **MONITORED** | Continuous | ARCH |
+| RISK-GOV-001 | Gate work continuing after a mandatory stop condition | M | H | H | Precondition fail ignored; mixed correction + substantive Gate commit | Precondition checklist · stop checkpoint · separate correction commit/Gate · resumption record · reviewer confirmation · amendment if mixed (DEC-173) | Reopen Gate / issue amendment; do not rewrite history | Founder | **OPEN / MONITORED** — Amendment-01 recorded; **not eliminated** | Continuous | GOV |
 
 Architecture, simulation, synthetic calibration, **Progression Design Baseline lock**, and **Core Technical Validation Plan lock** do **not** close these risks; spikes, real-user pilots, staffing, and operational controls remain required. Full architecture risk set: [ARCHITECTURE-RISK-REGISTER.md](../../architecture/ghuravia/governance/ARCHITECTURE-RISK-REGISTER.md).

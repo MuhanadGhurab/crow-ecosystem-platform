@@ -7,8 +7,25 @@
 | **Date** | 2026-07-21 |
 | **Branch** | `feat/ghuravia-foundation` |
 | **Operator** | Cursor agent under Founder direction |
-| **Preflight** | [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) · **PASS** (CR-002 alias-safe 92) |
-| **Verdict** | **PASS — GHURAVIA CORE TECHNICAL VALIDATION PLAN LOCKED** |
+| **Preflight** | [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) · **PASS after CR-002** (alias-safe 92) — initial inventory failed alias-inflation check |
+| **Original substantive verdict** | **PASS — GHURAVIA CORE TECHNICAL VALIDATION PLAN LOCKED** |
+| **Formal amended verdict** | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** · see [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](./GHV.ARCHITECTURE.1A-AMENDMENT-01.md) |
+
+## AMENDMENT NOTICE
+
+```text
+AMENDMENT NOTICE
+
+The initial active-screen preflight identified alias inflation in the inherited 92-screen baseline.
+
+CR-002 corrected the inventory by excluding ACT-004 as an active screen and adding ACT-013 for the already approved Acceptable Risk activation requirement.
+
+The substantive Architecture.1A deliverables remain valid.
+
+See GHV.ARCHITECTURE.1A-AMENDMENT-01.
+```
+
+Do **not** interpret this Gate as “preflight passed at Gate start.” The accurate sequence is: initial inventory failed → CR-002 corrected → corrected preflight passed → plan finalized.
 
 ## Meaning of PASS
 

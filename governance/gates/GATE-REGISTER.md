@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1A · prior **CR-002** alias remediation |
+| **Source Gate** | GHV.ARCHITECTURE.1A-AMENDMENT-01 · CR-002 precondition reconciliation |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -26,7 +26,7 @@
 | GHV.PROGRESSION.1C | Integrity, Fairness and Calibration | PASS | CALIBRATION RECOMMENDED · synthetic only · superseded into 1D design lock |
 | GHV.PROGRESSION.1D | Final Progression Baseline Lock | **PASS** | **Progression Design Baseline v1.0.0 LOCKED** · conditional locks MOM/TRU/PRS/POP · Product Code BLOCKED |
 | GHV.BASELINE-CORRECTION.1 | Master Screen Registry 92-Screen Reconciliation | **PASS — AMENDED BY CR-002** | CR-001 · DEC-152 · **CR-002 · DEC-153** alias-safe recount · ACT-013 |
-| GHV.ARCHITECTURE.1A | Core Technical Validation Plan | **PASS** | **PASS — GHURAVIA CORE TECHNICAL VALIDATION PLAN LOCKED** · spikes **0 RUN** · stack **NOT LOCKED** · Product Code **BLOCKED** · CR-002 alias-safe preflight retained |
+| GHV.ARCHITECTURE.1A | Core Technical Validation Plan | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** | Substantive plan **PASS** · starting preflight failed alias inflation · CR-002 completed inside Gate · [Amendment-01](./GHV.ARCHITECTURE.1A-AMENDMENT-01.md) · spikes **0 RUN** · stack **NOT LOCKED** · Product Code **BLOCKED** |
 | GHV.ARCHITECTURE.1B | Platform Architecture and Stack Decisions | NOT STARTED | **Next** |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
@@ -47,3 +47,4 @@ Reports:
 - [GHV.PROGRESSION.1D.md](./GHV.PROGRESSION.1D.md)
 - [GHV.BASELINE-CORRECTION.1.md](./GHV.BASELINE-CORRECTION.1.md)
 - [GHV.ARCHITECTURE.1A.md](./GHV.ARCHITECTURE.1A.md)
+- [GHV.ARCHITECTURE.1A-AMENDMENT-01.md](./GHV.ARCHITECTURE.1A-AMENDMENT-01.md)
