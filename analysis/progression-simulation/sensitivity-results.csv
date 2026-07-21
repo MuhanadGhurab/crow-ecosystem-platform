@@ -1,0 +1,196 @@
+param,scale,persona_id,metric,baseline,variant,changed
+XP_SCALE,0.8,PER-001,flight_level,2,2,0
+XP_SCALE,0.8,PER-002,flight_level,4,4,0
+XP_SCALE,0.8,PER-003,flight_level,4,3,1
+XP_SCALE,0.8,PER-004,flight_level,5,4,1
+XP_SCALE,0.8,PER-005,flight_level,5,4,1
+XP_SCALE,0.8,PER-006,flight_level,1,1,0
+XP_SCALE,0.8,PER-007,flight_level,5,4,1
+XP_SCALE,0.8,PER-008,flight_level,4,3,1
+XP_SCALE,0.8,PER-009,flight_level,3,3,0
+XP_SCALE,0.8,PER-010,flight_level,3,2,1
+XP_SCALE,0.8,PER-011,flight_level,2,2,0
+XP_SCALE,0.8,PER-012,flight_level,5,5,0
+XP_SCALE,0.8,PER-013,flight_level,3,3,0
+XP_SCALE,0.8,PER-014,flight_level,2,2,0
+XP_SCALE,0.8,PER-015,flight_level,5,5,0
+XP_SCALE,0.9,PER-001,flight_level,2,2,0
+XP_SCALE,0.9,PER-002,flight_level,4,4,0
+XP_SCALE,0.9,PER-003,flight_level,4,4,0
+XP_SCALE,0.9,PER-004,flight_level,5,4,1
+XP_SCALE,0.9,PER-005,flight_level,5,5,0
+XP_SCALE,0.9,PER-006,flight_level,1,1,0
+XP_SCALE,0.9,PER-007,flight_level,5,4,1
+XP_SCALE,0.9,PER-008,flight_level,4,3,1
+XP_SCALE,0.9,PER-009,flight_level,3,3,0
+XP_SCALE,0.9,PER-010,flight_level,3,2,1
+XP_SCALE,0.9,PER-011,flight_level,2,2,0
+XP_SCALE,0.9,PER-012,flight_level,5,5,0
+XP_SCALE,0.9,PER-013,flight_level,3,3,0
+XP_SCALE,0.9,PER-014,flight_level,2,2,0
+XP_SCALE,0.9,PER-015,flight_level,5,5,0
+XP_SCALE,1.0,PER-001,flight_level,2,2,0
+XP_SCALE,1.0,PER-002,flight_level,4,4,0
+XP_SCALE,1.0,PER-003,flight_level,4,4,0
+XP_SCALE,1.0,PER-004,flight_level,5,5,0
+XP_SCALE,1.0,PER-005,flight_level,5,5,0
+XP_SCALE,1.0,PER-006,flight_level,1,1,0
+XP_SCALE,1.0,PER-007,flight_level,5,5,0
+XP_SCALE,1.0,PER-008,flight_level,4,4,0
+XP_SCALE,1.0,PER-009,flight_level,3,3,0
+XP_SCALE,1.0,PER-010,flight_level,3,3,0
+XP_SCALE,1.0,PER-011,flight_level,2,2,0
+XP_SCALE,1.0,PER-012,flight_level,5,5,0
+XP_SCALE,1.0,PER-013,flight_level,3,3,0
+XP_SCALE,1.0,PER-014,flight_level,2,2,0
+XP_SCALE,1.0,PER-015,flight_level,5,5,0
+XP_SCALE,1.1,PER-001,flight_level,2,3,1
+XP_SCALE,1.1,PER-002,flight_level,4,4,0
+XP_SCALE,1.1,PER-003,flight_level,4,4,0
+XP_SCALE,1.1,PER-004,flight_level,5,5,0
+XP_SCALE,1.1,PER-005,flight_level,5,5,0
+XP_SCALE,1.1,PER-006,flight_level,1,1,0
+XP_SCALE,1.1,PER-007,flight_level,5,5,0
+XP_SCALE,1.1,PER-008,flight_level,4,4,0
+XP_SCALE,1.1,PER-009,flight_level,3,3,0
+XP_SCALE,1.1,PER-010,flight_level,3,3,0
+XP_SCALE,1.1,PER-011,flight_level,2,2,0
+XP_SCALE,1.1,PER-012,flight_level,5,5,0
+XP_SCALE,1.1,PER-013,flight_level,3,3,0
+XP_SCALE,1.1,PER-014,flight_level,2,2,0
+XP_SCALE,1.1,PER-015,flight_level,5,6,1
+XP_SCALE,1.2,PER-001,flight_level,2,3,1
+XP_SCALE,1.2,PER-002,flight_level,4,5,1
+XP_SCALE,1.2,PER-003,flight_level,4,4,0
+XP_SCALE,1.2,PER-004,flight_level,5,5,0
+XP_SCALE,1.2,PER-005,flight_level,5,5,0
+XP_SCALE,1.2,PER-006,flight_level,1,1,0
+XP_SCALE,1.2,PER-007,flight_level,5,5,0
+XP_SCALE,1.2,PER-008,flight_level,4,4,0
+XP_SCALE,1.2,PER-009,flight_level,3,3,0
+XP_SCALE,1.2,PER-010,flight_level,3,3,0
+XP_SCALE,1.2,PER-011,flight_level,2,3,1
+XP_SCALE,1.2,PER-012,flight_level,5,6,1
+XP_SCALE,1.2,PER-013,flight_level,3,3,0
+XP_SCALE,1.2,PER-014,flight_level,2,3,1
+XP_SCALE,1.2,PER-015,flight_level,5,6,1
+MOM_THRESHOLD_SHIFT,-10,PER-001,momentum_league,Silver,Bronze,1
+MOM_THRESHOLD_SHIFT,-10,PER-002,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-003,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,-10,PER-004,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-005,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-006,momentum_league,Iron,Iron,0
+MOM_THRESHOLD_SHIFT,-10,PER-007,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-10,PER-008,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-10,PER-009,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-010,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,-10,PER-011,momentum_league,Bronze,Iron,1
+MOM_THRESHOLD_SHIFT,-10,PER-012,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-013,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-10,PER-014,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,-10,PER-015,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-5,PER-001,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,-5,PER-002,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-5,PER-003,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,-5,PER-004,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-5,PER-005,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-5,PER-006,momentum_league,Iron,Iron,0
+MOM_THRESHOLD_SHIFT,-5,PER-007,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-5,PER-008,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-5,PER-009,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,-5,PER-010,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,-5,PER-011,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,-5,PER-012,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-5,PER-013,momentum_league,Gold,Silver,1
+MOM_THRESHOLD_SHIFT,-5,PER-014,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,-5,PER-015,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-001,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,0,PER-002,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-003,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,0,PER-004,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-005,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-006,momentum_league,Iron,Iron,0
+MOM_THRESHOLD_SHIFT,0,PER-007,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-008,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-009,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-010,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,0,PER-011,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,0,PER-012,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-013,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,0,PER-014,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,0,PER-015,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-001,momentum_league,Silver,Silver,0
+MOM_THRESHOLD_SHIFT,5,PER-002,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-003,momentum_league,Silver,Gold,1
+MOM_THRESHOLD_SHIFT,5,PER-004,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-005,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-006,momentum_league,Iron,Iron,0
+MOM_THRESHOLD_SHIFT,5,PER-007,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,5,PER-008,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,5,PER-009,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-010,momentum_league,Bronze,Silver,1
+MOM_THRESHOLD_SHIFT,5,PER-011,momentum_league,Bronze,Bronze,0
+MOM_THRESHOLD_SHIFT,5,PER-012,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-013,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,5,PER-014,momentum_league,Bronze,Silver,1
+MOM_THRESHOLD_SHIFT,5,PER-015,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,10,PER-001,momentum_league,Silver,Gold,1
+MOM_THRESHOLD_SHIFT,10,PER-002,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,10,PER-003,momentum_league,Silver,Gold,1
+MOM_THRESHOLD_SHIFT,10,PER-004,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,10,PER-005,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,10,PER-006,momentum_league,Iron,Iron,0
+MOM_THRESHOLD_SHIFT,10,PER-007,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,10,PER-008,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,10,PER-009,momentum_league,Gold,Platinum,1
+MOM_THRESHOLD_SHIFT,10,PER-010,momentum_league,Bronze,Silver,1
+MOM_THRESHOLD_SHIFT,10,PER-011,momentum_league,Bronze,Silver,1
+MOM_THRESHOLD_SHIFT,10,PER-012,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,10,PER-013,momentum_league,Gold,Gold,0
+MOM_THRESHOLD_SHIFT,10,PER-014,momentum_league,Bronze,Silver,1
+MOM_THRESHOLD_SHIFT,10,PER-015,momentum_league,Gold,Platinum,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-001,mastery_band,STANDARD,STRONG,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-002,mastery_band,STRONG,ADVANCED,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-003,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-004,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-005,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-006,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-007,mastery_band,STRONG,ADVANCED,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-008,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-009,mastery_band,STRONG,ADVANCED,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-010,mastery_band,STRONG,ADVANCED,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-011,mastery_band,STANDARD,STRONG,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-012,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-013,mastery_band,STRONG,ADVANCED,1
+MASTERY_FLOORS,"(45, 65, 80)",PER-014,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(45, 65, 80)",PER-015,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-001,mastery_band,STANDARD,STANDARD,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-002,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-003,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-004,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-005,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-006,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-007,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-008,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-009,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-010,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-011,mastery_band,STANDARD,STANDARD,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-012,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-013,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-014,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(50, 70, 85)",PER-015,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-001,mastery_band,STANDARD,STANDARD,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-002,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-003,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-004,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-005,mastery_band,ADVANCED,ADVANCED,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-006,mastery_band,DEVELOPING,DEVELOPING,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-007,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-008,mastery_band,ADVANCED,STRONG,1
+MASTERY_FLOORS,"(55, 75, 90)",PER-009,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-010,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-011,mastery_band,STANDARD,STANDARD,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-012,mastery_band,ADVANCED,STRONG,1
+MASTERY_FLOORS,"(55, 75, 90)",PER-013,mastery_band,STRONG,STRONG,0
+MASTERY_FLOORS,"(55, 75, 90)",PER-014,mastery_band,STRONG,STANDARD,1
+MASTERY_FLOORS,"(55, 75, 90)",PER-015,mastery_band,ADVANCED,ADVANCED,0

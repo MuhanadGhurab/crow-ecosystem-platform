@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.7.0 |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1A |
+| **Source Gate** | GHV.PROGRESSION.1B |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -220,4 +220,37 @@ Design baseline lock does **not** mitigate open learning risks. Expert Review, P
 | RISK-PRG-020 | Unresolved formula tuning / calibration | H | H | H | Premature lock | 1B simulation + 1C calibration | Delay final lock | Founder | Open | 1B–1D | SIM |
 | RISK-PRG-021 | Founder capacity for appeals and Prestige reviews | H | H | H | Volume | WIP + staffing deps | Narrow Prestige scope | Founder | Open | Continuous | CAP |
 
-Architecture documentation does **not** mitigate these risks; they remain Open until simulation, calibration, and operational controls exist.
+### Progression formula / simulation risks (GHV.PROGRESSION.1B)
+
+Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C calibration, real pilots, and operational controls.
+
+| ID | Title | L | I | R | Trigger | Mitigation | Contingency | Owner | Status | Review | Cont. |
+|----|-------|---|---|---|---------|------------|-------------|-------|--------|--------|-------|
+| RISK-PRG-022 | XP inflation / over-recognition | M | H | H | High base values | Caps + anti-farming + 1C retune | Lower intensity tables | Founder | Open | 1C | XP |
+| RISK-PRG-023 | Flight Level overlap with Maturity meaning | M | H | H | UI conflation | Separation + Level cosmetic-only rule | Soften Level prominence | Founder | Open | 1C | LVL |
+| RISK-PRG-024 | Momentum unfairness for compressed schedules | M | H | H | One-day weeks | Best-six + grace weeks + fairness tests | Adjust season/best-N | Founder | Open | 1C | MOM |
+| RISK-PRG-025 | Momentum threshold instability | H | M | H | ±10% band shifts | Sensitivity watch; 1C band spacing | Widen/soften Diamond | Founder | Open | 1C | MOM |
+| RISK-PRG-026 | Maturity over-gating experienced users | M | H | H | Hard Evidence gates | Experienced-learner path in formula | Lower Rank gates via CR | Founder | Open | 1C | MAT |
+| RISK-PRG-027 | Maturity too easy to farm | M | H | H | Weak dimension evidence | Dimension Evidence requirements | Raise Index gates | Founder | Open | 1C | MAT |
+| RISK-PRG-028 | Mastery averages hiding weak mandatory areas | H | H | H | Compensating averages | Mandatory CMI floors ≥50 | Fail RP when floors miss | Founder | Open | 1C | MST |
+| RISK-PRG-029 | Breadth inflation via near-duplicates | M | M | M | Loose clusters | Duplicate-control + RT-ANL-001 = 0 | Recalibrate clusters | Founder | Open | 1C | BRD |
+| RISK-PRG-030 | Trust thresholds produce false restrictions | M | H | H | Over-sensitive concerns | Time windows + appeal | Soften transitions | Founder | Open | 1C | TRU |
+| RISK-PRG-031 | Trust positive signals gamed | M | H | H | Manufactured positivity | Signal classification + non-erasure of serious incidents | Human review | Founder | Open | 1C | TRU |
+| RISK-PRG-032 | Title templates overstate capability | H | H | H | Marketing drift | Employment disclaimer + Mastery floors | Narrow eligibility | Founder | Open | 1C | TTL |
+| RISK-PRG-033 | Prestige candidate inflation | M | H | H | Low PEI / weak quorum | Hard gates + rarity + human grant only | Raise PEI / quorum | Founder | Open | 1C | PRS |
+| RISK-PRG-034 | Reviewer-panel availability | H | H | H | Quorum shortfall | Narrow Prestige scope; staffing deps | Pause Prestige grants | Founder | Open | Continuous | PRS |
+| RISK-PRG-035 | Achievement clutter | M | M | M | Too many rules | Cap at 12 provisional; Skill vs participation | Retire low-value ACH | Founder | Open | 1C | ACH |
+| RISK-PRG-036 | Leaderboard small-population distortion | M | M | M | Low N boards | POL-POP-001 thresholds | Hide public ranks | Founder | Open | Launch | LDB |
+| RISK-PRG-037 | Community score reviewer bias | M | H | H | Subjective contribution scoring | Dual review + explainability | Exclude biased boards | Founder | Open | Pilot | LDB |
+| RISK-PRG-038 | Synthetic assumptions ≠ real users | H | H | H | Calibration from sims alone | Treat sims as candidates only | Require pilot data in 1C | Founder | Open | 1C | SIM |
+| RISK-PRG-039 | Formula sensitivity / unstable classification | H | M | H | Threshold proximity | Sensitivity report watches | Prefer stable bands in 1C | Founder | Open | 1C | SIM |
+| RISK-PRG-040 | Rounding inconsistencies | M | M | M | Mixed rounding rules | Deterministic rounding per formula | Align half-away policy | Founder | Open | Tech | FRM |
+| RISK-PRG-041 | Correction cascades | M | H | H | Broad revocation | Targeted reevaluation (POL-COR-001) | Limit blast radius | Founder | Open | Ops | COR |
+| RISK-PRG-042 | Formula version drift | M | H | H | Silent parameter edits | FORMULA-REVISION-LOG + version storage | Reject unlogged changes | Founder | Open | Continuous | FRM |
+| RISK-PRG-043 | Analytical script mistaken for Product Code | M | H | H | Path confusion | `analysis/` isolation + NON-RUNTIME markers | Relocate / refuse runtime use | Founder | Open | Continuous | SIM |
+| RISK-PRG-044 | False confidence from simulations | H | H | H | Treating PASS as calibrated | Status wording + DEC-120 | Block 1D until 1C | Founder | Open | 1C–1D | SIM |
+| RISK-PRG-045 | Accessibility bias in Momentum/Evidence paths | M | H | H | Live-only / compressed unfairness | Fairness alternatives + watches | Provide equivalent modalities | Founder | Open | Pilot | FAI |
+| RISK-PRG-046 | Minor-user exposure on standings | H | H | H | Public boards / identity leak | Age-privacy + board restrictions | Restrict minor visibility | Founder | Open | Legal | AGE |
+| RISK-PRG-047 | Founder capacity for calibration | H | H | H | 1C WIP overload | Narrow calibration scope; sequence watches | Defer non-critical retunes | Founder | Open | 1C | CAP |
+
+Architecture and simulation documentation do **not** close these risks; calibration and operational controls remain required.

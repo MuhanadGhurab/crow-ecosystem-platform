@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.7.0 |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1A |
+| **Source Gate** | GHV.PROGRESSION.1B |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -65,3 +65,13 @@
 | ASM-053 | Qualitative Mastery explanations are acceptable pending numeric aggregation | Active | Mastery UX | Evidence rubric levels | 1B aggregation | 1A |
 | ASM-054 | Learning Design Baseline provides sufficient Evidence diversity for Mastery | Active | Learning lock | Manifest unchanged | Learning CR | 1A |
 | ASM-055 | Progression remains understandable in Arabic and English | Active | Localization | RTL screen map | Terminology packs | 1A |
+| ASM-056 | Candidate XP values produce understandable Flight Levels on the triangular curve | Pending Validation | Level UX | Persona + population sims; usability | Retune FRM-XP/LVL in 1C | 1B |
+| ASM-057 | An eight-week Momentum season is usable for controlled launch | Pending Validation | Season design | RUN-002; usability; pilot | Adjust duration 6–10 | 1B |
+| ASM-058 | Best-six-week Momentum scoring is fair enough for compressed schedules | Pending Validation | Fairness | RUN-002/005; a11y watch | Change best-N or grace | 1B |
+| ASM-059 | Evidence rubric levels (0–4) can be normalized into Mastery indices consistently | Pending Validation | Mastery math | Reviewer pilot + 1C | Recalibrate weights/floors | 1B |
+| ASM-060 | Route capability weights can be defined consistently from Route architecture | Pending Validation | RMI | Route weight tables in 1C | Equal-weight fallback | 1B |
+| ASM-061 | Trust signals can be classified reliably without a public numerical score | Pending Validation | Trust ops | Moderation pilot | Narrow signal classes | 1B |
+| ASM-062 | Prestige review panels can be staffed at controlled-launch scale | Pending Validation | Human Prestige | Staffing dep + quorum policy | Narrow/pause Prestige | 1B |
+| ASM-063 | Fifteen synthetic personas cover meaningful formula edge cases | Pending Validation | Simulation coverage | Failure registry + 1C real data | Add personas | 1B |
+| ASM-064 | A 500-user synthetic population is useful for architecture stress-testing (not forecasting) | Pending Validation | Population method | Seed replay; 1C pilot compare | Expand N / revise generators | 1B |
+| ASM-065 | Candidate formulas can be explained clearly in Arabic and English | Pending Validation | Explainability | FORMULA-EXPLAINABILITY-REVIEW + localization | Terminology packs | 1B |

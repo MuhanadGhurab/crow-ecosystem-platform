@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.7.0 |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1A |
+| **Source Gate** | GHV.PROGRESSION.1B |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -31,25 +31,41 @@
 | DEP-038 | Evidence object-storage + malware scanning | Technical | Planned | SAFE-EVIDENCE-HANDLING | Engineering TBD | Limit uploads | Evidence |
 | DEP-039 | Laboratory technology validation | Technical | Planned | Browser/local/container/sandbox | Engineering TBD | Browser-only | OPR/SEX |
 | DEP-040 | Reviewer workflow implementation | Product/Tech | Planned | Reviewer role matrix | Founder | Manual review only | Evidence |
-| DEP-041 | Progression model (numeric) | Product | Planned | PROGRESSION.1 | Founder | Qualitative only | Proven UX |
+| DEP-041 | Progression model (numeric) | Product | **In progress (candidates)** | 1B simulation candidates; PENDING 1C calibration | Founder | Qualitative only if 1C blocked | Proven UX |
 | DEP-042 | Identity and Trust for reviewers | Technical | Planned | Identity Spike | Engineering TBD | Manual staffing | Dual review |
 | DEP-043 | Live Sky architecture validation | Technical | Planned | LIV-MSN-001 blueprint | Engineering TBD | Async Team only | Live |
 | DEP-044 | Usability testing | Product | Planned | USABILITY-VALIDATION-PLAN | Founder | Untested UX | Code waves |
 | DEP-045 | Learner pilot recruitment | Organizational | Planned — **BLOCKING PUBLICATION** | Pilot packets READY; pilot NOT RUN | Founder | Cannot PUBLISH | Publication |
-| DEP-033 | Progression qualitative→numeric mapping | Product | Planned | Route-Proven → formulas | Founder | Shallow Proven UX | PROGRESSION.1 |
+| DEP-033 | Progression qualitative→numeric mapping | Product | **Satisfied (candidates)** | Route-Proven floors mapped in FRM-MST-003; PENDING 1C | Founder | — | PROGRESSION.1C |
 | DEP-034 | Technical graph implementation | Technical | Planned | Node/edge rules → schema later | Engineering TBD | Manual catalogue only | ARCHITECTURE.1 |
 | DEP-023 | LEARNING.1C Mission/Evidence/Capstone blueprints | Product | **Satisfied (1C)** | Mission catalogues + rubrics + capstones | Founder | — | Capstones |
 | DEP-024 | LEARNING.1D final portfolio lock | Product | **Satisfied (design baseline)** | LOCKED AS DESIGN BASELINE v1.0.0; publication still blocked | Founder | — | CAP-LRN-009 |
 | DEP-046 | Expert Review execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/review/ | Founder + SMEs | Cannot PUBLISH | Publication |
 | DEP-047 | Learning Pilot execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/pilots/ | Founder | Cannot PUBLISH | Publication |
-| DEP-048 | Progression Gate GHV.PROGRESSION.1A | Product | **Satisfied (architecture)** | Architecture recommended; formulas pending 1B | Founder | — | Progression depth |
-| DEP-050 | Progression formulas simulation (1B) | Product | Planned | Formulas/thresholds/season from 1A handoff | Founder | Cannot lock progression | 1B |
-| DEP-051 | Progression integrity calibration (1C) | Product | Planned | Fairness/anti-gaming calibration | Founder | Unfair standing | 1C |
+| DEP-048 | Progression Gate GHV.PROGRESSION.1A | Product | **Satisfied (architecture)** | Architecture recommended; formulas simulated in 1B | Founder | — | Progression depth |
+| DEP-050 | Progression formulas simulation (1B) | Product | **Satisfied (simulation candidates)** | 24 IDs @ 0.1.0; 15/15 personas PASS; pay-to-win diffs=0; PENDING 1C | Founder | — | 1C calibration |
+| DEP-051 | Progression integrity calibration (1C) | Product | Planned — **Next** | Fairness/anti-gaming calibration of candidates | Founder | Unfair standing | 1C |
 | DEP-052 | Progression final baseline lock (1D) | Product | Planned | After simulation + calibration | Founder | Ambiguous standing | 1D |
 | DEP-053 | Evidence review workflows for Mastery | Product/Org | Planned | Learning Evidence model | Founder | Shallow Mastery | Mastery |
 | DEP-054 | Prestige review governance staffing | Organizational | Planned | Human Prestige authority | Founder | No Prestige grants | Prestige |
 | DEP-055 | Progression privacy and age legal review | External | Planned | Age-privacy architecture | Counsel TBD | Restrict minors | Launch |
-| DEP-012 | Progression Gate (GHV.PROGRESSION.1) | Product | **In progress (1A done)** | 1B–1D remain | Founder | Shallow progression UX | Progression depth |
+| DEP-012 | Progression Gate (GHV.PROGRESSION.1) | Product | **In progress (1A–1B done)** | 1C–1D remain; formulas are SIMULATION CANDIDATE | Founder | Shallow progression UX | Progression depth |
+| DEP-056 | GHV.PROGRESSION.1C Integrity, Fairness and Calibration | Product | Planned — **Next / BLOCKING final lock** | Calibrate candidates; not Product Code | Founder | Cannot lock progression | 1D |
+| DEP-057 | Usability testing of progression explainability | Product/Research | Planned | USABILITY-VALIDATION-PLAN + formula explanations | Founder | Confusing meters | Implementation |
+| DEP-058 | Learning Pilot (real learner data) | Organizational | Planned — **BLOCKING PUBLICATION** | Pilot packets READY; NOT RUN | Founder | Synthetic≠real risk | Calibration |
+| DEP-059 | Evidence reviewer pilot | Organizational | Planned | Reviewer calibration for Mastery floors | Founder | Inconsistent CMI | Mastery |
+| DEP-060 | Trust and moderation policy operations | Product/Org | Planned | Trust signal classification at scale | Founder | False Trust restrictions | Trust |
+| DEP-061 | Reviewer staffing (Titles / Prestige / Evidence) | Organizational | Planned | Human authority boundary | Founder | Prestige/Title stall | Prestige |
+| DEP-062 | Identity assurance for reviewers and learners | Technical | Planned | Identity Spike + Trust for reviewers | Engineering TBD | Weak attribution | Trust |
+| DEP-063 | Event architecture implementation validation | Technical | Planned | Event registry → ingress (ARCHITECTURE.1) | Engineering TBD | Manual-only standing | Runtime |
+| DEP-064 | Formula-version technical validation | Technical | Planned | Version storage + deterministic engines | Engineering TBD | Version drift | Runtime |
+| DEP-065 | Real pilot progression datasets | Research | Planned | Compare synthetic seed 20260721 to pilots | Founder | False confidence | 1C |
+| DEP-066 | Privacy and age review for standings | External | Planned | Overlaps DEP-055; board exposure | Counsel TBD | Restrict minors | Launch |
+| DEP-067 | Accessibility review of progression requirements | Organizational | Planned | Momentum/Evidence modality alternatives | Reviewer TBD | Exclude modalities | Fairness |
+| DEP-068 | Live Sky scoring validation | Product/Tech | Planned | Live contribution XP/Momentum ranges | Founder | Defer Live boards | Live |
+| DEP-069 | Merit Access policy | Product | Planned | Merit ≠ paid progression | Founder | Merit confusion | Commercial |
+| DEP-070 | Professional Title catalogue | Product | Deferred | Templates only in 1B; catalogue later | Founder | No Title awards | Titles |
+| DEP-071 | Prestige governance operating model | Organizational | Planned | Panels, conflicts, audits | Founder | No Prestige grants | Prestige |
 | DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | Planned | Conceptual graph → validation plan | Founder | No runtime graph | Implementation |
 | DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |

@@ -1,0 +1,10 @@
+formula_id,param,value
+FRM-XP-001,LIGHT,10
+FRM-XP-001,STANDARD,20
+FRM-XP-001,DEEP,35
+FRM-XP-001,EXTENDED,50
+FRM-LVL-001,curve,100*(L-1)*L/2
+FRM-MOM-002,season_weeks,8
+FRM-MOM-002,best_weeks,6
+FRM-MOM-002,min_active_weeks,4
+SEED,default,20260721

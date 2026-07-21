@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.7.0 |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1A |
+| **Source Gate** | GHV.PROGRESSION.1B |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1080,3 +1080,193 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.PROGRESSION.1A |
 | **Evidence** | [product/progression/README.md](../../product/progression/README.md) · BASELINE-MANIFEST |
+
+## DEC-102 — Progression Formula Governance Standard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Every progression formula/policy/template must follow PROGRESSION-FORMULA-STANDARD (ID, version, inputs, prohibited inputs, equation, rounding, caps/floors/gates, reversal, explainability) and status wording `SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION`. |
+| **Status** | Accepted |
+| **Rationale** | Prevents silent retunes and false “FINAL/CALIBRATED/PRODUCTION READY” claims. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PROGRESSION-FORMULA-STANDARD.md](../../product/progression/formulas/PROGRESSION-FORMULA-STANDARD.md) · [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) |
+
+## DEC-103 — Flight XP candidate recognition
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-XP-001 v0.1.0 candidate recognition (intensity bases LIGHT 10 / STANDARD 20 / DEEP 35 / EXTENDED 50; Stage 40; Formative 30; Practical 60; Capstone 150; Route-Proven 250; Team/Live 20–60) with Validation×Repeat factors; no paid-plan multipliers; reversals negate exact original XP. |
+| **Status** | Accepted |
+| **Rationale** | Simulation-ready activity recognition separate from Skill/Mastery. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) |
+
+## DEC-104 — Triangular Flight Level curve
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-LVL-001 v0.1.0 triangular Level curve: XP required for Level L = 100 × (L−1) × L ÷ 2; Level is cosmetic milestone only and does not unlock Mastery, Titles, or Prestige. |
+| **Status** | Accepted |
+| **Rationale** | Simple deterministic Level mapping for simulation. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) |
+
+## DEC-105 — Eight-week Momentum season
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Candidate Momentum season duration is 8 weeks (FRM-MOM-002). |
+| **Status** | Accepted |
+| **Rationale** | Usable season length for compressed-schedule fairness tests. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) |
+
+## DEC-106 — Best-six-week Momentum calculation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Season Momentum Score = average of the learner’s best 6 weekly scores; at least four active weeks for final placement; two grace weeks allowed; no daily streak; no paid/XP multipliers. |
+| **Status** | Accepted |
+| **Rationale** | Softens single-week collapse while capping grinding. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) |
+
+## DEC-107 — Momentum league thresholds
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Candidate league bands (season score): Iron 0–29; Bronze 30–44; Silver 45–59; Gold 60–74; Platinum 75–87; Diamond 88–100. |
+| **Status** | Accepted |
+| **Rationale** | Simulation distribution held Diamond at 0% under seed 20260721; bands remain sensitive (±10%). PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) · FORMULA-SENSITIVITY-REPORT |
+
+## DEC-108 — Maturity Index and Rank gates
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-MAT-001 v0.1.0 nine-dimension Maturity Index (weights sum 100) with Rank gates Hatchling→Raven; Rank ≠ employment seniority and ≠ Prestige; no ordinary inactivity demotion. |
+| **Status** | Accepted |
+| **Rationale** | Separates habit/independence standing from XP and Prestige. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) |
+
+## DEC-109 — Evidence-to-Mastery scoring
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-MST-001/002 v0.1.0: rubric levels 0–4 → Evidence Item Index; Capability Mastery Index as weighted mean of valid Evidence; mandatory/critical floors cannot be averaged away. |
+| **Status** | Accepted |
+| **Rationale** | Preserves Evidence-before-Mastery. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) |
+
+## DEC-110 — Route Mastery hard floors
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Route-Proven numeric eligibility (FRM-MST-003) requires every mandatory CMI ≥ 50, mandatory Evidence ≥ MEETS_STANDARD, assessments STANDARD_MET, Capstone Index ≥ 50, no unresolved mandatory remediation/integrity issues, required reviewer approval; RMI alone does not grant Route-Proven. |
+| **Status** | Accepted |
+| **Rationale** | Aligns numeric floors with locked Learning Design qualitative Route-Proven. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) · LEARNING-PORTFOLIO-MANIFEST |
+
+## DEC-111 — Breadth Index
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-BRD-001 v0.1.0 Breadth Index = Distinct Capability Coverage + Horizon Diversity + Integrated Breadth; descriptors do not award Horizon-Proven; RT-ANL-001 contributes 0 launch Breadth. |
+| **Status** | Accepted |
+| **Rationale** | Measures coverage without inventing Horizon awards. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) |
+
+## DEC-112 — Non-public Trust transition policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt POL-TRU-001 v0.1.0 rule-based Trust Standing transitions; Trust remains non-public and non-numeric; no payment-improved Trust; positive signals cannot erase confirmed serious incidents. |
+| **Status** | Accepted |
+| **Rationale** | Prevents popularity/Trust conflation and public score gaming. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) |
+
+## DEC-113 — Professional Title eligibility templates
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt TPL-TTL-001/002 v0.1.0 Standard and Integrated Title eligibility templates only; final Title catalogue remains deferred; Titles are not employment claims. |
+| **Status** | Accepted |
+| **Rationale** | Enables simulation of eligibility without locking a catalogue. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) |
+
+## DEC-114 — Prestige Eligibility Index
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt FRM-PRS-001 v0.1.0 internal Prestige Eligibility Index (PEI); PEI is not a public Prestige score and cannot auto-grant Prestige. |
+| **Status** | Accepted |
+| **Rationale** | Nomination aid only; human review required. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) |
+
+## DEC-115 — Prestige human-review quorums
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt POL-PRS-001 v0.1.0 hard gates and quorums (Ascendant PEI≥72 / 3-person≥2 approvals; Apex PEI≥84 / 4-person≥3; Obsidian PEI≥94 / 5-person≥4); founder cannot self-approve; automation cannot grant Prestige. |
+| **Status** | Accepted |
+| **Rationale** | Keeps Prestige rare and human-governed. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) |
+
+## DEC-116 — Achievement candidate rules
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt POL-ACH-001 v0.1.0 with exactly 12 provisional Achievement rules distinguishing participation from Skill; artwork out of Scope. |
+| **Status** | Accepted |
+| **Rationale** | Bounded provisional catalogue for simulation. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) |
+
+## DEC-117 — Leaderboard population thresholds
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt POL-POP-001 v0.1.0: &lt;20 eligible → no public ranked board; 20–49 → Route/cohort only; 50–99 → broader with context; ≥100 → global/regional may be considered; no universal leaderboard. |
+| **Status** | Accepted |
+| **Rationale** | Protects small populations from false prestige. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) · [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) |
+
+## DEC-118 — Synthetic simulation method
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Progression formula testing uses isolated stdlib-Python analytical tooling under `analysis/progression-simulation/` (seed 20260721; 15 personas; 500 synthetic users); NOT Product Code; NOT real-user evidence; NOT a forecast. |
+| **Status** | Accepted |
+| **Rationale** | Enables reproducible Gate 1B simulation without runtime implementation. PENDING 1C CALIBRATION. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [analysis/progression-simulation/README.md](../../analysis/progression-simulation/README.md) · [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) |
+
+## DEC-119 — Pay-to-win equivalence requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Identical event histories across Access Plans must produce zero progression differences (XP, Momentum, Maturity, Mastery, Breadth, Trust, Titles, Prestige). Gate 1B RUN-006 recorded all diffs = 0. |
+| **Status** | Accepted |
+| **Rationale** | Constitutional anti-pay-to-win integrity for formulas. PENDING 1C CALIBRATION (real-pilot recheck). |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PAY-TO-WIN-EQUIVALENCE-TEST.md](../../product/progression/simulation/PAY-TO-WIN-EQUIVALENCE-TEST.md) |
+
+## DEC-120 — Formulas provisional until 1C
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All 24 formula/policy/template IDs remain at v0.1.0 SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION. Simulation PASS does not calibrate, finalize, or authorize Product Code. Final Progression Baseline lock remains PENDING 1D. |
+| **Status** | Accepted |
+| **Rationale** | PENDING 1C CALIBRATION — prevents false confidence from synthetic runs. |
+| **Related Gate** | GHV.PROGRESSION.1B |
+| **Evidence** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [FORMULA-REVISION-LOG.md](../../product/progression/formulas/FORMULA-REVISION-LOG.md) · BASELINE-MANIFEST |

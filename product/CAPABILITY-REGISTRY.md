@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Architecture 1A |
-| **Version** | 1.7.0 |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Architecture 1A · Formula Simulation 1B |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1A |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.PROGRESSION.1B |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [product/progression/README.md](./progression/README.md) · [PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -72,20 +72,20 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 
 | ID | Name | Pillar | Scope status | Journey | Screens | Maturity | Deps | Owner | Gate |
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
-| CAP-PRG-001 | Flight XP | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; formula PENDING 1B | Founder | PROGRESSION.1 |
-| CAP-PRG-002 | Momentum | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; season/formula PENDING 1B | Founder | PROGRESSION.1 |
-| CAP-PRG-003 | Maturity Rank | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; thresholds PENDING 1B | Founder | PROGRESSION.1 |
-| CAP-PRG-004 | Route Mastery | Evidence | CONTROLLED LAUNCH | Evidence/Wings | PRG/LRN | Specified | Evidence-based; aggregation PENDING 1B | Founder | PROGRESSION.1 |
-| CAP-PRG-005 | Breadth | Identity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | Architecture 1A; thresholds PENDING | Founder | PROGRESSION.1 |
-| CAP-PRG-006 | Trust Standing | Trust | CONTROLLED LAUNCH | Community | COM/PRG | Specified | Architecture 1A; ≠ popularity; calibration PENDING | Founder | Community |
-| CAP-PRG-007 | Professional Titles | Opportunity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | Template only; catalogue deferred | Founder | PROGRESSION.1 |
-| CAP-PRG-008 | Prestige Classes | Identity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | Human final authority; quorum PENDING | Founder | PROGRESSION.1 |
-| CAP-PRG-009 | Crests / Achievements | Identity | CONTROLLED LAUNCH | Wings | IDN/PRG | Specified | Participation ≠ Skill | Founder | PROGRESSION.1 |
-| CAP-PRG-010 | Limited Leaderboards | Community | CONTROLLED LAUNCH | Progression | PRG | Specified | No universal board; formulas PENDING | Founder | PROGRESSION.1 |
+| CAP-PRG-001 | Flight XP | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-XP-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
+| CAP-PRG-002 | Momentum | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-MOM-001/002 8-week SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
+| CAP-PRG-003 | Maturity Rank | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-MAT-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
+| CAP-PRG-004 | Route Mastery | Evidence | CONTROLLED LAUNCH | Evidence/Wings | PRG/LRN | Specified | FRM-MST-001..003 SIMULATION CANDIDATE; floors pending 1C | Founder | PROGRESSION.1 |
+| CAP-PRG-005 | Breadth | Identity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | FRM-BRD-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
+| CAP-PRG-006 | Trust Standing | Trust | CONTROLLED LAUNCH | Community | COM/PRG | Specified | POL-TRU-001 SIMULATION CANDIDATE; ≠ popularity | Founder | Community |
+| CAP-PRG-007 | Professional Titles | Opportunity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | TPL-TTL-001/002 SIMULATION CANDIDATE; catalogue deferred | Founder | PROGRESSION.1 |
+| CAP-PRG-008 | Prestige Classes | Identity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | FRM/POL-PRS SIMULATION CANDIDATE; human final authority | Founder | PROGRESSION.1 |
+| CAP-PRG-009 | Crests / Achievements | Identity | CONTROLLED LAUNCH | Wings | IDN/PRG | Specified | POL-ACH-001 12 provisional rules; participation ≠ Skill | Founder | PROGRESSION.1 |
+| CAP-PRG-010 | Limited Leaderboards | Community | CONTROLLED LAUNCH | Progression | PRG | Specified | FRM-LDB-* + POL-POP-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
 | CAP-PRG-011 | Progression events & validity | Identity | CORE FOUNDATION | Progression | PRG | Specified | 53 events; 7 validity states | Founder | PROGRESSION.1 |
-| CAP-PRG-012 | Progression corrections & appeals | Trust | CORE FOUNDATION | Progression | PRG | Specified | Audited corrections; appeals | Founder | PROGRESSION.1 |
+| CAP-PRG-012 | Progression corrections & appeals | Trust | CORE FOUNDATION | Progression | PRG | Specified | Audited corrections; POL-COR-001 candidate | Founder | PROGRESSION.1 |
 | CAP-PRG-013 | Progression explainability | Identity | CORE FOUNDATION | Progression | PRG | Specified | Mandatory explanations | Founder | PROGRESSION.1 |
-| CAP-PRG-014 | Mastery freshness / revalidation | Evidence | CONTROLLED LAUNCH | Evidence | PRG/LRN | Specified | Historical ≠ current; intervals PENDING | Founder | PROGRESSION.1 |
+| CAP-PRG-014 | Mastery freshness / revalidation | Evidence | CONTROLLED LAUNCH | Evidence | PRG/LRN | Specified | POL-FRS-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
 | CAP-PRG-015 | Progression anti-gaming | Trust | CORE FOUNDATION | Progression | PRG | Specified | Conceptual controls; no surveillance design | Founder | PROGRESSION.1 |
 | CAP-PRG-016 | Progression privacy & age safety | Trust | CORE FOUNDATION | Progression | PRG | Specified | Minors Crow identity; legal PENDING | Founder | Legal |
 

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.2.0 |
+| **Version** | 1.3.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1A |
+| **Source Gate** | GHV.PROGRESSION.1B |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -84,23 +84,43 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Progression events | [PROGRESSION-EVENT-REGISTRY.md](../../product/progression/events/PROGRESSION-EVENT-REGISTRY.md) | Exact 53 |
 | Progression states | [PROGRESSION-STATE-REGISTRY.md](../../product/progression/architecture/PROGRESSION-STATE-REGISTRY.md) | Exact 78 |
 | Progression decisions | [PROGRESSION-DECISION-REGISTRY.md](../../product/progression/architecture/PROGRESSION-DECISION-REGISTRY.md) | Exact 21 |
-| Flight XP | [FLIGHT-XP-ARCHITECTURE.md](../../product/progression/xp/FLIGHT-XP-ARCHITECTURE.md) | Formula PENDING |
-| Momentum | [MOMENTUM-LEAGUE-ARCHITECTURE.md](../../product/progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | Formula PENDING |
-| Maturity | [MATURITY-RANK-ARCHITECTURE.md](../../product/progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | Thresholds PENDING |
-| Mastery | [ROUTE-MASTERY-ARCHITECTURE.md](../../product/progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | Aggregation PENDING |
-| Breadth | [BREADTH-ARCHITECTURE.md](../../product/progression/breadth/BREADTH-ARCHITECTURE.md) | Thresholds PENDING |
-| Trust | [TRUST-STANDING-ARCHITECTURE.md](../../product/progression/trust/TRUST-STANDING-ARCHITECTURE.md) | Calibration PENDING |
-| Titles | [PROFESSIONAL-TITLE-ARCHITECTURE.md](../../product/progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | Catalogue deferred |
-| Prestige | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) | Quorum PENDING |
-| Achievements / Crests | [ACHIEVEMENT-CREST-ARCHITECTURE.md](../../product/progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | — |
-| Leaderboards | [LEADERBOARD-ARCHITECTURE.md](../../product/progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
-| Corrections / appeals | [PROGRESSION-CORRECTION-AND-APPEAL.md](../../product/progression/governance/PROGRESSION-CORRECTION-AND-APPEAL.md) | — |
+| Flight XP (architecture) | [FLIGHT-XP-ARCHITECTURE.md](../../product/progression/xp/FLIGHT-XP-ARCHITECTURE.md) | Architecture |
+| **Flight XP formula (provisional)** | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Flight Level formula (provisional)** | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Momentum (architecture) | [MOMENTUM-LEAGUE-ARCHITECTURE.md](../../product/progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | Architecture |
+| **Momentum formulas (provisional)** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Maturity (architecture) | [MATURITY-RANK-ARCHITECTURE.md](../../product/progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | Architecture |
+| **Maturity formula (provisional)** | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Mastery (architecture) | [ROUTE-MASTERY-ARCHITECTURE.md](../../product/progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | Architecture |
+| **Mastery formulas (provisional)** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Breadth (architecture) | [BREADTH-ARCHITECTURE.md](../../product/progression/breadth/BREADTH-ARCHITECTURE.md) | Architecture |
+| **Breadth formula (provisional)** | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Trust (architecture) | [TRUST-STANDING-ARCHITECTURE.md](../../product/progression/trust/TRUST-STANDING-ARCHITECTURE.md) | Architecture |
+| **Trust policy (provisional)** | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Titles (architecture) | [PROFESSIONAL-TITLE-ARCHITECTURE.md](../../product/progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | Catalogue deferred |
+| **Title templates (provisional)** | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Prestige (architecture) | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) | Human final authority |
+| **Prestige formula/policy (provisional)** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Achievements / Crests (architecture) | [ACHIEVEMENT-CREST-ARCHITECTURE.md](../../product/progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | — |
+| **Achievement rules (provisional)** | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Leaderboards (architecture) | [LEADERBOARD-ARCHITECTURE.md](../../product/progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
+| **Leaderboard formulas (provisional)** | [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Leaderboard population (provisional)** | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| Corrections / appeals | [PROGRESSION-CORRECTION-AND-APPEAL.md](../../product/progression/governance/PROGRESSION-CORRECTION-AND-APPEAL.md) | Architecture |
+| **Correction mathematics (provisional)** | [PROGRESSION-CORRECTION-MATHEMATICS.md](../../product/progression/formulas/PROGRESSION-CORRECTION-MATHEMATICS.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Mastery freshness (provisional)** | [MASTERY-FRESHNESS-POLICY.md](../../product/progression/formulas/MASTERY-FRESHNESS-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
 | Fairness | [PROGRESSION-FAIRNESS-ARCHITECTURE.md](../../product/progression/fairness/PROGRESSION-FAIRNESS-ARCHITECTURE.md) | — |
 | Anti-gaming | [PROGRESSION-ANTI-GAMING-ARCHITECTURE.md](../../product/progression/integrity/PROGRESSION-ANTI-GAMING-ARCHITECTURE.md) | — |
 | Explainability | [PROGRESSION-EXPLAINABILITY.md](../../product/progression/experience/PROGRESSION-EXPLAINABILITY.md) | — |
-| Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | → 1B |
-| Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi; formulas pending |
+| **Formula registry (provisional)** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | Exact 24 IDs @ 0.1.0 |
+| **Simulation runs (provisional)** | [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) | Synthetic · NOT calibrated |
+| **Sensitivity (provisional)** | [FORMULA-SENSITIVITY-REPORT.md](../../product/progression/simulation/FORMULA-SENSITIVITY-REPORT.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Pay-to-win verification (provisional)** | [PAY-TO-WIN-EQUIVALENCE-TEST.md](../../product/progression/simulation/PAY-TO-WIN-EQUIVALENCE-TEST.md) | All diffs = 0 (synthetic) |
+| Analytical package (non-runtime) | [analysis/progression-simulation/](../../analysis/progression-simulation/) | NOT Product Code |
+| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1C |
+| Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | Historical 1A→1B |
+| Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi; formulas provisional |
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Formula candidates must not be summarized as FINAL, CALIBRATED, or PRODUCTION READY.
