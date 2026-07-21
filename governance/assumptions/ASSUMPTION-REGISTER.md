@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.4.0 |
+| **Version** | 1.5.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1C |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -44,3 +44,11 @@
 | ASM-032 | Qualitative Route-Proven is sufficient until PROGRESSION.1 | Active | Proven UX | Progression Gate | Temporary completion badges only | 1B |
 | ASM-033 | Horizon-Proven can remain non-awardable at initial limited catalogue | Active | Catalogue depth | Expanded Routes later | Display progress only | 1B |
 | ASM-034 | Exact conceptual graph counts (166 nodes / 129 edges) remain stable through 1C Mission placeholders | Active | Graph registry | 1C Mission expansion | Recount after 1C | 1B |
+| ASM-035 | Learners can produce practical artifacts without employer confidential data | Active | Evidence model | Pilot + synthetic packs | Narrow Evidence classes | 1C |
+| ASM-036 | Synthetic datasets and defensive logs can be prepared for PRT/CXW labs | Active | Safe labs | Content production | Delay PRT depth | 1C |
+| ASM-037 | Reviewers can evaluate rubric-based Evidence with short rubrics | Active | Review workload | Pilot calibration | Dual-review only critical | 1C |
+| ASM-038 | Arabic technical explanations can be produced for launch Missions | Active | Arabic-first | Arabic review dep | Prioritize Nest/LEAD | 1C |
+| ASM-039 | Safe browser or local labs can support core P0 Missions | Active | Tooling | Lab validation | Container later | 1C |
+| ASM-040 | Learners can disclose AI assistance honestly when prompted | Active | Integrity | Integrity education | Integrity Review path | 1C |
+| ASM-041 | Capstones can be completed without employer or customer data | Active | Capstone safety | Capstone blueprints | Synthetic-only rule | 1C |
+| ASM-042 | Exact Mission Blueprint total of 87 remains manageable for 1D review | Active | Portfolio size | Founder WIP | Merge Missions | 1C |

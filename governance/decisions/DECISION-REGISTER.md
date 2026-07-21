@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.4.0 |
+| **Version** | 1.5.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1C |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -801,3 +801,111 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.LEARNING.1B |
 | **Evidence** | [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
+
+## DEC-071 — Mission Blueprint Standard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Every Mission uses MISSION-BLUEPRINT-STANDARD fields; statuses ARCHITECTURE/CONDITIONAL/RESERVE/DEFERRED only — never PUBLISHED/LOCKED CONTENT/IMPLEMENTED in 1C |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [MISSION-BLUEPRINT-STANDARD.md](../../product/learning/missions/MISSION-BLUEPRINT-STANDARD.md) |
+
+## DEC-072 — Mission portfolio-size limit
+
+| Field | Value |
+|-------|-------|
+| **Decision** | P0 Routes target 12–16 Mission Blueprints (min 10, max 18); CXW 8–12; SEX 6–10; ANL reserve 6–10; do not inflate counts |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [MISSION-BLUEPRINT-REGISTRY.md](../../product/learning/missions/MISSION-BLUEPRINT-REGISTRY.md) — exact total **87** |
+
+## DEC-073 — Qualitative learning-intensity model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Intensity uses LIGHT/STANDARD/DEEP/EXTENDED only; no mandatory time-to-completion in 1C |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [LEARNING-INTENSITY-MODEL.md](../../product/learning/missions/LEARNING-INTENSITY-MODEL.md) |
+
+## DEC-074 — Assessment-anchor standard
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Assessment anchors use governed forms and result states; no numeric pass values; no employment-style language |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | ASSESSMENT-ANCHOR-STANDARD · ASSESSMENT-ANCHOR-REGISTRY (**33** anchors) |
+
+## DEC-075 — Evidence Blueprint and rubric dimensions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evidence Blueprints follow EVIDENCE-BLUEPRINT-STANDARD; rubrics use up to 10 qualitative dimensions and NOT_DEMONSTRATED…EXCEPTIONAL levels; EXCEPTIONAL not required for Route-Proven; aggregation pending PROGRESSION.1 |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | EVIDENCE-RUBRIC-STANDARD · EVIDENCE-RUBRIC-REGISTRY |
+
+## DEC-076 — AI-assistance disclosure policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Missions/Evidence declare AI category (NOT_PERMITTED … REQUIRED_TO_BE_DEMONSTRATED); AI must not silently replace learner reasoning, practical execution, or reviewer authority |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [AI-ASSISTANCE-POLICY.md](../../product/learning/integrity/AI-ASSISTANCE-POLICY.md) |
+
+## DEC-077 — Evidence privacy classification
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evidence privacy classes: PUBLIC_PORTFOLIO · GHURAVIA_PRIVATE · REVIEWER_RESTRICTED · SENSITIVE_RESTRICTED · PROHIBITED; secrets/PII/production credentials prohibited |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [SAFE-EVIDENCE-HANDLING.md](../../product/learning/evidence/SAFE-EVIDENCE-HANDLING.md) |
+
+## DEC-078 — Team contribution separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Team success alone does not grant full individual capability credit; contribution signals required |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [TEAM-CONTRIBUTION-EVIDENCE.md](../../product/learning/evidence/TEAM-CONTRIBUTION-EVIDENCE.md) |
+
+## DEC-079 — AppSec Bridge blueprint
+
+| Field | Value |
+|-------|-------|
+| **Decision** | BRG-PRT-BLD-01 AppSec Bridge is blueprint-defined (4 Missions) as the required CXW capability gap closer |
+| **Status** | Conditionally Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [BRG-PRT-BLD-01-APPSEC-BRIDGE.md](../../product/learning/missions/bridges/BRG-PRT-BLD-01-APPSEC-BRIDGE.md) |
+
+## DEC-080 — Cross-Wing and Secure Extension capstone integrity
+
+| Field | Value |
+|-------|-------|
+| **Decision** | CXW-001 Capstone requires integrated multi-domain bundle + Integration Mission; SEX-001 Capstone extends OPR ops artifact and must not duplicate CXW application-release scenario |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | CXW-001 / SEX-001 Capstone blueprints |
+
+## DEC-081 — Pilot required before publication
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Representative Missions must be piloted before Route publication; document review alone is not a learner pilot; pilot status remains NOT RUN in 1C |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [LEARNING-PILOT-REQUIREMENTS.md](../../product/learning/content/LEARNING-PILOT-REQUIREMENTS.md) |
+
+## DEC-082 — No final Route lock in LEARNING.1C
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 1C produces Mission/Evidence/Capstone blueprints only. Final Route lock deferred to GHV.LEARNING.1D. Expert review NOT RUN. Pilot NOT RUN. No XP/Mastery formulas. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1C |
+| **Evidence** | [MISSION-BLUEPRINT-REGISTRY.md](../../product/learning/missions/MISSION-BLUEPRINT-REGISTRY.md) |

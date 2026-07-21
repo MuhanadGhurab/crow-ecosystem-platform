@@ -3,15 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-LRN-PRV-RT-001 |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | QUALITATIVE STANDARD DEFINED — PENDING PROGRESSION.1 |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1B · verified GHV.LEARNING.1C |
 | **Last updated** | 2026-07-21 |
-| **Related** | [HORIZON-PROVEN-STANDARD.md](./HORIZON-PROVEN-STANDARD.md) · [EVIDENCE-ANCHOR-REGISTRY.md](../evidence/EVIDENCE-ANCHOR-REGISTRY.md) · [LEARNING-UNLOCK-REGISTRY.md](../architecture/LEARNING-UNLOCK-REGISTRY.md) · Scope §3.11 |
+| **Related** | [HORIZON-PROVEN-STANDARD.md](./HORIZON-PROVEN-STANDARD.md) · [ROUTE-PROVEN-TRACEABILITY.md](./ROUTE-PROVEN-TRACEABILITY.md) · [EVIDENCE-ANCHOR-REGISTRY.md](../evidence/EVIDENCE-ANCHOR-REGISTRY.md) · [LEARNING-UNLOCK-REGISTRY.md](../architecture/LEARNING-UNLOCK-REGISTRY.md) · Scope §3.11 |
 | **Limitations** | Qualitative eligibility only — no Mastery / Trust / XP formulas |
 | **Unresolved** | Exact numeric Trust / Mastery thresholds → **GHV.PROGRESSION.1** |
-| **Change history** | 1.0.0 (2026-07-21) — LEARNING.1B Route-Proven Architecture |
+| **Change history** | 1.0.0 (2026-07-21) — LEARNING.1B Route-Proven Architecture · 1.1.0 (2026-07-21) — LEARNING.1C verification note + traceability pointer |
 
 ## Purpose
 
@@ -84,3 +84,22 @@ Downstream (later gates):
 - No XP, Prestige, or Mastery point formulas.
 - No automatic Horizon-Proven from one Route.
 - No LOCKED Route status in this document.
+
+---
+
+## GHV.LEARNING.1C verification note
+
+GHV.LEARNING.1C verified that each P0 Route has qualitative Proven ingredients (mandatory Stages, assessments, Evidence, Capstone, integrity conditions, and unresolved review dependencies) **without** adding numeric thresholds.
+
+| Item | Pointer |
+|------|---------|
+| **Per-Route qualitative matrix** | [ROUTE-PROVEN-TRACEABILITY.md](./ROUTE-PROVEN-TRACEABILITY.md) (GHV-LRN-PRV-TRC-001) |
+| **Stage → Mission → ASM → EVD → Capstone** | [MISSION-EVIDENCE-TRACEABILITY.md](../missions/MISSION-EVIDENCE-TRACEABILITY.md) |
+| **Numeric Trust / Mastery / XP** | Still **PENDING GHV.PROGRESSION.1** — not invented in 1C |
+
+```text
+STATUS: QUALITATIVE STANDARD DEFINED
+Numerically pending GHV.PROGRESSION.1
+Completion alone remains insufficient for Route-Proven.
+Expert review: NOT RUN · Pilot: NOT RUN · No LOCKED Routes · No XP
+```

@@ -2,35 +2,35 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | ARCHITECTURE BASELINE (1B) — Routes not LOCKED |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Status** | BLUEPRINT BASELINE (1C) — Routes not LOCKED |
+| **Source Gate** | GHV.LEARNING.1C |
 | **Last updated** | 2026-07-21 |
 
 ## Subgates
 
 ```text
-GHV.LEARNING.1A — Launch Capability Research and Route Portfolio — PASS
-GHV.LEARNING.1B — Launch Route Architecture and Learning Graph — PASS
-GHV.LEARNING.1C — Mission, Evidence and Capstone Blueprint — NEXT
-GHV.LEARNING.1D — Learning Portfolio Final Review and Lock
+GHV.LEARNING.1A — PASS
+GHV.LEARNING.1B — PASS
+GHV.LEARNING.1C — PASS (this Gate)
+GHV.LEARNING.1D — Learning Portfolio Final Review and Lock — NEXT
 ```
 
 ## Entry points
 
+### Blueprints (1C)
+
+- [missions/MISSION-BLUEPRINT-REGISTRY.md](./missions/MISSION-BLUEPRINT-REGISTRY.md) — **87** Missions
+- [missions/MISSION-BLUEPRINT-STANDARD.md](./missions/MISSION-BLUEPRINT-STANDARD.md)
+- [assessments/ASSESSMENT-ANCHOR-REGISTRY.md](./assessments/ASSESSMENT-ANCHOR-REGISTRY.md) — **33**
+- [capstones/CAPSTONE-BLUEPRINT-REGISTRY.md](./capstones/CAPSTONE-BLUEPRINT-REGISTRY.md) — **7**
+- [evidence/EVIDENCE-RUBRIC-REGISTRY.md](./evidence/EVIDENCE-RUBRIC-REGISTRY.md) — **7** packs
+- [missions/bridges/BRG-PRT-BLD-01-APPSEC-BRIDGE.md](./missions/bridges/BRG-PRT-BLD-01-APPSEC-BRIDGE.md)
+- [proven/ROUTE-PROVEN-TRACEABILITY.md](./proven/ROUTE-PROVEN-TRACEABILITY.md)
+- [content/LEARNING-PILOT-REQUIREMENTS.md](./content/LEARNING-PILOT-REQUIREMENTS.md) — **NOT RUN**
+
 ### Architecture (1B)
 
 - [architecture/LEARNING-IDENTIFIER-STANDARD.md](./architecture/LEARNING-IDENTIFIER-STANDARD.md)
-- [graph/LAUNCH-GRAPH-REGISTRY.md](./graph/LAUNCH-GRAPH-REGISTRY.md) — **166 nodes / 129 edges**
-- [routes/architecture/](./routes/architecture/) — P0 + ANALYZE reserve
-- [cross-wing/CXW-001-SECURE-APPLICATION-DELIVERY-ARCHITECTURE.md](./cross-wing/CXW-001-SECURE-APPLICATION-DELIVERY-ARCHITECTURE.md)
-- [secure-extensions/SEX-001-SECURE-CLOUD-OPERATIONS-ARCHITECTURE.md](./secure-extensions/SEX-001-SECURE-CLOUD-OPERATIONS-ARCHITECTURE.md)
-- [proven/ROUTE-PROVEN-STANDARD.md](./proven/ROUTE-PROVEN-STANDARD.md)
-- [architecture/LEARNING-HANDOFFS.md](./architecture/LEARNING-HANDOFFS.md)
+- [graph/LAUNCH-GRAPH-REGISTRY.md](./graph/LAUNCH-GRAPH-REGISTRY.md)
 
-### Research (1A)
-
-- [research/LEARNING-RESEARCH-METHODOLOGY.md](./research/LEARNING-RESEARCH-METHODOLOGY.md)
-- [routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) — **RECOMMENDED — NOT YET LOCKED**
-- [routes/ROUTE-SELECTION-SCORECARD.md](./routes/ROUTE-SELECTION-SCORECARD.md)
-
-No Product Code. No runtime graph. No Route is LOCKED until 1D. Expert review: **NOT RUN**.
+No Product Code. No full lessons. Expert review: **NOT RUN**. Pilot: **NOT RUN**. No Route LOCKED until 1D.

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.4.0 |
+| **Version** | 1.5.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1C |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -165,5 +165,23 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-LRN-029 | Architecture exceeding founder capacity | H | H | H | 5 Routes + CW + SE content | ANL reserve; WIP; 1D lock gate | Drop ANL permanently via CR | Founder | Open | Continuous | WIP |
 | RISK-LRN-030 | ANALYZE reserve becoming hidden Scope expansion | M | H | H | Quiet promotion to P0 | Explicit LAUNCH RESERVE status + CR | Reject unscoped ANL work | Founder | Open | Continuous | ANL |
 | RISK-LRN-031 | Expert-review availability for architecture domains | H | H | H | SME scarcity | Expert-review requirements (NOT RUN) | Narrow PUBLISHED set | Founder | Open | 1D | EXP |
+| RISK-LRN-032 | Mission-count explosion | M | H | H | Blueprint inflation | Portfolio-size limits (DEC-072) | Cap packs; merge Missions | Founder | Open | 1D | MSN |
+| RISK-LRN-033 | Passive learning replacing practice | M | H | H | Watch-only packs | Practical category minima + Evidence | Redesign Mission | Founder | Open | Pilot | MSN |
+| RISK-LRN-034 | Weak Evidence authenticity | H | H | H | Screenshots-only / recycled artifacts | Integrity model + authenticity signals | Integrity Review | Founder | Open | 1D | EVD |
+| RISK-LRN-035 | Rubric inconsistency across reviewers | M | H | H | Ambiguous criteria | Shared dimensions + short rubrics | Calibration sessions | Founder | Open | Pilot | RUB |
+| RISK-LRN-036 | Reviewer overload | H | H | H | Capstone + dual-review load | Reviewer role matrix; dual only when justified | Narrow launch Evidence | Founder | Open | Continuous | REV |
+| RISK-LRN-037 | Unsafe Evidence uploads | H | H | H | Secrets/malware/PII | Safe Evidence handling; scanning deps | Quarantine + takedown | Founder | Open | Tech | SAFE |
+| RISK-LRN-038 | AI-assisted plagiarism | H | H | H | Undeclared genAI | AI policy + disclosure + integrity | Integrity Review + remediation | Founder | Open | Continuous | AI |
+| RISK-LRN-039 | Excessive learner disclosure burden | M | M | M | Over-detailed AI prompts | Disclose category/purpose/portions/verify — not private prompts | Simplify disclosure UX | Founder | Open | Pilot | AI |
+| RISK-LRN-040 | Sensitive operational data submission | H | H | H | Employer/customer data | Synthetic preference + PROHIBITED class | Reject + educate | Founder | Open | Continuous | PRIV |
+| RISK-LRN-041 | Inaccessible labs | M | H | H | Tooling barriers | Modality alternatives; LOCAL-SAFE paths | Browser-only fallback | Founder | Open | Tech | LAB |
+| RISK-LRN-042 | Weak Arabic technical content | H | M | H | Bilingual lag | Arabic-first fields + Arabic review | Prioritize Nest/LEAD Arabic | Founder | Open | Loc | AR |
+| RISK-LRN-043 | Capstones too large | M | H | H | Scope creep | Capstone constraints + intensity caps | Split optional outputs | Founder | Open | Pilot | CAP |
+| RISK-LRN-044 | Capstones too easy | M | H | H | Checklist theatre | Integrity tests + practical function dimension | Raise practical bar | Founder | Open | Expert | CAP |
+| RISK-LRN-045 | Cross-Wing integration remaining superficial | M | H | H | Separate artifacts glued | CXW-001-INT-01 + integration rubric | Fail non-integrated packs | Founder | Open | 1D | CXW |
+| RISK-LRN-046 | Team success masking individual weakness | M | H | H | Live Sky free-riding | Team contribution Evidence rules | Role-bound credit only | Founder | Open | Live | TEAM |
+| RISK-LRN-047 | Remediation loops becoming punitive | M | M | M | Infinite retry shame | Targeted remediation library + preserve progress | Cap loops; mentor path | Founder | Open | Continuous | RMD |
+| RISK-LRN-048 | Pilot participants unavailable | H | H | H | No learners for pilot | Pilot requirements; recruit early | Delay PUBLISHED | Founder | Open | Pilot | PLT |
+| RISK-LRN-049 | Content-production workload exceeding founder capacity | H | H | H | 87 blueprints → full content | WIP; ANL reserve; production handoff states | Cut depth; freeze ANL | Founder | Open | Continuous | WIP |
 
 **Contingency owners** default to Founder until roles are staffed.

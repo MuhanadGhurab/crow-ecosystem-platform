@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.LEARNING.1B (architecture links) |
-| **Version** | 1.4.0 |
+| **Status** | REVIEWED — GHV.LEARNING.1C (Mission/Evidence/Capstone blueprints) |
+| **Version** | 1.5.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1B |
-| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LAUNCH-GRAPH-REGISTRY.md](./learning/graph/LAUNCH-GRAPH-REGISTRY.md) · [LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md](./learning/routes/LAUNCH-ROUTE-PORTFOLIO-RECOMMENDATION.md) |
+| **Source Gate** | GHV.LEARNING.1C |
+| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MISSION-BLUEPRINT-REGISTRY.md](./learning/missions/MISSION-BLUEPRINT-REGISTRY.md) · [LAUNCH-GRAPH-REGISTRY.md](./learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 ## Traceability chain
 
@@ -57,16 +57,34 @@ Product Pillar
 | Horizon-Proven | [HORIZON-PROVEN-STANDARD.md](./learning/proven/HORIZON-PROVEN-STANDARD.md) | AWARDING DEFERRED |
 | Eligibility overlay | [LEARNING-ELIGIBILITY-OVERLAY.md](./learning/architecture/LEARNING-ELIGIBILITY-OVERLAY.md) | Learning eligibility only (no plans) |
 
-Scope Baseline §3.8 unchanged. No silent Scope modification. No Change Request required for 1B architecture documentation.
+Scope Baseline §3.8 unchanged. No silent Scope modification. No Change Request required for 1C blueprint documentation.
+
+## Learning blueprint links (1C)
+
+| Capability / theme | Blueprint artifact | Status |
+|--------------------|-------------------|--------|
+| Mission Standard | [MISSION-BLUEPRINT-STANDARD.md](./learning/missions/MISSION-BLUEPRINT-STANDARD.md) | BLUEPRINT RECOMMENDED |
+| Mission Registry | [MISSION-BLUEPRINT-REGISTRY.md](./learning/missions/MISSION-BLUEPRINT-REGISTRY.md) | **87** Mission Blueprints |
+| Assessment anchors | [ASSESSMENT-ANCHOR-REGISTRY.md](./learning/assessments/ASSESSMENT-ANCHOR-REGISTRY.md) | **33** |
+| Evidence rubrics | [EVIDENCE-RUBRIC-REGISTRY.md](./learning/evidence/EVIDENCE-RUBRIC-REGISTRY.md) | **7** packs |
+| Capstones | [CAPSTONE-BLUEPRINT-REGISTRY.md](./learning/capstones/CAPSTONE-BLUEPRINT-REGISTRY.md) | **7** |
+| AppSec Bridge | [BRG-PRT-BLD-01-APPSEC-BRIDGE.md](./learning/missions/bridges/BRG-PRT-BLD-01-APPSEC-BRIDGE.md) | BLUEPRINTED |
+| CXW Integration | CXW-001-INT-01 in CXW Mission pack | BLUEPRINT COMPLETE |
+| Live Sky | [LAUNCH-TEAM-LIVE-SKY-BLUEPRINT.md](./learning/missions/live/LAUNCH-TEAM-LIVE-SKY-BLUEPRINT.md) | TECH VALIDATION PENDING |
+| AI / Integrity | `learning/integrity/` | Defined |
+| Route-Proven trace | [ROUTE-PROVEN-TRACEABILITY.md](./learning/proven/ROUTE-PROVEN-TRACEABILITY.md) | Qualitative complete |
+| Expert review | EXPERT-REVIEW-REQUIREMENTS | **NOT RUN** |
+| Learning pilot | LEARNING-PILOT-REQUIREMENTS | **NOT RUN** |
 
 ## Gaps intentionally open
 
 | Item | Status |
 |------|--------|
 | Exact Route lock | PENDING GHV.LEARNING.1D |
-| Mission blueprints / rubrics | PENDING GHV.LEARNING.1C |
+| Full lesson content | NOT STARTED |
 | Progression formulas | PENDING GHV.PROGRESSION.1 |
 | Expert review | NOT RUN |
+| Learning pilot | NOT RUN |
 | Usability tests | NOT RUN |
 | Product Code | BLOCKED |
 | Runtime graph / DB schema | PENDING GHV.ARCHITECTURE.1 |

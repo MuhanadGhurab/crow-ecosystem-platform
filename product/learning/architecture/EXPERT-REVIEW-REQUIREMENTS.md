@@ -3,15 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-LRN-EXP-REV-001 |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | REQUIREMENTS DEFINED — REVIEW NOT RUN |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1B · extended GHV.LEARNING.1C |
 | **Last updated** | 2026-07-21 |
-| **Related** | [LEARNING-ARCHITECTURE-REVIEW-SCORECARD.md](./LEARNING-ARCHITECTURE-REVIEW-SCORECARD.md) · [LEARNING-HANDOFFS.md](./LEARNING-HANDOFFS.md) · Route / CXW / SEX architecture files |
+| **Related** | [LEARNING-ARCHITECTURE-REVIEW-SCORECARD.md](./LEARNING-ARCHITECTURE-REVIEW-SCORECARD.md) · [LEARNING-HANDOFFS.md](./LEARNING-HANDOFFS.md) · [MISSION-BLUEPRINT-REGISTRY.md](../missions/MISSION-BLUEPRINT-REGISTRY.md) · Route / CXW / SEX architecture files |
 | **Limitations** | Names domains and gates only — no reviewers assigned; no review reports exist yet |
 | **Unresolved** | Reviewer roster; scheduling; bilingual review sequencing |
-| **Change history** | 1.0.0 (2026-07-21) — LEARNING.1B Expert Review Requirements |
+| **Change history** | 1.0.0 (2026-07-21) — LEARNING.1B Expert Review Requirements · 1.1.0 (2026-07-21) — LEARNING.1C blueprint-level review domains (§48) |
 
 ## Overall status
 
@@ -176,3 +176,36 @@ Architecture scorecard scores are **not** a substitute for expert review. Catalo
 - No fake completed review reports.
 - No LOCKED catalogue from Founder scorecard alone.
 - No XP or Mastery invented to “pass” integrity review.
+
+---
+
+## Blueprint-level review domains (GHV.LEARNING.1C §48)
+
+In addition to architecture domains above, expert review of **Mission / Evidence / Capstone blueprints** must cover:
+
+| Blueprint review domain | Focus | Primary constructs | 1D blocker? |
+|-------------------------|-------|--------------------|-------------|
+| **Mission realism** | Missions reflect bounded real practice without employment overclaim | All Mission packs | **Yes** — domain-critical for included packs |
+| **Evidence authenticity** | Seed binding, authorship, reviewability of EVD paths | All EVD / Capstone packs | **Yes** — blocks 1D Proven claims |
+| **Rubric clarity** | Rubric dimensions usable by reviewers without inventing Mastery math | All 7 rubric packs | **Yes** — domain-critical |
+| **Capstone feasibility** | Capstone doable in stated intensity / tooling without unsafe scope | All 7 Capstones | **Yes** — domain-critical |
+| **Safe security content** | Defensive-only; no offensive / live-target drift | PRT · CXW · SEX · Bridge · Live | **Yes** — **hard block** if unsafe |
+| **Cloud-lab feasibility** | Sandbox / local-safe ops labs viable for founder delivery | OPR · SEX · Live | **Yes** for OPR/SEX inclusion |
+| **Web-delivery relevance** | BUILD / CXW delivery Missions match accessible web delivery reality | BLD · CXW · Bridge | **Yes** for BLD/CXW inclusion |
+| **Project and risk realism** | Plans, RACI-lite, risk registers stay non-title-inflating | LED · CXW release-risk | **Yes** for LED/CXW inclusion |
+| **Arabic technical accuracy** | Arabic-first meaning parity with retained English terms | All launch surfaces | **Yes** if Arabic-first launch claimed |
+| **Instructional design** | Stage balance, remediation, intensity coherence | All packs · remediation library | **Yes** if Stage→Evidence coherence broken |
+| **Accessibility** | A11y Evidence and lab alternatives are structural, not decorative | BLD · CXW · content a11y | **Yes** for a11y-critical packs |
+| **Assessment integrity** | ASM anchors, AI policy, Capstone authenticity | All ASM · Capstones · Proven | **Yes** — blocks Proven awarding path |
+
+```text
+Expert review status remains: NOT RUN
+Domain-critical blueprint reviews above are blockers for GHV.LEARNING.1D
+where the construct is included in the locked catalogue.
+```
+
+| Blueprint review item | State |
+|-----------------------|-------|
+| Domains listed (§48) | **Yes** |
+| Reviews completed | **0** |
+| Overall | **NOT RUN** |

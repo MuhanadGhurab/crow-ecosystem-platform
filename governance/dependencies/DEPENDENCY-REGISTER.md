@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.4.0 |
+| **Version** | 1.5.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1B |
+| **Source Gate** | GHV.LEARNING.1C |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -22,9 +22,20 @@
 | DEP-010 | Capability Atlas for Cross-Wing / Secure Extension | Product | **Satisfied (1B architecture)** | CXW-001 + SEX-001 architectures; Atlas Missions remain 1C | Founder | Drop from MLGW | LRN Cross-Wing/SE |
 | DEP-011 | Learning design Gate (GHV.LEARNING.1) | Product | **In progress (1B done)** | Subgates 1C–1D remain | Founder | Cannot lock Routes | Launch catalogue |
 | DEP-022 | LEARNING.1B Route architecture + graph | Product | **Satisfied (1B)** | Stages, edges, Nest bridges, graph registry | Founder | — | Lock path to 1D |
-| DEP-030 | LEARNING.1C Mission/Evidence/Capstone detail | Product | Planned | Expand placeholders from 1B | Founder | Thin catalogue | Capstones |
-| DEP-031 | Expert review of architecture domains | Organizational | Planned | Expert-review requirements (NOT RUN) | Founder + SMEs | Delay PUBLISHED | 1D lock |
-| DEP-032 | Application-Security Bridge content (BRG-PRT-BLD-01) | Product | Planned | Required for CXW-001 | Founder | Block CXW launch | CXW |
+| DEP-030 | LEARNING.1C Mission/Evidence/Capstone detail | Product | **Satisfied (1C blueprints)** | Mission packs + rubrics + capstones | Founder | — | Capstones |
+| DEP-031 | Expert review of architecture domains | Organizational | Planned | Expert-review requirements (NOT RUN); 1D blocker for domain-critical | Founder + SMEs | Delay PUBLISHED | 1D lock |
+| DEP-032 | Application-Security Bridge content (BRG-PRT-BLD-01) | Product | **Blueprint satisfied (1C)** | Production content still pending | Founder | Block CXW launch | CXW |
+| DEP-035 | Instructional design for Mission production | Organizational | Planned | Content production handoff | Founder + ID TBD | Thin Missions | PUBLISHED |
+| DEP-036 | Arabic content review | Organizational | Planned | Arabic-first fields | Linguists TBD | English-heavy UX | Launch |
+| DEP-037 | Accessibility review of Missions/Evidence | Organizational | Planned | A11y checklist | Reviewer TBD | Exclude failing modalities | Pilot |
+| DEP-038 | Evidence object-storage + malware scanning | Technical | Planned | SAFE-EVIDENCE-HANDLING | Engineering TBD | Limit uploads | Evidence |
+| DEP-039 | Laboratory technology validation | Technical | Planned | Browser/local/container/sandbox | Engineering TBD | Browser-only | OPR/SEX |
+| DEP-040 | Reviewer workflow implementation | Product/Tech | Planned | Reviewer role matrix | Founder | Manual review only | Evidence |
+| DEP-041 | Progression model (numeric) | Product | Planned | PROGRESSION.1 | Founder | Qualitative only | Proven UX |
+| DEP-042 | Identity and Trust for reviewers | Technical | Planned | Identity Spike | Engineering TBD | Manual staffing | Dual review |
+| DEP-043 | Live Sky architecture validation | Technical | Planned | LIV-MSN-001 blueprint | Engineering TBD | Async Team only | Live |
+| DEP-044 | Usability testing | Product | Planned | USABILITY-VALIDATION-PLAN | Founder | Untested UX | Code waves |
+| DEP-045 | Learner pilot recruitment | Organizational | Planned | LEARNING-PILOT-REQUIREMENTS (NOT RUN) | Founder | Delay PUBLISHED | 1D/Publish |
 | DEP-033 | Progression qualitative→numeric mapping | Product | Planned | Route-Proven → formulas | Founder | Shallow Proven UX | PROGRESSION.1 |
 | DEP-034 | Technical graph implementation | Technical | Planned | Node/edge rules → schema later | Engineering TBD | Manual catalogue only | ARCHITECTURE.1 |
 | DEP-023 | LEARNING.1C Mission/Evidence/Capstone blueprints | Product | Planned | Mission catalogues | Founder | Thin Evidence | Capstones |
