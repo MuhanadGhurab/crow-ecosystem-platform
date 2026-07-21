@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.11.0 |
+| **Version** | 1.12.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -88,3 +88,15 @@
 | ASM-076 | Conditional locks (MOM-002 · TRU · PRS · POL-POP) remain sufficient until real-user / ops validation | Active | Conditional design | Pilot + staffing deps | Controlled Change / narrow surface | 1D |
 | ASM-077 | Screen-count defect (90 vs 92) can be corrected in GHV.BASELINE-CORRECTION.1 without rewriting Progression Design Baseline | **Satisfied** | Cross-baseline debt | BASELINE-CORRECTION.1 Gate PASS · CR-001 · DEC-152 | — | 1D / BC.1 |
 | ASM-078 | Real-user and technical validation plans can proceed after design lock without reopening frozen formula meanings | Active | Sequencing | Change Freeze + validation plans | Foundational rebaseline only if invariants break | 1D |
+| ASM-079 | Founder can operate the launch architecture under modular boundaries | Active | Capacity | SPK-ARC-001 · 021 · capacity reviews | Shrink shape / hire | ARCH.1A |
+| ASM-080 | A relational datastore can support primary launch needs | Pending Validation | Data architecture | SPK-ARC-005 · 010 · 011 | Revisit shape with evidence | ARCH.1A |
+| ASM-081 | Graph behavior can be represented without a dedicated graph database by name | Pending Validation | Learning Graph | SPK-ARC-005 · DEC-159 | Compare graph option only with evidence | ARCH.1A |
+| ASM-082 | Managed storage can isolate Evidence safely | Pending Validation | Evidence | SPK-ARC-007 · 008 · DEC-162 | Limit Evidence types | ARCH.1A |
+| ASM-083 | Realtime can be introduced without service sprawl | Pending Validation | Live Sky | SPK-ARC-014 · 015 | Defer Live depth | ARCH.1A |
+| ASM-084 | Arabic search can meet controlled-launch discovery needs | Pending Validation | Search | SPK-ARC-016 | Narrow discovery surfaces | ARCH.1A |
+| ASM-085 | External providers can offer appropriate Saudi support via adapters | Pending Validation | Integrations | Provider evals · DEC-163 | Narrow methods / delay paid | ARCH.1A |
+| ASM-086 | Evidence review can scale initially at controlled-launch depth | Pending Validation | Review ops | Staffing · pilot | Narrow review classes | ARCH.1A |
+| ASM-087 | Formula recalculation can remain local / targeted | Pending Validation | Progression | SPK-ARC-009 · 011 · DEC-161 | Batch windows only | ARCH.1A |
+| ASM-088 | 92 ACTIVE screens can share governed shell components | Pending Validation | Frontend | SPK-ARC-004 | Material CR for shells | ARCH.1A |
+| ASM-089 | No DMs reduces moderation complexity vs full chat | Active | Community | CAP-SOC-009 · SPK-ARC-013 | Structured chat CR | ARCH.1A |
+| ASM-090 | Core Technical Validation Plan lock will not be mistaken for technical validation or stack lock | Active | Status clarity | PROJECT_STATUS · BASELINE-MANIFEST · DEC-165/166 | Correct messaging | ARCH.1A |

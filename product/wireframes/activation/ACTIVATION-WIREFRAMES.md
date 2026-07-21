@@ -3,36 +3,37 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-WF-ACT-PACK |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Status** | LOCKED AT LOW FIDELITY |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · **GHV.BASELINE-CORRECTION.1** |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · **GHV.BASELINE-CORRECTION.1** · **CR-002** |
 | **Last updated** | 2026-07-21 |
 | **Related** | [MASTER-SCREEN-REGISTRY.md](../../screens/MASTER-SCREEN-REGISTRY.md) · [PAGE-COMPOSITION-SYSTEM.md](../../interactions/PAGE-COMPOSITION-SYSTEM.md) · [FORM-INTERACTION-RULES.md](../../interactions/FORM-INTERACTION-RULES.md) · [CRITICAL-FLOWS.md](../../interactions/CRITICAL-FLOWS.md) · [EXPLAINABLE-LOCKS.md](../../interactions/EXPLAINABLE-LOCKS.md) · [CAPABILITY-REGISTRY.md](../../CAPABILITY-REGISTRY.md) · [PUBLIC-WIREFRAMES.md](../public/PUBLIC-WIREFRAMES.md) · [SCREEN-BASELINE-REFERENCE-AUDIT.md](../../../governance/corrections/SCREEN-BASELINE-REFERENCE-AUDIT.md) |
 | **Scope** | CONTROLLED LAUNCH |
 | **Unresolved** | IdP field set · SMS provider · risk engine copy variants · exact A0/A1 assurance labels · resend cooldown seconds · change-email policy |
-| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** (ACT-003 rename + states; ACT-004 superseded; ACT-011/012 DETAILED) |
+| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** · **1.2.0 — CR-002** (ACT-013 NEW; ACT-004 appendix only; ACT-005 → ACT-013 → ACT-006) |
 
-**Authority:** Screen IDs from Master Screen Registry only (92-screen reconciliation). Wireframe IDs `GHV-WF-ACT-00N` / `GHV-WF-ACT-01N`.
+**Authority:** Screen IDs from Master Screen Registry only (**92 ACTIVE**; **0 aliases** in inventory). Wireframe IDs `GHV-WF-ACT-00N` / `GHV-WF-ACT-01N`.
 
-**Ethical (pack-wide):** No fake urgency on activation timers beyond real OTP/email expiry. Payment ≠ skill — activation never sells Mastery. Open Flight remains the default free learning path after ACT (surfaced in onboarding/pricing, not blocked here). **Verified email ≠ tenant auth ≠ elevated assurance.** No mandatory activation step may be bypassed via recovery.
+**Ethical (pack-wide):** No fake urgency on activation timers beyond real OTP/email expiry. Payment ≠ skill — activation never sells Mastery. Open Flight remains the default free learning path after ACT (surfaced in onboarding/pricing, not blocked here). **Verified email ≠ tenant auth ≠ elevated assurance.** No mandatory activation step may be bypassed via recovery. ACT-013 does **not** grant entitlement, XP, Mastery, or tenant membership.
 
 **Shell:** Activation Shell ([PAGE-COMPOSITION-SYSTEM.md](../../interactions/PAGE-COMPOSITION-SYSTEM.md)).
 
-**Happy path (FLOW-001):** PUB-001 → ACT-001 → ACT-002 → **ACT-003** → **ACT-011** → ACT-005 → ACT-006 → ACT-007 → ONB-001. Sign-in: ACT-010 → TRU-001 (or **ACT-012** / incomplete ACT if activation unfinished).
+**Happy path (FLOW-001):** PUB-001 → ACT-001 → ACT-002 → **ACT-003** → **ACT-011** → ACT-005 → **ACT-013** → ACT-006 → ACT-007 → ONB-001. Sign-in: ACT-010 → TRU-001 (or **ACT-012** / incomplete ACT if activation unfinished).
 
-**Amendment note:** Former happy path used ACT-004 for result; **ACT-004** is now **SUPERSEDED_ALIAS → ACT-011**.
+**Amendment note (CR-001):** Former happy path used ACT-004 for result; **ACT-004** is **SUPERSEDED_ALIAS → ACT-011**.
+
+**Amendment note (CR-002):** ACT-004 is appendix-only (does not count). **GHV-WF-ACT-013** added. Risk accept is explicit before ACT-006.
 
 ---
 
-## Index
+## Index (ACTIVE inventory wireframes)
 
 | Wireframe ID | Screen ID | Name | Detail level |
 |--------------|-----------|------|--------------|
 | GHV-WF-ACT-001 | ACT-001 | Create Your Crow | DETAILED |
 | GHV-WF-ACT-002 | ACT-002 | Create Account | DETAILED |
 | GHV-WF-ACT-003 | ACT-003 | Email Verification Pending | DETAILED |
-| GHV-WF-ACT-004 | ACT-004 | ~~Email Verified~~ — SUPERSEDED_ALIAS → ACT-011 | SUPERSEDED |
 | GHV-WF-ACT-005 | ACT-005 | Accept Mandatory Terms | DETAILED |
 | GHV-WF-ACT-006 | ACT-006 | Basic Account Activated | DETAILED |
 | GHV-WF-ACT-007 | ACT-007 | Mobile Verify Now/Later | DETAILED |
@@ -41,6 +42,9 @@
 | GHV-WF-ACT-010 | ACT-010 | Sign In | DETAILED |
 | GHV-WF-ACT-011 | ACT-011 | Email Verification Result | DETAILED |
 | GHV-WF-ACT-012 | ACT-012 | Activation Recovery | DETAILED |
+| GHV-WF-ACT-013 | ACT-013 | Accept Account Risk | DETAILED |
+
+**ACTIVE Activation wireframes = 12.** ACT-004 is not in this index — see [Historical Alias Appendix](#historical-alias-appendix--ghv-wf-act-004).
 
 ---
 
@@ -229,6 +233,10 @@
 
 ---
 
+## Historical Alias Appendix — GHV-WF-ACT-004
+
+> **Counting rule:** Appendix only. Does **not** count toward Activation 12 or governed 92.
+
 ## GHV-WF-ACT-004 — SUPERSEDED_ALIAS → ACT-011
 
 | Field | Value |
@@ -236,16 +244,17 @@
 | **Wireframe ID** | GHV-WF-ACT-004 |
 | **Screen ID** | ACT-004 |
 | **Name** | ~~Email Verified~~ — **SUPERSEDED_ALIAS** |
-| **Status** | **SUPERSEDED** — do not implement as a distinct result screen |
+| **Status** | **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS** — do not implement as a distinct result screen |
+| **Counts toward 92?** | **No** |
 | **Canonical successor** | **ACT-011 / GHV-WF-ACT-011** Email Verification Result |
-| **Scope** | CONTROLLED LAUNCH (historical ID retention only) |
+| **Scope** | Historical ID retention only |
 | **Related Critical Flow** | Historical PD.3 FLOW-001 refs → interpret as ACT-011 |
 
 ```text
 ┌────────────────────────────────────────┐
-│ ACT-004 SUPERSEDED                     │
+│ ACT-004 SUPERSEDED (appendix only)     │
 │ Use GHV-WF-ACT-011 (ACT-011) instead   │
-│ Keep ID in registries for traceability │
+│ Does NOT contribute to governed 92     │
 └────────────────────────────────────────┘
 ```
 
@@ -269,7 +278,7 @@
 | **Shell** | Activation |
 | **Objectives** | Gate A1 on current Terms acceptance; versioned audit |
 | **Entry** | **ACT-011** success · ACT-012 resume to terms |
-| **Exit** | ACT-006 · ACT-009 (refuse / risk) · PUB-007 read-only |
+| **Exit** | **ACT-013** · ACT-009 (refuse) · PUB-007 read-only |
 | **Primary actions** | Accept current Terms |
 | **Secondary actions** | Read full Terms · Decline / leave |
 | **Related capabilities** | CAP-ONB-004 |
@@ -301,7 +310,7 @@
 
 **Acceptance criteria**
 
-1. Accept records current version; proceeds ACT-006 only if risk OK.
+1. Accept records current version; proceeds to **ACT-013** (risk accept), not directly to ACT-006.
 2. Public PUB-007 view ≠ this acceptance event.
 3. Decline does not silently activate A1.
 
@@ -319,7 +328,7 @@
 | **Journey phase** | Activate |
 | **Shell** | Activation |
 | **Objectives** | Celebrate A1; clarify next optional mobile; point toward free Open Flight path later |
-| **Entry** | ACT-005 + risk OK |
+| **Entry** | **ACT-013** acceptable (email verified + terms + risk) |
 | **Exit** | ACT-007 |
 | **Primary actions** | Continue |
 | **Secondary actions** | None required |
@@ -511,7 +520,7 @@
 | **Shell** | Activation |
 | **Objectives** | Authenticate; hand off to TRU-001 session validation |
 | **Entry** | PUB-001 · ACT-001 alternate · deep links |
-| **Exit** | TRU-001 · ACT-003 / ACT-011 / ACT-005 (unfinished) · **ACT-012** · ACT-009 · ACT-001 (create) |
+| **Exit** | TRU-001 · ACT-003 / ACT-011 / ACT-005 / **ACT-013** (unfinished) · **ACT-012** · ACT-009 · ACT-001 (create) |
 | **Primary actions** | Authenticate / Sign In |
 | **Secondary actions** | Create Crow · Forgot password / recovery (TRU-005 path) · language |
 | **Related capabilities** | CAP-ONB-002 (return) |
@@ -544,7 +553,7 @@
 
 1. Success → TRU-001 (FLOW-006), not direct SKY skip of trust checks.
 2. Create Crow alternate → ACT-001.
-3. Unfinished activation recovers via **ACT-012** or directly to ACT-003 / ACT-011 / ACT-005 as required — never Skyboard skip.
+3. Unfinished activation recovers via **ACT-012** or directly to ACT-003 / ACT-011 / ACT-005 / ACT-013 as required — never Skyboard skip.
 
 ---
 
@@ -629,10 +638,10 @@
 | **Purpose** | Re-enter the activation path after interruption or recoverable failure; show remaining mandatory steps; resume at the correct screen without bypass |
 | **Objectives** | Orient user; preserve progress; route to next incomplete mandatory step |
 | **Entry** | Session loss · abandon · ACT-011 failure with interrupt · ACT-010 unfinished · soft risk retry · support return |
-| **Exit** | Resume → ACT-003 · ACT-011 · ACT-005 · ACT-006 as computed · ACT-009 if hard block · PUB-001 |
+| **Exit** | Resume → ACT-003 · ACT-011 · ACT-005 · **ACT-013** · ACT-006 as computed · ACT-009 if hard block · PUB-001 |
 | **Primary actions** | Resume activation |
 | **Secondary actions** | Support · Sign out · Back to Landing |
-| **Related capabilities** | CAP-ONB-002..004 (recovery) |
+| **Related capabilities** | CAP-ONB-002..004 · CAP-ONB-014 (recovery) |
 | **Related Critical Flow** | FLOW-001-REC · FLOW-001-INT · FLOW-001-RET · FLOW-006 (incomplete branch) |
 | **Unresolved** | Exact progress checklist labels |
 
@@ -647,6 +656,7 @@
 │  ☐ Email verification pending          │
 │  ☐ Email verification result           │
 │  ☐ Accept mandatory terms              │
+│  ☐ Accept account risk                 │
 │  … (only incomplete shown)             │
 │ [Resume → next ACT screen]             │
 │ [Support]  [Landing → PUB-001]         │
@@ -673,19 +683,79 @@
 **Acceptance criteria**
 
 1. Resume lands on the true next incomplete mandatory screen.
-2. **No mandatory step bypass** (including email result and terms).
+2. **No mandatory step bypass** (including email result, terms, and risk accept).
 3. Distinct from TRU-005 account recovery (FLOW-015).
 4. Messaging: verified email ≠ tenant auth ≠ elevated assurance.
+5. RISK_ACCEPTANCE_INCOMPLETE resumes to **ACT-013**.
+
+---
+
+## GHV-WF-ACT-013 — Accept Account Risk
+
+| Field | Value |
+|-------|-------|
+| **Wireframe ID** | GHV-WF-ACT-013 |
+| **Screen ID** | ACT-013 |
+| **Name** | Accept Account Risk |
+| **Scope** | CONTROLLED LAUNCH |
+| **Priority** | P0 |
+| **User type** | Email verified + terms accepted (or ACT-012 resume when risk incomplete) |
+| **Journey phase** | Activate |
+| **Shell** | Activation |
+| **Purpose** | Capture mandatory `account_risk_status = acceptable` per Scope activation formula |
+| **Objectives** | Present risk disclosure; record accept/decline; route to ACT-006 or block/recovery |
+| **Entry** | After ACT-005 · ACT-012 when TERMS done but risk incomplete |
+| **Exit** | **acceptable → ACT-006** · not acceptable → **ACT-009** / **ACT-012** |
+| **Primary actions** | Accept account risk |
+| **Secondary actions** | Decline · Support · Read disclosure |
+| **Related capabilities** | **CAP-ONB-014** |
+| **Related Critical Flow** | FLOW-001 · FLOW-001-DONE |
+| **Unresolved** | Exact risk-engine copy variants |
+
+**Content hierarchy:** Disclosure → status → Accept / Decline.
+
+```text
+┌────────────────────────────────────────┐
+│ Accept account risk                    │
+├────────────────────────────────────────┤
+│ Risk disclosure (policy summary)       │
+│ Status: review required / ready        │
+│ ☐ I understand and accept              │
+│ [Accept & continue → ACT-006]          │
+│ [Decline → ACT-009 / ACT-012]          │
+│ Does NOT grant entitlement / XP /      │
+│ Mastery / tenant membership            │
+└────────────────────────────────────────┘
+```
+
+| Concern | Behavior |
+|---------|----------|
+| **Loading** | Fetch risk decision / disclosure; block accept until loaded |
+| **Error** | Decision fail → retry; do not invent acceptable |
+| **Locked** | Accept disabled until disclosure acknowledged |
+| **Offline** | Cannot accept without server confirm |
+| **Explainable Lock** | Risk not acceptable → ACT-009 / support path |
+| **Analytics** | `account_risk_viewed` · `account_risk_accepted` · `account_risk_declined` |
+| **Security / audit** | Persist risk status, timestamp, subject — required audit |
+| **A11y / RTL** | Structured disclosure; full RTL with LTR islands for citations |
+
+**Acceptance criteria**
+
+1. Accept sets `account_risk_status = acceptable` and continues to ACT-006 only.
+2. Decline / not acceptable → ACT-009 or ACT-012 — never silent A1.
+3. Does **not** grant entitlement, XP, Mastery, or tenant membership.
+4. Not an email-verification screen; does not replace ACT-003/011.
 
 ---
 
 ## Pack acceptance (Activation)
 
-1. ACT-001..003, ACT-005..012 detailed; ACT-008 compact OTP variant of ACT-007; **ACT-004** superseded alias only.
-2. Happy path: … ACT-003 → **ACT-011** → ACT-005 …
+1. ACT-001..003, ACT-005..013 detailed; ACT-008 compact OTP variant of ACT-007; **ACT-004** appendix-only (does not count).
+2. Happy path: … ACT-003 → **ACT-011** → ACT-005 → **ACT-013** → ACT-006 …
 3. Optional mobile (CAP-ONB-005) skippable for ordinary learning.
-4. Terms acceptance audited only on ACT-005.
+4. Terms acceptance audited only on ACT-005; risk acceptance audited on ACT-013.
 5. No payment-as-skill or fake urgency patterns in activation.
 6. Blocked path ACT-009 explainable and recoverable toward PUB-001/support.
-7. ACT-012 recovers without skipping mandatory steps.
-8. Source Gate includes **GHV.BASELINE-CORRECTION.1**.
+7. ACT-012 recovers without skipping mandatory steps (including ACT-013).
+8. Source Gate includes **GHV.BASELINE-CORRECTION.1** · **CR-002**.
+9. ACTIVE Activation wireframes = **12**; aliases in inventory = **0**.

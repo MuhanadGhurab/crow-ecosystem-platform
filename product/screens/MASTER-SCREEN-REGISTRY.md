@@ -2,13 +2,13 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | ACTIVE — CORRECTED BASELINE |
-| **Version** | 1.1.0 |
+| **Status** | ACTIVE — CORRECTED BASELINE (alias-safe) |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 (amendment of PD.2) |
-| **Related** | [SCREEN-STATE-CONTRACT.md](./SCREEN-STATE-CONTRACT.md) · [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) · [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](./SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) · [MASTER-USER-JOURNEY.md](../journeys/MASTER-USER-JOURNEY.md) |
-| **Count** | **92 screen IDs** |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 amended by **CR-002** (PD.2 Amendment-02) |
+| **Related** | [SCREEN-STATE-CONTRACT.md](./SCREEN-STATE-CONTRACT.md) · [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) · [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](./SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) · [MASTER-USER-JOURNEY.md](../journeys/MASTER-USER-JOURNEY.md) · [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) |
+| **Count** | **92 ACTIVE / governed screen IDs** (0 aliases in inventory table) |
 
 Family fields (apply to each ID): purpose, user type, journey phase, experience shell, entry conditions, primary action, important states, permissions, mobile/desktop behavior, loading/empty/locked/error/offline, exit transitions — detailed per family below; individual IDs inherit family defaults unless noted.
 
@@ -48,12 +48,42 @@ See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHEL
 
 ---
 
+## Amendment — CR-002 / PD.2 Amendment-02 (alias-safe 92)
+
+| Field | Value |
+|-------|-------|
+| **Gate** | GHV.BASELINE-CORRECTION.1 (amended) · GHV.PRODUCT-DEFINITION.2-AMENDMENT-02 |
+| **Change Request** | **CR-002** — Screen alias inflation remediation |
+| **Decision** | **DEC-153** |
+| **Prior count model (v1.1.0)** | 92 table rows including ACT-004 SUPERSEDED_ALIAS → **91** ACTIVE when alias excluded (Architecture preflight defect) |
+| **Corrected count** | **92 ACTIVE** in inventory table · **0 aliases** in table |
+| **Net change** | ACT-004 removed from inventory table (appendix only) · **ACT-013 NEW** Accept Account Risk · Activation ACTIVE still **12** |
+
+### Defect closed by this amendment
+
+| Defect | Description | Correction |
+|--------|-------------|------------|
+| **Alias inflation** | SUPERSEDED_ALIAS must not count toward governed 92; ACT-004 in inventory inflated the row count | ACT-004 moved to **Historical Alias Appendix** (HISTORICAL_REFERENCE / SUPERSEDED_ALIAS; ID preserved; does **NOT** count) |
+| **Underspecified risk gate** | Scope activation requires `account_risk_status = acceptable`; previously folded into ACT-006 entry | **ACT-013 Accept Account Risk** added as ACTIVE Activation screen |
+
+### Non-negotiable correction rules (CR-002)
+
+```text
+SUPERSEDED_ALIAS does NOT count toward governed 92
+ACT-004 ID PRESERVED in Historical Alias Appendix only
+ACT-013 NEW ACTIVE — Scope-required risk accept (not email duplicate)
+NO Product Code · NO Learning/Progression formula change
+Final ACTIVE inventory exactly 92
+```
+
+---
+
 ## Per-shell summary (7 shells)
 
 | Shell | Families / IDs | Count |
 |-------|----------------|------:|
 | **Public** | PUB-001…PUB-008 | **8** |
-| **Activation** | ACT-001…ACT-012 (includes superseded ACT-004 alias row — still a registry record) | **12** |
+| **Activation** | ACT-001…003, 005…013 (**12 ACTIVE**; ACT-004 appendix only — not counted) | **12** |
 | **Onboarding** | ONB-001…ONB-011 + IDN-001…IDN-003 | **14** |
 | **Core** | IDN-004…IDN-006 + LRN-001…LRN-012 + SKY/WLD (4) + COM-001…COM-008 + LIV-001…LIV-006 + PRG-001…PRG-006 | **39** |
 | **Commercial** | PAY-001…PAY-006 | **6** |
@@ -96,22 +126,24 @@ See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHEL
 
 ---
 
-## Activation (ACT) — 12
+## Activation (ACT) — 12 ACTIVE (inventory)
+
+Governed Activation IDs in the inventory table: **ACT-001…003, 005…013**. ACT-004 is **not** listed here — see [Historical Alias Appendix](#historical-alias-appendix--act-004).
 
 | ID | Name | Purpose | User | Phase | Shell | Entry | Primary action | Exit | Registry status |
 |----|------|---------|------|-------|-------|-------|----------------|------|-----------------|
 | ACT-001 | Create Your Crow | Start identity intent | Visitor | Activate | Activation | Landing CTA | Begin | ACT-002 | ACTIVE |
 | ACT-002 | Create Account | Register | Visitor | Activate | Activation | ACT-001 | Submit registration | ACT-003 | ACTIVE |
 | ACT-003 | Email Verification Pending | Await / manage email verification | A0 | Activate | Activation | Registered (ACT-002) | Open mail / resend / correct address / get help | ACT-011 (link consume) · ACT-012 (interrupt/fail) · ACT-003 (resend loop) | ACTIVE — CORRECTED |
-| ACT-004 | Email Verified *(historical alias)* | **SUPERSEDED** compatibility row — prior “confirm email” screen | A0→A1 pending terms *(legacy)* | Activate | Activation | **Redirect → ACT-011** | **Redirect → ACT-011** | **Redirect → ACT-011** (then ACT-005 on VERIFIED) | **SUPERSEDED_ALIAS** |
-| ACT-005 | Accept Mandatory Terms | Terms gate | Email verified | Activate | Activation | ACT-011 state **VERIFIED** (legacy alias ACT-004 redirects here via ACT-011) | Accept current terms | ACT-006 | ACTIVE |
-| ACT-006 | Basic Account Activated | A1 success | A1 | Activate | Activation | Terms accepted + risk OK | Continue | ACT-007 | ACTIVE |
+| ACT-005 | Accept Mandatory Terms | Terms gate (`current_terms_accepted`) | Email verified | Activate | Activation | ACT-011 state **VERIFIED** | Accept current terms | **ACT-013** | ACTIVE |
+| ACT-006 | Basic Account Activated | A1 success (activation formula complete) | A1 | Activate | Activation | ACT-013 **acceptable** (email verified + terms + risk) | Continue | ACT-007 | ACTIVE |
 | ACT-007 | Mobile Verify Now/Later | Optional mobile | A1 | Activate | Activation | ACT-006 | Verify or skip | ONB-001 | ACTIVE |
 | ACT-008 | Mobile OTP | Enter OTP | A1 | Activate | Activation | Chose verify | Submit OTP | ACT-007/ONB-001 | ACTIVE |
-| ACT-009 | Activation Blocked | Risk/terms failure | Any | Activate | Activation | Risk not acceptable | Resolve / support | PUB-001 · ACT-012 | ACTIVE |
+| ACT-009 | Activation Blocked | Risk/terms failure | Any | Activate | Activation | Risk not acceptable · hard block | Resolve / support | PUB-001 · ACT-012 | ACTIVE |
 | ACT-010 | Sign In | Login | Returning | Activate | Activation | Landing | Authenticate | TRU-001 | ACTIVE |
-| ACT-011 | Email Verification Result | Present verification token outcome (does **not** grant tenant membership or elevated assurance) | A0 | Activate | Activation | Verification link / token consume from ACT-003 | Continue (VERIFIED) · Retry Pending · Open Recovery | **VERIFIED → ACT-005** · failures → ACT-003 / ACT-012 | ACTIVE — NEW |
-| ACT-012 | Activation Recovery | Diagnose interrupted/failed activation (does **not** bypass assurance; does **not** replace TRU-005) | A0–A1 / interrupted | Activate | Activation | Failed/interrupted ACT path · deep link · support handoff | Resume Pending · Result · Terms · Support · Sign In | ACT-003 · ACT-011 · ACT-005 · ACT-009 · ACT-010 · TRU-005 *(account recovery only)* · PUB-001 | ACTIVE — NEW |
+| ACT-011 | Email Verification Result | Present verification token outcome (does **not** grant tenant membership or elevated assurance) | A0 | Activate | Activation | Verification link / token consume from ACT-003 | Continue (VERIFIED) · Retry Pending · Open Recovery | **VERIFIED → ACT-005** · failures → ACT-003 / ACT-012 | ACTIVE |
+| ACT-012 | Activation Recovery | Diagnose interrupted/failed activation (does **not** bypass assurance; does **not** replace TRU-005) | A0–A1 / interrupted | Activate | Activation | Failed/interrupted ACT path · deep link · support handoff | Resume Pending · Result · Terms · Risk · Support · Sign In | ACT-003 · ACT-011 · ACT-005 · **ACT-013** · ACT-009 · ACT-010 · TRU-005 *(account recovery only)* · PUB-001 | ACTIVE |
+| ACT-013 | Accept Account Risk | Capture mandatory `account_risk_status = acceptable` | Email verified + terms accepted (or resume) | Activate | Activation | After ACT-005 · or ACT-012 when TERMS done but risk incomplete | Accept risk / decline | **acceptable → ACT-006** · not acceptable → ACT-009 / ACT-012 | ACTIVE — NEW |
 
 ### ACT-003 — Email Verification Pending (detailed)
 
@@ -148,42 +180,26 @@ See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHEL
 | REQUEST_EXPIRED | Pending request no longer valid; route toward Result/Recovery as authorized |
 | HELP_AVAILABLE | Help / support entry visible |
 
-### ACT-004 — Email Verified (SUPERSEDED_ALIAS)
+### ACT-004 — relocated
 
-| Field | Value |
-|-------|-------|
-| **ID** | ACT-004 |
-| **Title** | Email Verified *(historical)* |
-| **Treatment** | **SUPERSEDED historical alias** — remains in registry as a compatibility row. **Do NOT delete the ID.** |
-| **Status** | **SUPERSEDED_ALIAS** |
-| **Semantics now provided by** | **ACT-011** state **VERIFIED** |
-| **Purpose (legacy)** | Confirm email after token (historical single success screen) |
-| **User / Phase / Shell** | Legacy A0→A1 pending terms · Activate · Activation |
-| **Entry map** | Any historical deep link or flow targeting ACT-004 **redirects to ACT-011** |
-| **Primary action / Exit map** | Redirect to **ACT-011**; on VERIFIED continue to **ACT-005** (same as ACT-011) |
-| **Launch status** | CONTROLLED LAUNCH — compatibility redirect only; not a distinct UX destination |
-| **Auth / assurance notes** | Must not be implemented as a parallel success path that skips ACT-011 outcome handling |
-| **Accessibility / Arabic RTL** | N/A as destination; redirect target ACT-011 carries a11y/RTL requirements |
-| **Dependencies** | ACT-011; client/router alias map |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 (amendment of PD.2) |
-| **Amendment record** | CR-001 / Defect A — ID preserved; status SUPERSEDED_ALIAS; counts as one of 12 Activation registry records |
+**ACT-004** is no longer an inventory-table row. See [Historical Alias Appendix — ACT-004](#historical-alias-appendix--act-004).
 
-### ACT-011 — Email Verification Result (NEW)
+### ACT-011 — Email Verification Result
 
 | Field | Value |
 |-------|-------|
 | **ID** | ACT-011 |
 | **Title** | **Email Verification Result** |
-| **Treatment** | **NEW** — full verification outcome surface |
+| **Treatment** | ACTIVE — full verification outcome surface (CR-001) |
 | **Purpose** | Present the result of consuming an email-verification token and route the user safely |
 | **User** | A0 (token consumer); may briefly show outcomes for already-processed tokens |
 | **Phase** | Activate |
 | **Shell** | Activation |
-| **Entry** | Verification link / token from ACT-003; redirects from ACT-004 alias; optional return from ACT-012 when re-evaluating a token outcome |
+| **Entry** | Verification link / token from ACT-003; redirects from historical ACT-004 alias; optional return from ACT-012 when re-evaluating a token outcome |
 | **Primary action** | Continue (when VERIFIED); Retry verification / return to Pending; Open Activation Recovery; Contact support when RISK_REVIEW_REQUIRED |
 | **Exit** | **VERIFIED → ACT-005**; EXPIRED / INVALID / ALREADY_USED / SUPERSEDED → ACT-003 and/or ACT-012; RISK_REVIEW_REQUIRED → ACT-012 / ACT-009 / support as authorized |
 | **Launch status** | CONTROLLED LAUNCH |
-| **Auth / assurance notes** | **Does not grant tenant membership or elevated assurance.** VERIFIED unlocks the terms gate (ACT-005) only; A1 still requires terms + risk OK (ACT-006). |
+| **Auth / assurance notes** | **Does not grant tenant membership or elevated assurance.** VERIFIED unlocks the terms gate (ACT-005) only; A1 still requires terms + risk OK (ACT-013 → ACT-006). |
 | **Accessibility** | Outcome announced to assistive tech; distinct text+icon per outcome; Continue disabled until outcome resolved |
 | **Arabic RTL** | Full RTL; outcome status readable as complete sentence; token/debug fragments as LTR islands if shown |
 | **Dependencies** | Token validation service; ACT-003; ACT-005; ACT-012; risk signals for RISK_REVIEW_REQUIRED |
@@ -201,27 +217,27 @@ See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHEL
 | SUPERSEDED | Newer verification request replaced this token | ACT-003 · ACT-012 |
 | RISK_REVIEW_REQUIRED | Risk controls block automatic continue | ACT-012 · ACT-009 · support |
 
-### ACT-012 — Activation Recovery (NEW)
+### ACT-012 — Activation Recovery
 
 | Field | Value |
 |-------|-------|
 | **ID** | ACT-012 |
 | **Title** | **Activation Recovery** |
-| **Treatment** | **NEW** — interrupted/failed activation diagnosis |
+| **Treatment** | ACTIVE — interrupted/failed activation diagnosis (CR-001) |
 | **Purpose** | Diagnose why activation stopped and route to the correct ACT (or support) path without elevating assurance |
 | **User** | A0–A1 / interrupted activation; returning users mid-activation |
 | **Phase** | Activate |
 | **Shell** | Activation |
 | **Entry** | Interrupted ACT flow; failed ACT-011; ACT-009 handoff; session loss mid-activation; support deep link; conflicting activation request |
 | **Primary action** | Review reason; resume recommended step; open support when SUPPORT_REQUIRED |
-| **Exit** | Per reason → ACT-003, ACT-011, ACT-005, ACT-009, ACT-010, PUB-001; account/password recovery only → **TRU-005** (explicitly out of band for activation diagnosis) |
+| **Exit** | Per reason → ACT-003, ACT-011, ACT-005, **ACT-013**, ACT-009, ACT-010, PUB-001; account/password recovery only → **TRU-005** (explicitly out of band for activation diagnosis) |
 | **Launch status** | CONTROLLED LAUNCH |
 | **Auth / assurance notes** | **Does NOT bypass assurance.** **Does NOT replace TRU-005** account recovery / password reset. Recovery actions remain server-authorized. |
 | **Accessibility** | Reason list as structured content; one primary CTA; support path keyboard-reachable |
 | **Arabic RTL** | Full RTL; reason codes may remain LTR islands with localized labels |
-| **Dependencies** | Activation state machine; ACT-003/005/009/010/011; TRU-005 (boundary only); support tooling |
+| **Dependencies** | Activation state machine; ACT-003/005/009/010/011/013; TRU-005 (boundary only); support tooling |
 | **Source Gate** | GHV.BASELINE-CORRECTION.1 |
-| **Amendment record** | CR-001 / Defect B — net +1 toward 92 |
+| **Amendment record** | CR-001 / Defect B — net +1 toward 92; CR-002 adds RISK_ACCEPTANCE_INCOMPLETE → ACT-013 |
 
 **Recovery reasons:**
 
@@ -231,10 +247,58 @@ See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHEL
 | VERIFICATION_EXPIRED | Pending/result expired | ACT-003 · ACT-011 |
 | EMAIL_CHANGED | Address change requires new verification | ACT-003 |
 | TERMS_INCOMPLETE | Verified but terms not accepted | ACT-005 |
+| RISK_ACCEPTANCE_INCOMPLETE | Terms done; risk not yet acceptable | **ACT-013** |
 | RISK_REVIEW | Risk hold | ACT-009 · support |
 | SESSION_EXPIRED | Activation session lost | ACT-010 · ACT-003 as authorized |
 | CONFLICTING_REQUEST | Concurrent/conflicting activation request | ACT-003 · support |
 | SUPPORT_REQUIRED | Cannot self-serve | Support · PUB-001 |
+
+### ACT-013 — Accept Account Risk (NEW)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-013 |
+| **Title** | **Accept Account Risk** |
+| **Treatment** | **NEW ACTIVE** — Scope activation formula gate |
+| **Purpose** | Capture mandatory `account_risk_status = acceptable` per Scope Baseline activation formula (`email_verified` + `current_terms_accepted` + `account_risk_status = acceptable`). Previously underspecified (folded into ACT-006 entry). |
+| **User** | Email verified; current terms accepted (or ACT-012 resume when risk incomplete) |
+| **Phase** | Activate |
+| **Shell** | Activation |
+| **Entry** | After ACT-005 terms accepted; or from ACT-012 when TERMS done but risk incomplete |
+| **Primary action** | Review risk disclosure; accept / decline |
+| **Exit** | **acceptable → ACT-006**; not acceptable → **ACT-009** / **ACT-012** |
+| **Launch status** | CONTROLLED LAUNCH |
+| **Auth / assurance notes** | **Does NOT grant entitlement, XP, Mastery, or tenant membership.** Does not alone create A1; ACT-006 remains the activation-complete success surface after the full formula. |
+| **Accessibility** | Risk disclosure as structured readable content; accept/decline distinct; no color-only status |
+| **Arabic RTL** | Full RTL; legal/risk citations may use LTR islands where required |
+| **Dependencies** | Risk decisioning / policy; ACT-005; ACT-006; ACT-009; ACT-012 |
+| **Source Gate** | CR-002 / PD.2 Amendment-02 |
+| **Amendment record** | CR-002 — replaces alias inflation; Scope-required (not invented solely for count) |
+
+---
+
+## Historical Alias Appendix — ACT-004
+
+> **Counting rule:** Rows in this appendix are **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS**. They **do NOT** contribute to the governed **92**.
+
+### ACT-004 — Email Verified (HISTORICAL_REFERENCE / SUPERSEDED_ALIAS)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-004 |
+| **Title** | Email Verified *(historical)* |
+| **Treatment** | **Historical alias** — ID preserved for compatibility. **Not** an inventory-table row under v1.2.0. |
+| **Status** | **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS** |
+| **Counts toward 92?** | **No** |
+| **Semantics now provided by** | **ACT-011** state **VERIFIED** |
+| **Purpose (legacy)** | Confirm email after token (historical single success screen) |
+| **Entry map** | Any historical deep link or flow targeting ACT-004 **redirects to ACT-011** |
+| **Primary action / Exit map** | Redirect to **ACT-011**; on VERIFIED continue to **ACT-005** (same as ACT-011) |
+| **Launch status** | Compatibility redirect only; not a distinct UX destination |
+| **Auth / assurance notes** | Must not be implemented as a parallel success path that skips ACT-011 outcome handling |
+| **Dependencies** | ACT-011; client/router alias map |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 (CR-001) · counting corrected by **CR-002** |
+| **Amendment record** | CR-001 preserved ID; CR-002 moved out of inventory count table |
 
 ---
 
@@ -386,12 +450,21 @@ Micro-Mission inserts and prerequisite blocks are states/overlays on LRN-001 / L
 
 ## Count check
 
+### Counting rule
+
+```text
+Inventory table = ACTIVE / governed IDs only.
+Historical Alias Appendix (ACT-004) does NOT count.
+Aliases in inventory = 0.
+Total ACTIVE = 92.
+```
+
 ### By family
 
 | Family | Count |
 |--------|------:|
 | PUB | 8 |
-| ACT | **12** |
+| ACT | **12** ACTIVE (ACT-001…003, 005…013; ACT-004 appendix only) |
 | IDN | 6 |
 | ONB | 11 |
 | LRN | 12 |

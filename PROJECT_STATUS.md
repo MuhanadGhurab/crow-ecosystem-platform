@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.BASELINE-CORRECTION.1 — MASTER SCREEN REGISTRY 92-SCREEN RECONCILIATION — PASS
+GHV.ARCHITECTURE.1A — CORE TECHNICAL VALIDATION PLAN — PASS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -21,116 +21,88 @@ Accepted Previous Gates:
 - GHV.PROGRESSION.1C — PASS
 - GHV.PROGRESSION.1D — PASS
 - GHV.BASELINE-CORRECTION.1 — PASS
+- GHV.ARCHITECTURE.1A — PASS
 
-Product Constitution:
+Product Definition:
 LOCKED
 
-Scope Baseline:
-LOCKED — SCREEN COUNT CORRECTION APPLIED WHERE RELEVANT
-(no active screen-count field; Wing Pass SAR 90 unchanged)
-
-Master User Journey:
-LOCKED — ACTIVATION SCREEN MAPPINGS CORRECTED
-
-Interface Shells:
-7 — LOCKED
-
 Master Screen Registry:
-92 — CORRECTED AND LOCKED
-
-Email Verification Pending:
-DEFINED (ACT-003)
-
-Email Verification Result:
-DEFINED (ACT-011)
-
-Activation Recovery:
-DEFINED (ACT-012)
-
-Product Definition 2:
-PASS — CONTROLLED AMENDMENT APPLIED
-
-Product Definition 3:
-PASS — CONTROLLED AMENDMENT APPLIED
+92 — LOCKED
 
 Learning Design:
 LOCKED AS DESIGN BASELINE v1.0.0
 
-Progression Architecture:
-LOCKED AS DESIGN BASELINE
-
-Progression Formulas:
-LOCKED AS DESIGN BASELINE
-
 Progression Design:
 LOCKED AS DESIGN BASELINE v1.0.0
 
-Internal Formula Simulation:
+Core Technical Validation Plan:
 PASS
 
-Internal Synthetic Calibration:
-PASS
+Architecture Principles:
+DEFINED
 
-Counterfactual Fairness:
-PASS AT SYNTHETIC LEVEL
+System Context:
+DEFINED
 
-Integrity Red-Team:
-PASS AT DESIGN LEVEL
+Technical Domains:
+DEFINED
 
-Flight XP:
-LOCKED AS DESIGN BASELINE
+Quality Attributes:
+DRAFT VALIDATION BASELINE
 
-Momentum:
-LOCKED WITH VALIDATION CONDITIONS
+Architecture Shape:
+OPTIONS EVALUATED
+DECISION PENDING
 
-Maturity:
-LOCKED AS DESIGN BASELINE
+Frontend Architecture:
+VALIDATION PLANNED
 
-Mastery:
-LOCKED AS DESIGN BASELINE
+Backend Architecture:
+VALIDATION PLANNED
 
-Breadth:
-LOCKED AS DESIGN BASELINE
+Data Architecture:
+VALIDATION PLANNED
 
-Trust:
-LOCKED WITH VALIDATION CONDITIONS
-NON-PUBLIC STATE MODEL
+Identity and Activation:
+VALIDATION PLANNED
 
-Professional Titles:
-FOUNDATION TEMPLATES LOCKED
-CATALOGUE DEFERRED
+Learning Graph:
+VALIDATION PLANNED
 
-Prestige:
-LOCKED WITH VALIDATION CONDITIONS
-HUMAN REVIEW REQUIRED
+Progression Engine:
+VALIDATION PLANNED
 
-Achievements and Crests:
-LOCKED AS PROVISIONAL LAUNCH DESIGN CATALOGUE
+Evidence Platform:
+VALIDATION PLANNED
 
-Leaderboards:
-LOCKED AS SEPARATED DESIGN BASELINE
-POPULATION POLICY HAS VALIDATION CONDITIONS
+Community and Moderation:
+VALIDATION PLANNED
+
+Live Sky:
+VALIDATION PLANNED
+
+Security and Privacy:
+VALIDATION PLANNED
+
+Technical Spikes:
+PLANNED — NOT RUN
+Technical Spikes Run: 0 / 25
+
+Technical Decisions:
+PENDING GHV.ARCHITECTURE.1B
+No stack ADR ACCEPTED
+
+Technical Validation:
+NOT RUN
+
+Product Code:
+BLOCKED
 
 Real-User Calibration:
 NOT RUN
 
 Usability Validation:
 NOT RUN
-
-Technical Validation:
-NOT RUN
-
-Progression Implementation:
-BLOCKED
-
-Product Code:
-BLOCKED
-
-Screen Registry Reconciliation:
-COMPLETE — MASTER-SCREEN-REGISTRY v1.1.0 · 7 shells / 92 screens · CR-001 · DEC-152
-
-Architecture Gate:
-UNBLOCKED FOR GHV.ARCHITECTURE.1A
 
 Branch:
 feat/ghuravia-foundation (deploy guard active)
@@ -139,15 +111,16 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 ```text
-GHV.ARCHITECTURE.1A
-CORE TECHNICAL VALIDATION PLAN
+GHV.ARCHITECTURE.1B
+PLATFORM ARCHITECTURE AND STACK DECISIONS
 ```
 
-## Following Gate
+## Following Gates
 
 ```text
-GHV.ARCHITECTURE.1
-TECHNICAL VALIDATION
+GHV.ARCHITECTURE.1C — Identity, Security, Data and Evidence Architecture
+GHV.ARCHITECTURE.1D — Runtime, Realtime, Integration and Operational Architecture
+GHV.ARCHITECTURE.1E — Technical Spikes, Architecture Reconciliation and Baseline Lock
 ```
 
 ## Identity
@@ -162,11 +135,10 @@ TECHNICAL VALIDATION
 
 ## Authoritative entry points
 
+- [GHV.ARCHITECTURE.1A.md](./governance/gates/GHV.ARCHITECTURE.1A.md)
+- [TECHNICAL-SPIKE-REGISTRY.md](./architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md)
+- [ARCHITECTURE-READINESS-MATRIX.md](./architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md)
 - [MASTER-SCREEN-REGISTRY.md](./product/screens/MASTER-SCREEN-REGISTRY.md)
-- [CR-001-SCREEN-BASELINE-CORRECTION.md](./governance/changes/CR-001-SCREEN-BASELINE-CORRECTION.md)
-- [GHV.BASELINE-CORRECTION.1.md](./governance/gates/GHV.BASELINE-CORRECTION.1.md)
-- [SCREEN-BASELINE-FREEZE-POLICY.md](./governance/corrections/SCREEN-BASELINE-FREEZE-POLICY.md)
-- [progression/README.md](./product/progression/README.md)
 - [PROGRESSION-BASELINE-MANIFEST.md](./product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md)
 - [LEARNING-PORTFOLIO-MANIFEST.md](./product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
 - [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)

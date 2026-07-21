@@ -3,21 +3,25 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-IX-FLOW-001 |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Status** | LOCKED AT LOW FIDELITY |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · amended **GHV.BASELINE-CORRECTION.1** |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · amended **GHV.BASELINE-CORRECTION.1** · **CR-002** |
 | **Last updated** | 2026-07-21 |
 | **Related** | [WIREFRAME-REGISTRY.md](../wireframes/WIREFRAME-REGISTRY.md) · [MASTER-USER-JOURNEY.md](../journeys/MASTER-USER-JOURNEY.md) · [SCREEN-BASELINE-REFERENCE-AUDIT.md](../../governance/corrections/SCREEN-BASELINE-REFERENCE-AUDIT.md) |
 | **Scope** | CONTROLLED LAUNCH |
 | **Unresolved** | Exact Route IDs — GHV.LEARNING.1 |
-| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** (activation ACT-003 → ACT-011; ACT-012 recovery; ACT-004 superseded alias) |
+| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** · **1.2.0 — CR-002** (ACT-005 → ACT-013 → ACT-006; ACT-004 appendix-only) |
 
-Screen IDs use the locked Master Screen Registry (reconciling to **92** under GHV.BASELINE-CORRECTION.1). Wireframe IDs: `GHV-WF-<same>`.
+Screen IDs use the locked Master Screen Registry (**92 ACTIVE** under CR-002; **0 aliases** in inventory). Wireframe IDs: `GHV-WF-<same>`.
 
 ### Amendment note (v1.1.0)
 
 Activation result handling uses **ACT-011 (Email Verification Result)**, not ACT-004. **ACT-004** remains documented only as **SUPERSEDED_ALIAS → ACT-011**. Pending UX is **ACT-003 (Email Verification Pending)**. Interrupted activation uses **ACT-012 (Activation Recovery)** without mandatory-step bypass. Other critical flows (FLOW-002…016) are unchanged.
+
+### Amendment note (v1.2.0 — CR-002)
+
+Happy path: ACT-005 → **ACT-013 Accept Account Risk** → ACT-006. ACT-004 is historical appendix only (does **not** count toward 92). ACT-003 / ACT-011 / ACT-012 unchanged.
 
 ---
 
@@ -27,20 +31,20 @@ Activation result handling uses **ACT-011 (Email Verification Result)**, not ACT
 |-------|-------|
 | **User** | Visitor → A1 |
 | **Start** | PUB-001 |
-| **Steps** | PUB-001 → ACT-001 → ACT-002 → ACT-003 → ACT-011 → ACT-005 → ACT-006 → ACT-007 → ONB-001 → IDN-001 → ONB-002 → ONB-003 → ONB-007 → ONB-008 → ONB-009 (Open Flight Route) → ONB-010 → ONB-011 → LRN-001 |
+| **Steps** | PUB-001 → ACT-001 → ACT-002 → ACT-003 → ACT-011 → ACT-005 → **ACT-013** → ACT-006 → ACT-007 → ONB-001 → IDN-001 → ONB-002 → ONB-003 → ONB-007 → ONB-008 → ONB-009 (Open Flight Route) → ONB-010 → ONB-011 → LRN-001 |
 | **Decisions** | Nest path vs skip bands; Horizon; Route within free capacity |
-| **State changes** | A0→A1 (email result success + terms + acceptable risk); Origin set; Nest decision; Route entitlement Open Flight |
-| **Failures** | ACT-009 blocked; ACT-011 failure/expired; email invalid; risk deny; interrupt → ACT-012 |
+| **State changes** | A0→A1 (email result success + terms + `account_risk_status = acceptable`); Origin set; Nest decision; Route entitlement Open Flight |
+| **Failures** | ACT-009 blocked; ACT-011 failure/expired; email invalid; risk deny on ACT-013; interrupt → ACT-012 |
 | **Complete** | First Mission canvas open |
-| **Analytics** | account_created, email_verified, terms_accepted, nest_decision, route_selected, mission_started |
-| **Audit** | Terms acceptance, activation, email verification result |
-| **Acceptance** | User reaches Mission without paying; Open Flight visible; no ACT-004 in live path |
+| **Analytics** | account_created, email_verified, terms_accepted, account_risk_accepted, nest_decision, route_selected, mission_started |
+| **Audit** | Terms acceptance, risk acceptance, activation, email verification result |
+| **Acceptance** | User reaches Mission without paying; Open Flight visible; no ACT-004 in live path; ACT-013 required before ACT-006 |
 
 ### ID note — ACT-004
 
 | Field | Value |
 |-------|-------|
-| **ACT-004** | **SUPERSEDED_ALIAS** of **ACT-011** (former “Email Verified”). Do not route new flows to ACT-004. Historical PD.3 refs mean ACT-011. |
+| **ACT-004** | **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS** of **ACT-011** (former “Email Verified”). Appendix only — does **not** count toward 92. Do not route new flows to ACT-004. Historical PD.3 refs mean ACT-011. |
 
 ---
 
@@ -112,7 +116,7 @@ These paths refine FLOW-001; they do not replace FLOW-002…016.
 |-------|-------|
 | **Start** | Browser close, session loss, soft risk interrupt, or abandon mid A0→A1 |
 | **Steps** | Return (ACT-010 or deep link) → **ACT-012** Activation Recovery → compute next incomplete mandatory step |
-| **Complete** | Resume ACT-003 / ACT-011 / ACT-005 / ACT-006 as required |
+| **Complete** | Resume ACT-003 / ACT-011 / ACT-005 / ACT-013 / ACT-006 as required |
 | **Acceptance** | **No mandatory step bypass**; progress preserved where policy allows |
 
 ### FLOW-001-REC — Activation Recovery (ACT-012)
@@ -138,7 +142,7 @@ These paths refine FLOW-001; they do not replace FLOW-002…016.
 
 | Field | Value |
 |-------|-------|
-| **Start** | ACT-005 accepted + risk acceptable → ACT-006 |
+| **Start** | ACT-005 accepted → **ACT-013** acceptable → ACT-006 |
 | **Steps** | ACT-006 → ACT-007 (mobile now/later) → ONB-001 |
 | **Complete** | Leave Activation Shell into onboarding |
 | **Acceptance** | A1 recorded; optional mobile skippable for ordinary learning |
@@ -173,7 +177,7 @@ Route select → Capacity Lock → Pause Route / Upgrade / Cancel. Concurrency p
 ## FLOW-006 — Returning User
 
 ACT-010 → TRU-001 → TRU-002 if needed → SKY-001 → resume Mission position.  
-If activation incomplete: ACT-010 → **ACT-012** (or ACT-003/011/005) before Skyboard.
+If activation incomplete: ACT-010 → **ACT-012** (or ACT-003/011/005/013) before Skyboard.
 
 ## FLOW-007 — Stalled User Recovery
 

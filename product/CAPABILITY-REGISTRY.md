@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED** |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
 | **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
@@ -36,7 +36,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-001 | Landing Page | Learning | CONTROLLED LAUNCH | Discover | PUB | Defined | — | Founder | 1B |
 | CAP-ONB-002 | Registration | Identity | CONTROLLED LAUNCH | Activate | ACT | Defined | IdP | Founder | Tech |
 | CAP-ONB-003 | Email verification (Pending + Result) | Trust | CONTROLLED LAUNCH | Activate | **ACT-003 · ACT-011** | **Specified** | Email · CR-001 | Founder | BC.1 |
-| CAP-ONB-004 | Terms acceptance | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | Legal copy | Founder | Ext |
+| CAP-ONB-004 | Terms acceptance | Trust | CONTROLLED LAUNCH | Activate | **ACT-005** | Defined | Legal copy | Founder | Ext |
 | CAP-ONB-005 | Optional mobile verification | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | SMS | Founder | Tech |
 | CAP-ONB-006 | Crow personalization | Identity | CONTROLLED LAUNCH | Personalize | IDN | Defined | — | Founder | 1B |
 | CAP-ONB-007 | Origin | Identity | CONTROLLED LAUNCH | Origin | ONB | Defined | — | Founder | 1B |
@@ -46,6 +46,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-011 | Verification result / resend / expiry handling | Trust | CONTROLLED LAUNCH | Activate | **ACT-011** | **Specified** | CAP-ONB-003 · Email | Founder | BC.1 |
 | CAP-ONB-012 | Activation recovery / interrupted activation | Trust | CONTROLLED LAUNCH | Activate | **ACT-012** | **Specified** | Preserves completed gates | Founder | BC.1 |
 | CAP-ONB-013 | Safe activation support escalation | Trust | CONTROLLED LAUNCH | Activate | **ACT-012** · support | **Defined** | CAP-ONB-012 · no pay-to-skip | Founder | BC.1 |
+| CAP-ONB-014 | Account risk acceptance | Trust | CONTROLLED LAUNCH | Activate | **ACT-013** | **Specified** | Scope activation formula · CR-002 | Founder | BC.1 / CR-002 |
 
 ## Learning
 
@@ -164,13 +165,17 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - LEARNING.1A: Nest, Horizons, Route selection research, Cross-Wing, Secure Extensions, Evidence, capstones, content lifecycle → [product/learning/](./learning/README.md). Catalogue **LOCKED AS DESIGN BASELINE v1.0.0**.
 - PROGRESSION.1C: Synthetic calibration COMPLETE · CALIBRATION RECOMMENDED · PENDING 1D · NOT production calibrated · red-team **20/20 PASS** · multi-seed **25k** · see [calibration/](./progression/calibration/).
 - BASELINE-CORRECTION.1: CAP-ONB-003 matured; CAP-ONB-011/012/013 + CAP-EBUX-009 map Pending / Result / Recovery / Explainable Locks to ACT-003 · ACT-011 · ACT-012. No Product Code.
+- CR-002: CAP-ONB-014 Account risk acceptance → **ACT-013**; CAP-ONB-004 exit → ACT-013; alias-safe 92 (ACT-004 appendix only).
+- ARCHITECTURE.1A: Core Technical Validation Plan **LOCKED**; capabilities remain mapped to domains/spikes for future validation — **Technical Validation NOT RUN**; **Product Code BLOCKED**. See [TECHNICAL-VALIDATION-TRACEABILITY.md](../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) · [TECHNICAL-SPIKE-REGISTRY.md](../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md).
 
-## Activation capability trace (BC.1)
+## Activation capability trace (BC.1 / CR-002)
 
 | Capability | Pillar | User type | Journey | Screen | Flow | State | Wireframe | Validation dependency |
 |------------|--------|-----------|---------|--------|------|-------|-----------|------------------------|
 | CAP-ONB-003 | Trust | Learner | Activate | ACT-003 · ACT-011 | FLOW-001 | Pending / Result outcomes | ACTIVATION-WIREFRAMES | TECH-003 · EXT legal (email) · usability NOT RUN |
+| CAP-ONB-004 | Trust | Learner | Activate | ACT-005 | FLOW-001 | Terms accepted | ACTIVATION-WIREFRAMES | Legal copy · Ext |
 | CAP-ONB-011 | Trust | Learner | Activate | ACT-011 | FLOW-001 result/expiry/resend | VERIFIED…RISK_REVIEW_REQUIRED | ACTIVATION-WIREFRAMES | Same; tech NOT RUN |
 | CAP-ONB-012 | Trust | Learner | Activate | ACT-012 | FLOW-001-REC / INT | Interrupted / resume | ACTIVATION-WIREFRAMES | Tech NOT RUN |
 | CAP-ONB-013 | Trust | Learner / Support | Activate | ACT-012 | Support escalate | Help available | ACTIVATION-WIREFRAMES | Ops staffing |
-| CAP-EBUX-009 | Trust | Learner | Activate+ | ACT-003/011/012 + locks | Explainable Lock sheets | Assurance / incomplete | EXPLAINABLE-LOCKS | Usability NOT RUN |
+| CAP-ONB-014 | Trust | Learner | Activate | **ACT-013** | FLOW-001 / FLOW-001-DONE | `account_risk_status = acceptable` | ACTIVATION-WIREFRAMES · GHV-WF-ACT-013 | Risk policy · CR-002 |
+| CAP-EBUX-009 | Trust | Learner | Activate+ | ACT-003/011/012/013 + locks | Explainable Lock sheets | Assurance / incomplete | EXPLAINABLE-LOCKS | Usability NOT RUN |

@@ -3,19 +3,23 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-WF-REG-001 |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Status** | LOCKED AT LOW FIDELITY (registry) |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · amended **GHV.BASELINE-CORRECTION.1** |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · amended **GHV.BASELINE-CORRECTION.1** · **CR-002** |
 | **Last updated** | 2026-07-21 |
 | **Related** | [MASTER-SCREEN-REGISTRY.md](../screens/MASTER-SCREEN-REGISTRY.md) · [WIREFRAME-REVIEW-CHECKLIST.md](./WIREFRAME-REVIEW-CHECKLIST.md) · [SCREEN-BASELINE-REFERENCE-AUDIT.md](../../governance/corrections/SCREEN-BASELINE-REFERENCE-AUDIT.md) |
 | **Scope** | CONTROLLED LAUNCH coverage + deferred notes |
 | **Unresolved** | Route catalogue names — LEARNING.1; formulas — PROGRESSION.1 |
-| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** (90→**92**; ACT-003 rename; ACT-004 superseded; ACT-011/012 added) |
+| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** · **1.2.0 — CR-002** (ACT-013 added; ACT-004 appendix-only; alias-safe 92) |
 
 ### Amendment note (v1.1.0 — GHV.BASELINE-CORRECTION.1)
 
-Screens covered **90 → 92**. **ACT-003** renamed to Email Verification Pending. **ACT-004** marked **SUPERSEDED_ALIAS → ACT-011** (retain ID; do not use for new flow routing). **ACT-011** Email Verification Result and **ACT-012** Activation Recovery added as DETAILED · CONTROLLED LAUNCH · P0.
+Screens covered **90 → 92**. **ACT-003** renamed to Email Verification Pending. **ACT-004** marked **SUPERSEDED_ALIAS → ACT-011**. **ACT-011** / **ACT-012** added.
+
+### Amendment note (v1.2.0 — CR-002)
+
+Governed coverage remains **92 ACTIVE** with **0 aliases** in inventory. **ACT-004** moved to historical appendix (does not count). **ACT-013 Accept Account Risk** added as DETAILED · CONTROLLED LAUNCH · P0. Happy path: ACT-005 → ACT-013 → ACT-006.
 
 ## ID convention
 
@@ -54,14 +58,13 @@ Detailed items: **LOCKED AT LOW FIDELITY** (not final UI).
 
 Public Live Sky: see LIV-001 public-safe variant in live docs.
 
-## Activation (12 registry rows · 92-screen model)
+## Activation (12 ACTIVE · 92-screen alias-safe model)
 
 | Screen | Name | Scope | WF status | WF ID | Doc | Priority | Flow | Review |
 |--------|------|-------|-----------|-------|-----|----------|------|--------|
 | ACT-001 | Create Your Crow | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-001 | [activation/ACTIVATION-WIREFRAMES.md](./activation/ACTIVATION-WIREFRAMES.md) | P0 | FLOW-001 | LOCKED |
 | ACT-002 | Create Account | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-002 | same | P0 | FLOW-001 | LOCKED |
 | ACT-003 | Email Verification Pending | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-003 | same | P0 | FLOW-001 / FLOW-001-P | LOCKED |
-| ACT-004 | ~~Email Verified~~ — **SUPERSEDED_ALIAS → ACT-011** | CONTROLLED LAUNCH | SUPERSEDED (alias wireframe) | GHV-WF-ACT-004 | same | — | historical PD.3 only | SUPERSEDED |
 | ACT-005 | Accept Mandatory Terms | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-005 | same | P0 | FLOW-001 | LOCKED |
 | ACT-006 | Basic Account Activated | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-006 | same | P0 | FLOW-001 | LOCKED |
 | ACT-007 | Mobile Verify Now/Later | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-007 | same | P0 | FLOW-001 | LOCKED |
@@ -70,6 +73,13 @@ Public Live Sky: see LIV-001 public-safe variant in live docs.
 | ACT-010 | Sign In | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-010 | same | P0 | FLOW-006 | LOCKED |
 | ACT-011 | Email Verification Result | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-011 | same | P0 | FLOW-001 / FLOW-001-R-* | LOCKED |
 | ACT-012 | Activation Recovery | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-012 | same | P0 | FLOW-001-REC / FLOW-001-INT | LOCKED |
+| ACT-013 | Accept Account Risk | CONTROLLED LAUNCH | DETAILED | GHV-WF-ACT-013 | same | P0 | FLOW-001 / FLOW-001-DONE | LOCKED |
+
+### Historical alias (does NOT count toward 92)
+
+| Screen | Name | WF status | WF ID | Note |
+|--------|------|-----------|-------|------|
+| ACT-004 | ~~Email Verified~~ — HISTORICAL_REFERENCE / SUPERSEDED_ALIAS → ACT-011 | APPENDIX | GHV-WF-ACT-004 | ID retained; redirect ACT-011; **not** in inventory |
 
 ## Identity (6)
 
@@ -216,5 +226,5 @@ Ages 15–17 activation UX: CONDITIONAL on legal validation.
 | STATE-ONLY | notifications + grace + lab/remediation overlays |
 | CONDITIONAL | invoices wording; minors UX |
 | POST-LAUNCH DEFERRED | none of the 92 removed; depth features deferred in Scope |
-| SUPERSEDED alias | ACT-004 → ACT-011 (ID retained) |
-| **Screens covered** | **92 / 92** |
+| SUPERSEDED alias (appendix only) | ACT-004 → ACT-011 (ID retained; **does not count**) |
+| **Screens covered (ACTIVE)** | **92 / 92** · **0 aliases** in inventory |

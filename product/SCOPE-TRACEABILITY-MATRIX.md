@@ -88,9 +88,10 @@ See [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MA
 | CAP-ONB-011 | Trust | CONTROLLED LAUNCH | Learner | Activate | ACT-011 | FLOW-001 result paths | ACTIVATION-WIREFRAMES | Outcome set | — | DEC-152 | Same |
 | CAP-ONB-012 | Trust | CONTROLLED LAUNCH | Learner | Activate | ACT-012 | FLOW-001-REC / INT | ACTIVATION-WIREFRAMES | Recovery | — | DEC-152 | Same |
 | CAP-ONB-013 | Trust | CONTROLLED LAUNCH | Learner | Activate | ACT-012 | Support | ACTIVATION-WIREFRAMES | Escalate | — | DEC-152 | Same |
-| CAP-EBUX-009 | Trust | CORE + CONTROLLED LAUNCH | Learner | Activate+ | ACT-003/011/012 | Explainable Locks | EXPLAINABLE-LOCKS | Assurance | — | DEC-152 | Same |
+| CAP-ONB-014 | Trust | CONTROLLED LAUNCH | Learner | Activate | **ACT-013** | FLOW-001 / DONE | ACTIVATION-WIREFRAMES | Risk acceptable | — | **DEC-153** | Doc COMPLETE · usability/tech NOT RUN |
+| CAP-EBUX-009 | Trust | CORE + CONTROLLED LAUNCH | Learner | Activate+ | ACT-003/011/012/013 | Explainable Locks | EXPLAINABLE-LOCKS | Assurance | — | DEC-152/153 | Same |
 
-No new screen lacks a capability owner. No affected capability points only to superseded ACT-004 as destination.
+No new screen lacks a capability owner. No affected capability points only to superseded ACT-004 as destination. ACT-004 is appendix-only and does **not** count toward 92.
 
 ## Gaps intentionally open
 
@@ -103,5 +104,7 @@ No new screen lacks a capability owner. No affected capability points only to su
 | Title catalogue | DEFERRED |
 | Prestige panel operations | PENDING staffing |
 | Screen registry reconciliation | **COMPLETE** (BASELINE-CORRECTION.1) |
-| Runtime event/ledger implementation | PENDING ARCHITECTURE.1A |
+| Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1B–1E · plan locked in **1A** · spikes **NOT RUN** |
+| Core Technical Validation Plan | **LOCKED** (1A) — not technical validation complete |
 | Treating formulas as production calibrated | **Forbidden** until real-user + tech path |
+| Product Code / stack ACCEPTED | **BLOCKED** / **none** |

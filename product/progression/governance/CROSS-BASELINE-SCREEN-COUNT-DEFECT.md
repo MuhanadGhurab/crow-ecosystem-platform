@@ -3,19 +3,21 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-GOV-SCR-DEF-001 |
-| **Version** | 1.1.0 |
-| **Status** | **RESOLVED BY GHV.BASELINE-CORRECTION.1** |
+| **Version** | 1.2.0 |
+| **Status** | **RESOLVED BY GHV.BASELINE-CORRECTION.1** · alias-safe recount **CR-002** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1D §30 · resolved GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.PROGRESSION.1D §30 · resolved GHV.BASELINE-CORRECTION.1 · amended CR-002 |
 | **Last updated** | 2026-07-21 |
-| **Risk ID** | **RISK-PRG-057** — **RESOLVED BY CONTROLLED BASELINE CORRECTION** |
+| **Risk ID** | **RISK-PRG-057** — **RESOLVED** · **RISK-PRG-058** alias inflation — **RESOLVED** |
 | **Dependency ID** | **DEP-075** — **SATISFIED** |
-| **Blocks** | *(former)* **GHV.ARCHITECTURE.1A** — **UNBLOCKED** for screen-count |
-| **Correction Gate** | **GHV.BASELINE-CORRECTION.1 — PASS** · CR-001 · DEC-152 |
+| **Blocks** | *(former)* **GHV.ARCHITECTURE.1A** — **UNBLOCKED** for screen-count · alias-inflation preflight **PASS** |
+| **Correction Gate** | **GHV.BASELINE-CORRECTION.1 — PASS** · CR-001 · DEC-152 · **CR-002 · DEC-153** |
 
 ```text
-RESOLVED BY GHV.BASELINE-CORRECTION.1
-Master Screen Registry v1.1.0 = 92 / 7 shells
+RESOLVED BY GHV.BASELINE-CORRECTION.1 (+ CR-002 alias-safe amendment)
+Master Screen Registry v1.2.0 = 92 ACTIVE / 7 shells / 0 aliases in inventory
+ACT-004 HISTORICAL_REFERENCE — does NOT count
+ACT-013 Accept Account Risk — ACTIVE
 Learning Design Baseline UNCHANGED
 Progression Design Baseline UNCHANGED
 Product Code BLOCKED
@@ -58,9 +60,9 @@ This was a **governance defect**, not a Progression formula defect.
 
 | Source | Count after correction | Evidence |
 |--------|----------------------:|---------|
-| MASTER-SCREEN-REGISTRY v1.1.0 | **92** | CR-001 · DEC-152 |
-| AUTHORITATIVE-SOURCE-MAP v1.6.0 | **92** | ACTIVE AUTHORITATIVE |
-| WIREFRAME-REGISTRY v1.1.0 | **92** | PD.3 Amendment-01 |
+| MASTER-SCREEN-REGISTRY v1.2.0 | **92 ACTIVE** (0 aliases) | CR-001 · **CR-002** · DEC-152 · **DEC-153** |
+| AUTHORITATIVE-SOURCE-MAP v1.7.0 | **92 ACTIVE** | ACTIVE AUTHORITATIVE |
+| WIREFRAME-REGISTRY v1.2.0 | **92 ACTIVE** | PD.2 Amendment-02 |
 
 ---
 
@@ -109,3 +111,5 @@ Resolution does not authorize Product Code, does not complete technical or usabi
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.PROGRESSION.1D §30 — record cross-baseline 90 vs 92 screen-count defect |
 | 1.1.0 | 2026-07-21 | **RESOLVED BY GHV.BASELINE-CORRECTION.1** — CR-001 · DEC-152 · registry v1.1.0 |
+| 1.2.0 | 2026-07-21 | Alias-safe amendment — CR-002 · DEC-153 · registry v1.2.0 · ACT-013 · ACT-004 appendix |
+| 1.2.0 | 2026-07-21 | Alias-safe amendment — CR-002 · DEC-153 · registry v1.2.0 · ACT-013 · ACT-004 appendix |

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.11.0 |
+| **Version** | 1.12.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1586,8 +1586,152 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | Field | Value |
 |-------|-------|
 | **Decision** | Authoritative GHURAVIA screen baseline is **92 screens across seven interface shells**. Previous active registry count **90** corrected under **CR-001** without silent historical rewrite or global renumbering. Net **+2**: ACT-011 Email Verification Result · ACT-012 Activation Recovery. ACT-003 Email Verification Pending retained. ACT-004 preserved as **SUPERSEDED_ALIAS**. PD.2 and PD.3 remain **PASS — AMENDED, NOT RERUN**. Architecture Gate **GHV.ARCHITECTURE.1A** unblocked for the former screen-count dependency. Learning and Progression design baselines **unchanged**. Product Code remains **BLOCKED**. |
-| **Status** | Accepted |
+| **Status** | Accepted — **AMENDED BY DEC-153** (alias-safe counting) |
 | **Rationale** | Closes cross-baseline count defect; freezes corrected inventory under SCREEN-BASELINE-FREEZE-POLICY. |
 | **Related Gate** | GHV.BASELINE-CORRECTION.1 |
 | **Evidence** | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) · [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) · [SCREEN-BASELINE-VALIDATION-REPORT.md](../corrections/SCREEN-BASELINE-VALIDATION-REPORT.md) · [SCREEN-BASELINE-FREEZE-POLICY.md](../corrections/SCREEN-BASELINE-FREEZE-POLICY.md) |
+
+### DEC-152 addendum (superseded counting clause)
+
+CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture Gate rules require SUPERSEDED_ALIAS **not** to count. See **DEC-153** / **CR-002**.
+
+## DEC-153 — Alias-safe 92-screen counting + ACT-013 risk accept
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Governed screen baseline remains **92 ACTIVE IDs / 7 shells** with **0 aliases in the inventory table**. **ACT-004** is **HISTORICAL_REFERENCE / SUPERSEDED_ALIAS** in a Historical Alias Appendix only and **does NOT** contribute to 92 (redirect → ACT-011 VERIFIED). **ACT-013 Accept Account Risk** is **NEW ACTIVE** Activation screen capturing mandatory `account_risk_status = acceptable` per Scope activation formula (previously underspecified / folded into ACT-006). Happy path: ACT-005 → ACT-013 → ACT-006. ACT-003 / ACT-011 / ACT-012 titles and roles unchanged. No email-verification duplicate. PD.2 remains **PASS — AMENDED** (Amendment-02). Learning and Progression baselines **unchanged**. Product Code remains **BLOCKED**. |
+| **Status** | Accepted |
+| **Rationale** | Closes ARCHITECTURE.1A preflight alias inflation (91 ACTIVE when ACT-004 excluded) without inventing duplicate email screens; surfaces Scope-required risk gate. |
+| **Related Gate** | GHV.BASELINE-CORRECTION.1 (amended by CR-002) · GHV.ARCHITECTURE.1A preflight |
+| **Evidence** | [CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md](../changes/CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md) · [GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md) · [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) v1.2.0 · [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) |
+
+## DEC-154 — Architecture programme structure
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHURAVIA technical-architecture programme is sequenced **1A** Core Technical Validation Plan → **1B** Platform Architecture and Stack Decisions → **1C** Identity, Security, Data and Evidence → **1D** Runtime, Realtime, Integration and Operational → **1E** Technical Spikes, Architecture Reconciliation and Baseline Lock. **1A** plans validation only and must not prematurely perform later Gate work. |
+| **Status** | Accepted |
+| **Rationale** | Prevents premature stack lock and Product Code while establishing an ordered evidence path. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [GHV.ARCHITECTURE.1A.md](../gates/GHV.ARCHITECTURE.1A.md) · [TECHNICAL-VALIDATION-DEPENDENCY-GRAPH.md](../../architecture/ghuravia/validation/TECHNICAL-VALIDATION-DEPENDENCY-GRAPH.md) |
+
+## DEC-155 — Architecture principles
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Architecture principles defined under GHV.ARCHITECTURE.1A (product baseline before technology; Evidence before Mastery; entitlement separate from progression; secure/privacy/Arabic-first/accessibility; idempotent events; auditable corrections; local recalculation; vendor-neutral domain logic; replaceable providers; graceful degradation; observable ops) are **DEFINED as validation-plan authority**. They are **not** a stack lock and do **not** authorize Product Code. |
+| **Status** | Accepted |
+| **Rationale** | Principles constrain option space before spikes and ADRs. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | architecture/ghuravia/principles/ARCHITECTURE-PRINCIPLES.md (programme) · [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) |
+
+## DEC-156 — Technical domain catalogue
+
+| Field | Value |
+|-------|-------|
+| **Decision** | The technical domain catalogue (Public Experience through Integration Gateway / deployment) is the governed domain inventory for validation planning. Domains own responsibilities and validation questions; **no database tables** are defined by this decision. |
+| **Status** | Accepted |
+| **Rationale** | Enables readiness matrix and spike ownership without schema invention. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [ARCHITECTURE-READINESS-MATRIX.md](../../architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md) |
+
+## DEC-157 — Quality-attribute process
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Quality-attribute scenarios (QAS-*) are governed validation inputs: each P0-relevant QAS must map to a spike or explicit rationale. QAS status remains **DRAFT VALIDATION BASELINE** until spikes produce evidence. |
+| **Status** | Accepted |
+| **Rationale** | Ties architecture questions to measurable scenarios without claiming validation complete. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) |
+
+## DEC-158 — No inherited-stack auto-approval
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Presence of CyberCrow / inherited repository technologies, configs, or docs does **not** auto-approve them for GHURAVIA. Inherited items are **DISCOVERED / INHERITED / VALIDATION REQUIRED** until spikes and ADRs decide. |
+| **Status** | Accepted |
+| **Rationale** | Prevents inherited-technology bias (RISK-ARC-002). |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) · SPK-ARC-001 |
+
+## DEC-159 — No graph-database-by-name assumption
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Learning Graph semantics must be validated without assuming a dedicated graph database by product name. Relational/typed representations are first-class candidates; any graph-DB option requires comparative evidence (SPK-ARC-005). |
+| **Status** | Accepted |
+| **Rationale** | Avoids vendor-by-name lock and database coupling. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | SPK-ARC-005 · ASM-ARC-003 · RISK-ARC-004 |
+
+## DEC-160 — Event idempotency requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Progression and commercial event ingress must be designed for **idempotent** application (duplicate keys must not double-apply standing or entitlements). Implementation remains **BLOCKED** until SPK-ARC-010 / SPK-ARC-012 evidence. |
+| **Status** | Accepted |
+| **Rationale** | Data-integrity invariant from Progression Design Baseline and QAS-004. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | SPK-ARC-010 · 012 · RISK-ARC-005 · 020 |
+
+## DEC-161 — Formula-version preservation requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Historical standings must remain reproducible under their **stored formula versions**. Silent parameter drift is forbidden. Technical proof deferred to SPK-ARC-011 (NOT RUN). |
+| **Status** | Accepted |
+| **Rationale** | Protects locked FINAL-FORMULA-VERSION-REGISTRY meanings at runtime. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | SPK-ARC-011 · RISK-ARC-007 · QAS-013 |
+
+## DEC-162 — Evidence-object separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evidence Objects are a distinct technical concern from public media and from progression meters: storage isolation, resumable upload, and scanning are mandatory validation themes (SPK-ARC-007 · 008). No schema authorized in 1A. |
+| **Status** | Accepted |
+| **Rationale** | Security and integrity of professional Evidence. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | SPK-ARC-007 · 008 · RISK-ARC-008 · 009 |
+
+## DEC-163 — External-provider adapter principle
+
+| Field | Value |
+|-------|-------|
+| **Decision** | External providers (identity, email, SMS, payments, storage, search, realtime, observability) must sit behind **replaceable adapters**; domain logic remains vendor-neutral. Provider selection ADRs stay **PROPOSED** until evaluation spikes. |
+| **Status** | Accepted |
+| **Rationale** | Reduces lock-in and outage blast radius. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | ADR-ARC-004…009 · RISK-ARC-011 · 012 |
+
+## DEC-164 — Technical-spike governance
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All technical spikes follow [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md). SPK-ARC-001…025 are registered **PLANNED · NOT RUN**. In 1A: **code DENIED**, **database DENIED**, **deploy DENIED**. Spikes must not quietly become Product Code. |
+| **Status** | Accepted |
+| **Rationale** | Controls experiment scope and evidence quality. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md) · [TECHNICAL-SPIKE-PRIORITY-MATRIX.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-PRIORITY-MATRIX.md) |
+
+## DEC-165 — Stack lock deferred to GHV.ARCHITECTURE.1B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Final platform/stack lock is **deferred to GHV.ARCHITECTURE.1B**. 1A may propose ADRs and options only. **No stack ADR is ACCEPTED** in 1A. |
+| **Status** | Accepted |
+| **Rationale** | Evidence-before-lock; RISK-ARC-001. |
+| **Related Gate** | GHV.ARCHITECTURE.1A · next 1B |
+| **Evidence** | [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) · GATE-REGISTER |
+
+## DEC-166 — Product Code remains blocked
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Product Code remains **BLOCKED** after GHV.ARCHITECTURE.1A PASS. Validation plan lock ≠ technical validation ≠ implementation authorization. Product Code requires later Gate authorization after spike evidence (programme target: post-1E). |
+| **Status** | Accepted |
+| **Rationale** | Preserves docs-first integrity and anti-premature-build rule. |
+| **Related Gate** | GHV.ARCHITECTURE.1A |
+| **Evidence** | [PROJECT_STATUS.md](../../PROJECT_STATUS.md) · [BASELINE-MANIFEST.md](../releases/BASELINE-MANIFEST.md) |
 

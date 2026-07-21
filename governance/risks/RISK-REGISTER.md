@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.11.0 |
+| **Version** | 1.12.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
-| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock and synthetic 1D PASS do **not** close Open synthetic-only or validation-debt risks. Screen-count defect RISK-PRG-057 is resolved by controlled baseline correction. |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
+| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock, synthetic 1D PASS, and **Core Technical Validation Plan lock** do **not** close Open validation-debt risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -261,6 +261,17 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-PRG-054 | Formula overfitting to synthetic cohorts | H | H | H | Quota retunes to histograms | Calibration principles locked | Reject cosmetic retunes | Founder | Open | 1D | SIM |
 | RISK-PRG-055 | Arabic explainability gaps | M | H | H | EN-only explanations | AR/EN explainability package | Localization review | Founder | Open | Launch | EXP |
 | RISK-PRG-056 | Real-user behavior differs materially from synthetic | H | H | H | Internal calibration alone | DEC-134/148; real-user NOT RUN | Delay production confidence | Founder | Open | Pilot | SIM |
-| RISK-PRG-057 | Screen-count baseline defect (90 listed vs 92 authoritative / 7 shells) | H | H | H | ARCHITECTURE.1A without reconcile | Record defect; **GHV.BASELINE-CORRECTION.1**; do not silently rewrite in Progression Gates | Block ARCH.1A until correction | Founder | **RESOLVED BY CONTROLLED BASELINE CORRECTION** | 2026-07-21 · CR-001 · DEC-152 · residual: registry drift | SCR |
+| RISK-PRG-057 | Screen-count baseline defect (90 listed vs 92 authoritative / 7 shells) | H | H | H | ARCHITECTURE.1A without reconcile | Record defect; **GHV.BASELINE-CORRECTION.1**; do not silently rewrite in Progression Gates | Block ARCH.1A until correction | Founder | **RESOLVED BY CONTROLLED BASELINE CORRECTION** | 2026-07-21 · CR-001 · DEC-152 · residual closed by CR-002/DEC-153 (alias-safe) | SCR |
+| RISK-PRG-058 | Screen-baseline alias inflation (SUPERSEDED_ALIAS counted in inventory → 91 ACTIVE) | H | H | H | ARCH.1A preflight false 92 | **CR-002**: ACT-004 appendix-only; ACT-013 risk accept ACTIVE; alias-safe counting locked | Re-verify 0 aliases in inventory before Material CRs | Founder | **RESOLVED BY CR-002 / DEC-153** | 2026-07-21 · preflight PASS | SCR |
+| RISK-ARC-001 | Premature stack lock | H | H | H | Accept stack in 1A without spikes | DEC-165 · ADR register empty of ACCEPTED stack | Keep stack PENDING 1B | Founder | **BLOCKING DECISION** | Open — plan ≠ mitigation | ARCH |
+| RISK-ARC-002 | Inherited-technology bias | H | H | H | Treat CyberCrow paths as approved | DEC-158 · SPK-ARC-001 | Reject silent ACCEPTED | Founder | **OPEN** | Open | ARCH |
+| RISK-ARC-005 | Event duplication | H | H | H | Double-apply standing | SPK-ARC-010 · DEC-160 | Block implementation until evidence | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-007 | Formula-version drift | H | H | H | Silent parameter rewrite | SPK-ARC-011 · DEC-161 | Block implementation until evidence | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-008 | Evidence-object exposure | H | H | H | Public Evidence URLs | SPK-ARC-007 · DEC-162 | Limit uploads until isolation | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-020 | Entitlement/progression coupling | H | H | H | Pay-to-win path | SPK-ARC-012 | Keep ledgers separate | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-021 | Trust privacy leakage | H | H | H | Public Trust score | SPK-ARC-013 · 024 · 025 | Block launch surfaces | Founder | **BLOCKING LAUNCH** | Open | ARCH |
+| RISK-ARC-029 | Preview/production isolation failure | H | H | H | Shared Production DB on Preview | SPK-ARC-021 · TECH-018 | Block Preview runtime | Founder | **BLOCKING IMPLEMENTATION** | Open | ARCH |
+| RISK-ARC-031 | Founder operational overload | H | M | H | Over-wide architecture | Capacity ASM · modular monolith bias | Shrink WIP | Founder | **MONITORED** | Continuous | ARCH |
+| RISK-ARC-033 | Stale architecture documentation | M | M | M | Docs drift after 1A | Source map · readiness matrix | Reconcile in 1E | Founder | **MONITORED** | Continuous | ARCH |
 
-Architecture, simulation, synthetic calibration, and **Progression Design Baseline lock** do **not** close these risks; real-user pilots, staffing, screen reconciliation, and operational controls remain required.
+Architecture, simulation, synthetic calibration, **Progression Design Baseline lock**, and **Core Technical Validation Plan lock** do **not** close these risks; spikes, real-user pilots, staffing, and operational controls remain required. Full architecture risk set: [ARCHITECTURE-RISK-REGISTER.md](../../architecture/ghuravia/governance/ARCHITECTURE-RISK-REGISTER.md).

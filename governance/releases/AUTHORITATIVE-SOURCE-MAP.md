@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.6.0 |
+| **Version** | 1.8.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -46,16 +46,38 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Cross-Wing access formula | Scope Baseline | Atlas in cross-wing template |
 | Account activation formula | Constitution (+ journey) | — |
 | Master User Journey phases | [MASTER-USER-JOURNEY.md](../../product/journeys/MASTER-USER-JOURNEY.md) | — |
-| Screen IDs | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | **ACTIVE AUTHORITATIVE** — **92 screens / 7 shells** · corrected under **GHV.BASELINE-CORRECTION.1** · CR-001 · DEC-152 |
-| Authoritative screen count | MASTER-SCREEN-REGISTRY + [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](../../product/screens/SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) | **92** |
+| Screen IDs | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | **ACTIVE AUTHORITATIVE** — **92 ACTIVE / 7 shells · 0 aliases in inventory** · v1.2.0 · CR-001 · **CR-002** · DEC-152 · **DEC-153** |
+| Authoritative screen count | MASTER-SCREEN-REGISTRY + [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](../../product/screens/SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) | **92 ACTIVE** |
 | Authoritative shell count | Same | **7** |
-| Screen ID correction map | [SCREEN-ID-CORRECTION-MAP.md](../../product/screens/SCREEN-ID-CORRECTION-MAP.md) | ACT-003/004/011/012 dispositions |
-| PD.2 amendment | [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) | PASS — AMENDED, NOT RERUN |
+| Screen ID correction map | [SCREEN-ID-CORRECTION-MAP.md](../../product/screens/SCREEN-ID-CORRECTION-MAP.md) | ACT-003/011/012/013 ACTIVE · ACT-004 appendix only |
+| PD.2 amendment | [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) · [GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md) | PASS — AMENDED, NOT RERUN |
 | PD.3 amendment | [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md) | PASS — AMENDED, NOT RERUN |
-| Screen baseline Change Record | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) | Approved · CONTROLLED BASELINE CORRECTION |
+| Screen baseline Change Record | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) · [CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md](../changes/CR-002-SCREEN-ALIAS-INFLATION-REMEDIATION.md) | Approved · CONTROLLED BASELINE CORRECTION |
+| Architecture screen preflight | [SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-ARCHITECTURE-PREFLIGHT.md) | **PASS — 92 WITHOUT ALIAS INFLATION** |
+| **Architecture principles** | architecture/ghuravia/principles/ARCHITECTURE-PRINCIPLES.md | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **System context** | architecture/ghuravia/context/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Domain catalogue** | architecture/ghuravia/domains/TECHNICAL-DOMAIN-CATALOGUE.md | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Quality attributes** | architecture/ghuravia/quality/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Architecture options / shape** | architecture/ghuravia/options/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** · stack PENDING 1B |
+| **Frontend validation** | architecture/ghuravia/frontend/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Backend validation** | architecture/ghuravia/backend/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Data validation** | architecture/ghuravia/data/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Identity validation** | architecture/ghuravia/identity/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Learning Graph validation** | architecture/ghuravia/learning/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Progression validation** | architecture/ghuravia/progression/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Evidence validation** | architecture/ghuravia/evidence/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Live Sky validation** | architecture/ghuravia/live/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Security validation** | architecture/ghuravia/security/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Privacy validation** | architecture/ghuravia/privacy/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Operations validation** | architecture/ghuravia/operations/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Deployment validation** | architecture/ghuravia/deployment/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Spike registry / standard / priority** | [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md) · [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md) · [TECHNICAL-SPIKE-PRIORITY-MATRIX.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-PRIORITY-MATRIX.md) | **VALIDATION PLAN · Spikes NOT RUN** |
+| **Architecture readiness** | [ARCHITECTURE-READINESS-MATRIX.md](../../architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md) | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **Technical traceability** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
+| **ADR framework / register** | [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) · [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) | **No ACCEPTED stack ADRs** |
 | Historical 90-count claims | PD.3 Gate report · DEC-051 count clause · registry v1.0.0 | **HISTORICAL / SUPERSEDED** — not active authority |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
-| Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · **92** coverage (v1.1.0) |
+| Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · **92 ACTIVE** coverage (v1.2.0) |
 | Interaction grammar | [INTERACTION-GRAMMAR.md](../../product/interactions/INTERACTION-GRAMMAR.md) | — |
 | Critical flows | [CRITICAL-FLOWS.md](../../product/interactions/CRITICAL-FLOWS.md) | FLOW-001–016 |
 | Commercial narrative | [COMMERCIAL-BASELINE.md](../commercial/COMMERCIAL-BASELINE.md) | Prices link to Scope |
@@ -133,4 +155,4 @@ If a lower-level document contradicts a higher-level document, correct the lower
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Active screen inventory authority is **92 / 7 shells**; historical **90** counts are superseded.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Active screen inventory authority is **92 ACTIVE / 7 shells · 0 aliases in inventory** (v1.2.0); historical **90** counts and alias-inflated inventory models are superseded.

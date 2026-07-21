@@ -3,12 +3,22 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
 
 Items remain **NOT RUN** for runtime readiness unless noted. No final vendors selected. Screen-registry **documentation** checks below may be COMPLETE without authorizing Product Code.
+
+```text
+GHV.ARCHITECTURE.1A — Core Technical Validation Plan PASS / LOCKED
+Technical Spikes Run = 0 (SPK-ARC-001…025 PLANNED · NOT RUN)
+Technical Validation = NOT RUN
+Product Code = BLOCKED
+No stack ACCEPTED
+```
+
+Spike programme: [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md)
 
 | ID | Topic | Candidate notes | Blocking for | Status |
 |----|-------|-----------------|--------------|--------|
@@ -41,5 +51,6 @@ Items remain **NOT RUN** for runtime readiness unless noted. No final vendors se
 | SCR-008 | Arabic RTL review (implementation) | ACT-003/011/012 | Controlled launch | **NOT RUN** |
 | SCR-009 | Security review (runtime auth/email) | Activation assurance | Implementation | **NOT RUN** |
 | SCR-010 | Usability review (activation) | Pending/Result/Recovery | Implementation waves | **NOT RUN** |
+| SPK-ARC-001…025 | Architecture technical spikes (programme) | Priority P0=6 · P1=8 · P2=8 · P3=3 | Stack lock / implementation / launch | **PLANNED · NOT RUN** — code/db/deploy **DENIED** in 1A |
 
-Evidence: [VERCEL-PRE-PUSH-VERIFICATION.md](../operations/VERCEL-PRE-PUSH-VERIFICATION.md) · [SCREEN-BASELINE-VALIDATION-REPORT.md](../../governance/corrections/SCREEN-BASELINE-VALIDATION-REPORT.md)
+Evidence: [VERCEL-PRE-PUSH-VERIFICATION.md](../operations/VERCEL-PRE-PUSH-VERIFICATION.md) · [SCREEN-BASELINE-VALIDATION-REPORT.md](../../governance/corrections/SCREEN-BASELINE-VALIDATION-REPORT.md) · [GHV.ARCHITECTURE.1A.md](../../governance/gates/GHV.ARCHITECTURE.1A.md)

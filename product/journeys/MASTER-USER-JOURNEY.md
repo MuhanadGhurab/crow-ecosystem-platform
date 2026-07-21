@@ -3,15 +3,19 @@
 | Field | Value |
 |-------|-------|
 | **Status** | LOCKED — Authoritative |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.FOUNDATION.1A · amended **GHV.BASELINE-CORRECTION.1** |
+| **Source Gate** | GHV.FOUNDATION.1A · amended **GHV.BASELINE-CORRECTION.1** · **CR-002** |
 | **Related** | [NAVIGATION-MAP.md](./NAVIGATION-MAP.md) · [MASTER-SCREEN-REGISTRY.md](../screens/MASTER-SCREEN-REGISTRY.md) · [PRODUCT-CONSTITUTION.md](../../governance/constitution/PRODUCT-CONSTITUTION.md) · [CRITICAL-FLOWS.md](../interactions/CRITICAL-FLOWS.md) · [SCREEN-BASELINE-REFERENCE-AUDIT.md](../../governance/corrections/SCREEN-BASELINE-REFERENCE-AUDIT.md) |
 
 ## Amendment note (v1.1.0 — GHV.BASELINE-CORRECTION.1)
 
 Activation sequence corrected to authoritative screens: **Email Verification Pending (ACT-003)** → **Email Verification Result (ACT-011)** before mandatory Terms. **Activation Recovery (ACT-012)** is reachable from governed failure/interruption points. **ACT-004** is a superseded alias of ACT-011 (not used in journey steps). Total inventory target: **92 screens / 7 shells**. No mandatory activation step may be bypassed. **Verified email ≠ tenant auth ≠ elevated assurance.**
+
+## Amendment note (v1.2.0 — CR-002)
+
+Happy path inserts **Accept Account Risk (ACT-013)** after Terms and before Basic Account Activated: ACT-005 → **ACT-013** → ACT-006. Scope formula: `email_verified` + `current_terms_accepted` + `account_risk_status = acceptable`. ACT-004 remains historical appendix only (does **not** count toward 92). ACT-003 / ACT-011 / ACT-012 titles and roles unchanged. Governed inventory: **92 ACTIVE · 0 aliases**.
 
 ## Journey phases
 
@@ -39,6 +43,7 @@ Landing Page
 → Email Verification Pending (ACT-003)
 → Email Verification Result (ACT-011)
 → Accept Mandatory Terms (ACT-005)
+→ Accept Account Risk (ACT-013)
 → Basic Account Activated (ACT-006)
 → Verify Mobile Now or Later (ACT-007)
 → Personalize Your Crow
@@ -61,7 +66,7 @@ Landing Page
 Governed interruption / failure during activation
 → Activation Recovery (ACT-012)
 → Resume at the next incomplete mandatory step
-   (ACT-003 · ACT-011 · ACT-005 · …)
+   (ACT-003 · ACT-011 · ACT-005 · ACT-013 · …)
 → Never skip mandatory steps
 → Verified email alone does not grant tenant auth or elevated assurance
 ```
@@ -79,14 +84,14 @@ Login
 → Continue Previous Flight
 ```
 
-Unfinished activation after Sign In resumes via ACT-012 or directly into the incomplete activation screen (ACT-003 / ACT-011 / ACT-005 as applicable).
+Unfinished activation after Sign In resumes via ACT-012 or directly into the incomplete activation screen (ACT-003 / ACT-011 / ACT-005 / ACT-013 as applicable).
 
 ## Phase contracts
 
 | Phase | Entry | Primary outcome | Failure / deferral |
 |-------|-------|-----------------|--------------------|
 | Discover | Public visitor | Intent to create Crow / account | Exit site |
-| Activate | Registration started | A1 basic account | Stuck at A0 until email result success + terms; recovery via ACT-012 without bypass |
+| Activate | Registration started | A1 basic account | Stuck at A0 until email result success + terms + risk accept; recovery via ACT-012 without bypass |
 | Personalize | A1 | Wingprint basics set | Skip limited cosmetics later |
 | Origin | Crow personalized | Origin recorded | Soft default with review prompt |
 | Nest decision | Origin set | Ready to Fly / Guided Skip / Nest Recommended | Nest path if < 50% — see [Scope Baseline](../../governance/scope/SCOPE-BASELINE.md) §3.5 |

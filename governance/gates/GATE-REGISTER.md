@@ -3,15 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.12.0 |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A · prior **CR-002** alias remediation |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
 | GHV.PRODUCT-DEFINITION.1 | Product Definition | PASS | Parent input |
-| GHV.PRODUCT-DEFINITION.2 | Product Definition | **PASS — AMENDED** | Amended by [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](./GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) · 92 screens · not rerun |
+| GHV.PRODUCT-DEFINITION.2 | Product Definition | **PASS — AMENDED** | Amended by [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](./GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) · [GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md](./GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md) · alias-safe **92** · not rerun |
 | GHV.REPOSITORY-TRANSITION.1A | Repository Transition | ACCEPTED PARTIAL | Local governance |
 | GHV.FOUNDATION.1A | Governance Baseline Materialization | PASS | Scaffold + registers |
 | GHV.REPOSITORY-TRANSITION.1B | Pre-Push Infrastructure Verification | PASS | Guard + first push |
@@ -25,14 +25,16 @@
 | GHV.PROGRESSION.1B | Formulas, Thresholds and Simulation | PASS | Simulation candidates · calibrated in 1C |
 | GHV.PROGRESSION.1C | Integrity, Fairness and Calibration | PASS | CALIBRATION RECOMMENDED · synthetic only · superseded into 1D design lock |
 | GHV.PROGRESSION.1D | Final Progression Baseline Lock | **PASS** | **Progression Design Baseline v1.0.0 LOCKED** · conditional locks MOM/TRU/PRS/POP · Product Code BLOCKED |
-| GHV.BASELINE-CORRECTION.1 | Master Screen Registry 92-Screen Reconciliation | **PASS** | **PASS — GHURAVIA 92-SCREEN BASELINE RECONCILED** · CR-001 · DEC-152 |
-| GHV.ARCHITECTURE.1A | Core Technical Validation Plan | NOT STARTED | **Next** · screen-count unblock complete |
+| GHV.BASELINE-CORRECTION.1 | Master Screen Registry 92-Screen Reconciliation | **PASS — AMENDED BY CR-002** | CR-001 · DEC-152 · **CR-002 · DEC-153** alias-safe recount · ACT-013 |
+| GHV.ARCHITECTURE.1A | Core Technical Validation Plan | **PASS** | **PASS — GHURAVIA CORE TECHNICAL VALIDATION PLAN LOCKED** · spikes **0 RUN** · stack **NOT LOCKED** · Product Code **BLOCKED** · CR-002 alias-safe preflight retained |
+| GHV.ARCHITECTURE.1B | Platform Architecture and Stack Decisions | NOT STARTED | **Next** |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 Reports:
 
 - [GHV.FOUNDATION.1B.md](./GHV.FOUNDATION.1B.md)
 - [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](./GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md)
+- [GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md](./GHV.PRODUCT-DEFINITION.2-AMENDMENT-02.md)
 - [GHV.PRODUCT-DEFINITION.3.md](./GHV.PRODUCT-DEFINITION.3.md)
 - [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](./GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md)
 - [GHV.LEARNING.1A.md](./GHV.LEARNING.1A.md)
@@ -44,3 +46,4 @@ Reports:
 - [GHV.PROGRESSION.1C.md](./GHV.PROGRESSION.1C.md)
 - [GHV.PROGRESSION.1D.md](./GHV.PROGRESSION.1D.md)
 - [GHV.BASELINE-CORRECTION.1.md](./GHV.BASELINE-CORRECTION.1.md)
+- [GHV.ARCHITECTURE.1A.md](./GHV.ARCHITECTURE.1A.md)

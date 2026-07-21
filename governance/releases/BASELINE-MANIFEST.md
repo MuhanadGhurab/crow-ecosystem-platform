@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.11.0 |
+| **Version** | 1.13.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1A |
 
 ## Active baseline set
 
@@ -14,8 +14,8 @@
 |-------|--------|
 | GHURAVIA Product Constitution v1.0 | **ACTIVE — LOCKED** |
 | GHURAVIA Scope Baseline v1.0 | **ACTIVE — LOCKED** |
-| Interaction Grammar / Wireframes | **ACTIVE — LOCKED AT LOW FIDELITY** (amended for 92 screens) |
-| **GHURAVIA Master Screen Registry Baseline v1.1.0** | **ACTIVE — CORRECTED AND LOCKED** · **7 shells · 92 screens** · Source Gate **GHV.BASELINE-CORRECTION.1** · CR-001 · DEC-152 · PD.2/PD.3 Amendment-01 |
+| Interaction Grammar / Wireframes | **ACTIVE — LOCKED AT LOW FIDELITY** (amended for alias-safe 92 screens) |
+| **GHURAVIA Master Screen Registry Baseline v1.2.0** | **ACTIVE — CORRECTED AND LOCKED** · **7 shells · 92 ACTIVE · 0 aliases in inventory** · Source Gate **GHV.BASELINE-CORRECTION.1** · CR-001 · **CR-002** · DEC-152 · **DEC-153** · PD.2 Amendment-01/02 |
 | **GHURAVIA Learning Design Baseline v1.0.0** | **ACTIVE — LOCKED AS DESIGN BASELINE** (unchanged by Progression 1A–1D and BASELINE-CORRECTION.1) |
 | **GHURAVIA Progression Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE** (unchanged by BASELINE-CORRECTION.1) |
 | GHURAVIA Progression Architecture Baseline v1.0.0 | **LOCKED AS DESIGN BASELINE** (absorbed into Progression Design Baseline v1.0.0) |
@@ -29,6 +29,7 @@
 | Real-User Progression Calibration | **NOT RUN** |
 | Usability Validation | **NOT RUN** |
 | Technical Validation | **NOT RUN** |
+| **GHURAVIA Core Technical Validation Plan v1.0.0** | **ACTIVE — VALIDATION PLAN LOCKED** · Technical Decisions **NOT LOCKED** · Technical Spikes **NOT RUN** (0/25) · Product Code **BLOCKED** · Source Gate **GHV.ARCHITECTURE.1A** |
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
@@ -37,6 +38,7 @@
 | GHV.PROGRESSION.1A–1C | PASS |
 | GHV.PROGRESSION.1D | **PASS** |
 | GHV.BASELINE-CORRECTION.1 | **PASS** |
+| GHV.ARCHITECTURE.1A | **PASS** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -68,7 +70,8 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Expert Review / Pilot | NOT RUN |
 | Publication / Implementation | BLOCKED |
 | Product Code | BLOCKED |
-| Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · 7/92 locked |
+| Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
+| Core Technical Validation Plan | **LOCKED** (plan) · spikes NOT RUN · stack NOT LOCKED |
 | TECH-018 Preview DB | PENDING TECHNICAL VALIDATION |
 
 ## Explicit non-claims
@@ -78,6 +81,10 @@ Formulas are NOT production calibrated
 Real-user validation NOT RUN
 Usability validation NOT RUN
 Technical validation NOT RUN
+Technical Spikes Run = 0
+Technical Decisions NOT LOCKED
+No stack ADR ACCEPTED
 Product Code BLOCKED
-Master Screen Registry Baseline CORRECTED AND LOCKED (7 / 92) — not implemented
+Master Screen Registry Baseline CORRECTED AND LOCKED (7 / 92 ACTIVE · 0 aliases) — not implemented
+Core Technical Validation Plan LOCKED — not a final architecture baseline
 ```
