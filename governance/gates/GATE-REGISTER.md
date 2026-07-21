@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.24.0 |
+| **Version** | 1.25.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A-CLOSURE-01 · CI closure in progress |
+| **Source Gate** | GHV.IMPLEMENTATION.0A-CLOSURE-01 · CLOSED PASS · Remote CI VERIFIED |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -34,17 +34,16 @@
 | GHV.ARCHITECTURE.1E-AMENDMENT-01 | Predecessor Verdict Preservation | **PASS** | Restores **1B PARTIAL** · no baseline invalidation · no spike/ADR/condition/provider change · [Record](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 | GHV.VALIDATION.1A | External Technical Validation | **PARTIAL** | **GHURAVIA EXTERNAL TECHNICAL VALIDATION COMPLETED WITH IMPLEMENTATION READINESS CONDITIONS** · External Validation Baseline v0.1.0 **PARTIAL** · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · [Report](./GHV.VALIDATION.1A.md) |
 | GHV.VALIDATION.1B | Implementation Entry Validation | **PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW** | Local-first entry criteria met: IMP-ENTRY **14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE** · Local readiness **READY WITH CONDITIONS** · Preview / controlled launch remain NOT READY · Product Code **NOT GRANTED** · [Report](./GHV.VALIDATION.1B.md) |
-| GHV.IMPLEMENTATION.0A | Local Product Code Authorization | **PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED** | Substantive bootstrap retained · Product Code authorization **not** invalidated · post-push Actions run `29871868486` failed `format:check` · [Record](./GHV.IMPLEMENTATION.0A.md) · [Closure](./GHV.IMPLEMENTATION.0A-CLOSURE-01.md) |
-| GHV.IMPLEMENTATION.0B | Foundation Runtime and Activation Vertical Slice | **BLOCKED PENDING IMPLEMENTATION.0A CI CLOSURE** | Unblocked only after remote CI SUCCESS on CLOSURE-01 |
+| GHV.IMPLEMENTATION.0A | Local Product Code Authorization | **PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED** | Bootstrap `9a0bfd7` · CI closure via CLOSURE-01 · Actions `29872538651` **success** · [Record](./GHV.IMPLEMENTATION.0A.md) · [Closure](./GHV.IMPLEMENTATION.0A-CLOSURE-01.md) |
+| GHV.IMPLEMENTATION.0B | Foundation Runtime and Activation Vertical Slice | **ELIGIBLE TO START · NOT STARTED** | Unblocked by CLOSURE-01 remote CI SUCCESS |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)
 
 ```text
 Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
-Gate verdicts: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL · VALIDATION.1B PASS
+Gate verdicts: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL · VALIDATION.1B PASS · IMPLEMENTATION.0A PASS (CI VERIFIED)
 Programme completion ≠ every Gate PASS
-Architecture Design Baseline LOCKED v1.0.0
 Architecture Design Baseline LOCKED v1.0.0
 External Technical Validation remains PARTIAL
 Implementation-entry validation COMPLETE — local readiness READY WITH CONDITIONS
@@ -52,9 +51,11 @@ Preview readiness NOT READY · Controlled launch readiness NOT READY
 Product Code Authorization GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
 Foundation workspace bootstrapped — Product Code Bootstrap Baseline v0.1.0 ACTIVE
 Preview BLOCKED · Staging BLOCKED · Controlled Launch NOT READY · Production NOT AUTHORIZED
-Next recommended Gate: GHV.IMPLEMENTATION.0B (BLOCKED PENDING IMPLEMENTATION.0A CI CLOSURE)
-GHV.IMPLEMENTATION.0A formal status: PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED
-Remote CI: PENDING CORRECTIVE COMMIT
+GHV.IMPLEMENTATION.0A:
+PASS — LIMITED PRODUCT CODE AUTHORIZED
+AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
+Remote CI: VERIFIED (Actions run 29872538651)
+Next recommended Gate: GHV.IMPLEMENTATION.0B (ELIGIBLE TO START · NOT STARTED)
 ```
 
 Reports:

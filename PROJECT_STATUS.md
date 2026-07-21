@@ -2,7 +2,8 @@
 
 ```text
 Current Gate:
-GHV.IMPLEMENTATION.0A-CLOSURE-01 — PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED
+GHV.IMPLEMENTATION.0A — PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
+(closure: GHV.IMPLEMENTATION.0A-CLOSURE-01)
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -24,8 +25,8 @@ Accepted Previous Gates:
 - GHV.ARCHITECTURE.1E-AMENDMENT-01 — PASS — PREDECESSOR VERDICTS RECONCILED
 - GHV.VALIDATION.1A — PARTIAL — EXTERNAL TECHNICAL VALIDATION WITH IMPLEMENTATION READINESS CONDITIONS
 - GHV.VALIDATION.1B — PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW
-- GHV.IMPLEMENTATION.0A — PARTIAL — FOUNDATION BOOTSTRAPPED · CI CLOSURE REQUIRED
-  (authorization retained; remote CI closure in progress under CLOSURE-01)
+- GHV.IMPLEMENTATION.0A — PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
+  (CLOSURE-01 · Remote CI VERIFIED · Actions run 29872538651)
 
 Product Definition:
 LOCKED
@@ -157,25 +158,28 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 ```text
-GHV.IMPLEMENTATION.0B
-FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE
-BLOCKED PENDING IMPLEMENTATION.0A CI CLOSURE
+GHV.IMPLEMENTATION.0B:
+ELIGIBLE TO START
+NOT STARTED
 ```
 
-## Post-bootstrap status — GHV.IMPLEMENTATION.0A (pending remote CI)
+## Post-closure status — GHV.IMPLEMENTATION.0A
 
 ```text
-PARTIAL — FOUNDATION BOOTSTRAPPED
-CI CLOSURE REQUIRED
+PASS — LIMITED PRODUCT CODE AUTHORIZED
+AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
+
+Remote CI:
+VERIFIED
 ```
 
 - Product Code authorization retained (GHV-IMP-AUTH-001).
-- Product Code Bootstrap Baseline v0.1.0 remains ACTIVE.
-- Local `npm run ci` PASS after CLOSURE-01 generator fix; remote Actions verification pending.
+- Product Code Bootstrap Baseline v0.1.0 remains ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED.
+- Local and remote CI PASS (Actions `29872538651` · job `verify` · conclusion `success`).
 - Providers remain MOCKS ONLY. The screen registry remains 92 ACTIVE / 7 shells.
 - TypeScript remains 6.0.3 with reconciled documentation (Architecture contradiction: NO).
 - `vercel.json` continues to disable deployment for `feat/ghuravia-foundation`.
-- Dependency advisories: 6 moderate triaged · Critical/High 0 · Blocking 0.
+- Dependency advisories: 6 moderate triaged · Critical/High 0 · Blocking 0 · accepted temporary risks documented.
 ## Programme status
 
 ```text
