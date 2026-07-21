@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.8.0 |
+| **Version** | 1.9.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
-| **Note** | Risks are identified, not claimed mitigated |
+| **Source Gate** | GHV.PROGRESSION.1C |
+| **Note** | Risks are identified, not claimed mitigated. Synthetic 1C PASS does **not** close Open risks. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -248,9 +248,18 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-PRG-041 | Correction cascades | M | H | H | Broad revocation | Targeted reevaluation (POL-COR-001) | Limit blast radius | Founder | Open | Ops | COR |
 | RISK-PRG-042 | Formula version drift | M | H | H | Silent parameter edits | FORMULA-REVISION-LOG + version storage | Reject unlogged changes | Founder | Open | Continuous | FRM |
 | RISK-PRG-043 | Analytical script mistaken for Product Code | M | H | H | Path confusion | `analysis/` isolation + NON-RUNTIME markers | Relocate / refuse runtime use | Founder | Open | Continuous | SIM |
-| RISK-PRG-044 | False confidence from simulations | H | H | H | Treating PASS as calibrated | Status wording + DEC-120 | Block 1D until 1C | Founder | Open | 1C–1D | SIM |
-| RISK-PRG-045 | Accessibility bias in Momentum/Evidence paths | M | H | H | Live-only / compressed unfairness | Fairness alternatives + watches | Provide equivalent modalities | Founder | Open | Pilot | FAI |
+| RISK-PRG-044 | False confidence from simulations / internal calibration | H | H | H | Treating 1C PASS as production calibrated | Status wording + DEC-134/135 | Block final lock until 1D + pilots | Founder | Open | 1C–1D | SIM |
+| RISK-PRG-045 | Accessibility bias in Momentum/Evidence paths | M | H | H | Live-only / compressed unfairness | Fairness alternatives + watches; synthetic schedule PASS | Provide equivalent modalities | Founder | Open | Pilot | FAI |
 | RISK-PRG-046 | Minor-user exposure on standings | H | H | H | Public boards / identity leak | Age-privacy + board restrictions | Restrict minor visibility | Founder | Open | Legal | AGE |
-| RISK-PRG-047 | Founder capacity for calibration | H | H | H | 1C WIP overload | Narrow calibration scope; sequence watches | Defer non-critical retunes | Founder | Open | 1C | CAP |
+| RISK-PRG-047 | Founder capacity for calibration | H | H | H | 1C WIP overload | Narrow calibration scope; sequence watches | Defer non-critical retunes | Founder | Open | 1C–1D | CAP |
+| RISK-PRG-048 | Fledgling Rank meaningless / skipped | M | H | H | Context defect / Rank skip abuse | FRM-MAT-001 0.2.0; Fledgling 3472 measured | Re-check in real pilot | Founder | Open | 1D/Pilot | MAT |
+| RISK-PRG-049 | Gold League concentration / Diamond unreachable | M | M | M | Cosmetic equalization pressure | CAL-FND-006; Diamond 0 OK | Do not equalize leagues | Founder | Open | Pilot | MOM |
+| RISK-PRG-050 | Route-Proven overproduction in stress mixes | M | H | H | Citing Cohort A RP as launch KPI | Cohort B mandatory (22.88%) | Pilot density compare | Founder | Open | Pilot | MST |
+| RISK-PRG-051 | Evidence XP inflating Flight Level perception | M | H | H | UX conflation XP=Skill | FRM-XP-001 0.1.1 + explainability | Soften Level prominence | Founder | Open | Usability | XP |
+| RISK-PRG-052 | Prestige nomination inflation (stress cohorts) | M | H | H | Cohort A Asc ~8% misread as launch | Cohort B Asc 0%; no cosmetic PEI hike | Panel + PEI monitor | Founder | Open | 1D | PRS |
+| RISK-PRG-053 | Synthetic generator bias / multi-seed instability | H | H | H | Generator artifacts mistaken for product truth | Multi-seed RUN-007; DEC-124 | Require real-user data | Founder | Open | Pilot | SIM |
+| RISK-PRG-054 | Formula overfitting to synthetic cohorts | H | H | H | Quota retunes to histograms | Calibration principles locked | Reject cosmetic retunes | Founder | Open | 1D | SIM |
+| RISK-PRG-055 | Arabic explainability gaps | M | H | H | EN-only explanations | AR/EN explainability package | Localization review | Founder | Open | Launch | EXP |
+| RISK-PRG-056 | Real-user behavior differs materially from synthetic | H | H | H | Internal calibration alone | DEC-134; real-user NOT RUN | Delay production confidence | Founder | Open | Pilot | SIM |
 
-Architecture and simulation documentation do **not** close these risks; calibration and operational controls remain required.
+Architecture, simulation, and **synthetic 1C calibration** documentation do **not** close these risks; real-user pilots, staffing, and operational controls remain required.

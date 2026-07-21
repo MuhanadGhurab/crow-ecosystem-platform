@@ -111,6 +111,31 @@ def league_for(score: float) -> str:
     return "Iron"
 
 
+def league_for_buffered(score: float, previous: str | None = None, buffer: int = 2) -> str:
+    """FRM-MOM-002 v0.2.0 Alternative B — promotion buffer / demotion hysteresis."""
+    raw = league_for(score)
+    if previous is None or previous == raw:
+        return raw
+    order = [n for n, _, _ in MOM_LEAGUES]
+    try:
+        pi = order.index(previous)
+        ri = order.index(raw)
+    except ValueError:
+        return raw
+    s = round_half_up(score)
+    if ri > pi:
+        # promotion: require clearing the new band floor by `buffer`
+        lo = MOM_LEAGUES[ri][1]
+        if s < lo + buffer:
+            return previous
+    if ri < pi:
+        # demotion: require falling buffer below previous band floor
+        lo = MOM_LEAGUES[pi][1]
+        if s > lo - buffer:
+            return previous
+    return raw
+
+
 def breadth_descriptor(idx: float) -> str:
     v = round_half_up(idx)
     for lo, hi, name in BREADTH_DESCRIPTORS:
@@ -220,7 +245,11 @@ def maturity_index(state: ProgressState) -> float:
     return total
 
 
+RANK_ORDER = ["Hatchling", "Fledgling", "Scout", "Pathfinder", "Specialist", "Vanguard", "Raven"]
+
+
 def maturity_rank(state: ProgressState) -> str:
+    """Highest fully-met Rank. Governed skip is allowed when a higher Rank's gates are fully met."""
     idx = maturity_index(state)
     dims = list(state.mat_dims.values())
     ge1 = sum(1 for d in dims if d >= 1)
@@ -228,6 +257,7 @@ def maturity_rank(state: ProgressState) -> str:
     ge3 = sum(1 for d in dims if d >= 3)
     eq4 = sum(1 for d in dims if d == 4)
     rank = "Hatchling"
+    # Fledgling: emerging independence across early learning contexts (Mission/Stage count as contexts)
     if idx >= 20 and ge1 >= 3 and state.contexts >= 2:
         rank = "Fledgling"
     if idx >= 35 and ge1 >= 5 and state.practical >= 1:
@@ -257,17 +287,31 @@ def maturity_rank(state: ProgressState) -> str:
 
 
 def update_maturity_from_progress(state: ProgressState) -> None:
-    # Qualitative progression of dimensions based on Evidence/activity — candidate heuristic for sim
+    """Qualitative dimension heuristic — CALIBRATION v0.2.0.
+
+    CAL-FND-001 fix: learning contexts include Missions and Stages, not only Evidence.
+    Soften first practical bump so Fledgling band remains reachable before Scout.
+    """
     if state.missions >= 1:
         state.mat_dims["learning_independence"] = max(state.mat_dims["learning_independence"], 1)
         state.mat_dims["digital_independence"] = max(state.mat_dims["digital_independence"], 1)
+    if state.missions >= 3:
+        state.mat_dims["problem_decomposition"] = max(state.mat_dims["problem_decomposition"], 1)
     if state.missions >= 5:
         state.mat_dims["learning_independence"] = max(state.mat_dims["learning_independence"], 2)
+    if state.stages >= 1:
+        state.mat_dims["documentation_quality"] = max(state.mat_dims["documentation_quality"], 1)
+    # First practical: modest lift (not automatic Scout-level Index)
     if state.practical >= 1:
+        state.mat_dims["practical_execution"] = max(state.mat_dims["practical_execution"], 1)
+        state.mat_dims["documentation_quality"] = max(state.mat_dims["documentation_quality"], 1)
+        state.mat_dims["evidence_ownership"] = max(state.mat_dims["evidence_ownership"], 1)
+    if state.practical >= 2:
         state.mat_dims["practical_execution"] = max(state.mat_dims["practical_execution"], 2)
         state.mat_dims["documentation_quality"] = max(state.mat_dims["documentation_quality"], 2)
         state.mat_dims["evidence_ownership"] = max(state.mat_dims["evidence_ownership"], 2)
-    if state.practical >= 2:
+        state.mat_dims["problem_decomposition"] = max(state.mat_dims["problem_decomposition"], 2)
+    if state.practical >= 3:
         state.mat_dims["practical_execution"] = max(state.mat_dims["practical_execution"], 3)
         state.mat_dims["problem_decomposition"] = max(state.mat_dims["problem_decomposition"], 3)
     if state.capstone >= 1:
@@ -293,7 +337,10 @@ def update_maturity_from_progress(state: ProgressState) -> None:
         state.mat_dims["collaboration"] = max(state.mat_dims["collaboration"], 3)
     if state.remediations >= 1:
         state.mat_dims["evidence_ownership"] = max(state.mat_dims["evidence_ownership"], 2)
-    state.contexts = max(state.contexts, min(5, state.practical + state.capstone + state.route_proven))
+    # Contexts: Mission/Stage learning contexts + Evidence contexts (FRM-MAT-001 v0.2.0)
+    mission_contexts = min(3, (state.missions + 1) // 2) + min(2, state.stages)
+    evidence_contexts = state.practical + state.capstone + min(1, state.route_proven)
+    state.contexts = max(state.contexts, min(5, mission_contexts + evidence_contexts))
 
 
 def capability_mastery_index(state: ProgressState, route: str = "RT-OPR-001") -> float:

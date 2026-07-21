@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.9.0 |
+| **Version** | 1.10.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1C |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -22,9 +22,9 @@
 | GHV.LEARNING.1C | Mission, Evidence and Capstone Blueprint | PASS | Design inputs |
 | GHV.LEARNING.1D | Learning Portfolio Final Review and Design Baseline Lock | PASS | Learning Design Baseline v1.0.0 locked |
 | GHV.PROGRESSION.1A | Progression System Architecture | PASS | Architecture recommended — formulas simulated in 1B |
-| GHV.PROGRESSION.1B | Formulas, Thresholds and Simulation | PASS | Simulation candidates · PENDING 1C calibration |
-| GHV.PROGRESSION.1C | Integrity, Fairness and Calibration | NOT STARTED | Next |
-| GHV.PROGRESSION.1D | Final Progression Baseline Lock | NOT STARTED | After 1C |
+| GHV.PROGRESSION.1B | Formulas, Thresholds and Simulation | PASS | Simulation candidates · calibrated in 1C |
+| GHV.PROGRESSION.1C | Integrity, Fairness and Calibration | **PASS** | CALIBRATION RECOMMENDED · PENDING 1D · synthetic only |
+| GHV.PROGRESSION.1D | Final Progression Baseline Lock | NOT STARTED | **Next** |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 Reports:
@@ -37,3 +37,4 @@ Reports:
 - [GHV.LEARNING.1D.md](./GHV.LEARNING.1D.md)
 - [GHV.PROGRESSION.1A.md](./GHV.PROGRESSION.1A.md)
 - [GHV.PROGRESSION.1B.md](./GHV.PROGRESSION.1B.md)
+- [GHV.PROGRESSION.1C.md](./GHV.PROGRESSION.1C.md)

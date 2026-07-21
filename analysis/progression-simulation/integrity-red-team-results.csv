@@ -1,0 +1,21 @@
+attack_id,attack,affected_formula,expected_protection,actual_result,result,false_positive_risk,required_revision
+1,Duplicate Mission events,FRM-XP-001,idempotent no double XP,xp=20,PASS,low,none
+2,duplicated Evidence approval,FRM-XP-001/FRM-MST-002,no double XP/Mastery input,xp=60,PASS,low,none
+3,Evidence split into artificial fragments,FRM-MST-002,fragments cannot manufacture RP,cmi_fragments=40.0,PASS,low,none
+4,improved-repeat farming,FRM-XP-001,same event id ignored,xp=20,PASS,low,none
+5,deliberate remediation farming,FRM-XP-001,remediation not exceeding mission,xp=10,PASS,low,none
+6,Team passenger,FRM-MST-003/Team,no Team contribution credit,team_contrib=0,PASS,low,none
+7,collusive Team verification,FRM-MST-002,Team alone cannot grant Mastery/RP,cmi=0.0,PASS,low,none
+8,reviewer collusion,POL-TRU-001/TPL-TTL,integrity hold blocks standing,title=NOT_ELIGIBLE,PASS,low,none
+9,reciprocal Community contribution ratings,FRM-XP-001,reactions grant no XP,xp=0,PASS,low,none
+10,reaction farming,FRM-MST-002/FRM-PRS-001,popularity ≠ Mastery/Prestige,rp=0;prest=NOT_ELIGIBLE,PASS,low,none
+11,automated activity,FRM-XP-001,factor<=0 yields no XP,xp=0,PASS,low,none
+12,account sharing,identity/assurance,per-subject ledger (no cross-merge),a=20;b=20,PASS,medium,none
+13,season-timing manipulation,FRM-MOM-002,<4 active weeks not final high League,league=Iron;active=3;score=45.5,PASS,low,none
+14,forged late-arriving event,POL-COR-001/FRM-XP-001,reversal exact,xp=0,PASS,low,none
+15,Evidence revoked after Title eligibility,TPL-TTL-001/POL-COR-001,title blocked after revoke/hold,before=PROGRESS_VISIBLE;after=NOT_ELIGIBLE,PASS,low,none
+16,Trust restriction overturned,POL-TRU-001,restriction then restore,trust=POSITIVE_STANDING,PASS,low,none
+17,manual correction reversed,POL-COR-001,exact reverse then new event,xp=60,PASS,low,none
+18,Prestige panel conflict,FRM-PRS-001/POL-PRS-001,nomination only never auto-grant,prest=ELIGIBLE_ASCENDANT_NOMINATION,PASS,low,none
+19,Merit farming,FRM-XP-001/Merit boundary,MeritRoute diffs=0 vs OpenFlight,pass=True,PASS,low,none
+20,public artifact copied by another learner,FRM-MST-002,copied formative ≠ Route-Proven,eligible=False,PASS,low,none

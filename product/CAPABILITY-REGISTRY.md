@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Architecture 1A · Formula Simulation 1B |
-| **Version** | 1.8.0 |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Architecture 1A · Formula Simulation 1B · Synthetic Calibration 1C |
+| **Version** | 1.9.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [product/progression/README.md](./progression/README.md) · [PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.PROGRESSION.1C |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [product/progression/README.md](./progression/README.md) · [PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [calibration/README.md](./progression/calibration/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -72,10 +72,10 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 
 | ID | Name | Pillar | Scope status | Journey | Screens | Maturity | Deps | Owner | Gate |
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
-| CAP-PRG-001 | Flight XP | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-XP-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
-| CAP-PRG-002 | Momentum | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-MOM-001/002 8-week SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
-| CAP-PRG-003 | Maturity Rank | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-MAT-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
-| CAP-PRG-004 | Route Mastery | Evidence | CONTROLLED LAUNCH | Evidence/Wings | PRG/LRN | Specified | FRM-MST-001..003 SIMULATION CANDIDATE; floors pending 1C | Founder | PROGRESSION.1 |
+| CAP-PRG-001 | Flight XP | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | Architecture 1A; FRM-XP-001 **0.1.1** CALIBRATION RECOMMENDED · PENDING 1D | Founder | PROGRESSION.1 |
+| CAP-PRG-002 | Momentum | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | FRM-MOM-002 **0.2.0** WITH CONDITIONS · CALIBRATION RECOMMENDED · PENDING 1D | Founder | PROGRESSION.1 |
+| CAP-PRG-003 | Maturity Rank | Identity | CONTROLLED LAUNCH | Progression | PRG | Specified | FRM-MAT-001 **0.2.0** CALIBRATION RECOMMENDED · PENDING 1D · Fledgling reachable | Founder | PROGRESSION.1 |
+| CAP-PRG-004 | Route Mastery | Evidence | CONTROLLED LAUNCH | Evidence/Wings | PRG/LRN | Specified | FRM-MST-* CALIBRATION RECOMMENDED · PENDING 1D · Cohort B RP 22.88% | Founder | PROGRESSION.1 |
 | CAP-PRG-005 | Breadth | Identity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | FRM-BRD-001 SIMULATION CANDIDATE | Founder | PROGRESSION.1 |
 | CAP-PRG-006 | Trust Standing | Trust | CONTROLLED LAUNCH | Community | COM/PRG | Specified | POL-TRU-001 SIMULATION CANDIDATE; ≠ popularity | Founder | Community |
 | CAP-PRG-007 | Professional Titles | Opportunity | CONTROLLED LAUNCH (surface) · POST-LAUNCH PLANNED (depth) | Progression | PRG | Specified | TPL-TTL-001/002 SIMULATION CANDIDATE; catalogue deferred | Founder | PROGRESSION.1 |
@@ -149,7 +149,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-TRU-013 | Administration | Trust | CONTROLLED LAUNCH | Ops | ADM | Defined | — | Founder | 1B |
 | CAP-TRU-014 | Preview DB readiness | Trust | PENDING TECHNICAL VALIDATION | Ops | — | Not Built | TECH-018 | Founder | 1B/Arch |
 
-### Review notes (1B)
+### Review notes (1B / 1C)
 
 - No Capability lacks a Pillar (commercial items map to Trust as enabling commercial; GOV maps to All / Identity as appropriate).
 - CAP-SOC-009 records OUT OF SCOPE DMs explicitly (not a silent omission).
@@ -157,4 +157,5 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - CAP-TRU-014 tracks Preview DB gap without implying Product Code.
 - Breadth / Prestige / Titles: CONTROLLED LAUNCH surface · POST-LAUNCH PLANNED depth (no custom Scope vocabulary).
 - PD.3: Controlled-launch user-facing Capabilities map to wireframe families via [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) and flows in [CRITICAL-FLOWS.md](./interactions/CRITICAL-FLOWS.md).
-- LEARNING.1A: Nest, Horizons, Route selection research, Cross-Wing, Secure Extensions, Evidence, capstones, content lifecycle → [product/learning/](./learning/README.md). Catalogue **RECOMMENDED — NOT YET LOCKED**.
+- LEARNING.1A: Nest, Horizons, Route selection research, Cross-Wing, Secure Extensions, Evidence, capstones, content lifecycle → [product/learning/](./learning/README.md). Catalogue **LOCKED AS DESIGN BASELINE v1.0.0**.
+- PROGRESSION.1C: Synthetic calibration COMPLETE · CALIBRATION RECOMMENDED · PENDING 1D · NOT production calibrated · red-team **20/20 PASS** · multi-seed **25k** · see [calibration/](./progression/calibration/).

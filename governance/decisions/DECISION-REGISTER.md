@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.8.0 |
+| **Version** | 1.9.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1C |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1266,7 +1266,158 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | Field | Value |
 |-------|-------|
 | **Decision** | All 24 formula/policy/template IDs remain at v0.1.0 SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION. Simulation PASS does not calibrate, finalize, or authorize Product Code. Final Progression Baseline lock remains PENDING 1D. |
-| **Status** | Accepted |
+| **Status** | **Superseded** by DEC-135 (1C complete) |
 | **Rationale** | PENDING 1C CALIBRATION — prevents false confidence from synthetic runs. |
 | **Related Gate** | GHV.PROGRESSION.1B |
 | **Evidence** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [FORMULA-REVISION-LOG.md](../../product/progression/formulas/FORMULA-REVISION-LOG.md) · BASELINE-MANIFEST |
+
+## DEC-121 — Calibration principles locked for 1C judgment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | The fifteen Gate §8 calibration principles in PROGRESSION-CALIBRATION-PRINCIPLES.md are LOCKED for GHV.PROGRESSION.1C judgment (no quota retunes; cohort-conditioned rates; clarification before cosmetic threshold hikes). |
+| **Status** | Accepted |
+| **Rationale** | Prevents overfitting formulas to synthetic histograms. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [PROGRESSION-CALIBRATION-PRINCIPLES.md](../../product/progression/calibration/PROGRESSION-CALIBRATION-PRINCIPLES.md) |
+
+## DEC-122 — Mandatory calibration findings dispositions (CAL-FND-001…007)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | CAL-FND-001…007 dispositions are accepted as recorded (clarifications / conditions / no cosmetic retunes). Measured multi-seed evidence: Fledgling **3472**; Cohort B RP **22.88%**; Cohort B Ascendant **0%**; Diamond/Raven **0**. |
+| **Status** | Accepted |
+| **Rationale** | Findings bind 1C judgment without authorizing production calibration. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [MANDATORY-CALIBRATION-FINDINGS.md](../../product/progression/calibration/MANDATORY-CALIBRATION-FINDINGS.md) |
+
+## DEC-123 — Formula-versus-generator defect classification
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Fledgling unreachability (CAL-FND-001) is classified as generator/context-definition defect + formula clarification (FRM-MAT-001 → 0.2.0), not a Rank-quota failure requiring forced population. |
+| **Status** | Accepted |
+| **Rationale** | Wrong fix would be cosmetic Rank forcing. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | MATURITY-FORMULA.md · CAL-FND-001 |
+
+## DEC-124 — Multi-seed simulation requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Calibration population evidence uses five seeds **20260721–20260725** at **5,000**/seed (**25,000** records). Seed instability must be reported before citing rates. |
+| **Status** | Accepted |
+| **Rationale** | Single-seed histograms are insufficient for 1C. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [MULTI-SEED-POPULATION-REPORT.md](../../product/progression/simulation/MULTI-SEED-POPULATION-REPORT.md) · RUN-007 |
+
+## DEC-125 — Launch-realistic population (Cohort B)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Launch narrative KPIs must cite **Cohort B** (n=7500): RP **22.88%**, Ascendant **0%**, Apex/Obsidian **0**, Fledgling **1309**. Cohort A stress rates (RP 45.11%, Ascendant 8.31%) are architecture probes only. |
+| **Status** | Accepted |
+| **Rationale** | Prevents false launch confidence from stress density. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [LAUNCH-REALISTIC-COHORT-REPORT.md](../../product/progression/simulation/LAUNCH-REALISTIC-COHORT-REPORT.md) |
+
+## DEC-126 — Counterfactual fairness testing required
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Fairness claims require matched counterfactual arms. RUN-008 recorded **10/10 PASS**. Unmatched persona comparisons (e.g. raw PER-009 vs PER-010) are invalid. |
+| **Status** | Accepted |
+| **Rationale** | CAL-FND-007 method lock. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [COUNTERFACTUAL-FAIRNESS-TESTS.md](../../product/progression/calibration/COUNTERFACTUAL-FAIRNESS-TESTS.md) |
+
+## DEC-127 — Schedule-fairness boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Schedule shape must not change Skill/Mastery when Evidence/Mission content is matched. Compressed vs distributed: Skill equal; Momentum delta **4.33 ≤ 10** — **PASS** (RUN-009). |
+| **Status** | Accepted |
+| **Rationale** | Accessibility/schedule fairness without Mastery dilution. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [ACCESSIBILITY-SCHEDULE-REPORT.md](../../product/progression/simulation/ACCESSIBILITY-SCHEDULE-REPORT.md) |
+
+## DEC-128 — Maturity Rank reachability
+
+| Field | Value |
+|-------|-------|
+| **Decision** | FRM-MAT-001 **0.2.0** (Mission/Stage contexts + governed Rank skip) makes Fledgling reachable; PER-001 and PER-014 reach Fledgling. Raven remains **0** in synthetic first-year mixes. |
+| **Status** | Accepted |
+| **Rationale** | CAL-FND-001 clarification revision. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | FORMULA-REVISION-LOG · RUN-007 |
+
+## DEC-129 — Route-Proven density review
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Mastery floors unchanged. RP density interpreted by cohort (B **22.88%** vs A **45.11%**). No floor hike solely to lower Cohort A RP %. |
+| **Status** | Accepted |
+| **Rationale** | CAL-FND-003. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | MANDATORY-CALIBRATION-FINDINGS.md |
+
+## DEC-130 — Prestige soft-warning treatment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Prestige advances WITH CONDITIONS. Cohort B Ascendant **0%**; Apex/Obsidian **0**. No cosmetic PEI threshold hike. Panel staffing remains Open. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | CAL-FND-004 soft watch. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [PRESTIGE-CALIBRATION-REPORT.md](../../product/progression/simulation/PRESTIGE-CALIBRATION-REPORT.md) |
+
+## DEC-131 — Trust false-positive protection
+
+| Field | Value |
+|-------|-------|
+| **Decision** | POL-TRU-001 advances WITH CONDITIONS. No public numeric Trust. False-positive / farming protections confirmed at design red-team level; real moderation pilot still required. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Trust FP risk remains Open without pilot. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [TRUST-CALIBRATION-REPORT.md](../../product/progression/simulation/TRUST-CALIBRATION-REPORT.md) |
+
+## DEC-132 — Leaderboard population calibration
+
+| Field | Value |
+|-------|-------|
+| **Decision** | POL-POP-001 advances WITH CONDITIONS. Authoritative public boards forbidden on undersized populations; Diamond scarcity OK; do not equalize leagues. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Small-N distortion + cultural harm risks remain Open. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [LEADERBOARD-POPULATION-REPORT.md](../../product/progression/simulation/LEADERBOARD-POPULATION-REPORT.md) |
+
+## DEC-133 — Integrity red-team requirements
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Fixed 20-attack integrity red-team is mandatory for 1C. RUN-013 recorded **20/20 PASS**. Pay-to-win diffs remain **0**. |
+| **Status** | Accepted |
+| **Rationale** | Design-level integrity evidence without production detection. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [RED-TEAM-SIMULATION-REPORT.md](../../product/progression/simulation/RED-TEAM-SIMULATION-REPORT.md) · PROGRESSION-INTEGRITY-RED-TEAM.md |
+
+## DEC-134 — Synthetic calibration status meaning
+
+| Field | Value |
+|-------|-------|
+| **Decision** | “CALIBRATION RECOMMENDED · PENDING 1D” means internal synthetic integrity/fairness judgment only. It does **not** mean production calibrated, real-user validated, or Product Code authorized. |
+| **Status** | Accepted |
+| **Rationale** | Prevents false confidence (RISK-PRG-044 / §31). |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | CALIBRATION-KNOWN-LIMITATIONS.md · BASELINE-MANIFEST |
+
+## DEC-135 — Final Progression Baseline lock deferred to 1D
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHV.PROGRESSION.1C PASS advances Internal Calibration Baseline **v0.2.0** as CALIBRATION RECOMMENDED. Final Progression Baseline lock remains **PENDING GHV.PROGRESSION.1D**. Formula versions: MAT **0.2.0**, MOM-002 **0.2.0**, XP **0.1.1**, others **0.1.0**. Conditions travel on MOM-002, TRU, PRS, POL-POP. |
+| **Status** | Accepted |
+| **Rationale** | Supersedes DEC-120 pending-1C posture; does not authorize final lock or Product Code. |
+| **Related Gate** | GHV.PROGRESSION.1C |
+| **Evidence** | [GHV.PROGRESSION.1C.md](../gates/GHV.PROGRESSION.1C.md) · [CALIBRATION-FINAL-RECOMMENDATION.md](../../product/progression/calibration/CALIBRATION-FINAL-RECOMMENDATION.md) · PROGRESSION-FORMULA-REGISTRY.md |
+

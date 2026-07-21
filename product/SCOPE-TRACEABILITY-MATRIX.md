@@ -2,14 +2,14 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.PROGRESSION.1B (formulas simulated; PENDING 1C) |
-| **Version** | 1.8.0 |
+| **Status** | REVIEWED — GHV.PROGRESSION.1C (CALIBRATION RECOMMENDED · PENDING 1D) |
+| **Version** | 1.9.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
-| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/README.md](./progression/README.md) · [progression/formulas/PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) |
+| **Source Gate** | GHV.PROGRESSION.1C |
+| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/README.md](./progression/README.md) · [progression/formulas/PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) · [progression/calibration/README.md](./progression/calibration/README.md) |
 
-## Traceability chain (progression)
+## Traceability chain (progression + calibration)
 
 ```text
 Product Pillar
@@ -18,15 +18,18 @@ Product Pillar
 → Screen
 → Progression System
 → Source Event
-→ Formula
+→ Formula Version
+→ Calibration Cohort
+→ Test
+→ Result
 → State
 → Decision
 → Explanation
 → Appeal or Correction
-→ Simulation Evidence
+→ Simulation / Calibration Evidence
 ```
 
-Learning Design Baseline v1.0.0 remains LOCKED AS DESIGN BASELINE (unchanged).
+Learning Design Baseline v1.0.0 remains LOCKED AS DESIGN BASELINE (unchanged by 1C).
 
 ## Progression architecture links (1A)
 
@@ -54,15 +57,21 @@ Learning Design Baseline v1.0.0 remains LOCKED AS DESIGN BASELINE (unchanged).
 
 | Capability / theme | Artifact | Status |
 |--------------------|----------|--------|
-| Formula registry | [PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | **24** IDs @ **0.1.0** SIMULATION CANDIDATE |
-| Formula standard | [PROGRESSION-FORMULA-STANDARD.md](./progression/formulas/PROGRESSION-FORMULA-STANDARD.md) | Governance standard |
-| XP / Level | [FLIGHT-XP-FORMULA.md](./progression/formulas/FLIGHT-XP-FORMULA.md) · [FLIGHT-LEVEL-FORMULA.md](./progression/formulas/FLIGHT-LEVEL-FORMULA.md) | SIMULATION CANDIDATE |
-| Momentum | [MOMENTUM-FORMULA.md](./progression/formulas/MOMENTUM-FORMULA.md) | 8-week · best-six SIMULATION CANDIDATE |
-| Maturity / Mastery / Breadth | [MATURITY-FORMULA.md](./progression/formulas/MATURITY-FORMULA.md) · [MASTERY-FORMULA.md](./progression/formulas/MASTERY-FORMULA.md) · [BREADTH-FORMULA.md](./progression/formulas/BREADTH-FORMULA.md) | SIMULATION CANDIDATE |
-| Trust / Titles / Prestige | [TRUST-TRANSITION-POLICY.md](./progression/formulas/TRUST-TRANSITION-POLICY.md) · [PROFESSIONAL-TITLE-ELIGIBILITY.md](./progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) · [PRESTIGE-FORMULA.md](./progression/formulas/PRESTIGE-FORMULA.md) | SIMULATION CANDIDATE |
-| Achievements / Leaderboards | [ACHIEVEMENT-RULE-CATALOGUE.md](./progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) · [LEADERBOARD-FORMULAS.md](./progression/formulas/LEADERBOARD-FORMULAS.md) · [LEADERBOARD-POPULATION-POLICY.md](./progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | PROVISIONAL |
-| Simulation evidence | [progression/simulation/](./progression/simulation/) · [analysis/progression-simulation/](../analysis/progression-simulation/) | COMPLETE synthetic · NOT calibrated |
-| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](./progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1C |
+| Formula registry | [PROGRESSION-FORMULA-REGISTRY.md](./progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | **24** IDs · CALIBRATION RECOMMENDED · PENDING 1D |
+| Simulation evidence | [progression/simulation/](./progression/simulation/) · [analysis/progression-simulation/](../analysis/progression-simulation/) | RUN-001…013 COMPLETE synthetic |
+
+## Calibration links (1C)
+
+| Capability / theme | Artifact | Status |
+|--------------------|----------|--------|
+| Calibration package | [progression/calibration/](./progression/calibration/) | CALIBRATION RECOMMENDED · PENDING 1D |
+| Mandatory findings | [MANDATORY-CALIBRATION-FINDINGS.md](./progression/calibration/MANDATORY-CALIBRATION-FINDINGS.md) | CAL-FND-001…007 |
+| Multi-seed population | [MULTI-SEED-POPULATION-REPORT.md](./progression/simulation/MULTI-SEED-POPULATION-REPORT.md) | 25k · seeds 20260721–20260725 |
+| Launch-realistic Cohort B | [LAUNCH-REALISTIC-COHORT-REPORT.md](./progression/simulation/LAUNCH-REALISTIC-COHORT-REPORT.md) | RP 22.88% · Asc 0% |
+| Counterfactual fairness | [COUNTERFACTUAL-FAIRNESS-TESTS.md](./progression/calibration/COUNTERFACTUAL-FAIRNESS-TESTS.md) | **10/10 PASS** |
+| Integrity red-team | [PROGRESSION-INTEGRITY-RED-TEAM.md](./progression/calibration/PROGRESSION-INTEGRITY-RED-TEAM.md) · [RED-TEAM-SIMULATION-REPORT.md](./progression/simulation/RED-TEAM-SIMULATION-REPORT.md) | **20/20 PASS** |
+| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](./progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1D |
+| Acceptance matrix | [CALIBRATION-ACCEPTANCE-MATRIX.md](./progression/calibration/CALIBRATION-ACCEPTANCE-MATRIX.md) | 19 advance · 5 WITH CONDITIONS |
 
 ## Learning design baseline (1D) — unchanged authority
 
@@ -72,11 +81,12 @@ See [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MA
 
 | Item | Status |
 |------|--------|
-| Progression calibration | NOT RUN — PENDING GHV.PROGRESSION.1C |
+| Progression calibration | **COMPLETE AT SYNTHETIC LEVEL** — NOT production calibrated |
 | Final Progression Baseline lock | PENDING GHV.PROGRESSION.1D |
 | Expert Review / Learning Pilot | NOT RUN |
+| Real-user calibration / usability | NOT RUN |
 | Publication / Implementation / Product Code | BLOCKED |
 | Title catalogue | DEFERRED |
-| Prestige panel operations | PENDING staffing / 1C |
+| Prestige panel operations | PENDING staffing |
 | Runtime event/ledger implementation | PENDING ARCHITECTURE.1 |
-| Treating formulas as FINAL/CALIBRATED | **Forbidden** until 1C+ |
+| Treating formulas as FINAL / production calibrated | **Forbidden** until 1D + real-user path |

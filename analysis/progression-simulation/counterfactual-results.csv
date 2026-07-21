@@ -1,0 +1,11 @@
+test,left,right,skill_equal,skill_diffs,mom_left,mom_right,mom_delta,mom_allow,result
+plans_openflight_vs_expedition,{'plan': 'OpenFlight'},{'plan': 'Expedition'},1,,42.5,42.5,0.0,0.0,PASS
+paid_vs_merit,{'plan': 'Expedition'},{'plan': 'MeritRoute'},1,,42.5,42.5,0.0,0.0,PASS
+language_ar_vs_en,"{'lang': 'ar', 'plan': 'OpenFlight'}","{'lang': 'en', 'plan': 'OpenFlight'}",1,,42.5,42.5,0.0,0.0,PASS
+age_adult_vs_minor,{'age': 'adult'},{'age': 'minor'},1,,42.5,42.5,0.0,0.0,PASS
+a11y_vs_standard,{'a11y': True},{'a11y': False},1,,42.5,42.5,0.0,0.0,PASS
+schedule_distributed_vs_compressed,{'schedule': 'distributed'},{'schedule': 'compressed'},1,,39.5,43.8333,4.3333,10.0,PASS
+connectivity_high_vs_interrupted,{'bw': 'high'},{'bw': 'interrupted'},1,,42.5,42.5,0.0,0.0,PASS
+device_mobile_vs_desktop,{'device': 'mobile'},{'device': 'desktop'},1,,42.5,42.5,0.0,0.0,PASS
+privacy_public_vs_private,{'profile': 'public'},{'profile': 'private'},1,,42.5,42.5,0.0,0.0,PASS
+reviewer_a_vs_b,{'reviewer': 'A'},{'reviewer': 'B'},1,,42.5,42.5,0.0,0.0,PASS

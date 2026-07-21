@@ -1,0 +1,12 @@
+schedule,momentum_score,momentum_league,active_weeks,skill_unchanged,weekly
+distributed,39.5,Bronze,8,1,35|40|38|42|36|41|39|37
+compressed,43.8333,Bronze,5,1,0|0|55|58|0|52|50|48
+irregular,37.5,Bronze,5,1,50|0|45|0|48|0|42|40
+offline_gap,35.3333,Bronze,5,1,40|42|0|0|0|45|44|41
+fairness_vs_distributed:compressed,43.8333,Bronze,,1,delta=4.33;league_steps=0;pass=1
+fairness_vs_distributed:irregular,37.5,Bronze,,1,delta=2.0;league_steps=0;pass=1
+fairness_vs_distributed:offline_gap,35.3333,Bronze,,1,delta=4.17;league_steps=0;pass=1
+alt_A,48.3333,Silver,8,,8 weeks / best 6 (current FRM-MOM-002 base)
+alt_B,48.3333,Silver,8,,8/best6 + promotion buffer (league_for_buffered)
+alt_C,48.3333,Silver,8,,8/best6 + two-season demotion protection (hysteresis)
+alt_D,45.625,Silver,10,,10 weeks / best 8

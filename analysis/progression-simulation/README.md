@@ -19,7 +19,7 @@ Do not connect to databases or networks.
 
 ## Purpose
 
-Deterministic synthetic simulation of GHURAVIA progression candidate formulas for architecture testing only. Results are **not** real-user evidence and are **not** calibrated.
+Deterministic synthetic simulation of GHURAVIA progression candidate formulas for architecture testing and internal synthetic calibration only. Results are **not** real-user evidence and are **not** production-calibrated.
 
 ## Files
 
@@ -33,10 +33,24 @@ Deterministic synthetic simulation of GHURAVIA progression candidate formulas fo
 | `sensitivity-results.csv` | Output — parameter sensitivity |
 | `simulation-summary.md` | Output — run summary |
 
-## Run
+## Run — 1B simulation
 
 ```bash
 python analysis/progression-simulation/progression_simulation.py
+```
+
+## Run — 1C calibration
+
+```bash
+python analysis/progression-simulation/progression_calibration.py
+```
+
+Produces 25,000 multi-seed cohort records plus counterfactual, red-team, schedule-fairness, and version-comparison CSVs.
+
+```text
+CALIBRATION RECOMMENDED · PENDING GHV.PROGRESSION.1D FINAL LOCK
+REAL-USER VALIDATION NOT RUN
+NOT PRODUCTION CALIBRATED
 ```
 
 Default seed: `20260721`

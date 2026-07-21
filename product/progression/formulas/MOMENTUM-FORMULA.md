@@ -3,19 +3,19 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-FRM-MOM-001 |
-| **Version** | 0.1.0 |
-| **Status** | SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION |
+| **Version** | **0.2.0** (document; FRM-MOM-001 remains 0.1.0 weekly; **FRM-MOM-002 = 0.2.0**) |
+| **Status** | CALIBRATION RECOMMENDED · PENDING 1D |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1B → calibrated under GHV.PROGRESSION.1C |
 | **Last updated** | 2026-07-21 |
 | **Formula IDs** | FRM-MOM-001 · FRM-MOM-002 |
-| **Limitations** | SIMULATION CANDIDATE only · NOT CALIBRATED · NOT production · no Product Code |
+| **Limitations** | CALIBRATION RECOMMENDED · **NOT production calibrated** · **synthetic only** · no Product Code |
 
 ## Formula IDs
 
 ```text
-FRM-MOM-001     Weekly Momentum
-FRM-MOM-002     Season Momentum
+FRM-MOM-001     Weekly Momentum          — version 0.1.0 (unchanged numerics)
+FRM-MOM-002     Season Momentum          — version 0.2.0 (Alternative B promotion buffer)
 ```
 
 ## Progression system
@@ -118,7 +118,7 @@ Sum component integers; clamp to 0–100.
 
 ---
 
-# FRM-MOM-002 — Season Momentum
+# FRM-MOM-002 — Season Momentum (v0.2.0)
 
 ## Candidate season duration
 
@@ -133,6 +133,8 @@ Season Momentum Score =
 Average of the learner’s best 6 weekly scores
 ```
 
+**Unchanged in v0.2.0:** keep **best-6 / 8-week** aggregation (CAL-FND-002 ACTION).
+
 ## Requirements
 
 * At least four active weeks for a final placement.
@@ -143,7 +145,7 @@ Average of the learner’s best 6 weekly scores
 * No XP multiplier.
 * No unlimited grinding benefit.
 
-## Candidate league thresholds
+## Candidate league thresholds (floors unchanged)
 
 | League   | Season score |
 | -------- | -----------: |
@@ -154,34 +156,62 @@ Average of the learner’s best 6 weekly scores
 | Platinum |        75–87 |
 | Diamond  |       88–100 |
 
+## Alternative B — promotion buffer (v0.2.0)
+
+Addresses **CAL-FND-002** (label sensitivity ~37% at band edges; score more stable).
+
+```text
+Promotion / demotion hysteresis buffer = 2 points
+
+Promotion into a higher league:
+  Require Season Momentum Score ≥ (new league floor + 2)
+  Otherwise retain previous league label.
+
+Demotion into a lower league:
+  Require Season Momentum Score ≤ (previous league floor − 2)
+  Otherwise retain previous league label.
+
+Raw band table remains the reference for floors/ceilings.
+Do NOT equalize league population shares (CAL-FND-006).
+```
+
+### Calibration condition
+
+```text
+CALIBRATION RECOMMENDED — ADVANCE TO 1D WITH CONDITIONS
+Monitor league bands in real pilot
+NOT production calibrated
+synthetic only
+```
+
 ## Simulation tests
 
 * Diamond excessively common?
 * Consistent one-day-per-week learners unfairly blocked?
-* Compressed schedules disadvantaged?
+* Compressed schedules disadvantaged? (requires matched counterfactual)
 * One intense week distorting the season?
 * Remediation / return over-rewarded?
-
-All thresholds remain candidates pending `1C`.
+* Band-edge label flips under ±10% threshold shifts (sensitivity)
 
 ## Explainability text
 
-“Your Momentum reflects meaningful activity across recent weeks. It does not require a daily streak, and two lower-activity weeks are excluded from your final season result.”
+“Your Momentum reflects meaningful activity across recent weeks. It does not require a daily streak, and two lower-activity weeks are excluded from your final season result. Near a league boundary, a small buffer prevents your label from flipping every week.”
 
 ## Simulation scenarios
 
-RUN-002; PER-002; PER-008; PER-010
+RUN-002; PER-002; PER-008; PER-010; CAL-FND-002; CAL-FND-006
 
 ## Sensitivity range
 
-Best-N weeks 5–7; season length 6–10; league cut-points ±5.
+Best-N weeks 5–7; season length 6–10; league cut-points ±5; buffer 1–3 (candidate Alternative B uses **2**).
 
 ## Known risks
 
-Grace-week gaming; Diamond inflation; compressed-schedule fairness.
+Grace-week gaming; Diamond inflation; compressed-schedule fairness; band-edge label churn (mitigated by buffer, monitored in pilot).
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
 | 0.1.0 | 2026-07-21 | Initial weekly + season candidates under GHV.PROGRESSION.1B |
+| **0.2.0** | 2026-07-21 | **FRM-MOM-002:** Alternative B promotion buffer of **2** points; keep best-6/8w; floors unchanged; status → CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS on band monitoring) |

@@ -3,13 +3,13 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-FRM-XP-001 |
-| **Version** | 0.1.0 |
-| **Status** | SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION |
+| **Version** | **0.1.1** |
+| **Status** | CALIBRATION RECOMMENDED · PENDING 1D |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1B → clarified under GHV.PROGRESSION.1C |
 | **Last updated** | 2026-07-21 |
 | **Formula ID** | FRM-XP-001 |
-| **Limitations** | SIMULATION CANDIDATE only · NOT CALIBRATED · NOT production · no Product Code |
+| **Limitations** | CALIBRATION RECOMMENDED · **NOT production calibrated** · **synthetic only** · no Product Code |
 
 ## Formula ID
 
@@ -81,6 +81,24 @@ Base Event Value
 | Approved reflection           |           10 |
 | Approved service contribution |        20–60 |
 
+### Evidence milestone XP — once per approval (v0.1.1 clarification)
+
+```text
+CAL-FND-005 clarification:
+
+Evidence-related XP (formative / practical / capstone / Route-Proven grants as listed)
+is activity recognition awarded once per successful approval event.
+
+It is NOT Skill.
+It is NOT Mastery.
+It does NOT substitute for Capability or Route Mastery formulas.
+
+Low Mission volume + high approved Evidence can yield relatively high XP
+because milestone XP recognizes validated Evidence activity — expected.
+
+Do not retune Evidence XP solely because PER-004 (or similar) looks “high XP.”
+```
+
 ### Remediation
 
 ```text
@@ -121,6 +139,7 @@ Round half away from zero to nearest integer XP unit after multiplication.
 
 * One valid remediation recognition per original gap.
 * Maximum one improved-repeat recognition per original completion.
+* **Once-per-approval** for each Evidence milestone recognition (v0.1.1).
 * Team / Live / service contribution XP capped within stated 20–60 band per valid event (exact mid-point selection is simulation-sensitive).
 
 ## Hard gates
@@ -128,6 +147,7 @@ Round half away from zero to nearest integer XP unit after multiplication.
 * No XP before source-event validation.
 * No plan multiplier; no paid-plan bonus.
 * Revisions do not create repeated full XP.
+* Double-counting the same approval event is prohibited (integrity red-team RTM-19).
 
 ## Missing-data / provisional / reversal / freshness
 
@@ -140,11 +160,11 @@ Round half away from zero to nearest integer XP unit after multiplication.
 
 ## Explainability text
 
-“Flight XP recognizes validated Missions and related progress. Paying for a plan, logging in, or repeating the same work does not multiply XP.”
+“Flight XP recognizes validated Missions and related progress, including Evidence milestones once per approval. Paying for a plan, logging in, or repeating the same work does not multiply XP. XP is not Skill.”
 
 ## Simulation scenarios
 
-PER-001…PER-015; RUN-001; RUN-003; RUN-006
+PER-001…PER-015; RUN-001; RUN-003; RUN-006; CAL-FND-005
 
 ## Sensitivity range
 
@@ -152,10 +172,19 @@ Intensity table values ±25%; event XP table ±25%; remediation rate 40–60%.
 
 ## Known risks
 
-Early learners may advance Flight Level quickly if Mission volume is high; XP must not be confused with Mastery.
+Early learners may advance Flight Level quickly if Mission volume is high; Evidence-heavy portfolios may show high XP without high Mission count — **expected** under once-per-approval recognition; XP must not be confused with Mastery.
+
+## Calibration status
+
+```text
+CALIBRATION RECOMMENDED · PENDING 1D
+NOT production calibrated
+synthetic only
+```
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
 | 0.1.0 | 2026-07-21 | Initial candidate under GHV.PROGRESSION.1B |
+| **0.1.1** | 2026-07-21 | **CAL-FND-005:** Evidence XP once-per-approval clarification; XP ≠ Skill; status → CALIBRATION RECOMMENDED · PENDING 1D |

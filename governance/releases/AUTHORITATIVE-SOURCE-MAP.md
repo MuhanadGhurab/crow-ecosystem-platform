@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.3.0 |
+| **Version** | 1.4.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1C |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -85,39 +85,40 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Progression states | [PROGRESSION-STATE-REGISTRY.md](../../product/progression/architecture/PROGRESSION-STATE-REGISTRY.md) | Exact 78 |
 | Progression decisions | [PROGRESSION-DECISION-REGISTRY.md](../../product/progression/architecture/PROGRESSION-DECISION-REGISTRY.md) | Exact 21 |
 | Flight XP (architecture) | [FLIGHT-XP-ARCHITECTURE.md](../../product/progression/xp/FLIGHT-XP-ARCHITECTURE.md) | Architecture |
-| **Flight XP formula (provisional)** | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
-| **Flight Level formula (provisional)** | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Flight XP formula (provisional)** | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (v0.1.1) |
+| **Flight Level formula (provisional)** | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Momentum (architecture) | [MOMENTUM-LEAGUE-ARCHITECTURE.md](../../product/progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | Architecture |
-| **Momentum formulas (provisional)** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Momentum formulas (provisional)** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (MOM-002 v0.2.0 WITH CONDITIONS) |
 | Maturity (architecture) | [MATURITY-RANK-ARCHITECTURE.md](../../product/progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | Architecture |
-| **Maturity formula (provisional)** | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Maturity formula (provisional)** | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (v0.2.0) |
 | Mastery (architecture) | [ROUTE-MASTERY-ARCHITECTURE.md](../../product/progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | Architecture |
-| **Mastery formulas (provisional)** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Mastery formulas (provisional)** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Breadth (architecture) | [BREADTH-ARCHITECTURE.md](../../product/progression/breadth/BREADTH-ARCHITECTURE.md) | Architecture |
-| **Breadth formula (provisional)** | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Breadth formula (provisional)** | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Trust (architecture) | [TRUST-STANDING-ARCHITECTURE.md](../../product/progression/trust/TRUST-STANDING-ARCHITECTURE.md) | Architecture |
-| **Trust policy (provisional)** | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Trust policy (provisional)** | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
 | Titles (architecture) | [PROFESSIONAL-TITLE-ARCHITECTURE.md](../../product/progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | Catalogue deferred |
-| **Title templates (provisional)** | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Title templates (provisional)** | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Prestige (architecture) | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) | Human final authority |
-| **Prestige formula/policy (provisional)** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Prestige formula/policy (provisional)** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
 | Achievements / Crests (architecture) | [ACHIEVEMENT-CREST-ARCHITECTURE.md](../../product/progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | — |
-| **Achievement rules (provisional)** | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Achievement rules (provisional)** | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Leaderboards (architecture) | [LEADERBOARD-ARCHITECTURE.md](../../product/progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
-| **Leaderboard formulas (provisional)** | [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) | **SIMULATION CANDIDATE · PENDING 1C** |
-| **Leaderboard population (provisional)** | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Leaderboard formulas (provisional)** | [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| **Leaderboard population (provisional)** | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
 | Corrections / appeals | [PROGRESSION-CORRECTION-AND-APPEAL.md](../../product/progression/governance/PROGRESSION-CORRECTION-AND-APPEAL.md) | Architecture |
-| **Correction mathematics (provisional)** | [PROGRESSION-CORRECTION-MATHEMATICS.md](../../product/progression/formulas/PROGRESSION-CORRECTION-MATHEMATICS.md) | **SIMULATION CANDIDATE · PENDING 1C** |
-| **Mastery freshness (provisional)** | [MASTERY-FRESHNESS-POLICY.md](../../product/progression/formulas/MASTERY-FRESHNESS-POLICY.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Correction mathematics (provisional)** | [PROGRESSION-CORRECTION-MATHEMATICS.md](../../product/progression/formulas/PROGRESSION-CORRECTION-MATHEMATICS.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| **Mastery freshness (provisional)** | [MASTERY-FRESHNESS-POLICY.md](../../product/progression/formulas/MASTERY-FRESHNESS-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | Fairness | [PROGRESSION-FAIRNESS-ARCHITECTURE.md](../../product/progression/fairness/PROGRESSION-FAIRNESS-ARCHITECTURE.md) | — |
 | Anti-gaming | [PROGRESSION-ANTI-GAMING-ARCHITECTURE.md](../../product/progression/integrity/PROGRESSION-ANTI-GAMING-ARCHITECTURE.md) | — |
 | Explainability | [PROGRESSION-EXPLAINABILITY.md](../../product/progression/experience/PROGRESSION-EXPLAINABILITY.md) | — |
-| **Formula registry (provisional)** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | Exact 24 IDs @ 0.1.0 |
-| **Simulation runs (provisional)** | [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) | Synthetic · NOT calibrated |
-| **Sensitivity (provisional)** | [FORMULA-SENSITIVITY-REPORT.md](../../product/progression/simulation/FORMULA-SENSITIVITY-REPORT.md) | **SIMULATION CANDIDATE · PENDING 1C** |
+| **Formula registry (provisional)** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | Exact 24 IDs · CALIBRATION RECOMMENDED · PENDING 1D |
+| **Calibration package (provisional)** | [product/progression/calibration/](../../product/progression/calibration/) | **NOT production calibrated · synthetic only** |
+| **Simulation runs (provisional)** | [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) | RUN-001…013 · synthetic |
+| **Sensitivity (provisional)** | [FORMULA-SENSITIVITY-REPORT.md](../../product/progression/simulation/FORMULA-SENSITIVITY-REPORT.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
 | **Pay-to-win verification (provisional)** | [PAY-TO-WIN-EQUIVALENCE-TEST.md](../../product/progression/simulation/PAY-TO-WIN-EQUIVALENCE-TEST.md) | All diffs = 0 (synthetic) |
 | Analytical package (non-runtime) | [analysis/progression-simulation/](../../analysis/progression-simulation/) | NOT Product Code |
-| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1C |
+| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1D |
 | Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | Historical 1A→1B |
 | Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi; formulas provisional |
 

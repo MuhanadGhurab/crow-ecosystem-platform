@@ -3,17 +3,17 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-GOV-TECH-001 |
-| **Version** | 1.1.0 |
-| **Status** | ARCHITECTURE RECOMMENDED · FORMULA CANDIDATES DOCUMENTED |
+| **Version** | 1.2.0 |
+| **Status** | ARCHITECTURE RECOMMENDED · CALIBRATION RECOMMENDED · PENDING 1D |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1B (extends 1A handoff) |
-| **Handoff target** | Future technical validation (not run in 1A/1B) |
+| **Source Gate** | GHV.PROGRESSION.1C (extends 1A/1B handoff) |
+| **Handoff target** | Future technical validation (not run in 1A/1B/1C) |
 | **Last updated** | 2026-07-21 |
 | **Related docs** | [PROGRESSION-SIMULATION-HANDOFF.md](./PROGRESSION-SIMULATION-HANDOFF.md) · [PROGRESSION-CALIBRATION-HANDOFF.md](./PROGRESSION-CALIBRATION-HANDOFF.md) · [AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md](./AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md) · [PROGRESSION-DATA-MINIMIZATION.md](./PROGRESSION-DATA-MINIMIZATION.md) · [../architecture/PROGRESSION-LEDGER-MODEL.md](../architecture/PROGRESSION-LEDGER-MODEL.md) · [../architecture/PROGRESSION-DECISION-REGISTRY.md](../architecture/PROGRESSION-DECISION-REGISTRY.md) · [../architecture/PROGRESSION-STATE-REGISTRY.md](../architecture/PROGRESSION-STATE-REGISTRY.md) · [../events/PROGRESSION-EVENT-VALIDITY.md](../events/PROGRESSION-EVENT-VALIDITY.md) · [../formulas/PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) · [../README.md](../README.md) |
-| **Limitations** | SIMULATION CANDIDATE formulas · CALIBRATION NOT RUN · TECHNICAL VALIDATION NOT RUN · Product Code BLOCKED |
+| **Limitations** | CALIBRATION RECOMMENDED · **NOT production calibrated** · TECHNICAL VALIDATION NOT RUN · Product Code BLOCKED · **no schema** |
 | **Expert review** | N/A for architecture / candidates |
-| **Formula** | SIMULATION CANDIDATE · PENDING 1C (all IDs 0.1.0) |
-| **Change history** | 1.0.0 — GHV.PROGRESSION.1A conceptual handoff · 1.1.0 — GHV.PROGRESSION.1B formula-version and calculation constraints |
+| **Formula** | CALIBRATION RECOMMENDED · PENDING 1D (MAT 0.2.0 · MOM-002 0.2.0 · XP 0.1.1 · else 0.1.0) |
+| **Change history** | 1.0.0 — GHV.PROGRESSION.1A · 1.1.0 — GHV.PROGRESSION.1B · 1.2.0 — GHV.PROGRESSION.1C formula versions + constraints |
 
 ---
 
@@ -119,17 +119,25 @@ Validate that user-visible standing changes can answer *what changed*, *which so
 
 ---
 
-## Formula-era technical constraints (GHV.PROGRESSION.1B)
+## Formula-era technical constraints (GHV.PROGRESSION.1B → 1C)
 
 These constraints apply to **future** calculation engines. They do **not** authorize Product Code, schema, or runtime now.
 
-### Formula versions (0.1.0)
+```text
+NO database schema
+NO runtime implementation
+TECHNICAL VALIDATION NOT RUN
+Product Code BLOCKED
+```
+
+### Formula versions (post-1C)
 
 | Requirement | Detail |
 |-------------|--------|
 | Registry | Exact **24** IDs in [PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) |
-| Current version | All active candidates **0.1.0** |
-| Status | `SIMULATION CANDIDATE · PENDING GHV.PROGRESSION.1C CALIBRATION` |
+| Accepted versions | FRM-MAT-001 **0.2.0** · FRM-MOM-002 **0.2.0** · FRM-XP-001 **0.1.1** · all others **0.1.0** |
+| Status | `CALIBRATION RECOMMENDED · PENDING 1D` · **NOT production calibrated** · **synthetic only** |
+| Conditions | MOM-002 · TRU · PRS · POL-POP travel into 1D |
 | Revisions | Must be logged in [FORMULA-REVISION-LOG.md](../formulas/FORMULA-REVISION-LOG.md) before any parameter change |
 
 ### Deterministic rounding
@@ -147,10 +155,11 @@ These constraints apply to **future** calculation engines. They do **not** autho
 | Volume caps | Honor XP/Momentum component caps so grinding cannot dominate |
 | Output clamps | Clamp weekly Momentum to 0–100; respect league and Rank hard gates |
 | Plan caps | Access Plan must never appear as a progression multiplier |
+| Momentum buffer | FRM-MOM-002 v0.2.0 Alternative B ±2 promotion/demotion hysteresis |
 
 ### Idempotency
 
-Duplicate source-records / idempotency keys must not double-apply standing effects. Duplicates may be rejected or attached without additional influence (see Event Registry).
+Duplicate source-records / idempotency keys must not double-apply standing effects. Duplicates may be rejected or attached without additional influence (see Event Registry). Evidence XP is **once-per-approval** (FRM-XP-001 v0.1.1).
 
 ### Reversal mathematics
 
@@ -178,6 +187,19 @@ Duplicate source-records / idempotency keys must not double-apply standing effec
 | Freshness overlays | Freshness does not silently rewrite historical Mastery records |
 | Mandatory floors | Route-Proven floors cannot be satisfied by averaging alone |
 | Payment boundary | Recalculation never introduces plan-based deltas |
+| Rank skip | Maturity Rank skip only when a higher Rank’s gates are **fully met** (FRM-MAT-001 v0.2.0) |
+
+### Provisional standings
+
+Leaderboard and Prestige nomination standings may be provisional/reversible. Prestige Class grant remains human-only. Public boards must honor POL-POP-001 population thresholds.
+
+### Explanation sources
+
+Standing changes must cite formula ID + version + source events (AR/EN explainability package). XP must never be explained as Skill.
+
+### Privacy / human-decision boundaries
+
+Data minimization and age-privacy architectures remain binding. Sensitive decisions (Prestige grant, serious Trust, high-impact Titles) cannot be finalized by automation alone.
 
 ### Formula version storage (future)
 
@@ -194,7 +216,7 @@ When implemented, every standing computation must record:
 | Surface | Requirement |
 |---------|-------------|
 | Persona paths | Deterministic from recorded event streams |
-| Population | Seed **20260721** replay must match recorded outputs |
+| Population | Seeds **20260721–20260725** replay must match recorded calibration outputs |
 | Analytical package | `analysis/progression-simulation/` is the reference non-runtime tool; **not** application code |
 
 ### Explainability source records

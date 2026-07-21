@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.8.0 |
+| **Version** | 1.9.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1B |
+| **Source Gate** | GHV.PROGRESSION.1C |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -75,3 +75,12 @@
 | ASM-063 | Fifteen synthetic personas cover meaningful formula edge cases | Pending Validation | Simulation coverage | Failure registry + 1C real data | Add personas | 1B |
 | ASM-064 | A 500-user synthetic population is useful for architecture stress-testing (not forecasting) | Pending Validation | Population method | Seed replay; 1C pilot compare | Expand N / revise generators | 1B |
 | ASM-065 | Candidate formulas can be explained clearly in Arabic and English | Pending Validation | Explainability | FORMULA-EXPLAINABILITY-REVIEW + localization | Terminology packs | 1B |
+| ASM-066 | Synthetic event generation approximates meaningful architecture cases | Active (synthetic) | Calibration method | RUN-007…013; still ≠ real users | Revise generators with pilot data | 1C |
+| ASM-067 | Multi-seed runs expose instability before rate citation | Active | Multi-seed method | Seeds 20260721–20260725 stable shape | Expand seeds / revise generator | 1C |
+| ASM-068 | Momentum consistency can be measured without daily streaks | Active | Season design | Best-6 / 8w + schedule CFT PASS | Adjust best-N | 1C |
+| ASM-069 | Maturity dimensions can be reviewed consistently | Pending Validation | Maturity ops | FRM-MAT-001 0.2.0; Fledgling reachable | Reviewer pilot | 1C |
+| ASM-070 | Evidence rubrics support stable Mastery | Pending Validation | Mastery math | Cohort B RP 22.88%; floors unchanged | Recalibrate with reviewer pilot | 1C |
+| ASM-071 | Trust signals can be classified fairly without public numeric score | Pending Validation | Trust ops | Synthetic FP checks PASS; pilot NOT RUN | Narrow signal classes | 1C |
+| ASM-072 | Human Prestige panels can be staffed at controlled-launch scale | Pending Validation | Human Prestige | Soft watch; staffing Open | Narrow/pause Prestige | 1C |
+| ASM-073 | Explainability can be delivered in Arabic and English | Pending Validation | Localization | Explainability calibration package | Terminology packs | 1C |
+| ASM-074 | Accessibility alternatives preserve assessment validity | Pending Validation | Fairness | Schedule Skill equal; mom Δ 4.33 ≤ 10 | Exclude failing modalities | 1C |
