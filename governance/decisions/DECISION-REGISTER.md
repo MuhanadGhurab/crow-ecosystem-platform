@@ -2684,7 +2684,7 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | Field | Value |
 |-------|-------|
 | **Decision** | Set GHV.IMPLEMENTATION.0B — Foundation Runtime and Activation Vertical Slice — to **ELIGIBLE TO START · NOT STARTED**. |
-| **Status** | **Held — superseded pending CLOSURE-RECORD RECONCILIATION** |
-| **Related Gate** | GHV.IMPLEMENTATION.0A → GHV.IMPLEMENTATION.0A-CLOSURE-01 → GHV.IMPLEMENTATION.0B |
-| **Evidence** | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) · [GHV.IMPLEMENTATION.0A-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0A-CLOSURE-01.md) · [IMPLEMENTATION-0A-CLOSURE-RECORD-RECONCILIATION.md](../implementation/IMPLEMENTATION-0A-CLOSURE-RECORD-RECONCILIATION.md) |
-| **Current disposition** | **BLOCKED PENDING CLOSURE-RECORD RECONCILIATION** — do not treat DEC-269 as active eligibility until Founder clears the hold |
+| **Status** | **Accepted** (cleared by GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01) |
+| **Related Gate** | GHV.IMPLEMENTATION.0A → GHV.IMPLEMENTATION.0A-CLOSURE-01 → AMENDMENT-01 → GHV.IMPLEMENTATION.0B |
+| **Evidence** | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) · [GHV.IMPLEMENTATION.0A-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0A-CLOSURE-01.md) · [GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md](../gates/GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md) |
+| **Current disposition** | **ELIGIBLE TO START · NOT STARTED** — eligibility ≠ authorization to begin Product Code for 0B until that Gate starts |

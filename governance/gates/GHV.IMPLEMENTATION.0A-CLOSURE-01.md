@@ -10,7 +10,21 @@
 | **Bootstrap commit** | `9a0bfd7e780b7b13b48c9324dd9715d5aadb114e` |
 | **Original reported verdict** | PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED |
 | **Original GitHub Actions** | Run `29871868486` · job `verify` · **failure** at `npm run format:check` |
-| **Closure result** | **PARTIAL — CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS** |
+| **Closure result** | **PARTIAL — GHURAVIA IMPLEMENTATION 0A CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS** |
+| **Amendment** | [GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md](./GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md) — **PASS** |
+
+## Amendment notice
+
+```text
+GHV.IMPLEMENTATION.0A-CLOSURE-01:
+PARTIAL — AMENDED FOR CLOSURE VERDICT PRESERVATION
+
+Amended by:
+GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01
+PASS — CLOSURE VERDICT AND STATUS REFERENCES RECONCILED
+```
+
+Early governance documents briefly labeled this Closure as unconditional PASS. That label was incorrect. The authoritative Closure verdict is PARTIAL because six Moderate dependency advisories remain owned non-blocking conditions. Product Gate GHV.IMPLEMENTATION.0A remains PASS. Remote CI remains VERIFIED.
 
 ## Disposition (substantive bootstrap retained)
 
@@ -53,6 +67,7 @@ NO
 
 - [IMPLEMENTATION-0A-CI-FAILURE-ANALYSIS.md](../implementation/IMPLEMENTATION-0A-CI-FAILURE-ANALYSIS.md)
 - [IMPLEMENTATION-0A-DEPENDENCY-ADVISORY-REVIEW.md](../implementation/IMPLEMENTATION-0A-DEPENDENCY-ADVISORY-REVIEW.md)
+- [GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md](./GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md)
 
 ## Remote CI (verified)
 
@@ -64,7 +79,7 @@ NO
 | Job | `verify` · ID `88775738816` |
 | Status | `completed` |
 | Conclusion | **`success`** |
-| Mandatory steps | checkout · setup-node (24.15.0) · `npm ci` · `npm run ci` — all executed |
+| Governance HEAD run | `29872708976` (commit `9f78f1c`) · **success** |
 | Warnings | Node.js 20 deprecation annotation on Actions runners (non-blocking) |
 | Deploy jobs | **none** |
 
@@ -76,7 +91,7 @@ Conclusion:
 SUCCESS
 ```
 
-## Product Code Gate (unchanged by PARTIAL closure)
+## Product Code Gate (unchanged)
 
 ```text
 GHV.IMPLEMENTATION.0A:
@@ -91,17 +106,16 @@ VERIFIED
 
 ```text
 GHV.IMPLEMENTATION.0A-CLOSURE-01:
-PARTIAL — CI CLOSURE COMPLETED
-WITH NON-BLOCKING DEPENDENCY CONDITIONS
+PARTIAL — GHURAVIA IMPLEMENTATION 0A CI CLOSURE
+COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS
 ```
 
 Reason: CI reproducibility and remote verification are complete; six moderate dependency advisories remain accepted temporarily with owners. This does **not** invalidate GHV.IMPLEMENTATION.0A PASS or GHV-IMP-AUTH-001.
 
-## Next Gate
+## Next Gate (after AMENDMENT-01)
 
 ```text
 GHV.IMPLEMENTATION.0B:
-BLOCKED PENDING CLOSURE-RECORD RECONCILIATION
+ELIGIBLE TO START
+NOT STARTED
 ```
-
-0B must not start until Gate Register, Baseline Manifest, Authoritative Source Map, PROJECT_STATUS, and related records consistently reflect the three-line status above (0A PASS · CLOSURE-01 PARTIAL · 0B blocked until reconciliation clears).
