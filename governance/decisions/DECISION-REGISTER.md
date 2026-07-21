@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.5.0 |
+| **Version** | 1.6.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1C |
+| **Source Gate** | GHV.LEARNING.1D |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -909,3 +909,111 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.LEARNING.1C |
 | **Evidence** | [MISSION-BLUEPRINT-REGISTRY.md](../../product/learning/missions/MISSION-BLUEPRINT-REGISTRY.md) |
+
+## DEC-083 — Meaning of Learning Design Baseline Lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | In LEARNING.1D, LOCKED means LOCKED AS GOVERNED DESIGN BASELINE only — not Expert Approved, Pilot Validated, Publication Ready, Implemented, Production Ready, Accredited, or Certified |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-DESIGN-STATUS-MODEL.md](../../product/learning/governance/LEARNING-DESIGN-STATUS-MODEL.md) |
+
+## DEC-084 — Design lock separated from publication readiness
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Design status and readiness fields (Expert Review, Pilot, Technical Validation, Publication, Implementation) are separate; design lock does not authorize publication or implementation |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [PUBLICATION-READINESS-MATRIX.md](../../product/learning/governance/PUBLICATION-READINESS-MATRIX.md) |
+
+## DEC-085 — Final P0 Route design baseline
+
+| Field | Value |
+|-------|-------|
+| **Decision** | RT-OPR-001, RT-BLD-001, RT-PRT-001, RT-LED-001 are LOCKED AS DESIGN BASELINE; Expert Review NOT RUN; Pilot NOT RUN; Publication BLOCKED; Implementation BLOCKED |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [ROUTE-FINAL-REVIEW.md](../../product/learning/governance/ROUTE-FINAL-REVIEW.md) |
+
+## DEC-086 — RT-ANL-001 reserve design baseline
+
+| Field | Value |
+|-------|-------|
+| **Decision** | RT-ANL-001 is LOCKED AS RESERVE DESIGN BASELINE; NOT A CONTROLLED-LAUNCH COMMITMENT; CAPACITY CONDITIONAL; promotion requires Change Control |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | LEARNING-PORTFOLIO-MANIFEST · LEARNING-DESIGN-FREEZE-POLICY |
+
+## DEC-087 — Mandatory AppSec Bridge for CXW-001
+
+| Field | Value |
+|-------|-------|
+| **Decision** | BRG-PRT-BLD-01 is LOCKED AS DESIGN BASELINE and mandatory for CXW-001 eligibility; Expert Review NOT RUN; Publication BLOCKED |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | Bridge blueprint · CXW Mission pack · DEC-068/079 |
+
+## DEC-088 — Final CXW and SEX boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | CXW-001 = integrated secure application delivery (VALID WITH REQUIRED BRIDGE); SEX-001 = secure hardening of cloud operations from RT-OPR-001; duplicated mandatory Stages/Evidence/capstones = 0 |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [CROSS-WING-SECURE-EXTENSION-FINAL-BOUNDARY.md](../../product/learning/governance/CROSS-WING-SECURE-EXTENSION-FINAL-BOUNDARY.md) |
+
+## DEC-089 — Exact learning registry reconciliation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Authoritative exact totals for Learning Design Baseline v1.0.0 are those reconciled in LEARNING-REGISTRY-RECONCILIATION (166/129/87/33/24/7/7/18/8/12/13/9/1); layer differences (graph placeholders vs 1C blueprints) are documented, not errors |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-REGISTRY-RECONCILIATION.md](../../product/learning/governance/LEARNING-REGISTRY-RECONCILIATION.md) |
+
+## DEC-090 — Publication-readiness matrix and review packets
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Publication requires completion of Publication Readiness Matrix gates; Expert Review Packets and Pilot Packets are required artifacts; Expert Review and Pilot remain NOT RUN after 1D |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | PUBLICATION-READINESS-MATRIX · EXPERT-REVIEW-MASTER-PLAN · LEARNING-PILOT-MASTER-PLAN |
+
+## DEC-091 — Learning Design Freeze Policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | After 1D, P0 IDs, Stage/Mission/Evidence/Capstone IDs, CXW/SEX boundaries, Route-Proven qualitative rules, and ANL reserve status are frozen; editorial changes allowed; Controlled CR for structural changes; Foundational Rebaseline for Pillars/Horizons/Evidence-before-Mastery/payment-as-learning |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-DESIGN-FREEZE-POLICY.md](../../product/learning/governance/LEARNING-DESIGN-FREEZE-POLICY.md) |
+
+## DEC-092 — Content-production sequencing
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Recommended controlled drafting order: Nest → OPR → BLD → PRT → LED → Bridge → CXW → SEX → LIV; do not produce all four P0 Routes simultaneously; ANL not in launch production queue without CR |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-PORTFOLIO-CAPACITY-REVIEW.md](../../product/learning/governance/LEARNING-PORTFOLIO-CAPACITY-REVIEW.md) |
+
+## DEC-093 — Learning handoff to Progression and Architecture
+
+| Field | Value |
+|-------|-------|
+| **Decision** | LEARNING-HANDOFF-PACKAGE defines inputs to GHV.PROGRESSION.1 (qualitative only) and GHV.ARCHITECTURE.1 (conceptual graph only — no schema); content and UX validation receive blueprints and packets |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-HANDOFF-PACKAGE.md](../../product/learning/governance/LEARNING-HANDOFF-PACKAGE.md) |
+
+## DEC-094 — GHURAVIA Learning Design Baseline v1.0.0
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHURAVIA Learning Design Baseline v1.0.0 is ACTIVE — LOCKED AS DESIGN BASELINE via LEARNING-PORTFOLIO-MANIFEST; closes GHV.LEARNING.1 program; does not authorize publication or Product Code |
+| **Status** | Accepted |
+| **Related Gate** | GHV.LEARNING.1D |
+| **Evidence** | [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [BASELINE-MANIFEST.md](../releases/BASELINE-MANIFEST.md) |

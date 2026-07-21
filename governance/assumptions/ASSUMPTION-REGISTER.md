@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.5.0 |
+| **Version** | 1.6.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1C |
+| **Source Gate** | GHV.LEARNING.1D |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -52,3 +52,7 @@
 | ASM-040 | Learners can disclose AI assistance honestly when prompted | Active | Integrity | Integrity education | Integrity Review path | 1C |
 | ASM-041 | Capstones can be completed without employer or customer data | Active | Capstone safety | Capstone blueprints | Synthetic-only rule | 1C |
 | ASM-042 | Exact Mission Blueprint total of 87 remains manageable for 1D review | Active | Portfolio size | Founder WIP | Merge Missions | 1C |
+| ASM-043 | Expert reviewers can be recruited before publication | Active | Publication gate | Expert packets + outreach | Delay PUBLISHED / narrow Routes | 1D |
+| ASM-044 | Learner and reviewer pilots can be recruited before publication | Active | Publication gate | Pilot packets + outreach | Delay PUBLISHED | 1D |
+| ASM-045 | Design baseline lock will not be mistaken for Expert Approval | Active | Status clarity | Status model + Project Status | Correct messaging | 1D |
+| ASM-046 | Controlled content drafting can begin under freeze without publication | Active | Capacity sequencing | Capacity review order | Hold drafting until experts engaged | 1D |

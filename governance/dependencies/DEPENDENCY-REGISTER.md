@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.5.0 |
+| **Version** | 1.6.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1C |
+| **Source Gate** | GHV.LEARNING.1D |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -20,10 +20,10 @@
 | DEP-008 | Learning content production | Organizational | Planned | Nest + launch Routes | Founder + SMEs TBD | Thin catalogue | Learning launch |
 | DEP-009 | Pre-push Vercel verification | Infrastructure | **Satisfied (1B)** | Branch published with deploy guard | Founder | — | Branch publish |
 | DEP-010 | Capability Atlas for Cross-Wing / Secure Extension | Product | **Satisfied (1B architecture)** | CXW-001 + SEX-001 architectures; Atlas Missions remain 1C | Founder | Drop from MLGW | LRN Cross-Wing/SE |
-| DEP-011 | Learning design Gate (GHV.LEARNING.1) | Product | **In progress (1B done)** | Subgates 1C–1D remain | Founder | Cannot lock Routes | Launch catalogue |
+| DEP-011 | Learning design Gate (GHV.LEARNING.1) | Product | **Satisfied (1D design baseline)** | Subgates 1A–1D complete as design program; publication still blocked | Founder | — | Launch catalogue design |
 | DEP-022 | LEARNING.1B Route architecture + graph | Product | **Satisfied (1B)** | Stages, edges, Nest bridges, graph registry | Founder | — | Lock path to 1D |
 | DEP-030 | LEARNING.1C Mission/Evidence/Capstone detail | Product | **Satisfied (1C blueprints)** | Mission packs + rubrics + capstones | Founder | — | Capstones |
-| DEP-031 | Expert review of architecture domains | Organizational | Planned | Expert-review requirements (NOT RUN); 1D blocker for domain-critical | Founder + SMEs | Delay PUBLISHED | 1D lock |
+| DEP-031 | Expert review of architecture domains | Organizational | Planned — **BLOCKING PUBLICATION** | Packets READY FOR FUTURE REVIEW; review NOT RUN | Founder + SMEs | Cannot PUBLISH | Publication |
 | DEP-032 | Application-Security Bridge content (BRG-PRT-BLD-01) | Product | **Blueprint satisfied (1C)** | Production content still pending | Founder | Block CXW launch | CXW |
 | DEP-035 | Instructional design for Mission production | Organizational | Planned | Content production handoff | Founder + ID TBD | Thin Missions | PUBLISHED |
 | DEP-036 | Arabic content review | Organizational | Planned | Arabic-first fields | Linguists TBD | English-heavy UX | Launch |
@@ -35,11 +35,15 @@
 | DEP-042 | Identity and Trust for reviewers | Technical | Planned | Identity Spike | Engineering TBD | Manual staffing | Dual review |
 | DEP-043 | Live Sky architecture validation | Technical | Planned | LIV-MSN-001 blueprint | Engineering TBD | Async Team only | Live |
 | DEP-044 | Usability testing | Product | Planned | USABILITY-VALIDATION-PLAN | Founder | Untested UX | Code waves |
-| DEP-045 | Learner pilot recruitment | Organizational | Planned | LEARNING-PILOT-REQUIREMENTS (NOT RUN) | Founder | Delay PUBLISHED | 1D/Publish |
+| DEP-045 | Learner pilot recruitment | Organizational | Planned — **BLOCKING PUBLICATION** | Pilot packets READY; pilot NOT RUN | Founder | Cannot PUBLISH | Publication |
 | DEP-033 | Progression qualitative→numeric mapping | Product | Planned | Route-Proven → formulas | Founder | Shallow Proven UX | PROGRESSION.1 |
 | DEP-034 | Technical graph implementation | Technical | Planned | Node/edge rules → schema later | Engineering TBD | Manual catalogue only | ARCHITECTURE.1 |
-| DEP-023 | LEARNING.1C Mission/Evidence/Capstone blueprints | Product | Planned | Mission catalogues | Founder | Thin Evidence | Capstones |
-| DEP-024 | LEARNING.1D final portfolio lock | Product | Planned | Lock working names | Founder | Ambiguous catalogue | CAP-LRN-009 |
+| DEP-023 | LEARNING.1C Mission/Evidence/Capstone blueprints | Product | **Satisfied (1C)** | Mission catalogues + rubrics + capstones | Founder | — | Capstones |
+| DEP-024 | LEARNING.1D final portfolio lock | Product | **Satisfied (design baseline)** | LOCKED AS DESIGN BASELINE v1.0.0; publication still blocked | Founder | — | CAP-LRN-009 |
+| DEP-046 | Expert Review execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/review/ | Founder + SMEs | Cannot PUBLISH | Publication |
+| DEP-047 | Learning Pilot execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/pilots/ | Founder | Cannot PUBLISH | Publication |
+| DEP-048 | Progression Gate GHV.PROGRESSION.1A | Product | Planned | Qualitative Proven → formulas | Founder | Shallow Proven UX | Progression |
+| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | Planned | Conceptual graph → validation plan | Founder | No runtime graph | Implementation |
 | DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
 | DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |

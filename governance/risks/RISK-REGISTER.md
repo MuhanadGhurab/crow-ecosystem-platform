@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.5.0 |
+| **Version** | 1.6.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1C |
+| **Source Gate** | GHV.LEARNING.1D |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -183,5 +183,13 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-LRN-047 | Remediation loops becoming punitive | M | M | M | Infinite retry shame | Targeted remediation library + preserve progress | Cap loops; mentor path | Founder | Open | Continuous | RMD |
 | RISK-LRN-048 | Pilot participants unavailable | H | H | H | No learners for pilot | Pilot requirements; recruit early | Delay PUBLISHED | Founder | Open | Pilot | PLT |
 | RISK-LRN-049 | Content-production workload exceeding founder capacity | H | H | H | 87 blueprints → full content | WIP; ANL reserve; production handoff states | Cut depth; freeze ANL | Founder | Open | Continuous | WIP |
+| RISK-LRN-050 | Expert-review staffing after design lock | H | H | H | SME scarcity | Expert packets READY; publication blocked until review | Delay PUBLISHED | Founder | **BLOCKING PUBLICATION** | 1D+ | EXP |
+| RISK-LRN-051 | Learner-pilot availability after design lock | H | H | H | No participants | Pilot packets READY; publication blocked | Delay PUBLISHED | Founder | **BLOCKING PUBLICATION** | 1D+ | PLT |
+| RISK-LRN-052 | Design freeze violated by silent portfolio change | M | H | H | Uncontrolled edits | LEARNING-DESIGN-FREEZE-POLICY + CR | Revert; rebaseline | Founder | Monitored | Continuous | FRZ |
+| RISK-LRN-053 | Mistaking design lock for publication approval | H | H | H | Status confusion | Status model + readiness matrix | Correct PUBLICATION=BLOCKED | Founder | Monitored | Continuous | GOV |
 
 **Contingency owners** default to Founder until roles are staffed.
+
+### 1D risk status note
+
+Design baseline lock does **not** mitigate open learning risks. Expert Review, Pilot, lab/storage validation, and capacity risks remain **OPEN** or **BLOCKING PUBLICATION**.

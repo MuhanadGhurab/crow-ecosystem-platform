@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.LEARNING.1C — MISSION, EVIDENCE AND CAPSTONE BLUEPRINT (COMPLETE)
+GHV.LEARNING.1D — LEARNING PORTFOLIO FINAL REVIEW AND DESIGN BASELINE LOCK — PASS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -15,39 +15,87 @@ Accepted Previous Gates:
 - GHV.LEARNING.1A — PASS
 - GHV.LEARNING.1B — PASS
 - GHV.LEARNING.1C — PASS
+- GHV.LEARNING.1D — PASS
 
-Current Status:
-- Product Constitution: LOCKED
-- Scope Baseline: LOCKED
-- Learning Research: PASS
-- Route Architecture: PASS
-- Mission Blueprint Packs: RECOMMENDED — PENDING EXPERT REVIEW AND PILOT
-- Evidence Rubrics: BLUEPRINTED — PENDING EXPERT REVIEW
-- Capstone Blueprints: RECOMMENDED — PENDING EXPERT REVIEW AND PILOT
-- AppSec Bridge: BLUEPRINTED
-- Cross-Wing Integration: BLUEPRINT COMPLETE
-- Secure Extension: BLUEPRINT COMPLETE
-- Team / Live Sky Learning: BLUEPRINT COMPLETE — TECHNICAL VALIDATION PENDING
-- Route-Proven Traceability: COMPLETE AT QUALITATIVE LEVEL
-- Expert Review: NOT RUN
-- Learning Pilot: NOT RUN
-- Progression Formulas: PENDING GHV.PROGRESSION.1
-- Final Learning Lock: PENDING GHV.LEARNING.1D
-- Product Code: BLOCKED
-- Branch: feat/ghuravia-foundation (deploy guard active)
+Learning Research:
+PASS
+
+Learning Portfolio:
+LOCKED AS DESIGN BASELINE v1.0.0
+
+P0 Routes:
+LOCKED AS DESIGN BASELINE
+
+ANALYZE Route:
+LOCKED AS RESERVE DESIGN BASELINE
+NOT A LAUNCH COMMITMENT
+
+AppSec Bridge:
+LOCKED AS DESIGN BASELINE
+MANDATORY FOR CXW-001
+
+Cross-Wing:
+LOCKED AS DESIGN BASELINE
+VALID WITH REQUIRED BRIDGE
+
+Secure Extension:
+LOCKED AS DESIGN BASELINE
+
+Mission Blueprints:
+LOCKED AS DESIGN BASELINE
+
+Evidence and Rubrics:
+LOCKED AS DESIGN BASELINE
+
+Capstones:
+LOCKED AS DESIGN BASELINE
+
+Route-Proven:
+LOCKED AT QUALITATIVE DESIGN LEVEL
+
+Horizon-Proven:
+FOUNDATION MODEL LOCKED
+AWARDING DEFERRED
+
+Team / Live Sky Learning:
+LOCKED AS DESIGN BLUEPRINT
+TECHNICAL VALIDATION NOT RUN
+
+Expert Review:
+NOT RUN
+
+Learning Pilot:
+NOT RUN
+
+Publication:
+BLOCKED
+
+Implementation:
+BLOCKED
+
+Progression Formulas:
+PENDING GHV.PROGRESSION.1
+
+Technical Validation:
+NOT RUN
+
+Product Code:
+BLOCKED
+
+Branch:
+feat/ghuravia-foundation (deploy guard active)
 ```
 
 ## Next Gate
 
 ```text
-GHV.LEARNING.1D — LEARNING PORTFOLIO FINAL REVIEW AND LOCK
+GHV.PROGRESSION.1A — PROGRESSION SYSTEM ARCHITECTURE
 ```
 
-## Parallel future Gates
+## Parallel future Gate
 
 ```text
-GHV.PROGRESSION.1 — PROGRESSION AND MASTERY MODEL
-GHV.ARCHITECTURE.1 — TECHNICAL VALIDATION
+GHV.ARCHITECTURE.1A — CORE TECHNICAL VALIDATION PLAN
 ```
 
 ## Identity
@@ -57,14 +105,13 @@ GHV.ARCHITECTURE.1 — TECHNICAL VALIDATION
 | Product | GHURAVIA — غُرافيا |
 | Founder | Muhanad Haitham Fouad Ghurab |
 | Founder identity | RAVEN |
-| Method | RAVEN DEVFLOW |
 | Branch | `feat/ghuravia-foundation` |
 | Archive tag | `cybercrow-final-snapshot-20260720` |
 
 ## Authoritative entry points
 
-- [MISSION-BLUEPRINT-REGISTRY.md](./product/learning/missions/MISSION-BLUEPRINT-REGISTRY.md)
-- [MISSION-BLUEPRINT-STANDARD.md](./product/learning/missions/MISSION-BLUEPRINT-STANDARD.md)
-- [CAPSTONE-BLUEPRINT-REGISTRY.md](./product/learning/capstones/CAPSTONE-BLUEPRINT-REGISTRY.md)
-- [ROUTE-PROVEN-TRACEABILITY.md](./product/learning/proven/ROUTE-PROVEN-TRACEABILITY.md)
+- [LEARNING-PORTFOLIO-MANIFEST.md](./product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
+- [LEARNING-DESIGN-FREEZE-POLICY.md](./product/learning/governance/LEARNING-DESIGN-FREEZE-POLICY.md)
+- [PUBLICATION-READINESS-MATRIX.md](./product/learning/governance/PUBLICATION-READINESS-MATRIX.md)
 - [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)
+- [BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md)
