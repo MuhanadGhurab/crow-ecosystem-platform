@@ -33,6 +33,8 @@ The committed artifact therefore failed `prettier --check` on Linux CI (and loca
 
 Secondary defect: the old `validate:routes` **mutated** the working tree during CI. CI must validate drift without rewriting tracked files.
 
+Tertiary defect (observed on corrective run `29872402198`): checksum hashing of registry Markdown was sensitive to CRLF vs LF between Windows and Linux checkouts, causing generator output to drift even when Prettier formatting matched. Sources are now newline-normalized to LF before hashing.
+
 ## Platform notes
 
 | Platform               | Observation                                        |

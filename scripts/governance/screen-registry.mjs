@@ -16,13 +16,21 @@ export const SOURCE_CANDIDATES = [
 ];
 
 /**
+ * @param {string} text
+ */
+export function normalizeNewlines(text) {
+  return text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+}
+
+/**
  * @param {string} root
  */
 export async function loadRegistrySource(root = process.cwd()) {
   const docs = await Promise.all(
     SOURCE_CANDIDATES.map(async (relative) => {
       try {
-        return await readFile(path.join(root, relative), "utf8");
+        const raw = await readFile(path.join(root, relative), "utf8");
+        return normalizeNewlines(raw);
       } catch {
         return "";
       }
@@ -114,14 +122,15 @@ export async function generateCanonicalRegistry(root = process.cwd()) {
 export async function validateCommittedRegistry(root = process.cwd()) {
   const { body, formatted } = await generateCanonicalRegistry(root);
   const committedPath = path.join(root, REGISTRY_RELATIVE_PATH);
-  const committed = await readFile(committedPath, "utf8");
+  const committed = normalizeNewlines(await readFile(committedPath, "utf8"));
+  const expected = normalizeNewlines(formatted);
 
   if (!committed.endsWith("\n")) {
     throw new Error(
       "Committed screen-registry.json must end with a final newline",
     );
   }
-  if (committed !== formatted) {
+  if (committed !== expected) {
     throw new Error(
       "Committed screen-registry.json drifts from canonical Prettier-compatible generator output",
     );
