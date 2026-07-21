@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E · Architecture Design Baseline v1.0.0 |
+| **Source Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 · predecessor verdict preservation |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -27,21 +27,25 @@
 | GHV.PROGRESSION.1D | Final Progression Baseline Lock | **PASS** | **Progression Design Baseline v1.0.0 LOCKED** · conditional locks MOM/TRU/PRS/POP · Product Code BLOCKED |
 | GHV.BASELINE-CORRECTION.1 | Master Screen Registry 92-Screen Reconciliation | **PASS — AMENDED BY CR-002** | CR-001 · DEC-152 · **CR-002 · DEC-153** alias-safe recount · ACT-013 |
 | GHV.ARCHITECTURE.1A | Core Technical Validation Plan | **PASS — AMENDED BY CR-002 PRECONDITION CORRECTION** | Substantive plan **PASS** · starting preflight failed alias inflation · CR-002 completed inside Gate · [Amendment-01](./GHV.ARCHITECTURE.1A-AMENDMENT-01.md) · spikes **0 RUN** · stack **NOT LOCKED** · Product Code **BLOCKED** |
-| GHV.ARCHITECTURE.1B | Platform Architecture and Stack Decisions | **PASS** | P0 **6/6 PASS** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · Core Platform Stack Baseline v1.0.0 **ACTIVE** · P1–P3 **NOT RUN** · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1B.md) |
+| GHV.ARCHITECTURE.1B | Platform Architecture and Stack Decisions | **PARTIAL** | **GHURAVIA CORE STACK ACCEPTED WITH NON-BLOCKING CONDITIONS** · P0 **6/6 PASS** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · Core Platform Stack Baseline v1.0.0 **ACTIVE** · P1–P3 open at Gate close · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1B.md) · restored by [1E-AMENDMENT-01](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 | GHV.ARCHITECTURE.1C | Identity, Security, Data and Evidence Architecture | **PARTIAL** | Domain architecture **ACCEPTED** · ADR-ARC-013..023 · 1C spikes **6/6 PASS** (+003 reuse) · providers **DEFERRED WITH ADAPTERS** · legal conditions **OPEN** · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1C.md) |
 | GHV.ARCHITECTURE.1D | Runtime, Realtime, Integration and Operational Architecture | **PARTIAL** | Spikes **13/13 PASS** · ADR-ARC-024..038 · Runtime baseline v1.0.0 **ACTIVE** · providers deferred · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1D.md) |
-| GHV.ARCHITECTURE.1E | Architecture Reconciliation and Final Baseline Lock | **PARTIAL** | Architecture Design Baseline v1.0.0 **LOCKED** · spikes **25/25 COMPLETE** · ADR-ARC-001..038 · conflicting **0** · external validation **NOT COMPLETE** · Product Code **BLOCKED** · Implementation **NOT GRANTED** · [Report](./GHV.ARCHITECTURE.1E.md) |
-| GHV.VALIDATION.1A | External Technical Validation | NOT STARTED | **Next recommended** — do not start until authorized |
+| GHV.ARCHITECTURE.1E | Architecture Reconciliation and Final Baseline Lock | **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION** | Original: Architecture Design Baseline v1.0.0 **LOCKED** · spikes **25/25** · ADR-ARC-001..038 · Product Code **BLOCKED** · [Report](./GHV.ARCHITECTURE.1E.md) · [Amendment-01](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
+| GHV.ARCHITECTURE.1E-AMENDMENT-01 | Predecessor Verdict Preservation | **PASS** | Restores **1B PARTIAL** · no baseline invalidation · no spike/ADR/condition/provider change · [Record](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
+| GHV.VALIDATION.1A | External Technical Validation | **ELIGIBLE TO START · NOT STARTED** | Eligible after 1E-AMENDMENT-01 · do not begin until authorized |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-1E)
 
 ```text
 Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
+Gate verdicts: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED
+Programme completion ≠ every Gate PASS
+Architecture Design Baseline LOCKED v1.0.0
 External Technical Validation OPEN
 Product Code Authorization BLOCKED
 Implementation Authorization NOT GRANTED
-Next recommended Gate: GHV.VALIDATION.1A (NOT STARTED — do not begin)
+Next recommended Gate: GHV.VALIDATION.1A (ELIGIBLE TO START · NOT STARTED)
 ```
 
 Reports:
@@ -66,3 +70,6 @@ Reports:
 - [GHV.ARCHITECTURE.1C.md](./GHV.ARCHITECTURE.1C.md)
 - [GHV.ARCHITECTURE.1D.md](./GHV.ARCHITECTURE.1D.md)
 - [GHV.ARCHITECTURE.1E.md](./GHV.ARCHITECTURE.1E.md)
+- [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md)
+- [GATE-VERDICT-PRESERVATION-POLICY.md](./GATE-VERDICT-PRESERVATION-POLICY.md)
+- [GATE-VERDICT-CONSISTENCY-CHECK.md](./GATE-VERDICT-CONSISTENCY-CHECK.md)

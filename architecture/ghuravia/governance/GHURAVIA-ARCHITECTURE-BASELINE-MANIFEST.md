@@ -24,7 +24,7 @@ WITH NON-BLOCKING EXTERNAL / LEGAL / USER VALIDATION CONDITIONS
 
 | Dimension | State |
 |-----------|-------|
-| Architecture gates 1A→1E | **1A PASS — AMENDED · 1B PASS (core stack with conditions) · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL** · Programme **COMPLETE AT GOVERNED DESIGN LEVEL** |
+| Architecture gates 1A→1E | **1A PASS — AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL — AMENDED (1E-AMENDMENT-01)** · Programme **COMPLETE AT GOVERNED DESIGN LEVEL** (programme completion ≠ every Gate PASS) |
 | ADRs | **38** (ADR-ARC-001…038) · conflicting **0** |
 | Technical spikes | **25/25 COMPLETE** · FAIL **0** · INCONCLUSIVE **0** |
 | Screen baseline | **7 shells · 92 ACTIVE · 0 aliases** |

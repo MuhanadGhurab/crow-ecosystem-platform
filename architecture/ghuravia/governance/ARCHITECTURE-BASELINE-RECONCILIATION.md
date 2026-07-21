@@ -104,7 +104,7 @@ RECONCILIATION PASS — MATERIAL CONFLICTS ACROSS LAYERS: 0
 | Gate | Verdict | Rolled into 1E baseline |
 |------|---------|-------------------------|
 | GHV.ARCHITECTURE.1A | PASS AMENDED | Validation plan + screen preflight |
-| GHV.ARCHITECTURE.1B | PASS | Core platform ADR-001…012 |
+| GHV.ARCHITECTURE.1B | **PARTIAL** | Core platform ADR-001…012 · non-blocking conditions retained |
 | GHV.ARCHITECTURE.1C | PARTIAL | Identity/security/data/evidence ADR-013…023 |
 | GHV.ARCHITECTURE.1D | PARTIAL | Runtime/ops ADR-024…038 |
 | GHV.ARCHITECTURE.1E | PARTIAL | Final lock with non-blocking validation conditions |

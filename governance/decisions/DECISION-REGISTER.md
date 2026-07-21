@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E |
+| **Source Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1979,7 +1979,7 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 
 | Field | Value |
 |-------|-------|
-| **Decision** | **GHV.ARCHITECTURE.1C** (Identity, Security, Data and Evidence Architecture) is the next Gate after 1B PASS. |
+| **Decision** | **GHV.ARCHITECTURE.1C** (Identity, Security, Data and Evidence Architecture) is the next Gate after **GHV.ARCHITECTURE.1B**. Note: 1B Gate verdict is **PARTIAL** (not PASS); sequencing after 1B completion does not upgrade the 1B verdict (1E-AMENDMENT-01). |
 | **Status** | Accepted |
 | **Rationale** | Provider selection and sensitive-domain validation deferred from 1B by design. |
 | **Related Gate** | GHV.ARCHITECTURE.1B → GHV.ARCHITECTURE.1C |
@@ -2296,7 +2296,70 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 
 | Field | Value |
 |-------|-------|
-| **Decision** | Next recommended Gate is GHV.VALIDATION.1A (External Technical Validation); **NOT STARTED** — do not begin until explicitly authorized. |
+| **Decision** | Next recommended Gate is GHV.VALIDATION.1A (External Technical Validation). After **GHV.ARCHITECTURE.1E-AMENDMENT-01**: **ELIGIBLE TO START · NOT STARTED** — do not begin until explicitly authorized. |
 | **Status** | Accepted |
-| **Related Gate** | GHV.ARCHITECTURE.1E → GHV.VALIDATION.1A |
-| **Evidence** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) · GATE-REGISTER.md
+| **Related Gate** | GHV.ARCHITECTURE.1E → 1E-AMENDMENT-01 → GHV.VALIDATION.1A |
+| **Evidence** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) · GATE-REGISTER.md · [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](../gates/GHV.ARCHITECTURE.1E-AMENDMENT-01.md)
+
+## DEC-227 — Preserve GHV.ARCHITECTURE.1B PARTIAL verdict
+
+| Field | Value |
+|-------|-------|
+| **Decision** | The authoritative Gate verdict for **GHV.ARCHITECTURE.1B** is **PARTIAL — GHURAVIA CORE STACK ACCEPTED WITH NON-BLOCKING CONDITIONS**. No later formal amendment upgraded it to PASS. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | [GHV.ARCHITECTURE.1B.md](../gates/GHV.ARCHITECTURE.1B.md) · [ARCHITECTURE-1B-VERDICT-PRESERVATION-REVIEW.md](../../architecture/ghuravia/governance/ARCHITECTURE-1B-VERDICT-PRESERVATION-REVIEW.md) |
+
+## DEC-228 — Gate verdict vs programme completion separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Architecture programme completion at governed design level does **not** upgrade component Gate verdicts from PARTIAL to PASS. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | [GATE-VERDICT-PRESERVATION-POLICY.md](../gates/GATE-VERDICT-PRESERVATION-POLICY.md) |
+
+## DEC-229 — Accept GHV.ARCHITECTURE.1E-AMENDMENT-01
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept **GHV.ARCHITECTURE.1E-AMENDMENT-01** for predecessor verdict preservation. Formal 1E treatment: **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION**. Original substantive 1E PARTIAL verdict remains linked and visible. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](../gates/GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
+
+## DEC-230 — No Architecture Baseline invalidation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 1E-AMENDMENT-01 does **not** invalidate Architecture Design Baseline v1.0.0, spike evidence, ADRs, or technical findings. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | [ARCHITECTURE-1E-VERDICT-DRIFT-IMPACT-REVIEW.md](../../architecture/ghuravia/governance/ARCHITECTURE-1E-VERDICT-DRIFT-IMPACT-REVIEW.md) |
+
+## DEC-231 — No condition or provider change by amendment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | 1E-AMENDMENT-01 closes **0** conditions and changes **0** provider decisions. Validation debts remain open. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | FINAL-ARCHITECTURE-CONDITION-REGISTER.md · FINAL-PROVIDER-DEFERRAL-REGISTER.md |
+
+## DEC-232 — Adopt Gate Verdict Preservation Policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt [GATE-VERDICT-PRESERVATION-POLICY.md](../gates/GATE-VERDICT-PRESERVATION-POLICY.md) and [GATE-VERDICT-CONSISTENCY-CHECK.md](../gates/GATE-VERDICT-CONSISTENCY-CHECK.md) for all future programme transitions. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | Policy + consistency-check specification |
+
+## DEC-233 — Validation 1A eligibility after amendment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **GHV.VALIDATION.1A** is **ELIGIBLE TO START** and **NOT STARTED** after 1E-AMENDMENT-01 passes. Eligibility ≠ authorization to begin. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Evidence** | GATE-REGISTER.md · PROJECT_STATUS.md

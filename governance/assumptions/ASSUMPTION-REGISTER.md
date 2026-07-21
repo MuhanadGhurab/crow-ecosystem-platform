@@ -127,3 +127,4 @@
 | ASM-113 | Notification delivery can remain asynchronous without business-state coupling | Pending Validation — spike PASS | Notifications | SPK-ARC-018 · ADR-032 | Keep isolation | ARCH.1D |
 | ASM-114 | 25/25 spike completion will not be mistaken for Product Code or production readiness | Active | Status clarity | DEC-215 · PARTIAL gate | Correct messaging | ARCH.1D |
 | ASM-115 | Architecture Design Baseline lock will not be mistaken for external proof or implementation authorization | Active | Status clarity | DEC-216 · DEC-223 · DEC-225 · 1E PARTIAL gate | Correct messaging | ARCH.1E |
+| ASM-116 | Programme completion at governed design level will not be mistaken for upgrading PARTIAL Gate verdicts to PASS | Active | Verdict integrity | DEC-227 · DEC-228 · DEC-232 · 1E-AMENDMENT-01 | Enforce Gate Verdict Preservation Policy | ARCH.1E-AMEND |

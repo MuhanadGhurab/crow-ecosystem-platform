@@ -9,9 +9,29 @@
 | **HEAD** | `6f01d1fd2b7f570e712037a5c4f035861a68063d` |
 | **Operator** | Cursor agent under Founder direction |
 | **Owner** | Founder (RAVEN) |
-| **Verdict** | **PARTIAL — GHURAVIA ARCHITECTURE DESIGN BASELINE LOCKED WITH NON-BLOCKING VALIDATION CONDITIONS** |
+| **Verdict** | **PARTIAL — AMENDED FOR PREDECESSOR VERDICT PRESERVATION** |
+| **Original verdict** | **PARTIAL — GHURAVIA ARCHITECTURE DESIGN BASELINE LOCKED WITH NON-BLOCKING VALIDATION CONDITIONS** |
+| **Amendment** | [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 
-## Meaning of PARTIAL
+## AMENDMENT NOTICE
+
+```text
+The original GHV.ARCHITECTURE.1E report incorrectly summarized
+GHV.ARCHITECTURE.1B as PASS.
+
+The authoritative GHV.ARCHITECTURE.1B verdict remains:
+
+PARTIAL — GHURAVIA CORE STACK ACCEPTED
+WITH NON-BLOCKING CONDITIONS.
+
+This correction does not change the Architecture Design Baseline,
+technical evidence, ADRs, conditions, provider deferrals or
+implementation-authorization status.
+
+See GHV.ARCHITECTURE.1E-AMENDMENT-01.
+```
+
+## Meaning of PARTIAL (original substantive verdict — retained)
 
 ```text
 GHURAVIA Architecture Design Baseline v1.0.0 ACTIVE
@@ -49,10 +69,10 @@ Implementation: NOT GRANTED
 | Gate | Verdict |
 |------|---------|
 | GHV.ARCHITECTURE.1A | PASS — AMENDED (CR-002) |
-| GHV.ARCHITECTURE.1B | PASS — core platform decisions accepted |
+| GHV.ARCHITECTURE.1B | **PARTIAL** — GHURAVIA CORE STACK ACCEPTED WITH NON-BLOCKING CONDITIONS |
 | GHV.ARCHITECTURE.1C | PARTIAL — identity/security/data/evidence with non-blocking conditions |
 | GHV.ARCHITECTURE.1D | PARTIAL — runtime/realtime/ops with non-blocking conditions |
-| GHV.ARCHITECTURE.1E | PARTIAL — final baseline lock (this Gate) |
+| GHV.ARCHITECTURE.1E | PARTIAL — Architecture Design Baseline locked (original) · **AMENDED** by 1E-AMENDMENT-01 for predecessor verdict preservation |
 
 ## Locked separations (restated)
 

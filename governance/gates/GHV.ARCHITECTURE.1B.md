@@ -8,20 +8,38 @@
 | **Branch** | `feat/ghuravia-foundation` |
 | **Operator** | Cursor agent under Founder direction |
 | **Preflight** | [SCREEN-BASELINE-1B-PREFLIGHT.md](../../architecture/ghuravia/validation/SCREEN-BASELINE-1B-PREFLIGHT.md) · **PASS** (alias-safe 92) |
-| **Verdict** | **PASS — CORE PLATFORM DECISIONS ACCEPTED · DOMAIN VALIDATION CONTINUES** |
+| **Verdict** | **PARTIAL — GHURAVIA CORE STACK ACCEPTED WITH NON-BLOCKING CONDITIONS** |
 
-## Meaning of PASS
+## AMENDMENT NOTICE — Verdict label preservation
+
+```text
+The original committed GHV.ARCHITECTURE.1B report incorrectly labeled the
+Gate verdict as PASS while the body already established PARTIAL semantics
+(conditions retained, P1–P3 NOT RUN, Technical Validation PARTIAL,
+Product Code BLOCKED).
+
+Authoritative Gate verdict (restored):
+
+PARTIAL — GHURAVIA CORE STACK ACCEPTED
+WITH NON-BLOCKING CONDITIONS
+
+No formal GHV.ARCHITECTURE.1B amendment upgraded PARTIAL to PASS.
+See GHV.ARCHITECTURE.1E-AMENDMENT-01 and ARCHITECTURE-1B-VERDICT-PRESERVATION-REVIEW.md.
+```
+
+## Meaning of PARTIAL
 
 ```text
 CORE PLATFORM STACK BASELINE v1.0.0 ACTIVE
 ADR-ARC-001..012 ACCEPTED (some WITH CONDITIONS)
 P0 SPIKES COMPLETE — 6/6 PASS
-P1–P3 SPIKES NOT RUN
+P1–P3 SPIKES NOT RUN (at Gate close)
 Technical Validation PARTIAL — P0 CORE SPIKES COMPLETE
 Product Code BLOCKED
 ≠ Full technical validation
 ≠ Domain closure (identity provider, evidence, Live Sky, etc.)
 ≠ Production Ready
+≠ Unconditional PASS
 ```
 
 ## Outcomes
