@@ -8,6 +8,7 @@
     "start": "node --import tsx src/index.ts"
   },
   "dependencies": {
+    "@ghuravia/config": "*",
     "@ghuravia/contracts": "*",
     "@ghuravia/domain": "*",
     "@ghuravia/data": "*",

@@ -5,15 +5,24 @@ import {
   commercialEventCannotProgress,
   evidenceOutcome,
   publicProfile,
+  MOBILE_VERIFICATION_IN_ACTIVATION_FORMULA,
 } from "@ghuravia/domain";
 import { loadConfig } from "@ghuravia/config";
-import { emailDeliveryMock } from "@ghuravia/provider-mocks";
+import {
+  deliveryDoesNotVerify,
+  emailDeliveryMock,
+} from "@ghuravia/provider-mocks";
+import registry from "@ghuravia/contracts/screen-registry";
+
 const base = {
   id: "a",
   state: "ACCOUNT_CLAIMED" as const,
   version: 0,
-  commandKeys: [],
+  emailVerified: false,
+  termsAccepted: false,
+  accountRiskAcceptable: false,
 };
+
 test("activation is server-authoritative and ordered", () => {
   assert.throws(
     () =>
@@ -35,6 +44,7 @@ test("activation is server-authoritative and ordered", () => {
   );
   assert.equal(pending.aggregate.state, "EMAIL_VERIFICATION_PENDING");
 });
+
 test("commercial events never create progression", () =>
   assert.deepEqual(commercialEventCannotProgress({ kind: "payment" }), {
     xp: 0,
@@ -42,14 +52,19 @@ test("commercial events never create progression", () =>
     trust: 0,
     prestige: 0,
   }));
+
 test("evidence fails closed and trust is private", () => {
   assert.equal(evidenceOutcome(false, true), "quarantine");
   assert.deepEqual(publicProfile({ displayName: "Raven" }), {
     displayName: "Raven",
   });
 });
-test("email delivery is not verification or mutation", () =>
-  assert.equal(emailDeliveryMock("success").provider, "email-delivery"));
+
+test("email delivery is not verification or mutation", () => {
+  assert.equal(emailDeliveryMock("success").provider, "email-delivery");
+  assert.equal(deliveryDoesNotVerify(), true);
+});
+
 test("config rejects external databases", () =>
   assert.throws(
     () =>
@@ -60,3 +75,11 @@ test("config rejects external databases", () =>
       }),
     /LOCAL_RUNTIME_ONLY/,
   ));
+
+test("screen baseline and mobile formula invariant", () => {
+  assert.equal(registry.activeCount, 92);
+  assert.equal(registry.shellCount, 7);
+  assert.deepEqual(registry.excludedAliases, ["ACT-004"]);
+  assert.deepEqual(registry.requiredActive, ["ACT-013"]);
+  assert.equal(MOBILE_VERIFICATION_IN_ACTIVATION_FORMULA, false);
+});

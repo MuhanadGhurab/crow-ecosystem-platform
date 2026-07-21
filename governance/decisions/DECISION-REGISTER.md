@@ -2687,4 +2687,23 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | **Accepted** (cleared by GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01) |
 | **Related Gate** | GHV.IMPLEMENTATION.0A → GHV.IMPLEMENTATION.0A-CLOSURE-01 → AMENDMENT-01 → GHV.IMPLEMENTATION.0B |
 | **Evidence** | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) · [GHV.IMPLEMENTATION.0A-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0A-CLOSURE-01.md) · [GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md](../gates/GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md) |
-| **Current disposition** | **ELIGIBLE TO START · NOT STARTED** — eligibility ≠ authorization to begin Product Code for 0B until that Gate starts |
+| **Current disposition** | **COMPLETED** as GHV.IMPLEMENTATION.0B (**PARTIAL** with non-blocking dependency conditions) — see DEC-270 |
+
+## DEC-270 — Activation vertical slice authorized and completed under GHV-IMP-AUTH-002
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Authorize and complete GHV.IMPLEMENTATION.0B foundation runtime and activation vertical slice (email+terms+risk formula; mobile excluded; ACT-003/011/005/013/012/006) under GHV-IMP-AUTH-002; activate Foundation Runtime and Activation Slice Baseline v0.2.0; set next Gate GHV.IMPLEMENTATION.0C to NOT STARTED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0B |
+| **Evidence** | [GHV.IMPLEMENTATION.0B.md](../gates/GHV.IMPLEMENTATION.0B.md) · [GHV.IMPLEMENTATION.0B-AUTHORIZATION.md](../implementation/GHV.IMPLEMENTATION.0B-AUTHORIZATION.md) · [GHURAVIA-FOUNDATION-RUNTIME-ACTIVATION-BASELINE.md](../implementation/GHURAVIA-FOUNDATION-RUNTIME-ACTIVATION-BASELINE.md) |
+| **Verdict** | PARTIAL — non-blocking ADV-001/ADV-002/ADV-003 retained |
+
+## DEC-271 — Activation formula excludes mandatory mobile
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Controlled-launch activation_complete = email_verified AND current_terms_accepted AND account_risk_status=acceptable; mobile (ACT-007/008) is optional after ACT-006 and is not in the formula. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0B |
+| **Evidence** | [IMPLEMENTATION-0B-ACTIVATION-AUTHORITY-PREFLIGHT.md](../implementation/IMPLEMENTATION-0B-ACTIVATION-AUTHORITY-PREFLIGHT.md) · ADR-ARC-016 |

@@ -16,8 +16,12 @@
     "format:check": "prettier --check --ignore-unknown apps packages workers scripts docs/implementation .github package.json tsconfig.json tsconfig.base.json eslint.config.mjs",
     "lint": "eslint .",
     "typecheck": "tsc -b && tsc -p apps/web --noEmit",
-    "test": "node --import tsx --test packages/*/test/**/*.test.ts",
+    "test": "node --import tsx --test packages/domain/test/**/*.test.ts packages/testing/test/**/*.test.ts apps/web/test/**/*.test.ts",
     "test:invariants": "node --import tsx --test packages/testing/test/**/*.test.ts",
+    "test:integration": "node --import tsx --test packages/data/test/**/*.test.ts",
+    "db:validate": "node scripts/local/db-validate.mjs",
+    "db:migrate": "node scripts/local/db-migrate.mjs",
+    "db:reset": "node scripts/local/db-reset.mjs",
     "build": "npm run build --workspace=@ghuravia/web && npm run build --workspace=@ghuravia/background-worker",
     "generate:screen-registry": "node scripts/governance/generate-screen-registry.mjs",
     "validate:routes": "node scripts/governance/validate-routes.mjs",
@@ -25,7 +29,7 @@
     "validate:boundaries": "node scripts/validation/validate-boundaries.mjs",
     "validate:secrets": "node scripts/validation/validate-secrets.mjs",
     "validate:deployment-guard": "node scripts/validation/validate-deployment-guard.mjs",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run build"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run build"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",

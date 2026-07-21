@@ -6,9 +6,29 @@ permissions: { contents: read }
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ghuravia
+          POSTGRES_PASSWORD: ghuravia_ci_only
+          POSTGRES_DB: ghuravia_test_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U ghuravia -d ghuravia_test_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      GHURAVIA_RUNTIME_MODE: automated_test
+      GHURAVIA_DATABASE_URL: postgresql://ghuravia:ghuravia_ci_only@localhost:5432/ghuravia_test_ci
+      GHURAVIA_APP_VERSION: 0.2.0-ci
+      GHURAVIA_LOCAL_CONFIRM: "1"
+      GHURAVIA_SYNTHETIC_SESSION_SECRET: ci-synthetic-session-secret-32b
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 24.15.0, cache: npm }
       - run: npm ci
+      - run: node scripts/local/db-migrate.mjs
       - run: npm run ci

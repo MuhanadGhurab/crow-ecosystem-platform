@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bounded bootstrap PASS** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.17.0 |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bootstrap PASS** · **Implementation.0B activation slice PARTIAL** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Source Gate** | GHV.IMPLEMENTATION.0B |
 | **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
@@ -171,6 +171,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - VALIDATION.1A: External Technical Validation Baseline v0.1.0 **PARTIAL** · live provider/Preview proof **NOT AVAILABLE** for most domains · capabilities remain **NOT IMPLEMENTED** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED**. See [EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md](../validation/ghuravia/external-1a/governance/EXTERNAL-TECHNICAL-VALIDATION-BASELINE.md).
 - VALIDATION.1B: Implementation-entry validation **PASS** · local readiness **READY WITH CONDITIONS** · capabilities remain **NOT IMPLEMENTED** · Preview / controlled launch **NOT READY** · Product Code **BLOCKED** pending GHV.IMPLEMENTATION.0A. See [GHV.VALIDATION.1B.md](../governance/gates/GHV.VALIDATION.1B.md).
 - IMPLEMENTATION.0A: Product Code is authorized only for the completed foundation bootstrap; the capability inventory, scope classifications, and **92 ACTIVE / 7 shells** baseline are unchanged. Preview and Production remain prohibited. See [GHV.IMPLEMENTATION.0A.md](../governance/gates/GHV.IMPLEMENTATION.0A.md).
+- IMPLEMENTATION.0B: Local activation vertical slice implemented for ACT-003/011/005/013/012/006 under GHV-IMP-AUTH-002; formula excludes mobile; inventory count unchanged; Preview/Production still prohibited. See [GHV.IMPLEMENTATION.0B.md](../governance/gates/GHV.IMPLEMENTATION.0B.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

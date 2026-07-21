@@ -10,6 +10,7 @@ async function files(d) {
   return out;
 }
 const all = await files("packages");
+const web = await files("apps/web");
 const rules = [
   [
     /packages\\contracts/,
@@ -31,5 +32,13 @@ for (const f of all) {
   for (const [path, ban] of rules)
     if (path.test(f) && ban.test(t))
       throw new Error("Boundary violation: " + f);
+}
+for (const f of web) {
+  const t = await readFile(f, "utf8");
+  if (/["']use client["']/.test(t) && /@ghuravia\/(data|config)/.test(t)) {
+    throw new Error("Client component must not import server packages: " + f);
+  }
+  if (/from\s+["'][^"']*(spikes|validation)\//.test(t))
+    throw new Error("Prohibited import: " + f);
 }
 console.log("Package boundaries validated");

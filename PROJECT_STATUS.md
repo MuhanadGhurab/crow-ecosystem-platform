@@ -2,10 +2,8 @@
 
 ```text
 Current Gate:
-GHV.IMPLEMENTATION.0A — PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
-GHV.IMPLEMENTATION.0A-CLOSURE-01 — PARTIAL — CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS
-GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01 — PASS — CLOSURE VERDICT AND STATUS REFERENCES RECONCILED
-Next Gate: GHV.IMPLEMENTATION.0B — ELIGIBLE TO START · NOT STARTED
+GHV.IMPLEMENTATION.0B — PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS
+Next Gate: GHV.IMPLEMENTATION.0C — NOT STARTED
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -31,6 +29,7 @@ Accepted Previous Gates:
   (CLOSURE-01 PARTIAL · AMENDMENT-01 PASS · Remote CI VERIFIED · Actions run 29872538651)
 - GHV.IMPLEMENTATION.0A-CLOSURE-01 — PARTIAL — AMENDED FOR CLOSURE VERDICT PRESERVATION
 - GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01 — PASS — CLOSURE VERDICT AND STATUS REFERENCES RECONCILED
+- GHV.IMPLEMENTATION.0B — PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS
 
 Product Definition:
 LOCKED
@@ -47,146 +46,19 @@ LOCKED v1.0.0
 Architecture Design:
 LOCKED v1.0.0 — GOVERNED DESIGN BASELINE
 
-Core Platform:
-PARTIAL — ACCEPTED WITH CONDITIONS
-
-Identity / Security / Data / Evidence:
-PARTIAL — ACCEPTED WITH CONDITIONS
-
-Runtime Process:
-ACCEPTED
-
-92-Screen Routing:
-ACCEPTED
-
-Arabic RTL Runtime:
-ACCEPTED WITH CONDITIONS
-
-Accessibility Runtime:
-ACCEPTED WITH USER-VALIDATION CONDITIONS
-
-Save and Resume:
-ACCEPTED
-
-Adaptive Skyboard:
-ACCEPTED WITH PERFORMANCE CONDITIONS
-
-Commercial Reconciliation:
-ACCEPTED
-
-Live Sky Runtime:
-ACCEPTED WITH PROVIDER CONDITIONS
-
-Realtime:
-ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER LOCKED
-
-Search:
-ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER
-
-Notifications:
-ACCEPTED PATTERN · PROVIDER DEFERRED WITH ADAPTER
-
-Leaderboard Runtime:
-ACCEPTED
-
-Observability:
-ACCEPTED PATTERN · PROVIDER CONDITIONAL
-
-Backup and Restore:
-ACCEPTED WITH OPERATIONAL CONDITIONS
-
-Environment Isolation:
-ACCEPTED
-
-Deployment Topology:
-ACCEPTED CONCEPTUALLY
-
-Registered Technical Spikes:
-25 / 25 COMPLETE
-
-External Infrastructure Validation:
-PARTIAL — BASELINE v0.1.0 · MOST DOMAINS NOT AVAILABLE
-
-External Technical Validation Baseline:
-PARTIAL v0.1.0
-
-Preview Environment:
-NOT ESTABLISHED — TECH-018 OPEN
-
-Provider Sandbox Validation:
-NOT AVAILABLE
-
-Migration / Rollback Rehearsal:
-LOCAL REHEARSAL PASS — SATISFIED BY VALIDATION.1B
-
-Operational DR Validation:
-NOT RUN — BLOCKING
-
-Local Implementation Readiness:
-READY WITH CONDITIONS — IMP-ENTRY 14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE
-
-Preview Readiness:
-NOT READY — 4 primary Preview blockers remain
-
-Controlled Launch Readiness:
-NOT READY — 7 controlled-launch blockers remain
-
 Product Code Authorization:
-GHV-IMP-AUTH-001 GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
+GHV-IMP-AUTH-001 (0A bootstrap) · GHV-IMP-AUTH-002 (0B activation slice)
 
-Legal and Privacy Validation:
-NOT APPROVED
+Foundation Runtime / Activation Baseline:
+ACTIVE v0.2.0 — LIMITED ACTIVATION VERTICAL SLICE
 
-Accessibility User Validation:
-NOT RUN
-
-Arabic UX User Validation:
-NOT RUN
-
-Penetration Testing:
-NOT RUN
-
-Full Technical Validation:
-NOT COMPLETE
-
-Product Code:
-AUTHORIZED — LIMITED FOUNDATION BOOTSTRAP ONLY
-
-Implementation Authorization:
-GRANTED — LIMITED TO COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
-
-Branch:
-feat/ghuravia-foundation (deploy guard active)
-```
-
-## Next Gate
-
-```text
-GHV.IMPLEMENTATION.0B:
-ELIGIBLE TO START
-NOT STARTED
-```
-
-## Binding post-closure status
-
-```text
-GHV.IMPLEMENTATION.0A:
-PASS — LIMITED PRODUCT CODE AUTHORIZED
-AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
-
-Closure:
-PARTIAL — NON-BLOCKING DEPENDENCY CONDITIONS RETAINED
-
-GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01:
-PASS — CLOSURE VERDICT AND STATUS REFERENCES RECONCILED
-
-Remote CI:
-VERIFIED
-
-Product Code:
-AUTHORIZED ONLY FOR COMPLETED 0A SCOPE
+Providers:
+MOCKS ONLY
 
 Preview:
+BLOCKED
+
+Staging:
 BLOCKED
 
 Controlled Launch:
@@ -194,44 +66,47 @@ NOT READY
 
 Production:
 NOT AUTHORIZED
+
+Branch:
+feat/ghuravia-foundation (deploy guard active)
+
+Dependency advisories:
+Critical 0 · High 2 · Moderate 5 · Blocking 0 · ADV-001/ADV-002/ADV-003 ACCEPT TEMPORARILY WITH OWNER
 ```
 
-- Product Code authorization retained (GHV-IMP-AUTH-001).
-- Product Code Bootstrap Baseline v0.1.0 remains ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED.
-- Local and remote CI PASS (Actions `29872538651` · job `verify` · conclusion `success`).
-- Providers remain MOCKS ONLY. The screen registry remains 92 ACTIVE / 7 shells.
-- TypeScript remains 6.0.3 with reconciled documentation (Architecture contradiction: NO).
-- `vercel.json` continues to disable deployment for `feat/ghuravia-foundation`.
-- Dependency advisories: 6 moderate · Critical/High 0 · Blocking 0 · ADV-001/ADV-002 ACCEPT TEMPORARILY WITH OWNER.
-- Archive: `cybercrow-final-snapshot-20260720` → commit `b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c` (tag object `9e0a8d7` is not the archive commit).
-- Amendment: [GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md](governance/gates/GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01.md).
-## Programme status
+## Next Gate
 
 ```text
-Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
-Gate verdicts remain: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL · VALIDATION.1B PASS
-Programme completion ≠ every Gate PASS
-Architecture Design Baseline LOCKED v1.0.0
-External Technical Validation Baseline PARTIAL v0.1.0
-Implementation-entry validation COMPLETE — local-first readiness READY WITH CONDITIONS
-Preview and controlled launch remain NOT READY
-Product Code Bootstrap Baseline v0.1.0 ACTIVE
-Product Code Authorization GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
-Preview BLOCKED · Staging BLOCKED · Controlled Launch NOT READY · Production NOT AUTHORIZED
+GHV.IMPLEMENTATION.0C:
+NOT STARTED
+```
+
+## Binding post-0B status
+
+```text
+GHV.IMPLEMENTATION.0B:
+PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED
+WITH NON-BLOCKING DEPENDENCY CONDITIONS
+
+Activation formula:
+email_verified AND current_terms_accepted AND account_risk_status=acceptable
+(mobile NOT mandatory)
+
+Screens authorized:
+ACT-003 · ACT-011 · ACT-005 · ACT-013 · ACT-012 · ACT-006
+
+Product Code:
+AUTHORIZED FOR COMPLETED 0A BOOTSTRAP + 0B ACTIVATION SLICE ONLY
+
+Preview / Staging / Production:
+BLOCKED / BLOCKED / NOT AUTHORIZED
 ```
 
 ## Explicit non-claims
 
 ```text
-Architecture Design Baseline lock ≠ external proof
-Architecture Design Baseline lock ≠ provider selection closed
-Architecture Design Baseline lock ≠ compliance certified
-Architecture Design Baseline lock ≠ production ready
-No production SLOs validated
-No real infrastructure / provider sandbox validation
-No accessibility user validation
-No disaster recovery operational proof
-No Product Code beyond the completed GHV.IMPLEMENTATION.0A foundation bootstrap
-No implementation authorization beyond GHV.IMPLEMENTATION.0A
-External infrastructure validation OPEN
+No Product Code beyond completed 0A + 0B scopes
+No real providers · no Preview · no Production
+Screen inventory unchanged (92 / 7)
+Terms/risk copy is local test — not legally approved
 ```

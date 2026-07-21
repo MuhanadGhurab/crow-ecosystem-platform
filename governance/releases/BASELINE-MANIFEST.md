@@ -88,8 +88,8 @@ Source Gate: **GHV.VALIDATION.1B** (historical Product Code BLOCKED wording pres
 | **GHURAVIA Runtime, Realtime, Integration and Operational Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · External Infrastructure Validation **OPEN** · Full Technical Validation **NOT COMPLETE** · Final Architecture Lock **COMPLETED BY 1E** · **historical as-of Gate: Product Code BLOCKED** · ADR-ARC-024..038 · 1D spikes **13/13** · Source Gate **GHV.ARCHITECTURE.1D** (**PARTIAL**) |
 | **GHURAVIA Architecture Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE** · Registered Architecture Spikes **25 / 25 COMPLETE** · Internal Local Spike Evidence **COMPLETE** · External Technical Validation **NOT COMPLETE** · **historical as-of 1E lock: Product Code BLOCKED · Implementation Authorization NOT GRANTED** · ADR-ARC-001..038 · conflicting ADRs **0** · Source Gate **GHV.ARCHITECTURE.1E** (**PARTIAL**) |
 | Publication | **BLOCKED** |
-| Implementation | **LIMITED FOUNDATION BOOTSTRAP COMPLETE** — broader implementation requires GHV.IMPLEMENTATION.0B |
-| Product Code | **AUTHORIZED ONLY FOR COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE** |
+| Implementation | **LIMITED FOUNDATION RUNTIME + ACTIVATION SLICE COMPLETE** — broader implementation requires GHV.IMPLEMENTATION.0C |
+| Product Code | **AUTHORIZED FOR COMPLETED 0A BOOTSTRAP + 0B ACTIVATION SLICE ONLY** |
 | Historical Master Screen Registry v1.0.0 (90) | **SUPERSEDED** — corrected by CR-001 |
 | GHV.LEARNING.1A–1D | PASS |
 | GHV.PROGRESSION.1A–1C | PASS |
@@ -106,7 +106,8 @@ Source Gate: **GHV.VALIDATION.1B** (historical Product Code BLOCKED wording pres
 | GHV.IMPLEMENTATION.0A | **PASS** — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED · Remote CI **VERIFIED** |
 | GHV.IMPLEMENTATION.0A-CLOSURE-01 | **PARTIAL** — GHURAVIA IMPLEMENTATION 0A CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS · **AMENDED FOR CLOSURE VERDICT PRESERVATION** |
 | GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01 | **PASS** — CLOSURE VERDICT AND STATUS REFERENCES RECONCILED |
-| GHV.IMPLEMENTATION.0B | **ELIGIBLE TO START · NOT STARTED** |
+| GHV.IMPLEMENTATION.0B | **PARTIAL** — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS · Baseline v0.2.0 |
+| GHV.IMPLEMENTATION.0C | **NOT STARTED** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -143,7 +144,8 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Final Progression Baseline | **LOCKED** (design) · real-user / tech still NOT RUN |
 | Expert Review / Pilot | NOT RUN |
 | Publication / broader implementation | BLOCKED pending later Gates |
-| Product Code | **AUTHORIZED ONLY FOR COMPLETED GHV.IMPLEMENTATION.0A FOUNDATION BOOTSTRAP SCOPE** |
+| Product Code | **AUTHORIZED FOR COMPLETED 0A BOOTSTRAP + 0B ACTIVATION SLICE ONLY** |
+| Foundation Runtime / Activation Baseline | **ACTIVE v0.2.0** — LIMITED ACTIVATION VERTICAL SLICE |
 | Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
 | Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) |
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** · core decisions **ACCEPTED** · domain validation **CONTINUES** |
@@ -174,8 +176,8 @@ External infrastructure and provider validation: OPEN
 Architecture Design Baseline LOCKED — NOT external proof · NOT broader Product Code · NOT launch
 Core platform stack ADRs ACCEPTED — domain validation continues
 Identity/Evidence providers DEFERRED WITH ADAPTERS — not production-approved
-Product Code: AUTHORIZED ONLY FOR COMPLETED GHV.IMPLEMENTATION.0A FOUNDATION BOOTSTRAP SCOPE
-Broader Product Code: REQUIRES LATER IMPLEMENTATION GATES
+Product Code: AUTHORIZED FOR COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP + 0B ACTIVATION SLICE ONLY
+Broader Product Code: REQUIRES LATER IMPLEMENTATION GATES (next: 0C)
 Preview: BLOCKED
 Controlled Launch: NOT READY
 Production: NOT AUTHORIZED

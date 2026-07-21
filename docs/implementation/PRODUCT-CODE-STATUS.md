@@ -1,18 +1,29 @@
 # Product code status
 
-v0.1.0 ACTIVE — LIMITED FOUNDATION. Authorized only for local synthetic development; no deployment, real providers, or real users.
+v0.2.0 ACTIVE — LIMITED FOUNDATION RUNTIME + ACTIVATION VERTICAL SLICE.
 
-## TypeScript reconciliation (Validation.1B ↔ Implementation.0A)
+Authorized only for local synthetic development under GHV-IMP-AUTH-001 (0A) and GHV-IMP-AUTH-002 (0B). No deployment, real providers, or real users.
 
-| Field                      | Value                                                                                                   |
-| -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Validation.1B candidate    | `typescript@7.0.2`                                                                                      |
-| Implemented pin            | `typescript@6.0.3`                                                                                      |
-| Evidence                   | Next.js 16.2.10 `next/server` types fail to resolve under TypeScript 7.0.2 in this workspace            |
-| Classification             | **Compatible implementation choice** — not an Architecture ADR change                                   |
-| Architecture contradiction | **NO**                                                                                                  |
-| Upgrade trigger            | TypeScript 7 (or later) resolves Next 16.2.x `next/server` types in clean `tsc` + `next build`          |
-| Owner                      | Founder (RAVEN) · review at GHV.IMPLEMENTATION.0B or Controlled Architecture Change if ADR pin required |
-| Test evidence              | `npm run typecheck` and `npm run build` PASS on TypeScript 6.0.3                                        |
+## Activation (0B)
 
-No Architecture ADR was silently changed.
+```text
+activation_complete =
+  email_verified AND current_terms_accepted AND account_risk_status = acceptable
+```
+
+Mobile is not in the formula. Screens: ACT-003, ACT-011, ACT-005, ACT-013, ACT-012, ACT-006.
+
+See [ACTIVATION-RUNTIME.md](./ACTIVATION-RUNTIME.md).
+
+## TypeScript reconciliation (Validation.1B ↔ Implementation)
+
+| Field                      | Value                                                                   |
+| -------------------------- | ----------------------------------------------------------------------- |
+| Validation.1B candidate    | `typescript@7.0.2`                                                      |
+| Implemented pin            | `typescript@6.0.3`                                                      |
+| Architecture contradiction | **NO**                                                                  |
+| Owner                      | Founder (RAVEN) · review at later Gate / Controlled Architecture Change |
+
+## Dependency advisories
+
+ADV-001 / ADV-002 / ADV-003 remain **ACCEPT TEMPORARILY WITH OWNER** — see [IMPLEMENTATION-0B-DEPENDENCY-ADVISORY-REVIEW.md](../../governance/implementation/IMPLEMENTATION-0B-DEPENDENCY-ADVISORY-REVIEW.md).
