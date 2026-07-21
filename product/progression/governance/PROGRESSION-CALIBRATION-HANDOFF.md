@@ -3,52 +3,62 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-GOV-CAL-001 |
-| **Version** | 0.3.0 |
-| **Status** | HANDOFF PACKAGE · PENDING GHV.PROGRESSION.1D |
+| **Version** | 0.4.0 |
+| **Status** | HANDOFF PACKAGE · POST GHV.PROGRESSION.1D LOCK · VALIDATION DEBT REMAINS |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1C |
-| **Handoff target** | GHV.PROGRESSION.1D — Final Progression Baseline Review and Lock |
+| **Source Gate** | GHV.PROGRESSION.1D |
+| **Handoff target** | Real-user / usability / technical validation · GHV.BASELINE-CORRECTION.1 (screen debt) · then GHV.ARCHITECTURE.1A |
 | **Last updated** | 2026-07-21 |
-| **Related** | [../formulas/PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) · [../calibration/README.md](../calibration/README.md) · [../simulation/SIMULATION-RUN-REGISTRY.md](../simulation/SIMULATION-RUN-REGISTRY.md) · [PROGRESSION-TECHNICAL-HANDOFF.md](./PROGRESSION-TECHNICAL-HANDOFF.md) |
+| **Related** | [PROGRESSION-BASELINE-MANIFEST.md](./PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./FINAL-FORMULA-VERSION-REGISTRY.md) · [../formulas/PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) · [../calibration/README.md](../calibration/README.md) · [PROGRESSION-TECHNICAL-HANDOFF.md](./PROGRESSION-TECHNICAL-HANDOFF.md) |
 
 ## Purpose
 
-Provide `GHV.PROGRESSION.1D` with accepted formula versions, conditions, mandatory findings, multi-seed / fairness / red-team evidence, and remaining real-user / technical gaps — **without** production implementation.
+Record that **GHV.PROGRESSION.1D PASS** locked the Progression Design Baseline, and carry remaining validation debt forward — **without** production implementation.
 
 ```text
-CALIBRATION RECOMMENDED · PENDING 1D
+LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE v1.0.0
+INTERNAL SYNTHETIC CALIBRATION COMPLETE
 NOT production calibrated
-synthetic only
+NOT REAL-USER EVIDENCE
 Product Code BLOCKED
 ```
 
-## Accepted formula versions
-
-| ID | Version | Notes |
-|----|---------|-------|
-| FRM-MAT-001 | **0.2.0** | Mission/Stage contexts; governed Rank skip; Fledgling reachable |
-| FRM-MOM-002 | **0.2.0** | Alternative B ±2 promotion buffer · **WITH CONDITIONS** |
-| FRM-XP-001 | **0.1.1** | Evidence XP once-per-approval |
-| All other registered IDs | **0.1.0** | CALIBRATION RECOMMENDED · PENDING 1D |
-| FRM-PRS-001 / POL-PRS-001 | 0.1.0 | **WITH CONDITIONS** (soft watch) |
-| POL-TRU-001 | 0.1.0 | **WITH CONDITIONS** |
-| POL-POP-001 | 0.1.0 | **WITH CONDITIONS** |
-
-Rejected candidates: **none**.
-
-## Conditions that must travel into 1D
-
-1. **FRM-MOM-002** — monitor league bands in real pilot; do not equalize leagues.
-2. **POL-TRU-001** — false-restriction / time-window calibration with Cohort E discipline.
-3. **FRM-PRS-001 / POL-PRS-001** — Ascendant soft watch; Cohort B Ascendant **0%**; Apex/Obsidian **0** in ordinary first-year launch-realistic; panel feasibility.
-4. **POL-POP-001** — validate population thresholds before authoritative public boards.
-
-## Evidence package for 1D intake
+## Lock outcome (1D)
 
 | Item | Status |
 |------|--------|
-| Multi-seed population (25k; seeds 20260721–20260725) | COMPLETE — RUN-007 |
-| Cohort B launch-realistic | RP **22.88%** · Ascendant **0%** · Fledgling 1309 |
+| Progression Design Baseline v1.0.0 | **LOCKED** |
+| Internal Calibration Baseline v0.2.0 | Superseded into design lock (evidence retained) |
+| Learning Design Baseline v1.0.0 | Unchanged |
+| Change Freeze | Active |
+
+## Accepted formula versions (locked)
+
+| ID | Version | Notes |
+|----|---------|-------|
+| FRM-MAT-001 | **0.2.0** | LOCKED AS DESIGN BASELINE |
+| FRM-MOM-002 | **0.2.0** | **LOCKED WITH VALIDATION CONDITIONS** |
+| FRM-XP-001 | **0.1.1** | LOCKED AS DESIGN BASELINE |
+| All other registered IDs | **0.1.0** | Per FINAL-FORMULA-VERSION-REGISTRY |
+| FRM-PRS-001 / POL-PRS-001 | 0.1.0 | **LOCKED WITH VALIDATION CONDITIONS** |
+| POL-TRU-001 | 0.1.0 | **LOCKED WITH VALIDATION CONDITIONS** |
+| POL-POP-001 | 0.1.0 | **LOCKED WITH VALIDATION CONDITIONS** |
+
+Authoritative version table: [FINAL-FORMULA-VERSION-REGISTRY.md](./FINAL-FORMULA-VERSION-REGISTRY.md).
+
+## Conditions that remain after 1D
+
+1. **FRM-MOM-002** — real-user League-boundary monitoring; usability; season review; buffer tech validation.
+2. **POL-TRU-001** — moderation policy, FP testing, window calibration, staffing, age/legal.
+3. **FRM-PRS-001 / POL-PRS-001** — panel staffing/consistency, rarity, CoI ops, Prestige usability.
+4. **POL-POP-001** — small-population pilot, culture/privacy/minors, toxicity monitoring.
+
+## Evidence retained
+
+| Item | Status |
+|------|--------|
+| Multi-seed population (25k) | COMPLETE — RUN-007 |
+| Cohort B launch-realistic | RP **22.88%** · Ascendant **0%** |
 | Counterfactual fairness | **10/10 PASS** — RUN-008 |
 | Schedule fairness | Skill equal · mom Δ **4.33 ≤ 10** — RUN-009 |
 | Integrity red-team | **20/20 PASS** — RUN-013 |
@@ -57,19 +67,22 @@ Rejected candidates: **none**.
 | Usability validation | **NOT RUN** |
 | Technical validation | **NOT RUN** |
 
-## Mandatory findings
+## Remaining external debt (non-progression formulas)
 
-See [MANDATORY-CALIBRATION-FINDINGS.md](../calibration/MANDATORY-CALIBRATION-FINDINGS.md) — CAL-FND-001…007 dispositions accepted.
+| Debt | Gate / path |
+|------|-------------|
+| Screen registry 90 vs authoritative 92 / 7 shells | **GHV.BASELINE-CORRECTION.1** (**Next**) · blocks **ARCHITECTURE.1A** |
+| Real-user progression pilot | DEP-076 · NOT RUN |
+| Technical validation | DEP-077 · NOT RUN · Product Code BLOCKED |
 
 ## Explicit non-claims
 
 ```text
 NOT production calibrated
-NOT FINAL
-NOT PRODUCTION READY
 NOT REAL-USER EVIDENCE
+NOT TECHNICALLY VALIDATED
 NO PRODUCT CODE IN THIS HANDOFF
-Final Progression Baseline NOT LOCKED
+Screen counts NOT silently corrected here
 ```
 
 ## Change history
@@ -79,3 +92,4 @@ Final Progression Baseline NOT LOCKED
 | 0.1.0 | 2026-07-21 | Initial calibration handoff from GHV.PROGRESSION.1B (pre-run placeholders) |
 | 0.2.0 | 2026-07-21 | COMPLETE simulation results summary + calibration watches |
 | 0.3.0 | 2026-07-21 | 1C PASS handoff → 1D with accepted versions, conditions, multi-seed, red-team PASS |
+| 0.4.0 | 2026-07-21 | 1D PASS — design lock recorded; validation + screen-count debt carried forward |

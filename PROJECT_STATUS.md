@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.PROGRESSION.1C — INTEGRITY, FAIRNESS AND CALIBRATION — PASS
+GHV.PROGRESSION.1D — FINAL PROGRESSION BASELINE REVIEW AND LOCK — PASS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -19,24 +19,62 @@ Accepted Previous Gates:
 - GHV.PROGRESSION.1A — PASS
 - GHV.PROGRESSION.1B — PASS
 - GHV.PROGRESSION.1C — PASS
+- GHV.PROGRESSION.1D — PASS
 
 Learning Design:
 LOCKED AS DESIGN BASELINE v1.0.0
 
 Progression Architecture:
-PASS
+LOCKED AS DESIGN BASELINE
 
-Progression Formula Simulation:
+Progression Formulas:
+LOCKED AS DESIGN BASELINE
+
+Internal Formula Simulation:
 PASS
 
 Internal Synthetic Calibration:
-COMPLETE
+PASS
 
 Counterfactual Fairness:
-COMPLETE AT SYNTHETIC LEVEL
+PASS AT SYNTHETIC LEVEL
 
 Integrity Red-Team:
-COMPLETE AT DESIGN LEVEL
+PASS AT DESIGN LEVEL
+
+Flight XP:
+LOCKED AS DESIGN BASELINE
+
+Momentum:
+LOCKED WITH VALIDATION CONDITIONS
+
+Maturity:
+LOCKED AS DESIGN BASELINE
+
+Mastery:
+LOCKED AS DESIGN BASELINE
+
+Breadth:
+LOCKED AS DESIGN BASELINE
+
+Trust:
+LOCKED WITH VALIDATION CONDITIONS
+NON-PUBLIC STATE MODEL
+
+Professional Titles:
+FOUNDATION TEMPLATES LOCKED
+CATALOGUE DEFERRED
+
+Prestige:
+LOCKED WITH VALIDATION CONDITIONS
+HUMAN REVIEW REQUIRED
+
+Achievements and Crests:
+LOCKED AS PROVISIONAL LAUNCH DESIGN CATALOGUE
+
+Leaderboards:
+LOCKED AS SEPARATED DESIGN BASELINE
+POPULATION POLICY HAS VALIDATION CONDITIONS
 
 Real-User Calibration:
 NOT RUN
@@ -47,11 +85,14 @@ NOT RUN
 Technical Validation:
 NOT RUN
 
-Final Progression Lock:
-PENDING GHV.PROGRESSION.1D
+Progression Implementation:
+BLOCKED
 
 Product Code:
 BLOCKED
+
+Screen Registry Reconciliation:
+REQUIRED BEFORE GHV.ARCHITECTURE.1A
 
 Branch:
 feat/ghuravia-foundation (deploy guard active)
@@ -60,13 +101,15 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 ```text
-GHV.PROGRESSION.1D — FINAL PROGRESSION BASELINE REVIEW AND LOCK
+GHV.BASELINE-CORRECTION.1
+MASTER SCREEN REGISTRY 92-SCREEN RECONCILIATION
 ```
 
-## Parallel future Gate
+## Following Gate
 
 ```text
-GHV.ARCHITECTURE.1A — CORE TECHNICAL VALIDATION PLAN
+GHV.ARCHITECTURE.1A
+CORE TECHNICAL VALIDATION PLAN
 ```
 
 ## Identity
@@ -82,10 +125,11 @@ GHV.ARCHITECTURE.1A — CORE TECHNICAL VALIDATION PLAN
 ## Authoritative entry points
 
 - [progression/README.md](./product/progression/README.md)
+- [PROGRESSION-BASELINE-MANIFEST.md](./product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md)
+- [FINAL-FORMULA-VERSION-REGISTRY.md](./product/progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md)
 - [PROGRESSION-FORMULA-REGISTRY.md](./product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md)
-- [calibration/README.md](./product/progression/calibration/README.md)
 - [PROGRESSION-CALIBRATION-HANDOFF.md](./product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md)
 - [LEARNING-PORTFOLIO-MANIFEST.md](./product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
 - [GATE-REGISTER.md](./governance/gates/GATE-REGISTER.md)
 - [BASELINE-MANIFEST.md](./governance/releases/BASELINE-MANIFEST.md)
-- [GHV.PROGRESSION.1C.md](./governance/gates/GHV.PROGRESSION.1C.md)
+- [GHV.PROGRESSION.1D.md](./governance/gates/GHV.PROGRESSION.1D.md)

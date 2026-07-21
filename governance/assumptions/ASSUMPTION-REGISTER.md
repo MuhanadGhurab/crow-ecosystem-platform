@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.9.0 |
+| **Version** | 1.10.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1C |
+| **Source Gate** | GHV.PROGRESSION.1D |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -84,3 +84,7 @@
 | ASM-072 | Human Prestige panels can be staffed at controlled-launch scale | Pending Validation | Human Prestige | Soft watch; staffing Open | Narrow/pause Prestige | 1C |
 | ASM-073 | Explainability can be delivered in Arabic and English | Pending Validation | Localization | Explainability calibration package | Terminology packs | 1C |
 | ASM-074 | Accessibility alternatives preserve assessment validity | Pending Validation | Fairness | Schedule Skill equal; mom Δ 4.33 ≤ 10 | Exclude failing modalities | 1C |
+| ASM-075 | Progression Design Baseline lock will not be mistaken for production calibration or Product Code authorization | Active | Status clarity | DEC-136 · PROJECT_STATUS · Change Freeze | Correct messaging | 1D |
+| ASM-076 | Conditional locks (MOM-002 · TRU · PRS · POL-POP) remain sufficient until real-user / ops validation | Active | Conditional design | Pilot + staffing deps | Controlled Change / narrow surface | 1D |
+| ASM-077 | Screen-count defect (90 vs 92) can be corrected in GHV.BASELINE-CORRECTION.1 without rewriting Progression Design Baseline | Active | Cross-baseline debt | BASELINE-CORRECTION.1 Gate | Delay ARCHITECTURE.1A | 1D |
+| ASM-078 | Real-user and technical validation plans can proceed after design lock without reopening frozen formula meanings | Active | Sequencing | Change Freeze + validation plans | Foundational rebaseline only if invariants break | 1D |

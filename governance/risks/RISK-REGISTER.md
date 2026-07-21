@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.9.0 |
+| **Version** | 1.10.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1C |
-| **Note** | Risks are identified, not claimed mitigated. Synthetic 1C PASS does **not** close Open risks. |
+| **Source Gate** | GHV.PROGRESSION.1D |
+| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock and synthetic 1D PASS do **not** close Open synthetic-only or validation-debt risks. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -260,6 +260,7 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-PRG-053 | Synthetic generator bias / multi-seed instability | H | H | H | Generator artifacts mistaken for product truth | Multi-seed RUN-007; DEC-124 | Require real-user data | Founder | Open | Pilot | SIM |
 | RISK-PRG-054 | Formula overfitting to synthetic cohorts | H | H | H | Quota retunes to histograms | Calibration principles locked | Reject cosmetic retunes | Founder | Open | 1D | SIM |
 | RISK-PRG-055 | Arabic explainability gaps | M | H | H | EN-only explanations | AR/EN explainability package | Localization review | Founder | Open | Launch | EXP |
-| RISK-PRG-056 | Real-user behavior differs materially from synthetic | H | H | H | Internal calibration alone | DEC-134; real-user NOT RUN | Delay production confidence | Founder | Open | Pilot | SIM |
+| RISK-PRG-056 | Real-user behavior differs materially from synthetic | H | H | H | Internal calibration alone | DEC-134/148; real-user NOT RUN | Delay production confidence | Founder | Open | Pilot | SIM |
+| RISK-PRG-057 | Screen-count baseline defect (90 listed vs 92 authoritative / 7 shells) | H | H | H | ARCHITECTURE.1A without reconcile | Record defect; **GHV.BASELINE-CORRECTION.1**; do not silently rewrite in Progression Gates | Block ARCH.1A until correction | Founder | Open | BASELINE-CORRECTION.1 | SCR |
 
-Architecture, simulation, and **synthetic 1C calibration** documentation do **not** close these risks; real-user pilots, staffing, and operational controls remain required.
+Architecture, simulation, synthetic calibration, and **Progression Design Baseline lock** do **not** close these risks; real-user pilots, staffing, screen reconciliation, and operational controls remain required.

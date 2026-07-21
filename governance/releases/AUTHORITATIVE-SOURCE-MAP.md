@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.4.0 |
+| **Version** | 1.5.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1C |
+| **Source Gate** | GHV.PROGRESSION.1D |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -46,9 +46,9 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Cross-Wing access formula | Scope Baseline | Atlas in cross-wing template |
 | Account activation formula | Constitution (+ journey) | — |
 | Master User Journey phases | [MASTER-USER-JOURNEY.md](../../product/journeys/MASTER-USER-JOURNEY.md) | — |
-| Screen IDs (90) | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | — |
+| Screen IDs | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | **DEFECTIVE PENDING CORRECTION** — registry lists **90**; authoritative decision remains **92 screens / 7 shells** · next Gate **GHV.BASELINE-CORRECTION.1** · blocks **ARCHITECTURE.1A** · do not treat 90 as corrected |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
-| Wireframe statuses (90 screens) | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity |
+| Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · inherits screen-count defect until BASELINE-CORRECTION.1 |
 | Interaction grammar | [INTERACTION-GRAMMAR.md](../../product/interactions/INTERACTION-GRAMMAR.md) | — |
 | Critical flows | [CRITICAL-FLOWS.md](../../product/interactions/CRITICAL-FLOWS.md) | FLOW-001–016 |
 | Commercial narrative | [COMMERCIAL-BASELINE.md](../commercial/COMMERCIAL-BASELINE.md) | Prices link to Scope |
@@ -85,43 +85,45 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Progression states | [PROGRESSION-STATE-REGISTRY.md](../../product/progression/architecture/PROGRESSION-STATE-REGISTRY.md) | Exact 78 |
 | Progression decisions | [PROGRESSION-DECISION-REGISTRY.md](../../product/progression/architecture/PROGRESSION-DECISION-REGISTRY.md) | Exact 21 |
 | Flight XP (architecture) | [FLIGHT-XP-ARCHITECTURE.md](../../product/progression/xp/FLIGHT-XP-ARCHITECTURE.md) | Architecture |
-| **Flight XP formula (provisional)** | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (v0.1.1) |
-| **Flight Level formula (provisional)** | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| **Progression Design Baseline** | [PROGRESSION-BASELINE-MANIFEST.md](../../product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md) | **Authoritative** — v1.0.0 LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE |
+| **Final formula / policy / template versions** | [FINAL-FORMULA-VERSION-REGISTRY.md](../../product/progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) | **Authoritative** — one active version per ID |
+| Flight XP formula | [FLIGHT-XP-FORMULA.md](../../product/progression/formulas/FLIGHT-XP-FORMULA.md) | LOCKED AS DESIGN BASELINE (v0.1.1) · authority via FINAL-FORMULA-VERSION-REGISTRY |
+| Flight Level formula | [FLIGHT-LEVEL-FORMULA.md](../../product/progression/formulas/FLIGHT-LEVEL-FORMULA.md) | LOCKED AS DESIGN BASELINE |
 | Momentum (architecture) | [MOMENTUM-LEAGUE-ARCHITECTURE.md](../../product/progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | Architecture |
-| **Momentum formulas (provisional)** | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (MOM-002 v0.2.0 WITH CONDITIONS) |
+| Momentum formulas | [MOMENTUM-FORMULA.md](../../product/progression/formulas/MOMENTUM-FORMULA.md) | MOM-002 **LOCKED WITH VALIDATION CONDITIONS** (v0.2.0) |
 | Maturity (architecture) | [MATURITY-RANK-ARCHITECTURE.md](../../product/progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | Architecture |
-| **Maturity formula (provisional)** | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** (v0.2.0) |
+| Maturity formula | [MATURITY-FORMULA.md](../../product/progression/formulas/MATURITY-FORMULA.md) | LOCKED AS DESIGN BASELINE (v0.2.0) |
 | Mastery (architecture) | [ROUTE-MASTERY-ARCHITECTURE.md](../../product/progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | Architecture |
-| **Mastery formulas (provisional)** | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| Mastery formulas | [MASTERY-FORMULA.md](../../product/progression/formulas/MASTERY-FORMULA.md) | LOCKED AS DESIGN BASELINE |
 | Breadth (architecture) | [BREADTH-ARCHITECTURE.md](../../product/progression/breadth/BREADTH-ARCHITECTURE.md) | Architecture |
-| **Breadth formula (provisional)** | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| Breadth formula | [BREADTH-FORMULA.md](../../product/progression/formulas/BREADTH-FORMULA.md) | LOCKED AS DESIGN BASELINE |
 | Trust (architecture) | [TRUST-STANDING-ARCHITECTURE.md](../../product/progression/trust/TRUST-STANDING-ARCHITECTURE.md) | Architecture |
-| **Trust policy (provisional)** | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
+| Trust policy | [TRUST-TRANSITION-POLICY.md](../../product/progression/formulas/TRUST-TRANSITION-POLICY.md) | **LOCKED WITH VALIDATION CONDITIONS** · non-public |
 | Titles (architecture) | [PROFESSIONAL-TITLE-ARCHITECTURE.md](../../product/progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | Catalogue deferred |
-| **Title templates (provisional)** | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| Title templates | [PROFESSIONAL-TITLE-ELIGIBILITY.md](../../product/progression/formulas/PROFESSIONAL-TITLE-ELIGIBILITY.md) | Foundation templates locked · catalogue deferred |
 | Prestige (architecture) | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) | Human final authority |
-| **Prestige formula/policy (provisional)** | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
+| Prestige formula/policy | [PRESTIGE-FORMULA.md](../../product/progression/formulas/PRESTIGE-FORMULA.md) | **LOCKED WITH VALIDATION CONDITIONS** |
 | Achievements / Crests (architecture) | [ACHIEVEMENT-CREST-ARCHITECTURE.md](../../product/progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | — |
-| **Achievement rules (provisional)** | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| Achievement rules | [ACHIEVEMENT-RULE-CATALOGUE.md](../../product/progression/formulas/ACHIEVEMENT-RULE-CATALOGUE.md) | Provisional launch catalogue locked |
 | Leaderboards (architecture) | [LEADERBOARD-ARCHITECTURE.md](../../product/progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
-| **Leaderboard formulas (provisional)** | [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
-| **Leaderboard population (provisional)** | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D (WITH CONDITIONS)** |
+| Leaderboard formulas | [LEADERBOARD-FORMULAS.md](../../product/progression/formulas/LEADERBOARD-FORMULAS.md) | LOCKED AS DESIGN BASELINE |
+| Leaderboard population | [LEADERBOARD-POPULATION-POLICY.md](../../product/progression/formulas/LEADERBOARD-POPULATION-POLICY.md) | **LOCKED WITH VALIDATION CONDITIONS** |
 | Corrections / appeals | [PROGRESSION-CORRECTION-AND-APPEAL.md](../../product/progression/governance/PROGRESSION-CORRECTION-AND-APPEAL.md) | Architecture |
-| **Correction mathematics (provisional)** | [PROGRESSION-CORRECTION-MATHEMATICS.md](../../product/progression/formulas/PROGRESSION-CORRECTION-MATHEMATICS.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
-| **Mastery freshness (provisional)** | [MASTERY-FRESHNESS-POLICY.md](../../product/progression/formulas/MASTERY-FRESHNESS-POLICY.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
+| Correction mathematics | [PROGRESSION-CORRECTION-MATHEMATICS.md](../../product/progression/formulas/PROGRESSION-CORRECTION-MATHEMATICS.md) | LOCKED AS DESIGN BASELINE |
+| Mastery freshness | [MASTERY-FRESHNESS-POLICY.md](../../product/progression/formulas/MASTERY-FRESHNESS-POLICY.md) | LOCKED AS DESIGN BASELINE |
 | Fairness | [PROGRESSION-FAIRNESS-ARCHITECTURE.md](../../product/progression/fairness/PROGRESSION-FAIRNESS-ARCHITECTURE.md) | — |
 | Anti-gaming | [PROGRESSION-ANTI-GAMING-ARCHITECTURE.md](../../product/progression/integrity/PROGRESSION-ANTI-GAMING-ARCHITECTURE.md) | — |
 | Explainability | [PROGRESSION-EXPLAINABILITY.md](../../product/progression/experience/PROGRESSION-EXPLAINABILITY.md) | — |
-| **Formula registry (provisional)** | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | Exact 24 IDs · CALIBRATION RECOMMENDED · PENDING 1D |
-| **Calibration package (provisional)** | [product/progression/calibration/](../../product/progression/calibration/) | **NOT production calibrated · synthetic only** |
-| **Simulation runs (provisional)** | [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) | RUN-001…013 · synthetic |
-| **Sensitivity (provisional)** | [FORMULA-SENSITIVITY-REPORT.md](../../product/progression/simulation/FORMULA-SENSITIVITY-REPORT.md) | **CALIBRATION RECOMMENDED · PENDING 1D** |
-| **Pay-to-win verification (provisional)** | [PAY-TO-WIN-EQUIVALENCE-TEST.md](../../product/progression/simulation/PAY-TO-WIN-EQUIVALENCE-TEST.md) | All diffs = 0 (synthetic) |
+| Formula registry (supporting index) | [PROGRESSION-FORMULA-REGISTRY.md](../../product/progression/formulas/PROGRESSION-FORMULA-REGISTRY.md) | Exact 24 IDs · versions authoritative in FINAL-FORMULA-VERSION-REGISTRY |
+| Calibration package | [product/progression/calibration/](../../product/progression/calibration/) | Synthetic evidence under design lock · **NOT** production calibrated |
+| Simulation runs | [SIMULATION-RUN-REGISTRY.md](../../product/progression/simulation/SIMULATION-RUN-REGISTRY.md) | RUN-001…013 · synthetic |
+| Sensitivity | [FORMULA-SENSITIVITY-REPORT.md](../../product/progression/simulation/FORMULA-SENSITIVITY-REPORT.md) | Synthetic |
+| Pay-to-win verification | [PAY-TO-WIN-EQUIVALENCE-TEST.md](../../product/progression/simulation/PAY-TO-WIN-EQUIVALENCE-TEST.md) | All diffs = 0 (synthetic) |
 | Analytical package (non-runtime) | [analysis/progression-simulation/](../../analysis/progression-simulation/) | NOT Product Code |
-| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | → 1D |
+| Calibration handoff | [PROGRESSION-CALIBRATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-CALIBRATION-HANDOFF.md) | Post-1D · remaining validation debt |
 | Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | Historical 1A→1B |
-| Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi; formulas provisional |
+| Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi · design-locked formulas |
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Formula candidates must not be summarized as FINAL, CALIBRATED, or PRODUCTION READY.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Do not cite MASTER-SCREEN-REGISTRY’s 90-count as corrected authority until GHV.BASELINE-CORRECTION.1.

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.9.0 |
+| **Version** | 1.10.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1C |
+| **Source Gate** | GHV.PROGRESSION.1D |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1416,8 +1416,168 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | Field | Value |
 |-------|-------|
 | **Decision** | GHV.PROGRESSION.1C PASS advances Internal Calibration Baseline **v0.2.0** as CALIBRATION RECOMMENDED. Final Progression Baseline lock remains **PENDING GHV.PROGRESSION.1D**. Formula versions: MAT **0.2.0**, MOM-002 **0.2.0**, XP **0.1.1**, others **0.1.0**. Conditions travel on MOM-002, TRU, PRS, POL-POP. |
-| **Status** | Accepted |
+| **Status** | **Superseded** by DEC-136 / GHV.PROGRESSION.1D PASS |
 | **Rationale** | Supersedes DEC-120 pending-1C posture; does not authorize final lock or Product Code. |
 | **Related Gate** | GHV.PROGRESSION.1C |
 | **Evidence** | [GHV.PROGRESSION.1C.md](../gates/GHV.PROGRESSION.1C.md) · [CALIBRATION-FINAL-RECOMMENDATION.md](../../product/progression/calibration/CALIBRATION-FINAL-RECOMMENDATION.md) · PROGRESSION-FORMULA-REGISTRY.md |
+
+## DEC-136 — Meaning of Progression Design Baseline lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | **LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE** means governed design meanings, IDs, formulas/policies/templates, invariants, and Change Freeze only. It does **not** mean real-user validated, usability validated, technically validated, production calibrated, implemented, or production ready. |
+| **Status** | Accepted |
+| **Rationale** | Prevents false confidence after 1D PASS (extends DEC-134). |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | [GHV.PROGRESSION.1D.md](../gates/GHV.PROGRESSION.1D.md) · [PROGRESSION-BASELINE-MANIFEST.md](../../product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md) |
+
+## DEC-137 — Final accepted formula / policy / template versions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock one active version per ID: FRM-XP-001 **0.1.1**; FRM-MAT-001 **0.2.0**; FRM-MOM-002 **0.2.0**; all other registered formula/policy/template IDs **0.1.0** as listed in FINAL-FORMULA-VERSION-REGISTRY. Conflicting active versions forbidden. |
+| **Status** | Accepted |
+| **Rationale** | Closes multi-version drift before technical validation. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | [FINAL-FORMULA-VERSION-REGISTRY.md](../../product/progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
+
+## DEC-138 — Momentum conditional lock (FRM-MOM-002)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | FRM-MOM-002 **0.2.0** is **LOCKED WITH VALIDATION CONDITIONS**: real-user League-boundary monitoring; Momentum-anxiety usability; season-distribution review after pilot; promotion-buffer technical validation. Do not equalize leagues. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Synthetic PASS with known boundary sensitivity (CAL-FND-002 / DEC-130 lineage). |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | MOMENTUM-FORMULA.md · FINAL-FORMULA-VERSION-REGISTRY |
+
+## DEC-139 — Fledgling resolution (CAL-FND-001)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Fledgling reachability via FRM-MAT-001 **0.2.0** (Mission/Stage contexts + governed Rank skip) is **accepted and closed** for design lock. Measured synthetic Fledgling **3472 / 25000**. Real-pilot re-check remains debt. |
+| **Status** | Accepted |
+| **Rationale** | Mandatory finding closure without cosmetic Rank forcing. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | MATURITY-FORMULA.md · MANDATORY-CALIBRATION-FINDINGS · MULTI-SEED-POPULATION-REPORT |
+
+## DEC-140 — Route-Proven density disposition (CAL-FND-003)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Mastery floors unchanged. Cite **Cohort B RP 22.88%** for launch narrative; Cohort A ~45% is stress-only. No floor hike solely to lower stress RP %. |
+| **Status** | Accepted |
+| **Rationale** | Prevents quota tuning to synthetic histograms. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | LAUNCH-REALISTIC-COHORT-REPORT · DEC-125/129 |
+
+## DEC-141 — Prestige soft-warning disposition (CAL-FND-004)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Prestige **LOCKED WITH VALIDATION CONDITIONS**. Cohort B Ascendant **0%**; Apex/Obsidian **0**. No cosmetic PEI hike. Panel staffing, consistency, rarity calibration, CoI ops, and Prestige usability remain Open debt. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Soft watch retained under design lock. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | PRESTIGE-CALIBRATION-REPORT · FRM/POL-PRS |
+
+## DEC-142 — Trust non-public lock (POL-TRU-001)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Trust remains a **non-public state model** with **no public numeric score**. POL-TRU-001 **LOCKED WITH VALIDATION CONDITIONS** (moderation policy, FP testing, window calibration, staffing, age/legal). |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Privacy and anti-popularity invariants. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | TRUST-TRANSITION-POLICY · TRUST-CALIBRATION-REPORT |
+
+## DEC-143 — Counterfactual parity lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Counterfactual parity is locked for design: matched Skill systems must show **zero** plan/language/age/AT/connectivity/device/profile/reviewer-identity diffs; schedule may affect Momentum only within approved synthetic bound (Δ **4.33 ≤ 10**); Mastery/Route-Proven unaffected by schedule. Protected traits are not formula inputs. |
+| **Status** | Accepted |
+| **Rationale** | Design-level fairness law; real-user still NOT RUN. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | COUNTERFACTUAL-FAIRNESS-TESTS · ACCESSIBILITY-SCHEDULE-REPORT |
+
+## DEC-144 — Professional Title catalogue deferral
+
+| Field | Value |
+|-------|-------|
+| **Decision** | TPL-TTL-001/002 foundation templates are locked; **Title catalogue remains DEFERRED**. No automatic Title grants; employment disclaimer retained. |
+| **Status** | Accepted |
+| **Rationale** | Honest templates without premature catalogue lock. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | PROFESSIONAL-TITLE-ELIGIBILITY · DEP-070 |
+
+## DEC-145 — Prestige human-authority lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Prestige Classes remain **human-granted only**. Automation may open eligibility/review queues but **cannot grant** Prestige. Panels, quorum, founder self-approval ban, and conflict recusal are mandatory. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Constitution / integrity boundary. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | PRESTIGE-ARCHITECTURE · POL-PRS-001 · AUTOMATION-HUMAN-AUTHORITY-BOUNDARY |
+
+## DEC-146 — Achievement provisional catalogue
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Exactly **12** provisional launch Achievement rules (**POL-ACH-001**) are **LOCKED AS PROVISIONAL LAUNCH DESIGN CATALOGUE**. Artwork/publication deferred. Participation ≠ Skill; no payment Achievement. |
+| **Status** | Accepted |
+| **Rationale** | Bounded launch catalogue without clutter claim. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | ACHIEVEMENT-RULE-CATALOGUE |
+
+## DEC-147 — Leaderboard population policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Leaderboard formulas locked as separated design baseline; **POL-POP-001 LOCKED WITH VALIDATION CONDITIONS**. No universal board. Below **20** users: no public ranked board. Paid plans get no multiplier. |
+| **Status** | Conditionally Accepted |
+| **Rationale** | Small-N cultural/privacy harm risks remain Open. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | LEADERBOARD-POPULATION-POLICY · LEADERBOARD-POPULATION-REPORT |
+
+## DEC-148 — Real-user validation requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Real-user progression calibration remains **mandatory before production confidence**. Design lock does **not** satisfy real-user validation. Status stays **NOT RUN**. |
+| **Status** | Accepted |
+| **Rationale** | RISK-PRG-038 / 044 / 056 remain Open. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | REAL-USER-PROGRESSION-VALIDATION-PLAN (when present) · PROJECT_STATUS |
+
+## DEC-149 — Technical validation requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Technical validation of event ingress, version storage, rounding, reversals, audit, and workflows remains **mandatory before implementation**. Status stays **NOT RUN**. Product Code remains **BLOCKED**. |
+| **Status** | Accepted |
+| **Rationale** | Design lock ≠ technical correctness. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | PROGRESSION-TECHNICAL-HANDOFF · PROGRESSION-TECHNICAL-VALIDATION-PLAN (when present) |
+
+## DEC-150 — Progression Change Freeze
+
+| Field | Value |
+|-------|-------|
+| **Decision** | After 1D PASS, progression meanings, IDs, ledger separation, accepted formula/policy/template versions, floors/caps, Trust non-public model, Prestige human authority, Leaderboard separation, and anti-pay-to-win / counterfactual-parity invariants are under **Progression Change Freeze**. Editorial clarifications allowed; value/output changes require Controlled Change Request; foundational invariants require rebaseline. |
+| **Status** | Accepted |
+| **Rationale** | Protects locked design baseline. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | [PROGRESSION-CHANGE-FREEZE-POLICY.md](../../product/progression/governance/PROGRESSION-CHANGE-FREEZE-POLICY.md) |
+
+## DEC-151 — Screen-count defect / GHV.BASELINE-CORRECTION.1
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Authoritative product decision remains **7 interface shells / 92 screens**. MASTER-SCREEN-REGISTRY currently lists **90** — a pre-existing governance defect. Record as external baseline debt; **do not** silently rewrite screen IDs/counts inside PROGRESSION.1D. Next Gate: **GHV.BASELINE-CORRECTION.1**. This defect **blocks GHV.ARCHITECTURE.1A**. Does not invalidate Progression Design Baseline lock when correctly recorded. |
+| **Status** | Accepted |
+| **Rationale** | Cross-baseline integrity without scope creep into Learning/PD baselines. |
+| **Related Gate** | GHV.PROGRESSION.1D |
+| **Evidence** | [GATE-REGISTER.md](../gates/GATE-REGISTER.md) · MASTER-SCREEN-REGISTRY (defective count) · RISK-PRG-057 |
 

@@ -3,25 +3,26 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-GOV-TECH-001 |
-| **Version** | 1.2.0 |
-| **Status** | ARCHITECTURE RECOMMENDED · CALIBRATION RECOMMENDED · PENDING 1D |
+| **Version** | 1.3.0 |
+| **Status** | ARCHITECTURE RECOMMENDED · PROGRESSION DESIGN BASELINE LOCKED · TECHNICAL VALIDATION NOT RUN |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1C (extends 1A/1B handoff) |
-| **Handoff target** | Future technical validation (not run in 1A/1B/1C) |
+| **Source Gate** | GHV.PROGRESSION.1D (extends 1A/1B/1C handoff) |
+| **Handoff target** | Future technical validation (not run in 1A–1D) · blocked from ARCHITECTURE.1A until GHV.BASELINE-CORRECTION.1 |
 | **Last updated** | 2026-07-21 |
-| **Related docs** | [PROGRESSION-SIMULATION-HANDOFF.md](./PROGRESSION-SIMULATION-HANDOFF.md) · [PROGRESSION-CALIBRATION-HANDOFF.md](./PROGRESSION-CALIBRATION-HANDOFF.md) · [AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md](./AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md) · [PROGRESSION-DATA-MINIMIZATION.md](./PROGRESSION-DATA-MINIMIZATION.md) · [../architecture/PROGRESSION-LEDGER-MODEL.md](../architecture/PROGRESSION-LEDGER-MODEL.md) · [../architecture/PROGRESSION-DECISION-REGISTRY.md](../architecture/PROGRESSION-DECISION-REGISTRY.md) · [../architecture/PROGRESSION-STATE-REGISTRY.md](../architecture/PROGRESSION-STATE-REGISTRY.md) · [../events/PROGRESSION-EVENT-VALIDITY.md](../events/PROGRESSION-EVENT-VALIDITY.md) · [../formulas/PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) · [../README.md](../README.md) |
-| **Limitations** | CALIBRATION RECOMMENDED · **NOT production calibrated** · TECHNICAL VALIDATION NOT RUN · Product Code BLOCKED · **no schema** |
-| **Expert review** | N/A for architecture / candidates |
-| **Formula** | CALIBRATION RECOMMENDED · PENDING 1D (MAT 0.2.0 · MOM-002 0.2.0 · XP 0.1.1 · else 0.1.0) |
-| **Change history** | 1.0.0 — GHV.PROGRESSION.1A · 1.1.0 — GHV.PROGRESSION.1B · 1.2.0 — GHV.PROGRESSION.1C formula versions + constraints |
+| **Related docs** | [PROGRESSION-BASELINE-MANIFEST.md](./PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./FINAL-FORMULA-VERSION-REGISTRY.md) · [PROGRESSION-SIMULATION-HANDOFF.md](./PROGRESSION-SIMULATION-HANDOFF.md) · [PROGRESSION-CALIBRATION-HANDOFF.md](./PROGRESSION-CALIBRATION-HANDOFF.md) · [AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md](./AUTOMATION-HUMAN-AUTHORITY-BOUNDARY.md) · [PROGRESSION-DATA-MINIMIZATION.md](./PROGRESSION-DATA-MINIMIZATION.md) · [../architecture/PROGRESSION-LEDGER-MODEL.md](../architecture/PROGRESSION-LEDGER-MODEL.md) · [../architecture/PROGRESSION-DECISION-REGISTRY.md](../architecture/PROGRESSION-DECISION-REGISTRY.md) · [../architecture/PROGRESSION-STATE-REGISTRY.md](../architecture/PROGRESSION-STATE-REGISTRY.md) · [../events/PROGRESSION-EVENT-VALIDITY.md](../events/PROGRESSION-EVENT-VALIDITY.md) · [../formulas/PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) · [../README.md](../README.md) |
+| **Limitations** | Design baseline locked · **NOT production calibrated** · TECHNICAL VALIDATION NOT RUN · Product Code BLOCKED · **no schema** · screen-count defect external |
+| **Expert review** | N/A for architecture / design lock |
+| **Formula** | LOCKED AS DESIGN BASELINE (MAT 0.2.0 · MOM-002 0.2.0 WITH CONDITIONS · XP 0.1.1 · else 0.1.0; TRU/PRS/POP WITH CONDITIONS) |
+| **Change history** | 1.0.0 — GHV.PROGRESSION.1A · 1.1.0 — GHV.PROGRESSION.1B · 1.2.0 — GHV.PROGRESSION.1C · 1.3.0 — GHV.PROGRESSION.1D design lock + remaining debt |
 
 ---
 
 ## Purpose
 
-Provide a **conceptual technical validation checklist** for future engineering review. This document is architecture-facing only.
+Provide a **conceptual technical validation checklist** for future engineering review. Progression Design Baseline v1.0.0 is locked; this document remains architecture-facing only.
 
 ```text
+LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE v1.0.0
 NO database schema
 NO runtime implementation
 TECHNICAL VALIDATION NOT RUN
@@ -119,7 +120,7 @@ Validate that user-visible standing changes can answer *what changed*, *which so
 
 ---
 
-## Formula-era technical constraints (GHV.PROGRESSION.1B → 1C)
+## Formula-era technical constraints (GHV.PROGRESSION.1B → 1D)
 
 These constraints apply to **future** calculation engines. They do **not** authorize Product Code, schema, or runtime now.
 
@@ -128,17 +129,18 @@ NO database schema
 NO runtime implementation
 TECHNICAL VALIDATION NOT RUN
 Product Code BLOCKED
+LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE v1.0.0
 ```
 
-### Formula versions (post-1C)
+### Formula versions (post-1D)
 
 | Requirement | Detail |
 |-------------|--------|
-| Registry | Exact **24** IDs in [PROGRESSION-FORMULA-REGISTRY.md](../formulas/PROGRESSION-FORMULA-REGISTRY.md) |
+| Registry | Exact **24** IDs · versions authoritative in [FINAL-FORMULA-VERSION-REGISTRY.md](./FINAL-FORMULA-VERSION-REGISTRY.md) |
 | Accepted versions | FRM-MAT-001 **0.2.0** · FRM-MOM-002 **0.2.0** · FRM-XP-001 **0.1.1** · all others **0.1.0** |
-| Status | `CALIBRATION RECOMMENDED · PENDING 1D` · **NOT production calibrated** · **synthetic only** |
-| Conditions | MOM-002 · TRU · PRS · POL-POP travel into 1D |
-| Revisions | Must be logged in [FORMULA-REVISION-LOG.md](../formulas/FORMULA-REVISION-LOG.md) before any parameter change |
+| Status | **LOCKED AS DESIGN BASELINE** · conditional locks MOM-002 · TRU · PRS · POL-POP · **NOT production calibrated** · **synthetic only** |
+| Conditions | Real-user / usability / tech validation still **NOT RUN** |
+| Revisions | Change Freeze: Controlled Change Request + FORMULA-REVISION-LOG before any parameter change |
 
 ### Deterministic rounding
 
@@ -228,6 +230,14 @@ Every user-visible standing change must be able to cite:
 * Validity state of contributing events
 * Whether the result is provisional / appealable / under integrity review
 
+### Cross-baseline technical sequencing debt
+
+| Debt | Requirement |
+|------|-------------|
+| Screen registry | Authoritative **92 / 7 shells** vs listed **90** — **GHV.BASELINE-CORRECTION.1** before **ARCHITECTURE.1A** |
+| Real-user pilot | NOT RUN — required before production confidence |
+| Technical validation | NOT RUN — required before Product Code |
+
 ---
 
 ## Explicit exclusions
@@ -238,24 +248,26 @@ Every user-visible standing change must be able to cite:
 | API contracts / runtime services | Product Code BLOCKED |
 | Production deployment | Publication / Implementation BLOCKED |
 | Treating analytical scripts as runtime | Isolated under `analysis/` only |
+| Silent screen-count rewrite | External defect; BASELINE-CORRECTION.1 only |
 
 ---
 
 ## Suggested future validation order (non-binding)
 
-1. Event ingress + validity + idempotency
-2. Ledger non-overwrite isolation
-3. Decision authority gates (automation vs human)
-4. Reversal / correction / effective-time
-5. Formula-version storage + deterministic engines (post-1C candidates)
-6. Privacy / age / analytics minimization
-7. Explainability surfaces
-8. Only then: production calculation services
+1. **GHV.BASELINE-CORRECTION.1** — screen registry 92-screen reconciliation
+2. Event ingress + validity + idempotency
+3. Ledger non-overwrite isolation
+4. Decision authority gates (automation vs human)
+5. Reversal / correction / effective-time
+6. Formula-version storage + deterministic engines (locked design versions)
+7. Privacy / age / analytics minimization
+8. Explainability surfaces
+9. Only then: production calculation services
 
 ```text
-ARCHITECTURE RECOMMENDED
-FORMULAS = SIMULATION CANDIDATE · PENDING 1C
+PROGRESSION DESIGN BASELINE v1.0.0 LOCKED
 TECHNICAL VALIDATION NOT RUN
 NO database schema · NO runtime implementation · Product Code BLOCKED
-CALIBRATION NOT RUN
+REAL-USER CALIBRATION NOT RUN
+ARCHITECTURE.1A BLOCKED UNTIL BASELINE-CORRECTION.1
 ```
