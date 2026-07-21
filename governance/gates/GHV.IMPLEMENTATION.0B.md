@@ -16,7 +16,9 @@ PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED
 WITH NON-BLOCKING DEPENDENCY CONDITIONS
 ```
 
-Moderate advisories ADV-001 / ADV-002 remain **ACCEPT TEMPORARILY WITH OWNER** (Critical/High/Blocking: 0). Remote CI must be **success** on final HEAD.
+Moderate/High advisories ADV-001 / ADV-002 / ADV-003 remain **ACCEPT TEMPORARILY WITH OWNER** (Critical/Blocking: 0).
+
+Remote CI: **VERIFIED** — Actions run [`29876051545`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876051545) · job `verify` · conclusion `success` · HEAD `998eaef14929e4d766ae0cf4fce49b1fed964178`.
 
 ## Completed scope
 
