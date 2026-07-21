@@ -12,14 +12,13 @@
 ## Verdict
 
 ```text
-PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETED
-WITH NON-BLOCKING DEPENDENCY CONDITIONS
+PARTIAL — FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE COMPLETE
+WITH NON-BLOCKING MODERATE DEPENDENCY CONDITIONS
 ```
 
-Moderate/High advisories ADV-001 / ADV-002 / ADV-003 remain **ACCEPT TEMPORARILY WITH OWNER** (Critical/Blocking: 0).
+Amended by [GHV.IMPLEMENTATION.0B-CLOSURE-01.md](./GHV.IMPLEMENTATION.0B-CLOSURE-01.md): ADV-003 **FIXED**; ADV-001 / ADV-002 remain **ACCEPT TEMPORARILY WITH OWNER** (Critical / High runtime-reachable / Blocking: **0**).
 
-Remote CI: **VERIFIED** — Implementation HEAD [`998eaef`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/998eaef14929e4d766ae0cf4fce49b1fed964178) Actions [`29876051545`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876051545); Final HEAD [`d6b13e3`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/d6b13e3658f062f94cfda6771bd55ed1b1fb4004) Actions [`29876126804`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876126804) · job `verify` · conclusion `success`.
-
+Pre-Closure Final HEAD [`e9fd84f`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/e9fd84f0adafe31988c4fec71a9edfcc1004b2d1) Actions [`29876205558`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876205558) · verify [`88787179025`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876205558/job/88787179025) · **success**. Implementation HEAD [`998eaef`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/commit/998eaef14929e4d766ae0cf4fce49b1fed964178). Closure HEAD / Actions: see CLOSURE-01 record after remote CI verification.
 ## Completed scope
 
 - Activation authority preflight PASS; GHV-IMP-AUTH-002 granted
@@ -38,7 +37,7 @@ Remote CI: **VERIFIED** — Implementation HEAD [`998eaef`](https://github.com/M
 | Scope violations | 0 |
 | Architecture contradictions | 0 |
 | Deployment attempts | 0 |
-| Conditional | Retained Moderate dependency advisories |
+| Conditional | Retained Moderate dependency advisories (ADV-001 · ADV-002); ADV-003 FIXED |
 
 Evidence: [IMPLEMENTATION-0B-ACCEPTANCE-MATRIX.md](../implementation/IMPLEMENTATION-0B-ACCEPTANCE-MATRIX.md)
 

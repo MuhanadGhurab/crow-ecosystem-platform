@@ -35,5 +35,5 @@ Mandatory NOT RUN: 0
 Architecture contradictions: 0
 Scope violations: 0
 Deployment attempts: 0
-PASS WITH CONDITIONS: 1 (retained dependency advisories ADV-001/ADV-002/ADV-003; Blocking 0)
+PASS WITH CONDITIONS: 1 (retained Moderate ADV-001/ADV-002; ADV-003 FIXED by 0B-CLOSURE-01; Blocking 0)
 ```

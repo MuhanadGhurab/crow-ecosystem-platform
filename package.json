@@ -29,7 +29,8 @@
     "validate:boundaries": "node scripts/validation/validate-boundaries.mjs",
     "validate:secrets": "node scripts/validation/validate-secrets.mjs",
     "validate:deployment-guard": "node scripts/validation/validate-deployment-guard.mjs",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run build"
+    "validate:high-advisory-boundaries": "node scripts/validation/validate-high-advisory-boundaries.mjs",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run build"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
@@ -38,5 +39,8 @@
     "prettier": "^3.7.4",
     "tsx": "^4.21.0",
     "typescript": "6.0.3"
+  },
+  "overrides": {
+    "sharp": "0.35.3"
   }
 }
