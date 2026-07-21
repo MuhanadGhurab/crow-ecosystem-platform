@@ -8,8 +8,8 @@
 | **Pre-Closure HEAD** | `e9fd84f0adafe31988c4fec71a9edfcc1004b2d1` |
 | **Pre-Closure Actions** | [`29876205558`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876205558) · verify [`88787179025`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29876205558/job/88787179025) · **success** |
 | **0B implementation commit** | `998eaef14929e4d766ae0cf4fce49b1fed964178` |
-| **Closure HEAD** | *(recorded after commit — see Final Verdict section)* |
-| **Closure Actions** | *(recorded after remote CI success)* |
+| **Closure HEAD** | `65b4a54ad2284afae28395f641b3d49339529a2f` |
+| **Closure Actions** | [`29877518856`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29877518856) · verify [`88791187952`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29877518856/job/88791187952) · **success** |
 
 ## Formal Gate treatment (before Closure)
 
@@ -79,4 +79,4 @@ SECURITY CLOSURE COMPLETE WITH NON-BLOCKING
 MODERATE DEPENDENCY CONDITIONS
 ```
 
-*(Remote CI run ID and Closure HEAD SHA filled after successful Actions verification.)*
+Remote CI: **VERIFIED** for Closure HEAD `65b4a54` · Actions `29877518856` · verify `88791187952` · conclusion **success**. Only job: `verify`. Deploy jobs: **0**.
