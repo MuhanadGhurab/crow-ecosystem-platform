@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.6.0 |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -42,14 +42,20 @@
 | DEP-024 | LEARNING.1D final portfolio lock | Product | **Satisfied (design baseline)** | LOCKED AS DESIGN BASELINE v1.0.0; publication still blocked | Founder | — | CAP-LRN-009 |
 | DEP-046 | Expert Review execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/review/ | Founder + SMEs | Cannot PUBLISH | Publication |
 | DEP-047 | Learning Pilot execution (packets ready) | Organizational | Planned — **BLOCKING PUBLICATION** | product/learning/pilots/ | Founder | Cannot PUBLISH | Publication |
-| DEP-048 | Progression Gate GHV.PROGRESSION.1A | Product | Planned | Qualitative Proven → formulas | Founder | Shallow Proven UX | Progression |
+| DEP-048 | Progression Gate GHV.PROGRESSION.1A | Product | **Satisfied (architecture)** | Architecture recommended; formulas pending 1B | Founder | — | Progression depth |
+| DEP-050 | Progression formulas simulation (1B) | Product | Planned | Formulas/thresholds/season from 1A handoff | Founder | Cannot lock progression | 1B |
+| DEP-051 | Progression integrity calibration (1C) | Product | Planned | Fairness/anti-gaming calibration | Founder | Unfair standing | 1C |
+| DEP-052 | Progression final baseline lock (1D) | Product | Planned | After simulation + calibration | Founder | Ambiguous standing | 1D |
+| DEP-053 | Evidence review workflows for Mastery | Product/Org | Planned | Learning Evidence model | Founder | Shallow Mastery | Mastery |
+| DEP-054 | Prestige review governance staffing | Organizational | Planned | Human Prestige authority | Founder | No Prestige grants | Prestige |
+| DEP-055 | Progression privacy and age legal review | External | Planned | Age-privacy architecture | Counsel TBD | Restrict minors | Launch |
+| DEP-012 | Progression Gate (GHV.PROGRESSION.1) | Product | **In progress (1A done)** | 1B–1D remain | Founder | Shallow progression UX | Progression depth |
 | DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | Planned | Conceptual graph → validation plan | Founder | No runtime graph | Implementation |
 | DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
 | DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |
 | DEP-028 | IP review of learning materials | External | Planned | Avoid proprietary copy | Counsel TBD | Rewrite sources | Content |
 | DEP-029 | Arabic localization for Nest + P0 Routes | Organizational | Planned | Terminology packs | Founder + linguists | English-heavy UX | Launch |
-| DEP-012 | Progression Gate (GHV.PROGRESSION.1) | Product | Planned | Formulas for XP/Momentum/Mastery/Merit criteria | Founder | Shallow progression UX | Progression depth |
 | DEP-013 | Identity Spike | Technical | Planned | Passkeys + IdP candidate | Engineering TBD | Weak auth | A2 |
 | DEP-014 | Billing Spike | Technical | Planned | Provider + recurring | Engineering TBD | No paid plans | Commercial |
 | DEP-015 | Legal review (T&Cs, refunds, renewal) | External | Blocked | Launch legal copy | Counsel TBD | Soft-launch legal risk | Activation/commercial copy |

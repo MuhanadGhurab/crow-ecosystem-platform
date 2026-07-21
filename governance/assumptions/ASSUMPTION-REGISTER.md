@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.6.0 |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -56,3 +56,12 @@
 | ASM-044 | Learner and reviewer pilots can be recruited before publication | Active | Publication gate | Pilot packets + outreach | Delay PUBLISHED | 1D |
 | ASM-045 | Design baseline lock will not be mistaken for Expert Approval | Active | Status clarity | Status model + Project Status | Correct messaging | 1D |
 | ASM-046 | Controlled content drafting can begin under freeze without publication | Active | Capacity sequencing | Capacity review order | Hold drafting until experts engaged | 1D |
+| ASM-047 | Progression events can be reliably sourced from Learning/Evidence/integrity systems | Active | Event architecture | Event registry + validity | Manual correction path | 1A |
+| ASM-048 | Learners understand separated progression systems with explainability | Active | UX clarity | Explainability + screen map | Usability rework | 1A |
+| ASM-049 | Reviewers can support Title and Prestige decisions at controlled-launch scale | Active | Human authority | Automation boundary + staffing | Narrow Prestige/Titles | 1A |
+| ASM-050 | Enough users will exist for meaningful seasonal Momentum (later) | Active | Season design | Soft-launch seasons | Local/cohort boards only | 1B |
+| ASM-051 | Leaderboards can operate without harming community culture | Active | Culture | Board separation + privacy | Disable toxic boards | 1A |
+| ASM-052 | Accessibility alternatives for required Evidence are practical | Active | Fairness | Fairness architecture | Exclude inaccessible modalities | 1A |
+| ASM-053 | Qualitative Mastery explanations are acceptable pending numeric aggregation | Active | Mastery UX | Evidence rubric levels | 1B aggregation | 1A |
+| ASM-054 | Learning Design Baseline provides sufficient Evidence diversity for Mastery | Active | Learning lock | Manifest unchanged | Learning CR | 1A |
+| ASM-055 | Progression remains understandable in Arabic and English | Active | Localization | RTL screen map | Terminology packs | 1A |

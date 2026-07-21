@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.6.0 |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 
 ## Active baseline set
 
@@ -15,19 +15,8 @@
 | GHURAVIA Product Constitution v1.0 | **ACTIVE — LOCKED** |
 | GHURAVIA Scope Baseline v1.0 | **ACTIVE — LOCKED** |
 | Interaction Grammar / Wireframes | **ACTIVE — LOCKED AT LOW FIDELITY** |
-| **GHURAVIA Learning Design Baseline v1.0.0** | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Learning Research Methodology | **ACTIVE — RESEARCH BASELINE (superseded for portfolio authority by Manifest)** |
-| Launch Route Architectures | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Conceptual Launch Learning Graph | **ACTIVE — LOCKED AS DESIGN BASELINE (conceptual)** |
-| Mission Blueprint Packs (87) | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Assessment Anchors (33) | **ACTIVE — LOCKED AS ASSESSMENT DESIGN BASELINE (numeric → PROGRESSION.1)** |
-| Evidence Anchors (24) + Classes (18) | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Evidence Rubrics (7 packs) | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Capstone Blueprints (7) | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| AppSec Bridge BRG-PRT-BLD-01 | **ACTIVE — LOCKED AS DESIGN BASELINE (mandatory for CXW-001)** |
-| Cross-Wing CXW-001 | **ACTIVE — LOCKED AS DESIGN BASELINE (VALID WITH REQUIRED BRIDGE)** |
-| Secure Extension SEX-001 | **ACTIVE — LOCKED AS DESIGN BASELINE** |
-| Team / Live Sky LIV-MSN-001 | **ACTIVE — LOCKED AS DESIGN BLUEPRINT — TECHNICAL VALIDATION NOT RUN** |
+| **GHURAVIA Learning Design Baseline v1.0.0** | **ACTIVE — LOCKED AS DESIGN BASELINE** (unchanged by 1A) |
+| **GHURAVIA Progression Architecture Baseline v1.0.0** | **ARCHITECTURE RECOMMENDED · FORMULAS NOT DEFINED · SIMULATION NOT RUN · CALIBRATION NOT RUN · FINAL LOCK PENDING** |
 | Route-Proven Traceability | **ACTIVE — LOCKED AT QUALITATIVE DESIGN LEVEL** |
 | Horizon-Proven | **FOUNDATION MODEL LOCKED — AWARDING DEFERRED** |
 | RT-ANL-001 | **LOCKED AS RESERVE DESIGN BASELINE — NOT A LAUNCH COMMITMENT** |
@@ -36,22 +25,23 @@
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
-| GHV.LEARNING.1A | PASS |
-| GHV.LEARNING.1B | PASS |
-| GHV.LEARNING.1C | PASS |
-| GHV.LEARNING.1D | PASS |
+| GHV.LEARNING.1A–1D | PASS |
+| GHV.PROGRESSION.1A | PASS |
 
-Authoritative portfolio source: [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
+Authoritative learning portfolio: [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
+
+Authoritative progression architecture index: [product/progression/README.md](../../product/progression/README.md)
 
 ## Baseline status map
 
 | Area | Category |
 |------|----------|
 | Pillars / Horizons / Nest thresholds | LOCKED |
-| Launch Route IDs and design boundaries | LOCKED AS DESIGN BASELINE |
-| Mission / Evidence / Capstone design | LOCKED AS DESIGN BASELINE — not PUBLISHED |
+| Learning Design Baseline | LOCKED AS DESIGN BASELINE |
+| Progression system separation | ARCHITECTURE RECOMMENDED |
+| Progression formulas / thresholds / seasons | FORMULA PENDING (1B) |
+| Progression simulation / calibration | NOT RUN |
 | Expert Review / Pilot | NOT RUN |
 | Publication / Implementation | BLOCKED |
-| Progression formulas | PENDING GHV.PROGRESSION.1 |
 | Product Code | BLOCKED |
 | TECH-018 Preview DB | PENDING TECHNICAL VALIDATION |

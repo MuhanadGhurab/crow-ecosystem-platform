@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -78,6 +78,28 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Expert Review packets | [EXPERT-REVIEW-MASTER-PLAN.md](../../product/learning/review/EXPERT-REVIEW-MASTER-PLAN.md) | READY — NOT RUN |
 | Pilot packets | [LEARNING-PILOT-MASTER-PLAN.md](../../product/learning/pilots/LEARNING-PILOT-MASTER-PLAN.md) | READY — NOT RUN |
 | Research sources | [RESEARCH-SOURCE-REGISTER.md](../../product/learning/research/RESEARCH-SOURCE-REGISTER.md) | — |
+| **Progression separation** | [PROGRESSION-SYSTEM-SEPARATION.md](../../product/progression/architecture/PROGRESSION-SYSTEM-SEPARATION.md) | **Authoritative** |
+| Progression invariants | [PROGRESSION-INVARIANTS.md](../../product/progression/architecture/PROGRESSION-INVARIANTS.md) | — |
+| Progression identifiers | [PROGRESSION-IDENTIFIER-STANDARD.md](../../product/progression/architecture/PROGRESSION-IDENTIFIER-STANDARD.md) | — |
+| Progression events | [PROGRESSION-EVENT-REGISTRY.md](../../product/progression/events/PROGRESSION-EVENT-REGISTRY.md) | Exact 53 |
+| Progression states | [PROGRESSION-STATE-REGISTRY.md](../../product/progression/architecture/PROGRESSION-STATE-REGISTRY.md) | Exact 78 |
+| Progression decisions | [PROGRESSION-DECISION-REGISTRY.md](../../product/progression/architecture/PROGRESSION-DECISION-REGISTRY.md) | Exact 21 |
+| Flight XP | [FLIGHT-XP-ARCHITECTURE.md](../../product/progression/xp/FLIGHT-XP-ARCHITECTURE.md) | Formula PENDING |
+| Momentum | [MOMENTUM-LEAGUE-ARCHITECTURE.md](../../product/progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | Formula PENDING |
+| Maturity | [MATURITY-RANK-ARCHITECTURE.md](../../product/progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | Thresholds PENDING |
+| Mastery | [ROUTE-MASTERY-ARCHITECTURE.md](../../product/progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | Aggregation PENDING |
+| Breadth | [BREADTH-ARCHITECTURE.md](../../product/progression/breadth/BREADTH-ARCHITECTURE.md) | Thresholds PENDING |
+| Trust | [TRUST-STANDING-ARCHITECTURE.md](../../product/progression/trust/TRUST-STANDING-ARCHITECTURE.md) | Calibration PENDING |
+| Titles | [PROFESSIONAL-TITLE-ARCHITECTURE.md](../../product/progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | Catalogue deferred |
+| Prestige | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) | Quorum PENDING |
+| Achievements / Crests | [ACHIEVEMENT-CREST-ARCHITECTURE.md](../../product/progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | — |
+| Leaderboards | [LEADERBOARD-ARCHITECTURE.md](../../product/progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
+| Corrections / appeals | [PROGRESSION-CORRECTION-AND-APPEAL.md](../../product/progression/governance/PROGRESSION-CORRECTION-AND-APPEAL.md) | — |
+| Fairness | [PROGRESSION-FAIRNESS-ARCHITECTURE.md](../../product/progression/fairness/PROGRESSION-FAIRNESS-ARCHITECTURE.md) | — |
+| Anti-gaming | [PROGRESSION-ANTI-GAMING-ARCHITECTURE.md](../../product/progression/integrity/PROGRESSION-ANTI-GAMING-ARCHITECTURE.md) | — |
+| Explainability | [PROGRESSION-EXPLAINABILITY.md](../../product/progression/experience/PROGRESSION-EXPLAINABILITY.md) | — |
+| Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](../../product/progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | → 1B |
+| Progression presentation (UI law) | [PROGRESSION-PRESENTATION.md](../../product/wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi; formulas pending |
 
 ## Intentional summaries
 

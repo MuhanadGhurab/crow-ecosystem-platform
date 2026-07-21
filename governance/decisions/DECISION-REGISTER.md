@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.6.0 |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -1017,3 +1017,66 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | **Status** | Accepted |
 | **Related Gate** | GHV.LEARNING.1D |
 | **Evidence** | [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [BASELINE-MANIFEST.md](../releases/BASELINE-MANIFEST.md) |
+
+## DEC-095 — Progression-system separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Eleven constructs are separate: Access Plan (commercial, outside progression), Flight XP, Momentum, Maturity, Mastery, Breadth, Trust, Titles, Prestige, Achievements/Crests, Leaderboards. No system may silently substitute for another. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | [PROGRESSION-SYSTEM-SEPARATION.md](../../product/progression/architecture/PROGRESSION-SYSTEM-SEPARATION.md) · [PROGRESSION-INVARIANTS.md](../../product/progression/architecture/PROGRESSION-INVARIANTS.md) |
+
+## DEC-096 — Canonical progression identifiers and source authority
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Progression uses PGS-* system IDs, MAT-*/MOM-*/PRS-* rank/league/class IDs, and governed event source classes. Commercial events never produce progression value. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | PROGRESSION-IDENTIFIER-STANDARD · PROGRESSION-SOURCE-AUTHORITY |
+
+## DEC-097 — Progression events, validity, and ledgers
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Exact progression event registry (53 events), seven validity states, and eleven conceptual ledgers are authoritative for architecture. Only VALID events influence current standing. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | PROGRESSION-EVENT-REGISTRY · PROGRESSION-EVENT-VALIDITY · PROGRESSION-LEDGER-MODEL |
+
+## DEC-098 — Meanings of XP, Momentum, Maturity, Mastery, Breadth, Trust
+
+| Field | Value |
+|-------|-------|
+| **Decision** | XP = recognized activity (not Skill). Momentum = seasonal consistency. Maturity = long-term development (not XP-only). Mastery = Evidence-backed capability. Breadth = demonstrated multi-area capability (not enrollment). Trust = integrity/reliability (not popularity or Skill). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | System architecture docs under product/progression/ |
+
+## DEC-099 — Titles, Prestige, Achievements, Leaderboards
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Titles are governed capability bundles (not employment). Prestige is rare, human-reviewed, non-purchasable; AI cannot final-decide Prestige. Achievements distinguish participation from Skill. No universal leaderboard. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | PROFESSIONAL-TITLE / PRESTIGE / ACHIEVEMENT-CREST / LEADERBOARD architectures |
+
+## DEC-100 — Corrections, fairness, anti-gaming, automation boundary
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Corrections use audited new records; appeals tracked; anti-gaming is conceptual; fairness/a11y/age-privacy required; automation cannot grant Prestige or irreversible Trust; formulas deferred to 1B. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | PROGRESSION-CORRECTION-AND-APPEAL · ANTI-GAMING · FAIRNESS · AUTOMATION-HUMAN-AUTHORITY-BOUNDARY |
+
+## DEC-101 — Progression Architecture Baseline (1A)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHURAVIA Progression Architecture Baseline v1.0.0 is ARCHITECTURE RECOMMENDED. Formulas NOT DEFINED. Simulation NOT RUN. Calibration NOT RUN. Final lock PENDING 1D. Learning Design Baseline unchanged. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.PROGRESSION.1A |
+| **Evidence** | [product/progression/README.md](../../product/progression/README.md) · BASELINE-MANIFEST |

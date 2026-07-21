@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.6.0 |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 | **Note** | Risks are identified, not claimed mitigated |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -193,3 +193,31 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 ### 1D risk status note
 
 Design baseline lock does **not** mitigate open learning risks. Expert Review, Pilot, lab/storage validation, and capacity risks remain **OPEN** or **BLOCKING PUBLICATION**.
+
+### Progression architecture risks (GHV.PROGRESSION.1A)
+
+| ID | Title | L | I | R | Trigger | Mitigation | Contingency | Owner | Status | Review | Cont. |
+|----|-------|---|---|---|---------|------------|-------------|-------|--------|--------|-------|
+| RISK-PRG-001 | XP perceived as Skill score | H | H | H | UI conflation | Separation + explainability | Correct copy; training | Founder | Open | 1B+ | EXP |
+| RISK-PRG-002 | Momentum encourages unhealthy grinding | M | H | H | Streak pressure | Anti-burnout + fairness | Soften season rules in 1B | Founder | Open | 1B | FAI |
+| RISK-PRG-003 | Maturity Rank confused with job seniority | M | M | M | Title wording | Explicit disclaimers | Rename display labels | Founder | Open | Continuous | TTL |
+| RISK-PRG-004 | Mastery aggregation masks weak capabilities | M | H | H | Premature % formulas | Capability/Route separation | Capability-level visibility | Founder | Open | 1B | MST |
+| RISK-PRG-005 | Breadth inflated by near-duplicates | M | M | M | Loose capability IDs | Duplicate-control rules | Recalibrate Breadth | Founder | Open | 1B | BRD |
+| RISK-PRG-006 | Trust becomes popularity score | H | H | H | Reaction-based Trust | Trust architecture invariants | Remove reaction inputs | Founder | Open | Continuous | TRU |
+| RISK-PRG-007 | Opaque Trust restrictions | M | H | H | Unexplained blocks | Explainability + appeals | Expand appeal coverage | Founder | Open | Continuous | TRU |
+| RISK-PRG-008 | Titles overstate employability | H | H | H | Marketing drift | Employment disclaimer | Correct public copy | Founder | Open | Continuous | TTL |
+| RISK-PRG-009 | Prestige inflation or favoritism | M | H | H | Weak quorum | Human review + rarity | Raise bar; audit | Founder | Open | 1C+ | PRS |
+| RISK-PRG-010 | Founder Prestige conflict of interest | M | H | H | Self-grant | Founder ≠ auto Prestige | Independent review panel | Founder | Open | Prestige | PRS |
+| RISK-PRG-011 | Leaderboard toxicity / small-population distortion | M | M | M | Low N boards | Board separation + privacy | Hide low-N boards | Founder | Open | Launch | LDB |
+| RISK-PRG-012 | Minor-user exposure on standings | H | H | H | Public boards | Age-privacy architecture | Restrict minor boards | Founder | Open | Legal | AGE |
+| RISK-PRG-013 | Perceived pay-to-win | H | H | H | Capacity confusion | Anti-pay-to-win invariants | Public education | Founder | Open | Continuous | COM |
+| RISK-PRG-014 | Merit / Mission farming | M | H | H | Low-value loops | Anti-gaming + caps | Tighten recognition | Founder | Open | 1B | AGM |
+| RISK-PRG-015 | AI-generated activity spam | M | H | H | Automated XP | Integrity + authenticity | Suspend provisional XP | Founder | Open | Tech | AGM |
+| RISK-PRG-016 | Reviewer collusion / Team masking weak individuals | M | H | H | Shared reviews | Conflict controls + contribution separation | Dual review | Founder | Open | Continuous | INT |
+| RISK-PRG-017 | Inaccessible progression requirements | M | H | H | Live-only Evidence | Fairness + alternatives | Provide alternatives | Founder | Open | Pilot | FAI |
+| RISK-PRG-018 | Unexplainable automated decisions | H | H | H | Hidden scores | Explainability mandate | Human review override | Founder | Open | Continuous | EXP |
+| RISK-PRG-019 | Correction cascade / outdated Mastery | M | M | M | Broad revocation | Targeted reevaluation | Limit blast radius | Founder | Open | Ops | COR |
+| RISK-PRG-020 | Unresolved formula tuning / calibration | H | H | H | Premature lock | 1B simulation + 1C calibration | Delay final lock | Founder | Open | 1B–1D | SIM |
+| RISK-PRG-021 | Founder capacity for appeals and Prestige reviews | H | H | H | Volume | WIP + staffing deps | Narrow Prestige scope | Founder | Open | Continuous | CAP |
+
+Architecture documentation does **not** mitigate these risks; they remain Open until simulation, calibration, and operational controls exist.

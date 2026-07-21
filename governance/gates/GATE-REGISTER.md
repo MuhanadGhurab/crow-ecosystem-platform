@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.7.0 |
+| **Version** | 1.8.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
+| **Source Gate** | GHV.PROGRESSION.1A |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -17,11 +17,14 @@
 | GHV.REPOSITORY-TRANSITION.1B | Pre-Push Infrastructure Verification | PASS | Guard + first push |
 | GHV.FOUNDATION.1B | Product Constitution and Scope Review | PASS | Constitution + Scope locked |
 | GHV.PRODUCT-DEFINITION.3 | Interaction and Wireframe Specification | PASS | Low-fi interactions locked |
-| GHV.LEARNING.1A | Launch Capability Research and Route Portfolio | PASS | Recommended — design inputs to 1D |
-| GHV.LEARNING.1B | Launch Route Architecture and Learning Graph | PASS | Architecture recommended — design inputs to 1D |
-| GHV.LEARNING.1C | Mission, Evidence and Capstone Blueprint | PASS | Blueprints recommended — design inputs to 1D |
-| GHV.LEARNING.1D | Learning Portfolio Final Review and Design Baseline Lock | PASS | Learning Design Baseline v1.0.0 LOCKED AS DESIGN BASELINE; Expert/Pilot NOT RUN; Publication BLOCKED |
-| GHV.PROGRESSION.1 | Progression and Mastery Model | NOT STARTED | Next recommended: 1A |
+| GHV.LEARNING.1A | Launch Capability Research and Route Portfolio | PASS | Design inputs |
+| GHV.LEARNING.1B | Launch Route Architecture and Learning Graph | PASS | Design inputs |
+| GHV.LEARNING.1C | Mission, Evidence and Capstone Blueprint | PASS | Design inputs |
+| GHV.LEARNING.1D | Learning Portfolio Final Review and Design Baseline Lock | PASS | Learning Design Baseline v1.0.0 locked |
+| GHV.PROGRESSION.1A | Progression System Architecture | PASS | Architecture recommended — formulas pending 1B |
+| GHV.PROGRESSION.1B | Formulas, Thresholds and Simulation | NOT STARTED | Next |
+| GHV.PROGRESSION.1C | Integrity, Fairness and Calibration | NOT STARTED | After 1B |
+| GHV.PROGRESSION.1D | Final Progression Baseline Lock | NOT STARTED | After 1C |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 Reports:
@@ -32,3 +35,4 @@ Reports:
 - [GHV.LEARNING.1B.md](./GHV.LEARNING.1B.md)
 - [GHV.LEARNING.1C.md](./GHV.LEARNING.1C.md)
 - [GHV.LEARNING.1D.md](./GHV.LEARNING.1D.md)
+- [GHV.PROGRESSION.1A.md](./GHV.PROGRESSION.1A.md)

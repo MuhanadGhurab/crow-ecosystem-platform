@@ -2,100 +2,67 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.LEARNING.1D (Learning Design Baseline v1.0.0 locked) |
-| **Version** | 1.6.0 |
+| **Status** | REVIEWED — GHV.PROGRESSION.1A (Progression Architecture recommended) |
+| **Version** | 1.7.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.LEARNING.1D |
-| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [MISSION-BLUEPRINT-REGISTRY.md](./learning/missions/MISSION-BLUEPRINT-REGISTRY.md) · [LAUNCH-GRAPH-REGISTRY.md](./learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
+| **Source Gate** | GHV.PROGRESSION.1A |
+| **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/README.md](./progression/README.md) |
 
-## Traceability chain
+## Traceability chain (progression)
 
 ```text
 Product Pillar
 → User Type
 → Journey Phase
-→ Screen or State
+→ Screen
 → Wireframe
-→ Capability
-→ Route
-→ Stage
-→ Mission Blueprint
-→ Assessment
-→ Evidence
-→ Capstone
-→ Route-Proven Condition
-→ Domain / Requirement / Test / Runtime Evidence (future Gates)
+→ Progression System
+→ Source Event
+→ State
+→ Decision
+→ Explanation
+→ Appeal or Correction
 ```
 
-At 1D: Progression numeric requirement remains placeholder; engineering tests uncreated; runtime Evidence uncreated.
+Learning Design Baseline v1.0.0 remains LOCKED AS DESIGN BASELINE (unchanged).
 
-## Learning design baseline (1D) — authoritative
+## Progression architecture links (1A)
 
 | Capability / theme | Artifact | Status |
 |--------------------|----------|--------|
-| Portfolio manifest | [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) | **ACTIVE — LOCKED AS DESIGN BASELINE v1.0.0** |
-| Design status model | [LEARNING-DESIGN-STATUS-MODEL.md](./learning/governance/LEARNING-DESIGN-STATUS-MODEL.md) | LOCKED vocabulary |
-| Registry reconciliation | [LEARNING-REGISTRY-RECONCILIATION.md](./learning/governance/LEARNING-REGISTRY-RECONCILIATION.md) | Exact totals MATCH |
-| Design freeze | [LEARNING-DESIGN-FREEZE-POLICY.md](./learning/governance/LEARNING-DESIGN-FREEZE-POLICY.md) | ACTIVE |
-| Publication readiness | [PUBLICATION-READINESS-MATRIX.md](./learning/governance/PUBLICATION-READINESS-MATRIX.md) | Publication BLOCKED |
-| Expert Review packets | [review/EXPERT-REVIEW-MASTER-PLAN.md](./learning/review/EXPERT-REVIEW-MASTER-PLAN.md) | READY — **NOT RUN** |
-| Pilot packets | [pilots/LEARNING-PILOT-MASTER-PLAN.md](./learning/pilots/LEARNING-PILOT-MASTER-PLAN.md) | READY — **NOT RUN** |
-| Handoff | [LEARNING-HANDOFF-PACKAGE.md](./learning/governance/LEARNING-HANDOFF-PACKAGE.md) | → PROGRESSION.1 / ARCHITECTURE.1 |
+| Separation | [PROGRESSION-SYSTEM-SEPARATION.md](./progression/architecture/PROGRESSION-SYSTEM-SEPARATION.md) | ARCHITECTURE RECOMMENDED |
+| Invariants | [PROGRESSION-INVARIANTS.md](./progression/architecture/PROGRESSION-INVARIANTS.md) | ARCHITECTURE RECOMMENDED |
+| Events | [PROGRESSION-EVENT-REGISTRY.md](./progression/events/PROGRESSION-EVENT-REGISTRY.md) | Exact **53** |
+| States | [PROGRESSION-STATE-REGISTRY.md](./progression/architecture/PROGRESSION-STATE-REGISTRY.md) | Exact **78** |
+| Decisions | [PROGRESSION-DECISION-REGISTRY.md](./progression/architecture/PROGRESSION-DECISION-REGISTRY.md) | Exact **21** |
+| Flight XP | [FLIGHT-XP-ARCHITECTURE.md](./progression/xp/FLIGHT-XP-ARCHITECTURE.md) | FORMULA PENDING |
+| Momentum | [MOMENTUM-LEAGUE-ARCHITECTURE.md](./progression/momentum/MOMENTUM-LEAGUE-ARCHITECTURE.md) | FORMULA PENDING |
+| Maturity | [MATURITY-RANK-ARCHITECTURE.md](./progression/maturity/MATURITY-RANK-ARCHITECTURE.md) | THRESHOLDS PENDING |
+| Mastery | [ROUTE-MASTERY-ARCHITECTURE.md](./progression/mastery/ROUTE-MASTERY-ARCHITECTURE.md) | AGGREGATION PENDING |
+| Breadth | [BREADTH-ARCHITECTURE.md](./progression/breadth/BREADTH-ARCHITECTURE.md) | THRESHOLDS PENDING |
+| Trust | [TRUST-STANDING-ARCHITECTURE.md](./progression/trust/TRUST-STANDING-ARCHITECTURE.md) | CALIBRATION PENDING |
+| Titles | [PROFESSIONAL-TITLE-ARCHITECTURE.md](./progression/titles/PROFESSIONAL-TITLE-ARCHITECTURE.md) | CATALOGUE DEFERRED |
+| Prestige | [PRESTIGE-ARCHITECTURE.md](./progression/prestige/PRESTIGE-ARCHITECTURE.md) | QUORUM PENDING |
+| Achievements | [ACHIEVEMENT-CREST-ARCHITECTURE.md](./progression/achievements/ACHIEVEMENT-CREST-ARCHITECTURE.md) | ARCHITECTURE RECOMMENDED |
+| Leaderboards | [LEADERBOARD-ARCHITECTURE.md](./progression/leaderboards/LEADERBOARD-ARCHITECTURE.md) | No universal board |
+| Scenarios | [PROGRESSION-ARCHITECTURE-SCENARIOS.md](./progression/scenarios/PROGRESSION-ARCHITECTURE-SCENARIOS.md) | SCN-001–015 PASS |
+| Simulation handoff | [PROGRESSION-SIMULATION-HANDOFF.md](./progression/governance/PROGRESSION-SIMULATION-HANDOFF.md) | → 1B |
+| Screen presentation | [PROGRESSION-PRESENTATION.md](./wireframes/progression/PROGRESSION-PRESENTATION.md) | Low-fi locked |
 
-## Learning research links (1A)
+## Learning design baseline (1D) — unchanged authority
 
-| Capability / theme | Research artifact | Status |
-|--------------------|-------------------|--------|
-| Nest | [NEST-DEPENDENCY-MAP.md](./learning/nest/NEST-DEPENDENCY-MAP.md) | Mapped · design baseline |
-| Horizons | Role matrix + candidates | Covered · awarding deferred |
-| Route selection | Portfolio recommendation + scorecard | Superseded for authority by Manifest |
-| Cross-Wing | [LAUNCH-CROSS-WING-STUDY.md](./learning/cross-wing/LAUNCH-CROSS-WING-STUDY.md) | CXW-001 locked (design) |
-| Secure Extensions | [LAUNCH-SECURE-EXTENSION-STUDY.md](./learning/secure-extensions/LAUNCH-SECURE-EXTENSION-STUDY.md) | SEX-001 locked (design) |
-| Content lifecycle | [CONTENT-FRESHNESS-AND-LIFECYCLE.md](./learning/content/CONTENT-FRESHNESS-AND-LIFECYCLE.md) | Defined |
-| Expert review | Expert packets | **NOT RUN** |
-
-## Learning architecture links (1B)
-
-| Capability / theme | Architecture artifact | Status |
-|--------------------|----------------------|--------|
-| Canonical IDs | [LEARNING-IDENTIFIER-STANDARD.md](./learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) | Defined · frozen |
-| Learning Graph | [LAUNCH-GRAPH-REGISTRY.md](./learning/graph/LAUNCH-GRAPH-REGISTRY.md) | LOCKED AS DESIGN BASELINE (166/129 conceptual) |
-| P0 Routes | `routes/architecture/RT-*-001-*.md` | **LOCKED AS DESIGN BASELINE** |
-| ANALYZE reserve | [RT-ANL-001-PRACTICAL-DATA-ANALYSIS.md](./learning/routes/architecture/RT-ANL-001-PRACTICAL-DATA-ANALYSIS.md) | **LOCKED AS RESERVE DESIGN BASELINE** |
-| Shared capabilities | SHC-001..012 | Locked (design) |
-| Nest capabilities | NST-CAP-001..013 | Thresholds unchanged |
-| Cross-Wing architecture | CXW-001 | VALID WITH REQUIRED BRIDGE · locked (design) |
-| Secure Extension architecture | SEX-001 | Locked (design) |
-| Route-Proven | [ROUTE-PROVEN-STANDARD.md](./learning/proven/ROUTE-PROVEN-STANDARD.md) | LOCKED AT QUALITATIVE DESIGN LEVEL |
-| Horizon-Proven | [HORIZON-PROVEN-STANDARD.md](./learning/proven/HORIZON-PROVEN-STANDARD.md) | FOUNDATION MODEL LOCKED · AWARDING DEFERRED |
-
-## Learning blueprint links (1C → locked in 1D)
-
-| Capability / theme | Blueprint artifact | Status |
-|--------------------|-------------------|--------|
-| Mission Registry | [MISSION-BLUEPRINT-REGISTRY.md](./learning/missions/MISSION-BLUEPRINT-REGISTRY.md) | **87** LOCKED AS DESIGN BASELINE |
-| Assessment anchors | [ASSESSMENT-ANCHOR-REGISTRY.md](./learning/assessments/ASSESSMENT-ANCHOR-REGISTRY.md) | **33** LOCKED AS ASSESSMENT DESIGN BASELINE |
-| Evidence rubrics | [EVIDENCE-RUBRIC-REGISTRY.md](./learning/evidence/EVIDENCE-RUBRIC-REGISTRY.md) | **7** packs locked (design) |
-| Capstones | [CAPSTONE-BLUEPRINT-REGISTRY.md](./learning/capstones/CAPSTONE-BLUEPRINT-REGISTRY.md) | **7** locked (design) |
-| AppSec Bridge | [BRG-PRT-BLD-01-APPSEC-BRIDGE.md](./learning/missions/bridges/BRG-PRT-BLD-01-APPSEC-BRIDGE.md) | LOCKED AS DESIGN BASELINE · mandatory for CXW |
-| Live Sky | [LAUNCH-TEAM-LIVE-SKY-BLUEPRINT.md](./learning/missions/live/LAUNCH-TEAM-LIVE-SKY-BLUEPRINT.md) | LOCKED AS DESIGN BLUEPRINT · tech NOT RUN |
-| AI / Integrity | `learning/integrity/` | Defined |
-| Route-Proven trace | [ROUTE-PROVEN-TRACEABILITY.md](./learning/proven/ROUTE-PROVEN-TRACEABILITY.md) | Qualitative complete |
-| CXW / SEX boundary | [CROSS-WING-SECURE-EXTENSION-FINAL-BOUNDARY.md](./learning/governance/CROSS-WING-SECURE-EXTENSION-FINAL-BOUNDARY.md) | 0 duplicated mandatory Stages/Evidence/capstones |
-
-Scope Baseline §3.8 unchanged. No silent Scope modification. No Change Request required for 1D design-baseline lock documentation.
+See [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md). Route-Proven qualitative conditions remain authoritative. Horizon-Proven awarding deferred. RT-ANL-001 remains reserve.
 
 ## Gaps intentionally open
 
 | Item | Status |
 |------|--------|
-| Expert Review | **NOT RUN** |
-| Learning Pilot | **NOT RUN** |
-| Publication | **BLOCKED** |
-| Implementation / Product Code | **BLOCKED** |
-| Full lesson content | NOT STARTED (drafting may be sequenced later under freeze) |
-| Progression formulas | PENDING GHV.PROGRESSION.1 |
-| Usability tests | NOT RUN |
-| Runtime graph / DB schema | PENDING GHV.ARCHITECTURE.1 |
-| Numeric Mastery / XP | NOT DEFINED (correct) |
+| Progression formulas / thresholds / season duration | PENDING GHV.PROGRESSION.1B |
+| Simulation | NOT RUN |
+| Calibration | NOT RUN |
+| Expert Review / Learning Pilot | NOT RUN |
+| Publication / Implementation / Product Code | BLOCKED |
+| Title catalogue / Prestige quorum | DEFERRED / PENDING |
+| Numeric Mastery aggregation | PENDING 1B |
+| Runtime event/ledger implementation | PENDING ARCHITECTURE.1 |
