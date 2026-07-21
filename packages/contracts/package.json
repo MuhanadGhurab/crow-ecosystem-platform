@@ -1,0 +1,16 @@
+{
+  "name": "@ghuravia/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./schemas": "./src/schemas.ts",
+    "./screen-registry": "./generated/screen-registry.json"
+  },
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  }
+}

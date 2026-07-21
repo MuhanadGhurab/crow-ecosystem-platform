@@ -70,3 +70,6 @@ skills-lock.json
 # Optional future app ignores (kept for transition safety)
 prisma/*.db
 prisma/*.db-journal
+
+*.tsbuildinfo
+

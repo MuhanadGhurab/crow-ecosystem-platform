@@ -1,0 +1,16 @@
+{
+  "name": "@ghuravia/background-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node --import tsx src/index.ts"
+  },
+  "dependencies": {
+    "@ghuravia/contracts": "*",
+    "@ghuravia/domain": "*",
+    "@ghuravia/data": "*",
+    "@ghuravia/provider-mocks": "*"
+  }
+}

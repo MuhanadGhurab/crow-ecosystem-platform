@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/contracts" },
+    { "path": "packages/config" },
+    { "path": "packages/domain" },
+    { "path": "packages/data" },
+    { "path": "packages/provider-mocks" },
+    { "path": "packages/testing" },
+    { "path": "workers/background" }
+  ]
+}

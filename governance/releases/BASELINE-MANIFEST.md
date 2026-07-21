@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.20.0 |
+| **Version** | 1.21.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1B |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 
 ## Active baseline set
 
@@ -31,6 +31,7 @@
 | Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION BASELINE v0.1.0 PARTIAL** |
 | **GHURAVIA External Technical Validation Baseline v0.1.0** | **ACTIVE — PARTIAL** · most domains NOT AVAILABLE · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · Source Gate **GHV.VALIDATION.1A** (**PARTIAL**) |
 | **GHURAVIA Implementation Entry Validation Baseline v0.1.0** | **READY WITH CONDITIONS** · Architecture Design **LOCKED v1.0.0** · External Technical Validation **PARTIAL** · Local Implementation Readiness **READY WITH CONDITIONS** · Preview Readiness **NOT READY** · Controlled Launch Readiness **NOT READY** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED** · Source Gate **GHV.VALIDATION.1B** (**PASS**) |
+| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI and disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS**) |
 
 ### GHURAVIA Implementation Entry Validation Baseline v0.1.0
 
@@ -52,8 +53,8 @@ Source Gate: **GHV.VALIDATION.1B**
 | **GHURAVIA Runtime, Realtime, Integration and Operational Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · External Infrastructure Validation **OPEN** · Full Technical Validation **NOT COMPLETE** · Final Architecture Lock **COMPLETED BY 1E** · Product Code **BLOCKED** · ADR-ARC-024..038 · 1D spikes **13/13** · Source Gate **GHV.ARCHITECTURE.1D** (**PARTIAL**) |
 | **GHURAVIA Architecture Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE** · Registered Architecture Spikes **25 / 25 COMPLETE** · Internal Local Spike Evidence **COMPLETE** · External Technical Validation **NOT COMPLETE** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED** · ADR-ARC-001..038 · conflicting ADRs **0** · Source Gate **GHV.ARCHITECTURE.1E** (**PARTIAL**) |
 | Publication | **BLOCKED** |
-| Implementation | **BLOCKED** |
-| Product Code | **BLOCKED** |
+| Implementation | **LIMITED FOUNDATION BOOTSTRAP COMPLETE** — broader implementation requires GHV.IMPLEMENTATION.0B |
+| Product Code | **AUTHORIZED ONLY FOR COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE** |
 | Historical Master Screen Registry v1.0.0 (90) | **SUPERSEDED** — corrected by CR-001 |
 | GHV.LEARNING.1A–1D | PASS |
 | GHV.PROGRESSION.1A–1C | PASS |
@@ -102,8 +103,8 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Progression calibration | **COMPLETE AT SYNTHETIC LEVEL** · NOT production calibrated |
 | Final Progression Baseline | **LOCKED** (design) · real-user / tech still NOT RUN |
 | Expert Review / Pilot | NOT RUN |
-| Publication / Implementation | BLOCKED |
-| Product Code | BLOCKED |
+| Publication / broader implementation | BLOCKED |
+| Product Code | **LIMITED FOUNDATION BOOTSTRAP AUTHORIZED** |
 | Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
 | Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) |
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** · core decisions **ACCEPTED** · domain validation **CONTINUES** |

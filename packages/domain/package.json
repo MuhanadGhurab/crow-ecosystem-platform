@@ -1,0 +1,13 @@
+{
+  "name": "@ghuravia/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@ghuravia/contracts": "*"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ghuravia-foundation",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": "24.15.0",
+    "npm": "11.12.1"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "workers/*"
+  ],
+  "scripts": {
+    "format": "prettier --write --ignore-unknown apps packages workers scripts docs/implementation .github package.json tsconfig.json tsconfig.base.json eslint.config.mjs",
+    "format:check": "prettier --check --ignore-unknown apps packages workers scripts docs/implementation .github package.json tsconfig.json tsconfig.base.json eslint.config.mjs",
+    "lint": "eslint .",
+    "typecheck": "tsc -b && tsc -p apps/web --noEmit",
+    "test": "node --import tsx --test packages/*/test/**/*.test.ts",
+    "test:invariants": "node --import tsx --test packages/testing/test/**/*.test.ts",
+    "build": "npm run build --workspace=@ghuravia/web && npm run build --workspace=@ghuravia/background-worker",
+    "validate:routes": "node scripts/governance/validate-routes.mjs",
+    "validate:boundaries": "node scripts/validation/validate-boundaries.mjs",
+    "validate:secrets": "node scripts/validation/validate-secrets.mjs",
+    "validate:deployment-guard": "node scripts/validation/validate-deployment-guard.mjs",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run validate:routes && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.2.10",
+    "prettier": "^3.7.4",
+    "tsx": "^4.21.0",
+    "typescript": "6.0.3"
+  }
+}

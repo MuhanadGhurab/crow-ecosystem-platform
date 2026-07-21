@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1B |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 | **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -319,4 +319,5 @@ GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. Ex
 |----|-------------|---|---|-----|---------|------------|-------------|-------|--------|--------|------|
 | RISK-VAL-001 | Preview remains unavailable after local-entry validation | H | H | H | Attempt to treat local PASS as Preview readiness | Preserve 4 Preview blockers; require separate environment, secrets, isolation, and KMS proof | Keep Preview deployment blocked | Founder | Open | Before Preview authorization | CAP-TRU-014 |
 | RISK-VAL-002 | Provider mocks are mistaken for provider sandbox validation | H | H | H | Mock adapters presented as real integration evidence | Contractually limit mocks to local adapter work; retain activation blockers | Disable affected capability activation | Founder | Open | Before provider activation | CAP-TRU-* |
-| RISK-VAL-003 | Product Code bootstrap begins without 0A authority | M | H | H | Workspace or root Product Code is created after 1B PASS | Boundary specification, deployment guard, and separate 0A Gate | Stop unauthorized Product Code through governance process | Founder | Open | Before implementation | CAP-GOV-* |
+| RISK-VAL-003 | Product Code bootstrap begins without 0A authority | M | H | H | Workspace or root Product Code is created after 1B PASS | Boundary specification, deployment guard, and separate 0A Gate | Stop unauthorized Product Code through governance process | Founder | **Resolved by GHV.IMPLEMENTATION.0A** | 2026-07-21 | CAP-GOV-* |
+| RISK-IMP-001 | Bounded bootstrap authority is mistaken for deployment or provider activation authority | H | H | H | Local foundation PASS is presented as Preview, Staging, Production, or provider readiness | Preserve Gate record, deployment guard, and explicit lifecycle status | Keep all deployment disabled; require later authorization Gate | Founder | Open | Before any deployment or provider activation | CAP-GOV-* |

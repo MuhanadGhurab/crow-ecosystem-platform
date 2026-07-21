@@ -1,0 +1,23 @@
+{
+  "name": "@ghuravia/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@ghuravia/config": "*",
+    "@ghuravia/contracts": "*",
+    "@ghuravia/domain": "*",
+    "next": "16.2.10",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  }
+}

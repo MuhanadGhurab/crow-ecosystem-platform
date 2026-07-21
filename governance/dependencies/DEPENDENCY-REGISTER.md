@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.16.0 |
+| **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1B |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -113,4 +113,5 @@
 | DEP-099 | External technical validation programme | Governance/Technical | **SATISFIED (PARTIAL)** — Validation.1A **PARTIAL** · Baseline v0.1.0 **PARTIAL** | External technical validation remains PARTIAL; Preview and launch evidence remain open | Founder | No complete external proof | Preview / launch readiness |
 | DEP-100 | Gate-verdict consistency validation before every programme transition | Governance | **Active control** — RISK-GOV-003 OPEN | Compare Gate Register / Project Status / manifests to authoritative Gate records · [GATE-VERDICT-CONSISTENCY-CHECK.md](../gates/GATE-VERDICT-CONSISTENCY-CHECK.md) · [GATE-VERDICT-PRESERVATION-POLICY.md](../gates/GATE-VERDICT-PRESERVATION-POLICY.md) | Founder | Verdict drift | Pre-next-Gate |
 | DEP-101 | Local migration and rollback rehearsal | Technical | **Satisfied (Validation.1B)** | Local migration, rollback, and reset evidence passed; production ownership remains an implementation/launch concern | Founder | Migration regressions if rehearsal is ignored | GHV.IMPLEMENTATION.0A |
-| DEP-102 | GHV.IMPLEMENTATION.0A authorization | Governance | **Eligible to start · not started** | Separate local Product Code authorization decision required after Validation.1B PASS | Founder | Product Code remains blocked | Scoped local implementation |
+| DEP-102 | GHV.IMPLEMENTATION.0A authorization | Governance | **Satisfied (PASS)** | GHV-IMP-AUTH-001 granted; bounded Product Code bootstrap completed | Founder | Scope or deployment overclaim | GHV.IMPLEMENTATION.0B |
+| DEP-103 | Preview / Staging / Production authorization | Governance/Infrastructure | **Blocked** | 0A bootstrap PASS does not establish Preview, Staging, Controlled Launch, Production, cloud DB, or real providers | Founder | Unauthorized deployment or activation | Future deployment authorization Gate |

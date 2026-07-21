@@ -2,7 +2,7 @@
 
 ```text
 Current Gate:
-GHV.VALIDATION.1B — PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW
+GHV.IMPLEMENTATION.0A — PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -24,6 +24,7 @@ Accepted Previous Gates:
 - GHV.ARCHITECTURE.1E-AMENDMENT-01 — PASS — PREDECESSOR VERDICTS RECONCILED
 - GHV.VALIDATION.1A — PARTIAL — EXTERNAL TECHNICAL VALIDATION WITH IMPLEMENTATION READINESS CONDITIONS
 - GHV.VALIDATION.1B — PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW
+- GHV.IMPLEMENTATION.0A — PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
 
 Product Definition:
 LOCKED
@@ -125,7 +126,7 @@ Controlled Launch Readiness:
 NOT READY — 7 controlled-launch blockers remain
 
 Product Code Authorization:
-NOT GRANTED BY VALIDATION.1B
+GHV-IMP-AUTH-001 GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
 
 Legal and Privacy Validation:
 NOT APPROVED
@@ -143,10 +144,10 @@ Full Technical Validation:
 NOT COMPLETE
 
 Product Code:
-BLOCKED
+AUTHORIZED — LIMITED FOUNDATION BOOTSTRAP ONLY
 
 Implementation Authorization:
-NOT GRANTED
+GRANTED — LIMITED TO COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
 
 Branch:
 feat/ghuravia-foundation (deploy guard active)
@@ -155,10 +156,23 @@ feat/ghuravia-foundation (deploy guard active)
 ## Next Gate
 
 ```text
-GHV.IMPLEMENTATION.0A
-LOCAL PRODUCT CODE AUTHORIZATION
+GHV.IMPLEMENTATION.0B
+FOUNDATION RUNTIME AND ACTIVATION VERTICAL SLICE
 ELIGIBLE TO START · NOT STARTED
 ```
+
+## Post-success status — GHV.IMPLEMENTATION.0A
+
+```text
+PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED
+```
+
+- Product Code Bootstrap Baseline v0.1.0 is ACTIVE.
+- `apps/`, `packages/`, `workers/`, and `scripts/` are created under the bounded npm workspace.
+- `npm run ci` passed locally. Local database migration and reset passed on disposable PostgreSQL, which was torn down.
+- Providers remain MOCKS ONLY. The screen registry remains 92 ACTIVE / 7 shells.
+- TypeScript is pinned at 6.0.3 as a documented compatibility deviation from the Validation.1B 7.0.2 candidate.
+- `vercel.json` continues to disable deployment for `feat/ghuravia-foundation`.
 
 ## Programme status
 
@@ -170,8 +184,9 @@ Architecture Design Baseline LOCKED v1.0.0
 External Technical Validation Baseline PARTIAL v0.1.0
 Implementation-entry validation COMPLETE — local-first readiness READY WITH CONDITIONS
 Preview and controlled launch remain NOT READY
-Product Code Authorization BLOCKED
-Implementation Authorization NOT GRANTED
+Product Code Bootstrap Baseline v0.1.0 ACTIVE
+Product Code Authorization GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
+Preview BLOCKED · Staging BLOCKED · Controlled Launch NOT READY · Production NOT AUTHORIZED
 ```
 
 ## Explicit non-claims
@@ -185,7 +200,7 @@ No production SLOs validated
 No real infrastructure / provider sandbox validation
 No accessibility user validation
 No disaster recovery operational proof
-No Product Code
-No implementation authorization
+No Product Code beyond the completed GHV.IMPLEMENTATION.0A foundation bootstrap
+No implementation authorization beyond GHV.IMPLEMENTATION.0A
 External infrastructure validation OPEN
 ```

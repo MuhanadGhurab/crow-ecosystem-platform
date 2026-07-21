@@ -1,0 +1,14 @@
+{
+  "name": "@ghuravia/provider-mocks",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@ghuravia/contracts": "*",
+    "@ghuravia/domain": "*"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  }
+}

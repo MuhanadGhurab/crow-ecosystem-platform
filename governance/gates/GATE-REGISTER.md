@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.22.0 |
+| **Version** | 1.23.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1B · implementation-entry validation PASS |
+| **Source Gate** | GHV.IMPLEMENTATION.0A · bounded bootstrap PASS |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -34,10 +34,11 @@
 | GHV.ARCHITECTURE.1E-AMENDMENT-01 | Predecessor Verdict Preservation | **PASS** | Restores **1B PARTIAL** · no baseline invalidation · no spike/ADR/condition/provider change · [Record](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md) |
 | GHV.VALIDATION.1A | External Technical Validation | **PARTIAL** | **GHURAVIA EXTERNAL TECHNICAL VALIDATION COMPLETED WITH IMPLEMENTATION READINESS CONDITIONS** · External Validation Baseline v0.1.0 **PARTIAL** · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · [Report](./GHV.VALIDATION.1A.md) |
 | GHV.VALIDATION.1B | Implementation Entry Validation | **PASS — GHURAVIA IMPLEMENTATION ENTRY VALIDATION COMPLETE AND READY FOR PRODUCT CODE AUTHORIZATION REVIEW** | Local-first entry criteria met: IMP-ENTRY **14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE** · Local readiness **READY WITH CONDITIONS** · Preview / controlled launch remain NOT READY · Product Code **NOT GRANTED** · [Report](./GHV.VALIDATION.1B.md) |
-| GHV.IMPLEMENTATION.0A | Local Product Code Authorization | **ELIGIBLE TO START · NOT STARTED** | Separate authorization decision required; Product Code remains **BLOCKED** until this Gate grants scoped authorization |
+| GHV.IMPLEMENTATION.0A | Local Product Code Authorization | **PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED** | GHV-IMP-AUTH-001 granted for the bounded bootstrap only · Product Code Bootstrap Baseline v0.1.0 ACTIVE · local CI and disposable-DB migration/reset PASS · Preview/Staging blocked · Production not authorized · [Record](./GHV.IMPLEMENTATION.0A.md) |
+| GHV.IMPLEMENTATION.0B | Foundation Runtime and Activation Vertical Slice | **ELIGIBLE TO START · NOT STARTED** | Subsequent implementation scope only; no Preview, controlled-launch, or Production authority |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
-## Programme status (post-Validation.1B)
+## Programme status (post-Implementation.0A)
 
 ```text
 Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
@@ -48,9 +49,10 @@ Architecture Design Baseline LOCKED v1.0.0
 External Technical Validation remains PARTIAL
 Implementation-entry validation COMPLETE — local readiness READY WITH CONDITIONS
 Preview readiness NOT READY · Controlled launch readiness NOT READY
-Product Code Authorization BLOCKED
-Implementation Authorization NOT GRANTED
-Next recommended Gate: GHV.IMPLEMENTATION.0A (ELIGIBLE TO START · NOT STARTED)
+Product Code Authorization GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
+Foundation workspace bootstrapped — Product Code Bootstrap Baseline v0.1.0 ACTIVE
+Preview BLOCKED · Staging BLOCKED · Controlled Launch NOT READY · Production NOT AUTHORIZED
+Next recommended Gate: GHV.IMPLEMENTATION.0B (ELIGIBLE TO START · NOT STARTED)
 ```
 
 Reports:
@@ -78,5 +80,6 @@ Reports:
 - [GHV.ARCHITECTURE.1E-AMENDMENT-01.md](./GHV.ARCHITECTURE.1E-AMENDMENT-01.md)
 - [GHV.VALIDATION.1A.md](./GHV.VALIDATION.1A.md)
 - [GHV.VALIDATION.1B.md](./GHV.VALIDATION.1B.md)
+- [GHV.IMPLEMENTATION.0A.md](./GHV.IMPLEMENTATION.0A.md)
 - [GATE-VERDICT-PRESERVATION-POLICY.md](./GATE-VERDICT-PRESERVATION-POLICY.md)
 - [GATE-VERDICT-CONSISTENCY-CHECK.md](./GATE-VERDICT-CONSISTENCY-CHECK.md)

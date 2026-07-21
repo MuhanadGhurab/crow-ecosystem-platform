@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.15.0 |
+| **Version** | 1.16.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1E-AMENDMENT-01 |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -2561,3 +2561,129 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.VALIDATION.1B → GHV.IMPLEMENTATION.0A |
 | **Evidence** | [GHV.VALIDATION.1B.md](../gates/GHV.VALIDATION.1B.md) |
+
+## DEC-256 — Limited Product Code authorization granted
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Grant GHV-IMP-AUTH-001 for **GHV.IMPLEMENTATION.0A bootstrap scope only**; this does not authorize Preview, Staging, Controlled Launch, Production, real providers, or non-synthetic data. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) · [GHV.IMPLEMENTATION.0A-AUTHORIZATION.md](../implementation/GHV.IMPLEMENTATION.0A-AUTHORIZATION.md) |
+
+## DEC-257 — Bootstrap scope completed
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Limit the completed foundation workspace to the approved bootstrap roots and activation/audit/outbox foundation slice; broader runtime and activation functionality requires GHV.IMPLEMENTATION.0B. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md](../implementation/IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md) |
+
+## DEC-258 — Root npm workspace adopted
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt the root npm workspace for `apps/*`, `packages/*`, and `workers/*`, with scripts retained as governed tooling outside a package workspace. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [package.json](../../package.json) · [PACKAGE-BOUNDARIES.md](../../docs/implementation/PACKAGE-BOUNDARIES.md) |
+
+## DEC-259 — Foundation runtime versions pinned
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Pin Node 24.15.0, Next 16.2.10, React 19.2.8, Drizzle 0.45.2, and TypeScript 6.0.3. TypeScript 6.0.3 is an accepted compatibility deviation from the Validation.1B 7.0.2 candidate. |
+| **Status** | Accepted with condition |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md](../implementation/GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md) |
+
+## DEC-260 — Package boundaries enforced
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Enforce the approved package boundaries so Product Code does not absorb validation or spike runtime source. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [PACKAGE-BOUNDARIES.md](../../docs/implementation/PACKAGE-BOUNDARIES.md) · `npm run validate:boundaries` |
+
+## DEC-261 — Disposable local PostgreSQL retained
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Use disposable local PostgreSQL only for the foundation database; external, Preview, and Production datastores remain prohibited. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [LOCAL-DATABASE.md](../../docs/implementation/LOCAL-DATABASE.md) |
+
+## DEC-262 — Foundation migration accepted locally
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept the activation, audit, and outbox foundation migration after local migrate/reset passed on disposable PostgreSQL and the instance was torn down. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [0000_foundation.sql](../../packages/data/drizzle/0000_foundation.sql) · [LOCAL-DEVELOPMENT.md](../../docs/implementation/LOCAL-DEVELOPMENT.md) |
+
+## DEC-263 — Local configuration and secret controls retained
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Keep configuration local-only and require secrets to be injected without committing credentials; this does not satisfy Preview secret governance. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [CONFIGURATION-AND-SECRETS.md](../../docs/implementation/CONFIGURATION-AND-SECRETS.md) |
+
+## DEC-264 — Provider mocks only
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Use identity, email-delivery, and observability mocks only; mocks are not real-provider, sandbox, Preview, or activation validation. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [PROVIDER-MOCKS.md](../../docs/implementation/PROVIDER-MOCKS.md) |
+
+## DEC-265 — Initial foundation slice accepted
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept the bounded activation-domain skeleton, health boundary, route registry, and worker boundary as the completed 0A foundation slice. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md](../implementation/IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md) |
+
+## DEC-266 — Non-deploying CI accepted
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept the non-deploying CI quality gate after `npm run ci` passed locally. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [ci.yml](../../.github/workflows/ci.yml) · [package.json](../../package.json) |
+
+## DEC-267 — Deployment prohibition preserved
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Preserve `feat/ghuravia-foundation` with Vercel deployment disabled; Preview and Staging remain blocked and Production remains not authorized. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [vercel.json](../../vercel.json) |
+
+## DEC-268 — Product Code Bootstrap Baseline activated
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Product Code Bootstrap Baseline v0.1.0 as the authoritative foundation Product Code baseline. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A |
+| **Evidence** | [GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md](../implementation/GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md) |
+
+## DEC-269 — IMPLEMENTATION.0B is next eligible Gate
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Set GHV.IMPLEMENTATION.0B — Foundation Runtime and Activation Vertical Slice — to **ELIGIBLE TO START · NOT STARTED**. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0A → GHV.IMPLEMENTATION.0B |
+| **Evidence** | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) |

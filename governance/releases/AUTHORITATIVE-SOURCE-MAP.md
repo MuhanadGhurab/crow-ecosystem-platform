@@ -3,19 +3,20 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.5.0 |
+| **Version** | 2.6.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.VALIDATION.1B |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 | **Last updated** | 2026-07-21 |
 
 ```text
-IMPLEMENTATION-ENTRY VALIDATION EVIDENCE · PRODUCT CODE AUTHORIZATION NOT GRANTED
-ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION EVIDENCE · IMPLEMENTATION AUTHORIZATION NOT GRANTED
+LIMITED PRODUCT CODE IMPLEMENTATION AUTHORIZED · PREVIEW AND PRODUCTION PROHIBITED
+GHV-IMP-AUTH-001 GRANTED — LIMITED TO GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
+ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION EVIDENCE · ARCHITECTURE GATE VERDICTS UNCHANGED
 EXTERNAL TECHNICAL VALIDATION BASELINE v0.1.0 PARTIAL
 GATE VERDICTS: 1A PASS—AMENDED · 1B PARTIAL · 1C PARTIAL · 1D PARTIAL · 1E PARTIAL—AMENDED · VALIDATION.1A PARTIAL
 PROGRAMME COMPLETION ≠ EVERY GATE PASS
-Product Code: BLOCKED
+Product Code: LIMITED TO COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP SCOPE
 ```
 
 ## Authority order
@@ -33,6 +34,25 @@ Product Code: BLOCKED
 ```
 
 If a lower-level document contradicts a higher-level document, correct the lower-level document and record the correction. Do not keep two active definitions.
+
+## Product Code Bootstrap authority
+
+| Definition | Authoritative file | Notes |
+|------------|-------------------|-------|
+| Product Code authorization | [GHV.IMPLEMENTATION.0A.md](../gates/GHV.IMPLEMENTATION.0A.md) | **PASS**; GHV-IMP-AUTH-001 is limited to the completed bootstrap scope |
+| Bootstrap boundary | [GHV.IMPLEMENTATION.0A-AUTHORIZATION.md](../implementation/GHV.IMPLEMENTATION.0A-AUTHORIZATION.md) | Product Code roots and prohibited scope |
+| Workspace and package boundaries | [PACKAGE-BOUNDARIES.md](../../docs/implementation/PACKAGE-BOUNDARIES.md) | Root npm workspace; `apps/`, `packages/`, `workers/`, `scripts/` |
+| Runtime versions | [GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md](../implementation/GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md) | Node 24.15.0 · Next 16.2.10 · React 19.2.8 · Drizzle 0.45.2 · TypeScript 6.0.3 compatibility pin |
+| Configuration and secrets | [CONFIGURATION-AND-SECRETS.md](../../docs/implementation/CONFIGURATION-AND-SECRETS.md) | Local-only injection; no committed credentials |
+| Local database | [LOCAL-DATABASE.md](../../docs/implementation/LOCAL-DATABASE.md) | Disposable PostgreSQL only |
+| Migration and reset | [0000_foundation.sql](../../packages/data/drizzle/0000_foundation.sql) · [LOCAL-DEVELOPMENT.md](../../docs/implementation/LOCAL-DEVELOPMENT.md) | Local migrate/reset passed; disposable instance torn down |
+| Activation foundation slice | [IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md](../implementation/IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md) | Activation aggregates, audit, and outbox only |
+| Provider mocks | [PROVIDER-MOCKS.md](../../docs/implementation/PROVIDER-MOCKS.md) | Mocks only; no real provider validation or activation |
+| Route registry | [screen-registry.json](../../packages/contracts/generated/screen-registry.json) | **92 ACTIVE / 7 shells** unchanged |
+| CI | [ci.yml](../../.github/workflows/ci.yml) · [package.json](../../package.json) | Non-deploying CI; `npm run ci` passed locally |
+| Deployment prohibition | [vercel.json](../../vercel.json) | `feat/ghuravia-foundation` remains `deploymentEnabled: false` |
+| Bootstrap acceptance | [IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md](../implementation/IMPLEMENTATION-0A-ACCEPTANCE-MATRIX.md) | 0 fail · 0 mandatory not run · one documented TypeScript condition |
+| Product Code Bootstrap Baseline | [GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md](../implementation/GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md) | **ACTIVE v0.1.0** |
 
 ## Definition → authoritative file
 

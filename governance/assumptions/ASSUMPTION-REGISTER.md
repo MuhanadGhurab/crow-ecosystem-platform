@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.18.0 |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.VALIDATION.1B |
+| **Source Gate** | GHV.IMPLEMENTATION.0A |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -132,3 +132,4 @@
 | ASM-118 | NOT AVAILABLE external proof will not be recorded as PASS or FAIL | Active | Evidence integrity | DEC-235 · acceptance matrix | Honest domain status | VALIDATION.1A |
 | ASM-119 | Local-first implementation entry can proceed to authorization review with local PostgreSQL, secrets, synthetic data, and approved mocks | **Validated** | Local implementation readiness | IMP-ENTRY 14 PASS · 6 PWC · 0 FAIL · 0 NOT AVAILABLE | Do not authorize Product Code; remediate entry criteria | VALIDATION.1B |
 | ASM-120 | Preview readiness is not required for local implementation entry, but is required for Preview deployment | **Validated** | Lifecycle separation | Preview-vs-local readiness separation · 4 Preview blockers retained | Keep Preview blocked until independent evidence passes | VALIDATION.1B |
+| ASM-121 | The TypeScript 6.0.3 compatibility pin remains viable for the bounded foundation workspace | **Validated (0A scope)** | Foundation runtime compatibility | Local `npm run ci` PASS; documented deviation from Validation.1B 7.0.2 candidate | Re-evaluate the pin before broader implementation scope | IMPLEMENTATION.0A |
