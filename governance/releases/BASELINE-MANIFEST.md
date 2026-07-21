@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.22.0 |
+| **Version** | 1.23.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A-CLOSURE-01 |
+| **Source Gate** | GHV.IMPLEMENTATION.0A-CLOSURE-01 (PARTIAL) · record reconciliation |
 
 ## Active baseline set
 
@@ -31,7 +31,7 @@
 | Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION BASELINE v0.1.0 PARTIAL** |
 | **GHURAVIA External Technical Validation Baseline v0.1.0** | **ACTIVE — PARTIAL** · most domains NOT AVAILABLE · Preview NOT ESTABLISHED · TECH-018 OPEN · Product Code **BLOCKED** · Source Gate **GHV.VALIDATION.1A** (**PARTIAL**) |
 | **GHURAVIA Implementation Entry Validation Baseline v0.1.0** | **READY WITH CONDITIONS** · Architecture Design **LOCKED v1.0.0** · External Technical Validation **PARTIAL** · Local Implementation Readiness **READY WITH CONDITIONS** · Preview Readiness **NOT READY** · Controlled Launch Readiness **NOT READY** · Product Code **BLOCKED** · Implementation Authorization **NOT GRANTED** · Source Gate **GHV.VALIDATION.1B** (**PASS**) |
-| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI PASS · disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · **Remote CI: VERIFIED** (Actions `29872538651`) · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED**) · Closure **GHV.IMPLEMENTATION.0A-CLOSURE-01** |
+| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI PASS · disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · **Remote CI: VERIFIED** (Actions `29872538651`) · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS**) · Closure **GHV.IMPLEMENTATION.0A-CLOSURE-01** (**PARTIAL — NON-BLOCKING DEPENDENCY CONDITIONS**) · **0B BLOCKED PENDING CLOSURE-RECORD RECONCILIATION** |
 
 ### GHURAVIA Implementation Entry Validation Baseline v0.1.0
 
@@ -68,8 +68,9 @@ Source Gate: **GHV.VALIDATION.1B**
 | GHV.ARCHITECTURE.1E-AMENDMENT-01 | **PASS** |
 | GHV.VALIDATION.1A | **PARTIAL** — external validation with implementation readiness conditions |
 | GHV.VALIDATION.1B | **PASS** — implementation entry validation complete and ready for Product Code authorization review; Product Code **NOT GRANTED** |
-| GHV.IMPLEMENTATION.0A | **PASS** — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED · Closure **GHV.IMPLEMENTATION.0A-CLOSURE-01** · Remote CI **VERIFIED** |
-| GHV.IMPLEMENTATION.0B | **ELIGIBLE TO START · NOT STARTED** |
+| GHV.IMPLEMENTATION.0A | **PASS** — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED · Remote CI **VERIFIED** |
+| GHV.IMPLEMENTATION.0A-CLOSURE-01 | **PARTIAL** — CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS |
+| GHV.IMPLEMENTATION.0B | **BLOCKED PENDING CLOSURE-RECORD RECONCILIATION** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 

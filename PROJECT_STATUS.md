@@ -3,7 +3,8 @@
 ```text
 Current Gate:
 GHV.IMPLEMENTATION.0A — PASS — LIMITED PRODUCT CODE AUTHORIZED AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
-(closure: GHV.IMPLEMENTATION.0A-CLOSURE-01)
+GHV.IMPLEMENTATION.0A-CLOSURE-01 — PARTIAL — CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS
+GHV.IMPLEMENTATION.0B — BLOCKED PENDING CLOSURE-RECORD RECONCILIATION
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -159,15 +160,22 @@ feat/ghuravia-foundation (deploy guard active)
 
 ```text
 GHV.IMPLEMENTATION.0B:
-ELIGIBLE TO START
-NOT STARTED
+BLOCKED PENDING CLOSURE-RECORD RECONCILIATION
 ```
 
-## Post-closure status — GHV.IMPLEMENTATION.0A
+## Binding post-closure status
 
 ```text
+GHV.IMPLEMENTATION.0A:
 PASS — LIMITED PRODUCT CODE AUTHORIZED
 AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
+
+GHV.IMPLEMENTATION.0A-CLOSURE-01:
+PARTIAL — CI CLOSURE COMPLETED
+WITH NON-BLOCKING DEPENDENCY CONDITIONS
+
+GHV.IMPLEMENTATION.0B:
+BLOCKED PENDING CLOSURE-RECORD RECONCILIATION
 
 Remote CI:
 VERIFIED
@@ -179,7 +187,8 @@ VERIFIED
 - Providers remain MOCKS ONLY. The screen registry remains 92 ACTIVE / 7 shells.
 - TypeScript remains 6.0.3 with reconciled documentation (Architecture contradiction: NO).
 - `vercel.json` continues to disable deployment for `feat/ghuravia-foundation`.
-- Dependency advisories: 6 moderate triaged · Critical/High 0 · Blocking 0 · accepted temporary risks documented.
+- Dependency advisories: 6 moderate triaged · Critical/High 0 · Blocking 0 · accepted temporary risks → CLOSURE-01 PARTIAL.
+- Record reconciliation: [IMPLEMENTATION-0A-CLOSURE-RECORD-RECONCILIATION.md](governance/implementation/IMPLEMENTATION-0A-CLOSURE-RECORD-RECONCILIATION.md).
 ## Programme status
 
 ```text

@@ -9,8 +9,8 @@
 | **Starting commit** | `9a0bfd7e780b7b13b48c9324dd9715d5aadb114e` |
 | **Bootstrap commit** | `9a0bfd7e780b7b13b48c9324dd9715d5aadb114e` |
 | **Original reported verdict** | PASS — GHURAVIA PRODUCT CODE AUTHORIZED AND FOUNDATION WORKSPACE BOOTSTRAPPED |
-| **Original GitHub Actions** | Run `29871868486` · job `verify` (`887738…`) · **failure** at `npm run format:check` |
-| **Closure result** | **PASS** |
+| **Original GitHub Actions** | Run `29871868486` · job `verify` · **failure** at `npm run format:check` |
+| **Closure result** | **PARTIAL — CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS** |
 
 ## Disposition (substantive bootstrap retained)
 
@@ -46,35 +46,13 @@ NO
 | Cross-platform checksum (CRLF vs LF) | Fixed — LF-normalize Markdown before SHA-256 |
 | Generated-artifact drift validation | `validate:generated` added to `npm run ci` |
 | Lint anonymous-default-export warning | Removed — warnings **0** |
-| Dependency advisories | 6 moderate triaged · Critical/High **0** · Blocking **0** |
+| Dependency advisories | 6 moderate triaged · Critical/High **0** · Blocking **0** · accepted temporary risks remain |
 | TypeScript 6.0.3 vs 7.0.2 | Reconciled · Architecture contradiction **NO** |
 
 ## Evidence
 
 - [IMPLEMENTATION-0A-CI-FAILURE-ANALYSIS.md](../implementation/IMPLEMENTATION-0A-CI-FAILURE-ANALYSIS.md)
 - [IMPLEMENTATION-0A-DEPENDENCY-ADVISORY-REVIEW.md](../implementation/IMPLEMENTATION-0A-DEPENDENCY-ADVISORY-REVIEW.md)
-
-## Files changed (closure)
-
-- Generator / shared screen-registry module + validate-only CI path
-- Regenerated `packages/contracts/generated/screen-registry.json`
-- `validate:generated` + tests / `.gitattributes`
-- CI / lint / TypeScript documentation
-- Dependency advisory review + this Gate amendment
-- Governance status updates after remote SUCCESS
-
-## Impact
-
-```text
-Product impact:
-NONE
-
-Architecture impact:
-NONE
-
-Authorization impact:
-NONE — GHV-IMP-AUTH-001 retained · Preview / Production unchanged
-```
 
 ## Remote CI (verified)
 
@@ -98,23 +76,32 @@ Conclusion:
 SUCCESS
 ```
 
-## Final closure wording
+## Product Code Gate (unchanged by PARTIAL closure)
 
 ```text
 GHV.IMPLEMENTATION.0A:
 PASS — LIMITED PRODUCT CODE AUTHORIZED
 AND FOUNDATION BOOTSTRAPPED WITH CI VERIFIED
-```
 
-```text
 Remote CI:
 VERIFIED
 ```
+
+## Closure Gate verdict
+
+```text
+GHV.IMPLEMENTATION.0A-CLOSURE-01:
+PARTIAL — CI CLOSURE COMPLETED
+WITH NON-BLOCKING DEPENDENCY CONDITIONS
+```
+
+Reason: CI reproducibility and remote verification are complete; six moderate dependency advisories remain accepted temporarily with owners. This does **not** invalidate GHV.IMPLEMENTATION.0A PASS or GHV-IMP-AUTH-001.
 
 ## Next Gate
 
 ```text
 GHV.IMPLEMENTATION.0B:
-ELIGIBLE TO START
-NOT STARTED
+BLOCKED PENDING CLOSURE-RECORD RECONCILIATION
 ```
+
+0B must not start until Gate Register, Baseline Manifest, Authoritative Source Map, PROJECT_STATUS, and related records consistently reflect the three-line status above (0A PASS · CLOSURE-01 PARTIAL · 0B blocked until reconciliation clears).
