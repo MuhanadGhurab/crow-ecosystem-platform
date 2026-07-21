@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.14.0 |
+| **Version** | 1.15.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1D |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -109,4 +109,5 @@
 | DEP-095 | Realtime / search / notification / payment / observability providers | Technical | Blocked — adapters locked | Sandbox access still prohibited in architecture Gates | Founder | Cannot accept providers | Ops |
 | DEP-096 | Accessibility user testing and Arabic UX testing | Research | Planned | ADR-025/026 debt | Founder | Untested UX risk | Pre-launch |
 | DEP-097 | Backup restore drill on selected infrastructure | Operational | Planned | ADR-035 DRAFT RPO/RTO | Founder | Unproven continuity | Pre-launch |
-| DEP-098 | GHV.ARCHITECTURE.1E final baseline lock | Governance | Planned — **Next** | After 1D PARTIAL | Founder | No final architecture lock | ARCH.1E |
+| DEP-098 | GHV.ARCHITECTURE.1E final baseline lock | Governance | **SATISFIED (PARTIAL)** — Architecture Design Baseline v1.0.0 LOCKED | External validation OPEN · Product Code BLOCKED | Founder | — | GHV.VALIDATION.1A |
+| DEP-099 | External technical validation programme | Governance/Technical | Planned — **Next** | Depends on 1E handoff · [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Founder | No external proof | GHV.VALIDATION.1A |

@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.16.0 |
+| **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1D |
-| **Note** | Risks are identified, not claimed mitigated. **Core Platform Stack Baseline acceptance** and **P0 spike PASS** do **not** close Open validation-debt, provider-selection, or operational risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
+| **Note** | Risks are identified, not claimed mitigated. **Architecture Design Baseline v1.0.0 lock (1E)** does **not** resolve external, provider, legal, accessibility, DR, or operational validation risks. **Core Platform Stack Baseline acceptance** and **P0 spike PASS** do **not** close Open validation-debt, provider-selection, or operational risks. Screen-count / alias defects RISK-PRG-057/058 are resolved. Process deviation RISK-GOV-001 remains **OPEN / MONITORED**. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -306,4 +306,8 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-GOV-001 | Gate work continuing after a mandatory stop condition | M | H | H | Precondition fail ignored; mixed correction + substantive Gate commit | Precondition checklist · stop checkpoint · separate correction commit/Gate · resumption record · reviewer confirmation · amendment if mixed (DEC-173) | Reopen Gate / issue amendment; do not rewrite history | Founder | **OPEN / MONITORED** — Amendment-01 recorded; **not eliminated** | Continuous | GOV |
 | RISK-GOV-002 | Stack acceptance messaging overclaims validation | M | H | H | “Architecture done” after 1B | PROJECT_STATUS · BASELINE-MANIFEST · DEC-190 | Correct to PARTIAL / domain continues | Founder | **OPEN** | Open | GOV |
 
-Architecture, simulation, synthetic calibration, **Progression Design Baseline lock**, **Core Platform Stack Baseline acceptance**, and **P0 spike PASS** do **not** close these risks; P1–P3 spikes, provider selection, real-user pilots, staffing, and operational controls remain required. Full architecture risk set: [ARCHITECTURE-RISK-REGISTER.md](../../architecture/ghuravia/governance/ARCHITECTURE-RISK-REGISTER.md).
+Architecture, simulation, synthetic calibration, **Progression Design Baseline lock**, **Architecture Design Baseline lock (1E)**, **Core Platform Stack Baseline acceptance**, and **P0 spike PASS** do **not** close these risks; external validation, provider selection, real-user pilots, staffing, and operational controls remain required. Full architecture risk set: [ARCHITECTURE-RISK-REGISTER.md](../../architecture/ghuravia/governance/ARCHITECTURE-RISK-REGISTER.md).
+
+## 1E note (2026-07-21)
+
+GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. External infrastructure validation, provider sandbox validation, legal/privacy validation, accessibility user validation, Arabic UX user validation, penetration testing, and operational DR validation remain **OPEN / NOT RUN**. Do not downgrade Open risks based on design lock alone.

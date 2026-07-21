@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.BASELINE-CORRECTION.1 (Master Screen Registry **7/92 CORRECTED AND LOCKED** · Progression Design Baseline v1.0.0 LOCKED · Learning Design Baseline v1.0.0 LOCKED) |
-| **Version** | 1.11.0 |
+| **Status** | REVIEWED — GHV.ARCHITECTURE.1E (Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED** · Progression Design Baseline v1.0.0 LOCKED · Learning Design Baseline v1.0.0 LOCKED) |
+| **Version** | 1.12.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -33,6 +33,8 @@ Product Pillar
 Learning Design Baseline v1.0.0 remains LOCKED AS DESIGN BASELINE (unchanged by Progression 1A–1D).
 
 Progression Design Baseline v1.0.0 is LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE (conditional locks: MOM-002 · TRU · PRS · POL-POP).
+
+Architecture Design Baseline v1.0.0 is LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE (GHV.ARCHITECTURE.1E PARTIAL). Design lock does not authorize Product Code or external validation closure.
 
 ## Progression architecture links (1A)
 
@@ -107,7 +109,8 @@ No new screen lacks a capability owner. No affected capability points only to su
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** — core decisions **ACCEPTED** · domain validation **CONTINUES** |
 | Runtime event/ledger implementation | **PENDING** GHV.ARCHITECTURE.1D–1E · P0 + 1C domain spike evidence available · Product Code **BLOCKED** |
 | Identity / Evidence / Security domain architecture | **PARTIAL** — GHV.ARCHITECTURE.1C Baseline v1.0.0 ACTIVE · providers/legal OPEN · Product Code **BLOCKED** |
-| Runtime / Realtime / Integration / Operations | **PARTIAL** — GHV.ARCHITECTURE.1D Baseline v1.0.0 ACTIVE · external infra OPEN · spikes **25/25** · Product Code **BLOCKED** · final lock **PENDING 1E** |
+| Runtime / Realtime / Integration / Operations | **PARTIAL** — GHV.ARCHITECTURE.1D Baseline v1.0.0 ACTIVE · external infra OPEN · spikes **25/25** · Product Code **BLOCKED** · final lock **COMPLETED BY 1E** |
+| Architecture Design Baseline | **LOCKED v1.0.0** — GHV.ARCHITECTURE.1E PARTIAL · external validation **OPEN** · Product Code **BLOCKED** |
 | Core Technical Validation Plan | **LOCKED** (1A) — P0 spikes **6/6 PASS** · P1–P3 **NOT RUN** |
 | Treating formulas as production calibrated | **Forbidden** until real-user + tech path |
 | Product Code / stack ACCEPTED | **BLOCKED** / core platform **ACCEPTED** (not Product Code) |

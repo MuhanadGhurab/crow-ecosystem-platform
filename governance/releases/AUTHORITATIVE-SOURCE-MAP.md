@@ -3,11 +3,15 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.2.0 |
+| **Version** | 2.3.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1D |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Last updated** | 2026-07-21 |
+
+```text
+ARCHITECTURE DESIGN BASELINE LOCKED · EXTERNAL VALIDATION CONTINUES · IMPLEMENTATION NOT AUTHORIZED
+```
 
 ## Authority order
 
@@ -116,6 +120,16 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **Integration gateway** | [ADR-ARC-038](../../architecture/ghuravia/decisions/ADR-ARC-038-INTEGRATION-ADAPTER-AND-WEBHOOK-MODEL.md) | **ACCEPTED** |
 | **1D spike evidence** | [ARCHITECTURE-1D-SPIKE-SET.md](../../architecture/ghuravia/validation/ARCHITECTURE-1D-SPIKE-SET.md) · [SPIKE-EVIDENCE-INDEX.md](../../spikes/ghuravia/architecture-1d/SPIKE-EVIDENCE-INDEX.md) | **13/13 · registry 25/25** |
 | **Runtime/Ops Baseline** | [RUNTIME-REALTIME-INTEGRATION-OPERATIONS-BASELINE.md](../../architecture/ghuravia/governance/RUNTIME-REALTIME-INTEGRATION-OPERATIONS-BASELINE.md) | **ACTIVE v1.0.0** |
+| **Architecture Design Baseline** | [GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md](../../architecture/ghuravia/governance/GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md) | **ACTIVE v1.0.0 — LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE** |
+| **Final ADR registry** | [FINAL-ADR-REGISTRY.md](../../architecture/ghuravia/governance/FINAL-ADR-REGISTRY.md) | **ADR-ARC-001..038** · conflicting **0** |
+| **Spike reconciliation** | [FINAL-TECHNICAL-SPIKE-RECONCILIATION.md](../../architecture/ghuravia/governance/FINAL-TECHNICAL-SPIKE-RECONCILIATION.md) | **25/25 COMPLETE** · PASS 17 · PASS WITH CONDITIONS 8 |
+| **Condition register** | [FINAL-ARCHITECTURE-CONDITION-REGISTER.md](../../architecture/ghuravia/governance/FINAL-ARCHITECTURE-CONDITION-REGISTER.md) | Non-blocking validation conditions · blocking design conditions **0** |
+| **Provider deferrals** | [FINAL-PROVIDER-DEFERRAL-REGISTER.md](../../architecture/ghuravia/governance/FINAL-PROVIDER-DEFERRAL-REGISTER.md) | Deferred providers · falsely accepted **0** |
+| **Architecture known limitations** | [ARCHITECTURE-KNOWN-LIMITATIONS.md](../../architecture/ghuravia/governance/ARCHITECTURE-KNOWN-LIMITATIONS.md) | Published post-1E lock |
+| **Architecture change freeze** | [ARCHITECTURE-CHANGE-FREEZE-POLICY.md](../../architecture/ghuravia/governance/ARCHITECTURE-CHANGE-FREEZE-POLICY.md) | Frozen decisions and change classes |
+| **Implementation authorization boundary** | [IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md](../../architecture/ghuravia/governance/IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md) | Product Code **BLOCKED** · Implementation **NOT GRANTED** |
+| **External validation handoff** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) | Recommends **GHV.VALIDATION.1A** (not started) |
+| **Final acceptance matrix** | [FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md](../../architecture/ghuravia/governance/FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md) | RETURN TO SPIKE **0** |
 | **Runbooks / capacity / degradation** | operations/runbooks/ · capacity/ · GRACEFUL-DEGRADATION-MATRIX.md | **DOMAIN ARCHITECTURE ACCEPTED · OPS PROOF PENDING** |
 | **Frontend validation** | architecture/ghuravia/frontend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-002 ACCEPTED WITH CONDITIONS |
 | **Backend validation** | architecture/ghuravia/backend/ | **DOMAIN VALIDATION CONTINUES** — core stack ADR-003 ACCEPTED WITH CONDITIONS |
@@ -131,8 +145,8 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | **Deployment validation** | architecture/ghuravia/deployment/ | **VALIDATION PLAN · NOT TECHNICALLY VALIDATED** |
 | **Spike registry / standard / priority** | [TECHNICAL-SPIKE-REGISTRY.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md) · [TECHNICAL-SPIKE-STANDARD.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-STANDARD.md) · [TECHNICAL-SPIKE-PRIORITY-MATRIX.md](../../architecture/ghuravia/validation/TECHNICAL-SPIKE-PRIORITY-MATRIX.md) | **P0 6/6 PASS** · P1–P3 **NOT RUN** |
 | **Architecture readiness** | [ARCHITECTURE-READINESS-MATRIX.md](../../architecture/ghuravia/governance/ARCHITECTURE-READINESS-MATRIX.md) | **POST-1B** — core platform decisions accepted · domain validation continues |
-| **Technical traceability** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) | **PARTIAL** — P0 evidence mapped · Product Code **BLOCKED** |
-| **ADR framework / register** | [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) · [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) | **ADR-ARC-001..012 ACCEPTED** (some WITH CONDITIONS) |
+| **Technical traceability** | [TECHNICAL-VALIDATION-TRACEABILITY.md](../../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) | **PARTIAL** — spikes **25/25 COMPLETE** · external validation **OPEN** · Product Code **BLOCKED** |
+| **ADR framework / register** | [ARCHITECTURE-DECISION-FRAMEWORK.md](../../architecture/ghuravia/governance/ARCHITECTURE-DECISION-FRAMEWORK.md) · [ADR-REGISTER.md](../../architecture/ghuravia/governance/ADR-REGISTER.md) · [FINAL-ADR-REGISTRY.md](../../architecture/ghuravia/governance/FINAL-ADR-REGISTRY.md) | **ADR-ARC-001..038 ACCEPTED** (some WITH CONDITIONS) |
 | Historical 90-count claims | PD.3 Gate report · DEC-051 count clause · registry v1.0.0 | **HISTORICAL / SUPERSEDED** — not active authority |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
 | Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · **92 ACTIVE** coverage (v1.2.0) |
@@ -213,4 +227,4 @@ If a lower-level document contradicts a higher-level document, correct the lower
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, or Product Code authorized. Core Platform Stack Baseline acceptance must not be summarized as full technical validation, domain closure, or Product Code authorization. Active screen inventory authority is **92 ACTIVE / 7 shells · 0 aliases in inventory** (v1.2.0); historical **90** counts and alias-inflated inventory models are superseded.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, or Product Code authorized. Core Platform Stack Baseline acceptance must not be summarized as full technical validation, domain closure, or Product Code authorization. **Architecture Design Baseline lock must not be summarized as external validation complete, provider selection closed, compliance certified, or implementation authorized.** Active screen inventory authority is **92 ACTIVE / 7 shells · 0 aliases in inventory** (v1.2.0); historical **90** counts and alias-inflated inventory models are superseded.

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-ASM-001 |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | **ACTIVE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A §48 |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Last updated** | 2026-07-21 |
 | **Project mirror** | Also mirrored into `governance/assumptions/ASSUMPTION-REGISTER.md` as ASM-079+ |
 
@@ -44,3 +44,7 @@ See global ASSUMPTION-REGISTER ASM-102..109. Source Gate GHV.ARCHITECTURE.1C.
 ## 1D additions
 
 See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.
+
+## 1E additions
+
+Architecture Design Baseline lock **≠ external proof**. ASM-115 (global register): design lock must not be mistaken for external validation complete or implementation authorization. See DEC-216 · DEC-222 · DEC-223.

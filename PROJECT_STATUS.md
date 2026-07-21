@@ -1,8 +1,8 @@
 # PROJECT STATUS — GHURAVIA
 
-`	ext
+```text
 Current Gate:
-GHV.ARCHITECTURE.1D — PARTIAL — RUNTIME REALTIME INTEGRATION AND OPERATIONAL ARCHITECTURE ACCEPTED WITH NON-BLOCKING CONDITIONS
+GHV.ARCHITECTURE.1E — PARTIAL — ARCHITECTURE DESIGN BASELINE LOCKED WITH NON-BLOCKING VALIDATION CONDITIONS
 
 Accepted Previous Gates:
 - GHV.PRODUCT-DEFINITION.1 — PASS
@@ -32,6 +32,9 @@ LOCKED v1.0.0
 
 Progression Design:
 LOCKED v1.0.0
+
+Architecture Design:
+LOCKED v1.0.0 — GOVERNED DESIGN BASELINE
 
 Core Platform:
 PARTIAL — ACCEPTED WITH CONDITIONS
@@ -90,34 +93,69 @@ ACCEPTED CONCEPTUALLY
 Registered Technical Spikes:
 25 / 25 COMPLETE
 
-Full Technical Validation:
+External Infrastructure Validation:
 NOT COMPLETE
 
-Final Architecture Lock:
-PENDING GHV.ARCHITECTURE.1E
+Provider Sandbox Validation:
+NOT COMPLETE
+
+Legal and Privacy Validation:
+NOT COMPLETE
+
+Accessibility User Validation:
+NOT RUN
+
+Arabic UX User Validation:
+NOT RUN
+
+Penetration Testing:
+NOT RUN
+
+Operational DR Validation:
+NOT RUN
+
+Full Technical Validation:
+NOT COMPLETE
 
 Product Code:
 BLOCKED
 
+Implementation Authorization:
+NOT GRANTED
+
 Branch:
 feat/ghuravia-foundation (deploy guard active)
-`
+```
 
 ## Next Gate
 
-`	ext
-GHV.ARCHITECTURE.1E
-ARCHITECTURE RECONCILIATION AND FINAL BASELINE LOCK
-`
+```text
+GHV.VALIDATION.1A
+EXTERNAL TECHNICAL VALIDATION
+NOT STARTED — DO NOT BEGIN
+```
+
+## Programme status
+
+```text
+Architecture Programme COMPLETE AT GOVERNED DESIGN LEVEL
+External Technical Validation OPEN
+Product Code Authorization BLOCKED
+Implementation Authorization NOT GRANTED
+```
 
 ## Explicit non-claims
 
-`	ext
+```text
+Architecture Design Baseline lock ≠ external proof
+Architecture Design Baseline lock ≠ provider selection closed
+Architecture Design Baseline lock ≠ compliance certified
+Architecture Design Baseline lock ≠ production ready
 No production SLOs validated
 No real infrastructure / provider sandbox validation
 No accessibility user validation
 No disaster recovery operational proof
 No Product Code
-No compliance certification
+No implementation authorization
 External infrastructure validation OPEN
-`
+```

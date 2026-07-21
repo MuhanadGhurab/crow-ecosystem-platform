@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-DEP-001 |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | **ACTIVE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1A §48 |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Last updated** | 2026-07-21 |
 | **Project mirror** | Also mirrored into `governance/dependencies/DEPENDENCY-REGISTER.md` as DEP-079+ |
 
@@ -52,3 +52,7 @@ See global DEPENDENCY-REGISTER DEP-090..094. Source Gate GHV.ARCHITECTURE.1C.
 ## 1D additions
 
 See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.
+
+## 1E additions
+
+DEP-098 **SATISFIED (PARTIAL)** — Architecture Design Baseline v1.0.0 locked. DEP-099 external validation programme **depends on 1E handoff**; next Gate GHV.VALIDATION.1A (NOT STARTED). See [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](./EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md).

@@ -3,16 +3,17 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-RISK-001 |
-| **Version** | 1.1.0 |
+| **Version** | 1.2.0 |
 | **Status** | **ACTIVE** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1C |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Last updated** | 2026-07-21 |
 
 ```text
 Architecture ADRs do NOT fully mitigate these risks
-Technical Spikes Run = 12 / 25 (P0 6 + 1C 6)
-Technical Validation = PARTIAL — CORE AND 1C DOMAIN SPIKES COMPLETE
+Technical Spikes Run = 25 / 25 COMPLETE
+Technical Validation = PARTIAL — DESIGN BASELINE LOCKED · EXTERNAL VALIDATION OPEN
+Architecture Design Baseline lock does NOT resolve external/provider/legal/a11y/DR risks
 ```
 
 ## Status vocabulary
@@ -89,3 +90,7 @@ Do **not** mark a risk **mitigated** merely because an ADR or spike PASS exists.
 ## 1D additions
 
 See global registers updated under Source Gate GHV.ARCHITECTURE.1D. Spikes 25/25 complete; external validation open.
+
+## 1E additions
+
+GHV.ARCHITECTURE.1E locks Architecture Design Baseline v1.0.0. **Design lock does not resolve** external infrastructure, provider sandbox, legal/privacy, accessibility user, Arabic UX user, penetration-test, or operational DR risks. Do not mark risks mitigated based on 1E alone.

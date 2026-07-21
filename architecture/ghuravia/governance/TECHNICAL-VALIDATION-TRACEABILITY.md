@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-ARC-GOV-TVT-001 |
-| **Version** | 1.3.0 |
-| **Status** | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL INFRA OPEN** |
+| **Version** | 1.4.0 |
+| **Status** | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION OPEN** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.ARCHITECTURE.1D |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Last updated** | 2026-07-21 |
 | **Screen baseline** | MASTER-SCREEN-REGISTRY v1.2.0 · **92 ACTIVE** · ACT-004 **HISTORICAL excluded** |
 
@@ -94,15 +94,18 @@ ACT-004 historical excluded from 92
 
 ```text
 Traceability ≠ full technical validation complete
-P0 evidence available for selected domains only
-P1–P3 spikes NOT RUN
-Core Platform Stack Baseline ACTIVE — Product Code BLOCKED
+All registered spikes COMPLETE (25/25) — internal local evidence COMPLETE
+External technical validation NOT COMPLETE
+Architecture Design Baseline LOCKED — Product Code BLOCKED · Implementation NOT GRANTED
 ```
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
+| 1.4.0 | 2026-07-21 | GHV.ARCHITECTURE.1E — design baseline locked; external validation open |
+| 1.3.0 | 2026-07-21 | GHV.ARCHITECTURE.1D — 25/25 registry complete |
+| 1.2.0 | 2026-07-21 | GHV.ARCHITECTURE.1D — runtime spike additions |
 | 1.1.0 | 2026-07-21 | GHV.ARCHITECTURE.1B — P0 spike evidence mapped; partial validation status |
 | 1.0.0 | 2026-07-21 | GHV.ARCHITECTURE.1A §46 — traceability + 92-screen confirm |
 
@@ -137,3 +140,12 @@ Core Platform Stack Baseline ACTIVE — Product Code BLOCKED
 | Backup | 020 | 035 | PASS WITH OPERATIONAL CONDITIONS |
 
 Registered spikes: **25 / 25 COMPLETE**
+
+## 1E final reconciliation
+
+| Check | Result |
+|-------|--------|
+| All registered spikes reconciled | **YES** — 25/25 · PASS 17 · PASS WITH CONDITIONS 8 · FAIL 0 |
+| Spike evidence integrity | **YES** — [SPIKE-EVIDENCE-INTEGRITY-REPORT.md](./SPIKE-EVIDENCE-INTEGRITY-REPORT.md) |
+| External technical validation | **NOT COMPLETE** — [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](./EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) |
+| Architecture Design Baseline lock | **YES** — v1.0.0 · Product Code **BLOCKED** |

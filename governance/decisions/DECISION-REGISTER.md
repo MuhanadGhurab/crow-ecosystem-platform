@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.13.0 |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1B |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -2201,3 +2201,102 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.ARCHITECTURE.1D → 1E |
 | **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |
+
+## DEC-216 — Architecture Design Baseline lock meaning
+
+| Field | Value |
+|-------|-------|
+| **Decision** | GHURAVIA Architecture Design Baseline v1.0.0 is LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE — a design-authority lock, not production readiness, external proof, or implementation authorization. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md](../../architecture/ghuravia/governance/GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md) · [GHV.ARCHITECTURE.1E.md](../gates/GHV.ARCHITECTURE.1E.md) |
+
+## DEC-217 — Final architecture reconciliation (1E)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept final architecture reconciliation across screens, ADRs, spikes, conditions, and baselines with material cross-layer conflicts **0**; verdict PARTIAL with non-blocking validation conditions. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [ARCHITECTURE-BASELINE-RECONCILIATION.md](../../architecture/ghuravia/governance/ARCHITECTURE-BASELINE-RECONCILIATION.md) · [FINAL-SCREEN-ARCHITECTURE-RECONCILIATION.md](../../architecture/ghuravia/governance/FINAL-SCREEN-ARCHITECTURE-RECONCILIATION.md) · [ADR-CROSS-CONSISTENCY-REVIEW.md](../../architecture/ghuravia/governance/ADR-CROSS-CONSISTENCY-REVIEW.md) |
+
+## DEC-218 — Registered architecture spikes 25/25 complete
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All **25** registered architecture spikes are COMPLETE — PASS **17** · PASS WITH CONDITIONS **8** · FAIL **0** · INCONCLUSIVE **0**; internal local spike evidence COMPLETE; external validation remains OPEN. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [FINAL-TECHNICAL-SPIKE-RECONCILIATION.md](../../architecture/ghuravia/governance/FINAL-TECHNICAL-SPIKE-RECONCILIATION.md) · [SPIKE-EVIDENCE-INTEGRITY-REPORT.md](../../architecture/ghuravia/governance/SPIKE-EVIDENCE-INTEGRITY-REPORT.md) |
+
+## DEC-219 — Final ADR registry
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Final ADR registry records ADR-ARC-001..038 with conflicting active ADRs **0** and accepted-without-evidence **0**; ADR register is authoritative for architecture decisions at design baseline lock. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [FINAL-ADR-REGISTRY.md](../../architecture/ghuravia/governance/FINAL-ADR-REGISTRY.md) |
+
+## DEC-220 — Condition disposition model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Non-blocking validation conditions remain OPEN and tracked in FINAL-ARCHITECTURE-CONDITION-REGISTER; blocking architecture design conditions **0**; conditions do not reopen locked design decisions without Material Change Record. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [FINAL-ARCHITECTURE-CONDITION-REGISTER.md](../../architecture/ghuravia/governance/FINAL-ARCHITECTURE-CONDITION-REGISTER.md) · [FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md](../../architecture/ghuravia/governance/FINAL-ARCHITECTURE-ACCEPTANCE-MATRIX.md) |
+
+## DEC-221 — Provider-deferral treatment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Deferred providers remain DEFERRED WITH ADAPTERS; falsely accepted providers **0**; provider selection is not closed by design baseline lock. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [FINAL-PROVIDER-DEFERRAL-REGISTER.md](../../architecture/ghuravia/governance/FINAL-PROVIDER-DEFERRAL-REGISTER.md) |
+
+## DEC-222 — External validation requirement
+
+| Field | Value |
+|-------|-------|
+| **Decision** | External technical validation is NOT COMPLETE and is required before Product Code or implementation authorization; handoff recommends GHV.VALIDATION.1A. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E → GHV.VALIDATION.1A |
+| **Evidence** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) |
+
+## DEC-223 — Product Code authorization separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Architecture Design Baseline lock, spike completion, and ADR acceptance do **not** authorize Product Code; Product Code remains **BLOCKED**. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md](../../architecture/ghuravia/governance/IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md) · PROJECT_STATUS.md |
+
+## DEC-224 — Architecture Change Freeze
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Apply ARCHITECTURE-CHANGE-FREEZE-POLICY to locked architecture decisions; changes require governed change classes and Material Change Record where applicable. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [ARCHITECTURE-CHANGE-FREEZE-POLICY.md](../../architecture/ghuravia/governance/ARCHITECTURE-CHANGE-FREEZE-POLICY.md) |
+
+## DEC-225 — Implementation authorization remains blocked
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Implementation authorization is **NOT GRANTED**; design baseline lock does not grant build, deploy, or production authorization. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E |
+| **Evidence** | [IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md](../../architecture/ghuravia/governance/IMPLEMENTATION-AUTHORIZATION-BOUNDARY.md) · BASELINE-MANIFEST.md |
+
+## DEC-226 — Next validation programme GHV.VALIDATION.1A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Next recommended Gate is GHV.VALIDATION.1A (External Technical Validation); **NOT STARTED** — do not begin until explicitly authorized. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.ARCHITECTURE.1E → GHV.VALIDATION.1A |
+| **Evidence** | [EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md](../../architecture/ghuravia/governance/EXTERNAL-TECHNICAL-VALIDATION-HANDOFF.md) · GATE-REGISTER.md

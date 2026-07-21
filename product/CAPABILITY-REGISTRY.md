@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.13.0 |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
+| **Version** | 1.14.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.ARCHITECTURE.1D |
+| **Source Gate** | GHV.ARCHITECTURE.1E |
 | **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
@@ -167,6 +167,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - BASELINE-CORRECTION.1: CAP-ONB-003 matured; CAP-ONB-011/012/013 + CAP-EBUX-009 map Pending / Result / Recovery / Explainable Locks to ACT-003 · ACT-011 · ACT-012. No Product Code.
 - CR-002: CAP-ONB-014 Account risk acceptance → **ACT-013**; CAP-ONB-004 exit → ACT-013; alias-safe 92 (ACT-004 appendix only).
 - ARCHITECTURE.1B: Core Platform Stack Baseline v1.0.0 **ACTIVE** · ADR-ARC-001..012 **ACCEPTED** (some WITH CONDITIONS) · P0 spikes **6/6 PASS** · **Technical Validation PARTIAL** · **Product Code BLOCKED**. See [PLATFORM-STACK-BASELINE.md](../architecture/ghuravia/governance/PLATFORM-STACK-BASELINE.md) · [TECHNICAL-VALIDATION-TRACEABILITY.md](../architecture/ghuravia/governance/TECHNICAL-VALIDATION-TRACEABILITY.md) · [TECHNICAL-SPIKE-REGISTRY.md](../architecture/ghuravia/validation/TECHNICAL-SPIKE-REGISTRY.md).
+- ARCHITECTURE.1E: Architecture Design Baseline v1.0.0 **LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE** · capabilities remain **NOT IMPLEMENTED** · Product Code **BLOCKED** · Implementation **NOT GRANTED**. See [GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md](../architecture/ghuravia/governance/GHURAVIA-ARCHITECTURE-BASELINE-MANIFEST.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 
