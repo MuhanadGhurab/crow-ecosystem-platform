@@ -3,20 +3,22 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-PRG-GOV-SCR-DEF-001 |
-| **Version** | 1.0.0 |
-| **Status** | OPEN — PRE-EXISTING GOVERNANCE DEFECT |
+| **Version** | 1.1.0 |
+| **Status** | **RESOLVED BY GHV.BASELINE-CORRECTION.1** |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1D §30 |
+| **Source Gate** | GHV.PROGRESSION.1D §30 · resolved GHV.BASELINE-CORRECTION.1 |
 | **Last updated** | 2026-07-21 |
-| **Risk ID** | **RISK-PRG-057** (alias label RISK-BASE-092) |
-| **Dependency ID** | **DEP-075** (alias label DEP-BASE-092) |
-| **Blocks** | **GHV.ARCHITECTURE.1A** |
-| **Recommended correction Gate** | **GHV.BASELINE-CORRECTION.1** — Master Screen Registry 92-screen reconciliation |
+| **Risk ID** | **RISK-PRG-057** — **RESOLVED BY CONTROLLED BASELINE CORRECTION** |
+| **Dependency ID** | **DEP-075** — **SATISFIED** |
+| **Blocks** | *(former)* **GHV.ARCHITECTURE.1A** — **UNBLOCKED** for screen-count |
+| **Correction Gate** | **GHV.BASELINE-CORRECTION.1 — PASS** · CR-001 · DEC-152 |
 
 ```text
-This defect does NOT invalidate Progression 1D when recorded as external baseline debt.
-Do NOT modify screen IDs or counts inside the Progression 1D commit.
-Learning Design Baseline content under product/learning/ is NOT modified.
+RESOLVED BY GHV.BASELINE-CORRECTION.1
+Master Screen Registry v1.1.0 = 92 / 7 shells
+Learning Design Baseline UNCHANGED
+Progression Design Baseline UNCHANGED
+Product Code BLOCKED
 ```
 
 ## Purpose
@@ -46,11 +48,19 @@ Including, without silent deletion or merge:
 | Source | Claimed count | Notes |
 |--------|--------------:|-------|
 | Authoritative project decision | **92** | 7 interface shells |
-| Current `MASTER-SCREEN-REGISTRY.md` | **90** | Pre-existing undercount |
-| Current `AUTHORITATIVE-SOURCE-MAP.md` | **90** | Mirrors registry claim |
-| Wireframe registry language | **90** | Aligned to defective count |
+| Current `MASTER-SCREEN-REGISTRY.md` | **90** | Pre-existing undercount *(historical — corrected)* |
+| Current `AUTHORITATIVE-SOURCE-MAP.md` | **90** | Mirrors registry claim *(historical — corrected)* |
+| Wireframe registry language | **90** | Aligned to defective count *(historical — corrected)* |
 
-This is a **governance defect**, not a Progression formula defect.
+This was a **governance defect**, not a Progression formula defect.
+
+### Resolution (2026-07-21)
+
+| Source | Count after correction | Evidence |
+|--------|----------------------:|---------|
+| MASTER-SCREEN-REGISTRY v1.1.0 | **92** | CR-001 · DEC-152 |
+| AUTHORITATIVE-SOURCE-MAP v1.6.0 | **92** | ACTIVE AUTHORITATIVE |
+| WIREFRAME-REGISTRY v1.1.0 | **92** | PD.3 Amendment-01 |
 
 ---
 
@@ -91,10 +101,11 @@ The correction must preserve:
 
 ## Explicit non-claims
 
-Recording this defect does not fix the count, does not authorize Product Code, and does not complete technical validation.
+Resolution does not authorize Product Code, does not complete technical or usability validation, and does not change Learning or Progression design baselines.
 
 ## Change history
 
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-07-21 | GHV.PROGRESSION.1D §30 — record cross-baseline 90 vs 92 screen-count defect |
+| 1.1.0 | 2026-07-21 | **RESOLVED BY GHV.BASELINE-CORRECTION.1** — CR-001 · DEC-152 · registry v1.1.0 |

@@ -3,12 +3,12 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.REPOSITORY-TRANSITION.1B |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 
-Items remain **NOT RUN** for runtime readiness unless noted. No final vendors selected.
+Items remain **NOT RUN** for runtime readiness unless noted. No final vendors selected. Screen-registry **documentation** checks below may be COMPLETE without authorizing Product Code.
 
 | ID | Topic | Candidate notes | Blocking for | Status |
 |----|-------|-----------------|--------------|--------|
@@ -31,5 +31,15 @@ Items remain **NOT RUN** for runtime readiness unless noted. No final vendors se
 | TECH-017 | RTO and RPO | TBD targets | Launch readiness | NOT RUN |
 | TECH-018 | Preview database readiness | `DATABASE_URL`/`DIRECT_URL` absent for generic Preview and `feat/ghuravia-foundation`; Production present | GHV.ARCHITECTURE.1 Preview runtime | NOT RUN — inventoried in 1B |
 | TECH-019 | Production/Preview env value isolation | Names inventoried; shared-scope secret names need professional value-level review without display | Safe Preview reuse | NOT RUN |
+| SCR-001 | Screen-registry count validation | Active inventory = **92**; shells = **7** | Architecture planning integrity | **COMPLETE** (docs) — GHV.BASELINE-CORRECTION.1 |
+| SCR-002 | Canonical-ID uniqueness | Duplicate IDs = 0 | Registry integrity | **COMPLETE** (docs) |
+| SCR-003 | Shell-total reconciliation | 8+12+14+39+6+6+7=92 | Registry integrity | **COMPLETE** (docs) |
+| SCR-004 | Activation-flow review (docs) | FLOW-001 uses ACT-003 → ACT-011; ACT-012 recovery | Journey integrity | **COMPLETE** (docs) · usability NOT RUN |
+| SCR-005 | Email-verification state review (docs) | Pending + Result outcome set documented | Activation integrity | **COMPLETE** (docs) · tech NOT RUN |
+| SCR-006 | Activation-recovery UX review | ACT-012 low-fi specified | Activation integrity | **COMPLETE** (docs) · usability NOT RUN |
+| SCR-007 | Accessibility review (implementation) | ACT-003/011/012 | Controlled launch | **NOT RUN** |
+| SCR-008 | Arabic RTL review (implementation) | ACT-003/011/012 | Controlled launch | **NOT RUN** |
+| SCR-009 | Security review (runtime auth/email) | Activation assurance | Implementation | **NOT RUN** |
+| SCR-010 | Usability review (activation) | Pending/Result/Recovery | Implementation waves | **NOT RUN** |
 
-Evidence: [VERCEL-PRE-PUSH-VERIFICATION.md](../operations/VERCEL-PRE-PUSH-VERIFICATION.md)
+Evidence: [VERCEL-PRE-PUSH-VERIFICATION.md](../operations/VERCEL-PRE-PUSH-VERIFICATION.md) · [SCREEN-BASELINE-VALIDATION-REPORT.md](../../governance/corrections/SCREEN-BASELINE-VALIDATION-REPORT.md)

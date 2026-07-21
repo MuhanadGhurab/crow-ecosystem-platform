@@ -27,7 +27,16 @@ INTERNAL SYNTHETIC CALIBRATION COMPLETE
 - Learning Design Baseline v1.0.0 **unchanged**.
 - Real-user calibration / usability / technical validation: **NOT RUN**.
 - Product Code / implementation: **BLOCKED**.
-- Cross-baseline defect recorded: authoritative **92 screens / 7 shells** vs registry **90** — blocks **GHV.ARCHITECTURE.1A**; next Gate **GHV.BASELINE-CORRECTION.1**. MASTER-SCREEN-REGISTRY counts not rewritten in this Gate.
+- Cross-baseline defect recorded at Gate time: authoritative **92 screens / 7 shells** vs registry **90** — blocked **GHV.ARCHITECTURE.1A** until correction. MASTER-SCREEN-REGISTRY counts were **not** rewritten in this Gate.
+
+```text
+CONTROLLED CORRECTION REFERENCE — GHV.BASELINE-CORRECTION.1
+Original Progression 1D PASS verdict preserved.
+Originally recorded defect: registry 90 vs authoritative 92.
+Current authoritative count after CR-001 / DEC-152: 92 screens / 7 shells.
+Defect CLOSED; Architecture Gate screen-count blocker REMOVED.
+This Gate was NOT rerun.
+```
 
 ## Inventory pointers
 

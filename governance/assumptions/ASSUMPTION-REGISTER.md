@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.10.0 |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -27,7 +27,7 @@
 | ASM-015 | Shared infrastructure names may remain temporarily unchanged | Active | Continuity | Rename Gate | Document dual naming | 1B |
 | ASM-016 | Low-fidelity wireframes are sufficient to guide first implementation without high-fi branding | Active | PD.3 | Usability + build feedback | Add hi-fi Gate | PD.3 |
 | ASM-017 | Six primary nav destinations remain adequate through controlled launch | Active | Nav lock | Usability | Foundational CR only | PD.3 |
-| ASM-018 | Public-safe Live directory can use LIV-001 visitor variant without a 91st screen ID | Active | Registry integrity | Live usability | Add screen via Material CR | PD.3 |
+| ASM-018 | Public-safe Live directory can use LIV-001 visitor variant without a separate screen ID (92-screen baseline locked; visitor Live still not a separate ID) | Active | Registry integrity | Live usability | Add screen via Material CR under freeze | PD.3 / BC.1 |
 | ASM-019 | Enough authoritative public sources exist to recommend a launch portfolio | Active | 1A research | Source register completeness | Expand expert interviews | 1A |
 | ASM-020 | Arabic-first delivery is feasible for shortlisted Routes with bilingual technical terms | Active | Localization | Arabic feasibility doc | Prioritize Nest/LEAD Arabic | 1A |
 | ASM-021 | Launch Route content can be maintained by a small team at recommended size | Active | WIP | Freshness model + portfolio size | Drop optional ANL; freeze depth | 1A |
@@ -86,5 +86,5 @@
 | ASM-074 | Accessibility alternatives preserve assessment validity | Pending Validation | Fairness | Schedule Skill equal; mom Δ 4.33 ≤ 10 | Exclude failing modalities | 1C |
 | ASM-075 | Progression Design Baseline lock will not be mistaken for production calibration or Product Code authorization | Active | Status clarity | DEC-136 · PROJECT_STATUS · Change Freeze | Correct messaging | 1D |
 | ASM-076 | Conditional locks (MOM-002 · TRU · PRS · POL-POP) remain sufficient until real-user / ops validation | Active | Conditional design | Pilot + staffing deps | Controlled Change / narrow surface | 1D |
-| ASM-077 | Screen-count defect (90 vs 92) can be corrected in GHV.BASELINE-CORRECTION.1 without rewriting Progression Design Baseline | Active | Cross-baseline debt | BASELINE-CORRECTION.1 Gate | Delay ARCHITECTURE.1A | 1D |
+| ASM-077 | Screen-count defect (90 vs 92) can be corrected in GHV.BASELINE-CORRECTION.1 without rewriting Progression Design Baseline | **Satisfied** | Cross-baseline debt | BASELINE-CORRECTION.1 Gate PASS · CR-001 · DEC-152 | — | 1D / BC.1 |
 | ASM-078 | Real-user and technical validation plans can proceed after design lock without reopening frozen formula meanings | Active | Sequencing | Change Freeze + validation plans | Foundational rebaseline only if invariants break | 1D |

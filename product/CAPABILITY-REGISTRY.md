@@ -2,12 +2,12 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · screen-count defect recorded |
-| **Version** | 1.10.0 |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED** |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
-| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
 
@@ -35,7 +35,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 |----|------|--------|--------------|---------|---------|----------|------|-------|------|
 | CAP-ONB-001 | Landing Page | Learning | CONTROLLED LAUNCH | Discover | PUB | Defined | — | Founder | 1B |
 | CAP-ONB-002 | Registration | Identity | CONTROLLED LAUNCH | Activate | ACT | Defined | IdP | Founder | Tech |
-| CAP-ONB-003 | Email verification | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | Email | Founder | Tech |
+| CAP-ONB-003 | Email verification (Pending + Result) | Trust | CONTROLLED LAUNCH | Activate | **ACT-003 · ACT-011** | **Specified** | Email · CR-001 | Founder | BC.1 |
 | CAP-ONB-004 | Terms acceptance | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | Legal copy | Founder | Ext |
 | CAP-ONB-005 | Optional mobile verification | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | SMS | Founder | Tech |
 | CAP-ONB-006 | Crow personalization | Identity | CONTROLLED LAUNCH | Personalize | IDN | Defined | — | Founder | 1B |
@@ -43,6 +43,9 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-008 | The Nest | Learning | CONTROLLED LAUNCH | Nest | ONB/LRN | Specified | Content | Founder | Learning |
 | CAP-ONB-009 | Horizon and Route selection | Learning | CONTROLLED LAUNCH | Horizon/Route | ONB/WLD | Specified | Catalogue | Founder | Learning |
 | CAP-ONB-010 | Flight Plan | Learning | CONTROLLED LAUNCH | Flight Plan | ONB/WLD | Defined | Entitlement | Founder | 1B |
+| CAP-ONB-011 | Verification result / resend / expiry handling | Trust | CONTROLLED LAUNCH | Activate | **ACT-011** | **Specified** | CAP-ONB-003 · Email | Founder | BC.1 |
+| CAP-ONB-012 | Activation recovery / interrupted activation | Trust | CONTROLLED LAUNCH | Activate | **ACT-012** | **Specified** | Preserves completed gates | Founder | BC.1 |
+| CAP-ONB-013 | Safe activation support escalation | Trust | CONTROLLED LAUNCH | Activate | **ACT-012** · support | **Defined** | CAP-ONB-012 · no pay-to-skip | Founder | BC.1 |
 
 ## Learning
 
@@ -101,6 +104,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-EBUX-006 | Save and Sync | Learning | CORE FOUNDATION + CONTROLLED LAUNCH | Missions/Return | LRN | Defined | Tech val | Founder | Tech |
 | CAP-EBUX-007 | Adaptive Skyboard | Learning | CONTROLLED LAUNCH | Skyboard | SKY | Specified | — | Founder | 1B |
 | CAP-EBUX-008 | World Map | Learning | CONTROLLED LAUNCH | Horizon | WLD | Defined | — | Founder | 1B |
+| CAP-EBUX-009 | Explainable Locks | Trust / Learning | CORE FOUNDATION + CONTROLLED LAUNCH | Activate / All | **ACT-003 · ACT-011 · ACT-012** + lock surfaces | **Specified** | [EXPLAINABLE-LOCKS.md](./interactions/EXPLAINABLE-LOCKS.md) | Founder | BC.1 |
 
 ## Community and Live
 
@@ -159,3 +163,14 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - PD.3: Controlled-launch user-facing Capabilities map to wireframe families via [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) and flows in [CRITICAL-FLOWS.md](./interactions/CRITICAL-FLOWS.md).
 - LEARNING.1A: Nest, Horizons, Route selection research, Cross-Wing, Secure Extensions, Evidence, capstones, content lifecycle → [product/learning/](./learning/README.md). Catalogue **LOCKED AS DESIGN BASELINE v1.0.0**.
 - PROGRESSION.1C: Synthetic calibration COMPLETE · CALIBRATION RECOMMENDED · PENDING 1D · NOT production calibrated · red-team **20/20 PASS** · multi-seed **25k** · see [calibration/](./progression/calibration/).
+- BASELINE-CORRECTION.1: CAP-ONB-003 matured; CAP-ONB-011/012/013 + CAP-EBUX-009 map Pending / Result / Recovery / Explainable Locks to ACT-003 · ACT-011 · ACT-012. No Product Code.
+
+## Activation capability trace (BC.1)
+
+| Capability | Pillar | User type | Journey | Screen | Flow | State | Wireframe | Validation dependency |
+|------------|--------|-----------|---------|--------|------|-------|-----------|------------------------|
+| CAP-ONB-003 | Trust | Learner | Activate | ACT-003 · ACT-011 | FLOW-001 | Pending / Result outcomes | ACTIVATION-WIREFRAMES | TECH-003 · EXT legal (email) · usability NOT RUN |
+| CAP-ONB-011 | Trust | Learner | Activate | ACT-011 | FLOW-001 result/expiry/resend | VERIFIED…RISK_REVIEW_REQUIRED | ACTIVATION-WIREFRAMES | Same; tech NOT RUN |
+| CAP-ONB-012 | Trust | Learner | Activate | ACT-012 | FLOW-001-REC / INT | Interrupted / resume | ACTIVATION-WIREFRAMES | Tech NOT RUN |
+| CAP-ONB-013 | Trust | Learner / Support | Activate | ACT-012 | Support escalate | Help available | ACTIVATION-WIREFRAMES | Ops staffing |
+| CAP-EBUX-009 | Trust | Learner | Activate+ | ACT-003/011/012 + locks | Explainable Lock sheets | Assurance / incomplete | EXPLAINABLE-LOCKS | Usability NOT RUN |

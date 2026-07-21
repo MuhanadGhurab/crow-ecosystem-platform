@@ -3,12 +3,12 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 
-All items below: **NOT RUN**
+External / usability / counsel items below remain **NOT RUN** unless noted. Internal documentation checks for screen-registry consistency are recorded as COMPLETE under GHV.BASELINE-CORRECTION.1 (see also TECHNICAL-VALIDATION-REGISTER SCR-* entries).
 
 | ID | Issue | Why required | Proposed professional owner | Evidence required | Blocking milestone | Status |
 |----|-------|--------------|----------------------------|-------------------|--------------------|--------|
@@ -29,3 +29,6 @@ All items below: **NOT RUN**
 | EXT-015 | Accounting and revenue recognition | Subscription accounting | Accountant | Policy | Finance ops | NOT RUN |
 | EXT-016 | Payment-provider contract | Accept payments | Provider + counsel | Signed terms | Checkout | NOT RUN |
 | EXT-017 | Accreditation and future partnerships | Non-launch dependency clarity | Founder | Non-dependency statement | Avoid false claims | NOT RUN |
+| EXT-018 | Activation email / recovery UX professional review | Confirm Pending/Result/Recovery copy and support paths | UX + counsel (support) | Review notes | Activation launch | NOT RUN |
+| EXT-019 | Accessibility review of ACT-003/011/012 | Confirm a11y of corrected activation screens | Accessibility reviewer | Checklist | Controlled launch | NOT RUN |
+| EXT-020 | Arabic RTL review of ACT-003/011/012 | Confirm Arabic-first activation strings | Linguist | Terminology pack | Controlled launch | NOT RUN |

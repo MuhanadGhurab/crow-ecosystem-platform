@@ -18,6 +18,30 @@
 - Usability Validation Plan created — **NOT RUN**.
 - No Product Code; deploy guard retained.
 
+---
+
+## SUPERSEDED COUNT NOTICE — GHV.BASELINE-CORRECTION.1
+
+```text
+AMENDMENT NOTE / SUPERSEDED COUNT NOTICE
+Original Gate date and PASS verdict preserved.
+Originally reported active wireframe/screen count: 90
+Current authoritative count: 92 screens / 7 shells
+This Gate was NOT rerun and is NOT invalidated.
+```
+
+| Field | Value |
+|-------|-------|
+| **Amendment** | [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](./GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md) |
+| **Correction Gate** | [GHV.BASELINE-CORRECTION.1.md](./GHV.BASELINE-CORRECTION.1.md) |
+| **Change Request** | [CR-001](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) |
+| **Post-amendment status** | **PASS — AMENDED, NOT RERUN** |
+| **DEC-051 count clause** | **SUPERSEDED IN COUNT ONLY** · low-fi lock retained |
+
+Do not treat the historical **90** figure in this report as currently authoritative.
+
+---
+
 ## Next Gate
 
 ```text

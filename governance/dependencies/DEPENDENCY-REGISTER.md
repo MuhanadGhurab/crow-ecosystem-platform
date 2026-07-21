@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.10.0 |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -69,10 +69,11 @@
 | DEP-072 | GHV.PROGRESSION.1D Final Progression Baseline Lock | Product | **Satisfied (PASS)** | Progression Design Baseline v1.0.0 LOCKED | Founder | — | Change Freeze |
 | DEP-073 | Arabic-language review of progression explanations | Organizational | Planned | AR/EN explainability | Linguists TBD | EN-heavy UX | Launch |
 | DEP-074 | Legal age review for progression surfaces | External | Planned | Overlaps DEP-001/055 | Counsel TBD | Restrict minors | Launch |
-| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | Planned — **BLOCKED until screen reconcile** | Requires GHV.BASELINE-CORRECTION.1 first (92 vs 90) | Founder | No safe tech validation plan | Implementation |
-| DEP-075 | GHV.BASELINE-CORRECTION.1 — 92-screen reconciliation | Product/Governance | Planned — **Next / BLOCKING ARCH.1A** | Reconcile MASTER-SCREEN-REGISTRY to 92 / 7 shells without silent deletes | Founder | ARCH.1A blocked; defective 90-count | ARCHITECTURE.1A |
+| DEP-049 | Architecture Gate GHV.ARCHITECTURE.1A | Technical | Planned — **UNBLOCKED** (screen-count dependency satisfied) | Screen reconcile complete via BASELINE-CORRECTION.1; remaining blockers are technical validation debt (not count) | Founder | Tech validation still NOT RUN | Implementation |
+| DEP-075 | GHV.BASELINE-CORRECTION.1 — 92-screen reconciliation | Product/Governance | **SATISFIED** | Registry v1.1.0 = 92 / 7 shells; PD.2/PD.3 amendments; CR-001; DEC-152; consistency matrix PASS | Founder | — | ARCHITECTURE.1A |
 | DEP-076 | Real-user progression validation pilot | Research/Org | Planned — **BLOCKING production confidence** | Real-user progression validation · NOT RUN | Founder | Synthetic≠real risk | Production cal |
 | DEP-077 | Progression technical validation | Technical | Planned — **BLOCKING Product Code** | Technical validation plan · NOT RUN | Engineering TBD | Undetected runtime defects | Runtime |
+| DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |
 | DEP-025 | Object-storage validation for Evidence | Technical | Planned | TECH storage | Engineering TBD | Limit uploads | Evidence |
 | DEP-026 | Laboratory technology validation | Technical | Planned | Sandbox/container Spike | Engineering TBD | Browser-only fallback | OPR/SEX |
 | DEP-027 | Content expert reviewers | Organizational | Planned | PROTECT/BUILD SMEs | Founder | Delay PUBLISHED | Content lifecycle |

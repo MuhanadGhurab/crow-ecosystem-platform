@@ -3,23 +3,25 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-WF-ACT-PACK |
-| **Version** | 1.0.0 |
+| **Version** | 1.1.0 |
 | **Status** | LOCKED AT LOW FIDELITY |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PRODUCT-DEFINITION.3 |
+| **Source Gate** | GHV.PRODUCT-DEFINITION.3 · **GHV.BASELINE-CORRECTION.1** |
 | **Last updated** | 2026-07-21 |
-| **Related** | [MASTER-SCREEN-REGISTRY.md](../../screens/MASTER-SCREEN-REGISTRY.md) · [PAGE-COMPOSITION-SYSTEM.md](../../interactions/PAGE-COMPOSITION-SYSTEM.md) · [FORM-INTERACTION-RULES.md](../../interactions/FORM-INTERACTION-RULES.md) · [CRITICAL-FLOWS.md](../../interactions/CRITICAL-FLOWS.md) · [CAPABILITY-REGISTRY.md](../../CAPABILITY-REGISTRY.md) · [PUBLIC-WIREFRAMES.md](../public/PUBLIC-WIREFRAMES.md) |
+| **Related** | [MASTER-SCREEN-REGISTRY.md](../../screens/MASTER-SCREEN-REGISTRY.md) · [PAGE-COMPOSITION-SYSTEM.md](../../interactions/PAGE-COMPOSITION-SYSTEM.md) · [FORM-INTERACTION-RULES.md](../../interactions/FORM-INTERACTION-RULES.md) · [CRITICAL-FLOWS.md](../../interactions/CRITICAL-FLOWS.md) · [EXPLAINABLE-LOCKS.md](../../interactions/EXPLAINABLE-LOCKS.md) · [CAPABILITY-REGISTRY.md](../../CAPABILITY-REGISTRY.md) · [PUBLIC-WIREFRAMES.md](../public/PUBLIC-WIREFRAMES.md) · [SCREEN-BASELINE-REFERENCE-AUDIT.md](../../../governance/corrections/SCREEN-BASELINE-REFERENCE-AUDIT.md) |
 | **Scope** | CONTROLLED LAUNCH |
-| **Unresolved** | IdP field set · SMS provider · risk engine copy variants · exact A0/A1 assurance labels |
-| **Change history** | 1.0.0 — PD.3 initial low-fidelity pack |
+| **Unresolved** | IdP field set · SMS provider · risk engine copy variants · exact A0/A1 assurance labels · resend cooldown seconds · change-email policy |
+| **Change history** | 1.0.0 — PD.3 · **1.1.0 — BASELINE-CORRECTION.1** (ACT-003 rename + states; ACT-004 superseded; ACT-011/012 DETAILED) |
 
-**Authority:** Screen IDs from Master Screen Registry only. Wireframe IDs `GHV-WF-ACT-00N`.
+**Authority:** Screen IDs from Master Screen Registry only (92-screen reconciliation). Wireframe IDs `GHV-WF-ACT-00N` / `GHV-WF-ACT-01N`.
 
-**Ethical (pack-wide):** No fake urgency on activation timers beyond real OTP/email expiry. Payment ≠ skill — activation never sells Mastery. Open Flight remains the default free learning path after ACT (surfaced in onboarding/pricing, not blocked here).
+**Ethical (pack-wide):** No fake urgency on activation timers beyond real OTP/email expiry. Payment ≠ skill — activation never sells Mastery. Open Flight remains the default free learning path after ACT (surfaced in onboarding/pricing, not blocked here). **Verified email ≠ tenant auth ≠ elevated assurance.** No mandatory activation step may be bypassed via recovery.
 
 **Shell:** Activation Shell ([PAGE-COMPOSITION-SYSTEM.md](../../interactions/PAGE-COMPOSITION-SYSTEM.md)).
 
-**Happy path (FLOW-001):** PUB-001 → ACT-001 → ACT-002 → ACT-003 → ACT-004 → ACT-005 → ACT-006 → ACT-007 → ONB-001. Sign-in: ACT-010 → TRU-001.
+**Happy path (FLOW-001):** PUB-001 → ACT-001 → ACT-002 → **ACT-003** → **ACT-011** → ACT-005 → ACT-006 → ACT-007 → ONB-001. Sign-in: ACT-010 → TRU-001 (or **ACT-012** / incomplete ACT if activation unfinished).
+
+**Amendment note:** Former happy path used ACT-004 for result; **ACT-004** is now **SUPERSEDED_ALIAS → ACT-011**.
 
 ---
 
@@ -29,14 +31,16 @@
 |--------------|-----------|------|--------------|
 | GHV-WF-ACT-001 | ACT-001 | Create Your Crow | DETAILED |
 | GHV-WF-ACT-002 | ACT-002 | Create Account | DETAILED |
-| GHV-WF-ACT-003 | ACT-003 | Verify Email Prompt | DETAILED |
-| GHV-WF-ACT-004 | ACT-004 | Email Verified | DETAILED |
+| GHV-WF-ACT-003 | ACT-003 | Email Verification Pending | DETAILED |
+| GHV-WF-ACT-004 | ACT-004 | ~~Email Verified~~ — SUPERSEDED_ALIAS → ACT-011 | SUPERSEDED |
 | GHV-WF-ACT-005 | ACT-005 | Accept Mandatory Terms | DETAILED |
 | GHV-WF-ACT-006 | ACT-006 | Basic Account Activated | DETAILED |
 | GHV-WF-ACT-007 | ACT-007 | Mobile Verify Now/Later | DETAILED |
 | GHV-WF-ACT-008 | ACT-008 | Mobile OTP | DETAILED (compact variant of ACT-007) |
 | GHV-WF-ACT-009 | ACT-009 | Activation Blocked | DETAILED |
 | GHV-WF-ACT-010 | ACT-010 | Sign In | DETAILED |
+| GHV-WF-ACT-011 | ACT-011 | Email Verification Result | DETAILED |
+| GHV-WF-ACT-012 | ACT-012 | Activation Recovery | DETAILED |
 
 ---
 
@@ -150,102 +154,105 @@
 
 ---
 
-## GHV-WF-ACT-003 — Verify Email Prompt
+## GHV-WF-ACT-003 — Email Verification Pending
 
 | Field | Value |
 |-------|-------|
 | **Wireframe ID** | GHV-WF-ACT-003 |
 | **Screen ID** | ACT-003 |
-| **Name** | Verify Email Prompt |
+| **Name** | Email Verification Pending |
 | **Scope** | CONTROLLED LAUNCH |
 | **User type** | A0 |
 | **Journey phase** | Activate |
 | **Shell** | Activation |
-| **Objectives** | Await email verification; resend/recovery without fake urgency pressure |
-| **Entry** | ACT-002 success |
-| **Exit** | ACT-004 (token OK) · ACT-009 · ACT-010 |
-| **Primary actions** | Open mail app (hint) · I’ve verified / Continue when ready |
-| **Secondary actions** | Resend · change email (policy) · Sign out |
+| **Purpose** | Hold the user in a governed pending state until an email verification attempt is completed; support resend, expiry messaging, email change, and interrupt recovery without fake urgency or step bypass |
+| **Objectives** | Await email verification; resend/recovery without pressure UX |
+| **Entry** | ACT-002 success · ACT-012 resume · ACT-011 failure return · ACT-010 unfinished activation |
+| **Exit** | **ACT-011** (deep-link / confirm attempt) · ACT-012 (interrupt) · ACT-009 · ACT-010 |
+| **Primary actions** | Open mail app (hint) · I’ve verified / Continue when ready (polls or waits for link) |
+| **Secondary actions** | Resend · Change email (policy) · Sign out · Help |
 | **Related capabilities** | CAP-ONB-003 |
+| **Related Critical Flow** | FLOW-001-P · FLOW-001-RESEND · FLOW-001-EXP · FLOW-001-CHG · FLOW-001 |
 | **Unresolved** | Resend cooldown seconds · change-email policy |
 
-**Content hierarchy:** Status → instructions → resend → support.
+### States (Gate §8 / BASELINE-CORRECTION.1)
+
+| State | Behavior |
+|-------|----------|
+| **Pending (waiting)** | Default: masked email, honest expiry, soft waiting; limited product |
+| **Resend available** | Resend enabled when cooldown elapsed |
+| **Resend cooldown** | Button disabled; live region announces remaining wait (real policy only) |
+| **Send error** | Inline retry; stay pending |
+| **Expired guidance** | Banner: link/token expired → Resend; do not claim verified |
+| **Email change** | Policy path to update destination; voids prior tokens; return to pending |
+| **Interrupted** | Session loss / abandon → next entry via **ACT-012** (no skip) |
+| **Handoff** | Magic-link / confirmed attempt → **ACT-011** (not ACT-004) |
+
+**Content hierarchy:** Status → instructions → primary wait/confirm → resend → change email → support.
 
 ```text
 ┌────────────────────────────────────────┐
-│ Step: Verify your email                │
+│ Step: Email verification pending       │
 ├────────────────────────────────────────┤
-│ Sent to: user@…                        │
+│ Sent to: user@… (masked)               │
 │ Real expiry note (honest, not scare)   │
-│ [Resend email]                         │
-│ Waiting… / [Continue when verified]    │
+│ State: Waiting…                        │
+│ [Open mail app]  [I’ve verified]       │
+│ [Resend email] (or cooldown mm:ss)     │
+│ [Change email] (policy)                │
 │ Help: check spam · wrong email         │
+│ Interrupted? Resume via recovery later │
 └────────────────────────────────────────┘
 ```
 
 | Concern | Behavior |
 |---------|----------|
-| **Loading** | Poll or magic-link return; soft waiting state |
-| **Empty** | N/A |
-| **Error** | Send fail → retry; invalid prior token → resend |
-| **Offline** | Explain need connectivity for verify complete |
-| **Locked** | Limited product until verified |
-| **Mobile / desktop** | Same; deep-link from mail opens ACT-004 |
-| **A11y** | Live region for resend status |
-| **RTL / LTR** | Mirror; address LTR |
-| **Analytics** | `email_verify_prompt` · `email_resend` |
-| **Security / audit** | Resend rate limit; token not exposed in UI |
+| **Layout** | Activation Shell single column; step indicator; no dashboard chrome |
+| **Loading** | Soft waiting / poll; no fake progress to A1 |
+| **Empty** | N/A (always has destination email once registered) |
+| **Error** | Send fail → retry; rate-limit message honest |
+| **Offline** | Explain connectivity needed to complete verify |
+| **Explainable Lock** | Assurance / activation lock: product limited until email result success — path = check mail / resend ([EXPLAINABLE-LOCKS.md](../../interactions/EXPLAINABLE-LOCKS.md) Assurance Requirement pattern) |
+| **Recovery** | Interrupt → ACT-012; expired → resend on ACT-003 or fail on ACT-011 |
+| **Responsive** | Mobile sticky primary; desktop centered form |
+| **A11y** | H1 pending; live region for resend/cooldown; focus order |
+| **RTL / LTR** | Mirror chrome; email address LTR |
+| **Analytics** | `email_verify_pending` · `email_resend` · `email_change_start` |
+| **Security / privacy** | Mask email; resend rate limit; never show raw token; no enumeration beyond policy |
 
 **Acceptance criteria**
 
 1. No artificial countdown shorter than real token policy used as pressure.
-2. Verified deep-link → ACT-004.
-3. CAP-ONB-003 satisfied before A1 terms.
+2. Verified deep-link → **ACT-011** (not ACT-004).
+3. CAP-ONB-003 pending satisfied before result + terms for A1.
+4. States above covered without mandatory-step bypass.
 
 ---
 
-## GHV-WF-ACT-004 — Email Verified
+## GHV-WF-ACT-004 — SUPERSEDED_ALIAS → ACT-011
 
 | Field | Value |
 |-------|-------|
 | **Wireframe ID** | GHV-WF-ACT-004 |
 | **Screen ID** | ACT-004 |
-| **Name** | Email Verified |
-| **Scope** | CONTROLLED LAUNCH |
-| **User type** | A0 → A1 pending terms |
-| **Journey phase** | Activate |
-| **Shell** | Activation |
-| **Objectives** | Confirm email success; advance to mandatory terms |
-| **Entry** | Valid verification token |
-| **Exit** | ACT-005 · ACT-009 if post-verify risk fails |
-| **Primary actions** | Continue |
-| **Secondary actions** | Sign out |
-| **Related capabilities** | CAP-ONB-003 |
-| **Unresolved** | Success microcopy |
+| **Name** | ~~Email Verified~~ — **SUPERSEDED_ALIAS** |
+| **Status** | **SUPERSEDED** — do not implement as a distinct result screen |
+| **Canonical successor** | **ACT-011 / GHV-WF-ACT-011** Email Verification Result |
+| **Scope** | CONTROLLED LAUNCH (historical ID retention only) |
+| **Related Critical Flow** | Historical PD.3 FLOW-001 refs → interpret as ACT-011 |
 
 ```text
 ┌────────────────────────────────────────┐
-│ Email verified                         │
-│ Success confirmation                   │
-│ Next: accept current Terms             │
-│ [Continue → ACT-005]                   │
+│ ACT-004 SUPERSEDED                     │
+│ Use GHV-WF-ACT-011 (ACT-011) instead   │
+│ Keep ID in registries for traceability │
 └────────────────────────────────────────┘
 ```
 
-| Concern | Behavior |
-|---------|----------|
-| **Loading / error** | Token validate spinner; invalid → ACT-003 with reason |
-| **Offline** | Cannot complete token exchange |
-| **Mobile / desktop** | Compact success |
-| **A11y** | Success announced once |
-| **RTL / LTR** | Mirror |
-| **Analytics** | `email_verified` |
-| **Security / audit** | One-time token consume; audit email_verified |
-
 **Acceptance criteria**
 
-1. Continue → ACT-005 only when token valid.
-2. Invalid/expired token recovers to ACT-003.
+1. No new flows route to ACT-004.
+2. Docs that cite ACT-004 for result handling point to ACT-011.
 
 ---
 
@@ -257,11 +264,11 @@
 | **Screen ID** | ACT-005 |
 | **Name** | Accept Mandatory Terms |
 | **Scope** | CONTROLLED LAUNCH |
-| **User type** | Email verified |
+| **User type** | Email verified (ACT-011 success) |
 | **Journey phase** | Activate |
 | **Shell** | Activation |
 | **Objectives** | Gate A1 on current Terms acceptance; versioned audit |
-| **Entry** | ACT-004 |
+| **Entry** | **ACT-011** success · ACT-012 resume to terms |
 | **Exit** | ACT-006 · ACT-009 (refuse / risk) · PUB-007 read-only |
 | **Primary actions** | Accept current Terms |
 | **Secondary actions** | Read full Terms · Decline / leave |
@@ -504,7 +511,7 @@
 | **Shell** | Activation |
 | **Objectives** | Authenticate; hand off to TRU-001 session validation |
 | **Entry** | PUB-001 · ACT-001 alternate · deep links |
-| **Exit** | TRU-001 · ACT-003 (unverified) · ACT-009 · ACT-001 (create) |
+| **Exit** | TRU-001 · ACT-003 / ACT-011 / ACT-005 (unfinished) · **ACT-012** · ACT-009 · ACT-001 (create) |
 | **Primary actions** | Authenticate / Sign In |
 | **Secondary actions** | Create Crow · Forgot password / recovery (TRU-005 path) · language |
 | **Related capabilities** | CAP-ONB-002 (return) |
@@ -537,14 +544,148 @@
 
 1. Success → TRU-001 (FLOW-006), not direct SKY skip of trust checks.
 2. Create Crow alternate → ACT-001.
-3. Unverified account recovers toward ACT-003 when policy requires.
+3. Unfinished activation recovers via **ACT-012** or directly to ACT-003 / ACT-011 / ACT-005 as required — never Skyboard skip.
+
+---
+
+## GHV-WF-ACT-011 — Email Verification Result
+
+| Field | Value |
+|-------|-------|
+| **Wireframe ID** | GHV-WF-ACT-011 |
+| **Screen ID** | ACT-011 |
+| **Name** | Email Verification Result |
+| **Scope** | CONTROLLED LAUNCH |
+| **Priority** | P0 |
+| **User type** | A0 → pending terms on success |
+| **Journey phase** | Activate |
+| **Shell** | Activation |
+| **Purpose** | Present the outcome of an email verification attempt (success or failure classes) and route onward without treating verification as full activation, tenant auth, or elevated assurance |
+| **Objectives** | Consume one-time token; show success or recoverable failure; advance only on success to mandatory terms |
+| **Entry** | Magic-link / token from mail · ACT-003 “I’ve verified” confirm · ACT-012 resume to result |
+| **Exit** | Success → **ACT-005** · Failure/expired → **ACT-003** or **ACT-012** · Risk → ACT-009 |
+| **Primary actions** | Success: Continue to Terms · Failure: Resend / Return to pending |
+| **Secondary actions** | Sign out · Support · Change email (via ACT-003) |
+| **Related capabilities** | CAP-ONB-003 |
+| **Related Critical Flow** | FLOW-001-R-OK · FLOW-001-R-FAIL · FLOW-001-EXP · FLOW-001 |
+| **Unresolved** | Exact failure copy catalogue |
+
+**Content hierarchy:** Outcome title → reason (if fail) → primary next → secondary recovery.
+
+```text
+┌────────────────────────────────────────┐
+│ Email verification result              │
+├────────────────────────────────────────┤
+│ SUCCESS variant:                       │
+│  Email verified                        │
+│  Next: accept current Terms            │
+│  Note: not full assurance / not tenant │
+│  [Continue → ACT-005]                  │
+├────────────────────────────────────────┤
+│ FAILURE / EXPIRED / REUSED variant:    │
+│  Could not verify                      │
+│  Reason class (expired / invalid / …)  │
+│  [Resend & return → ACT-003]           │
+│  [Activation recovery → ACT-012]       │
+└────────────────────────────────────────┘
+```
+
+| Concern | Behavior |
+|---------|----------|
+| **Layout** | Activation Shell; outcome-first; no marketing upsell |
+| **Primary / secondary** | Success: Continue primary; Failure: Resend primary, Recovery secondary |
+| **Loading** | Token validate spinner; block double-consume |
+| **Error** | Failure states above; network error → retry validate once |
+| **Empty** | Missing token → failure with return to ACT-003 |
+| **Explainable Lock** | On failure: Assurance Requirement lock — path = resend / pending; on success: clear that terms still required before A1 |
+| **Recovery** | Expired/invalid → ACT-003; interrupted mid-result → ACT-012; no step skip |
+| **Responsive** | Compact success/fail; sticky CTA on mobile |
+| **A11y** | Outcome announced once (status role); distinct success vs error |
+| **RTL / LTR** | Mirror actions; reason text localized |
+| **Analytics** | `email_verify_result_ok` · `email_verify_result_fail` · reason_code |
+| **Security / privacy** | One-time token consume; audit `email_verified` only on success; no token echo in UI |
+
+**Acceptance criteria**
+
+1. Success Continue → ACT-005 only; does not alone create A1.
+2. Invalid/expired/reused recovers to ACT-003 or ACT-012 — never silent verify.
+3. Copy states verified email ≠ tenant auth ≠ elevated assurance.
+4. Supersedes all former ACT-004 result handling.
+
+---
+
+## GHV-WF-ACT-012 — Activation Recovery
+
+| Field | Value |
+|-------|-------|
+| **Wireframe ID** | GHV-WF-ACT-012 |
+| **Screen ID** | ACT-012 |
+| **Name** | Activation Recovery |
+| **Scope** | CONTROLLED LAUNCH |
+| **Priority** | P0 |
+| **User type** | A0 / incomplete activation (any governed interrupt) |
+| **Journey phase** | Activate / Leave-return |
+| **Shell** | Activation |
+| **Purpose** | Re-enter the activation path after interruption or recoverable failure; show remaining mandatory steps; resume at the correct screen without bypass |
+| **Objectives** | Orient user; preserve progress; route to next incomplete mandatory step |
+| **Entry** | Session loss · abandon · ACT-011 failure with interrupt · ACT-010 unfinished · soft risk retry · support return |
+| **Exit** | Resume → ACT-003 · ACT-011 · ACT-005 · ACT-006 as computed · ACT-009 if hard block · PUB-001 |
+| **Primary actions** | Resume activation |
+| **Secondary actions** | Support · Sign out · Back to Landing |
+| **Related capabilities** | CAP-ONB-002..004 (recovery) |
+| **Related Critical Flow** | FLOW-001-REC · FLOW-001-INT · FLOW-001-RET · FLOW-006 (incomplete branch) |
+| **Unresolved** | Exact progress checklist labels |
+
+**Content hierarchy:** What happened → where you are → remaining steps → Resume.
+
+```text
+┌────────────────────────────────────────┐
+│ Activation recovery                    │
+├────────────────────────────────────────┤
+│ You left activation incomplete         │
+│ Remaining mandatory steps:             │
+│  ☐ Email verification pending          │
+│  ☐ Email verification result           │
+│  ☐ Accept mandatory terms              │
+│  … (only incomplete shown)             │
+│ [Resume → next ACT screen]             │
+│ [Support]  [Landing → PUB-001]         │
+│ Note: no step may be skipped           │
+│ Verified email ≠ tenant auth ≠ A3      │
+└────────────────────────────────────────┘
+```
+
+| Concern | Behavior |
+|---------|----------|
+| **Layout** | Activation Shell; checklist of remaining mandatory steps only |
+| **Primary / secondary** | Resume primary; Support / Landing secondary |
+| **Loading** | Fetch activation progress; skeleton checklist |
+| **Error** | Progress fetch fail → retry; do not invent completed steps |
+| **Empty** | If already complete → hand off ACT-006/ONB (should not land here) |
+| **Explainable Lock** | Activation incomplete lock — path = Resume to named next step; never pay-to-skip |
+| **Recovery** | This screen *is* the recovery hub; hard deny → ACT-009 |
+| **Responsive** | Full-width checklist; sticky Resume |
+| **A11y** | H1 recovery; list semantics for remaining steps; focus Resume |
+| **RTL / LTR** | Mirror checklist |
+| **Analytics** | `activation_recovery_view` · `activation_resume` · next_screen_id |
+| **Security / privacy** | Server-authoritative progress; client cannot mark steps done |
+
+**Acceptance criteria**
+
+1. Resume lands on the true next incomplete mandatory screen.
+2. **No mandatory step bypass** (including email result and terms).
+3. Distinct from TRU-005 account recovery (FLOW-015).
+4. Messaging: verified email ≠ tenant auth ≠ elevated assurance.
 
 ---
 
 ## Pack acceptance (Activation)
 
-1. All ACT-001..010 detailed; ACT-008 documented as compact OTP variant of ACT-007.
-2. Optional mobile (CAP-ONB-005) skippable for ordinary learning.
-3. Terms acceptance audited only on ACT-005.
-4. No payment-as-skill or fake urgency patterns in activation.
-5. Blocked path ACT-009 explainable and recoverable toward PUB-001/support.
+1. ACT-001..003, ACT-005..012 detailed; ACT-008 compact OTP variant of ACT-007; **ACT-004** superseded alias only.
+2. Happy path: … ACT-003 → **ACT-011** → ACT-005 …
+3. Optional mobile (CAP-ONB-005) skippable for ordinary learning.
+4. Terms acceptance audited only on ACT-005.
+5. No payment-as-skill or fake urgency patterns in activation.
+6. Blocked path ACT-009 explainable and recoverable toward PUB-001/support.
+7. ACT-012 recovers without skipping mandatory steps.
+8. Source Gate includes **GHV.BASELINE-CORRECTION.1**.

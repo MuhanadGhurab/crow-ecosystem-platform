@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.10.0 |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -631,9 +631,9 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | Field | Value |
 |-------|-------|
 | **Decision** | Interaction grammar, page composition, 90-screen wireframe statuses, 16 critical flows, and launch-critical low-fi wireframes locked at low fidelity |
-| **Status** | Accepted |
-| **Related Gate** | GHV.PRODUCT-DEFINITION.3 |
-| **Evidence** | product/interactions · product/wireframes |
+| **Status** | Accepted — **SUPERSEDED IN COUNT ONLY** (90 → 92 via **DEC-152** / CR-001); low-fi lock and interaction architecture otherwise **RETAINED** |
+| **Related Gate** | GHV.PRODUCT-DEFINITION.3 · amended GHV.BASELINE-CORRECTION.1 |
+| **Evidence** | product/interactions · product/wireframes · [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md) |
 
 ## DEC-052 — Learning research source hierarchy
 
@@ -1576,8 +1576,18 @@ Status values: Accepted · Conditionally Accepted · Pending Validation · Super
 | Field | Value |
 |-------|-------|
 | **Decision** | Authoritative product decision remains **7 interface shells / 92 screens**. MASTER-SCREEN-REGISTRY currently lists **90** — a pre-existing governance defect. Record as external baseline debt; **do not** silently rewrite screen IDs/counts inside PROGRESSION.1D. Next Gate: **GHV.BASELINE-CORRECTION.1**. This defect **blocks GHV.ARCHITECTURE.1A**. Does not invalidate Progression Design Baseline lock when correctly recorded. |
-| **Status** | Accepted |
+| **Status** | Accepted — **SUPERSEDED IN COUNT ONLY / RESOLVED BY GHV.BASELINE-CORRECTION.1** (architecture retained; defect closed by **DEC-152** · CR-001 · registry v1.1.0) |
 | **Rationale** | Cross-baseline integrity without scope creep into Learning/PD baselines. |
-| **Related Gate** | GHV.PROGRESSION.1D |
-| **Evidence** | [GATE-REGISTER.md](../gates/GATE-REGISTER.md) · MASTER-SCREEN-REGISTRY (defective count) · RISK-PRG-057 |
+| **Related Gate** | GHV.PROGRESSION.1D · resolved under GHV.BASELINE-CORRECTION.1 |
+| **Evidence** | [GATE-REGISTER.md](../gates/GATE-REGISTER.md) · [GHV.BASELINE-CORRECTION.1.md](../gates/GHV.BASELINE-CORRECTION.1.md) · RISK-PRG-057 (resolved) |
+
+## DEC-152 — Authoritative 92-screen / 7-shell baseline lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Authoritative GHURAVIA screen baseline is **92 screens across seven interface shells**. Previous active registry count **90** corrected under **CR-001** without silent historical rewrite or global renumbering. Net **+2**: ACT-011 Email Verification Result · ACT-012 Activation Recovery. ACT-003 Email Verification Pending retained. ACT-004 preserved as **SUPERSEDED_ALIAS**. PD.2 and PD.3 remain **PASS — AMENDED, NOT RERUN**. Architecture Gate **GHV.ARCHITECTURE.1A** unblocked for the former screen-count dependency. Learning and Progression design baselines **unchanged**. Product Code remains **BLOCKED**. |
+| **Status** | Accepted |
+| **Rationale** | Closes cross-baseline count defect; freezes corrected inventory under SCREEN-BASELINE-FREEZE-POLICY. |
+| **Related Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Evidence** | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) · [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) · [SCREEN-BASELINE-VALIDATION-REPORT.md](../corrections/SCREEN-BASELINE-VALIDATION-REPORT.md) · [SCREEN-BASELINE-FREEZE-POLICY.md](../corrections/SCREEN-BASELINE-FREEZE-POLICY.md) |
 

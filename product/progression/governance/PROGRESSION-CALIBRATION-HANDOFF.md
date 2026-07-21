@@ -71,7 +71,7 @@ Authoritative version table: [FINAL-FORMULA-VERSION-REGISTRY.md](./FINAL-FORMULA
 
 | Debt | Gate / path |
 |------|-------------|
-| Screen registry 90 vs authoritative 92 / 7 shells | **GHV.BASELINE-CORRECTION.1** (**Next**) · blocks **ARCHITECTURE.1A** |
+| Screen registry 90 → 92 reconciliation | **GHV.BASELINE-CORRECTION.1 — PASS** · CR-001 · DEC-152 · ARCH.1A screen-count blocker removed |
 | Real-user progression pilot | DEP-076 · NOT RUN |
 | Technical validation | DEP-077 · NOT RUN · Product Code BLOCKED |
 

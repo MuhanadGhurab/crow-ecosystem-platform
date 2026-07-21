@@ -254,15 +254,16 @@ Every user-visible standing change must be able to cite:
 
 ## Suggested future validation order (non-binding)
 
-1. **GHV.BASELINE-CORRECTION.1** — screen registry 92-screen reconciliation
-2. Event ingress + validity + idempotency
-3. Ledger non-overwrite isolation
-4. Decision authority gates (automation vs human)
-5. Reversal / correction / effective-time
-6. Formula-version storage + deterministic engines (locked design versions)
-7. Privacy / age / analytics minimization
-8. Explainability surfaces
-9. Only then: production calculation services
+1. ~~**GHV.BASELINE-CORRECTION.1** — screen registry 92-screen reconciliation~~ — **PASS** (CR-001 · DEC-152)
+2. **GHV.ARCHITECTURE.1A** — core technical validation plan (screen-count blocker removed)
+3. Event ingress + validity + idempotency
+4. Ledger non-overwrite isolation
+5. Decision authority gates (automation vs human)
+6. Reversal / correction / effective-time
+7. Formula-version storage + deterministic engines (locked design versions)
+8. Privacy / age / analytics minimization
+9. Explainability surfaces
+10. Only then: production calculation services
 
 ```text
 PROGRESSION DESIGN BASELINE v1.0.0 LOCKED

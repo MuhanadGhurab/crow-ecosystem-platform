@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.10.0 |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 
 ## Active baseline set
 
@@ -14,9 +14,10 @@
 |-------|--------|
 | GHURAVIA Product Constitution v1.0 | **ACTIVE — LOCKED** |
 | GHURAVIA Scope Baseline v1.0 | **ACTIVE — LOCKED** |
-| Interaction Grammar / Wireframes | **ACTIVE — LOCKED AT LOW FIDELITY** |
-| **GHURAVIA Learning Design Baseline v1.0.0** | **ACTIVE — LOCKED AS DESIGN BASELINE** (unchanged by Progression 1A–1D) |
-| **GHURAVIA Progression Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE** |
+| Interaction Grammar / Wireframes | **ACTIVE — LOCKED AT LOW FIDELITY** (amended for 92 screens) |
+| **GHURAVIA Master Screen Registry Baseline v1.1.0** | **ACTIVE — CORRECTED AND LOCKED** · **7 shells · 92 screens** · Source Gate **GHV.BASELINE-CORRECTION.1** · CR-001 · DEC-152 · PD.2/PD.3 Amendment-01 |
+| **GHURAVIA Learning Design Baseline v1.0.0** | **ACTIVE — LOCKED AS DESIGN BASELINE** (unchanged by Progression 1A–1D and BASELINE-CORRECTION.1) |
+| **GHURAVIA Progression Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED PROGRESSION DESIGN BASELINE** (unchanged by BASELINE-CORRECTION.1) |
 | GHURAVIA Progression Architecture Baseline v1.0.0 | **LOCKED AS DESIGN BASELINE** (absorbed into Progression Design Baseline v1.0.0) |
 | GHURAVIA Progression Formula Simulation Baseline v0.1.0 | **HISTORICAL** — evidence retained under 1B |
 | GHURAVIA Progression Internal Calibration Baseline v0.2.0 | **SUPERSEDED INTO Progression Design Baseline v1.0.0** — synthetic calibration evidence retained; **NOT** production calibrated |
@@ -31,14 +32,19 @@
 | Publication | **BLOCKED** |
 | Implementation | **BLOCKED** |
 | Product Code | **BLOCKED** |
-| Screen registry (MASTER-SCREEN-REGISTRY) | **DEFECTIVE PENDING CORRECTION** — lists **90** vs authoritative **92 / 7 shells** · external debt · **GHV.BASELINE-CORRECTION.1** · blocks **ARCHITECTURE.1A** |
+| Historical Master Screen Registry v1.0.0 (90) | **SUPERSEDED** — corrected by CR-001 |
 | GHV.LEARNING.1A–1D | PASS |
 | GHV.PROGRESSION.1A–1C | PASS |
 | GHV.PROGRESSION.1D | **PASS** |
+| GHV.BASELINE-CORRECTION.1 | **PASS** |
+| GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
+| GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
 Authoritative learning portfolio: [LEARNING-PORTFOLIO-MANIFEST.md](../../product/learning/governance/LEARNING-PORTFOLIO-MANIFEST.md)
 
 Authoritative progression design baseline: [PROGRESSION-BASELINE-MANIFEST.md](../../product/progression/governance/PROGRESSION-BASELINE-MANIFEST.md)
+
+Authoritative master screen registry: [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) · [SCREEN-BASELINE-FREEZE-POLICY.md](../corrections/SCREEN-BASELINE-FREEZE-POLICY.md)
 
 Authoritative final formula versions: [FINAL-FORMULA-VERSION-REGISTRY.md](../../product/progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md)
 
@@ -62,7 +68,7 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Expert Review / Pilot | NOT RUN |
 | Publication / Implementation | BLOCKED |
 | Product Code | BLOCKED |
-| Screen count reconciliation | **EXTERNAL DEBT** — BASELINE-CORRECTION.1 |
+| Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · 7/92 locked |
 | TECH-018 Preview DB | PENDING TECHNICAL VALIDATION |
 
 ## Explicit non-claims
@@ -73,5 +79,5 @@ Real-user validation NOT RUN
 Usability validation NOT RUN
 Technical validation NOT RUN
 Product Code BLOCKED
-Screen registry count NOT authoritative until BASELINE-CORRECTION.1
+Master Screen Registry Baseline CORRECTED AND LOCKED (7 / 92) — not implemented
 ```

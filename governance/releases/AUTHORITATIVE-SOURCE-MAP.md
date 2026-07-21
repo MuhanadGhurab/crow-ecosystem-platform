@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 1.5.0 |
+| **Version** | 1.6.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.PROGRESSION.1D |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
 | **Last updated** | 2026-07-21 |
 
 ## Authority order
@@ -46,9 +46,16 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Cross-Wing access formula | Scope Baseline | Atlas in cross-wing template |
 | Account activation formula | Constitution (+ journey) | — |
 | Master User Journey phases | [MASTER-USER-JOURNEY.md](../../product/journeys/MASTER-USER-JOURNEY.md) | — |
-| Screen IDs | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | **DEFECTIVE PENDING CORRECTION** — registry lists **90**; authoritative decision remains **92 screens / 7 shells** · next Gate **GHV.BASELINE-CORRECTION.1** · blocks **ARCHITECTURE.1A** · do not treat 90 as corrected |
+| Screen IDs | [MASTER-SCREEN-REGISTRY.md](../../product/screens/MASTER-SCREEN-REGISTRY.md) | **ACTIVE AUTHORITATIVE** — **92 screens / 7 shells** · corrected under **GHV.BASELINE-CORRECTION.1** · CR-001 · DEC-152 |
+| Authoritative screen count | MASTER-SCREEN-REGISTRY + [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](../../product/screens/SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) | **92** |
+| Authoritative shell count | Same | **7** |
+| Screen ID correction map | [SCREEN-ID-CORRECTION-MAP.md](../../product/screens/SCREEN-ID-CORRECTION-MAP.md) | ACT-003/004/011/012 dispositions |
+| PD.2 amendment | [GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.2-AMENDMENT-01.md) | PASS — AMENDED, NOT RERUN |
+| PD.3 amendment | [GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md](../gates/GHV.PRODUCT-DEFINITION.3-AMENDMENT-01.md) | PASS — AMENDED, NOT RERUN |
+| Screen baseline Change Record | [CR-001-SCREEN-BASELINE-CORRECTION.md](../changes/CR-001-SCREEN-BASELINE-CORRECTION.md) | Approved · CONTROLLED BASELINE CORRECTION |
+| Historical 90-count claims | PD.3 Gate report · DEC-051 count clause · registry v1.0.0 | **HISTORICAL / SUPERSEDED** — not active authority |
 | Capability inventory | [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) | Status must match Scope vocabulary |
-| Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · inherits screen-count defect until BASELINE-CORRECTION.1 |
+| Wireframe statuses | [WIREFRAME-REGISTRY.md](../../product/wireframes/WIREFRAME-REGISTRY.md) | Low fidelity · **92** coverage (v1.1.0) |
 | Interaction grammar | [INTERACTION-GRAMMAR.md](../../product/interactions/INTERACTION-GRAMMAR.md) | — |
 | Critical flows | [CRITICAL-FLOWS.md](../../product/interactions/CRITICAL-FLOWS.md) | FLOW-001–016 |
 | Commercial narrative | [COMMERCIAL-BASELINE.md](../commercial/COMMERCIAL-BASELINE.md) | Prices link to Scope |
@@ -126,4 +133,4 @@ If a lower-level document contradicts a higher-level document, correct the lower
 
 ## Intentional summaries
 
-Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Do not cite MASTER-SCREEN-REGISTRY’s 90-count as corrected authority until GHV.BASELINE-CORRECTION.1.
+Domain READMEs and PROJECT_STATUS may carry short summaries. They must not introduce alternate prices, Pillars, Nest bands, or product definitions. Progression Design Baseline lock must not be summarized as production calibrated, real-user validated, technically validated, or Product Code authorized. Active screen inventory authority is **92 / 7 shells**; historical **90** counts are superseded.

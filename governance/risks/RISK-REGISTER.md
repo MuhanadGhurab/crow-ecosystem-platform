@@ -3,11 +3,11 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.10.0 |
+| **Version** | 1.11.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.PROGRESSION.1D |
-| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock and synthetic 1D PASS do **not** close Open synthetic-only or validation-debt risks. |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Note** | Risks are identified, not claimed mitigated. Progression Design Baseline lock and synthetic 1D PASS do **not** close Open synthetic-only or validation-debt risks. Screen-count defect RISK-PRG-057 is resolved by controlled baseline correction. |
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
 
@@ -116,7 +116,7 @@ Probability / Impact: H · M · L · Exposure = qualitative combination · Statu
 | RISK-OPS-011 | Root-directory / vercel.json mismatch | L | H | M | Non-root Vercel Root Directory | Confirmed root is repo root in 1B | Dashboard correction before push | Founder | Closed (verified root) | 2026-07-21 | CAP-GOV-* |
 | RISK-OPS-012 | Legacy Vercel build command references missing CyberCrow scripts | H | M | M | Accidental enable of deploy | Keep branch deploy disabled; rebuild settings in architecture Gate | Failed Preview only; never promote | Founder | Open | 2026-08-01 | CAP-GOV-* |
 | RISK-OPS-013 | Scope growth after baseline lock | H | H | H | Feature pressure | Classification system; impact model; WIP | Idea Vault / reject | Founder | Open | 2026-08-01 | CAP-GOV-* |
-| RISK-OPS-014 | 90-screen overcommitment | M | H | H | UI build sprawl | Screen families; PD.3 wireframes prioritize MLGW | Defer non-MLGW screens | Founder | Open | 2026-09-01 | CAP-EBUX-* |
+| RISK-OPS-014 | 92-screen inventory UX sprawl / overcommitment | M | H | H | UI build sprawl against full inventory | Screen families; PD.3 wireframes prioritize MLGW; freeze adds CR for new screens | Defer non-MLGW screens | Founder | Open | 2026-09-01 | CAP-EBUX-* |
 | RISK-OPS-015 | Insufficient launch content / thin Horizons | H | H | H | Content lag | Limited catalogue + LEARNING.1 | Cut Routes; keep Nest+one vertical | Founder | Open | 2026-10-01 | CAP-LRN-* |
 | RISK-OPS-016 | Commercial work delaying learning | M | H | H | Billing priority | Pillars; learning-before-commerce sequencing | Soft commercial later | Founder | Open | 2026-10-01 | CAP-PAY-* |
 | RISK-OPS-017 | Live Sky overengineering | M | H | H | Realtime ambition | One controlled experience | Directory-only fallback | Founder | Open | 2026-11-01 | CAP-SOC-005 |
@@ -261,6 +261,6 @@ Simulation PASS does **not** mitigate these risks. They remain **Open** until 1C
 | RISK-PRG-054 | Formula overfitting to synthetic cohorts | H | H | H | Quota retunes to histograms | Calibration principles locked | Reject cosmetic retunes | Founder | Open | 1D | SIM |
 | RISK-PRG-055 | Arabic explainability gaps | M | H | H | EN-only explanations | AR/EN explainability package | Localization review | Founder | Open | Launch | EXP |
 | RISK-PRG-056 | Real-user behavior differs materially from synthetic | H | H | H | Internal calibration alone | DEC-134/148; real-user NOT RUN | Delay production confidence | Founder | Open | Pilot | SIM |
-| RISK-PRG-057 | Screen-count baseline defect (90 listed vs 92 authoritative / 7 shells) | H | H | H | ARCHITECTURE.1A without reconcile | Record defect; **GHV.BASELINE-CORRECTION.1**; do not silently rewrite in Progression Gates | Block ARCH.1A until correction | Founder | Open | BASELINE-CORRECTION.1 | SCR |
+| RISK-PRG-057 | Screen-count baseline defect (90 listed vs 92 authoritative / 7 shells) | H | H | H | ARCHITECTURE.1A without reconcile | Record defect; **GHV.BASELINE-CORRECTION.1**; do not silently rewrite in Progression Gates | Block ARCH.1A until correction | Founder | **RESOLVED BY CONTROLLED BASELINE CORRECTION** | 2026-07-21 · CR-001 · DEC-152 · residual: registry drift | SCR |
 
 Architecture, simulation, synthetic calibration, and **Progression Design Baseline lock** do **not** close these risks; real-user pilots, staffing, screen reconciliation, and operational controls remain required.

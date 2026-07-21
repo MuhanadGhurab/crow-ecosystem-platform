@@ -2,15 +2,68 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED — Authoritative |
-| **Version** | 1.0.0 |
+| **Status** | ACTIVE — CORRECTED BASELINE |
+| **Version** | 1.1.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-20 |
-| **Source Gate** | GHV.FOUNDATION.1A |
-| **Related** | [SCREEN-STATE-CONTRACT.md](./SCREEN-STATE-CONTRACT.md) · [MASTER-USER-JOURNEY.md](../journeys/MASTER-USER-JOURNEY.md) |
-| **Count** | 90 screen IDs |
+| **Last updated** | 2026-07-21 |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 (amendment of PD.2) |
+| **Related** | [SCREEN-STATE-CONTRACT.md](./SCREEN-STATE-CONTRACT.md) · [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) · [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](./SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md) · [MASTER-USER-JOURNEY.md](../journeys/MASTER-USER-JOURNEY.md) |
+| **Count** | **92 screen IDs** |
 
 Family fields (apply to each ID): purpose, user type, journey phase, experience shell, entry conditions, primary action, important states, permissions, mobile/desktop behavior, loading/empty/locked/error/offline, exit transitions — detailed per family below; individual IDs inherit family defaults unless noted.
+
+---
+
+## Amendment — GHV.BASELINE-CORRECTION.1 (90 → 92)
+
+| Field | Value |
+|-------|-------|
+| **Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Change Request** | **CR-001** — Master Screen Registry 92-screen reconciliation |
+| **Amends** | Product Definition / PD.2 screen inventory (prior registry v1.0.0 = 90) |
+| **Prior count** | 90 screen IDs |
+| **Corrected count** | **92 screen IDs** |
+| **Net change** | **+2** (ACT-011, ACT-012). No global renumbering. All other IDs preserved. |
+
+### Defects closed by this amendment
+
+| Defect | Description | Correction |
+|--------|-------------|------------|
+| **Defect A** | Email verification **Pending** and **Result** were conflated: ACT-003 (prompt/pending) exited to ACT-004 (“Email Verified”) as if a single success screen covered all token outcomes. Authoritative inventory requires distinct **Email Verification Pending** and **Email Verification Result**. | ACT-003 **RETAINED** and renamed to **Email Verification Pending**. ACT-011 **added** as **Email Verification Result** (full outcome set). ACT-004 retained as **SUPERSEDED_ALIAS** (compatibility row; do not delete). |
+| **Defect B** | Interrupted / failed activation had **no separate screen ID**. Registry note claimed resume via “last incomplete ONB/ACT screen” only, omitting Activation Recovery required by the authoritative 92-screen / 7-shell decision. | ACT-012 **added** as **Activation Recovery**. Onboarding may still resume last incomplete ONB; activation interruptions route via ACT-012. |
+
+### Non-negotiable correction rules
+
+```text
+NO SILENT REWRITE of historical IDs
+NO global renumbering
+ACT-004 ID PRESERVED as SUPERSEDED_ALIAS
+Net +2 only (ACT-011, ACT-012)
+Final total exactly 92
+Product Code NOT authorized by this amendment
+product/learning/ NOT modified
+```
+
+See [SCREEN-ID-CORRECTION-MAP.md](./SCREEN-ID-CORRECTION-MAP.md) and [SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md](./SEVEN-SHELL-SCREEN-COUNT-RECONCILIATION.md).
+
+---
+
+## Per-shell summary (7 shells)
+
+| Shell | Families / IDs | Count |
+|-------|----------------|------:|
+| **Public** | PUB-001…PUB-008 | **8** |
+| **Activation** | ACT-001…ACT-012 (includes superseded ACT-004 alias row — still a registry record) | **12** |
+| **Onboarding** | ONB-001…ONB-011 + IDN-001…IDN-003 | **14** |
+| **Core** | IDN-004…IDN-006 + LRN-001…LRN-012 + SKY/WLD (4) + COM-001…COM-008 + LIV-001…LIV-006 + PRG-001…PRG-006 | **39** |
+| **Commercial** | PAY-001…PAY-006 | **6** |
+| **Trust** | TRU-001…TRU-006 | **6** |
+| **Admin** | ADM-001…ADM-007 | **7** |
+| **Total** | | **92** |
+
+```text
+8 + 12 + 14 + 39 + 6 + 6 + 7 = 92
+```
 
 ---
 
@@ -22,6 +75,9 @@ Family fields (apply to each ID): purpose, user type, journey phase, experience 
 | Permissions | Server authorization; UI lock ≠ grant |
 | Mobile / desktop | Per [RESPONSIVE-BEHAVIOR.md](./RESPONSIVE-BEHAVIOR.md) |
 | Loading / error / offline | Per loading and error specs |
+| Launch status (first controlled launch) | CONTROLLED LAUNCH unless noted |
+| Accessibility | Per [MOTION-ACCESSIBILITY-SPEC.md](./MOTION-ACCESSIBILITY-SPEC.md) |
+| Arabic RTL | Per [LOCALIZATION-RTL-SPEC.md](./LOCALIZATION-RTL-SPEC.md) |
 
 ---
 
@@ -40,20 +96,145 @@ Family fields (apply to each ID): purpose, user type, journey phase, experience 
 
 ---
 
-## Activation (ACT) — 10
+## Activation (ACT) — 12
 
-| ID | Name | Purpose | User | Phase | Shell | Entry | Primary action | Exit |
-|----|------|---------|------|-------|-------|-------|----------------|------|
-| ACT-001 | Create Your Crow | Start identity intent | Visitor | Activate | Activation | Landing CTA | Begin | ACT-002 |
-| ACT-002 | Create Account | Register | Visitor | Activate | Activation | ACT-001 | Submit registration | ACT-003 |
-| ACT-003 | Verify Email Prompt | Await email | A0 | Activate | Activation | Registered | Open mail / resend | ACT-004 |
-| ACT-004 | Email Verified | Confirm email | A0→A1 pending terms | Activate | Activation | Token valid | Continue | ACT-005 |
-| ACT-005 | Accept Mandatory Terms | Terms gate | Email verified | Activate | Activation | ACT-004 | Accept current terms | ACT-006 |
-| ACT-006 | Basic Account Activated | A1 success | A1 | Activate | Activation | Terms accepted + risk OK | Continue | ACT-007 |
-| ACT-007 | Mobile Verify Now/Later | Optional mobile | A1 | Activate | Activation | ACT-006 | Verify or skip | ONB-001 |
-| ACT-008 | Mobile OTP | Enter OTP | A1 | Activate | Activation | Chose verify | Submit OTP | ACT-007/ONB-001 |
-| ACT-009 | Activation Blocked | Risk/terms failure | Any | Activate | Activation | Risk not acceptable | Resolve / support | PUB-001 |
-| ACT-010 | Sign In | Login | Returning | Activation | Activation | Landing | Authenticate | TRU-001 |
+| ID | Name | Purpose | User | Phase | Shell | Entry | Primary action | Exit | Registry status |
+|----|------|---------|------|-------|-------|-------|----------------|------|-----------------|
+| ACT-001 | Create Your Crow | Start identity intent | Visitor | Activate | Activation | Landing CTA | Begin | ACT-002 | ACTIVE |
+| ACT-002 | Create Account | Register | Visitor | Activate | Activation | ACT-001 | Submit registration | ACT-003 | ACTIVE |
+| ACT-003 | Email Verification Pending | Await / manage email verification | A0 | Activate | Activation | Registered (ACT-002) | Open mail / resend / correct address / get help | ACT-011 (link consume) · ACT-012 (interrupt/fail) · ACT-003 (resend loop) | ACTIVE — CORRECTED |
+| ACT-004 | Email Verified *(historical alias)* | **SUPERSEDED** compatibility row — prior “confirm email” screen | A0→A1 pending terms *(legacy)* | Activate | Activation | **Redirect → ACT-011** | **Redirect → ACT-011** | **Redirect → ACT-011** (then ACT-005 on VERIFIED) | **SUPERSEDED_ALIAS** |
+| ACT-005 | Accept Mandatory Terms | Terms gate | Email verified | Activate | Activation | ACT-011 state **VERIFIED** (legacy alias ACT-004 redirects here via ACT-011) | Accept current terms | ACT-006 | ACTIVE |
+| ACT-006 | Basic Account Activated | A1 success | A1 | Activate | Activation | Terms accepted + risk OK | Continue | ACT-007 | ACTIVE |
+| ACT-007 | Mobile Verify Now/Later | Optional mobile | A1 | Activate | Activation | ACT-006 | Verify or skip | ONB-001 | ACTIVE |
+| ACT-008 | Mobile OTP | Enter OTP | A1 | Activate | Activation | Chose verify | Submit OTP | ACT-007/ONB-001 | ACTIVE |
+| ACT-009 | Activation Blocked | Risk/terms failure | Any | Activate | Activation | Risk not acceptable | Resolve / support | PUB-001 · ACT-012 | ACTIVE |
+| ACT-010 | Sign In | Login | Returning | Activate | Activation | Landing | Authenticate | TRU-001 | ACTIVE |
+| ACT-011 | Email Verification Result | Present verification token outcome (does **not** grant tenant membership or elevated assurance) | A0 | Activate | Activation | Verification link / token consume from ACT-003 | Continue (VERIFIED) · Retry Pending · Open Recovery | **VERIFIED → ACT-005** · failures → ACT-003 / ACT-012 | ACTIVE — NEW |
+| ACT-012 | Activation Recovery | Diagnose interrupted/failed activation (does **not** bypass assurance; does **not** replace TRU-005) | A0–A1 / interrupted | Activate | Activation | Failed/interrupted ACT path · deep link · support handoff | Resume Pending · Result · Terms · Support · Sign In | ACT-003 · ACT-011 · ACT-005 · ACT-009 · ACT-010 · TRU-005 *(account recovery only)* · PUB-001 | ACTIVE — NEW |
+
+### ACT-003 — Email Verification Pending (detailed)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-003 |
+| **Previous title** | Verify Email Prompt |
+| **Canonical title** | **Email Verification Pending** |
+| **Treatment** | **RETAINED** — rename only; canonical active ID for Pending |
+| **Purpose** | Hold the user in email-verification pending until a token is consumed or recovery is required |
+| **User** | A0 (registered, email not yet verified) |
+| **Phase** | Activate |
+| **Shell** | Activation |
+| **Entry** | Successful registration (ACT-002); return from ACT-011 failure; return from ACT-012 reason EMAIL_NOT_VERIFIED / VERIFICATION_EXPIRED / EMAIL_CHANGED (as applicable) |
+| **Primary action** | Open mail client / copy instructions; resend when available; correct address when allowed; open help |
+| **Exit** | Consume link → **ACT-011**; interruption/failure diagnosis → **ACT-012**; remain on ACT-003 for resend/cooldown loops |
+| **Launch status** | CONTROLLED LAUNCH |
+| **Auth / assurance notes** | Remains at A0. Does not grant A1, tenant membership, or elevated assurance. Resend and address correction are server-authorized. |
+| **Accessibility** | Keyboard-reachable primary actions; live region for resend/cooldown status; non-color error/state cues; clear heading “Email verification pending” |
+| **Arabic RTL** | Full RTL layout; email address may be LTR island; directional chevrons flip |
+| **Dependencies** | Identity/email delivery service; ACT-002 registration; ACT-011 result; ACT-012 recovery; localization strings |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 (amendment of PD.2) |
+| **Amendment record** | CR-001 / Defect A — retained ID; title corrected; exit map no longer treats ACT-004 as success terminus |
+
+**Pending states (document; no final timers in this Gate):**
+
+| State | Meaning |
+|-------|---------|
+| MESSAGE_SENT | Verification message dispatched |
+| RESEND_AVAILABLE | User may request another message |
+| RESEND_COOLDOWN | Resend temporarily unavailable (policy-defined; timer values deferred) |
+| DELIVERY_DELAYED | Delivery lag indicated; stay on Pending |
+| ADDRESS_CORRECTION_AVAILABLE | Server allows address correction path |
+| REQUEST_EXPIRED | Pending request no longer valid; route toward Result/Recovery as authorized |
+| HELP_AVAILABLE | Help / support entry visible |
+
+### ACT-004 — Email Verified (SUPERSEDED_ALIAS)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-004 |
+| **Title** | Email Verified *(historical)* |
+| **Treatment** | **SUPERSEDED historical alias** — remains in registry as a compatibility row. **Do NOT delete the ID.** |
+| **Status** | **SUPERSEDED_ALIAS** |
+| **Semantics now provided by** | **ACT-011** state **VERIFIED** |
+| **Purpose (legacy)** | Confirm email after token (historical single success screen) |
+| **User / Phase / Shell** | Legacy A0→A1 pending terms · Activate · Activation |
+| **Entry map** | Any historical deep link or flow targeting ACT-004 **redirects to ACT-011** |
+| **Primary action / Exit map** | Redirect to **ACT-011**; on VERIFIED continue to **ACT-005** (same as ACT-011) |
+| **Launch status** | CONTROLLED LAUNCH — compatibility redirect only; not a distinct UX destination |
+| **Auth / assurance notes** | Must not be implemented as a parallel success path that skips ACT-011 outcome handling |
+| **Accessibility / Arabic RTL** | N/A as destination; redirect target ACT-011 carries a11y/RTL requirements |
+| **Dependencies** | ACT-011; client/router alias map |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 (amendment of PD.2) |
+| **Amendment record** | CR-001 / Defect A — ID preserved; status SUPERSEDED_ALIAS; counts as one of 12 Activation registry records |
+
+### ACT-011 — Email Verification Result (NEW)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-011 |
+| **Title** | **Email Verification Result** |
+| **Treatment** | **NEW** — full verification outcome surface |
+| **Purpose** | Present the result of consuming an email-verification token and route the user safely |
+| **User** | A0 (token consumer); may briefly show outcomes for already-processed tokens |
+| **Phase** | Activate |
+| **Shell** | Activation |
+| **Entry** | Verification link / token from ACT-003; redirects from ACT-004 alias; optional return from ACT-012 when re-evaluating a token outcome |
+| **Primary action** | Continue (when VERIFIED); Retry verification / return to Pending; Open Activation Recovery; Contact support when RISK_REVIEW_REQUIRED |
+| **Exit** | **VERIFIED → ACT-005**; EXPIRED / INVALID / ALREADY_USED / SUPERSEDED → ACT-003 and/or ACT-012; RISK_REVIEW_REQUIRED → ACT-012 / ACT-009 / support as authorized |
+| **Launch status** | CONTROLLED LAUNCH |
+| **Auth / assurance notes** | **Does not grant tenant membership or elevated assurance.** VERIFIED unlocks the terms gate (ACT-005) only; A1 still requires terms + risk OK (ACT-006). |
+| **Accessibility** | Outcome announced to assistive tech; distinct text+icon per outcome; Continue disabled until outcome resolved |
+| **Arabic RTL** | Full RTL; outcome status readable as complete sentence; token/debug fragments as LTR islands if shown |
+| **Dependencies** | Token validation service; ACT-003; ACT-005; ACT-012; risk signals for RISK_REVIEW_REQUIRED |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Amendment record** | CR-001 / Defect A — net +1 toward 92 |
+
+**Result outcomes:**
+
+| Outcome | Meaning | Typical next |
+|---------|---------|--------------|
+| VERIFIED | Token accepted; email verified | **ACT-005** |
+| EXPIRED | Token past validity | ACT-003 (resend) · ACT-012 |
+| INVALID | Token malformed / not recognized | ACT-003 · ACT-012 |
+| ALREADY_USED | Token previously consumed | ACT-003 / Sign In / ACT-012 as authorized |
+| SUPERSEDED | Newer verification request replaced this token | ACT-003 · ACT-012 |
+| RISK_REVIEW_REQUIRED | Risk controls block automatic continue | ACT-012 · ACT-009 · support |
+
+### ACT-012 — Activation Recovery (NEW)
+
+| Field | Value |
+|-------|-------|
+| **ID** | ACT-012 |
+| **Title** | **Activation Recovery** |
+| **Treatment** | **NEW** — interrupted/failed activation diagnosis |
+| **Purpose** | Diagnose why activation stopped and route to the correct ACT (or support) path without elevating assurance |
+| **User** | A0–A1 / interrupted activation; returning users mid-activation |
+| **Phase** | Activate |
+| **Shell** | Activation |
+| **Entry** | Interrupted ACT flow; failed ACT-011; ACT-009 handoff; session loss mid-activation; support deep link; conflicting activation request |
+| **Primary action** | Review reason; resume recommended step; open support when SUPPORT_REQUIRED |
+| **Exit** | Per reason → ACT-003, ACT-011, ACT-005, ACT-009, ACT-010, PUB-001; account/password recovery only → **TRU-005** (explicitly out of band for activation diagnosis) |
+| **Launch status** | CONTROLLED LAUNCH |
+| **Auth / assurance notes** | **Does NOT bypass assurance.** **Does NOT replace TRU-005** account recovery / password reset. Recovery actions remain server-authorized. |
+| **Accessibility** | Reason list as structured content; one primary CTA; support path keyboard-reachable |
+| **Arabic RTL** | Full RTL; reason codes may remain LTR islands with localized labels |
+| **Dependencies** | Activation state machine; ACT-003/005/009/010/011; TRU-005 (boundary only); support tooling |
+| **Source Gate** | GHV.BASELINE-CORRECTION.1 |
+| **Amendment record** | CR-001 / Defect B — net +1 toward 92 |
+
+**Recovery reasons:**
+
+| Reason | Meaning | Typical next |
+|--------|---------|--------------|
+| EMAIL_NOT_VERIFIED | Still pending verification | ACT-003 |
+| VERIFICATION_EXPIRED | Pending/result expired | ACT-003 · ACT-011 |
+| EMAIL_CHANGED | Address change requires new verification | ACT-003 |
+| TERMS_INCOMPLETE | Verified but terms not accepted | ACT-005 |
+| RISK_REVIEW | Risk hold | ACT-009 · support |
+| SESSION_EXPIRED | Activation session lost | ACT-010 · ACT-003 as authorized |
+| CONFLICTING_REQUEST | Concurrent/conflicting activation request | ACT-003 · support |
+| SUPPORT_REQUIRED | Cannot self-serve | Support · PUB-001 |
 
 ---
 
@@ -86,7 +267,7 @@ Family fields (apply to each ID): purpose, user type, journey phase, experience 
 | ONB-010 | Eligibility Decision | Readiness + entitlement | Route chosen | Route | Onboarding | ONB-009 | Resolve | ONB-011 or PAY-002 |
 | ONB-011 | Flight Plan Review | Review plan | Eligible | Flight Plan | Onboarding | ONB-010 pass | Launch | LRN-001 |
 
-Interrupted onboarding resumes via the last incomplete ONB/ACT screen (no separate screen ID).
+**Resume rules:** Interrupted **activation** is diagnosed via **ACT-012** (Activation Recovery). Interrupted **onboarding** may still resume via the last incomplete ONB screen (and related IDN-001…003 setup screens). Do not treat ACT-012 as a substitute for ONB resume, and do not treat “last incomplete ONB/ACT” as a substitute for Activation Recovery.
 
 ---
 
@@ -205,10 +386,12 @@ Micro-Mission inserts and prerequisite blocks are states/overlays on LRN-001 / L
 
 ## Count check
 
+### By family
+
 | Family | Count |
-|--------|-------|
+|--------|------:|
 | PUB | 8 |
-| ACT | 10 |
+| ACT | **12** |
 | IDN | 6 |
 | ONB | 11 |
 | LRN | 12 |
@@ -219,6 +402,19 @@ Micro-Mission inserts and prerequisite blocks are states/overlays on LRN-001 / L
 | PAY | 6 |
 | TRU | 6 |
 | ADM | 7 |
-| **Total** | **90** |
+| **Total** | **92** |
+
+### By shell (must match family total)
+
+| Shell | Count |
+|-------|------:|
+| Public | 8 |
+| Activation | 12 |
+| Onboarding | 14 |
+| Core | 39 |
+| Commercial | 6 |
+| Trust | 6 |
+| Admin | 7 |
+| **Total** | **92** |
 
 Visual wireframes are **out of scope** for this Gate.
