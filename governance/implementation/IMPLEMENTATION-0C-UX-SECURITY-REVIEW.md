@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-IMP-0C-UX-SEC-001 |
-| **Gate** | GHV.IMPLEMENTATION.0C · amended by **0C-CLOSURE-01** |
+| **Gate** | GHV.IMPLEMENTATION.0C · amended by **0C-CLOSURE-01** · completed by **0C-CLOSURE-02** |
 | **Date** | 2026-07-22 |
 | **Authorization** | GHV-IMP-AUTH-003 |
 | **Branch** | `feat/ghuravia-foundation` |
@@ -18,7 +18,7 @@
 | Return-to allowlist | `ALLOWED_RETURN_TO` — governed routes only; no open redirects | **PASS** |
 | Explainable Locks | No gate bypass via recovery or skip paths | **PASS** |
 | Error surfacing | `ErrorCategory` → localized catalogue; no raw `Error.message` in UI | **PASS** |
-| Idempotency | Replay treated as success; conflict explained; no blind retry | **PASS** |
+| Idempotency | Browser ER-REPLAY + ER-IDEMPOTENCY-CONFLICT against persistent receipts; replay treated as success; conflict localized; no blind retry | **PASS** |
 | Stale-version | Refresh required; no silent re-accept of terms/risk | **PASS** |
 | Session bootstrap | Local synthetic session only; unauthorized screens gated | **PASS** |
 | ACT-007 skip | Skip/later does not block ONB-001; optional assurance only | **PASS** |

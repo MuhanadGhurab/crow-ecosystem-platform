@@ -12,6 +12,7 @@ import {
 import { mapServiceError, jsonError } from "../../../../../lib/http";
 import { getEmailProviderMode } from "../../../../../lib/server/test-controls";
 import { getDb } from "../../../../../lib/server/db";
+import { getIdempotencyEvidence } from "../../../../../lib/server/test-evidence";
 
 type Cmd =
   | "request-email"
@@ -53,6 +54,7 @@ export async function POST(
       termsVersion?: string;
       riskDisclosureVersion?: string;
       token?: string;
+      reason?: string;
     };
     if (typeof body.expectedVersion !== "number") {
       return jsonError("VALIDATION_ERROR", "expectedVersion required", 400);
@@ -73,6 +75,7 @@ export async function POST(
       termsVersion: body.termsVersion,
       riskDisclosureVersion: body.riskDisclosureVersion,
       token: body.token,
+      reason: body.reason,
     };
     const outcome = await svc.execute({
       aggregateId: session.accountId,
@@ -108,6 +111,41 @@ export async function POST(
       resource: outcome.resource,
     });
   } catch (e) {
+    if (
+      e instanceof Error &&
+      e.name === "IDEMPOTENCY_CONFLICT" &&
+      !extractAttachedCorrelation(e)
+    ) {
+      try {
+        const key = request.headers.get("Idempotency-Key");
+        const jar = await cookies();
+        const raw = jar.get(sessionCookieName())?.value;
+        const session = raw ? decodeSession(raw, getSessionSecret()) : null;
+        if (key && session) {
+          const evidence = await getIdempotencyEvidence({
+            aggregateId: session.accountId,
+            contactRef: session.contactRef,
+            idempotencyKey: key,
+          });
+          const corr = evidence.receipts[0]?.correlationId;
+          if (corr) {
+            return jsonError("IDEMPOTENCY_CONFLICT", e.message, 409, corr);
+          }
+        }
+      } catch {
+        /* fall through to generic mapper */
+      }
+    }
     return mapServiceError(e);
   }
+}
+
+function extractAttachedCorrelation(e: Error): string | undefined {
+  if (
+    "correlationId" in e &&
+    typeof (e as { correlationId?: unknown }).correlationId === "string"
+  ) {
+    return (e as { correlationId: string }).correlationId;
+  }
+  return undefined;
 }

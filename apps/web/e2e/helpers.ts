@@ -149,3 +149,123 @@ export async function assertServerRedirectAwayFrom(
     ).toHaveCount(0);
   }
 }
+
+export type IdempotencyEvidence = {
+  testingOnly: true;
+  aggregateVersion: number;
+  auditCount: number;
+  outboxCount: number;
+  receiptCount: number;
+  mockDeliveryCount: number;
+  receipts: Array<{
+    commandType: string;
+    responseStatus: string;
+    resultRef: string | null;
+    correlationId: string;
+  }>;
+};
+
+export async function idempotencyEvidence(
+  request: APIRequestContext,
+  idempotencyKey?: string,
+): Promise<IdempotencyEvidence> {
+  const data = await testControl(
+    request,
+    "idempotency-evidence",
+    idempotencyKey ? { idempotencyKey } : {},
+  );
+  return data as IdempotencyEvidence;
+}
+
+/** Local/test ActivationClient command hook (enabled via /api/health runtime). */
+export async function e2eCommand(
+  page: Page,
+  name: string,
+  body: Record<string, unknown> = {},
+  options: {
+    fingerprint?: string;
+    newLogicalOp?: boolean;
+    forceIdempotencyKey?: string;
+  } = {},
+): Promise<{
+  idempotencyResult?: "applied" | "replayed";
+  aggregateVersion?: number;
+  correlationId?: string;
+  resource?: { version: number; state: string };
+}> {
+  await page.waitForFunction(
+    () =>
+      typeof (window as Window & { __GHURAVIA_E2E_COMMAND__?: unknown })
+        .__GHURAVIA_E2E_COMMAND__ === "function",
+    undefined,
+    { timeout: 20_000 },
+  );
+  const result = await page.evaluate(
+    async ({ name: cmd, body: b, options: o }) => {
+      const w = window as unknown as {
+        __GHURAVIA_E2E_COMMAND__: (
+          n: string,
+          body?: Record<string, unknown>,
+          options?: {
+            fingerprint?: string;
+            newLogicalOp?: boolean;
+            forceIdempotencyKey?: string;
+          },
+        ) => Promise<{
+          idempotencyResult?: "applied" | "replayed";
+          aggregateVersion?: number;
+          correlationId?: string;
+          resource?: { version: number; state: string };
+        }>;
+      };
+      return w.__GHURAVIA_E2E_COMMAND__(cmd, b, o);
+    },
+    { name, body, options },
+  );
+  return result;
+}
+
+export async function e2eCommandExpectError(
+  page: Page,
+  name: string,
+  body: Record<string, unknown>,
+  options: {
+    fingerprint?: string;
+    newLogicalOp?: boolean;
+    forceIdempotencyKey?: string;
+  },
+): Promise<{ category?: string; correlationId?: string }> {
+  await page.waitForFunction(
+    () =>
+      typeof (window as Window & { __GHURAVIA_E2E_COMMAND__?: unknown })
+        .__GHURAVIA_E2E_COMMAND__ === "function",
+    undefined,
+    { timeout: 20_000 },
+  );
+  return page.evaluate(
+    async ({ name: cmd, body: b, options: o }) => {
+      const w = window as unknown as {
+        __GHURAVIA_E2E_COMMAND__: (
+          n: string,
+          body?: Record<string, unknown>,
+          options?: {
+            fingerprint?: string;
+            newLogicalOp?: boolean;
+            forceIdempotencyKey?: string;
+          },
+        ) => Promise<unknown>;
+      };
+      try {
+        await w.__GHURAVIA_E2E_COMMAND__(cmd, b, o);
+        return { category: "UNEXPECTED_SUCCESS" };
+      } catch (e) {
+        const err = e as { category?: string; correlationId?: string };
+        return {
+          category: err.category,
+          correlationId: err.correlationId,
+        };
+      }
+    },
+    { name, body, options },
+  );
+}

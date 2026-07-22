@@ -73,6 +73,27 @@ ELIGIBLE TO START
 NOT STARTED
 ```
 
+## Active treatment amendment — GHV.IMPLEMENTATION.0C-CLOSURE-02
+
+CLOSURE-01 technical corrections (server route guards, keyboard core flow, refresh/resume, route-guard matrix, local cleanup) remain valid and are **not** invalidated.
+
+Mandatory browser evidence remaining after CLOSURE-01 (idempotency Playwright scenarios; full 15-state axe coverage; validator limited to 19) is closed by [GHV.IMPLEMENTATION.0C-CLOSURE-02.md](./GHV.IMPLEMENTATION.0C-CLOSURE-02.md).
+
+**Amended active treatment of this Gate:**
+
+```text
+GHV.IMPLEMENTATION.0C-CLOSURE-01:
+PARTIAL — AMENDED BY 0C-CLOSURE-02 FOR
+MANDATORY BROWSER EVIDENCE COMPLETION
+
+Product impact: NONE
+Architecture impact: NONE
+Route-guard remediation invalidated: NO
+Cleanup evidence invalidated: NO
+Browser evidence corrected: YES
+0C Product Code retained: YES
+```
+
 ## Retained non-blocking conditions
 
 - Moderate ADV-001 · Moderate ADV-002

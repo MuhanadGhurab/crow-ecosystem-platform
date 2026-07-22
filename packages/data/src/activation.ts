@@ -264,8 +264,11 @@ export class ActivationCommandService {
         );
         if (receipt) {
           if (receipt.requestFingerprint !== fp) {
-            const err = new Error("IDEMPOTENCY_CONFLICT: payload mismatch");
+            const err = new Error(
+              "IDEMPOTENCY_CONFLICT: payload mismatch",
+            ) as Error & { correlationId?: string };
             err.name = "IDEMPOTENCY_CONFLICT";
+            err.correlationId = receipt.correlationId;
             throw err;
           }
           const a = toDomain(row);

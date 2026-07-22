@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-IMP-0C-A11Y-001 |
-| **Gate** | GHV.IMPLEMENTATION.0C · amended by **0C-CLOSURE-01** |
+| **Gate** | GHV.IMPLEMENTATION.0C · amended by **0C-CLOSURE-01** · completed by **0C-CLOSURE-02** |
 | **Date** | 2026-07-22 |
 | **Authorization** | GHV-IMP-AUTH-003 |
 | **Branch** | `feat/ghuravia-foundation` |
@@ -13,7 +13,7 @@
 
 | Layer | Method | Result |
 |-------|--------|--------|
-| Automated WCAG scan | `@axe-core/playwright` · tags `wcag2a` · `wcag2aa` · **actual authorized major states** (not bootstrap/redirect substitutes) | **PASS** — Critical/Serious **0** |
+| Automated WCAG scan | `@axe-core/playwright` · tags `wcag2a` · `wcag2aa` · **15 required actual-state scans** (incl. validation/locked/recovery/session/provider/stale) | **PASS** — Critical/Serious **0** |
 | Keyboard operability | Playwright e2e — **keyboard-only** activation flow to ONB-001 (mouse user actions **0**) | **PASS** |
 | Route guard UX | **Server-authoritative** denial before render; client redirect convenience only | **PASS** |
 | Technical implementation | Skip link · landmarks · labelled forms · error summary focus · status roles · reduced-motion · zoom/reflow · RTL + LTR islands for codes | **PASS** (implementer) |

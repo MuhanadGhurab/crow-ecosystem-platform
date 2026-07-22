@@ -65,6 +65,12 @@ export function useActivation(
   const lastCommandRef = useRef<string | null>(null);
   const resourceRef = useRef<ActivationResource | null>(initial);
 
+  useEffect(() => {
+    if (!error) return;
+    const el = document.getElementById("error-summary");
+    el?.focus();
+  }, [error, correlationId]);
+
   const mapErr = useCallback(
     (e: unknown) => {
       const apiErr = e as ApiError & Error;
@@ -79,9 +85,6 @@ export function useActivation(
       } else {
         setError(errorMessage(locale, category));
       }
-      queueMicrotask(() => {
-        document.getElementById("error-summary")?.focus();
-      });
     },
     [locale],
   );
@@ -112,7 +115,12 @@ export function useActivation(
   const command = async (
     name: string,
     body: Record<string, unknown> = {},
-    options?: { fingerprint?: string; newLogicalOp?: boolean },
+    options?: {
+      fingerprint?: string;
+      newLogicalOp?: boolean;
+      /** Local/test e2e only — pins Idempotency-Key for replay/conflict scenarios */
+      forceIdempotencyKey?: string;
+    },
   ) => {
     const current = resourceRef.current;
     if (!current) throw new Error("No resource");
@@ -131,18 +139,21 @@ export function useActivation(
     );
     idempotencyRef.current = resolved.slot;
     lastCommandRef.current = fingerprint;
+    const idempotencyKey = options?.forceIdempotencyKey ?? resolved.key;
     try {
-      const result = await apiJson<{ resource: ActivationResource }>(
-        `/api/activation/commands/${name}`,
-        {
-          method: "POST",
-          idempotencyKey: resolved.key,
-          body: JSON.stringify({
-            expectedVersion: current.version,
-            ...body,
-          }),
-        },
-      );
+      const result = await apiJson<{
+        resource: ActivationResource;
+        idempotencyResult?: "applied" | "replayed";
+        aggregateVersion?: number;
+        correlationId?: string;
+      }>(`/api/activation/commands/${name}`, {
+        method: "POST",
+        idempotencyKey,
+        body: JSON.stringify({
+          expectedVersion: current.version,
+          ...body,
+        }),
+      });
       resourceRef.current = result.resource;
       setResource(result.resource);
       idempotencyRef.current = null;
@@ -155,7 +166,6 @@ export function useActivation(
         lastCommandRef.current = null;
         await refresh();
         setError(msg("errStaleVersion"));
-        document.getElementById("error-summary")?.focus();
         throw e;
       }
       mapErr(e);
@@ -164,6 +174,47 @@ export function useActivation(
       setSubmitting(false);
     }
   };
+
+  const commandRef = useRef(command);
+
+  // Local/test browser evidence only — enabled when health reports local runtime.
+  useEffect(() => {
+    commandRef.current = command;
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+    const w = window as Window & {
+      __GHURAVIA_E2E_COMMAND__?: (
+        name: string,
+        body?: Record<string, unknown>,
+        options?: {
+          fingerprint?: string;
+          newLogicalOp?: boolean;
+          forceIdempotencyKey?: string;
+        },
+      ) => Promise<unknown>;
+    };
+    void (async () => {
+      try {
+        const res = await fetch("/api/health");
+        if (!res.ok || cancelled) return;
+        const health = (await res.json()) as { runtimeMode?: string };
+        const mode = health.runtimeMode;
+        if (mode !== "automated_test" && mode !== "local_development") {
+          return;
+        }
+        w.__GHURAVIA_E2E_COMMAND__ = (name, body = {}, options) =>
+          commandRef.current(name, body, options);
+      } catch {
+        /* ignore — hooks stay unavailable */
+      }
+    })();
+    return () => {
+      cancelled = true;
+      delete w.__GHURAVIA_E2E_COMMAND__;
+    };
+  }, []);
 
   useEffect(() => {
     if (initial) return;

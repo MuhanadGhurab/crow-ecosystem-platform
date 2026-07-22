@@ -1,4 +1,4 @@
-# GHV.IMPLEMENTATION.0C ó Acceptance Matrix
+# GHV.IMPLEMENTATION.0C ù Acceptance Matrix
 
 | Field | Value |
 |-------|-------|
@@ -9,7 +9,7 @@
 | **Branch** | `feat/ghuravia-foundation` |
 | **Starting HEAD** | `2f66902f741f5b24c350460c9de13af0b113a9c2` |
 | **Implementation HEAD** | `024b71f395d24bdc0d419d1046ec0879dc6a5100` ù Actions `29879464258` ù **success** |
-| **Predecessor Gate** | GHV.IMPLEMENTATION.0B ó **PARTIAL** (retained) |
+| **Predecessor Gate** | GHV.IMPLEMENTATION.0B ù **PARTIAL** (retained) |
 
 ## Matrix
 
@@ -53,7 +53,7 @@ Mandatory NOT RUN: 0                     (mandatory browser scenarios incomplete
 
 Those historical claims remain auditable above as originally written in Git history at documentation commit `2e47d0b2ceb986a4abf38bd6637576bfccedc7d2`. This amendment does **not** rewrite Git history.
 
-After **GHV.IMPLEMENTATION.0C-CLOSURE-01**:
+After **GHV.IMPLEMENTATION.0C-CLOSURE-01** the Closure record claimed:
 
 ```text
 Server-authoritative route guards: PASS
@@ -66,7 +66,37 @@ Mandatory NOT RUN: 0
 Gate-created cleanup debt: 0
 ```
 
+**CLOSURE-01 remaining gaps (mandatory browser evidence incomplete):**
+
+```text
+Browser idempotency replay: NOT RUN
+Browser idempotency payload conflict: NOT RUN
+Required actual-state axe coverage: PARTIAL
+Mandatory browser scenarios: 19 (incomplete vs required 21)
+```
+
 Evidence: [IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md](./IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md) ∑ [GHV.IMPLEMENTATION.0C-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0C-CLOSURE-01.md) ∑ [IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md](./IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md)
+
+## Amendment ó GHV.IMPLEMENTATION.0C-CLOSURE-02 (2026-07-22)
+
+After **GHV.IMPLEMENTATION.0C-CLOSURE-02**:
+
+```text
+Server-authoritative route guards: PASS
+Keyboard-only activation flow: PASS
+Refresh/resume: PASS
+Route-guard matrix: PASS
+Provider/challenge/stale/session recovery: PASS
+Browser idempotency replay: PASS
+Browser idempotency payload conflict: PASS
+Required actual-state accessibility coverage: PASS
+Mandatory browser scenarios: 21 / 21 PASS
+Required accessibility states: 15 / 15 PASS
+Mandatory NOT RUN: 0
+Gate-created cleanup debt: 0
+```
+
+Evidence: [IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md](./IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md) ∑ [GHV.IMPLEMENTATION.0C-CLOSURE-02.md](../gates/GHV.IMPLEMENTATION.0C-CLOSURE-02.md)
 
 ## Roll-up
 
@@ -78,7 +108,7 @@ Architecture contradictions: 0
 Scope violations: 0
 Deployment attempts: 0
 PASS WITH CONDITIONS: 2 (onboarding handoff deferral ∑ retained Moderate ADV-001/ADV-002)
-PARTIAL / COMPLETE: 1 (technical RTL ó implementer-performed)
+PARTIAL / COMPLETE: 1 (technical RTL ∑ implementer-performed)
 Blocking advisories: 0
 Gate-created cleanup debt: 0
 ```
@@ -92,8 +122,11 @@ PARTIAL ó GHURAVIA ACTIVATION UX, ACCESSIBILITY AND ONBOARDING ENTRY HARDENING C
 ## Closure verdict
 
 ```text
-PASS ó GHURAVIA IMPLEMENTATION 0C
-MANDATORY UX VALIDATION CLOSURE COMPLETE
+GHV.IMPLEMENTATION.0C-CLOSURE-01:
+PARTIAL ó AMENDED BY 0C-CLOSURE-02 FOR MANDATORY BROWSER EVIDENCE COMPLETION
+
+GHV.IMPLEMENTATION.0C-CLOSURE-02:
+PASS ó IDEMPOTENCY BROWSER EVIDENCE AND ACTUAL-STATE ACCESSIBILITY COVERAGE VERIFIED
 ```
 
 Evidence cross-links: [IMPLEMENTATION-0C-ACCESSIBILITY-REVIEW.md](./IMPLEMENTATION-0C-ACCESSIBILITY-REVIEW.md) ∑ [IMPLEMENTATION-0C-ARABIC-UX-REVIEW.md](./IMPLEMENTATION-0C-ARABIC-UX-REVIEW.md) ∑ [IMPLEMENTATION-0C-UX-SECURITY-REVIEW.md](./IMPLEMENTATION-0C-UX-SECURITY-REVIEW.md) ∑ [IMPLEMENTATION-0C-DEPENDENCY-ADVISORY-REVIEW.md](./IMPLEMENTATION-0C-DEPENDENCY-ADVISORY-REVIEW.md) ∑ [GHURAVIA-ACTIVATION-UX-BASELINE.md](./GHURAVIA-ACTIVATION-UX-BASELINE.md)

@@ -12,6 +12,7 @@ export function TermsClient({
   initialResource: ActivationResource;
 }) {
   const [accepted, setAccepted] = useState(false);
+  const [validationError, setValidationError] = useState(false);
   return (
     <ActivationPageFrame
       screenId="ACT-005"
@@ -27,6 +28,18 @@ export function TermsClient({
               <span dir="ltr">{TERMS_VERSION}</span>
             </p>
           </aside>
+          {validationError ? (
+            <div
+              role="alert"
+              className="error-summary"
+              tabIndex={-1}
+              id="error-summary"
+              data-major-state="terms-validation-error"
+            >
+              <h2>{msg("errorSummary")}</h2>
+              <p>{msg("errValidation")}</p>
+            </div>
+          ) : null}
           {resource.gates.termsAccepted ? (
             <p role="status" data-major-state="terms-accepted">
               {msg("gateTerms")} ✓
@@ -36,7 +49,14 @@ export function TermsClient({
               data-major-state="terms-ready"
               onSubmit={(e) => {
                 e.preventDefault();
-                if (!accepted) return;
+                if (!accepted) {
+                  setValidationError(true);
+                  queueMicrotask(() => {
+                    document.getElementById("error-summary")?.focus();
+                  });
+                  return;
+                }
+                setValidationError(false);
                 void command(
                   "accept-terms",
                   { termsVersion: TERMS_VERSION },
@@ -57,12 +77,13 @@ export function TermsClient({
                   onChange={(e) => {
                     clearLogicalOp();
                     setAccepted(e.target.checked);
+                    if (e.target.checked) setValidationError(false);
                   }}
                 />{" "}
                 {msg("act005Checkbox")}
               </label>
               <p>
-                <button type="submit" disabled={submitting || !accepted}>
+                <button type="submit" disabled={submitting}>
                   {msg("act005Accept")}
                 </button>
               </p>

@@ -14,11 +14,15 @@ import {
   resetEmailProviderMode,
   setEmailProviderMode,
 } from "../../../../lib/server/test-controls";
+import { getIdempotencyEvidence } from "../../../../lib/server/test-evidence";
 import type { MockOutcome } from "@ghuravia/provider-mocks";
 
 const MODES: MockOutcome[] = ["success", "failure", "timeout", "duplicate"];
 
-async function requireTestSession(): Promise<{ accountId: string }> {
+async function requireTestSession(): Promise<{
+  accountId: string;
+  contactRef: string;
+}> {
   assertLocalRuntime();
   const jar = await cookies();
   const raw = jar.get(sessionCookieName())?.value;
@@ -33,7 +37,7 @@ async function requireTestSession(): Promise<{ accountId: string }> {
     err.name = "UNAUTHORIZED";
     throw err;
   }
-  return { accountId: session.accountId };
+  return { accountId: session.accountId, contactRef: session.contactRef };
 }
 
 export async function GET() {
@@ -54,6 +58,7 @@ export async function POST(request: Request) {
     const body = (await request.json().catch(() => ({}))) as {
       action?: string;
       mode?: string;
+      idempotencyKey?: string;
     };
     switch (body.action) {
       case "provider-mode": {
@@ -88,6 +93,17 @@ export async function POST(request: Request) {
           maxAge: 0,
         });
         return NextResponse.json({ expired: true });
+      }
+      case "idempotency-evidence": {
+        const evidence = await getIdempotencyEvidence({
+          aggregateId: session.accountId,
+          contactRef: session.contactRef,
+          idempotencyKey:
+            typeof body.idempotencyKey === "string"
+              ? body.idempotencyKey
+              : undefined,
+        });
+        return NextResponse.json(evidence);
       }
       default:
         return jsonError("VALIDATION_ERROR", "Unknown action", 400);
