@@ -4,7 +4,7 @@
 |-------|-------|
 | **Baseline** | GHURAVIA Personalization, Origin and Adaptive Onboarding State Baseline **v0.4.0** |
 | **Status** | **ACTIVE WITH CONDITIONS — PERSONALIZATION AND ORIGIN VERTICAL SLICE COMPLETE WITH NON-BLOCKING CONDITIONS** |
-| **Source Gates** | GHV.IMPLEMENTATION.0D · GHV.IMPLEMENTATION.0D-CLOSURE-01 |
+| **Source Gates** | GHV.IMPLEMENTATION.0D · GHV.IMPLEMENTATION.0D-CLOSURE-01 · **GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01** |
 | **Authorization** | GHV-IMP-AUTH-004 |
 | **Date** | 2026-07-22 |
 | **Branch** | `feat/ghuravia-foundation` |
@@ -16,7 +16,9 @@
 | Starting HEAD (pre-0D) | `0416e8f23fee4dd8efaacaa6a6ab5b64295ae66b` |
 | Implementation HEAD | `21e4553323f4d4f8c35c68b1f43a807e4f5ba82b` |
 | Pre-Closure final docs HEAD | `3515dde656bf4ca979e2c5b4ecd3df51a4feb433` |
-| Closure HEAD | *(recorded in GHV.IMPLEMENTATION.0D-CLOSURE-01.md after push)* |
+| Closure implementation HEAD | `357768b67e23c91d5e1025b37055ed8377a8a13e` |
+| Closure CI | Actions `29904035117` · verify `88871093245` · **SUCCESS** |
+| Authority reconciliation | [GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md](../gates/GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md) |
 
 ## Authorized screens (six)
 

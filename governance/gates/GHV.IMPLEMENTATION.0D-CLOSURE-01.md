@@ -9,8 +9,9 @@
 | **0D implementation commit** | `21e4553323f4d4f8c35c68b1f43a807e4f5ba82b` |
 | **Intermediate docs** | `ad75828` · `3515dde` |
 | **Archive peel** | `b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c` |
-| **Closure HEAD** | *(filled after push)* |
-| **Closure Actions** | *(filled after remote CI success — recorded in Final Report; not chained into further docs commits)* |
+| **Closure HEAD** | `357768b67e23c91d5e1025b37055ed8377a8a13e` |
+| **Closure Actions** | [`29904035117`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29904035117) · verify [`88871093245`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29904035117/job/88871093245) · **SUCCESS** |
+| **Amendment** | [GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md](./GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md) |
 
 ## Formal Gate treatment (before Closure)
 
@@ -99,12 +100,35 @@ ORIGIN SETUP AND ADAPTIVE ONBOARDING SLICE COMPLETE
 WITH NON-BLOCKING IMPLEMENTATION CONDITIONS
 
 GHV.IMPLEMENTATION.0D-CLOSURE-01:
-PASS — RESUME EVIDENCE, BASELINE GOVERNANCE
-AND DATABASE EXECUTION RECORD RECONCILED
+PARTIAL — AMENDED FOR ACTIVE BASELINE
+AUTHORITY RECONCILIATION
+
+See:
+GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01
+(PASS — ACTIVE PRODUCT CODE AUTHORITY,
+CLOSURE VERDICT AND STATUS REFERENCES RECONCILED)
 
 GHV.IMPLEMENTATION.0E:
 ELIGIBLE TO START
 NOT STARTED
+```
+
+### Submitted vs amended Closure verdict
+
+```text
+Submitted Closure verdict (historical):
+PASS — RESUME EVIDENCE, BASELINE GOVERNANCE
+AND DATABASE EXECUTION RECORD RECONCILED
+
+Authoritative Closure verdict after Amendment-01:
+PARTIAL — AMENDED FOR ACTIVE BASELINE
+AUTHORITY RECONCILIATION
+
+Reason:
+Active Baseline Manifest / programme-status Product Code
+authority statements remained contradictory after the
+technical and evidence Closure commit.
+Technical, browser, database, and privacy evidence remain valid.
 ```
 
 ## Retained non-blocking conditions

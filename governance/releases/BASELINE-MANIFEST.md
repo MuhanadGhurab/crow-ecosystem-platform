@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.25.0 |
+| **Version** | 1.26.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.IMPLEMENTATION.0D-CLOSURE-01 |
+| **Source Gate** | GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01 |
 
 ## Active baseline set
 
@@ -31,17 +31,33 @@
 | Technical Validation | **PARTIAL — ALL REGISTERED SPIKES COMPLETE · EXTERNAL VALIDATION BASELINE v0.1.0 PARTIAL** |
 | **GHURAVIA External Technical Validation Baseline v0.1.0** | **ACTIVE — PARTIAL** · most domains NOT AVAILABLE · Preview NOT ESTABLISHED · TECH-018 OPEN · **historical as-of VALIDATION.1A: Product Code BLOCKED** · Source Gate **GHV.VALIDATION.1A** (**PARTIAL**) |
 | **GHURAVIA Implementation Entry Validation Baseline v0.1.0** | **READY WITH CONDITIONS** · Architecture Design **LOCKED v1.0.0** · External Technical Validation **PARTIAL** · Local Implementation Readiness **READY WITH CONDITIONS** · Preview Readiness **NOT READY** · Controlled Launch Readiness **NOT READY** · **historical as-of VALIDATION.1B close: Product Code BLOCKED · Implementation Authorization NOT GRANTED** · Source Gate **GHV.VALIDATION.1B** (**PASS — COMPLETE**) |
-| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI PASS · disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · **Remote CI: VERIFIED** (Actions `29872538651`) · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS**) · Closure **GHV.IMPLEMENTATION.0A-CLOSURE-01** (**PARTIAL — GHURAVIA IMPLEMENTATION 0A CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS**) · Amended by **GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01** (**PASS**) · **0B ELIGIBLE TO START · NOT STARTED** |
+| **GHURAVIA Product Code Bootstrap Baseline v0.1.0** | **ACTIVE — LIMITED FOUNDATION PRODUCT CODE AUTHORIZED AND CREATED** · GHV-IMP-AUTH-001 · `apps/` / `packages/` / `workers/` / `scripts/` · local CI PASS · disposable-PostgreSQL migration/reset PASS · mocks only · Preview/Staging blocked · Production not authorized · **Remote CI: VERIFIED** (Actions `29872538651`) · Source Gate **GHV.IMPLEMENTATION.0A** (**PASS**) · Closure **GHV.IMPLEMENTATION.0A-CLOSURE-01** (**PARTIAL — GHURAVIA IMPLEMENTATION 0A CI CLOSURE COMPLETED WITH NON-BLOCKING DEPENDENCY CONDITIONS**) · Amended by **GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01** (**PASS**) · **HISTORICAL AS OF 0A CLOSE:** `0B ELIGIBLE TO START · NOT STARTED` (not current programme status — see Current Product Code section) |
 
 ### Current Product Code and launch dimensions (authoritative)
 
 ```text
 Product Code:
-AUTHORIZED ONLY FOR COMPLETED GHV.IMPLEMENTATION.0A
-FOUNDATION BOOTSTRAP SCOPE
+AUTHORIZED FOR COMPLETED GHV.IMPLEMENTATION.0A,
+0B, 0C AND 0D SCOPES
 
 Broader Product Code:
 REQUIRES LATER IMPLEMENTATION GATES
+
+Personalization / Origin Baseline:
+ACTIVE WITH CONDITIONS v0.4.0
+
+GHV.IMPLEMENTATION.0D:
+PARTIAL
+
+GHV.IMPLEMENTATION.0D-CLOSURE-01:
+PARTIAL — AMENDED
+
+GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01:
+PASS
+
+GHV.IMPLEMENTATION.0E:
+ELIGIBLE TO START
+NOT STARTED
 
 Preview:
 BLOCKED
@@ -51,12 +67,6 @@ NOT READY
 
 Production:
 NOT AUTHORIZED
-
-Remote CI:
-VERIFIED
-
-Closure:
-PARTIAL — NON-BLOCKING DEPENDENCY CONDITIONS RETAINED
 ```
 
 ### GHURAVIA Implementation Entry Validation Baseline v0.1.0 (historical at Gate close)
@@ -88,8 +98,8 @@ Source Gate: **GHV.VALIDATION.1B** (historical Product Code BLOCKED wording pres
 | **GHURAVIA Runtime, Realtime, Integration and Operational Architecture Baseline v1.0.0** | **ACTIVE — DOMAIN ARCHITECTURE ACCEPTED** · External Infrastructure Validation **OPEN** · Full Technical Validation **NOT COMPLETE** · Final Architecture Lock **COMPLETED BY 1E** · **historical as-of Gate: Product Code BLOCKED** · ADR-ARC-024..038 · 1D spikes **13/13** · Source Gate **GHV.ARCHITECTURE.1D** (**PARTIAL**) |
 | **GHURAVIA Architecture Design Baseline v1.0.0** | **ACTIVE — LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE** · Registered Architecture Spikes **25 / 25 COMPLETE** · Internal Local Spike Evidence **COMPLETE** · External Technical Validation **NOT COMPLETE** · **historical as-of 1E lock: Product Code BLOCKED · Implementation Authorization NOT GRANTED** · ADR-ARC-001..038 · conflicting ADRs **0** · Source Gate **GHV.ARCHITECTURE.1E** (**PARTIAL**) |
 | Publication | **BLOCKED** |
-| Implementation | **LIMITED FOUNDATION RUNTIME + ACTIVATION SLICE + ACTIVATION UX HARDENING COMPLETE** — broader onboarding requires GHV.IMPLEMENTATION.0D |
-| Product Code | **AUTHORIZED FOR COMPLETED 0A BOOTSTRAP + 0B ACTIVATION SLICE + 0C UX HARDENING ONLY** |
+| Implementation | **LIMITED FOUNDATION RUNTIME, ACTIVATION, ACTIVATION UX, PERSONALIZATION AND ORIGIN SCOPES COMPLETE WITH CONDITIONS** — Nest readiness implementation **REQUIRES GHV.IMPLEMENTATION.0E** |
+| Product Code | **AUTHORIZED FOR COMPLETED 0A, 0B, 0C AND 0D SCOPES** |
 | Historical Master Screen Registry v1.0.0 (90) | **SUPERSEDED** — corrected by CR-001 |
 | GHV.LEARNING.1A–1D | PASS |
 | GHV.PROGRESSION.1A–1C | PASS |
@@ -112,7 +122,8 @@ Source Gate: **GHV.VALIDATION.1B** (historical Product Code BLOCKED wording pres
 | GHV.IMPLEMENTATION.0C-CLOSURE-01 | **PARTIAL** — AMENDED BY 0C-CLOSURE-02 · server route guards and local cleanup retained · browser evidence completed by CLOSURE-02 |
 | GHV.IMPLEMENTATION.0C-CLOSURE-02 | **PASS** — IDEMPOTENCY BROWSER EVIDENCE AND ACTUAL-STATE ACCESSIBILITY COVERAGE VERIFIED · mandatory browser **21/21** · accessibility states **15/15** · Gate cleanup debt **0** |
 | GHV.IMPLEMENTATION.0D | **PARTIAL** — GHURAVIA PERSONALIZATION, ORIGIN SETUP AND ADAPTIVE ONBOARDING SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS · Auth GHV-IMP-AUTH-004 · Implementation `21e4553` · Actions `29900763663` **success** · amended by **0D-CLOSURE-01** |
-| GHV.IMPLEMENTATION.0D-CLOSURE-01 | **PASS** — RESUME EVIDENCE, BASELINE GOVERNANCE AND DATABASE EXECUTION RECORD RECONCILED · mandatory browser **22/22** · a11y **12/12** · Baseline v0.4.0 |
+| GHV.IMPLEMENTATION.0D-CLOSURE-01 | **PARTIAL — AMENDED FOR ACTIVE BASELINE AUTHORITY RECONCILIATION** · Closure HEAD `357768b` · Actions `29904035117` · verify `88871093245` **success** · mandatory browser **22/22** · a11y **12/12** · Baseline v0.4.0 · [Amendment-01](../gates/GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md) |
+| GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01 | **PASS** — ACTIVE PRODUCT CODE AUTHORITY, CLOSURE VERDICT AND STATUS REFERENCES RECONCILED |
 | GHV.IMPLEMENTATION.0E | **ELIGIBLE TO START · NOT STARTED** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
@@ -184,8 +195,8 @@ External infrastructure and provider validation: OPEN
 Architecture Design Baseline LOCKED — NOT external proof · NOT broader Product Code · NOT launch
 Core platform stack ADRs ACCEPTED — domain validation continues
 Identity/Evidence providers DEFERRED WITH ADAPTERS — not production-approved
-Product Code: AUTHORIZED FOR COMPLETED GHV.IMPLEMENTATION.0A BOOTSTRAP + 0B ACTIVATION SLICE ONLY
-Broader Product Code: REQUIRES LATER IMPLEMENTATION GATES (next: 0D ELIGIBLE · NOT STARTED)
+Product Code: AUTHORIZED FOR COMPLETED GHV.IMPLEMENTATION.0A, 0B, 0C AND 0D SCOPES
+Broader Product Code: REQUIRES LATER IMPLEMENTATION GATES (next: 0E ELIGIBLE · NOT STARTED)
 Preview: BLOCKED
 Controlled Launch: NOT READY
 Production: NOT AUTHORIZED
