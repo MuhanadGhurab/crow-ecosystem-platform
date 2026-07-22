@@ -21,13 +21,18 @@ export function ActivationPageFrame({
   screenId,
   titleKey,
   children,
+  initialResource = null,
+  allowBootstrap = false,
 }: {
   screenId: GovernedScreenId;
   titleKey: MessageKey;
   children: (ctx: FrameContext) => ReactNode;
+  initialResource?: ActivationResource | null;
+  /** Only ACT-003 / ACT-011 may offer synthetic session bootstrap. */
+  allowBootstrap?: boolean;
 }) {
   const { msg } = useLocale();
-  const ctx = useActivation(screenId);
+  const ctx = useActivation(screenId, { initialResource });
   const {
     resource,
     error,
@@ -45,26 +50,39 @@ export function ActivationPageFrame({
       title={msg(titleKey)}
       resource={resource}
     >
-      <p data-screen-id={screenId} className="sr-meta" dir="ltr">
-        {screenId}
-      </p>
       {loading ? <p aria-live="polite">{msg("loading")}</p> : null}
       {submitting ? <p aria-live="polite">{msg("submitting")}</p> : null}
       {error ? (
         <ErrorPanel message={error} correlationId={correlationId} />
       ) : null}
       {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch(() => setError(msg("errUnauthorized")))
-          }
-        />
+        allowBootstrap ? (
+          <>
+            <p data-screen-id={screenId} className="sr-meta" dir="ltr">
+              {screenId}
+            </p>
+            <SessionBootstrap
+              onReady={() =>
+                void ensureSession().catch(() =>
+                  setError(msg("errUnauthorized")),
+                )
+              }
+            />
+          </>
+        ) : (
+          <p role="status" data-access-blocked="true">
+            {msg("errUnauthorized")}
+          </p>
+        )
       ) : !access.allowed ? (
         <p role="status" data-access-blocked="true">
           {msg("loading")}
         </p>
       ) : (
         <>
+          <p data-screen-id={screenId} className="sr-meta" dir="ltr">
+            {screenId}
+          </p>
           <ExplainableLocks resource={resource} />
           {children({ ...ctx, resource, msg })}
         </>

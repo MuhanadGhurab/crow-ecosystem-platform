@@ -7,26 +7,23 @@ import {
   sessionCookieName,
   getSessionSecret,
 } from "../../../../lib/session";
-import { createDb, ActivationCommandService } from "@ghuravia/data";
+import { ActivationCommandService } from "@ghuravia/data";
 import { mapServiceError, jsonError } from "../../../../lib/http";
+import { getDb } from "../../../../lib/server/db";
 
 export async function POST() {
   try {
-    const config = assertLocalRuntime();
+    assertLocalRuntime();
     const accountId = randomUUID();
     const contactRef = `synthetic:${accountId.slice(0, 8)}`;
-    const { db, sql } = createDb(config.GHURAVIA_DATABASE_URL);
-    try {
-      const svc = new ActivationCommandService(db);
-      await svc.claimSyntheticAccount({
-        aggregateId: accountId,
-        contactRef,
-        actorRef: contactRef,
-        idempotencyKey: `claim:${accountId}`,
-      });
-    } finally {
-      await sql.end({ timeout: 5 });
-    }
+    const { db } = getDb();
+    const svc = new ActivationCommandService(db);
+    await svc.claimSyntheticAccount({
+      aggregateId: accountId,
+      contactRef,
+      actorRef: contactRef,
+      idempotencyKey: `claim:${accountId}`,
+    });
     const token = encodeSession(
       { accountId, contactRef, issuedAt: Date.now() },
       getSessionSecret(),

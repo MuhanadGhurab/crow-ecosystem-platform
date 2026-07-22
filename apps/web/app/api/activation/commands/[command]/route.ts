@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { createDb, ActivationCommandService } from "@ghuravia/data";
-import { loadConfig } from "@ghuravia/config";
+import { ActivationCommandService } from "@ghuravia/data";
 import { deliverVerificationEmail } from "@ghuravia/provider-mocks";
 import type { ActivationCommand } from "@ghuravia/contracts/schemas";
 import {
@@ -11,6 +10,8 @@ import {
   assertLocalRuntime,
 } from "../../../../../lib/session";
 import { mapServiceError, jsonError } from "../../../../../lib/http";
+import { getEmailProviderMode } from "../../../../../lib/server/test-controls";
+import { getDb } from "../../../../../lib/server/db";
 
 type Cmd =
   | "request-email"
@@ -62,46 +63,50 @@ export async function POST(
     const session = decodeSession(raw, getSessionSecret());
     if (!session) return jsonError("UNAUTHORIZED", "Invalid session", 401);
 
-    const config = loadConfig();
-    const { db, sql } = createDb(config.GHURAVIA_DATABASE_URL);
-    try {
-      const svc = new ActivationCommandService(db);
-      const command: ActivationCommand = {
-        type: map[cmd],
-        idempotencyKey,
-        actorRef: session.contactRef,
-        authority: "self",
-        termsVersion: body.termsVersion,
-        riskDisclosureVersion: body.riskDisclosureVersion,
-        token: body.token,
-      };
-      const outcome = await svc.execute({
-        aggregateId: session.accountId,
-        command,
-        expectedVersion: body.expectedVersion,
-        correlationId: body.correlationId,
-      });
-      if (
-        outcome.issuedToken &&
-        outcome.contactRef &&
-        (cmd === "request-email" || cmd === "resend")
-      ) {
-        deliverVerificationEmail({
-          contactRef: outcome.contactRef,
-          token: outcome.issuedToken,
-          correlationId: outcome.correlationId,
-        });
-      }
-      return NextResponse.json({
+    const { db } = getDb();
+    const svc = new ActivationCommandService(db);
+    const command: ActivationCommand = {
+      type: map[cmd],
+      idempotencyKey,
+      actorRef: session.contactRef,
+      authority: "self",
+      termsVersion: body.termsVersion,
+      riskDisclosureVersion: body.riskDisclosureVersion,
+      token: body.token,
+    };
+    const outcome = await svc.execute({
+      aggregateId: session.accountId,
+      command,
+      expectedVersion: body.expectedVersion,
+      correlationId: body.correlationId,
+    });
+    if (
+      outcome.issuedToken &&
+      outcome.contactRef &&
+      (cmd === "request-email" || cmd === "resend")
+    ) {
+      const delivery = deliverVerificationEmail({
+        contactRef: outcome.contactRef,
+        token: outcome.issuedToken,
         correlationId: outcome.correlationId,
-        aggregateVersion: outcome.aggregateVersion,
-        state: outcome.state,
-        idempotencyResult: outcome.idempotencyResult,
-        resource: outcome.resource,
+        outcome: getEmailProviderMode(),
       });
-    } finally {
-      await sql.end({ timeout: 5 });
+      if (delivery.outcome === "failure" || delivery.outcome === "timeout") {
+        return jsonError(
+          "PROVIDER_UNAVAILABLE",
+          "Email provider mock unavailable",
+          503,
+          outcome.correlationId,
+        );
+      }
     }
+    return NextResponse.json({
+      correlationId: outcome.correlationId,
+      aggregateVersion: outcome.aggregateVersion,
+      state: outcome.state,
+      idempotencyResult: outcome.idempotencyResult,
+      resource: outcome.resource,
+    });
   } catch (e) {
     return mapServiceError(e);
   }

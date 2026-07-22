@@ -41,24 +41,32 @@ export type ActivationResourceLike = {
   recoveryAvailable: boolean;
 };
 
+/**
+ * ACT-012 is for governed recovery/terminal review states only.
+ * Do not treat Explainable Lock `recoveryAvailable` (self-remediation of
+ * normal gates) as ACT-012 eligibility — those locks are true whenever
+ * email/terms/risk remain unsatisfied.
+ */
+export function isGovernedRecoveryState(state: string): boolean {
+  return (
+    state === "ACTIVATION_RECOVERY_REQUIRED" ||
+    state === "RISK_REVIEW_REQUIRED" ||
+    state === "SUSPENDED" ||
+    state === "CLOSED"
+  );
+}
+
 /** Server-authoritative next screen for navigation helpers. */
 export function resolveAuthorizedScreen(
   resource: ActivationResourceLike,
 ): GovernedScreenId {
-  if (resource.state === "SUSPENDED" || resource.state === "CLOSED") {
-    return "ACT-012";
-  }
-  if (
-    resource.state === "ACTIVATION_RECOVERY_REQUIRED" ||
-    resource.recoveryAvailable
-  ) {
+  if (isGovernedRecoveryState(resource.state)) {
     return "ACT-012";
   }
   if (resource.state === "ACTIVATED") {
     return "ACT-006";
   }
   if (!resource.gates.emailVerified) {
-    if (resource.state === "EMAIL_VERIFICATION_PENDING") return "ACT-003";
     return "ACT-003";
   }
   if (!resource.gates.termsAccepted) return "ACT-005";
@@ -98,16 +106,15 @@ export function canAccessScreen(
         return { allowed: false, redirectTo: "ACT-005" };
       }
       return { allowed: true };
-    case "ACT-012":
-      return {
-        allowed:
-          resource.recoveryAvailable ||
-          state === "ACTIVATION_RECOVERY_REQUIRED" ||
-          state === "RISK_REVIEW_REQUIRED" ||
-          state === "SUSPENDED" ||
-          state === "CLOSED" ||
-          !activated,
-      };
+    case "ACT-012": {
+      if (!isGovernedRecoveryState(state)) {
+        return {
+          allowed: false,
+          redirectTo: resolveAuthorizedScreen(resource),
+        };
+      }
+      return { allowed: true };
+    }
     case "ACT-006":
       if (!activated) {
         return {

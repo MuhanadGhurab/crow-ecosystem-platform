@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-IMP-0C-UX-SEC-001 |
-| **Gate** | GHV.IMPLEMENTATION.0C |
+| **Gate** | GHV.IMPLEMENTATION.0C · amended by **0C-CLOSURE-01** |
 | **Date** | 2026-07-22 |
 | **Authorization** | GHV-IMP-AUTH-003 |
 | **Branch** | `feat/ghuravia-foundation` |
@@ -14,7 +14,7 @@
 | Control | Finding | Status |
 |---------|---------|--------|
 | Activation formula authority | Server-side gates unchanged; mobile not in formula | **PASS** |
-| Route guards | `canAccessScreen` / `resolveAuthorizedScreen`; deep links blocked | **PASS** |
+| Route guards | **Server-authoritative** `requireActivationScreenAccess` / `loadActivationEntryScreen` + shared `canAccessScreen`; client `router.replace` convenience only; protected content not rendered when denied | **PASS** |
 | Return-to allowlist | `ALLOWED_RETURN_TO` — governed routes only; no open redirects | **PASS** |
 | Explainable Locks | No gate bypass via recovery or skip paths | **PASS** |
 | Error surfacing | `ErrorCategory` → localized catalogue; no raw `Error.message` in UI | **PASS** |

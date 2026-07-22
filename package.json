@@ -22,6 +22,8 @@
     "db:validate": "node scripts/local/db-validate.mjs",
     "db:migrate": "node scripts/local/db-migrate.mjs",
     "db:reset": "node scripts/local/db-reset.mjs",
+    "db:cleanup": "node scripts/local/db-cleanup.mjs",
+    "db:stop": "node scripts/local/db-cleanup.mjs",
     "build": "npm run build --workspace=@ghuravia/web && npm run build --workspace=@ghuravia/background-worker",
     "generate:screen-registry": "node scripts/governance/generate-screen-registry.mjs",
     "validate:routes": "node scripts/governance/validate-routes.mjs",
@@ -31,8 +33,9 @@
     "validate:deployment-guard": "node scripts/validation/validate-deployment-guard.mjs",
     "validate:high-advisory-boundaries": "node scripts/validation/validate-high-advisory-boundaries.mjs",
     "validate:localization": "node scripts/validation/validate-localization.mjs",
+    "validate:browser-evidence": "node scripts/validation/validate-browser-evidence.mjs",
     "test:browser": "playwright test",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run validate:localization && npm run build && npm run test:browser"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run validate:localization && npm run validate:browser-evidence && npm run build && npm run test:browser"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",

@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { createDb, ActivationCommandService } from "@ghuravia/data";
-import { loadConfig } from "@ghuravia/config";
+import { ActivationCommandService } from "@ghuravia/data";
 import {
   decodeSession,
   getSessionSecret,
@@ -9,6 +8,7 @@ import {
   assertLocalRuntime,
 } from "../../../lib/session";
 import { mapServiceError, jsonError } from "../../../lib/http";
+import { getDb } from "../../../lib/server/db";
 
 export async function GET() {
   try {
@@ -18,16 +18,11 @@ export async function GET() {
     if (!raw) return jsonError("UNAUTHORIZED", "No session", 401);
     const session = decodeSession(raw, getSessionSecret());
     if (!session) return jsonError("UNAUTHORIZED", "Invalid session", 401);
-    const config = loadConfig();
-    const { db, sql } = createDb(config.GHURAVIA_DATABASE_URL);
-    try {
-      const svc = new ActivationCommandService(db);
-      const resource = await svc.get(session.accountId);
-      if (!resource) return jsonError("NOT_FOUND", "Activation not found", 404);
-      return NextResponse.json(resource);
-    } finally {
-      await sql.end({ timeout: 5 });
-    }
+    const { db } = getDb();
+    const svc = new ActivationCommandService(db);
+    const resource = await svc.get(session.accountId);
+    if (!resource) return jsonError("NOT_FOUND", "Activation not found", 404);
+    return NextResponse.json(resource);
   } catch (e) {
     return mapServiceError(e);
   }

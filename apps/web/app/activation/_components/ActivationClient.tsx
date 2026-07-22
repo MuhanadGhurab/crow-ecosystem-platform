@@ -49,17 +49,21 @@ async function apiJson<T>(
   return body as T;
 }
 
-export function useActivation(screenId: GovernedScreenId) {
+export function useActivation(
+  screenId: GovernedScreenId,
+  options?: { initialResource?: ActivationResource | null },
+) {
   const router = useRouter();
   const { locale, msg } = useLocale();
-  const [resource, setResource] = useState<ActivationResource | null>(null);
+  const initial = options?.initialResource ?? null;
+  const [resource, setResource] = useState<ActivationResource | null>(initial);
   const [error, setError] = useState<string | null>(null);
   const [correlationId, setCorrelationId] = useState<string | undefined>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initial);
   const [submitting, setSubmitting] = useState(false);
   const idempotencyRef = useRef<IdempotencySlot | null>(null);
   const lastCommandRef = useRef<string | null>(null);
-  const resourceRef = useRef<ActivationResource | null>(null);
+  const resourceRef = useRef<ActivationResource | null>(initial);
 
   const mapErr = useCallback(
     (e: unknown) => {
@@ -147,6 +151,8 @@ export function useActivation(screenId: GovernedScreenId) {
     } catch (e) {
       const apiErr = e as ApiError;
       if (apiErr.category === "CONFLICT") {
+        idempotencyRef.current = null;
+        lastCommandRef.current = null;
         await refresh();
         setError(msg("errStaleVersion"));
         document.getElementById("error-summary")?.focus();
@@ -160,13 +166,14 @@ export function useActivation(screenId: GovernedScreenId) {
   };
 
   useEffect(() => {
-    // Mount load of server activation resource (async; not derived client state).
+    if (initial) return;
     const timer = window.setTimeout(() => {
       void refresh();
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [refresh]);
+  }, [refresh, initial]);
 
+  // Client redirect is convenience only; server already authorized initial render.
   useEffect(() => {
     if (loading || !resource) return;
     const access = canAccessScreen(screenId, resource);
