@@ -47,7 +47,7 @@ Paths: guided (A) and quick-start (B). Later-edit compatibility preserved withou
 * Migration `packages/data/drizzle/0002_onboarding_personalization_origin.sql`
 * Domain `packages/domain/src/onboarding.ts`
 * Data `packages/data/src/onboarding.ts`
-* E2E `apps/web/e2e/onboarding-flow.spec.ts` — 18/18 PASS
+* E2E `apps/web/e2e/onboarding-flow.spec.ts` — **22 / 22 PASS** (CLOSURE-01 inventory)
 * Activation regression `apps/web/e2e/activation-flow.spec.ts` — 25/25 PASS
 
 ## Non-blocking conditions retained

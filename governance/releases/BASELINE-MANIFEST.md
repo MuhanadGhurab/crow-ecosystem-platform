@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.24.0 |
+| **Version** | 1.25.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A-CLOSURE-01-AMENDMENT-01 |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.IMPLEMENTATION.0D-CLOSURE-01 |
 
 ## Active baseline set
 
@@ -111,7 +111,9 @@ Source Gate: **GHV.VALIDATION.1B** (historical Product Code BLOCKED wording pres
 | GHV.IMPLEMENTATION.0C | **PARTIAL** — ACTIVATION UX, ACCESSIBILITY AND ONBOARDING ENTRY HARDENING COMPLETE WITH NON-BLOCKING VALIDATION CONDITIONS · Baseline v0.3.0 · GHV-IMP-AUTH-003 · Implementation `024b71f` · Actions `29879464258` **success** |
 | GHV.IMPLEMENTATION.0C-CLOSURE-01 | **PARTIAL** — AMENDED BY 0C-CLOSURE-02 · server route guards and local cleanup retained · browser evidence completed by CLOSURE-02 |
 | GHV.IMPLEMENTATION.0C-CLOSURE-02 | **PASS** — IDEMPOTENCY BROWSER EVIDENCE AND ACTUAL-STATE ACCESSIBILITY COVERAGE VERIFIED · mandatory browser **21/21** · accessibility states **15/15** · Gate cleanup debt **0** |
-| GHV.IMPLEMENTATION.0D | **ELIGIBLE TO START · NOT STARTED** |
+| GHV.IMPLEMENTATION.0D | **PARTIAL** — GHURAVIA PERSONALIZATION, ORIGIN SETUP AND ADAPTIVE ONBOARDING SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS · Auth GHV-IMP-AUTH-004 · Implementation `21e4553` · Actions `29900763663` **success** · amended by **0D-CLOSURE-01** |
+| GHV.IMPLEMENTATION.0D-CLOSURE-01 | **PASS** — RESUME EVIDENCE, BASELINE GOVERNANCE AND DATABASE EXECUTION RECORD RECONCILED · mandatory browser **22/22** · a11y **12/12** · Baseline v0.4.0 |
+| GHV.IMPLEMENTATION.0E | **ELIGIBLE TO START · NOT STARTED** |
 | GHV.PRODUCT-DEFINITION.2 | **PASS — AMENDED** |
 | GHV.PRODUCT-DEFINITION.3 | **PASS — AMENDED** |
 
@@ -148,9 +150,10 @@ Analytical simulation package (non-runtime): [analysis/progression-simulation/](
 | Final Progression Baseline | **LOCKED** (design) · real-user / tech still NOT RUN |
 | Expert Review / Pilot | NOT RUN |
 | Publication / broader implementation | BLOCKED pending later Gates |
-| Product Code | **AUTHORIZED FOR COMPLETED 0A BOOTSTRAP + 0B ACTIVATION SLICE + 0C UX HARDENING ONLY** |
+| Product Code | **AUTHORIZED FOR COMPLETED 0A, 0B, 0C AND 0D SCOPES** (GHV-IMP-AUTH-001..004) |
 | Foundation Runtime / Activation Baseline | **ACTIVE v0.2.0** — LIMITED ACTIVATION VERTICAL SLICE |
 | Activation UX / Onboarding Entry Baseline | **ACTIVE WITH CONDITIONS v0.3.0** |
+| Personalization / Origin / Adaptive Onboarding Baseline | **ACTIVE WITH CONDITIONS v0.4.0** — [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md) |
 | Screen count reconciliation | **COMPLETE** — BASELINE-CORRECTION.1 PASS · CR-002 alias-safe · 7/92 ACTIVE locked |
 | Core Technical Validation Plan | **LOCKED** (plan) · **AMENDED** (Amendment-01 / CR-002) |
 | Core Platform Stack Baseline | **ACTIVE v1.0.0** · core decisions **ACCEPTED** · domain validation **CONTINUES** |

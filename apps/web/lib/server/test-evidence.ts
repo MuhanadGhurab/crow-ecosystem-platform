@@ -11,6 +11,12 @@ export type IdempotencyEvidence = {
   aggregateId: string;
   aggregateVersion: number;
   state: string;
+  /** Onboarding aggregate version when a row exists (0D Closure-01). */
+  onboardingAggregateVersion: number | null;
+  onboardingState: string | null;
+  personalizationCatalogueVersion: string | null;
+  personalizationStatus: string | null;
+  originStatus: string | null;
   auditCount: number;
   outboxCount: number;
   receiptCount: number;
@@ -25,8 +31,10 @@ export type IdempotencyEvidence = {
 };
 
 /**
- * Narrow local/test evidence for Closure-02 idempotency browser scenarios.
+ * Narrow local/test evidence for Closure idempotency browser scenarios.
  * Exposes counts and opaque identifiers only.
+ * Activation version remains the primary aggregateVersion; onboarding fields
+ * are populated when an onboarding_aggregates row exists for the account.
  */
 export async function getIdempotencyEvidence(input: {
   aggregateId: string;
@@ -46,6 +54,13 @@ export async function getIdempotencyEvidence(input: {
     err.name = "NOT_FOUND";
     throw err;
   }
+
+  const onboardingRows = await db
+    .select()
+    .from(schema.onboardingAggregates)
+    .where(eq(schema.onboardingAggregates.id, input.aggregateId))
+    .limit(1);
+  const onboarding = onboardingRows[0];
 
   const auditRows = await db
     .select({ c: sql<number>`count(*)::int` })
@@ -79,6 +94,12 @@ export async function getIdempotencyEvidence(input: {
     aggregateId: input.aggregateId,
     aggregateVersion: row.version,
     state: row.state,
+    onboardingAggregateVersion: onboarding?.version ?? null,
+    onboardingState: onboarding?.state ?? null,
+    personalizationCatalogueVersion:
+      onboarding?.personalizationCatalogueVersion ?? null,
+    personalizationStatus: onboarding?.personalizationStatus ?? null,
+    originStatus: onboarding?.originStatus ?? null,
     auditCount: auditRows[0]?.c ?? 0,
     outboxCount: outboxRows[0]?.c ?? 0,
     receiptCount: receiptQuery.length,

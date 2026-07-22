@@ -2776,6 +2776,15 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | Field | Value |
 |-------|-------|
 | **Decision** | Activate GHURAVIA Activation UX and Onboarding Entry Baseline v0.3.0 as ACTIVE WITH CONDITIONS; retain Moderate ADV-001/ADV-002; set next Gate to GHV.IMPLEMENTATION.0D — ORIGIN SETUP AND ADAPTIVE ONBOARDING VERTICAL SLICE (not started). |
-| **Status** | Accepted |
+| **Status** | Accepted — **historical as-of 0C close** (0D subsequently completed; see DEC-280) |
 | **Related Gate** | GHV.IMPLEMENTATION.0C |
 | **Evidence** | [GHURAVIA-ACTIVATION-UX-BASELINE.md](../implementation/GHURAVIA-ACTIVATION-UX-BASELINE.md) · [GHV.IMPLEMENTATION.0C.md](../gates/GHV.IMPLEMENTATION.0C.md) |
+
+## DEC-280 — Personalization/Origin Baseline v0.4.0 and next Gate 0E
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Personalization, Origin and Adaptive Onboarding State Baseline v0.4.0 as ACTIVE WITH CONDITIONS after GHV.IMPLEMENTATION.0D and 0D-CLOSURE-01; retain Moderate ADV-001/ADV-002 and open AT/Arabic/legal conditions; set next Gate to GHV.IMPLEMENTATION.0E — Nest Intro and Readiness Decision Vertical Slice (eligible · not started). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0D · GHV.IMPLEMENTATION.0D-CLOSURE-01 |
+| **Evidence** | [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md) · [GHV.IMPLEMENTATION.0D-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0D-CLOSURE-01.md) |

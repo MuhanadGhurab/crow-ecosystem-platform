@@ -173,6 +173,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - IMPLEMENTATION.0A: Product Code is authorized only for the completed foundation bootstrap; the capability inventory, scope classifications, and **92 ACTIVE / 7 shells** baseline are unchanged. Preview and Production remain prohibited. See [GHV.IMPLEMENTATION.0A.md](../governance/gates/GHV.IMPLEMENTATION.0A.md).
 - IMPLEMENTATION.0B: Local activation vertical slice implemented for ACT-003/011/005/013/012/006 under GHV-IMP-AUTH-002; formula excludes mobile; inventory count unchanged; Preview/Production still prohibited. See [GHV.IMPLEMENTATION.0B.md](../governance/gates/GHV.IMPLEMENTATION.0B.md).
 - IMPLEMENTATION.0C: Activation UX hardened (Arabic-first shell, localization, route guards, a11y automation); thin ACT-007 + ONB-001 handoff only under GHV-IMP-AUTH-003; full onboarding deferred to 0D. See [GHV.IMPLEMENTATION.0C.md](../governance/gates/GHV.IMPLEMENTATION.0C.md).
+- IMPLEMENTATION.0D / 0D-CLOSURE-01: Crow personalization, Origin setup, and Nest Intro handoff vertical slice under GHV-IMP-AUTH-004; Baseline v0.4.0 ACTIVE WITH CONDITIONS; Nest assessment / Horizon / Route remain deferred to 0E+. See [GHV.IMPLEMENTATION.0D.md](../governance/gates/GHV.IMPLEMENTATION.0D.md) · [GHV.IMPLEMENTATION.0D-CLOSURE-01.md](../governance/gates/GHV.IMPLEMENTATION.0D-CLOSURE-01.md) · [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../governance/implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

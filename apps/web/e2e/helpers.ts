@@ -163,6 +163,11 @@ export async function assertServerRedirectAwayFrom(
 export type IdempotencyEvidence = {
   testingOnly: true;
   aggregateVersion: number;
+  onboardingAggregateVersion: number | null;
+  onboardingState: string | null;
+  personalizationCatalogueVersion: string | null;
+  personalizationStatus: string | null;
+  originStatus: string | null;
   auditCount: number;
   outboxCount: number;
   receiptCount: number;

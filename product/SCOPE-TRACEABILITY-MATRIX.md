@@ -38,7 +38,9 @@ Architecture Design Baseline v1.0.0 is LOCKED AS GOVERNED ARCHITECTURE DESIGN BA
 
 GHV.IMPLEMENTATION.0A authorizes only the completed Product Code foundation bootstrap. It does not change capability scope or maturity, and it does not authorize Preview, Staging, Controlled Launch, Production, real providers, or non-synthetic data.
 
-GHV.IMPLEMENTATION.0B authorizes the local activation vertical slice (formula gates). GHV.IMPLEMENTATION.0C hardens activation UX and the ONB-001 handoff only; full onboarding remains deferred to GHV.IMPLEMENTATION.0D.
+GHV.IMPLEMENTATION.0B authorizes the local activation vertical slice (formula gates). GHV.IMPLEMENTATION.0C hardens activation UX and the ONB-001 handoff only under GHV-IMP-AUTH-003.
+
+GHV.IMPLEMENTATION.0D (amended by 0D-CLOSURE-01) authorizes Crow personalization, Origin setup, and ONB-003 Nest Intro **handoff only** under GHV-IMP-AUTH-004. Nest assessment, Horizon, Route, eligibility, and Wingprint Home remain out of scope until later Gates.
 
 ## Progression architecture links (1A)
 

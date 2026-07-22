@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Validates mandatory IMPLEMENTATION-0D onboarding browser scenarios and
- * accessibility-state labels.
+ * accessibility-state labels (GHV.IMPLEMENTATION.0D-CLOSURE-01).
  *
  * The required lists below are independently defined — they must NOT be derived
  * from the evidence matrix under validation.
@@ -20,26 +20,30 @@ const specPath = join(root, "apps/web/e2e/onboarding-flow.spec.ts");
 const matrix = readFileSync(matrixPath, "utf8");
 const spec = readFileSync(specPath, "utf8");
 
-/** Independently required Playwright scenario titles (18). */
+/** Independently required Playwright scenario titles (22). */
 const REQUIRED_SCENARIO_TITLES = [
   "guided keyboard personalization to nest handoff",
   "quick-start keyboard path to origin and nest",
-  "refresh resume returns to authorized screen",
-  "stale personalization write requires resubmission",
-  "stale origin write requires resubmission",
-  "identical onboarding command idempotent replay",
+  "refresh after Crow basics",
+  "refresh after Habitat",
+  "refresh after Character",
+  "refresh after Origin draft",
+  "interrupted return resumes last incomplete governed step",
+  "Quick-start duplicate retry is idempotent",
   "same idempotency key with different onboarding payload",
-  "cross-user isolation via session-bound aggregate",
-  "catalogue-version conflict on personalization",
-  "origin-schema conflict on invalid goal",
-  "ONB-002 guard before minimum personalization",
-  "ONB-003 guard before origin complete or review-later",
-  "review-later path reaches nest handoff",
-  "locked cosmetic explanation is preview only",
-  "contrast adjustment acknowledgment required",
-  "privacy preview acknowledgment on review",
-  "Arabic and English locale parity on entry",
-  "actual-state accessibility states",
+  "stale personalization write requires resubmission",
+  "stale Origin write requires resubmission",
+  "cross-user isolation through session-bound aggregate",
+  "personalization catalogue-version conflict",
+  "Origin schema-version conflict",
+  "ONB-002 blocked before minimum personalization",
+  "ONB-003 blocked before Origin completion or Review Later",
+  "ONB-003 available after completed Origin",
+  "Review Later reaches ONB-003",
+  "locked cosmetic explanation remains preview-only",
+  "contrast acknowledgement gates continuation",
+  "privacy preview acknowledgement gates review completion",
+  "Arabic/English parity and actual-state accessibility coverage",
 ];
 
 /** Independently required actual-state accessibility labels (12). */
@@ -60,9 +64,9 @@ const REQUIRED_ACCESSIBILITY_STATE_LABELS = [
 
 const failures = [];
 
-if (REQUIRED_SCENARIO_TITLES.length !== 18) {
+if (REQUIRED_SCENARIO_TITLES.length !== 22) {
   failures.push(
-    `independent scenario list length ${REQUIRED_SCENARIO_TITLES.length} !== 18`,
+    `independent scenario list length ${REQUIRED_SCENARIO_TITLES.length} !== 22`,
   );
 }
 if (REQUIRED_ACCESSIBILITY_STATE_LABELS.length !== 12) {
@@ -89,8 +93,8 @@ const scenarioCountMatch = matrix.match(
   /Mandatory scenarios defined:\s*(\d+)/i,
 );
 const a11yCountMatch = matrix.match(/Required accessibility states:\s*(\d+)/i);
-if (!scenarioCountMatch || Number(scenarioCountMatch[1]) !== 18) {
-  failures.push("Mandatory count not equal to 18 in evidence matrix roll-up");
+if (!scenarioCountMatch || Number(scenarioCountMatch[1]) !== 22) {
+  failures.push("Mandatory count not equal to 22 in evidence matrix roll-up");
 }
 if (!a11yCountMatch || Number(a11yCountMatch[1]) !== 12) {
   failures.push(
