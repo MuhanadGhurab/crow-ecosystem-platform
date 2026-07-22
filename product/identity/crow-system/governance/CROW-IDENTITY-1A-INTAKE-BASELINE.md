@@ -1,14 +1,16 @@
-# GHURAVIA Crow Identity System Intake Baseline v0.1.0
+# GHURAVIA Crow Identity System Intake Baseline v0.1.1
 
 | Field | Value |
 |-------|-------|
-| **Baseline** | GHURAVIA Crow Identity System Intake Baseline **v0.1.0** |
+| **Baseline** | GHURAVIA Crow Identity System Intake Baseline **v0.1.1** |
 | **Status** | **ADMITTED CANDIDATE** |
 | **Product taxonomy** | **NOT ACTIVE** |
 | **Implementation authority** | **NONE** |
-| **Source Gate** | GHV.CROW-IDENTITY.1A |
+| **Source Gate** | GHV.CROW-IDENTITY.1A (PARTIAL — amended) · GHV.CROW-IDENTITY.1A-AMENDMENT-01 (PASS) |
 | **Date** | 2026-07-22 |
-| **Starting HEAD** | `63ec8c091d8d1c3fcc2d31e8e44ee90275d66e51` |
+| **1A starting HEAD** | `63ec8c091d8d1c3fcc2d31e8e44ee90275d66e51` |
+| **1A commit HEAD** | `8a36eba6b39c84d6b8a188129e52dc55dc225c49` |
+| **Amendment-01 starting HEAD** | `8a36eba6b39c84d6b8a188129e52dc55dc225c49` |
 
 ## Explicit non-labels
 
@@ -24,9 +26,13 @@ This document is **not**:
 
 | Item | Treatment |
 |------|-----------|
-| Package version | Candidate Intake v0.1 (+ prior non-repo 1A assessment corpus) |
-| Canon SHA-256 | `7f52627d2f1006d0186961eaaf7736d870351264ba6cdc83e83bc648ba1b52dc` (re-verified) |
-| Complete handoff / ZIP / PNGs | Claimed hashes retained via prior SOURCE-TRACEABILITY; binaries not remounted |
+| Package version | Candidate Intake v0.1 |
+| Complete handoff | **PRESENT AND SHA-256 VERIFIED** · `695c2d02edf09e6afe34996160cf477d29ded857c7258726c8f587ad9a42613a` |
+| Original package manifest | **PRESENT AND SHA-256 VERIFIED** · `a7dbb205eb864bdc4458b43ab0a5213bdae589e378d91de6a0185f51129df244` |
+| Canon SHA-256 | `7f52627d2f1006d0186961eaaf7736d870351264ba6cdc83e83bc648ba1b52dc` (**PRESENT AND SHA-256 VERIFIED**) |
+| Transport ZIP | **OPTIONAL RETENTION ARTIFACT — NOT COMMITTED** · not a distinct decision source |
+| Prototype PNGs | **DEFERRED TO 1D — NOT FINAL ART EVIDENCE** · not committed |
+| Prior non-repo 1A assessment | Historical supporting synthesis |
 | Source hierarchy | Founder decisions > governed repository baselines > synthesis > assistant Canon > prototypes |
 
 ## Repository authority hierarchy (binding)
@@ -46,22 +52,23 @@ Source status: FOUNDER-LOCKED SOURCE
 Repository disposition: REPOSITORY RECONFIRMED
 ```
 
-Horizons are **not renamed** by 1A.
+Horizons are **not renamed** by 1A / Amendment-01.
 
 ## 25 Core identities
 
+Validated directly against the materialized complete handoff:
+
 | Metric | Result |
 |--------|--------|
-| Horizons | 5 / 5 |
-| Identities per Horizon | 5 |
-| Core identity records in prior baseline table | **25 / 25** |
+| Horizons | **5 / 5** |
+| Identities per Horizon | **5** |
+| Core identity records (CRW-*) | **25 / 25** |
+| Nine required subsections per record | **25 / 25** |
 | Source structure | FOUNDER-LOCKED SOURCE |
 | Repository | ADMITTED CANDIDATE FOUNDATION |
 | Immutable repository IDs | DEFERRED TO GHV.CROW-IDENTITY.1B |
 | Final Arabic names | DEFERRED TO GHV.CROW-IDENTITY.1B |
 | Final taxonomy baseline | **NOT CREATED BY 1A** |
-
-Semantic keys O1–L5 and English names are admitted as **candidate foundation** only (see prior non-repo baseline table).
 
 ## Source vs repository status
 
@@ -82,7 +89,14 @@ Current `0D` stores Crow basics / Habitat / Character / Origin as **presentation
 
 Route Cluster A + B + integration + Cross-Wing capstone + Verified Evidence — **ADMITTED CANDIDATE**.
 
-50-Anchor **structure** admitted; 50 names/mappings **PROVISIONAL**; curricula/awards **NOT AUTHORIZED**.
+Validated against materialized handoff:
+
+| Metric | Result |
+|--------|--------|
+| Horizon-pair families | **10 / 10** |
+| Anchor-Major candidates (`XW-*`) | **50 / 50** |
+
+50 names/mappings remain **PROVISIONAL**; curricula/awards **NOT AUTHORIZED**.
 
 ## Trust resolution
 
@@ -104,7 +118,7 @@ Taxonomy identifier cannot authenticate Evidence.
 ```text
 Conceptual visual grammar: ADMITTED LOCK-READY
 Exact art / silhouettes / glyphs / animation: NOT BASELINED
-Prototype images: EXPLORATORY (binaries excluded this commit)
+Prototype images: EXPLORATORY · DEFERRED TO GHV.CROW-IDENTITY.1D
 ```
 
 ## Unresolved lifecycles

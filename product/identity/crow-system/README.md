@@ -3,8 +3,8 @@
 | Field | Value |
 |-------|-------|
 | **Domain** | Crow Identity |
-| **Intake Gate** | GHV.CROW-IDENTITY.1A |
-| **Intake Baseline** | v0.1.0 — ADMITTED CANDIDATE |
+| **Intake Gate** | GHV.CROW-IDENTITY.1A · GHV.CROW-IDENTITY.1A-AMENDMENT-01 |
+| **Intake Baseline** | v0.1.1 — ADMITTED CANDIDATE |
 | **Implementation authority** | **NONE** |
 | **Date** | 2026-07-22 |
 
