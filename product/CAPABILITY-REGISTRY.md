@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bootstrap PASS** · **Implementation.0B activation slice PARTIAL** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
+| **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bootstrap PASS** · **Implementation.0B activation slice PARTIAL** · **Implementation.0C activation UX PARTIAL** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
 | **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-21 |
@@ -172,6 +172,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - VALIDATION.1B: Implementation-entry validation **PASS** · local readiness **READY WITH CONDITIONS** · capabilities remain **NOT IMPLEMENTED** · Preview / controlled launch **NOT READY** · Product Code **BLOCKED** pending GHV.IMPLEMENTATION.0A. See [GHV.VALIDATION.1B.md](../governance/gates/GHV.VALIDATION.1B.md).
 - IMPLEMENTATION.0A: Product Code is authorized only for the completed foundation bootstrap; the capability inventory, scope classifications, and **92 ACTIVE / 7 shells** baseline are unchanged. Preview and Production remain prohibited. See [GHV.IMPLEMENTATION.0A.md](../governance/gates/GHV.IMPLEMENTATION.0A.md).
 - IMPLEMENTATION.0B: Local activation vertical slice implemented for ACT-003/011/005/013/012/006 under GHV-IMP-AUTH-002; formula excludes mobile; inventory count unchanged; Preview/Production still prohibited. See [GHV.IMPLEMENTATION.0B.md](../governance/gates/GHV.IMPLEMENTATION.0B.md).
+- IMPLEMENTATION.0C: Activation UX hardened (Arabic-first shell, localization, route guards, a11y automation); thin ACT-007 + ONB-001 handoff only under GHV-IMP-AUTH-003; full onboarding deferred to 0D. See [GHV.IMPLEMENTATION.0C.md](../governance/gates/GHV.IMPLEMENTATION.0C.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

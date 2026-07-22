@@ -2707,3 +2707,75 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.IMPLEMENTATION.0B |
 | **Evidence** | [IMPLEMENTATION-0B-ACTIVATION-AUTHORITY-PREFLIGHT.md](../implementation/IMPLEMENTATION-0B-ACTIVATION-AUTHORITY-PREFLIGHT.md) · ADR-ARC-016 |
+
+## DEC-272 — GHV.IMPLEMENTATION.0C bounded UX hardening authorized (GHV-IMP-AUTH-003)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Authorize GHV.IMPLEMENTATION.0C activation UX, accessibility, and onboarding-entry handoff hardening under GHV-IMP-AUTH-003 on `feat/ghuravia-foundation`; synthetic/local/mocks only; no deployment; no full onboarding. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [GHV.IMPLEMENTATION.0C-AUTHORIZATION.md](../implementation/GHV.IMPLEMENTATION.0C-AUTHORIZATION.md) |
+
+## DEC-273 — Onboarding entry is ONB-001 after optional ACT-007
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Exact post-activation path is ACT-006 → ACT-007 (optional mobile now/later) → ONB-001 Personalize Entry; Set Your Origin (ONB-002), IDN, Horizon, Nest deferred to GHV.IMPLEMENTATION.0D; 0C implements handoff-only ONB-001 and thin ACT-007. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [IMPLEMENTATION-0C-ONBOARDING-ENTRY-PREFLIGHT.md](../implementation/IMPLEMENTATION-0C-ONBOARDING-ENTRY-PREFLIGHT.md) |
+
+## DEC-274 — Shared activation shell and required-gate progress model
+
+| Field | Value |
+|-------|-------|
+| **Decision** | One Arabic-first activation shell shows product identity, progress for email/terms/risk/complete only, Explainable Locks, locale switch, skip link, local-only banner; mobile must not appear as a required progress step; progress derives from server resource only. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [ACTIVATION-UX.md](../../docs/implementation/ACTIVATION-UX.md) · [GHURAVIA-ACTIVATION-UX-BASELINE.md](../implementation/GHURAVIA-ACTIVATION-UX-BASELINE.md) |
+
+## DEC-275 — Typed localization catalogue with Arabic default
+
+| Field | Value |
+|-------|-------|
+| **Decision** | User-facing activation copy lives in a typed AR/EN catalogue (`apps/web/lib/localization`); Arabic is default; keys must parity; API/lock codes map to localized copy; no raw server messages in UI. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [ACTIVATION-LOCALIZATION.md](../../docs/implementation/ACTIVATION-LOCALIZATION.md) |
+
+## DEC-276 — Stable client idempotency and safe stale-version UX
+
+| Field | Value |
+|-------|-------|
+| **Decision** | One logical submission reuses one idempotency key across retries; new key only for new logical ops; stale-version conflicts refresh server state and require explicit resubmission for sensitive acceptances (never silent replay). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [apps/web/lib/idempotency.ts](../../apps/web/lib/idempotency.ts) |
+
+## DEC-277 — Server-authoritative route guards and developer-tool separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activation/onboarding-entry access uses `canAccessScreen` against server resource; client redirects are convenience only; open redirects prohibited; mock mailbox / synthetic session tools confined to `/dev/local-tools` and local/test modes. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [apps/web/lib/activation-routes.ts](../../apps/web/lib/activation-routes.ts) |
+
+## DEC-278 — Accessibility automation and manual validation treatment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Playwright + axe-core (dev-only) required with Critical/Serious = 0; keyboard flow automated; Assistive-Technology User Validation and Arabic target-user validation may remain NOT RUN for 0C as non-blocking conditions and Controlled Launch blockers. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [IMPLEMENTATION-0C-ACCESSIBILITY-REVIEW.md](../implementation/IMPLEMENTATION-0C-ACCESSIBILITY-REVIEW.md) · [IMPLEMENTATION-0C-ARABIC-UX-REVIEW.md](../implementation/IMPLEMENTATION-0C-ARABIC-UX-REVIEW.md) |
+
+## DEC-279 — Activation UX Baseline v0.3.0 and next Gate 0D
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Activation UX and Onboarding Entry Baseline v0.3.0 as ACTIVE WITH CONDITIONS; retain Moderate ADV-001/ADV-002; set next Gate to GHV.IMPLEMENTATION.0D — ORIGIN SETUP AND ADAPTIVE ONBOARDING VERTICAL SLICE (not started). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0C |
+| **Evidence** | [GHURAVIA-ACTIVATION-UX-BASELINE.md](../implementation/GHURAVIA-ACTIVATION-UX-BASELINE.md) · [GHV.IMPLEMENTATION.0C.md](../gates/GHV.IMPLEMENTATION.0C.md) |

@@ -54,7 +54,20 @@ export function assertLocalRuntime(): ReturnType<typeof loadConfig> {
     config.GHURAVIA_RUNTIME_MODE !== "local_development" &&
     config.GHURAVIA_RUNTIME_MODE !== "automated_test"
   ) {
-    throw new Error("LOCAL_RUNTIME_ONLY");
+    const err = new Error("LOCAL_RUNTIME_ONLY");
+    err.name = "LOCAL_RUNTIME_ONLY";
+    throw err;
+  }
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv === "preview" || vercelEnv === "production") {
+    const err = new Error("LOCAL_RUNTIME_ONLY");
+    err.name = "LOCAL_RUNTIME_ONLY";
+    throw err;
+  }
+  if (process.env.GHURAVIA_DEPLOYMENT_MARKERS === "1") {
+    const err = new Error("LOCAL_RUNTIME_ONLY");
+    err.name = "LOCAL_RUNTIME_ONLY";
+    throw err;
   }
   requireSyntheticSessionSecret(config);
   return config;

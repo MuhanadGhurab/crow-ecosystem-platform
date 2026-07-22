@@ -1,9 +1,29 @@
 "use client";
 
-import { useCallback, useState, startTransition } from "react";
-import type { ActivationResource } from "@ghuravia/contracts/schemas";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import type {
+  ActivationResource,
+  ErrorCategory,
+} from "@ghuravia/contracts/schemas";
+import { useLocale } from "../../../lib/locale-context";
+import { errorMessage } from "../../../lib/localization/format";
+import {
+  resolveIdempotencyKey,
+  type IdempotencySlot,
+} from "../../../lib/idempotency";
+import {
+  canAccessScreen,
+  routeFor,
+  type GovernedScreenId,
+} from "../../../lib/activation-routes";
 
-async function api<T>(
+export type ApiError = {
+  category: ErrorCategory | string;
+  correlationId?: string;
+};
+
+async function apiJson<T>(
   path: string,
   init?: RequestInit & { idempotencyKey?: string },
 ): Promise<T> {
@@ -13,90 +33,184 @@ async function api<T>(
     headers.set("Idempotency-Key", init.idempotencyKey);
   }
   const res = await fetch(path, { ...init, headers, credentials: "include" });
-  const body = await res.json();
+  let body: Record<string, unknown> = {};
+  try {
+    body = (await res.json()) as Record<string, unknown>;
+  } catch {
+    body = {};
+  }
   if (!res.ok) {
-    throw new Error(body.message ?? body.category ?? "error");
+    const err = new Error("API_ERROR") as Error & ApiError;
+    err.category = String(body.category ?? "INTERNAL_ERROR");
+    err.correlationId =
+      typeof body.correlationId === "string" ? body.correlationId : undefined;
+    throw err;
   }
   return body as T;
 }
 
-export function useActivation() {
+export function useActivation(screenId: GovernedScreenId) {
+  const router = useRouter();
+  const { locale, msg } = useLocale();
   const [resource, setResource] = useState<ActivationResource | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [correlationId, setCorrelationId] = useState<string | undefined>();
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const idempotencyRef = useRef<IdempotencySlot | null>(null);
+  const lastCommandRef = useRef<string | null>(null);
+  const resourceRef = useRef<ActivationResource | null>(null);
+
+  const mapErr = useCallback(
+    (e: unknown) => {
+      const apiErr = e as ApiError & Error;
+      const category = apiErr.category ?? "INTERNAL_ERROR";
+      setCorrelationId(apiErr.correlationId);
+      if (category === "CONFLICT" || category === "IDEMPOTENCY_CONFLICT") {
+        setError(
+          category === "CONFLICT"
+            ? errorMessage(locale, "CONFLICT")
+            : errorMessage(locale, "IDEMPOTENCY_CONFLICT"),
+        );
+      } else {
+        setError(errorMessage(locale, category));
+      }
+      queueMicrotask(() => {
+        document.getElementById("error-summary")?.focus();
+      });
+    },
+    [locale],
+  );
 
   const refresh = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const r = await api<ActivationResource>("/api/activation");
-      startTransition(() => setResource(r));
+      const r = await apiJson<ActivationResource>("/api/activation");
+      resourceRef.current = r;
+      setResource(r);
+      return r;
     } catch (e) {
-      setError(e instanceof Error ? e.message : "error");
-      startTransition(() => setResource(null));
+      mapErr(e);
+      resourceRef.current = null;
+      setResource(null);
+      return null;
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [mapErr]);
 
   const ensureSession = async () => {
-    await api("/api/local/synthetic-session", { method: "POST" });
+    await apiJson("/api/local/synthetic-session", { method: "POST" });
     await refresh();
   };
 
-  const command = async (name: string, body: Record<string, unknown> = {}) => {
-    if (!resource) throw new Error("No resource");
-    const key = `${name}:${resource.version}:${Date.now()}`;
-    const result = await api<{ resource: ActivationResource }>(
-      `/api/activation/commands/${name}`,
-      {
-        method: "POST",
-        idempotencyKey: key,
-        body: JSON.stringify({
-          expectedVersion: resource.version,
-          ...body,
-        }),
-      },
+  const command = async (
+    name: string,
+    body: Record<string, unknown> = {},
+    options?: { fingerprint?: string; newLogicalOp?: boolean },
+  ) => {
+    const current = resourceRef.current;
+    if (!current) throw new Error("No resource");
+    setSubmitting(true);
+    setError(null);
+    const fingerprint =
+      options?.fingerprint ??
+      `${name}:${JSON.stringify(body)}:${current.aggregateId}`;
+    if (options?.newLogicalOp || lastCommandRef.current !== fingerprint) {
+      idempotencyRef.current = null;
+    }
+    const resolved = resolveIdempotencyKey(
+      idempotencyRef.current,
+      name,
+      fingerprint,
     );
-    startTransition(() => setResource(result.resource));
-    return result;
+    idempotencyRef.current = resolved.slot;
+    lastCommandRef.current = fingerprint;
+    try {
+      const result = await apiJson<{ resource: ActivationResource }>(
+        `/api/activation/commands/${name}`,
+        {
+          method: "POST",
+          idempotencyKey: resolved.key,
+          body: JSON.stringify({
+            expectedVersion: current.version,
+            ...body,
+          }),
+        },
+      );
+      resourceRef.current = result.resource;
+      setResource(result.resource);
+      idempotencyRef.current = null;
+      lastCommandRef.current = null;
+      return result;
+    } catch (e) {
+      const apiErr = e as ApiError;
+      if (apiErr.category === "CONFLICT") {
+        await refresh();
+        setError(msg("errStaleVersion"));
+        document.getElementById("error-summary")?.focus();
+        throw e;
+      }
+      mapErr(e);
+      throw e;
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  useEffect(() => {
+    // Mount load of server activation resource (async; not derived client state).
+    const timer = window.setTimeout(() => {
+      void refresh();
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [refresh]);
+
+  useEffect(() => {
+    if (loading || !resource) return;
+    const access = canAccessScreen(screenId, resource);
+    if (!access.allowed && access.redirectTo) {
+      const target = routeFor(access.redirectTo);
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname !== target
+      ) {
+        router.replace(target);
+      }
+    }
+  }, [resource, screenId, loading, router]);
+
+  const access = canAccessScreen(screenId, resource);
 
   return {
     resource,
     error,
+    correlationId,
     loading,
+    submitting,
+    access,
     refresh,
     ensureSession,
     command,
     setError,
+    clearLogicalOp: () => {
+      idempotencyRef.current = null;
+      lastCommandRef.current = null;
+    },
   };
 }
 
-export function LockList({ resource }: { resource: ActivationResource }) {
-  if (resource.locks.length === 0) return null;
-  return (
-    <section aria-labelledby="locks-heading">
-      <h2 id="locks-heading">أقفال التفعيل</h2>
-      <ul>
-        {resource.locks.map((lock) => (
-          <li key={lock.code}>
-            <strong>{lock.messageAr}</strong>
-            {lock.messageEn ? <span dir="ltr"> — {lock.messageEn}</span> : null}
-            <div>الإجراء التالي: {lock.nextAction}</div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
 export function SessionBootstrap({ onReady }: { onReady: () => void }) {
+  const { msg } = useLocale();
   return (
     <p>
       <button type="button" onClick={() => void onReady()}>
-        إنشاء جلسة محلية اصطناعية
+        {msg("sessionCreate")}
       </button>
     </p>
   );
 }
+
+/** @deprecated Use ExplainableLocks from ActivationShell */
+export { ExplainableLocks as LockList } from "./ActivationShell";

@@ -30,9 +30,13 @@
     "validate:secrets": "node scripts/validation/validate-secrets.mjs",
     "validate:deployment-guard": "node scripts/validation/validate-deployment-guard.mjs",
     "validate:high-advisory-boundaries": "node scripts/validation/validate-high-advisory-boundaries.mjs",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run build"
+    "validate:localization": "node scripts/validation/validate-localization.mjs",
+    "test:browser": "playwright test",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run validate:localization && npm run build && npm run test:browser"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^24.10.0",
     "eslint": "^9.39.1",
     "eslint-config-next": "16.2.10",

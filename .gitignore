@@ -73,3 +73,8 @@ prisma/*.db-journal
 
 *.tsbuildinfo
 
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+

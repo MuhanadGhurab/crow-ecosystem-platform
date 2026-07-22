@@ -22,13 +22,15 @@ jobs:
     env:
       GHURAVIA_RUNTIME_MODE: automated_test
       GHURAVIA_DATABASE_URL: postgresql://ghuravia:ghuravia_ci_only@localhost:5432/ghuravia_test_ci
-      GHURAVIA_APP_VERSION: 0.2.0-ci
+      GHURAVIA_APP_VERSION: 0.3.0-ci
       GHURAVIA_LOCAL_CONFIRM: "1"
       GHURAVIA_SYNTHETIC_SESSION_SECRET: ci-synthetic-session-secret-32b
+      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 24.15.0, cache: npm }
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: node scripts/local/db-migrate.mjs
       - run: npm run ci

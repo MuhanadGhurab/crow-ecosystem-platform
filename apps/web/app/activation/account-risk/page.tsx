@@ -1,59 +1,77 @@
 "use client";
 
-import {
-  LockList,
-  SessionBootstrap,
-  useActivation,
-} from "../_components/ActivationClient";
+import { useState } from "react";
+import { ActivationPageFrame } from "../_components/ActivationPageFrame";
 
 const RISK_VERSION = "local-test-risk-v0";
 
 export default function AccountRiskPage() {
-  const { resource, error, loading, ensureSession, command, setError } =
-    useActivation();
-
+  const [accepted, setAccepted] = useState(false);
   return (
-    <main id="main">
-      <h1>قبول مخاطر الحساب</h1>
-      <p data-screen-id="ACT-013">ACT-013 · Accept Account Risk</p>
-      <aside role="note">
-        <p>
-          إفصاح اختباري محلي · الإصدار <span dir="ltr">{RISK_VERSION}</span>
-        </p>
-        <p>ليس موافقة قانونية نهائية وليست شهادة امتثال.</p>
-      </aside>
-      {loading ? <p aria-live="polite">جارٍ التحميل…</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
-      {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch((e) =>
-              setError(e instanceof Error ? e.message : "error"),
-            )
-          }
-        />
-      ) : (
+    <ActivationPageFrame screenId="ACT-013" titleKey="act013Title">
+      {({ resource, command, msg, submitting, clearLogicalOp }) => (
         <>
-          <LockList resource={resource} />
-          <button
-            type="button"
-            onClick={() =>
-              void command("accept-risk", {
-                riskDisclosureVersion: RISK_VERSION,
-              })
-                .then(() => command("activate"))
-                .catch((e) =>
-                  setError(e instanceof Error ? e.message : "error"),
-                )
-            }
-          >
-            أقبل إقرار المخاطر وأكمل التفعيل
-          </button>
-          <nav>
-            <a href="/activation/complete">شاشة اكتمال التفعيل</a>
+          <aside role="note" className="legal-disclaimer">
+            <p>{msg("act013Disclaimer")}</p>
+            <p>{msg("act013Body")}</p>
+            <p>
+              {msg("act013VersionLabel")}: <span dir="ltr">{RISK_VERSION}</span>
+            </p>
+          </aside>
+          {resource.gates.accountRiskAcceptable ? (
+            <p role="status">{msg("gateRisk")} ✓</p>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!accepted) return;
+                void (async () => {
+                  try {
+                    await command(
+                      "accept-risk",
+                      { riskDisclosureVersion: RISK_VERSION },
+                      {
+                        fingerprint: `accept-risk:${RISK_VERSION}`,
+                        newLogicalOp: false,
+                      },
+                    );
+                    await command(
+                      "activate",
+                      {},
+                      { fingerprint: "activate", newLogicalOp: true },
+                    );
+                    clearLogicalOp();
+                    window.location.assign("/activation/complete");
+                  } catch {
+                    /* ErrorPanel via hook */
+                  }
+                })();
+              }}
+            >
+              <label htmlFor="risk-accept">
+                <input
+                  id="risk-accept"
+                  type="checkbox"
+                  checked={accepted}
+                  onChange={(e) => {
+                    clearLogicalOp();
+                    setAccepted(e.target.checked);
+                  }}
+                />{" "}
+                {msg("act013Checkbox")}
+              </label>
+              <p>
+                <button type="submit" disabled={submitting || !accepted}>
+                  {msg("act013Accept")}
+                </button>
+              </p>
+            </form>
+          )}
+          <nav aria-label="activation">
+            <a href="/activation/complete">{msg("act006Title")}</a>
           </nav>
         </>
       )}
-    </main>
+    </ActivationPageFrame>
   );
 }

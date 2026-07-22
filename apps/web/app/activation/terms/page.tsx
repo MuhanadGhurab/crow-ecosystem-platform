@@ -1,58 +1,66 @@
 "use client";
 
-import {
-  LockList,
-  SessionBootstrap,
-  useActivation,
-} from "../_components/ActivationClient";
+import { useState } from "react";
+import { ActivationPageFrame } from "../_components/ActivationPageFrame";
 
 const TERMS_VERSION = "local-test-terms-v0";
 
 export default function TermsPage() {
-  const { resource, error, loading, ensureSession, command, setError } =
-    useActivation();
-
+  const [accepted, setAccepted] = useState(false);
   return (
-    <main id="main">
-      <h1>قبول الشروط الإلزامية</h1>
-      <p data-screen-id="ACT-005">ACT-005 · Accept Mandatory Terms</p>
-      <aside role="note">
-        <p>
-          نسخة محلية للاختبار فقط · الإصدار{" "}
-          <span dir="ltr">{TERMS_VERSION}</span>
-        </p>
-        <p>هذه ليست نصوصاً قانونية معتمدة وليست موافقة قانونية نهائية.</p>
-      </aside>
-      {loading ? <p aria-live="polite">جارٍ التحميل…</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
-      {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch((e) =>
-              setError(e instanceof Error ? e.message : "error"),
-            )
-          }
-        />
-      ) : (
+    <ActivationPageFrame screenId="ACT-005" titleKey="act005Title">
+      {({ resource, command, msg, submitting, clearLogicalOp }) => (
         <>
-          <LockList resource={resource} />
-          <button
-            type="button"
-            onClick={() =>
-              void command("accept-terms", {
-                termsVersion: TERMS_VERSION,
-              }).catch((e) =>
-                setError(e instanceof Error ? e.message : "error"),
-              )
-            }
-          >
-            أقبل الشروط الحالية (نسخة اختبار)
-          </button>
-          <nav>
-            <a href="/activation/account-risk">إقرار المخاطر</a>
+          <aside role="note" className="legal-disclaimer">
+            <p>{msg("act005Disclaimer")}</p>
+            <p>
+              {msg("act005VersionLabel")}:{" "}
+              <span dir="ltr">{TERMS_VERSION}</span>
+            </p>
+          </aside>
+          {resource.gates.termsAccepted ? (
+            <p role="status">{msg("gateTerms")} ✓</p>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!accepted) return;
+                void command(
+                  "accept-terms",
+                  { termsVersion: TERMS_VERSION },
+                  {
+                    fingerprint: `accept-terms:${TERMS_VERSION}`,
+                    newLogicalOp: false,
+                  },
+                )
+                  .then(() => clearLogicalOp())
+                  .catch(() => undefined);
+              }}
+            >
+              <label htmlFor="terms-accept">
+                <input
+                  id="terms-accept"
+                  type="checkbox"
+                  checked={accepted}
+                  onChange={(e) => {
+                    clearLogicalOp();
+                    setAccepted(e.target.checked);
+                  }}
+                />{" "}
+                {msg("act005Checkbox")}
+              </label>
+              <p>
+                <button type="submit" disabled={submitting || !accepted}>
+                  {msg("act005Accept")}
+                </button>
+              </p>
+            </form>
+          )}
+          <nav aria-label="activation">
+            <a href="/activation/account-risk">{msg("act013Title")}</a>
           </nav>
         </>
       )}
-    </main>
+    </ActivationPageFrame>
   );
 }

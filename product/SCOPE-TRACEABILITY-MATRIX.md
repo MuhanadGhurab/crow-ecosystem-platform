@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.IMPLEMENTATION.0A (bounded Product Code bootstrap **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED** · Progression Design Baseline v1.0.0 LOCKED · Learning Design Baseline v1.0.0 LOCKED) |
-| **Version** | 1.15.0 |
+| **Status** | REVIEWED — GHV.IMPLEMENTATION.0C (activation UX **PARTIAL** · 0B activation slice **PARTIAL** · 0A bootstrap **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED**) |
+| **Version** | 1.16.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.IMPLEMENTATION.0C |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -37,6 +37,8 @@ Progression Design Baseline v1.0.0 is LOCKED AS GOVERNED PROGRESSION DESIGN BASE
 Architecture Design Baseline v1.0.0 is LOCKED AS GOVERNED ARCHITECTURE DESIGN BASELINE (GHV.ARCHITECTURE.1E PARTIAL). Design lock does not authorize Product Code or external validation closure.
 
 GHV.IMPLEMENTATION.0A authorizes only the completed Product Code foundation bootstrap. It does not change capability scope or maturity, and it does not authorize Preview, Staging, Controlled Launch, Production, real providers, or non-synthetic data.
+
+GHV.IMPLEMENTATION.0B authorizes the local activation vertical slice (formula gates). GHV.IMPLEMENTATION.0C hardens activation UX and the ONB-001 handoff only; full onboarding remains deferred to GHV.IMPLEMENTATION.0D.
 
 ## Progression architecture links (1A)
 

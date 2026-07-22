@@ -1,44 +1,30 @@
 "use client";
 
-import {
-  LockList,
-  SessionBootstrap,
-  useActivation,
-} from "../_components/ActivationClient";
+import { ActivationPageFrame } from "../_components/ActivationPageFrame";
 
 export default function CompletePage() {
-  const { resource, error, loading, ensureSession, setError } = useActivation();
-
   return (
-    <main id="main">
-      <h1>تم تفعيل الحساب الأساسي</h1>
-      <p data-screen-id="ACT-006">ACT-006 · Basic Account Activated</p>
-      {loading ? <p aria-live="polite">جارٍ التحميل…</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
-      {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch((e) =>
-              setError(e instanceof Error ? e.message : "error"),
-            )
-          }
-        />
-      ) : (
+    <ActivationPageFrame screenId="ACT-006" titleKey="act006Title">
+      {({ resource, msg }) => (
         <>
-          <p aria-live="polite">
-            الحالة: <span dir="ltr">{resource.state}</span>
-          </p>
           {resource.state === "ACTIVATED" ? (
-            <p role="status">اكتملت معادلة التفعيل على الخادم.</p>
+            <p role="status" aria-live="polite">
+              {msg("act006Success")}
+            </p>
           ) : (
-            <p role="status">التفعيل غير مكتمل بعد.</p>
+            <p role="status">{msg("act003NotVerifiedYet")}</p>
           )}
-          <LockList resource={resource} />
-          <nav>
-            <a href="/activation/recovery">الاستعادة</a>
+          <p>{msg("act006MobileOptionalNote")}</p>
+          <p>
+            <a className="primary-link" href="/activation/mobile-optional">
+              {msg("act006Continue")}
+            </a>
+          </p>
+          <nav aria-label="activation">
+            <a href="/activation/recovery">{msg("act012Title")}</a>
           </nav>
         </>
       )}
-    </main>
+    </ActivationPageFrame>
   );
 }

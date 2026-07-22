@@ -1,66 +1,58 @@
 "use client";
 
-import {
-  LockList,
-  SessionBootstrap,
-  useActivation,
-} from "../_components/ActivationClient";
+import { useState } from "react";
+import { ActivationPageFrame } from "../_components/ActivationPageFrame";
 
 export default function EmailPendingPage() {
-  const { resource, error, loading, ensureSession, command, setError } =
-    useActivation();
-
+  const [deliveryNote, setDeliveryNote] = useState(false);
   return (
-    <main id="main">
-      <h1>التحقق من البريد — قيد الانتظار</h1>
-      <p data-screen-id="ACT-003">ACT-003 · Email Verification Pending</p>
-      <p role="note">
-        تسليم الرسالة لا يعني اكتمال التحقق. التحقق يحدث فقط بعد تأكيد الرمز على
-        الخادم.
-      </p>
-      {loading ? <p aria-live="polite">جارٍ التحميل…</p> : null}
-      {error ? (
-        <p role="alert" id="err">
-          {error}
-        </p>
-      ) : null}
-      {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch((e) =>
-              setError(e instanceof Error ? e.message : "error"),
-            )
-          }
-        />
-      ) : (
+    <ActivationPageFrame screenId="ACT-003" titleKey="act003Title">
+      {({ resource, command, msg, submitting }) => (
         <>
-          <p>
-            الحالة: <span dir="ltr">{resource.state}</span> · الإصدار{" "}
-            <span dir="ltr">{resource.version}</span>
+          <p>{msg("act003Body")}</p>
+          <p role="status">
+            {msg("act003NotVerifiedYet")} ·{" "}
+            <span dir="ltr">{resource.state}</span>
           </p>
-          <LockList resource={resource} />
+          {deliveryNote ? (
+            <p role="status">{msg("act003DeliveryAccepted")}</p>
+          ) : null}
           <p>
             <button
               type="button"
+              disabled={submitting || resource.gates.emailVerified}
               onClick={() =>
-                void command("request-email").catch((e) =>
-                  setError(e instanceof Error ? e.message : "error"),
-                )
+                void command("request-email")
+                  .then(() => setDeliveryNote(true))
+                  .catch(() => undefined)
               }
             >
-              طلب / إعادة إرسال التحقق
+              {msg("act003Request")}
             </button>
           </p>
           <p>
-            <a href="/api/local/mock-mailbox">صندوق البريد المحلي (اختبار)</a>
+            <button
+              type="button"
+              disabled={submitting || resource.gates.emailVerified}
+              onClick={() =>
+                void command("resend")
+                  .then(() => setDeliveryNote(true))
+                  .catch(() => undefined)
+              }
+            >
+              {msg("act003Resend")}
+            </button>
           </p>
-          <nav>
-            <a href="/activation/email-result">نتيجة التحقق</a>
+          <p>
+            <a href="/dev/local-tools">{msg("act003OpenMailboxDev")}</a>
+          </p>
+          <nav aria-label="activation">
+            <a href="/activation/email-result">{msg("act011Title")}</a>
             {" · "}
-            <a href="/activation/recovery">الاستعادة</a>
+            <a href="/activation/recovery">{msg("act012Title")}</a>
           </nav>
         </>
       )}
-    </main>
+    </ActivationPageFrame>
   );
 }

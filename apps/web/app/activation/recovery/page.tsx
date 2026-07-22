@@ -1,55 +1,43 @@
 "use client";
 
-import {
-  LockList,
-  SessionBootstrap,
-  useActivation,
-} from "../_components/ActivationClient";
+import { ActivationPageFrame } from "../_components/ActivationPageFrame";
 
 export default function RecoveryPage() {
-  const { resource, error, loading, ensureSession, command, setError } =
-    useActivation();
-
   return (
-    <main id="main">
-      <h1>استعادة التفعيل</h1>
-      <p data-screen-id="ACT-012">ACT-012 · Activation Recovery</p>
-      <p>
-        الاستعادة لا تتجاوز التحقق أو الشروط أو إقرار المخاطر. تُعيد التوجيه إلى
-        الخطوة الناقصة فقط.
-      </p>
-      {loading ? <p aria-live="polite">جارٍ التحميل…</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
-      {!resource ? (
-        <SessionBootstrap
-          onReady={() =>
-            void ensureSession().catch((e) =>
-              setError(e instanceof Error ? e.message : "error"),
-            )
-          }
-        />
-      ) : (
+    <ActivationPageFrame screenId="ACT-012" titleKey="act012Title">
+      {({ resource, command, msg, submitting }) => (
         <>
-          <LockList resource={resource} />
-          <button
-            type="button"
-            onClick={() =>
-              void command("recover").catch((e) =>
-                setError(e instanceof Error ? e.message : "error"),
-              )
-            }
-          >
-            بدء مسار الاستعادة
-          </button>
-          <nav aria-label="خطوات الاستعادة">
-            <a href="/activation/email-pending">البريد</a>
+          <p>{msg("act012Body")}</p>
+          <p role="status">
+            <span dir="ltr">{resource.state}</span>
+          </p>
+          <p>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => void command("recover").catch(() => undefined)}
+            >
+              {msg("act012Recover")}
+            </button>
+          </p>
+          <p>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => void command("resend").catch(() => undefined)}
+            >
+              {msg("act012Resend")}
+            </button>
+          </p>
+          <nav aria-label="activation">
+            <a href="/activation/email-pending">{msg("act003Title")}</a>
             {" · "}
-            <a href="/activation/terms">الشروط</a>
+            <a href="/activation/terms">{msg("act005Title")}</a>
             {" · "}
-            <a href="/activation/account-risk">المخاطر</a>
+            <a href="/activation/account-risk">{msg("act013Title")}</a>
           </nav>
         </>
       )}
-    </main>
+    </ActivationPageFrame>
   );
 }

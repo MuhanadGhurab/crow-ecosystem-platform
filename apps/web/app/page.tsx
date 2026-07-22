@@ -1,11 +1,10 @@
 export default function Page() {
   return (
     <main id="main">
-      <h1>GHURAVIA FOUNDATION BUILD</h1>
-      <p>LOCAL DEVELOPMENT ONLY</p>
-      <p>NOT DEPLOYED / NOT FOR REAL USERS</p>
-      <nav aria-label="تفعيل">
-        <a href="/activation/email-pending">بدء شريحة التفعيل (محلي)</a>
+      <h1>GHURAVIA</h1>
+      <p>LOCAL DEVELOPMENT ONLY · NOT DEPLOYED</p>
+      <nav aria-label="activation">
+        <a href="/activation/email-pending">Activation (ACT-003)</a>
       </nav>
     </main>
   );
