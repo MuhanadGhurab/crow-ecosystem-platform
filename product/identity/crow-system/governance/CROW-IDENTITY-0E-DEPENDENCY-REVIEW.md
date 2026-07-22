@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Gate** | GHV.CROW-IDENTITY.1A |
+| **Gate** | GHV.CROW-IDENTITY.1B (updates 1A review) |
 | **Date** | 2026-07-22 |
 
 ## Current Nest / 0E reality in repository
@@ -15,9 +15,7 @@
 | ONB-006 Nest Learning Path | ACTIVE | Not implemented |
 | ONB-007 Choose Horizon | ACTIVE | Not implemented |
 
-`GHV.IMPLEMENTATION.0E` = Nest Intro and Readiness Decision Vertical Slice — technically eligible from 0D, **not started**.
-
-## Required boundaries for any future 0E slice
+## Binding boundaries (unchanged)
 
 ```text
 Nest readiness ≠ earned Crow identity
@@ -26,26 +24,27 @@ Nest score ≠ Mastery
 Nest score ≠ Trust
 Nest score ≠ Cross-Wing Major
 Horizon choice ≠ permanent career identity
+Wingprint ≠ Lineage
 ```
 
-0E must **not**: award Core identity; infer earned Lineage; create a Major; render Evidence seals; calculate Trust; create Prestige; make permanent career assignment.
+## 1B minimum decisions — SATISFIED
 
-## Minimum 1B decisions before 0E
+1. Stable taxonomy ID policy — **LOCKED**
+2. Formal noun + Nest vocabulary — **LOCKED**
+3. Suggestion vs earned / Horizon exploration copy rules — **LOCKED** in Nest contract
+4. Wingprint/personalization cannot be read as Lineage award — **LOCKED**
+5. Prestige/Trust exclusion from Nest result UI — **LOCKED** in Nest contract
 
-1. Stable taxonomy ID policy (even if Nest UI only shows Horizons + exploratory Lineage names as non-earned).
-2. Formal noun + Nest vocabulary (readiness / Flight-Ready working state vs Lineage).
-3. Explicit copy rules: suggestion vs earned; Horizon exploration vs career prison.
-4. Confirmation Wingprint/personalization language cannot be read as Lineage award at Nest exit.
-5. Prestige/Trust exclusion from Nest result UI.
-
-## Hold status
+## Hold status (post-1B)
 
 ```text
 GHV.IMPLEMENTATION.0E:
-ELIGIBLE BY GHV.IMPLEMENTATION.0D
-GOVERNANCE HOLD
+ELIGIBLE TO START
 NOT STARTED
-PENDING GHV.CROW-IDENTITY.1B
+GOVERNANCE HOLD RELEASED FOR
+NEST/READINESS SCOPE ONLY
 ```
 
-**Recommendation:** `GHV.CROW-IDENTITY.1B` **must precede** `GHV.IMPLEMENTATION.0E`. Repository evidence does **not** prove independence.
+0E must **not**: award Core identity; infer earned Lineage; create a Major; render Evidence seals; calculate Trust; create Prestige; make permanent career assignment; persist earned identity state.
+
+Binding contract: `../taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md`.

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bootstrap PASS** · **Implementation.0B activation slice PARTIAL** · **Implementation.0C activation UX PARTIAL** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.18.0 |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0B |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 | **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
@@ -40,7 +40,8 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-005 | Optional mobile verification | Trust | CONTROLLED LAUNCH | Activate | ACT | Defined | SMS | Founder | Tech |
 | CAP-ONB-006 | Crow personalization | Identity | CONTROLLED LAUNCH | Personalize | IDN | Defined | — | Founder | 1B |
 | CAP-ONB-007 | Origin | Identity | CONTROLLED LAUNCH | Origin | ONB | Defined | — | Founder | 1B |
-| CAP-ONB-008 | The Nest | Learning | CONTROLLED LAUNCH | Nest | ONB/LRN | Specified | Content | Founder | Learning |
+| CAP-ONB-008 | The Nest | Learning | CONTROLLED LAUNCH | Nest | ONB/LRN | Specified | Content · Nest ≠ Lineage (1B vocabulary) | Founder | Learning / 0E |
+| CAP-IDN-001 | Core Crow Lineage taxonomy | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Taxonomy Baseline v1.0.0 · no runtime award | Founder | CROW-IDENTITY.1B |
 | CAP-ONB-009 | Horizon and Route selection | Learning | CONTROLLED LAUNCH | Horizon/Route | ONB/WLD | Specified | Catalogue | Founder | Learning |
 | CAP-ONB-010 | Flight Plan | Learning | CONTROLLED LAUNCH | Flight Plan | ONB/WLD | Defined | Entitlement | Founder | 1B |
 | CAP-ONB-011 | Verification result / resend / expiry handling | Trust | CONTROLLED LAUNCH | Activate | **ACT-011** | **Specified** | CAP-ONB-003 · Email | Founder | BC.1 |
@@ -174,7 +175,8 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - IMPLEMENTATION.0B: Local activation vertical slice implemented for ACT-003/011/005/013/012/006 under GHV-IMP-AUTH-002; formula excludes mobile; inventory count unchanged; Preview/Production still prohibited. See [GHV.IMPLEMENTATION.0B.md](../governance/gates/GHV.IMPLEMENTATION.0B.md).
 - IMPLEMENTATION.0C: Activation UX hardened (Arabic-first shell, localization, route guards, a11y automation); thin ACT-007 + ONB-001 handoff only under GHV-IMP-AUTH-003; full onboarding deferred to 0D. See [GHV.IMPLEMENTATION.0C.md](../governance/gates/GHV.IMPLEMENTATION.0C.md).
 - IMPLEMENTATION.0D / 0D-CLOSURE-01: Crow personalization, Origin setup, and Nest Intro handoff vertical slice under GHV-IMP-AUTH-004; Baseline v0.4.0 ACTIVE WITH CONDITIONS; Nest assessment / Horizon / Route remain deferred to 0E+. See [GHV.IMPLEMENTATION.0D.md](../governance/gates/GHV.IMPLEMENTATION.0D.md) · [GHV.IMPLEMENTATION.0D-CLOSURE-01.md](../governance/gates/GHV.IMPLEMENTATION.0D-CLOSURE-01.md) · [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../governance/implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md).
-- CROW-IDENTITY.1A: Crow Identity System admitted as governed **candidate** domain (Intake Baseline v0.1.0); five Horizons reconfirmed; 25 Core meanings admitted as candidate foundation; **no** taxonomy freeze, Product Code, schema, or award authority; Prestige names remain Ascendant/Apex/Obsidian; Trust public visuals prohibited; **0E GOVERNANCE HOLD pending 1B**. See [GHV.CROW-IDENTITY.1A.md](../governance/gates/GHV.CROW-IDENTITY.1A.md) · [product/identity/crow-system/](./identity/crow-system/).
+- CROW-IDENTITY.1A: Crow Identity System admitted as governed **candidate** domain (Intake Baseline v0.1.1 after Amendment-01); five Horizons reconfirmed; 25 Core meanings admitted as candidate foundation; **no** runtime authority; Prestige names remain Ascendant/Apex/Obsidian; Trust public visuals prohibited. See [GHV.CROW-IDENTITY.1A.md](../governance/gates/GHV.CROW-IDENTITY.1A.md) · [product/identity/crow-system/](./identity/crow-system/).
+- CROW-IDENTITY.1B: Core Crow Lineage Taxonomy Baseline v1.0.0 **LOCKED** (design); formal noun + CRW-* IDs + 25 registry + Nest vocabulary contract; Arabic CONTROLLED PROVISIONAL; Evolved Roles deferred; **0E Nest/readiness hold released** (no earned identity award). See [GHV.CROW-IDENTITY.1B.md](../governance/gates/GHV.CROW-IDENTITY.1B.md) · [GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md](./identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

@@ -1,15 +1,15 @@
-# Crow Identity Open Decisions — after GHV.CROW-IDENTITY.1A
+# Crow Identity Open Decisions — after GHV.CROW-IDENTITY.1B
 
-## 1B taxonomy blockers
+## Closed by 1B
 
 - Immutable repository IDs + version policy
-- Final English registry records (candidate names admitted)
-- Arabic names / provisional Arabic state
-- Formal noun ratification (Core Crow Lineage recommendation)
-- Collision-pair ratification
-- Evolved Roles: remove / defer / define without overlap
+- Final English registry records (25)
+- Arabic labels as CONTROLLED PROVISIONAL (final native lock still open)
+- Formal noun ratification (Core Crow Lineage / Crow Lineage)
+- Collision-pair ratification (0 unresolved critical)
+- Evolved Roles: **DEFERRED**
 - Nest / Flight-Ready vocabulary vs Lineage
-- Wingprint: define / rename / retire (repo partial definition exists)
+- Wingprint: boundary locked (≠ Lineage); rename/retire still available to 1C if needed
 
 ## 1C identity-model blockers
 
@@ -21,6 +21,7 @@
 - Flight Signature definition or retirement
 - Habitat Genome vs 0D Habitat separation
 - Inference thresholds (default: no automatic earned classification)
+- Final Wingprint define/rename/retire if still required beyond boundary lock
 
 ## 1D visual/animation blockers
 
@@ -30,13 +31,18 @@
 - Cultural / accessibility / performance tests
 - Deterministic renderer/version contract
 
+## Localization (non-blocking for taxonomy; blocking for Arabic launch copy)
+
+- Native-Arabic linguistic/cultural validation of provisional labels
+- Arabic formal noun for Core Crow Lineage
+
 ## Later implementation blockers
 
 - Scoped implementation Gate after 1B–1D (and Evidence readiness)
 - No 50 curricula by default
 - No public earned Living Profile without projection contract
 
-## Launch blockers (non-blocking for 1A)
+## Launch blockers (non-blocking for 1B)
 
 - AT/Arabic user validation
 - Legal review

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | REVIEWED — GHV.IMPLEMENTATION.0C (activation UX **PARTIAL** · 0B activation slice **PARTIAL** · 0A bootstrap **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED**) |
-| **Version** | 1.16.0 |
+| **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.IMPLEMENTATION.0C |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -42,7 +42,9 @@ GHV.IMPLEMENTATION.0B authorizes the local activation vertical slice (formula ga
 
 GHV.IMPLEMENTATION.0D (amended by 0D-CLOSURE-01) authorizes Crow personalization, Origin setup, and ONB-003 Nest Intro **handoff only** under GHV-IMP-AUTH-004. Nest assessment, Horizon, Route, eligibility, and Wingprint Home remain out of scope until later Gates.
 
-GHV.CROW-IDENTITY.1A admits the Crow Identity System as an **ADMITTED CANDIDATE** intake baseline (v0.1.0) with **no implementation authority**. `GHV.IMPLEMENTATION.0E` is **ELIGIBLE BY 0D** but under **GOVERNANCE HOLD** pending `GHV.CROW-IDENTITY.1B`. See [GHV.CROW-IDENTITY.1A.md](../governance/gates/GHV.CROW-IDENTITY.1A.md) · [CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md](./identity/crow-system/governance/CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md).
+GHV.CROW-IDENTITY.1A admits the Crow Identity System as an **ADMITTED CANDIDATE** intake baseline (v0.1.1 after Amendment-01) with **no implementation authority**.
+
+GHV.CROW-IDENTITY.1B locks **Core Crow Lineage Taxonomy Baseline v1.0.0** (design only; controlled provisional Arabic). `GHV.IMPLEMENTATION.0E` is **ELIGIBLE TO START** with Nest/readiness governance hold **released for Nest/readiness scope only** and remains prohibited from awarding earned Crow identity. See [GHV.CROW-IDENTITY.1B.md](../governance/gates/GHV.CROW-IDENTITY.1B.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md).
 
 ## Progression architecture links (1A)
 

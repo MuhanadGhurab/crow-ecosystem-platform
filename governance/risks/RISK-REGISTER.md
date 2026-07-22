@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.20.0 |
+| **Version** | 1.22.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 | **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -341,5 +341,8 @@ GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. Ex
 | RISK-CRW-016 | Evidence lifecycle incompleteness | H | H | H | Award without verifier/expiry/dispute | 1C Evidence lifecycle | No earned marks | Founder | Open | CROW-IDENTITY.1C | CAP-LRN-* |
 | RISK-CRW-017 | Mastery lifecycle incompleteness | H | H | H | Identity without Mastery formula | 1C Mastery linkage | No automatic earned depth | Founder | Open | CROW-IDENTITY.1C | CAP-PRG-* |
 | RISK-CRW-018 | Correction/dispute lifecycle absence | H | H | H | Wrong identity sticks | History/correction/appeal model | Hold public earned claims | Founder | Open | CROW-IDENTITY.1C | CAP-TRU-* |
-| RISK-CRW-019 | 0E readiness accidentally awarding identity | H | H | H | Nest score → Lineage | 0E hold · Nest≠Lineage rules | Keep 0E governance hold | Founder | Mitigated (1A hold) | Pre-0E | CAP-ONB-* |
+| RISK-CRW-019 | 0E readiness accidentally awarding identity | H | H | H | Nest score → Lineage | Nest vocabulary contract · 0E hold released for readiness only · still prohibits award | Keep earned-identity writes blocked | Founder | **Mitigated (1B contract)** · residual Open until 0E acceptance | Pre/during 0E | CAP-ONB-* |
 | RISK-CRW-020 | Repository source-status authority inflation | H | H | H | Canon LOCKED treated as repo baseline | Two-axis status discipline | Amendment if silent promotion | Founder | Open / Monitored | Continuous | CAP-GOV-* |
+| RISK-CRW-021 | Provisional Arabic Lineage labels treated as native-final | H | M | H | Unreviewed Arabic shipped as final identity names | CONTROLLED PROVISIONAL status · localization status record | Keep English authoritative; require native review | Founder | Open / Monitored | Localization review | CAP-GOV-* |
+| RISK-CRW-022 | Retained naming tropes (Azure/Commander/Governor/Guardian/Architect/Validator/Hunter) overclaim authority | M | H | H | UI copy implies military/vendor/Prestige meaning | Collision matrix retained-risk mitigations · Nest non-award copy | Rename only via controlled amendment | Founder | Open / Monitored | 1B/1D/0E copy review | CAP-EBUX-* |
+| RISK-CRW-023 | Nest readiness misread as Core Crow Lineage / identity award | H | H | H | Nest Result language or score presented as Lineage | Nest Vocabulary Contract · 0E acceptance bans · UI labels | Block 0E ship until copy/tests pass | Founder | Open / Monitored | During 0E | CAP-ONB-* |

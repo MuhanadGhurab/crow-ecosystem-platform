@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -137,8 +137,9 @@
 | ASM-123 | Origin catalogue v0.1.0 closed options remain non-diagnostic and non-Trust | Active | Privacy / invariants | Data classification · privacy review · OD-BR-006/014 | Block Origin expansion into Trust/readiness | IMPLEMENTATION.0D |
 | ASM-124 | Native loopback PostgreSQL with disposable Gate databases can satisfy local evidence when Docker overlay is unavailable | **Validated (0D Closure)** | Local DB honesty | IMPLEMENTATION-0D-LOCAL-DATABASE-EXECUTION-RECORD.md | Restore preferred Docker disposable path when available | IMPLEMENTATION.0D-CLOSURE-01 |
 | ASM-125 | Founder source lock exists for the 5×5 Horizons and core 25 meanings as candidate input | Active | Crow Identity intake | SOURCE-TRACEABILITY · Intake Baseline | Re-verify if FILE-001 remount fails hash | CROW-IDENTITY.1A |
-| ASM-126 | Exact repository taxonomy IDs are not yet approved | Active | Taxonomy | DEC-283 | Do not invent production IDs in Product Code | CROW-IDENTITY.1B |
+| ASM-126 | Exact repository taxonomy IDs are not yet approved | **Validated (1B)** — IDs CRW-* locked | Taxonomy | DEC-294 | Do not invent alternate production IDs in Product Code | GHV.CROW-IDENTITY.1B |
 | ASM-127 | Prototype images are feasibility evidence only | Active | Visual honesty | BINARY-EXCLUSION-RECORD · prior audit | Do not treat as production art | CROW-IDENTITY.1D |
-| ASM-128 | Final Arabic Crow Identity terms require linguistic/cultural review | Active | Localization | Open decisions 1B | Keep English working labels internal | CROW-IDENTITY.1B |
-| ASM-129 | No runtime Crow identity inference or award exists in current Product Code | **Validated (1A audit)** | Implementation boundary | 0D personalization ≠ Lineage | Keep until authorized Gate | CROW-IDENTITY.1A |
+| ASM-128 | Final Arabic Crow Identity terms require linguistic/cultural review | **Active — CONTROLLED PROVISIONAL labels admitted by 1B** | Localization | DEC-297 | Keep English authoritative; no native-reviewed claim | Localization review |
+| ASM-129 | No runtime Crow identity inference or award exists in current Product Code | **Validated (1A audit; reconfirmed 1B)** | Implementation boundary | 0D personalization ≠ Lineage | Keep until authorized Gate | CROW-IDENTITY.1C / 0E |
 | ASM-130 | No final Crow renderer technology is chosen | Active | Architecture | Open decisions 1D | Technical spike later | CROW-IDENTITY.1D |
+| ASM-131 | Taxonomy Baseline v1.0.0 does not authorize runtime identity state | Active | Implementation boundary | Taxonomy Baseline explicit non-claims | No schema/API from 1B alone | Pre-identity runtime Gate |

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.37.0 |
+| **Version** | 1.38.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1A PARTIAL — AMENDED · 1A-AMENDMENT-01 PASS · 1B NEXT · 0E GOVERNANCE HOLD |
+| **Source Gate** | GHV.CROW-IDENTITY.1B PASS · 1C NEXT · 0E ELIGIBLE (Nest/readiness hold released) |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -47,8 +47,10 @@
 | GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01 | Active Baseline Authority and Closure Verdict Reconciliation | **PASS — ACTIVE PRODUCT CODE AUTHORITY, CLOSURE VERDICT AND STATUS REFERENCES RECONCILED** | One active Product Code definition through completed 0D · [Record](./GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md) |
 | GHV.CROW-IDENTITY.1A | System Intake and Impact Assessment | **PARTIAL — REPOSITORY-AWARE IMPACT MAPPING COMPLETE, PRIMARY SOURCE CORPUS WAS NOT MATERIALIZED** | Submitted PASS retained as historical claim · audit correction PARTIAL · [Record](./GHV.CROW-IDENTITY.1A.md) · amended by [1A-AMENDMENT-01](./GHV.CROW-IDENTITY.1A-AMENDMENT-01.md) · Intake Baseline **v0.1.1** |
 | GHV.CROW-IDENTITY.1A-AMENDMENT-01 | Primary Corpus Materialization and Source Chain-of-Custody Reconciliation | **PASS — PRIMARY CROW IDENTITY HANDOFF, PACKAGE MANIFEST AND REPOSITORY AUTHORITY CHAIN RECONCILED** | Complete handoff + original manifest materialized · ZIP/PNGs deferred · [Record](./GHV.CROW-IDENTITY.1A-AMENDMENT-01.md) · [Intake](../../product/identity/crow-system/) |
-| GHV.CROW-IDENTITY.1B | Core Crow Lineage Taxonomy Baseline | **ELIGIBLE TO START · NOT STARTED** | Opened after Crow-Identity.1A-AMENDMENT-01 PASS |
-| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **ELIGIBLE BY GHV.IMPLEMENTATION.0D · GOVERNANCE HOLD · NOT STARTED · PENDING GHV.CROW-IDENTITY.1B** | Technically eligible from 0D; held for minimum Crow Identity taxonomy |
+| GHV.CROW-IDENTITY.1B | Core Crow Lineage Taxonomy Baseline | **PASS — CORE CROW LINEAGE TAXONOMY BASELINE v1.0.0 LOCKED AS INTERNAL TAXONOMY DESIGN BASELINE WITH CONTROLLED PROVISIONAL ARABIC DISPLAY LABELS** | Taxonomy Baseline v1.0.0 **LOCKED** · no implementation authority · [Record](./GHV.CROW-IDENTITY.1B.md) · [Baseline](../../product/identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md) |
+| GHV.CROW-IDENTITY.1C | Chosen / Suggested / Earned Identity Model | **ELIGIBLE TO START · NOT STARTED** | Opened after Crow-Identity.1B |
+| GHV.CROW-IDENTITY.1D | Visual and Animation Identity System | **PLANNED · NOT STARTED** | After 1B; may proceed after/ beside 1C per programme |
+| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **ELIGIBLE TO START · NOT STARTED · GOVERNANCE HOLD RELEASED FOR NEST/READINESS SCOPE ONLY** | Must obey Nest vocabulary contract; must not award earned Lineage |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)
@@ -117,13 +119,23 @@ Crow Identity Intake Baseline:
 ADMITTED CANDIDATE v0.1.1
 NO IMPLEMENTATION AUTHORITY
 GHV.CROW-IDENTITY.1B:
+PASS — CORE CROW LINEAGE TAXONOMY BASELINE v1.0.0 LOCKED
+AS INTERNAL TAXONOMY DESIGN BASELINE WITH CONTROLLED
+PROVISIONAL ARABIC DISPLAY LABELS
+Core Crow Lineage Taxonomy Baseline:
+LOCKED v1.0.0
+NO IMPLEMENTATION AUTHORITY
+GHV.CROW-IDENTITY.1C:
 ELIGIBLE TO START
 NOT STARTED
-GHV.IMPLEMENTATION.0E:
-ELIGIBLE BY GHV.IMPLEMENTATION.0D
-GOVERNANCE HOLD
+GHV.CROW-IDENTITY.1D:
+PLANNED
 NOT STARTED
-PENDING GHV.CROW-IDENTITY.1B
+GHV.IMPLEMENTATION.0E:
+ELIGIBLE TO START
+NOT STARTED
+GOVERNANCE HOLD RELEASED FOR
+NEST/READINESS SCOPE ONLY
 ```
 
 Reports:
@@ -164,6 +176,7 @@ Reports:
 - [GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md](./GHV.IMPLEMENTATION.0D-CLOSURE-01-AMENDMENT-01.md)
 - [GHV.CROW-IDENTITY.1A.md](./GHV.CROW-IDENTITY.1A.md)
 - [GHV.CROW-IDENTITY.1A-AMENDMENT-01.md](./GHV.CROW-IDENTITY.1A-AMENDMENT-01.md)
+- [GHV.CROW-IDENTITY.1B.md](./GHV.CROW-IDENTITY.1B.md)
 - [IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md](../implementation/IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md)
 - [IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md](../implementation/IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md)
 - [IMPLEMENTATION-0D-BROWSER-EVIDENCE-MATRIX.md](../implementation/IMPLEMENTATION-0D-BROWSER-EVIDENCE-MATRIX.md)

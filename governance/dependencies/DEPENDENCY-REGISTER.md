@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.17.0 |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -117,10 +117,12 @@
 | DEP-103 | Preview / Staging / Production authorization | Governance/Infrastructure | **Blocked** | 0A/0B Product Code does not establish Preview, Staging, Controlled Launch, Production, cloud DB, or real providers | Founder | Unauthorized deployment or activation | Future deployment authorization Gate |
 | DEP-104 | GHV.IMPLEMENTATION.0B authorization | Governance | **Satisfied (PARTIAL close)** | GHV-IMP-AUTH-002 granted; activation slice completed with non-blocking ADV-001/002/003 | Founder | Scope or deployment overclaim | GHV.IMPLEMENTATION.0C |
 | DEP-105 | GHV.IMPLEMENTATION.0C authorization | Governance | **Satisfied (PARTIAL close)** | GHV-IMP-AUTH-003 granted; UX/a11y/onboarding entry completed with non-blocking conditions | Founder | Scope overclaim | GHV.IMPLEMENTATION.0D |
-| DEP-106 | GHV.IMPLEMENTATION.0D authorization | Governance | **Satisfied (PARTIAL + CLOSURE-01 + AMENDMENT-01)** | GHV-IMP-AUTH-004 granted; personalization/Origin closed; **0E now GOVERNANCE HOLD pending CROW-IDENTITY.1B** | Founder | Scope or Nest/identity overclaim | GHV.CROW-IDENTITY.1B → 0E |
+| DEP-106 | GHV.IMPLEMENTATION.0D authorization | Governance | **Satisfied (PARTIAL + CLOSURE-01 + AMENDMENT-01)** | GHV-IMP-AUTH-004 granted; personalization/Origin closed; **0E Nest/readiness hold released by 1B** (earned identity still prohibited) | Founder | Scope or Nest/identity overclaim | GHV.IMPLEMENTATION.0E |
 | DEP-107 | Personalization/Origin Baseline v0.4.0 | Governance | **ACTIVE WITH CONDITIONS** | [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md) | Founder | Stale baseline authority | Pre-0E |
-| DEP-108 | GHV.CROW-IDENTITY.1B taxonomy IDs, names, meanings, collisions, Nest vocabulary | Governance | **Required before 0E** | [CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md](../../product/identity/crow-system/governance/CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md) | Founder | Nest/Horizon copy without taxonomy | GHV.IMPLEMENTATION.0E |
+| DEP-108 | GHV.CROW-IDENTITY.1B taxonomy IDs, names, meanings, collisions, Nest vocabulary | Governance | **Satisfied (1B PASS)** | [GHV.CROW-IDENTITY.1B.md](../gates/GHV.CROW-IDENTITY.1B.md) · Taxonomy Baseline v1.0.0 | Founder | Nest/Horizon copy without taxonomy | GHV.IMPLEMENTATION.0E |
 | DEP-109 | GHV.CROW-IDENTITY.1C chosen/suggested/earned model · Evidence/Mastery lifecycle · privacy/projection · Wingprint/Flight Signature resolution · Cross-Wing qualification state | Governance | Planned | Open decisions 1C | Founder | Premature earned identity | Later identity implementation |
 | DEP-110 | GHV.CROW-IDENTITY.1D visual system · silhouette/glyph validation · animation grammar · reduced motion · cultural/a11y/performance | Governance/Design | Planned | Open decisions 1D | Founder | Color-only / inaccessible identity | Visual baseline |
-| DEP-111 | Crow Identity Intake Baseline v0.1.1 | Governance | **ADMITTED CANDIDATE** | [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) | Founder | Authority inflation | Pre-1B |
-| DEP-112 | Remount of primary handoff/ZIP/prototypes for optional chain-of-custody completion | Governance | Optional / Open | SOURCE-PACKAGE-INVENTORY missing FILE-001/ZIP/PNG | Founder | Incomplete binary audit trail | Prefer before 1D art Gate |
+| DEP-111 | Crow Identity Intake Baseline v0.1.1 | Governance | **ADMITTED CANDIDATE** | [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) | Founder | Authority inflation | Pre-1B (historical) |
+| DEP-112 | Remount of primary handoff/ZIP/prototypes for optional chain-of-custody completion | Governance | **Partial — primary Markdown remounted by 1A-AMENDMENT-01; ZIP/PNGs still deferred** | SOURCE-PACKAGE-INVENTORY v0.1.1 | Founder | Incomplete binary audit trail | Prefer before 1D art Gate |
+| DEP-113 | Core Crow Lineage Taxonomy Baseline v1.0.0 | Governance | **LOCKED (design)** | [GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md](../../product/identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md) | Founder | Runtime authority inflation | Pre-identity Product Code |
+| DEP-114 | Nest vocabulary contract before 0E Product Code | Governance | **Satisfied as contract; 0E not started** | [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](../../product/identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) | Founder | Readiness→Lineage overclaim | GHV.IMPLEMENTATION.0E |

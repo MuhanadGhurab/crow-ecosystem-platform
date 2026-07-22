@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.16.0 |
+| **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-21 |
-| **Source Gate** | GHV.IMPLEMENTATION.0A |
+| **Last updated** | 2026-07-22 |
+| **Source Gate** | GHV.CROW-IDENTITY.1B |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -2896,3 +2896,103 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1A |
 | **Evidence** | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) · Conflict Register CID-CON-002 |
+
+## DEC-293 — Formal taxonomy noun Core Crow Lineage / Crow Lineage
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock formal internal English **Core Crow Lineage** and concise user-facing **Crow Lineage** with the 1B definition excluding ancestry, birthright, Rank, Prestige, proof, and permanent career classification. Do not silently alternate with Archetype after this Gate. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [CROW-IDENTITY-TERMINOLOGY-GLOSSARY.md](../../product/identity/crow-system/taxonomy/CROW-IDENTITY-TERMINOLOGY-GLOSSARY.md) |
+
+## DEC-294 — Stable immutable Core Crow Lineage IDs
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-OPR/BLD/ANL/PRT/LED-01..05 mapped 1:1 to O1–L5; IDs never change on rename; retired IDs never reused; Cross-Wing Majors do not receive Core Lineage IDs; versioning covers ADD/RENAME/CLARIFY/DEPRECATE/SUPERSEDE/SPLIT/MERGE. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [LINEAGE-ID-AND-VERSIONING-POLICY.md](../../product/identity/crow-system/taxonomy/LINEAGE-ID-AND-VERSIONING-POLICY.md) |
+
+## DEC-295 — Lock 25 Core Crow Lineage English registry
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock the 25 English names and meanings from the materialized handoff as the Core Crow Lineage registry under Taxonomy Baseline v1.0.0. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [CORE-CROW-LINEAGE-REGISTRY.md](../../product/identity/crow-system/taxonomy/CORE-CROW-LINEAGE-REGISTRY.md) |
+
+## DEC-296 — Collision model with zero unresolved critical collisions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Accept the functional collision/boundary matrix; unresolved critical collisions = 0; retained naming risks documented with mitigations. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [LINEAGE-COLLISION-BOUNDARY-MATRIX.md](../../product/identity/crow-system/taxonomy/LINEAGE-COLLISION-BOUNDARY-MATRIX.md) |
+
+## DEC-297 — Arabic Lineage labels CONTROLLED PROVISIONAL
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Admit handoff Arabic working labels as CONTROLLED PROVISIONAL only; not native-reviewed; English taxonomy remains authoritative; native Arabic linguistic/cultural validation remains required. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [CROW-IDENTITY-1B-LOCALIZATION-STATUS.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1B-LOCALIZATION-STATUS.md) |
+
+## DEC-298 — Wingprint boundary versus Core Crow Lineage
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock Wingprint as chosen presentation/personalization configuration that cannot prove/grant Lineage, Evidence, Mastery, Trust, Prestige, Rank, or access. Do not modify 0D Product Code in 1B. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [CROW-IDENTITY-WINGPRINT-BOUNDARY.md](../../product/identity/crow-system/taxonomy/CROW-IDENTITY-WINGPRINT-BOUNDARY.md) |
+
+## DEC-299 — Nest / 0E vocabulary contract
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock Nest/0E copy and behaviour contract: readiness/exploration language only; prohibit Lineage award, Evidence seals, Trust calculation, Prestige/Mastery grants, and earned-identity persistence in 0E. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](../../product/identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) |
+
+## DEC-300 — Evolved Roles deferred
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evolved Roles remain DEFERRED: not part of Core taxonomy baseline; no IDs, roster, or award rules; may revive only after a later Gate proves distinct purpose versus Mastery/Major/Prestige/Rank/titles. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | Taxonomy Baseline v1.0.0 · supersedes open “define Evolved Roles” from 1A open list |
+
+## DEC-301 — Cross-Wing Majors remain provisional candidates
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Retain ten Horizon-pair families and fifty Major names as provisional candidates only; do not activate curricula, award IDs, Fusion Signature art, or imply two chosen Lineages create a Major. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | Taxonomy Baseline · handoff §10 |
+
+## DEC-302 — Symbol namespace separation reaffirmed for taxonomy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lineage Mark, Evidence Seal, Fusion Signature, Prestige mark, and Rank mark remain separate namespaces; Trust has no public symbol and cannot influence visible Lineage appearance. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | Terminology glossary · DEC-288 lineage |
+
+## DEC-303 — Release 0E governance hold for Nest/readiness scope only
+
+| Field | Value |
+|-------|-------|
+| **Decision** | On GHV.CROW-IDENTITY.1B PASS, release the 0E governance hold for Nest/readiness vocabulary and scope only. 0E becomes ELIGIBLE TO START · NOT STARTED and remains prohibited from awarding or persisting earned Crow identity. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1B |
+| **Evidence** | Nest vocabulary contract · GATE-REGISTER · amends DEC-291 hold |
+
