@@ -91,7 +91,7 @@ export const commandReceipts = pgTable(
   ],
 );
 
-/** Crow personalization + Origin — id equals activation_aggregates.id */
+/** Crow personalization + Origin + Nest readiness — id equals activation_aggregates.id */
 export const onboardingAggregates = pgTable("onboarding_aggregates", {
   id: text()
     .primaryKey()
@@ -102,6 +102,9 @@ export const onboardingAggregates = pgTable("onboarding_aggregates", {
     "personalization_catalogue_version",
   ).notNull(),
   originCatalogueVersion: text("origin_catalogue_version").notNull(),
+  nestReadinessCatalogueVersion: text("nest_readiness_catalogue_version")
+    .notNull()
+    .default("0.1.0"),
   path: text(),
   crowOptionId: text("crow_option_id"),
   colorOptionId: text("color_option_id"),
@@ -123,7 +126,62 @@ export const onboardingAggregates = pgTable("onboarding_aggregates", {
   privacyPreviewAcknowledged: boolean("privacy_preview_acknowledged")
     .notNull()
     .default(false),
+  nestAttemptId: text("nest_attempt_id"),
+  nestAttemptStatus: text("nest_attempt_status").notNull().default("NONE"),
+  nestScore: integer("nest_score"),
+  nestBand: text("nest_band"),
+  nestWeakCapabilityIds: jsonb("nest_weak_capability_ids")
+    .$type<string[]>()
+    .notNull()
+    .default([]),
+  nestResultAcknowledged: boolean("nest_result_acknowledged")
+    .notNull()
+    .default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
   latestCorrelationId: text("latest_correlation_id"),
 });
+
+export const nestReadinessAttempts = pgTable("nest_readiness_attempts", {
+  id: text().primaryKey(),
+  onboardingId: text("onboarding_id")
+    .notNull()
+    .references(() => onboardingAggregates.id),
+  catalogueVersion: text("catalogue_version").notNull(),
+  status: text().notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true }).notNull(),
+  submittedAt: timestamp("submitted_at", { withTimezone: true }),
+  score: integer(),
+  band: text(),
+  weakCapabilityIds: jsonb("weak_capability_ids")
+    .$type<string[]>()
+    .notNull()
+    .default([]),
+  version: integer().notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+});
+
+export const nestReadinessAnswers = pgTable(
+  "nest_readiness_answers",
+  {
+    id: text().primaryKey(),
+    attemptId: text("attempt_id")
+      .notNull()
+      .references(() => nestReadinessAttempts.id),
+    itemId: text("item_id").notNull(),
+    selectedOptionId: text("selected_option_id").notNull(),
+    capabilityIds: jsonb("capability_ids")
+      .$type<string[]>()
+      .notNull()
+      .default([]),
+    correct: boolean().notNull(),
+    savedAt: timestamp("saved_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [
+    uniqueIndex("nest_readiness_answers_attempt_item_unique").on(
+      t.attemptId,
+      t.itemId,
+    ),
+  ],
+);

@@ -9,6 +9,7 @@ import type {
 import {
   PERSONALIZATION_CATALOGUE_VERSION,
   ORIGIN_CATALOGUE_VERSION,
+  NEST_READINESS_CATALOGUE_VERSION,
 } from "@ghuravia/contracts/schemas";
 import { useLocale } from "../../../lib/locale-context";
 import { errorMessage } from "../../../lib/localization/format";
@@ -63,6 +64,7 @@ export function emptyOnboardingBootstrap(
     version: 0,
     personalizationCatalogueVersion: PERSONALIZATION_CATALOGUE_VERSION,
     originCatalogueVersion: ORIGIN_CATALOGUE_VERSION,
+    nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
     personalization: {
       path: null,
       status: "NOT_STARTED",
@@ -81,6 +83,19 @@ export function emptyOnboardingBootstrap(
       experienceOption: null,
       goalsOptions: [],
     },
+    nestReadiness: {
+      catalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+      attemptId: null,
+      attemptStatus: "NONE",
+      answeredItemIds: [],
+      answerCount: 0,
+      totalItems: 10,
+      canSubmit: false,
+      score: null,
+      band: null,
+      weakCapabilityIds: [],
+      resultAcknowledged: false,
+    },
     locks: [],
     allowedNextActions: ["BEGIN_GUIDED_PERSONALIZATION", "BEGIN_QUICK_START"],
     accessibleScreens: ["ONB-001"],
@@ -91,6 +106,13 @@ export function emptyOnboardingBootstrap(
       rank: 0,
       prestige: 0,
       trust: 0,
+    },
+    nestIdentityImpact: {
+      lineageAwarded: false,
+      crossWingMajorCreated: false,
+      evidenceSealIssued: false,
+      fusionSignatureIssued: false,
+      paymentEntitlementChanged: false,
     },
     localOnly: true,
   };
@@ -192,6 +214,8 @@ export function useOnboarding(
         PERSONALIZATION_CATALOGUE_VERSION,
       originCatalogueVersion:
         body.originCatalogueVersion ?? ORIGIN_CATALOGUE_VERSION,
+      nestReadinessCatalogueVersion:
+        body.nestReadinessCatalogueVersion ?? NEST_READINESS_CATALOGUE_VERSION,
       ...body,
     };
     const fingerprint =

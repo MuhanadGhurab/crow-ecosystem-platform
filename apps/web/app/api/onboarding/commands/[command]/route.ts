@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { OnboardingCommandService } from "@ghuravia/data";
 import type { OnboardingCommand } from "@ghuravia/contracts/schemas";
+import { NEST_READINESS_CATALOGUE_VERSION } from "@ghuravia/contracts/schemas";
 import {
   decodeSession,
   getSessionSecret,
@@ -22,7 +23,22 @@ type Cmd =
   | "save-origin-draft"
   | "mark-origin-review-later"
   | "complete-origin"
-  | "ack-nest-intro";
+  | "ack-nest-intro"
+  | "start-nest-assessment"
+  | "save-nest-answer"
+  | "submit-nest-assessment"
+  | "ack-nest-result"
+  | "choose-nest-learning-path"
+  | "continue-to-horizon-handoff";
+
+const NEST_COMMANDS = new Set<Cmd>([
+  "start-nest-assessment",
+  "save-nest-answer",
+  "submit-nest-assessment",
+  "ack-nest-result",
+  "choose-nest-learning-path",
+  "continue-to-horizon-handoff",
+]);
 
 const map: Record<Cmd, OnboardingCommand["type"]> = {
   "begin-guided": "BEGIN_GUIDED_PERSONALIZATION",
@@ -35,6 +51,12 @@ const map: Record<Cmd, OnboardingCommand["type"]> = {
   "mark-origin-review-later": "MARK_ORIGIN_REVIEW_LATER",
   "complete-origin": "COMPLETE_ORIGIN",
   "ack-nest-intro": "ACK_NEST_INTRO_HANDOFF",
+  "start-nest-assessment": "START_NEST_ASSESSMENT",
+  "save-nest-answer": "SAVE_NEST_ANSWER",
+  "submit-nest-assessment": "SUBMIT_NEST_ASSESSMENT",
+  "ack-nest-result": "ACK_NEST_RESULT",
+  "choose-nest-learning-path": "CHOOSE_NEST_LEARNING_PATH",
+  "continue-to-horizon-handoff": "CONTINUE_TO_HORIZON_HANDOFF",
 };
 
 export async function POST(
@@ -57,6 +79,10 @@ export async function POST(
       correlationId?: string;
       personalizationCatalogueVersion?: string;
       originCatalogueVersion?: string;
+      nestReadinessCatalogueVersion?: string;
+      nestAttemptId?: string;
+      nestItemId?: string;
+      nestOptionId?: string;
       crowOptionId?: string;
       colorOptionId?: string;
       styleOptionId?: string;
@@ -79,6 +105,12 @@ export async function POST(
     const session = decodeSession(raw, getSessionSecret());
     if (!session) return jsonError("UNAUTHORIZED", "Invalid session", 401);
 
+    // Server-authoritative: never accept client score/band.
+    // start-nest-assessment attempt id is generated inside the command service
+    // after idempotency checks so retries fingerprint-match.
+    const nestAttemptId =
+      cmd === "start-nest-assessment" ? undefined : body.nestAttemptId;
+
     const { db } = getDb();
     const svc = new OnboardingCommandService(db);
     const command: OnboardingCommand = {
@@ -88,6 +120,13 @@ export async function POST(
       authority: "self",
       personalizationCatalogueVersion: body.personalizationCatalogueVersion,
       originCatalogueVersion: body.originCatalogueVersion,
+      nestReadinessCatalogueVersion: NEST_COMMANDS.has(cmd)
+        ? (body.nestReadinessCatalogueVersion ??
+          NEST_READINESS_CATALOGUE_VERSION)
+        : body.nestReadinessCatalogueVersion,
+      nestAttemptId,
+      nestItemId: body.nestItemId,
+      nestOptionId: body.nestOptionId,
       crowOptionId: body.crowOptionId,
       colorOptionId: body.colorOptionId,
       styleOptionId: body.styleOptionId,

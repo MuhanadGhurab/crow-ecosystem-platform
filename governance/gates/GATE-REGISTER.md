@@ -50,7 +50,7 @@
 | GHV.CROW-IDENTITY.1B | Core Crow Lineage Taxonomy Baseline | **PASS — CORE CROW LINEAGE TAXONOMY BASELINE v1.0.0 LOCKED AS INTERNAL TAXONOMY DESIGN BASELINE WITH CONTROLLED PROVISIONAL ARABIC DISPLAY LABELS** | Taxonomy Baseline v1.0.0 **LOCKED** · no implementation authority · [Record](./GHV.CROW-IDENTITY.1B.md) · [Baseline](../../product/identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md) |
 | GHV.CROW-IDENTITY.1C | Chosen / Suggested / Earned Identity Model | **ELIGIBLE TO START · NOT STARTED** | Opened after Crow-Identity.1B |
 | GHV.CROW-IDENTITY.1D | Visual and Animation Identity System | **PLANNED · NOT STARTED** | After 1B; may proceed after/ beside 1C per programme |
-| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **ELIGIBLE TO START · NOT STARTED · GOVERNANCE HOLD RELEASED FOR NEST/READINESS SCOPE ONLY** | Must obey Nest vocabulary contract; must not award earned Lineage |
+| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0E.md) · Auth GHV-IMP-AUTH-005 · Baseline v0.5.0 · [Acceptance](../implementation/IMPLEMENTATION-0E-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0E-BROWSER-EVIDENCE-MATRIX.md) · local CI pending remote |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)
@@ -132,10 +132,9 @@ GHV.CROW-IDENTITY.1D:
 PLANNED
 NOT STARTED
 GHV.IMPLEMENTATION.0E:
-ELIGIBLE TO START
-NOT STARTED
-GOVERNANCE HOLD RELEASED FOR
-NEST/READINESS SCOPE ONLY
+PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION
+VERTICAL SLICE COMPLETE WITH NON-BLOCKING
+IMPLEMENTATION CONDITIONS
 ```
 
 Reports:

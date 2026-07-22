@@ -182,6 +182,22 @@ export const OnboardingState = z.enum([
   "ORIGIN_REVIEW_LATER",
   "ORIGIN_COMPLETE",
   "NEST_INTRO_HANDOFF",
+  "NEST_ASSESSMENT_IN_PROGRESS",
+  "NEST_RESULT_READY",
+  "NEST_LEARNING_HANDOFF",
+  "HORIZON_CHOICE_HANDOFF",
+]);
+
+export const NestReadinessBand = z.enum([
+  "READY_TO_FLY",
+  "GUIDED_SKIP",
+  "NEST_RECOMMENDED",
+]);
+
+export const NestReadinessAttemptStatus = z.enum([
+  "NONE",
+  "IN_PROGRESS",
+  "SUBMITTED",
 ]);
 
 export const OnboardingPath = z.enum(["GUIDED", "QUICK_START"]);
@@ -211,10 +227,17 @@ export const OnboardingCommandType = z.enum([
   "MARK_ORIGIN_REVIEW_LATER",
   "COMPLETE_ORIGIN",
   "ACK_NEST_INTRO_HANDOFF",
+  "START_NEST_ASSESSMENT",
+  "SAVE_NEST_ANSWER",
+  "SUBMIT_NEST_ASSESSMENT",
+  "ACK_NEST_RESULT",
+  "CHOOSE_NEST_LEARNING_PATH",
+  "CONTINUE_TO_HORIZON_HANDOFF",
 ]);
 
 export const PERSONALIZATION_CATALOGUE_VERSION = "0.1.0" as const;
 export const ORIGIN_CATALOGUE_VERSION = "0.1.0" as const;
+export const NEST_READINESS_CATALOGUE_VERSION = "0.1.0" as const;
 
 export const PersonalizationDraft = z.object({
   path: OnboardingPath.nullable(),
@@ -237,12 +260,36 @@ export const OriginDraft = z.object({
   goalsOptions: z.array(z.string()),
 });
 
+export const NestReadinessAnswerDraft = z.object({
+  itemId: z.string(),
+  optionId: z.string(),
+});
+
+export const NestReadinessSlice = z.object({
+  catalogueVersion: z.string(),
+  attemptId: z.string().nullable(),
+  attemptStatus: NestReadinessAttemptStatus,
+  answeredItemIds: z.array(z.string()),
+  answerCount: z.number().int().nonnegative(),
+  totalItems: z.literal(10),
+  canSubmit: z.boolean(),
+  /** Exposed only after server submission */
+  score: z.number().int().min(0).max(100).nullable(),
+  band: NestReadinessBand.nullable(),
+  weakCapabilityIds: z.array(z.string()),
+  resultAcknowledged: z.boolean(),
+});
+
 export const OnboardingCommand = z.object({
   type: OnboardingCommandType,
   idempotencyKey: z.string().min(1),
   actorRef: z.string().min(1),
   personalizationCatalogueVersion: z.string().optional(),
   originCatalogueVersion: z.string().optional(),
+  nestReadinessCatalogueVersion: z.string().optional(),
+  nestAttemptId: z.string().optional(),
+  nestItemId: z.string().optional(),
+  nestOptionId: z.string().optional(),
   crowOptionId: z.string().optional(),
   colorOptionId: z.string().optional(),
   styleOptionId: z.string().optional(),
@@ -281,19 +328,28 @@ export const OnboardingResource = z.object({
   version: z.number().int().nonnegative(),
   personalizationCatalogueVersion: z.string(),
   originCatalogueVersion: z.string(),
+  nestReadinessCatalogueVersion: z.string(),
   personalization: PersonalizationDraft,
   origin: OriginDraft,
+  nestReadiness: NestReadinessSlice,
   locks: z.array(CosmeticsExplainableLock),
   allowedNextActions: z.array(z.string()),
   accessibleScreens: z.array(z.string()),
   nestIntroHandoffAllowed: z.boolean(),
-  /** Personalization / Origin never produce progression */
+  /** Personalization / Origin / Nest readiness never produce progression */
   progressionImpact: z.object({
     xp: z.literal(0),
     mastery: z.literal(0),
     rank: z.literal(0),
     prestige: z.literal(0),
     trust: z.literal(0),
+  }),
+  nestIdentityImpact: z.object({
+    lineageAwarded: z.literal(false),
+    crossWingMajorCreated: z.literal(false),
+    evidenceSealIssued: z.literal(false),
+    fusionSignatureIssued: z.literal(false),
+    paymentEntitlementChanged: z.literal(false),
   }),
   localOnly: z.literal(true),
   correlationId: z.string().optional(),
@@ -304,6 +360,10 @@ export const OnboardingCommandRequest = z.object({
   correlationId: z.string().optional(),
   personalizationCatalogueVersion: z.string().optional(),
   originCatalogueVersion: z.string().optional(),
+  nestReadinessCatalogueVersion: z.string().optional(),
+  nestAttemptId: z.string().optional(),
+  nestItemId: z.string().optional(),
+  nestOptionId: z.string().optional(),
   crowOptionId: z.string().optional(),
   colorOptionId: z.string().optional(),
   styleOptionId: z.string().optional(),
@@ -344,3 +404,9 @@ export type OriginDraft = z.infer<typeof OriginDraft>;
 export type OnboardingResource = z.infer<typeof OnboardingResource>;
 export type CosmeticsExplainableLock = z.infer<typeof CosmeticsExplainableLock>;
 export type CosmeticsLockCode = z.infer<typeof CosmeticsLockCode>;
+export type NestReadinessBand = z.infer<typeof NestReadinessBand>;
+export type NestReadinessAttemptStatus = z.infer<
+  typeof NestReadinessAttemptStatus
+>;
+export type NestReadinessAnswerDraft = z.infer<typeof NestReadinessAnswerDraft>;
+export type NestReadinessSlice = z.infer<typeof NestReadinessSlice>;

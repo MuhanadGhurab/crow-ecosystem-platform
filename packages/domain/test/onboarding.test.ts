@@ -8,6 +8,7 @@ import {
   isMinimumPersonalizationComplete,
   LOCKED_HABITAT,
   nestIntroHandoffAllowed,
+  NEST_READINESS_ITEMS,
   originDoesNotAffectTrust,
   personalizationProgressionImpact,
   QUICK_START_DEFAULTS,
@@ -363,4 +364,194 @@ test("personalization and origin produce no progression side effects", () => {
   });
   assert.ok(result.events.includes("Onboarding.BEGIN_QUICK_START"));
   assert.equal(result.auditIntent.fieldCategory, "personalization_path");
+});
+
+const NEST_READINESS_CATALOGUE_VERSION = "0.1.0";
+
+function toNestIntro(): Onboarding {
+  let o = applyOnboardingCommand(
+    base(),
+    {
+      type: "BEGIN_QUICK_START",
+      idempotencyKey: "n1",
+      actorRef: "u",
+      personalizationCatalogueVersion: PERSONALIZATION_CATALOGUE_VERSION,
+    },
+    0,
+  ).aggregate;
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "COMPLETE_ORIGIN",
+      idempotencyKey: "n2",
+      actorRef: "u",
+      originCatalogueVersion: ORIGIN_CATALOGUE_VERSION,
+      originRegionOption: "region.gulf",
+      originExperienceOption: "exp.exploring",
+      originGoalsOptions: ["goal.foundations"],
+    },
+    1,
+  ).aggregate;
+  return applyOnboardingCommand(
+    o,
+    {
+      type: "ACK_NEST_INTRO_HANDOFF",
+      idempotencyKey: "n3",
+      actorRef: "u",
+    },
+    2,
+  ).aggregate;
+}
+
+test("nest assessment start/save/submit and Nest Recommended blocks horizon", () => {
+  let o = toNestIntro();
+  assert.equal(canAccessOnboardingScreen(o, "ONB-003"), true);
+  assert.equal(canAccessOnboardingScreen(o, "ONB-004"), false);
+
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "START_NEST_ASSESSMENT",
+      idempotencyKey: "n4",
+      actorRef: "u",
+      nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+      nestAttemptId: "attempt-1",
+    },
+    3,
+  ).aggregate;
+  assert.equal(o.state, "NEST_ASSESSMENT_IN_PROGRESS");
+  assert.equal(o.nestAttemptStatus, "IN_PROGRESS");
+  assert.equal(canAccessOnboardingScreen(o, "ONB-004"), true);
+
+  let version = 4;
+  for (const item of NEST_READINESS_ITEMS) {
+    const wrong = item.options.find((opt) => opt.id !== item.correctOptionId)!;
+    o = applyOnboardingCommand(
+      o,
+      {
+        type: "SAVE_NEST_ANSWER",
+        idempotencyKey: `save-${item.id}`,
+        actorRef: "u",
+        nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+        nestItemId: item.id,
+        nestOptionId: wrong.id,
+      },
+      version,
+    ).aggregate;
+    version += 1;
+  }
+  assert.equal(o.nestAnswers.length, 10);
+
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "SUBMIT_NEST_ASSESSMENT",
+      idempotencyKey: "submit",
+      actorRef: "u",
+      nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+    },
+    version,
+  ).aggregate;
+  assert.equal(o.state, "NEST_RESULT_READY");
+  assert.equal(o.nestAttemptStatus, "SUBMITTED");
+  assert.equal(o.nestScore, 0);
+  assert.equal(o.nestBand, "NEST_RECOMMENDED");
+  assert.equal(canAccessOnboardingScreen(o, "ONB-005"), true);
+  assert.equal(canAccessOnboardingScreen(o, "ONB-007"), false);
+
+  assert.throws(
+    () =>
+      applyOnboardingCommand(
+        o,
+        {
+          type: "CONTINUE_TO_HORIZON_HANDOFF",
+          idempotencyKey: "horizon-blocked",
+          actorRef: "u",
+        },
+        version + 1,
+      ),
+    /FORBIDDEN/,
+  );
+
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "CHOOSE_NEST_LEARNING_PATH",
+      idempotencyKey: "learn",
+      actorRef: "u",
+    },
+    version + 1,
+  ).aggregate;
+  assert.equal(o.state, "NEST_LEARNING_HANDOFF");
+  assert.equal(canAccessOnboardingScreen(o, "ONB-006"), true);
+  assert.equal(canAccessOnboardingScreen(o, "ONB-007"), false);
+
+  assert.throws(
+    () =>
+      applyOnboardingCommand(
+        o,
+        {
+          type: "START_NEST_ASSESSMENT",
+          idempotencyKey: "retake",
+          actorRef: "u",
+          nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+          nestAttemptId: "attempt-2",
+        },
+        version + 2,
+      ),
+    /INVALID_TRANSITION|FORBIDDEN/,
+  );
+});
+
+test("ready band unlocks horizon handoff only", () => {
+  let o = toNestIntro();
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "START_NEST_ASSESSMENT",
+      idempotencyKey: "r1",
+      actorRef: "u",
+      nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+      nestAttemptId: "attempt-ready",
+    },
+    3,
+  ).aggregate;
+  let version = 4;
+  for (const item of NEST_READINESS_ITEMS) {
+    o = applyOnboardingCommand(
+      o,
+      {
+        type: "SAVE_NEST_ANSWER",
+        idempotencyKey: `ok-${item.id}`,
+        actorRef: "u",
+        nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+        nestItemId: item.id,
+        nestOptionId: item.correctOptionId,
+      },
+      version,
+    ).aggregate;
+    version += 1;
+  }
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "SUBMIT_NEST_ASSESSMENT",
+      idempotencyKey: "r-submit",
+      actorRef: "u",
+      nestReadinessCatalogueVersion: NEST_READINESS_CATALOGUE_VERSION,
+    },
+    version,
+  ).aggregate;
+  assert.equal(o.nestBand, "READY_TO_FLY");
+  o = applyOnboardingCommand(
+    o,
+    {
+      type: "CONTINUE_TO_HORIZON_HANDOFF",
+      idempotencyKey: "r-horizon",
+      actorRef: "u",
+    },
+    version + 1,
+  ).aggregate;
+  assert.equal(o.state, "HORIZON_CHOICE_HANDOFF");
+  assert.equal(canAccessOnboardingScreen(o, "ONB-007"), true);
 });

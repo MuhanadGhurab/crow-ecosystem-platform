@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { eq, and } from "drizzle-orm";
 import type {
+  NestReadinessSlice,
   OnboardingCommand,
   OnboardingResource,
 } from "@ghuravia/contracts/schemas";
@@ -11,22 +12,31 @@ import {
   createInitialOnboarding,
   explainableLocksForCosmetics,
   nestIntroHandoffAllowed,
+  nestReadinessIdentityImpact,
+  nestReadinessProgressionImpact,
+  nestReadinessTotalItems,
   personalizationProgressionImpact,
+  type NestAnswerRecord,
   type Onboarding,
 } from "@ghuravia/domain";
 import * as schema from "./schema";
 import { fingerprint, type Db, type Tx } from "./activation";
 
+const TOTAL_NEST_ITEMS = nestReadinessTotalItems();
+
 function toDomain(
   row: typeof schema.onboardingAggregates.$inferSelect,
+  answers: readonly NestAnswerRecord[] = [],
 ): Onboarding {
   const goals = row.originGoalsOptions;
+  const weak = row.nestWeakCapabilityIds;
   return {
     id: row.id,
     state: row.state as Onboarding["state"],
     version: row.version,
     personalizationCatalogueVersion: row.personalizationCatalogueVersion,
     originCatalogueVersion: row.originCatalogueVersion,
+    nestReadinessCatalogueVersion: row.nestReadinessCatalogueVersion,
     path: (row.path as Onboarding["path"]) ?? null,
     crowOptionId: row.crowOptionId ?? null,
     colorOptionId: row.colorOptionId ?? null,
@@ -42,6 +52,32 @@ function toDomain(
     originGoalsOptions: Array.isArray(goals) ? goals : [],
     contrastOverrideAcknowledged: row.contrastOverrideAcknowledged,
     privacyPreviewAcknowledged: row.privacyPreviewAcknowledged,
+    nestAttemptId: row.nestAttemptId ?? null,
+    nestAttemptStatus: row.nestAttemptStatus as Onboarding["nestAttemptStatus"],
+    nestAnswers: [...answers],
+    nestScore: row.nestScore ?? null,
+    nestBand: (row.nestBand as Onboarding["nestBand"]) ?? null,
+    nestWeakCapabilityIds: Array.isArray(weak) ? weak : [],
+    nestResultAcknowledged: row.nestResultAcknowledged,
+  };
+}
+
+function toNestReadinessSlice(o: Onboarding): NestReadinessSlice {
+  const answeredItemIds = o.nestAnswers.map((a) => a.itemId);
+  const submitted = o.nestAttemptStatus === "SUBMITTED";
+  return {
+    catalogueVersion: o.nestReadinessCatalogueVersion,
+    attemptId: o.nestAttemptId,
+    attemptStatus: o.nestAttemptStatus,
+    answeredItemIds,
+    answerCount: answeredItemIds.length,
+    totalItems: 10,
+    canSubmit:
+      o.nestAttemptStatus === "IN_PROGRESS" && answeredItemIds.length === 10,
+    score: submitted ? o.nestScore : null,
+    band: submitted ? o.nestBand : null,
+    weakCapabilityIds: submitted ? [...o.nestWeakCapabilityIds] : [],
+    resultAcknowledged: o.nestResultAcknowledged,
   };
 }
 
@@ -55,6 +91,7 @@ export function toOnboardingResource(
     version: o.version,
     personalizationCatalogueVersion: o.personalizationCatalogueVersion,
     originCatalogueVersion: o.originCatalogueVersion,
+    nestReadinessCatalogueVersion: o.nestReadinessCatalogueVersion,
     personalization: {
       path: o.path,
       status: o.personalizationStatus,
@@ -73,11 +110,13 @@ export function toOnboardingResource(
       experienceOption: o.originExperienceOption,
       goalsOptions: [...o.originGoalsOptions],
     },
+    nestReadiness: toNestReadinessSlice(o),
     locks: explainableLocksForCosmetics(),
     allowedNextActions: allowedNextOnboardingActions(o),
     accessibleScreens: accessibleScreens(o),
     nestIntroHandoffAllowed: nestIntroHandoffAllowed(o),
     progressionImpact: personalizationProgressionImpact(),
+    nestIdentityImpact: nestReadinessIdentityImpact(),
     localOnly: true,
     correlationId,
   };
@@ -141,6 +180,10 @@ function commandFingerprint(command: OnboardingCommand): string {
     type: command.type,
     personalizationCatalogueVersion: command.personalizationCatalogueVersion,
     originCatalogueVersion: command.originCatalogueVersion,
+    nestReadinessCatalogueVersion: command.nestReadinessCatalogueVersion,
+    nestAttemptId: command.nestAttemptId,
+    nestItemId: command.nestItemId,
+    nestOptionId: command.nestOptionId,
     crowOptionId: command.crowOptionId,
     colorOptionId: command.colorOptionId,
     styleOptionId: command.styleOptionId,
@@ -157,8 +200,67 @@ function commandFingerprint(command: OnboardingCommand): string {
   });
 }
 
+function aggregateInsertValues(initial: Onboarding, now: Date) {
+  return {
+    id: initial.id,
+    state: initial.state,
+    version: initial.version,
+    personalizationCatalogueVersion: initial.personalizationCatalogueVersion,
+    originCatalogueVersion: initial.originCatalogueVersion,
+    nestReadinessCatalogueVersion: initial.nestReadinessCatalogueVersion,
+    path: null as string | null,
+    crowOptionId: null as string | null,
+    colorOptionId: null as string | null,
+    styleOptionId: null as string | null,
+    habitatOptionId: null as string | null,
+    characterOptionId: null as string | null,
+    accessoryOptionId: null as string | null,
+    personalizationStatus: initial.personalizationStatus,
+    originStatus: initial.originStatus,
+    originRegionOption: null as string | null,
+    originExperienceOption: null as string | null,
+    originGoalsOptions: [] as string[],
+    contrastOverrideAcknowledged: false,
+    privacyPreviewAcknowledged: false,
+    nestAttemptId: null as string | null,
+    nestAttemptStatus: "NONE",
+    nestScore: null as number | null,
+    nestBand: null as string | null,
+    nestWeakCapabilityIds: [] as string[],
+    nestResultAcknowledged: false,
+    createdAt: now,
+    updatedAt: now,
+    latestCorrelationId: null as string | null,
+  };
+}
+
 export class OnboardingCommandService {
   constructor(private readonly db: Db) {}
+
+  private async loadAnswers(
+    db: Db | Tx,
+    attemptId: string | null,
+  ): Promise<NestAnswerRecord[]> {
+    if (!attemptId) return [];
+    const rows = await db
+      .select()
+      .from(schema.nestReadinessAnswers)
+      .where(eq(schema.nestReadinessAnswers.attemptId, attemptId));
+    return rows.map((r) => ({
+      itemId: r.itemId,
+      optionId: r.selectedOptionId,
+      correct: r.correct,
+      capabilityIds: Array.isArray(r.capabilityIds) ? r.capabilityIds : [],
+    }));
+  }
+
+  private async loadDomain(
+    db: Db | Tx,
+    row: typeof schema.onboardingAggregates.$inferSelect,
+  ): Promise<Onboarding> {
+    const answers = await this.loadAnswers(db, row.nestAttemptId);
+    return toDomain(row, answers);
+  }
 
   async get(aggregateId: string): Promise<OnboardingResource | null> {
     const rows = await this.db
@@ -168,10 +270,8 @@ export class OnboardingCommandService {
       .limit(1);
     const row = rows[0];
     if (!row) return null;
-    return toOnboardingResource(
-      toDomain(row),
-      row.latestCorrelationId ?? undefined,
-    );
+    const o = await this.loadDomain(this.db, row);
+    return toOnboardingResource(o, row.latestCorrelationId ?? undefined);
   }
 
   /**
@@ -185,7 +285,7 @@ export class OnboardingCommandService {
       .from(schema.onboardingAggregates)
       .where(eq(schema.onboardingAggregates.id, aggregateId))
       .limit(1);
-    if (existing[0]) return toDomain(existing[0]);
+    if (existing[0]) return this.loadDomain(this.db, existing[0]);
 
     const activation = await this.db
       .select()
@@ -208,30 +308,9 @@ export class OnboardingCommandService {
 
     const initial = createInitialOnboarding(aggregateId);
     const now = new Date();
-    await this.db.insert(schema.onboardingAggregates).values({
-      id: initial.id,
-      state: initial.state,
-      version: initial.version,
-      personalizationCatalogueVersion: initial.personalizationCatalogueVersion,
-      originCatalogueVersion: initial.originCatalogueVersion,
-      path: null,
-      crowOptionId: null,
-      colorOptionId: null,
-      styleOptionId: null,
-      habitatOptionId: null,
-      characterOptionId: null,
-      accessoryOptionId: null,
-      personalizationStatus: initial.personalizationStatus,
-      originStatus: initial.originStatus,
-      originRegionOption: null,
-      originExperienceOption: null,
-      originGoalsOptions: [],
-      contrastOverrideAcknowledged: false,
-      privacyPreviewAcknowledged: false,
-      createdAt: now,
-      updatedAt: now,
-      latestCorrelationId: null,
-    });
+    await this.db
+      .insert(schema.onboardingAggregates)
+      .values(aggregateInsertValues(initial, now));
     return initial;
   }
 
@@ -261,22 +340,9 @@ export class OnboardingCommandService {
           await this.ensureActivatedInTx(tx, input.aggregateId);
           const initial = createInitialOnboarding(input.aggregateId);
           const now = new Date();
-          await tx.insert(schema.onboardingAggregates).values({
-            id: initial.id,
-            state: initial.state,
-            version: initial.version,
-            personalizationCatalogueVersion:
-              initial.personalizationCatalogueVersion,
-            originCatalogueVersion: initial.originCatalogueVersion,
-            path: null,
-            personalizationStatus: initial.personalizationStatus,
-            originStatus: initial.originStatus,
-            originGoalsOptions: [],
-            contrastOverrideAcknowledged: false,
-            privacyPreviewAcknowledged: false,
-            createdAt: now,
-            updatedAt: now,
-          });
+          await tx
+            .insert(schema.onboardingAggregates)
+            .values(aggregateInsertValues(initial, now));
           row = (
             await tx
               .select()
@@ -306,7 +372,7 @@ export class OnboardingCommandService {
             err.correlationId = receipt.correlationId;
             throw err;
           }
-          const a = toDomain(row);
+          const a = await this.loadDomain(tx, row);
           return {
             correlationId: receipt.correlationId,
             aggregateVersion: a.version,
@@ -316,14 +382,155 @@ export class OnboardingCommandService {
           };
         }
 
-        const current = toDomain(row);
+        let current = await this.loadDomain(tx, row);
+        let command = { ...input.command };
+
+        if (command.type === "START_NEST_ASSESSMENT") {
+          const attemptId = command.nestAttemptId ?? randomUUID();
+          command = { ...command, nestAttemptId: attemptId };
+          await this.assertAttemptOwnership(tx, attemptId, input.aggregateId, {
+            allowMissing: true,
+          });
+        }
+
+        if (
+          command.type === "SAVE_NEST_ANSWER" ||
+          command.type === "SUBMIT_NEST_ASSESSMENT"
+        ) {
+          const attemptId = current.nestAttemptId;
+          if (!attemptId) {
+            const err = new Error(
+              "INVALID_TRANSITION: nest assessment not in progress",
+            );
+            err.name = "INVALID_TRANSITION";
+            throw err;
+          }
+          await this.assertAttemptOwnership(tx, attemptId, input.aggregateId);
+          const attempt = (
+            await tx
+              .select()
+              .from(schema.nestReadinessAttempts)
+              .where(eq(schema.nestReadinessAttempts.id, attemptId))
+              .limit(1)
+          )[0];
+          if (!attempt) {
+            const err = new Error("NOT_FOUND: nest attempt");
+            err.name = "NOT_FOUND";
+            throw err;
+          }
+          if (attempt.status === "SUBMITTED") {
+            const err = new Error(
+              "FORBIDDEN: nest assessment immutable after submit",
+            );
+            err.name = "FORBIDDEN";
+            throw err;
+          }
+          if (command.type === "SUBMIT_NEST_ASSESSMENT") {
+            const dbAnswers = await this.loadAnswers(tx, attemptId);
+            if (dbAnswers.length !== TOTAL_NEST_ITEMS) {
+              const err = new Error(
+                "VALIDATION_ERROR: incomplete assessment — all items required",
+              );
+              err.name = "VALIDATION_ERROR";
+              throw err;
+            }
+            // Server-authoritative answers from DB — never trust client score/band
+            current = { ...current, nestAnswers: dbAnswers };
+          }
+        }
+
         const result = applyOnboardingCommand(
           current,
-          input.command,
+          command,
           input.expectedVersion,
         );
         const next = result.aggregate;
         const now = new Date();
+
+        if (command.type === "START_NEST_ASSESSMENT" && next.nestAttemptId) {
+          await tx.insert(schema.nestReadinessAttempts).values({
+            id: next.nestAttemptId,
+            onboardingId: input.aggregateId,
+            catalogueVersion: next.nestReadinessCatalogueVersion,
+            status: "IN_PROGRESS",
+            startedAt: now,
+            submittedAt: null,
+            score: null,
+            band: null,
+            weakCapabilityIds: [],
+            version: 0,
+            createdAt: now,
+            updatedAt: now,
+          });
+        }
+
+        if (command.type === "SAVE_NEST_ANSWER" && next.nestAttemptId) {
+          const saved = next.nestAnswers.find(
+            (a) => a.itemId === command.nestItemId,
+          );
+          if (!saved) {
+            const err = new Error("VALIDATION_ERROR: answer not saved");
+            err.name = "VALIDATION_ERROR";
+            throw err;
+          }
+          const existing = (
+            await tx
+              .select()
+              .from(schema.nestReadinessAnswers)
+              .where(
+                and(
+                  eq(schema.nestReadinessAnswers.attemptId, next.nestAttemptId),
+                  eq(schema.nestReadinessAnswers.itemId, saved.itemId),
+                ),
+              )
+              .limit(1)
+          )[0];
+          if (existing) {
+            await tx
+              .update(schema.nestReadinessAnswers)
+              .set({
+                selectedOptionId: saved.optionId,
+                capabilityIds: [...saved.capabilityIds],
+                correct: saved.correct,
+                savedAt: now,
+              })
+              .where(eq(schema.nestReadinessAnswers.id, existing.id));
+          } else {
+            await tx.insert(schema.nestReadinessAnswers).values({
+              id: randomUUID(),
+              attemptId: next.nestAttemptId,
+              itemId: saved.itemId,
+              selectedOptionId: saved.optionId,
+              capabilityIds: [...saved.capabilityIds],
+              correct: saved.correct,
+              savedAt: now,
+            });
+          }
+        }
+
+        if (command.type === "SUBMIT_NEST_ASSESSMENT" && next.nestAttemptId) {
+          await tx
+            .update(schema.nestReadinessAttempts)
+            .set({
+              status: "SUBMITTED",
+              submittedAt: now,
+              score: next.nestScore,
+              band: next.nestBand,
+              weakCapabilityIds: [...next.nestWeakCapabilityIds],
+              version: attemptVersionBump(current),
+              updatedAt: now,
+            })
+            .where(
+              and(
+                eq(schema.nestReadinessAttempts.id, next.nestAttemptId),
+                eq(
+                  schema.nestReadinessAttempts.onboardingId,
+                  input.aggregateId,
+                ),
+              ),
+            );
+        }
+
         const updated = await tx
           .update(schema.onboardingAggregates)
           .set({
@@ -332,6 +539,7 @@ export class OnboardingCommandService {
             personalizationCatalogueVersion:
               next.personalizationCatalogueVersion,
             originCatalogueVersion: next.originCatalogueVersion,
+            nestReadinessCatalogueVersion: next.nestReadinessCatalogueVersion,
             path: next.path,
             crowOptionId: next.crowOptionId,
             colorOptionId: next.colorOptionId,
@@ -346,6 +554,12 @@ export class OnboardingCommandService {
             originGoalsOptions: [...next.originGoalsOptions],
             contrastOverrideAcknowledged: next.contrastOverrideAcknowledged,
             privacyPreviewAcknowledged: next.privacyPreviewAcknowledged,
+            nestAttemptId: next.nestAttemptId,
+            nestAttemptStatus: next.nestAttemptStatus,
+            nestScore: next.nestScore,
+            nestBand: next.nestBand,
+            nestWeakCapabilityIds: [...next.nestWeakCapabilityIds],
+            nestResultAcknowledged: next.nestResultAcknowledged,
             updatedAt: now,
             latestCorrelationId: correlationId,
           })
@@ -366,12 +580,16 @@ export class OnboardingCommandService {
         await this.writeAuditOutboxReceipt(tx, {
           prior: current,
           next,
-          command: input.command,
+          command,
           correlationId,
           fingerprint: fp,
-          eventType: result.events[0] ?? `Onboarding.${input.command.type}`,
+          eventType: result.events[0] ?? `Onboarding.${command.type}`,
           auditIntent: result.auditIntent,
         });
+
+        // Zero-impact invariant call site (never awards progression/identity)
+        void nestReadinessProgressionImpact();
+        void nestReadinessIdentityImpact();
 
         return {
           correlationId,
@@ -383,6 +601,33 @@ export class OnboardingCommandService {
       });
     } catch (e) {
       mapError(e);
+    }
+  }
+
+  private async assertAttemptOwnership(
+    tx: Tx,
+    attemptId: string,
+    aggregateId: string,
+    opts?: { allowMissing?: boolean },
+  ): Promise<void> {
+    const rows = await tx
+      .select()
+      .from(schema.nestReadinessAttempts)
+      .where(eq(schema.nestReadinessAttempts.id, attemptId))
+      .limit(1);
+    const attempt = rows[0];
+    if (!attempt) {
+      if (opts?.allowMissing) return;
+      const err = new Error("NOT_FOUND: nest attempt");
+      err.name = "NOT_FOUND";
+      throw err;
+    }
+    if (attempt.onboardingId !== aggregateId) {
+      const err = new Error(
+        "FORBIDDEN: nest attempt does not belong to account",
+      );
+      err.name = "FORBIDDEN";
+      throw err;
     }
   }
 
@@ -450,8 +695,7 @@ export class OnboardingCommandService {
     },
   ): Promise<void> {
     const now = new Date();
-    // Audit metadata only — Origin response values must NOT enter audit bodies.
-    // prior/resulting state refs carry status enums; field category via reason prefix when needed.
+    // Audit metadata only — Origin/nest option values must NOT enter audit bodies.
     const reasonParts = [
       input.auditIntent.reason,
       input.auditIntent.fieldCategory
@@ -473,7 +717,6 @@ export class OnboardingCommandService {
       recordedAt: now,
       correlationId: input.correlationId,
     });
-    // Outbox: non-sensitive status/state only — no Origin option IDs
     await tx.insert(schema.outboxEvents).values({
       eventId: randomUUID(),
       eventType: input.eventType,
@@ -482,6 +725,7 @@ export class OnboardingCommandService {
         state: input.next.state,
         personalizationStatus: input.next.personalizationStatus,
         originStatus: input.next.originStatus,
+        nestAttemptStatus: input.next.nestAttemptStatus,
         correlationId: input.correlationId,
       },
       recordedAt: now,
@@ -501,4 +745,8 @@ export class OnboardingCommandService {
       correlationId: input.correlationId,
     });
   }
+}
+
+function attemptVersionBump(current: Onboarding): number {
+  return current.version + 1;
 }

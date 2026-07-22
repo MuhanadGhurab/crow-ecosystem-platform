@@ -148,12 +148,18 @@ test("route map covers all governed onboarding screens", () => {
   assert.equal(onboardingRouteFor("IDN-003"), "/onboarding/character");
   assert.equal(onboardingRouteFor("ONB-002"), "/onboarding/origin");
   assert.equal(onboardingRouteFor("ONB-003"), "/onboarding/nest-intro");
-  assert.equal(Object.keys(ONBOARDING_ROUTES).length, 6);
+  assert.equal(onboardingRouteFor("ONB-004"), "/onboarding/nest-assessment");
+  assert.equal(onboardingRouteFor("ONB-005"), "/onboarding/nest-result");
+  assert.equal(onboardingRouteFor("ONB-006"), "/onboarding/nest-learning-path");
+  assert.equal(onboardingRouteFor("ONB-007"), "/onboarding/choose-horizon");
+  assert.equal(Object.keys(ONBOARDING_ROUTES).length, 10);
 });
 
 test("ALLOWED_RETURN_TO includes onboarding paths via activation compose", () => {
   assert.equal(activationAllowed("/onboarding/origin"), true);
   assert.equal(activationAllowed("/onboarding/nest-intro"), true);
+  assert.equal(activationAllowed("/onboarding/nest-assessment"), true);
+  assert.equal(activationAllowed("/onboarding/choose-horizon"), true);
   assert.equal(activationAllowed("/onboarding/crow"), true);
   assert.equal(activationAllowed("https://evil.example"), false);
 });

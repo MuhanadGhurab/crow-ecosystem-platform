@@ -126,16 +126,51 @@ export const en: MessageCatalog = {
   onb002BackCrow: "Back to Crow review",
   onb003Title: "The Nest — digital foundations",
   onb003Body:
-    "The Nest is where readiness bands and foundational practice live. Assessment is the next Gate.",
+    "The Nest builds digital foundations before Horizons. You can take a readiness check, start Nest learning, or review what Nest covers.",
   onb003NestExplain:
-    "Nest readiness checks are separate from Rank and Prestige. This screen is a handoff only.",
-  onb003StartDeferred: "Start The Nest (deferred)",
-  onb003ReviewDeferred: "Review The Nest (deferred)",
-  onb003TestDeferred: "Test your readiness (deferred)",
+    "Nest readiness is orientation only — not Lineage, Mastery, Trust, Rank, or Prestige.",
+  onb003StartDeferred: "Start with The Nest",
+  onb003ReviewDeferred: "Review what Nest covers",
+  onb003TestDeferred: "Take readiness check",
   onb003DeferredNote:
-    "Nest assessment (ONB-004) is deferred to the next Gate — these actions stay disabled here.",
+    "Local/test fixture catalogue only — not production assessment validity.",
+  onb003CoversBody:
+    "Nest covers safe device habits, permissions, phishing cues, collaboration basics, and related foundation skills. Missions curriculum ships later.",
   onb003BackOrigin: "Back to Origin",
   onb003AckHandoff: "Acknowledge Nest intro handoff",
+  onb004Title: "Nest readiness check",
+  onb004Body:
+    "Answer each item. Progress saves as you go. Scoring is server-side after you submit all ten.",
+  onb004Progress: "Question {n} of {total}",
+  onb004Previous: "Previous",
+  onb004SaveNext: "Save and continue",
+  onb004Submit: "Submit readiness check",
+  onb005Title: "Nest readiness result",
+  onb005Body: "Your readiness band is orientation guidance — not a credential.",
+  onb005ScoreLabel: "Score",
+  onb005BandReady: "Ready to Fly",
+  onb005BandGuided: "Guided Skip",
+  onb005BandNest: "Nest Recommended",
+  onb005BandExplain:
+    "Bands guide next steps only. They do not award identity or progression.",
+  onb005Disclaimer:
+    "This result is not Lineage, Mastery, Trust, Rank, or Prestige.",
+  onb005AckResult: "Acknowledge result",
+  onb005ChooseNest: "Start with The Nest",
+  onb005ContinueHorizon: "Continue to Horizon choice",
+  onb005HorizonBlocked:
+    "Nest Recommended keeps Horizon choice locked — start Nest learning instead.",
+  onb006Title: "Nest learning path",
+  onb006Body:
+    "Nest missions curriculum is not implemented in this slice. This is a handoff screen only.",
+  onb006HandoffNote:
+    "You can return later when Nest missions ship. No missions, XP, or Mastery are awarded here.",
+  onb007Title: "Choose Horizon",
+  onb007Body:
+    "Horizon selection is not implemented in this slice. This is a handoff screen only.",
+  onb007HandoffNote:
+    "Ready to Fly and Guided Skip unlock this handoff. Nest Recommended does not.",
+  onb007ReturnNest: "Return to Nest learning path",
   optCrowClassic: "Classic Crow",
   optCrowRounded: "Rounded Crow",
   optColorInkSand: "Ink sand",

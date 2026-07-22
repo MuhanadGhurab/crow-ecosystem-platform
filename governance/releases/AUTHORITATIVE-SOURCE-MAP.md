@@ -38,7 +38,8 @@ Crow Identity Intake Baseline: ADMITTED CANDIDATE v0.1.1 · NO IMPLEMENTATION AU
 GHV.CROW-IDENTITY.1B: PASS — CORE CROW LINEAGE TAXONOMY BASELINE v1.0.0 LOCKED AS INTERNAL TAXONOMY DESIGN BASELINE WITH CONTROLLED PROVISIONAL ARABIC DISPLAY LABELS
 Core Crow Lineage Taxonomy Baseline: LOCKED v1.0.0 · CONTROLLED PROVISIONAL ARABIC · NO IMPLEMENTATION AUTHORITY
 GHV.CROW-IDENTITY.1C: ELIGIBLE TO START · NOT STARTED
-GHV.IMPLEMENTATION.0E: ELIGIBLE TO START · NOT STARTED · GOVERNANCE HOLD RELEASED FOR NEST/READINESS SCOPE ONLY
+GHV.IMPLEMENTATION.0E: PARTIAL — NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS
+Nest Readiness Baseline: ACTIVE WITH CONDITIONS v0.5.0
 Preview: BLOCKED
 Controlled Launch: NOT READY
 Production: NOT AUTHORIZED
@@ -74,6 +75,8 @@ If a lower-level document contradicts a higher-level document, correct the lower
 | Crow Identity Intake Baseline v0.1.1 | [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) | **ADMITTED CANDIDATE** · NOT active taxonomy · NO implementation authority |
 | Core Crow Lineage Taxonomy Baseline v1.0.0 | [GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md](../../product/identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md) | **LOCKED** design baseline · controlled provisional Arabic · NO runtime authority |
 | Personalization / Origin Baseline v0.4.0 | [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md) | ACTIVE WITH CONDITIONS · authorized screens ONB-001 · IDN-001..003 · ONB-002 · ONB-003 handoff |
+| Nest Readiness Baseline v0.5.0 | [GHURAVIA-NEST-READINESS-BASELINE.md](../implementation/GHURAVIA-NEST-READINESS-BASELINE.md) | ACTIVE WITH CONDITIONS · ONB-003..007 Nest readiness slice · synthetic fixture |
+| GHV.IMPLEMENTATION.0E | [GHV.IMPLEMENTATION.0E.md](../gates/GHV.IMPLEMENTATION.0E.md) | PARTIAL · Auth GHV-IMP-AUTH-005 |
 | Bootstrap boundary | [GHV.IMPLEMENTATION.0A-AUTHORIZATION.md](../implementation/GHV.IMPLEMENTATION.0A-AUTHORIZATION.md) | Product Code roots and prohibited scope |
 | Workspace and package boundaries | [PACKAGE-BOUNDARIES.md](../../docs/implementation/PACKAGE-BOUNDARIES.md) | Root npm workspace; `apps/`, `packages/`, `workers/`, `scripts/` |
 | Runtime versions | [GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md](../implementation/GHURAVIA-PRODUCT-CODE-BOOTSTRAP-BASELINE.md) | Node 24.15.0 · Next 16.2.10 · React 19.2.8 · Drizzle 0.45.2 · TypeScript 6.0.3 compatibility pin |

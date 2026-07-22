@@ -1,5 +1,7 @@
 import type {
   CosmeticsExplainableLock,
+  NestReadinessAttemptStatus,
+  NestReadinessBand,
   OnboardingCommand,
   OnboardingPath,
   OnboardingState,
@@ -9,10 +11,22 @@ import type {
 import {
   ORIGIN_CATALOGUE_VERSION,
   PERSONALIZATION_CATALOGUE_VERSION,
+  NEST_READINESS_CATALOGUE_VERSION,
 } from "@ghuravia/contracts/schemas";
+import {
+  NEST_READINESS_CATALOGUE,
+  getNestReadinessItem,
+  getNestReadinessOption,
+  nestReadinessIdentityImpact,
+  nestReadinessProgressionImpact,
+  requireNestReadinessCatalogue,
+  scoreAttempt,
+  type NestAnswerRecord,
+} from "./nest-readiness";
 
 export const PERSONALIZATION_VERSION = PERSONALIZATION_CATALOGUE_VERSION;
 export const ORIGIN_VERSION = ORIGIN_CATALOGUE_VERSION;
+export const NEST_READINESS_VERSION = NEST_READINESS_CATALOGUE_VERSION;
 
 export const UNLOCKED_CROW = ["crow.classic", "crow.rounded"] as const;
 export const UNLOCKED_COLOR = [
@@ -80,7 +94,16 @@ export const ORIGIN_GOAL_OPTIONS = [
 ] as const;
 
 export type OnboardingScreenId =
-  "ONB-001" | "IDN-001" | "IDN-002" | "IDN-003" | "ONB-002" | "ONB-003";
+  | "ONB-001"
+  | "IDN-001"
+  | "IDN-002"
+  | "IDN-003"
+  | "ONB-002"
+  | "ONB-003"
+  | "ONB-004"
+  | "ONB-005"
+  | "ONB-006"
+  | "ONB-007";
 
 export type Onboarding = {
   id: string;
@@ -88,6 +111,7 @@ export type Onboarding = {
   version: number;
   personalizationCatalogueVersion: string;
   originCatalogueVersion: string;
+  nestReadinessCatalogueVersion: string;
   path: OnboardingPath | null;
   crowOptionId: string | null;
   colorOptionId: string | null;
@@ -102,6 +126,13 @@ export type Onboarding = {
   originGoalsOptions: readonly string[];
   contrastOverrideAcknowledged: boolean;
   privacyPreviewAcknowledged: boolean;
+  nestAttemptId: string | null;
+  nestAttemptStatus: NestReadinessAttemptStatus;
+  nestAnswers: readonly NestAnswerRecord[];
+  nestScore: number | null;
+  nestBand: NestReadinessBand | null;
+  nestWeakCapabilityIds: readonly string[];
+  nestResultAcknowledged: boolean;
 };
 
 export type OnboardingDomainResult = {
@@ -119,6 +150,15 @@ export type OnboardingDomainResult = {
     catalogueVersion?: string;
   };
 };
+
+const COSMETIC_AND_ORIGIN_EDITS = [
+  "SAVE_CROW_BASICS",
+  "SELECT_HABITAT",
+  "SELECT_CHARACTER",
+  "SAVE_PERSONALIZATION_REVIEW",
+  "SAVE_ORIGIN_DRAFT",
+  "COMPLETE_ORIGIN",
+] as const;
 
 const transitions: Record<
   OnboardingState,
@@ -146,14 +186,10 @@ const transitions: Record<
     "COMPLETE_ORIGIN",
   ],
   ORIGIN_REVIEW_LATER: [
-    // Later-edit compatibility (Wingprint Home deferred) — cosmetics remain editable
-    "SAVE_CROW_BASICS",
-    "SELECT_HABITAT",
-    "SELECT_CHARACTER",
-    "SAVE_PERSONALIZATION_REVIEW",
-    "SAVE_ORIGIN_DRAFT",
-    "COMPLETE_ORIGIN",
+    ...COSMETIC_AND_ORIGIN_EDITS,
     "ACK_NEST_INTRO_HANDOFF",
+    "START_NEST_ASSESSMENT",
+    "CHOOSE_NEST_LEARNING_PATH",
   ],
   ORIGIN_COMPLETE: [
     "SAVE_CROW_BASICS",
@@ -162,14 +198,29 @@ const transitions: Record<
     "SAVE_PERSONALIZATION_REVIEW",
     "SAVE_ORIGIN_DRAFT",
     "ACK_NEST_INTRO_HANDOFF",
+    "START_NEST_ASSESSMENT",
+    "CHOOSE_NEST_LEARNING_PATH",
   ],
   NEST_INTRO_HANDOFF: [
-    "SAVE_CROW_BASICS",
-    "SELECT_HABITAT",
-    "SELECT_CHARACTER",
-    "SAVE_PERSONALIZATION_REVIEW",
-    "SAVE_ORIGIN_DRAFT",
-    "COMPLETE_ORIGIN",
+    ...COSMETIC_AND_ORIGIN_EDITS,
+    "START_NEST_ASSESSMENT",
+    "CHOOSE_NEST_LEARNING_PATH",
+  ],
+  NEST_ASSESSMENT_IN_PROGRESS: [
+    ...COSMETIC_AND_ORIGIN_EDITS,
+    "SAVE_NEST_ANSWER",
+    "SUBMIT_NEST_ASSESSMENT",
+  ],
+  NEST_RESULT_READY: [
+    ...COSMETIC_AND_ORIGIN_EDITS,
+    "ACK_NEST_RESULT",
+    "CHOOSE_NEST_LEARNING_PATH",
+    "CONTINUE_TO_HORIZON_HANDOFF",
+  ],
+  NEST_LEARNING_HANDOFF: [...COSMETIC_AND_ORIGIN_EDITS],
+  HORIZON_CHOICE_HANDOFF: [
+    ...COSMETIC_AND_ORIGIN_EDITS,
+    "CHOOSE_NEST_LEARNING_PATH",
   ],
 };
 
@@ -184,6 +235,7 @@ export function createInitialOnboarding(id: string): Onboarding {
     version: 0,
     personalizationCatalogueVersion: PERSONALIZATION_VERSION,
     originCatalogueVersion: ORIGIN_VERSION,
+    nestReadinessCatalogueVersion: NEST_READINESS_VERSION,
     path: null,
     crowOptionId: null,
     colorOptionId: null,
@@ -198,7 +250,23 @@ export function createInitialOnboarding(id: string): Onboarding {
     originGoalsOptions: [],
     contrastOverrideAcknowledged: false,
     privacyPreviewAcknowledged: false,
+    nestAttemptId: null,
+    nestAttemptStatus: "NONE",
+    nestAnswers: [],
+    nestScore: null,
+    nestBand: null,
+    nestWeakCapabilityIds: [],
+    nestResultAcknowledged: false,
   };
+}
+
+function isNestStatePastIntro(o: Onboarding): boolean {
+  return (
+    o.state === "NEST_ASSESSMENT_IN_PROGRESS" ||
+    o.state === "NEST_RESULT_READY" ||
+    o.state === "NEST_LEARNING_HANDOFF" ||
+    o.state === "HORIZON_CHOICE_HANDOFF"
+  );
 }
 
 export function hasCrowBasics(o: Onboarding): boolean {
@@ -246,7 +314,15 @@ export function canAccessOnboardingScreen(
     case "ONB-002":
       return isMinimumPersonalizationComplete(o);
     case "ONB-003":
-      return nestIntroHandoffAllowed(o);
+      return nestIntroHandoffAllowed(o) || isNestStatePastIntro(o);
+    case "ONB-004":
+      return o.state === "NEST_ASSESSMENT_IN_PROGRESS";
+    case "ONB-005":
+      return o.state === "NEST_RESULT_READY";
+    case "ONB-006":
+      return o.state === "NEST_LEARNING_HANDOFF";
+    case "ONB-007":
+      return o.state === "HORIZON_CHOICE_HANDOFF";
     default: {
       const _exhaustive: never = screen;
       return _exhaustive;
@@ -262,6 +338,10 @@ export function accessibleScreens(o: Onboarding): OnboardingScreenId[] {
     "IDN-003",
     "ONB-002",
     "ONB-003",
+    "ONB-004",
+    "ONB-005",
+    "ONB-006",
+    "ONB-007",
   ];
   return screens.filter((s) => canAccessOnboardingScreen(o, s));
 }
@@ -475,6 +555,8 @@ export function applyOnboardingCommand(
   let next: Onboarding = {
     ...current,
     originGoalsOptions: [...current.originGoalsOptions],
+    nestAnswers: [...current.nestAnswers],
+    nestWeakCapabilityIds: [...current.nestWeakCapabilityIds],
   };
   let fieldCategory: string | undefined;
   let priorStatus: string | undefined;
@@ -699,6 +781,160 @@ export function applyOnboardingCommand(
       resultingStatus = next.state;
       break;
     }
+    case "START_NEST_ASSESSMENT": {
+      requireNestReadinessCatalogue(command.nestReadinessCatalogueVersion);
+      catalogueVersion = NEST_READINESS_VERSION;
+      if (current.nestAttemptStatus === "SUBMITTED") {
+        throw new Error(
+          "FORBIDDEN: nest assessment already submitted (no retake)",
+        );
+      }
+      if (!command.nestAttemptId) {
+        throw new Error("VALIDATION_ERROR: nestAttemptId required");
+      }
+      fieldCategory = "nest_assessment_start";
+      priorStatus = current.nestAttemptStatus;
+      next = {
+        ...next,
+        nestReadinessCatalogueVersion: NEST_READINESS_VERSION,
+        nestAttemptId: command.nestAttemptId,
+        nestAttemptStatus: "IN_PROGRESS",
+        nestAnswers: [],
+        nestScore: null,
+        nestBand: null,
+        nestWeakCapabilityIds: [],
+        nestResultAcknowledged: false,
+        state: "NEST_ASSESSMENT_IN_PROGRESS",
+      };
+      resultingStatus = next.nestAttemptStatus;
+      break;
+    }
+    case "SAVE_NEST_ANSWER": {
+      requireNestReadinessCatalogue(command.nestReadinessCatalogueVersion);
+      catalogueVersion = NEST_READINESS_VERSION;
+      if (current.nestAttemptStatus === "SUBMITTED") {
+        throw new Error("FORBIDDEN: nest assessment immutable after submit");
+      }
+      if (
+        current.nestAttemptStatus !== "IN_PROGRESS" ||
+        !current.nestAttemptId
+      ) {
+        throw new Error("INVALID_TRANSITION: nest assessment not in progress");
+      }
+      if (!command.nestItemId || !command.nestOptionId) {
+        throw new Error(
+          "VALIDATION_ERROR: nestItemId and nestOptionId required",
+        );
+      }
+      const item = getNestReadinessItem(command.nestItemId);
+      if (!item) {
+        throw new Error("VALIDATION_ERROR: unknown nest item");
+      }
+      const option = getNestReadinessOption(
+        command.nestItemId,
+        command.nestOptionId,
+      );
+      if (!option) {
+        throw new Error("VALIDATION_ERROR: unknown nest option");
+      }
+      // Audit metadata: item id only — never selected option id
+      fieldCategory = `nest_answer:${command.nestItemId}`;
+      priorStatus = current.nestAttemptStatus;
+      const record: NestAnswerRecord = {
+        itemId: command.nestItemId,
+        optionId: command.nestOptionId,
+        correct: command.nestOptionId === item.correctOptionId,
+        capabilityIds: [...item.capabilityIds],
+      };
+      const answers = next.nestAnswers.filter(
+        (a) => a.itemId !== command.nestItemId,
+      );
+      answers.push(record);
+      next = {
+        ...next,
+        nestAnswers: answers,
+        nestAttemptStatus: "IN_PROGRESS",
+      };
+      resultingStatus = next.nestAttemptStatus;
+      break;
+    }
+    case "SUBMIT_NEST_ASSESSMENT": {
+      requireNestReadinessCatalogue(command.nestReadinessCatalogueVersion);
+      catalogueVersion = NEST_READINESS_VERSION;
+      if (current.nestAttemptStatus === "SUBMITTED") {
+        throw new Error("FORBIDDEN: nest assessment already submitted");
+      }
+      if (current.nestAttemptStatus !== "IN_PROGRESS") {
+        throw new Error("INVALID_TRANSITION: nest assessment not in progress");
+      }
+      if (next.nestAnswers.length !== NEST_READINESS_CATALOGUE.length) {
+        throw new Error(
+          "VALIDATION_ERROR: incomplete assessment — all items required",
+        );
+      }
+      const scored = scoreAttempt(
+        next.nestAnswers.map((a) => ({
+          itemId: a.itemId,
+          optionId: a.optionId,
+        })),
+        NEST_READINESS_CATALOGUE,
+      );
+      fieldCategory = "nest_assessment_submit";
+      priorStatus = current.nestAttemptStatus;
+      next = {
+        ...next,
+        nestScore: scored.score,
+        nestBand: scored.band,
+        nestWeakCapabilityIds: [...scored.weakCapabilityIds],
+        nestAttemptStatus: "SUBMITTED",
+        state: "NEST_RESULT_READY",
+      };
+      resultingStatus = next.nestAttemptStatus;
+      break;
+    }
+    case "ACK_NEST_RESULT": {
+      if (current.state !== "NEST_RESULT_READY") {
+        throw new Error("INVALID_TRANSITION: nest result not ready");
+      }
+      fieldCategory = "nest_result_ack";
+      priorStatus = current.state;
+      next = { ...next, nestResultAcknowledged: true };
+      resultingStatus = next.state;
+      break;
+    }
+    case "CHOOSE_NEST_LEARNING_PATH": {
+      fieldCategory = "nest_learning_path";
+      priorStatus = current.state;
+      next = { ...next, state: "NEST_LEARNING_HANDOFF" };
+      resultingStatus = next.state;
+      break;
+    }
+    case "CONTINUE_TO_HORIZON_HANDOFF": {
+      if (
+        current.nestAttemptStatus !== "SUBMITTED" ||
+        current.nestBand === null
+      ) {
+        throw new Error("INVALID_TRANSITION: nest result required");
+      }
+      if (current.nestBand === "NEST_RECOMMENDED") {
+        throw new Error(
+          "FORBIDDEN: Nest Recommended cannot unlock Horizon handoff",
+        );
+      }
+      if (
+        current.nestBand !== "READY_TO_FLY" &&
+        current.nestBand !== "GUIDED_SKIP"
+      ) {
+        throw new Error(
+          "FORBIDDEN: horizon handoff requires Ready or Guided Skip",
+        );
+      }
+      fieldCategory = "horizon_choice_handoff";
+      priorStatus = current.state;
+      next = { ...next, state: "HORIZON_CHOICE_HANDOFF" };
+      resultingStatus = next.state;
+      break;
+    }
     default: {
       const _exhaustive: never = command.type;
       void _exhaustive;
@@ -706,9 +942,11 @@ export function applyOnboardingCommand(
     }
   }
 
-  // Domain never emits progression side effects
+  // Domain never emits progression / identity side effects
   void personalizationProgressionImpact();
   void originDoesNotAffectTrust();
+  void nestReadinessProgressionImpact();
+  void nestReadinessIdentityImpact();
 
   next = { ...next, version: current.version + 1 };
 

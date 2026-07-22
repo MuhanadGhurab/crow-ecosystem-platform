@@ -44,7 +44,7 @@ GHV.IMPLEMENTATION.0D (amended by 0D-CLOSURE-01) authorizes Crow personalization
 
 GHV.CROW-IDENTITY.1A admits the Crow Identity System as an **ADMITTED CANDIDATE** intake baseline (v0.1.1 after Amendment-01) with **no implementation authority**.
 
-GHV.CROW-IDENTITY.1B locks **Core Crow Lineage Taxonomy Baseline v1.0.0** (design only; controlled provisional Arabic). `GHV.IMPLEMENTATION.0E` is **ELIGIBLE TO START** with Nest/readiness governance hold **released for Nest/readiness scope only** and remains prohibited from awarding earned Crow identity. See [GHV.CROW-IDENTITY.1B.md](../governance/gates/GHV.CROW-IDENTITY.1B.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md).
+GHV.CROW-IDENTITY.1B locks **Core Crow Lineage Taxonomy Baseline v1.0.0** (design only; controlled provisional Arabic). `GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md).
 
 ## Progression architecture links (1A)
 

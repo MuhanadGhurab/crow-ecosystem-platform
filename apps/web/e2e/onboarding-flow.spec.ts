@@ -106,8 +106,18 @@ test.describe("OD-BR main paths", () => {
     await expect(page).toHaveURL(/onboarding\/nest-intro/, { timeout: 20_000 });
     await expect(page.locator('[data-major-state="handoff"]')).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /مؤجَّل|deferred/i }),
-    ).toHaveCount(3);
+      page.getByRole("button", {
+        name: /أجرِ فحص الجاهزية|Take readiness check/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /ابدأ مع العش|Start with The Nest/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", {
+        name: /راجع ما يغطيه العش|Review what Nest covers/i,
+      }),
+    ).toBeVisible();
   });
 
   test("quick-start keyboard path to origin and nest", async ({ page }) => {
@@ -836,5 +846,157 @@ test.describe("OD-BR UX locale and accessibility", () => {
     );
     await expect(page.locator("#error-summary")).toBeVisible();
     await axeOk(page, "onboarding stale-conflict error state");
+  });
+});
+
+test.describe("0E Nest readiness", () => {
+  test("take readiness check reaches assessment and result Ready to Fly", async ({
+    page,
+  }) => {
+    await activateAccountKeyboard(page);
+    await keyboardActivateButton(
+      page,
+      /بدء سريع بالقيم الافتراضية|Quick start with defaults/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/crow/, { timeout: 20_000 });
+    await page.goto("/onboarding/origin");
+    await keyboardActivateButton(
+      page,
+      /إكمال الأصل والمتابعة إلى مقدّمة العش|Complete Origin and continue to Nest intro/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/nest-intro/, { timeout: 20_000 });
+
+    await keyboardActivateButton(
+      page,
+      /أجرِ فحص الجاهزية|Take readiness check/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/nest-assessment/, {
+      timeout: 20_000,
+    });
+    await expect(page.locator('[data-screen-id="ONB-004"]')).toBeVisible();
+    await axeOk(page, "ONB-004 nest assessment");
+
+    const { NEST_READINESS_ITEMS } = await import("@ghuravia/domain");
+    for (const item of NEST_READINESS_ITEMS) {
+      await e2eOnboardingCommand(
+        page,
+        "save-nest-answer",
+        {
+          nestItemId: item.id,
+          nestOptionId: item.correctOptionId,
+        },
+        { newLogicalOp: true },
+      );
+    }
+    await e2eOnboardingCommand(
+      page,
+      "submit-nest-assessment",
+      {},
+      { newLogicalOp: true },
+    );
+    await page.goto("/onboarding/nest-result");
+    await expect(page.locator('[data-screen-id="ONB-005"]')).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.locator('[data-nest-band="READY_TO_FLY"]')).toBeVisible();
+    await expect(
+      page.getByRole("button", {
+        name: /المتابعة إلى اختيار الأفق|Continue to Horizon choice/i,
+      }),
+    ).toBeVisible();
+    await axeOk(page, "ONB-005 nest result ready");
+
+    await keyboardActivateButton(
+      page,
+      /المتابعة إلى اختيار الأفق|Continue to Horizon choice/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/choose-horizon/, {
+      timeout: 20_000,
+    });
+    await expect(page.locator('[data-screen-id="ONB-007"]')).toBeVisible();
+    await axeOk(page, "ONB-007 horizon handoff");
+  });
+
+  test("Nest Recommended blocks ONB-007 and unlocks Nest learning handoff", async ({
+    page,
+  }) => {
+    await activateAccountKeyboard(page);
+    await keyboardActivateButton(
+      page,
+      /بدء سريع بالقيم الافتراضية|Quick start with defaults/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/crow/, { timeout: 20_000 });
+    // Same bootstrap as Ready path — Origin is reachable after Quick Start
+    // without requiring Crow review save (avoids late-suite hydration flakes).
+    await page.goto("/onboarding/origin");
+    await keyboardActivateButton(page, /المراجعة لاحقاً|Review later/i);
+    await expect(page).toHaveURL(/onboarding\/nest-intro/, { timeout: 20_000 });
+
+    await e2eOnboardingCommand(
+      page,
+      "start-nest-assessment",
+      {},
+      { newLogicalOp: true },
+    );
+    await page.goto("/onboarding/nest-assessment");
+    const { NEST_READINESS_ITEMS } = await import("@ghuravia/domain");
+    for (const item of NEST_READINESS_ITEMS) {
+      const wrong = item.options.find((o) => o.id !== item.correctOptionId)!;
+      await e2eOnboardingCommand(
+        page,
+        "save-nest-answer",
+        {
+          nestItemId: item.id,
+          nestOptionId: wrong.id,
+        },
+        { newLogicalOp: true },
+      );
+    }
+    await e2eOnboardingCommand(
+      page,
+      "submit-nest-assessment",
+      {},
+      { newLogicalOp: true },
+    );
+    await page.goto("/onboarding/nest-result");
+    await expect(
+      page.locator('[data-nest-band="NEST_RECOMMENDED"]'),
+    ).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.locator('[data-horizon-blocked="true"]')).toBeVisible();
+    await assertServerRedirectAwayFrom(
+      page,
+      "/onboarding/choose-horizon",
+      /onboarding\/nest-result/,
+    );
+
+    await keyboardActivateButton(page, /ابدأ مع العش|Start with The Nest/i);
+    await expect(page).toHaveURL(/onboarding\/nest-learning-path/, {
+      timeout: 20_000,
+    });
+    await expect(page.locator('[data-screen-id="ONB-006"]')).toBeVisible();
+    await axeOk(page, "ONB-006 nest learning handoff");
+  });
+
+  test("start with The Nest from intro reaches ONB-006 handoff", async ({
+    page,
+  }) => {
+    await activateAccountKeyboard(page);
+    await keyboardActivateButton(
+      page,
+      /بدء سريع بالقيم الافتراضية|Quick start with defaults/i,
+    );
+    await expect(page).toHaveURL(/onboarding\/crow/, { timeout: 20_000 });
+    await page.goto("/onboarding/origin");
+    await keyboardActivateButton(page, /المراجعة لاحقاً|Review later/i);
+    await expect(page).toHaveURL(/onboarding\/nest-intro/, { timeout: 20_000 });
+    await keyboardActivateButton(page, /ابدأ مع العش|Start with The Nest/i);
+    await expect(page).toHaveURL(/onboarding\/nest-learning-path/, {
+      timeout: 20_000,
+    });
+    await expect(
+      page.locator('[data-major-state="nest-learning-handoff"]'),
+    ).toBeVisible();
   });
 });

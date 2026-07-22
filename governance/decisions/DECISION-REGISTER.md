@@ -2992,7 +2992,34 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | Field | Value |
 |-------|-------|
 | **Decision** | On GHV.CROW-IDENTITY.1B PASS, release the 0E governance hold for Nest/readiness vocabulary and scope only. 0E becomes ELIGIBLE TO START · NOT STARTED and remains prohibited from awarding or persisting earned Crow identity. |
-| **Status** | Accepted |
+| **Status** | Accepted — historical eligibility decision (0E subsequently implemented; see DEC-304) |
 | **Related Gate** | GHV.CROW-IDENTITY.1B |
 | **Evidence** | Nest vocabulary contract · GATE-REGISTER · amends DEC-291 hold |
+
+## DEC-304 — Nest Readiness Baseline v0.5.0 and 0E PARTIAL slice
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Nest Intro and Readiness Decision Baseline v0.5.0 as ACTIVE WITH CONDITIONS; implement ONB-003..007 Nest readiness vertical slice under GHV-IMP-AUTH-005 with synthetic fixture catalogue, server-authoritative scoring, unchanged thresholds, Nest Recommended blocking ONB-007, and zero progression/identity impact. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0E |
+| **Evidence** | [GHURAVIA-NEST-READINESS-BASELINE.md](../implementation/GHURAVIA-NEST-READINESS-BASELINE.md) · [GHV.IMPLEMENTATION.0E.md](../gates/GHV.IMPLEMENTATION.0E.md) |
+
+## DEC-305 — Synthetic Nest fixture catalogue is not production assessment
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Nest readiness fixture catalogue v0.1.0 is TECHNICAL / LOCAL TEST ONLY. It must not be claimed as expert-reviewed, pilot-validated, or production assessment content. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0E |
+| **Evidence** | Fixture catalogue · authority preflight |
+
+## DEC-306 — Nest Recommended cannot unlock Horizon handoff
+
+| Field | Value |
+|-------|-------|
+| **Decision** | CONTINUE_TO_HORIZON_HANDOFF and ONB-007 access require READY_TO_FLY or GUIDED_SKIP after submitted result. NEST_RECOMMENDED must route to Nest learning handoff (ONB-006) only. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0E |
+| **Evidence** | Domain guards · e2e · Nest vocabulary contract |
 

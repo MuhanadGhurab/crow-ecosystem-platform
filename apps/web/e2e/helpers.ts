@@ -132,15 +132,23 @@ export async function assertServerRedirectAwayFrom(
               ? "ONB-002"
               : blockedPath.includes("onboarding/nest-intro")
                 ? "ONB-003"
-                : blockedPath.includes("onboarding/crow")
-                  ? "IDN-001"
-                  : blockedPath.includes("onboarding/habitat")
-                    ? "IDN-002"
-                    : blockedPath.includes("onboarding/character")
-                      ? "IDN-003"
-                      : blockedPath.includes("recovery")
-                        ? "ACT-012"
-                        : "";
+                : blockedPath.includes("onboarding/nest-assessment")
+                  ? "ONB-004"
+                  : blockedPath.includes("onboarding/nest-result")
+                    ? "ONB-005"
+                    : blockedPath.includes("onboarding/nest-learning-path")
+                      ? "ONB-006"
+                      : blockedPath.includes("onboarding/choose-horizon")
+                        ? "ONB-007"
+                        : blockedPath.includes("onboarding/crow")
+                          ? "IDN-001"
+                          : blockedPath.includes("onboarding/habitat")
+                            ? "IDN-002"
+                            : blockedPath.includes("onboarding/character")
+                              ? "IDN-003"
+                              : blockedPath.includes("recovery")
+                                ? "ACT-012"
+                                : "";
   if (blockedId) {
     await expect(page.locator(`[data-screen-id="${blockedId}"]`)).toHaveCount(
       0,

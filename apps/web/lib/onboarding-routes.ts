@@ -17,6 +17,10 @@ export const ONBOARDING_ROUTES = {
   "IDN-003": "/onboarding/character",
   "ONB-002": "/onboarding/origin",
   "ONB-003": "/onboarding/nest-intro",
+  "ONB-004": "/onboarding/nest-assessment",
+  "ONB-005": "/onboarding/nest-result",
+  "ONB-006": "/onboarding/nest-learning-path",
+  "ONB-007": "/onboarding/choose-horizon",
 } as const satisfies Record<OnboardingScreenId, string>;
 
 export const ONBOARDING_SCREEN_ORDER: readonly OnboardingScreenId[] = [
@@ -26,6 +30,10 @@ export const ONBOARDING_SCREEN_ORDER: readonly OnboardingScreenId[] = [
   "IDN-003",
   "ONB-002",
   "ONB-003",
+  "ONB-004",
+  "ONB-005",
+  "ONB-006",
+  "ONB-007",
 ];
 
 export function onboardingRouteFor(screenId: OnboardingScreenId): string {
@@ -35,6 +43,9 @@ export function onboardingRouteFor(screenId: OnboardingScreenId): string {
 export type OnboardingResourceLike = {
   state: string;
   path?: string | null;
+  personalizationCatalogueVersion?: string;
+  originCatalogueVersion?: string;
+  nestReadinessCatalogueVersion?: string;
   personalization?: {
     path?: string | null;
     crowOptionId?: string | null;
@@ -48,18 +59,31 @@ export type OnboardingResourceLike = {
   origin?: {
     status?: string;
   };
+  nestReadiness?: {
+    attemptId?: string | null;
+    attemptStatus?: string;
+    score?: number | null;
+    band?: string | null;
+    weakCapabilityIds?: readonly string[];
+    resultAcknowledged?: boolean;
+    answeredItemIds?: readonly string[];
+  };
   accessibleScreens?: readonly string[];
 };
 
 /** Map API/resource shape into the domain access helper inputs. */
 function toAccessAggregate(resource: OnboardingResourceLike): Onboarding {
   const p = resource.personalization;
+  const n = resource.nestReadiness;
   return {
     id: "access-check",
     state: resource.state as Onboarding["state"],
     version: 0,
-    personalizationCatalogueVersion: "0.1.0",
-    originCatalogueVersion: "0.1.0",
+    personalizationCatalogueVersion:
+      resource.personalizationCatalogueVersion ?? "0.1.0",
+    originCatalogueVersion: resource.originCatalogueVersion ?? "0.1.0",
+    nestReadinessCatalogueVersion:
+      resource.nestReadinessCatalogueVersion ?? "0.1.0",
     path: (p?.path ?? resource.path ?? null) as Onboarding["path"],
     crowOptionId: p?.crowOptionId ?? null,
     colorOptionId: p?.colorOptionId ?? null,
@@ -76,6 +100,19 @@ function toAccessAggregate(resource: OnboardingResourceLike): Onboarding {
     originGoalsOptions: [],
     contrastOverrideAcknowledged: false,
     privacyPreviewAcknowledged: false,
+    nestAttemptId: n?.attemptId ?? null,
+    nestAttemptStatus: (n?.attemptStatus ??
+      "NONE") as Onboarding["nestAttemptStatus"],
+    nestAnswers: (n?.answeredItemIds ?? []).map((itemId) => ({
+      itemId,
+      optionId: "",
+      correct: false,
+      capabilityIds: [],
+    })),
+    nestScore: n?.score ?? null,
+    nestBand: (n?.band as Onboarding["nestBand"]) ?? null,
+    nestWeakCapabilityIds: n?.weakCapabilityIds ? [...n.weakCapabilityIds] : [],
+    nestResultAcknowledged: n?.resultAcknowledged ?? false,
   };
 }
 

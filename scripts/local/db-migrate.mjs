@@ -11,6 +11,7 @@ const migrations = [
   "0000_foundation.sql",
   "0001_activation_runtime.sql",
   "0002_onboarding_personalization_origin.sql",
+  "0003_nest_readiness.sql",
 ];
 for (const name of migrations) {
   const path = join(dir, "../../packages/data/drizzle", name);

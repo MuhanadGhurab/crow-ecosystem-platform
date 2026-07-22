@@ -23,6 +23,10 @@ export const ALLOWED_RETURN_TO = new Set<string>([
   "/onboarding/character",
   "/onboarding/origin",
   "/onboarding/nest-intro",
+  "/onboarding/nest-assessment",
+  "/onboarding/nest-result",
+  "/onboarding/nest-learning-path",
+  "/onboarding/choose-horizon",
 ]);
 
 export function isAllowedReturnTo(path: string | null | undefined): boolean {
