@@ -11,8 +11,8 @@
 | **Original 0C CI** | Actions `29879464258` · verify `88796880094` · **success** |
 | **Original 0C docs CI** | Actions `29879640980` · verify `88797397265` · **success** |
 | **Archive peel** | `b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c` |
-| **Closure HEAD** | *(set after push — exact final SHA)* |
-| **Closure Actions** | *(set after remote CI success)* |
+| **Closure HEAD** | `248e8fba480e4b3ee6d0817169df5e183b7fff03` |
+| **Closure Actions** | [`29881791351`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29881791351) · verify [`88804056076`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29881791351/job/88804056076) · **success** |
 
 ## Formal Gate treatment (before Closure)
 
@@ -88,9 +88,7 @@ PASS — GHURAVIA IMPLEMENTATION 0C
 MANDATORY UX VALIDATION CLOSURE COMPLETE
 ```
 
-(Programme roll-up remains **PARTIAL** for 0C Product Code because AT/Arabic user validation and Moderate advisories remain non-blocking open conditions.)
-
-## Cross-links
+Remote CI: **VERIFIED** for Closure HEAD `248e8fb` · Actions `29881791351` · verify `88804056076` · conclusion **success**. Only job: `verify`. Deploy jobs: **0**. PostgreSQL service initialized · migration applied · Chromium installed · `npm run ci` including server route guards, browser matrix, and actual-state axe scans.
 
 - [GHV.IMPLEMENTATION.0C.md](./GHV.IMPLEMENTATION.0C.md)
 - [IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md](../implementation/IMPLEMENTATION-0C-MANDATORY-VALIDATION-GAP-ANALYSIS.md)
