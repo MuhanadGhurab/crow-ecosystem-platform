@@ -51,6 +51,10 @@ export function mapServiceError(e: unknown, correlationId?: string) {
       return jsonError("VALIDATION_ERROR", message, 400, corr);
     case "LOCAL_RUNTIME_ONLY":
       return jsonError("LOCAL_RUNTIME_ONLY", message, 403, corr);
+    case "CATALOGUE_VERSION_CONFLICT":
+      return jsonError("CATALOGUE_VERSION_CONFLICT", message, 409, corr);
+    case "ORIGIN_SCHEMA_CONFLICT":
+      return jsonError("ORIGIN_SCHEMA_CONFLICT", message, 409, corr);
     default:
       return jsonError("INTERNAL_ERROR", "Internal error", 500, corr);
   }

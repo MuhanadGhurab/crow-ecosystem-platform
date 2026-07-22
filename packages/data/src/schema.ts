@@ -90,3 +90,40 @@ export const commandReceipts = pgTable(
     ),
   ],
 );
+
+/** Crow personalization + Origin — id equals activation_aggregates.id */
+export const onboardingAggregates = pgTable("onboarding_aggregates", {
+  id: text()
+    .primaryKey()
+    .references(() => activationAggregates.id),
+  state: text().notNull(),
+  version: integer().notNull(),
+  personalizationCatalogueVersion: text(
+    "personalization_catalogue_version",
+  ).notNull(),
+  originCatalogueVersion: text("origin_catalogue_version").notNull(),
+  path: text(),
+  crowOptionId: text("crow_option_id"),
+  colorOptionId: text("color_option_id"),
+  styleOptionId: text("style_option_id"),
+  habitatOptionId: text("habitat_option_id"),
+  characterOptionId: text("character_option_id"),
+  accessoryOptionId: text("accessory_option_id"),
+  personalizationStatus: text("personalization_status").notNull(),
+  originStatus: text("origin_status").notNull(),
+  originRegionOption: text("origin_region_option"),
+  originExperienceOption: text("origin_experience_option"),
+  originGoalsOptions: jsonb("origin_goals_options")
+    .$type<string[]>()
+    .notNull()
+    .default([]),
+  contrastOverrideAcknowledged: boolean("contrast_override_acknowledged")
+    .notNull()
+    .default(false),
+  privacyPreviewAcknowledged: boolean("privacy_preview_acknowledged")
+    .notNull()
+    .default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+  latestCorrelationId: text("latest_correlation_id"),
+});

@@ -11,7 +11,11 @@ if (!url) {
 const sql = postgres(url);
 const dir = dirname(fileURLToPath(import.meta.url));
 const root = join(dir, "../../packages/data/drizzle");
-for (const name of ["0000_foundation.sql", "0001_activation_runtime.sql"]) {
+for (const name of [
+  "0000_foundation.sql",
+  "0001_activation_runtime.sql",
+  "0002_onboarding_personalization_origin.sql",
+]) {
   await sql.unsafe(await readFile(join(root, name), "utf8"));
 }
 const tables = await sql`
@@ -22,12 +26,13 @@ const tables = await sql`
     'audit_events',
     'outbox_events',
     'verification_challenges',
-    'command_receipts'
+    'command_receipts',
+    'onboarding_aggregates'
   )
 `;
-if (tables.length < 5) {
+if (tables.length < 6) {
   console.error("Missing tables", tables);
   process.exit(1);
 }
 await sql.end();
-console.log("db:validate OK — activation tables present");
+console.log("db:validate OK — activation + onboarding tables present");

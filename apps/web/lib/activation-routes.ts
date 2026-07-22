@@ -14,9 +14,16 @@ export const ACTIVATION_ROUTES = {
 
 export type GovernedScreenId = keyof typeof ACTIVATION_ROUTES;
 
-export const ALLOWED_RETURN_TO = new Set<string>(
-  Object.values(ACTIVATION_ROUTES),
-);
+export const ALLOWED_RETURN_TO = new Set<string>([
+  ...Object.values(ACTIVATION_ROUTES),
+  // Onboarding / identity screens (composed with onboarding-routes)
+  "/onboarding/entry",
+  "/onboarding/crow",
+  "/onboarding/habitat",
+  "/onboarding/character",
+  "/onboarding/origin",
+  "/onboarding/nest-intro",
+]);
 
 export function isAllowedReturnTo(path: string | null | undefined): boolean {
   if (!path) return false;

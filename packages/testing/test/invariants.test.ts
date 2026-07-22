@@ -6,6 +6,9 @@ import {
   evidenceOutcome,
   publicProfile,
   MOBILE_VERIFICATION_IN_ACTIVATION_FORMULA,
+  personalizationProgressionImpact,
+  originDoesNotAffectTrust,
+  explainableLocksForCosmetics,
 } from "@ghuravia/domain";
 import { loadConfig } from "@ghuravia/config";
 import {
@@ -82,4 +85,18 @@ test("screen baseline and mobile formula invariant", () => {
   assert.deepEqual(registry.excludedAliases, ["ACT-004"]);
   assert.deepEqual(registry.requiredActive, ["ACT-013"]);
   assert.equal(MOBILE_VERIFICATION_IN_ACTIVATION_FORMULA, false);
+});
+
+test("Origin ≠ Trust and Visual Identity ≠ Knowledge", () => {
+  assert.deepEqual(originDoesNotAffectTrust(), { trust: 0 });
+  assert.deepEqual(personalizationProgressionImpact(), {
+    xp: 0,
+    mastery: 0,
+    rank: 0,
+    prestige: 0,
+    trust: 0,
+  });
+  const locks = explainableLocksForCosmetics();
+  assert.ok(locks.length >= 3);
+  assert.ok(locks.every((l) => l.requiredForProgress === false));
 });

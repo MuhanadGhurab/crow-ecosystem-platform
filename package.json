@@ -34,8 +34,9 @@
     "validate:high-advisory-boundaries": "node scripts/validation/validate-high-advisory-boundaries.mjs",
     "validate:localization": "node scripts/validation/validate-localization.mjs",
     "validate:browser-evidence": "node scripts/validation/validate-browser-evidence.mjs",
+    "validate:onboarding-browser-evidence": "node scripts/validation/validate-onboarding-browser-evidence.mjs",
     "test:browser": "playwright test",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run validate:localization && npm run validate:browser-evidence && npm run build && npm run test:browser"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:invariants && npm run test:integration && npm run db:validate && npm run validate:routes && npm run validate:generated && npm run validate:boundaries && npm run validate:secrets && npm run validate:deployment-guard && npm run validate:high-advisory-boundaries && npm run validate:localization && npm run validate:browser-evidence && npm run validate:onboarding-browser-evidence && npm run build && npm run test:browser"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",

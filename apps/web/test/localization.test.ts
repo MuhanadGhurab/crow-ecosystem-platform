@@ -23,6 +23,22 @@ test("default locale Arabic resolves product name", () => {
 test("error categories map without raw server text", () => {
   assert.equal(errorMessage("ar", "INTERNAL_ERROR"), ar.errInternal);
   assert.equal(errorMessage("en", "CHALLENGE_EXPIRED"), en.errChallengeExpired);
+  assert.equal(
+    errorMessage("en", "CATALOGUE_VERSION_CONFLICT"),
+    en.errCatalogueVersionConflict,
+  );
+  assert.equal(
+    errorMessage("ar", "ORIGIN_SCHEMA_CONFLICT"),
+    ar.errOriginSchemaConflict,
+  );
+});
+
+test("onboarding entry keys are present for guided and quick-start", () => {
+  assert.ok(en.onb001Guided.length > 0);
+  assert.ok(ar.onb001Guided.length > 0);
+  assert.ok(en.onb001QuickStart.length > 0);
+  assert.ok(ar.onb003DeferredNote.length > 0);
+  assert.doesNotMatch(en.onb001Guided, /deferred to the next Gate/i);
 });
 
 test("lock catalogue covers required codes", () => {

@@ -87,7 +87,7 @@ export async function acceptRiskAndActivateKeyboard(page: Page) {
   await page.goto("/activation/account-risk");
   await keyboardCheckCheckbox(
     page,
-    /أقبل إفصاح|deliberately accept the displayed account-risk/i,
+    /أقبل عمداً|deliberately accept the displayed account-risk/i,
   );
   await keyboardActivateButton(page, /قبول إفصاح|Accept risk/i);
   await expect(page).toHaveURL(/activation\/complete/, { timeout: 20_000 });
@@ -126,11 +126,21 @@ export async function assertServerRedirectAwayFrom(
         ? "ACT-006"
         : blockedPath.includes("mobile-optional")
           ? "ACT-007"
-          : blockedPath.includes("onboarding")
+          : blockedPath.includes("onboarding/entry")
             ? "ONB-001"
-            : blockedPath.includes("recovery")
-              ? "ACT-012"
-              : "";
+            : blockedPath.includes("onboarding/origin")
+              ? "ONB-002"
+              : blockedPath.includes("onboarding/nest-intro")
+                ? "ONB-003"
+                : blockedPath.includes("onboarding/crow")
+                  ? "IDN-001"
+                  : blockedPath.includes("onboarding/habitat")
+                    ? "IDN-002"
+                    : blockedPath.includes("onboarding/character")
+                      ? "IDN-003"
+                      : blockedPath.includes("recovery")
+                        ? "ACT-012"
+                        : "";
   if (blockedId) {
     await expect(page.locator(`[data-screen-id="${blockedId}"]`)).toHaveCount(
       0,
@@ -268,4 +278,126 @@ export async function e2eCommandExpectError(
     },
     { name, body, options },
   );
+}
+
+/** Drive activation through ONB-001 readiness using keyboard-only actions. */
+export async function activateAccountKeyboard(page: Page) {
+  await bootstrapSession(page);
+  await requestVerification(page);
+  await confirmEmail(page, await latestMailboxToken(page.request));
+  await acceptTermsKeyboard(page);
+  await acceptRiskAndActivateKeyboard(page);
+  await page.goto("/onboarding/entry");
+  await expect(page.locator('[data-screen-id="ONB-001"]')).toBeVisible({
+    timeout: 20_000,
+  });
+}
+
+/** Local/test useOnboarding command hook. */
+export async function e2eOnboardingCommand(
+  page: Page,
+  name: string,
+  body: Record<string, unknown> = {},
+  options: {
+    fingerprint?: string;
+    newLogicalOp?: boolean;
+    forceIdempotencyKey?: string;
+    forceExpectedVersion?: number;
+  } = {},
+): Promise<{
+  idempotencyResult?: "applied" | "replayed";
+  aggregateVersion?: number;
+  correlationId?: string;
+  resource?: { version: number; state: string; accessibleScreens?: string[] };
+}> {
+  await page.waitForFunction(
+    () =>
+      typeof (
+        window as Window & { __GHURAVIA_E2E_ONBOARDING_COMMAND__?: unknown }
+      ).__GHURAVIA_E2E_ONBOARDING_COMMAND__ === "function",
+    undefined,
+    { timeout: 20_000 },
+  );
+  return page.evaluate(
+    async ({ name: cmd, body: b, options: o }) => {
+      const w = window as unknown as {
+        __GHURAVIA_E2E_ONBOARDING_COMMAND__: (
+          n: string,
+          body?: Record<string, unknown>,
+          options?: {
+            fingerprint?: string;
+            newLogicalOp?: boolean;
+            forceIdempotencyKey?: string;
+            forceExpectedVersion?: number;
+          },
+        ) => Promise<{
+          idempotencyResult?: "applied" | "replayed";
+          aggregateVersion?: number;
+          correlationId?: string;
+          resource?: {
+            version: number;
+            state: string;
+            accessibleScreens?: string[];
+          };
+        }>;
+      };
+      return w.__GHURAVIA_E2E_ONBOARDING_COMMAND__(cmd, b, o);
+    },
+    { name, body, options },
+  );
+}
+
+export async function e2eOnboardingCommandExpectError(
+  page: Page,
+  name: string,
+  body: Record<string, unknown>,
+  options: {
+    fingerprint?: string;
+    newLogicalOp?: boolean;
+    forceIdempotencyKey?: string;
+    forceExpectedVersion?: number;
+  } = {},
+): Promise<{ category?: string; correlationId?: string }> {
+  await page.waitForFunction(
+    () =>
+      typeof (
+        window as Window & { __GHURAVIA_E2E_ONBOARDING_COMMAND__?: unknown }
+      ).__GHURAVIA_E2E_ONBOARDING_COMMAND__ === "function",
+    undefined,
+    { timeout: 20_000 },
+  );
+  return page.evaluate(
+    async ({ name: cmd, body: b, options: o }) => {
+      const w = window as unknown as {
+        __GHURAVIA_E2E_ONBOARDING_COMMAND__: (
+          n: string,
+          body?: Record<string, unknown>,
+          options?: {
+            fingerprint?: string;
+            newLogicalOp?: boolean;
+            forceIdempotencyKey?: string;
+            forceExpectedVersion?: number;
+          },
+        ) => Promise<unknown>;
+      };
+      try {
+        await w.__GHURAVIA_E2E_ONBOARDING_COMMAND__(cmd, b, o);
+        return { category: "UNEXPECTED_SUCCESS" };
+      } catch (e) {
+        const err = e as { category?: string; correlationId?: string };
+        return {
+          category: err.category,
+          correlationId: err.correlationId,
+        };
+      }
+    },
+    { name, body, options },
+  );
+}
+
+export async function keyboardSelectRadio(page: Page, label: RegExp) {
+  const radio = page.getByLabel(label).first();
+  await radio.focus();
+  await page.keyboard.press("Space");
+  await expect(radio).toBeChecked();
 }

@@ -12,6 +12,8 @@ test("HTTP error mapping for activation categories", async () => {
     ["UNAUTHORIZED", 401, "UNAUTHORIZED"],
     ["FORBIDDEN", 403, "FORBIDDEN"],
     ["LOCAL_RUNTIME_ONLY", 403, "LOCAL_RUNTIME_ONLY"],
+    ["CATALOGUE_VERSION_CONFLICT", 409, "CATALOGUE_VERSION_CONFLICT"],
+    ["ORIGIN_SCHEMA_CONFLICT", 409, "ORIGIN_SCHEMA_CONFLICT"],
   ];
   for (const [name, status, category] of cases) {
     const err = new Error(name);

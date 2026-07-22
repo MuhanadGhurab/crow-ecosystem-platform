@@ -287,3 +287,35 @@ export const publicProfile = (input: { displayName: string }) => ({
 
 /** Mobile is not part of the controlled-launch activation formula. */
 export const MOBILE_VERIFICATION_IN_ACTIVATION_FORMULA = false as const;
+
+export {
+  PERSONALIZATION_VERSION,
+  ORIGIN_VERSION,
+  UNLOCKED_CROW,
+  UNLOCKED_COLOR,
+  UNLOCKED_STYLE,
+  UNLOCKED_HABITAT,
+  UNLOCKED_CHARACTER,
+  UNLOCKED_ACCESSORY,
+  LOCKED_HABITAT,
+  LOCKED_CHARACTER,
+  LOCKED_ACCESSORY,
+  QUICK_START_DEFAULTS,
+  ORIGIN_REGION_OPTIONS,
+  ORIGIN_EXPERIENCE_OPTIONS,
+  ORIGIN_GOAL_OPTIONS,
+  createInitialOnboarding,
+  hasCrowBasics,
+  isMinimumPersonalizationComplete,
+  nestIntroHandoffAllowed,
+  canAccessOnboardingScreen,
+  accessibleScreens,
+  allowedNextOnboardingActions,
+  explainableLocksForCosmetics,
+  personalizationProgressionImpact,
+  originDoesNotAffectTrust,
+  applyOnboardingCommand,
+  type Onboarding,
+  type OnboardingDomainResult,
+  type OnboardingScreenId,
+} from "./onboarding";

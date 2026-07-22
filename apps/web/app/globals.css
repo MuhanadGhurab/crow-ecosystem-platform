@@ -155,3 +155,35 @@ input:not([type="checkbox"]) {
     padding: 0.75rem;
   }
 }
+.cta-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+.cta-stack button:not(.primary),
+button:disabled {
+  background: #57534e;
+}
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+fieldset {
+  border: 1px solid var(--line);
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+}
+fieldset label {
+  display: block;
+  margin: 0.35rem 0;
+}
+.why-crow {
+  margin-block: 1rem;
+  padding: 0.5rem 0;
+}
+.onboarding-shell li[data-current="true"] {
+  font-weight: 700;
+  text-decoration: underline;
+}

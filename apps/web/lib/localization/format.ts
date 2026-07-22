@@ -59,6 +59,10 @@ export function errorMessage(
       return t(locale, "errProviderUnavailable");
     case "LOCAL_RUNTIME_ONLY":
       return t(locale, "errLocalRuntime");
+    case "CATALOGUE_VERSION_CONFLICT":
+      return t(locale, "errCatalogueVersionConflict");
+    case "ORIGIN_SCHEMA_CONFLICT":
+      return t(locale, "errOriginSchemaConflict");
     case "INTERNAL_ERROR":
     default:
       return t(locale, "errInternal");
