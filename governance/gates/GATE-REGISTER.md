@@ -42,8 +42,8 @@
 | GHV.IMPLEMENTATION.0C | Activation UX, Accessibility and Onboarding Entry Hardening | **PARTIAL — GHURAVIA ACTIVATION UX, ACCESSIBILITY AND ONBOARDING ENTRY HARDENING COMPLETE WITH NON-BLOCKING VALIDATION CONDITIONS** | Submitted PARTIAL retained · formalized by [CLOSURE-01](./GHV.IMPLEMENTATION.0C-CLOSURE-01.md) · completed mandatory browser evidence by [CLOSURE-02](./GHV.IMPLEMENTATION.0C-CLOSURE-02.md) · Baseline v0.3.0 · Implementation `024b71f` · Docs `2e47d0b` · Actions `29879464258` **success** |
 | GHV.IMPLEMENTATION.0C-CLOSURE-01 | Server Route Guards, Browser Coverage and Local Cleanup | **PARTIAL — AMENDED BY 0C-CLOSURE-02 FOR MANDATORY BROWSER EVIDENCE COMPLETION** | Original PASS for guards/cleanup retained · browser evidence completed by [CLOSURE-02](./GHV.IMPLEMENTATION.0C-CLOSURE-02.md) · [Record](./GHV.IMPLEMENTATION.0C-CLOSURE-01.md) |
 | GHV.IMPLEMENTATION.0C-CLOSURE-02 | Idempotency Browser Evidence and Actual-State Accessibility | **PASS — IDEMPOTENCY BROWSER EVIDENCE AND ACTUAL-STATE ACCESSIBILITY COVERAGE VERIFIED** | [Record](./GHV.IMPLEMENTATION.0C-CLOSURE-02.md) · [Browser evidence](../implementation/IMPLEMENTATION-0C-BROWSER-EVIDENCE-MATRIX.md) · 21 scenarios · 15 a11y states |
-| GHV.IMPLEMENTATION.0D | Origin Setup and Adaptive Onboarding Vertical Slice | **PARTIAL — GHURAVIA PERSONALIZATION, ORIGIN SETUP AND ADAPTIVE ONBOARDING SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0D.md) · Auth GHV-IMP-AUTH-004 · [Acceptance](../implementation/IMPLEMENTATION-0D-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0D-BROWSER-EVIDENCE-MATRIX.md) · 18 scenarios · migration 0002 |
-| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **NOT STARTED** | Opened after 0D remote CI |
+| GHV.IMPLEMENTATION.0D | Origin Setup and Adaptive Onboarding Vertical Slice | **PARTIAL — GHURAVIA PERSONALIZATION, ORIGIN SETUP AND ADAPTIVE ONBOARDING SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0D.md) · Auth GHV-IMP-AUTH-004 · HEAD `21e4553` · Actions `29900763663` **success** · [Acceptance](../implementation/IMPLEMENTATION-0D-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0D-BROWSER-EVIDENCE-MATRIX.md) |
+| GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **ELIGIBLE TO START · NOT STARTED** | Opened by 0D remote CI success |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)
@@ -94,6 +94,7 @@ WITH NON-BLOCKING IMPLEMENTATION CONDITIONS
 Onboarding Personalization / Origin Baseline:
 ACTIVE WITH CONDITIONS v0.4.0
 GHV.IMPLEMENTATION.0E:
+ELIGIBLE TO START
 NOT STARTED
 ```
 
