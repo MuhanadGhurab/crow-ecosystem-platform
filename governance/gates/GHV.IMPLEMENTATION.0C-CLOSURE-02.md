@@ -9,8 +9,8 @@
 | **0C implementation commit** | `024b71f395d24bdc0d419d1046ec0879dc6a5100` |
 | **0C-CLOSURE-01 implementation** | `248e8fba480e4b3ee6d0817169df5e183b7fff03` |
 | **Archive peel** | `b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c` |
-| **Closure HEAD** | *(filled after push)* |
-| **Closure Actions** | *(filled after remote CI)* |
+| **Closure HEAD** | `2e05c99c5b5ae18d44912471696832ef7e8ad346` |
+| **Closure Actions** | [`29883578013`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29883578013) · verify [`88809398522`](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/29883578013/job/88809398522) · **success** |
 
 ## Formal Gate treatment (before Closure)
 
