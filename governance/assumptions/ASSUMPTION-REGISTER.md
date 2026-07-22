@@ -136,3 +136,9 @@
 | ASM-122 | Foundation personalization catalogue v0.1.0 is sufficient for the 0D vertical slice without final artwork | Active | Onboarding UX | OD-BR-001..022 · Baseline v0.4.0 | Replace catalogue via later design Gate | IMPLEMENTATION.0D |
 | ASM-123 | Origin catalogue v0.1.0 closed options remain non-diagnostic and non-Trust | Active | Privacy / invariants | Data classification · privacy review · OD-BR-006/014 | Block Origin expansion into Trust/readiness | IMPLEMENTATION.0D |
 | ASM-124 | Native loopback PostgreSQL with disposable Gate databases can satisfy local evidence when Docker overlay is unavailable | **Validated (0D Closure)** | Local DB honesty | IMPLEMENTATION-0D-LOCAL-DATABASE-EXECUTION-RECORD.md | Restore preferred Docker disposable path when available | IMPLEMENTATION.0D-CLOSURE-01 |
+| ASM-125 | Founder source lock exists for the 5×5 Horizons and core 25 meanings as candidate input | Active | Crow Identity intake | SOURCE-TRACEABILITY · Intake Baseline | Re-verify if FILE-001 remount fails hash | CROW-IDENTITY.1A |
+| ASM-126 | Exact repository taxonomy IDs are not yet approved | Active | Taxonomy | DEC-283 | Do not invent production IDs in Product Code | CROW-IDENTITY.1B |
+| ASM-127 | Prototype images are feasibility evidence only | Active | Visual honesty | BINARY-EXCLUSION-RECORD · prior audit | Do not treat as production art | CROW-IDENTITY.1D |
+| ASM-128 | Final Arabic Crow Identity terms require linguistic/cultural review | Active | Localization | Open decisions 1B | Keep English working labels internal | CROW-IDENTITY.1B |
+| ASM-129 | No runtime Crow identity inference or award exists in current Product Code | **Validated (1A audit)** | Implementation boundary | 0D personalization ≠ Lineage | Keep until authorized Gate | CROW-IDENTITY.1A |
+| ASM-130 | No final Crow renderer technology is chosen | Active | Architecture | Open decisions 1D | Technical spike later | CROW-IDENTITY.1D |

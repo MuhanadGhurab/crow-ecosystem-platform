@@ -42,6 +42,8 @@ GHV.IMPLEMENTATION.0B authorizes the local activation vertical slice (formula ga
 
 GHV.IMPLEMENTATION.0D (amended by 0D-CLOSURE-01) authorizes Crow personalization, Origin setup, and ONB-003 Nest Intro **handoff only** under GHV-IMP-AUTH-004. Nest assessment, Horizon, Route, eligibility, and Wingprint Home remain out of scope until later Gates.
 
+GHV.CROW-IDENTITY.1A admits the Crow Identity System as an **ADMITTED CANDIDATE** intake baseline (v0.1.0) with **no implementation authority**. `GHV.IMPLEMENTATION.0E` is **ELIGIBLE BY 0D** but under **GOVERNANCE HOLD** pending `GHV.CROW-IDENTITY.1B`. See [GHV.CROW-IDENTITY.1A.md](../governance/gates/GHV.CROW-IDENTITY.1A.md) · [CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md](./identity/crow-system/governance/CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md).
+
 ## Progression architecture links (1A)
 
 | Capability / theme | Artifact | Status |

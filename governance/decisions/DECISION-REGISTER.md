@@ -2788,3 +2788,111 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.IMPLEMENTATION.0D · GHV.IMPLEMENTATION.0D-CLOSURE-01 |
 | **Evidence** | [GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md](../implementation/GHURAVIA-PERSONALIZATION-ORIGIN-BASELINE.md) · [GHV.IMPLEMENTATION.0D-CLOSURE-01.md](../gates/GHV.IMPLEMENTATION.0D-CLOSURE-01.md) |
+
+## DEC-281 — Crow Identity admitted as governed domain (1A)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Admit the GHURAVIA Crow Identity System as a formal governed product/governance domain spanning taxonomy, earned identity, Cross-Wing composition, projection, and visual semantics; grant **no** Product Code, schema, API, or asset-runtime authority. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [GHV.CROW-IDENTITY.1A.md](../gates/GHV.CROW-IDENTITY.1A.md) · [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) |
+
+## DEC-282 — Source status versus repository disposition separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Source status and repository disposition are separate mandatory fields; source self-labels (`LOCKED`/`CANONICAL`/`FINAL`) do not create repository baseline authority. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-DECISION-STATUS-MATRIX.md](../../product/identity/crow-system/governance/CROW-IDENTITY-DECISION-STATUS-MATRIX.md) |
+
+## DEC-283 — Five-Horizon / 25 foundation admitted as candidate
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Reconfirm five Horizons; admit 25 Core identity meanings as **ADMITTED CANDIDATE FOUNDATION**; defer immutable IDs, Arabic names, and final taxonomy baseline to GHV.CROW-IDENTITY.1B. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) |
+
+## DEC-284 — Formal terminology deferred to 1B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Recommend (not finalize) formal internal noun **Core Crow Lineage** and concise English **Crow Lineage**; Arabic remains open; no silent finalization in 1A. |
+| **Status** | Accepted — recommendation only |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-DECISION-STATUS-MATRIX.md](../../product/identity/crow-system/governance/CROW-IDENTITY-DECISION-STATUS-MATRIX.md) |
+
+## DEC-285 — Chosen / suggested / earned separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Preserve chosen/declarative ≠ system-suggested ≠ evidence-earned identity; a chosen Crow is not automatically the Crow verified Evidence proves. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-1A-INTAKE-BASELINE.md](../../product/identity/crow-system/governance/CROW-IDENTITY-1A-INTAKE-BASELINE.md) |
+
+## DEC-286 — Payment separation and Evidence-before-identity
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Reconfirm Payment/entitlement ≠ Evidence/Mastery/Lineage/Major/Trust/Prestige; Evidence precedes Mastery and any earned Crow identity expression. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | Product Constitution · Crow Identity Intake Baseline |
+
+## DEC-287 — Trust exclusion from public identity
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Trust remains private/non-numeric/not public/not rendered/not searchable/not visually inferable; Canon flock/Trust visual language is REPOSITORY PROHIBITED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-CONFLICT-REGISTER.md](../../product/identity/crow-system/governance/CROW-IDENTITY-CONFLICT-REGISTER.md) CID-CON-001 |
+
+## DEC-288 — Symbol namespace separation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Separate Lineage Mark, Fusion Signature, and Evidence Seal semantically; taxonomy marks cannot authenticate Evidence; paid cosmetics cannot imitate proof marks. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | Crow Identity Intake Baseline § symbol separation |
+
+## DEC-289 — Evolved Roles not defined; 50-Anchor provisional names
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Evolved Roles remain OPEN with no invented roster; 50-Anchor **structure** admitted; 50 names/mappings provisional; curricula/awards not authorized. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | Intake Baseline · Conflict Register CID-CON-009 |
+
+## DEC-290 — Exact art/animation not baselined; deterministic principle; prototypes exploratory
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Admit conceptual visual grammar as lock-ready only; exact art/animation not baselined; deterministic versioned production identity principle admitted; prototype images are exploratory feasibility only (binaries excluded this commit). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | BINARY-EXCLUSION-RECORD · Intake Baseline |
+
+## DEC-291 — 0E governance hold pending Crow Identity 1B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Place GHV.IMPLEMENTATION.0E on GOVERNANCE HOLD pending GHV.CROW-IDENTITY.1B minimum taxonomy/Nest vocabulary; 0E remains eligible by 0D technically but must not award Lineage/Major/Trust/Prestige/Evidence seals. Recommended sequence 1A→1B→1C→1D before identity runtime. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md](../../product/identity/crow-system/governance/CROW-IDENTITY-0E-DEPENDENCY-REVIEW.md) |
+
+## DEC-292 — Prestige class names remain Ascendant / Apex / Obsidian
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Repository Progression Prestige Classes Ascendant Raven · Apex Raven · Obsidian Raven control; prior non-repo Elite/Prime naming is SOURCE CONFLICTING and not admitted. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1A |
+| **Evidence** | [PRESTIGE-ARCHITECTURE.md](../../product/progression/prestige/PRESTIGE-ARCHITECTURE.md) · Conflict Register CID-CON-002 |
