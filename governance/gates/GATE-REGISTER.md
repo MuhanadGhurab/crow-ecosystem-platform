@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.38.0 |
+| **Version** | 1.39.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B PASS · 1C NEXT · 0E ELIGIBLE (Nest/readiness hold released) |
+| **Last updated** | 2026-07-23 |
+| **Source Gate** | GHV.CROW-IDENTITY.1C PASS · 1D ELIGIBLE · Lifecycle Baseline v1.0.0 LOCKED |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -48,8 +48,8 @@
 | GHV.CROW-IDENTITY.1A | System Intake and Impact Assessment | **PARTIAL — REPOSITORY-AWARE IMPACT MAPPING COMPLETE, PRIMARY SOURCE CORPUS WAS NOT MATERIALIZED** | Submitted PASS retained as historical claim · audit correction PARTIAL · [Record](./GHV.CROW-IDENTITY.1A.md) · amended by [1A-AMENDMENT-01](./GHV.CROW-IDENTITY.1A-AMENDMENT-01.md) · Intake Baseline **v0.1.1** |
 | GHV.CROW-IDENTITY.1A-AMENDMENT-01 | Primary Corpus Materialization and Source Chain-of-Custody Reconciliation | **PASS — PRIMARY CROW IDENTITY HANDOFF, PACKAGE MANIFEST AND REPOSITORY AUTHORITY CHAIN RECONCILED** | Complete handoff + original manifest materialized · ZIP/PNGs deferred · [Record](./GHV.CROW-IDENTITY.1A-AMENDMENT-01.md) · [Intake](../../product/identity/crow-system/) |
 | GHV.CROW-IDENTITY.1B | Core Crow Lineage Taxonomy Baseline | **PASS — CORE CROW LINEAGE TAXONOMY BASELINE v1.0.0 LOCKED AS INTERNAL TAXONOMY DESIGN BASELINE WITH CONTROLLED PROVISIONAL ARABIC DISPLAY LABELS** | Taxonomy Baseline v1.0.0 **LOCKED** · no implementation authority · [Record](./GHV.CROW-IDENTITY.1B.md) · [Baseline](../../product/identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md) |
-| GHV.CROW-IDENTITY.1C | Chosen / Suggested / Earned Identity Model | **ELIGIBLE TO START · NOT STARTED** | Opened after Crow-Identity.1B |
-| GHV.CROW-IDENTITY.1D | Visual and Animation Identity System | **PLANNED · NOT STARTED** | After 1B; may proceed after/ beside 1C per programme |
+| GHV.CROW-IDENTITY.1C | Chosen / Suggested / Earned Identity Model | **PASS — CHOSEN, SUGGESTED AND EARNED CORE CROW LINEAGE STATE, EVIDENCE, MASTERY, PRIVACY, CORRECTION AND PUBLIC-PROJECTION BASELINE LOCKED** | Lifecycle Baseline v1.0.0 **LOCKED** · no runtime authority · [Record](./GHV.CROW-IDENTITY.1C.md) · [Baseline](../../product/identity/crow-system/governance/GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md) |
+| GHV.CROW-IDENTITY.1D | Visual and Animation Identity System | **ELIGIBLE TO START · NOT STARTED** | Opened after Crow-Identity.1C |
 | GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0E.md) · Auth GHV-IMP-AUTH-005 · Baseline v0.5.0 · [Acceptance](../implementation/IMPLEMENTATION-0E-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0E-BROWSER-EVIDENCE-MATRIX.md) · local CI pending remote |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
@@ -126,11 +126,18 @@ Core Crow Lineage Taxonomy Baseline:
 LOCKED v1.0.0
 NO IMPLEMENTATION AUTHORITY
 GHV.CROW-IDENTITY.1C:
+PASS — CHOSEN, SUGGESTED AND EARNED
+CORE CROW LINEAGE STATE, EVIDENCE,
+MASTERY, PRIVACY, CORRECTION AND
+PUBLIC-PROJECTION BASELINE LOCKED
+GHURAVIA Crow Identity Lifecycle Baseline:
+LOCKED v1.0.0
+NO RUNTIME IMPLEMENTATION AUTHORITY
+GHV.CROW-IDENTITY.1D:
 ELIGIBLE TO START
 NOT STARTED
-GHV.CROW-IDENTITY.1D:
-PLANNED
-NOT STARTED
+CROW IDENTITY RUNTIME IMPLEMENTATION:
+NOT AUTHORIZED
 GHV.IMPLEMENTATION.0E:
 PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION
 VERTICAL SLICE COMPLETE WITH NON-BLOCKING

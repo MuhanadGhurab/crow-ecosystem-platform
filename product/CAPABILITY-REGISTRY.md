@@ -42,6 +42,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-007 | Origin | Identity | CONTROLLED LAUNCH | Origin | ONB | Defined | — | Founder | 1B |
 | CAP-ONB-008 | The Nest | Learning | CONTROLLED LAUNCH | Nest | ONB/LRN | Specified | Content · Nest ≠ Lineage (1B vocabulary) | Founder | Learning / 0E |
 | CAP-IDN-001 | Core Crow Lineage taxonomy | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Taxonomy Baseline v1.0.0 · no runtime award | Founder | CROW-IDENTITY.1B |
+| CAP-IDN-002 | Chosen / Suggested / Earned Crow Lineage lifecycle | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Lifecycle Baseline v1.0.0 · Evidence-before-Mastery · privacy/projection · no runtime | Founder | CROW-IDENTITY.1C |
 | CAP-ONB-009 | Horizon and Route selection | Learning | CONTROLLED LAUNCH | Horizon/Route | ONB/WLD | Specified | Catalogue | Founder | Learning |
 | CAP-ONB-010 | Flight Plan | Learning | CONTROLLED LAUNCH | Flight Plan | ONB/WLD | Defined | Entitlement | Founder | 1B |
 | CAP-ONB-011 | Verification result / resend / expiry handling | Trust | CONTROLLED LAUNCH | Activate | **ACT-011** | **Specified** | CAP-ONB-003 · Email | Founder | BC.1 |
@@ -178,6 +179,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - IMPLEMENTATION.0E: Nest Intro full, Nest Assessment (synthetic fixture), Nest Result, ONB-006/007 handoffs under GHV-IMP-AUTH-005; Baseline v0.5.0 ACTIVE WITH CONDITIONS; no earned identity. See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [GHURAVIA-NEST-READINESS-BASELINE.md](../governance/implementation/GHURAVIA-NEST-READINESS-BASELINE.md).
 - CROW-IDENTITY.1A: Crow Identity System admitted as governed **candidate** domain (Intake Baseline v0.1.1 after Amendment-01); five Horizons reconfirmed; 25 Core meanings admitted as candidate foundation; **no** runtime authority; Prestige names remain Ascendant/Apex/Obsidian; Trust public visuals prohibited. See [GHV.CROW-IDENTITY.1A.md](../governance/gates/GHV.CROW-IDENTITY.1A.md) · [product/identity/crow-system/](./identity/crow-system/).
 - CROW-IDENTITY.1B: Core Crow Lineage Taxonomy Baseline v1.0.0 **LOCKED** (design); formal noun + CRW-* IDs + 25 registry + Nest vocabulary contract; Arabic CONTROLLED PROVISIONAL; Evolved Roles deferred; **0E Nest/readiness hold released** (no earned identity award). See [GHV.CROW-IDENTITY.1B.md](../governance/gates/GHV.CROW-IDENTITY.1B.md) · [GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md](./identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md).
+- CROW-IDENTITY.1C: Crow Identity Lifecycle Baseline v1.0.0 **LOCKED** (design); Chosen/Suggested/Earned; Evidence-before-Mastery; privacy/projection; symbol authorization; collision handoff grammar; Cross-Wing eligibility only; **no runtime**. See [GHV.CROW-IDENTITY.1C.md](../governance/gates/GHV.CROW-IDENTITY.1C.md) · [GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md](./identity/crow-system/governance/GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 

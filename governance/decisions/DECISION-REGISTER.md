@@ -3023,3 +3023,111 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Related Gate** | GHV.IMPLEMENTATION.0E |
 | **Evidence** | Domain guards · e2e · Nest vocabulary contract |
 
+
+## DEC-307 — Crow Identity lifecycle equation Chosen/Suggested/Earned
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock Chosen = exploratory focus; Suggested = private dismissible recommendation; Earned = Evidence + Mastery + coverage + freshness + integrity + governed decision. States do not silently transform. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | Lifecycle Baseline v1.0.0 · Chosen/Suggested/Earned contracts |
+
+## DEC-308 — Crow Identity lifecycle cardinality
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Active Chosen 0..1; Suggested 0..many; Earned 0..many; primary public focus 0..1; additional public Earned 0..many user-approved. Choice never required. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | Lifecycle Baseline · Chosen contract |
+
+## DEC-309 — Chosen Lineage contract
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Chosen is reversible user focus with states NONE/ACTIVE/WITHDRAWN/SUPERSEDED; no eligibility, payment, Nest, Trust, Evidence, Mastery, Mark, Seal, or Fusion. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | CHOSEN-LINEAGE-CONTRACT.md |
+
+## DEC-310 — Suggested Lineage contract and input boundaries
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Suggestions are always private and dismissible; may become Chosen only via explicit user action; never become Earned directly; Origin/Nest-as-proof/Trust/payment/popularity/raw Evidence prohibited as inputs. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | SUGGESTED-LINEAGE-CONTRACT.md |
+
+## DEC-311 — Earned Lineage state machine and Evidence-before-Mastery
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock earned states including REVALIDATION_DUE/LAPSED/SUSPENDED/REVOKED distinctions; require Evidence-before-Mastery chain citing FRM-MST-* without new formulas; raw Evidence objects cannot decide Lineage. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | EARNED-LINEAGE-CONTRACT · ELIGIBILITY-CONTRACT · 25-row traceability |
+
+## DEC-312 — Collision handoff and acceptance-test grammar closure
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Every critical collision pair receives protected-center handoff and distinguishing acceptance-test grammar; unresolved critical collisions remain 0. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | LINEAGE-COLLISION-HANDOFF-AND-ACCEPTANCE-TEST-GRAMMAR.md (60 pairs) |
+
+## DEC-313 — Decision provenance, reason codes and authority matrix
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Material Lineage decisions require provenance fields, stable reason-code families, and authority classes USER/RULE_EVALUATION/QUALIFIED_REVIEWER/REVIEW_PANEL/PRIVILEGED_CORRECTION_AUTHORITY. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | LINEAGE-DECISION-PROVENANCE-AND-REASON-CODES.md |
+
+## DEC-314 — Privacy default and public projection policy
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Default PRIVATE; Suggested never public; Earned projection opt-in sanitized only; under-18 public Lineage/Evidence projection OFF by default; Trust/Nest/Origin/payment excluded from projection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | LINEAGE-PRIVACY-AND-PUBLIC-PROJECTION-POLICY.md |
+
+## DEC-315 — Symbol authorization matrix
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lineage Mark eligible only for Earned Active (policy for revalidation); Chosen/Suggested never receive Lineage Mark; Evidence Seal, Fusion Signature, Prestige Mark, and Trust symbol remain separate/prohibited as specified. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | IDENTITY-SYMBOL-AUTHORIZATION-MATRIX.md |
+
+## DEC-316 — Correction, appeal, freshness and taxonomy evolution effects
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Append-only history; lapse ≠ revocation; payment cancellation cannot revoke earned identity; taxonomy RENAME/CLARIFY/DEPRECATE/SUPERSEDE/SPLIT/MERGE effects defined without auto-awarding successors. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | LINEAGE-CORRECTION-APPEAL-REVALIDATION-POLICY.md |
+
+## DEC-317 — Cross-Wing boundary, Evolved Roles deferred, Wingprint presentation-only
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Cross-Wing eligibility grammar only; Majors not activated; access ≠ award; Evolved Roles remain DEFERRED; Wingprint retained as presentation/personalization and must not store CRW earned/Evidence/Mastery/Trust/Prestige/Cross-Wing. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | CROSS-WING-MAJOR-LIFECYCLE-BOUNDARY.md |
+
+## DEC-318 — Lock Crow Identity Lifecycle Baseline v1.0.0 with no runtime authority
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Crow Identity Lifecycle Baseline v1.0.0 as LOCKED internal design baseline with Implementation authority NONE. GHV.CROW-IDENTITY.1D becomes ELIGIBLE TO START · NOT STARTED. Crow Identity runtime remains NOT AUTHORIZED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1C |
+| **Evidence** | GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md · Gate record |

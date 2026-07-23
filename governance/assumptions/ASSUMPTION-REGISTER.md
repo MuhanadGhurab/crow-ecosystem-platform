@@ -143,3 +143,8 @@
 | ASM-129 | No runtime Crow identity inference or award exists in current Product Code | **Validated (1A audit; reconfirmed 1B)** | Implementation boundary | 0D personalization ≠ Lineage | Keep until authorized Gate | CROW-IDENTITY.1C / 0E |
 | ASM-130 | No final Crow renderer technology is chosen | Active | Architecture | Open decisions 1D | Technical spike later | CROW-IDENTITY.1D |
 | ASM-131 | Taxonomy Baseline v1.0.0 does not authorize runtime identity state | Active | Implementation boundary | Taxonomy Baseline explicit non-claims | No schema/API from 1B alone | Pre-identity runtime Gate |
+
+| ASM-132 | Lifecycle Baseline v1.0.0 can lock Chosen/Suggested/Earned without Product Code | Active | Identity design | DEC-318 | Do not implement schemas from 1C alone | CROW-IDENTITY.1C |
+| ASM-133 | Progression FRM-MST-* remain sufficient Mastery citations without new formulas | Active | Evidence/Mastery chain | FINAL-FORMULA-VERSION-REGISTRY | Re-open if Mastery baseline revises | CROW-IDENTITY.1C |
+| ASM-134 | Legal retention periods and appeal deadlines will be set in a later operational/legal Gate | Active | Retention honesty | Data classification doc | Do not invent numeric retention in Product Code | Legal |
+| ASM-135 | Visual Lineage Mark production remains 1D and will not reopen lifecycle semantics | Active | 1D boundary | Symbol matrix | Keep symbol semantics stable in 1D | CROW-IDENTITY.1D |
