@@ -43,12 +43,15 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^24.10.0",
     "eslint": "^9.39.1",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.2.11",
     "prettier": "^3.7.4",
     "tsx": "^4.21.0",
     "typescript": "6.0.3"
   },
   "overrides": {
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "next": {
+      "sharp": "0.35.3"
+    }
   }
 }

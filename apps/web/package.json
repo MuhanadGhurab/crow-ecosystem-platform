@@ -15,11 +15,11 @@
     "@ghuravia/data": "*",
     "@ghuravia/domain": "*",
     "@ghuravia/provider-mocks": "*",
-    "next": "16.2.10",
+    "next": "16.2.11",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sharp": "0.35.3",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "sharp": "0.35.3"
   },
   "devDependencies": {
     "@types/react": "^19.2.0",
