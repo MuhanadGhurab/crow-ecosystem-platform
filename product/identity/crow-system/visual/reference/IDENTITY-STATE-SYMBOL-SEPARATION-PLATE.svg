@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-labelledby="title">
+  <title id="title">Identity state and symbol separation plate</title>
+  <!-- REFERENCE VALIDATION ASSET · NOT RUNTIME · NOT PRODUCTION APPROVED · GHV.CROW-IDENTITY.1D -->
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <g id="STATE-EXPLORING"><circle cx="60" cy="70" r="20" stroke-dasharray="4 4"/><text x="60" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">Exploring</text></g>
+    <g id="STATE-SUGGESTED-PRIVATE"><rect x="120" y="50" width="40" height="40" stroke-dasharray="2 3"/><text x="140" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">Suggested(private)</text></g>
+    <g id="STATE-EARNED-MARK"><circle cx="240" cy="70" r="20"/><path d="M228 70 h24 M240 58 v24"/><text x="240" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">LineageMark</text></g>
+    <g id="STATE-EVIDENCE-SEAL"><path d="M320 50 h40 v40 h-40 z"/><circle cx="340" cy="70" r="10"/><text x="340" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">EvidenceSeal</text></g>
+    <g id="STATE-FUSION-FUTURE"><path d="M400 55 L420 70 L400 85"/><path d="M440 55 L420 70 L440 85"/><text x="420" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">Fusion(future)</text></g>
+    <g id="STATE-PRESTIGE"><polygon points="500,50 520,70 500,90 480,70"/><text x="500" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">Prestige</text></g>
+    <g id="STATE-TRUST-PROHIBITED"><line x1="560" y1="50" x2="600" y2="90"/><line x1="600" y1="50" x2="560" y2="90"/><text x="580" y="110" text-anchor="middle" stroke="none" fill="#111" font-size="9">Trust(prohibited)</text></g>
+    <text x="20" y="150" stroke="none" fill="#111" font-size="10">Shape-family separation — color not required</text>
+
+  </g>
+</svg>

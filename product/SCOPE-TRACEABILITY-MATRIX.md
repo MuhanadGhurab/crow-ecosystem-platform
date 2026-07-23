@@ -6,7 +6,7 @@
 | **Version** | 1.17.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B |
+| **Source Gate** | GHV.CROW-IDENTITY.1D |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -48,7 +48,9 @@ GHV.CROW-IDENTITY.1B locks **Core Crow Lineage Taxonomy Baseline v1.0.0** (desig
 
 GHV.CROW-IDENTITY.1C locks **Crow Identity Lifecycle Baseline v1.0.0** (Chosen/Suggested/Earned; Evidence-before-Mastery; privacy/projection; no runtime authority).
 
-`GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) · [GHV.CROW-IDENTITY.1C.md](../governance/gates/GHV.CROW-IDENTITY.1C.md).
+GHV.CROW-IDENTITY.1D locks **Crow Visual and Motion Identity Baseline v1.0.0** (Mother Forms; Lineage Marks; motion; REFERENCE LOCKED plates; no runtime authority). Next Gate **REQUIRES FOUNDER DECISION**.
+
+`GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) · [GHV.CROW-IDENTITY.1D.md](../governance/gates/GHV.CROW-IDENTITY.1D.md).
 
 ## Progression architecture links (1A)
 

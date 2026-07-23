@@ -3131,3 +3131,111 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1C |
 | **Evidence** | GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md · Gate record |
+
+## DEC-319 — Lock layered Crow visual architecture (Layers 0–5 + separate symbol systems)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt Layer 0 Anatomy · 1 Mother Form · 2 Lineage · 3 Wingprint · 4 Lifecycle presentation · 5 Lineage Mark (when authorized). Evidence Seal, Fusion Signature, and Prestige Mark remain separate namespaces. Trust symbol remains PROHIBITED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | GHURAVIA-CROW-VISUAL-AND-MOTION-BASELINE.md · IDENTITY-SYMBOL-SEPARATION-AND-COMPOSITION-RULES.md |
+
+## DEC-320 — Lock five Horizon Mother Forms
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock MF-OPR, MF-BLD, MF-ANL, MF-PRT, MF-LED as Horizon-level visual structures (not Lineage awards, Prestige classes, or species). Distinction must hold in monochrome and thumbnail without color-only or label-only reliance. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | HORIZON-MOTHER-FORM-SYSTEM.md · MOTHER-FORM-SILHOUETTE-PLATE.svg |
+
+## DEC-321 — Lock twenty-five Lineage visual specifications without changing CRW-* IDs
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock visual specifications for all 25 CRW-* Lineages derived from protected capability centers. Visual IDs reference taxonomy IDs; taxonomy IDs remain immutable. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | CORE-CROW-LINEAGE-VISUAL-SPECIFICATION-REGISTRY.md |
+
+## DEC-322 — Close sixty critical visual collision pairs with unresolved = 0
+
+| Field | Value |
+|-------|-------|
+| **Decision** | All 60 critical visual collision pairs reviewed with structural, motion, Mark, monochrome, and thumbnail distinctions. Color-only, text-only, or accessory-only closures are rejected. Unresolved critical visual collisions = 0. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | LINEAGE-VISUAL-COLLISION-AND-DIFFERENTIATION-MATRIX.md |
+
+## DEC-323 — Lock Lineage Mark grammar and authorization
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lineage Marks use Horizon family geometry + Lineage differentiator. Chosen and Suggested receive NO Mark. Earned Active is ELIGIBLE. No paid Mark. No Trust Mark. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | CORE-CROW-LINEAGE-MARK-SYSTEM.md · IDENTITY-SYMBOL-AUTHORIZATION-MATRIX.md (1C) |
+
+## DEC-324 — Lock lifecycle visual grammar
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Visual treatments for No Lineage, Chosen/Exploring, Suggested (private), Earned Active, Revalidation Due, Lapsed, Suspended, Revoked, Under Appeal, Corrected/Superseded must preserve 1C semantics and privacy rules. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | CROW-IDENTITY-LIFECYCLE-VISUAL-GRAMMAR.md |
+
+## DEC-325 — Lock Wingprint as presentation-only visual layer
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Wingprint remains presentation/personalization. Environmental styles do not imply skill, Evidence, Mastery, Trust, Prestige, or Cross-Wing. Paid Wingprints must not look more identity-valid than free Wingprints. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | WINGPRINT-PRESENTATION-LAYER-SPECIFICATION.md |
+
+## DEC-326 — Lock motion grammar with reduced-motion parity
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Motion reinforces structure and never replaces it. No flashing/strobing; no mandatory animation for meaning; no suggestion-as-award or punitive lapse spectacles. Reduced-motion alternatives required. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | CROW-IDENTITY-MOTION-AND-ANIMATION-GRAMMAR.md |
+
+## DEC-327 — Recommend SVG source-of-truth and CSS/WAAPI near-term motion (no install)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Static identity source of truth is SVG. Near-term motion uses SVG + CSS/WAAPI-compatible grammar. Lottie/Rive/WebGL require later spike and authorization. 3D is optional future derivative. This Gate does not install or implement a renderer. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | VISUAL-ASSET-AND-MOTION-TECHNOLOGY-DECISION-MATRIX.md |
+
+## DEC-328 — Lock visual asset ID namespace and REFERENCE LOCKED status only
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Adopt VIS-MF-* and VIS-CRW-*-{MARK|FORM|MOTION}-* namespaces. Visual IDs never replace CRW-*. This Gate uses REFERENCE LOCKED only — not PRODUCTION APPROVED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | CROW-VISUAL-ASSET-ID-AND-VERSIONING-POLICY.md · CROW-IDENTITY-1D-REFERENCE-ASSET-MANIFEST.md |
+
+## DEC-329 — Lock Crow Visual and Motion Identity Baseline v1.0.0
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Activate GHURAVIA Crow Visual and Motion Identity Baseline v1.0.0 as LOCKED internal design baseline with controlled reference assets and open production-validation conditions. Implementation authority NONE. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | GHURAVIA-CROW-VISUAL-AND-MOTION-BASELINE.md · Gate record |
+
+## DEC-330 — Crow Identity runtime remains unauthorized; next Gate requires Founder decision
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Crow Identity runtime implementation remains NOT AUTHORIZED after 1D. Next Gate REQUIRES FOUNDER DECISION — do not invent a Gate ID. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1D |
+| **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |

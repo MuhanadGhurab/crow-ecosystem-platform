@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 470" role="img" aria-labelledby="title">
+  <title id="title">GHURAVIA Lineage Mark contact sheet — 25 reference Marks</title>
+  <!-- REFERENCE VALIDATION ASSET · NOT RUNTIME · NOT PRODUCTION APPROVED · GHV.CROW-IDENTITY.1D -->
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g id="VIS-CRW-OPR-01-MARK-001">
+      <circle cx="50" cy="40" r="14"/><path d="M40 40 h4 M56 40 h4 M50 30 v4 M50 46 v4"/>
+      <text x="50" y="72" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-OPR-01</text>
+    </g>
+    <g id="VIS-CRW-OPR-02-MARK-001">
+      <circle cx="150" cy="40" r="14"/><path d="M142 40 L160 40 L154 34"/>
+      <text x="150" y="72" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-OPR-02</text>
+    </g>
+    <g id="VIS-CRW-OPR-03-MARK-001">
+      <circle cx="250" cy="40" r="14"/><path d="M240 40 A10 10 0 0 1 260 40"/><path d="M240 40 A10 10 0 0 0 260 40"/>
+      <text x="250" y="72" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-OPR-03</text>
+    </g>
+    <g id="VIS-CRW-OPR-04-MARK-001">
+      <rect x="338" y="28" width="10" height="10"/><rect x="352" y="28" width="10" height="10"/><rect x="338" y="42" width="10" height="10"/><rect x="352" y="42" width="10" height="10"/>
+      <text x="350" y="72" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-OPR-04</text>
+    </g>
+    <g id="VIS-CRW-OPR-05-MARK-001">
+      <rect x="440" y="32" width="20" height="16"/><path d="M446 38 h8 v8 h-8 z"/>
+      <text x="450" y="72" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-OPR-05</text>
+    </g>
+    <g id="VIS-CRW-BLD-01-MARK-001">
+      <path d="M36 116 h28 v28 h-28 z"/><path d="M42 122 h16 v16"/>
+      <text x="50" y="162" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-BLD-01</text>
+    </g>
+    <g id="VIS-CRW-BLD-02-MARK-001">
+      <path d="M136 130 L146 120 L156 130 L146 140 Z"/><path d="M152 122 L162 130"/>
+      <text x="150" y="162" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-BLD-02</text>
+    </g>
+    <g id="VIS-CRW-BLD-03-MARK-001">
+      <circle cx="242" cy="130" r="5"/><circle cx="250" cy="130" r="5"/><circle cx="258" cy="130" r="5"/><path d="M242 130 L258 130"/>
+      <text x="250" y="162" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-BLD-03</text>
+    </g>
+    <g id="VIS-CRW-BLD-04-MARK-001">
+      <circle cx="342" cy="130" r="5"/><circle cx="358" cy="130" r="5"/><path d="M342 130 L358 130"/>
+      <text x="350" y="162" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-BLD-04</text>
+    </g>
+    <g id="VIS-CRW-BLD-05-MARK-001">
+      <path d="M450 116 L462 130 L450 144 L438 130 Z"/>
+      <text x="450" y="162" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-BLD-05</text>
+    </g>
+    <g id="VIS-CRW-ANL-01-MARK-001">
+      <circle cx="42" cy="214" r="2"/><circle cx="50" cy="210" r="2"/><circle cx="58" cy="214" r="2"/><circle cx="46" cy="226" r="2"/><circle cx="54" cy="226" r="2"/>
+      <text x="50" y="252" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-ANL-01</text>
+    </g>
+    <g id="VIS-CRW-ANL-02-MARK-001">
+      <circle cx="150" cy="220" r="6"/><circle cx="150" cy="220" r="11"/><circle cx="150" cy="220" r="16"/>
+      <text x="150" y="252" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-ANL-02</text>
+    </g>
+    <g id="VIS-CRW-ANL-03-MARK-001">
+      <circle cx="244" cy="220" r="3"/><circle cx="256" cy="220" r="3"/><circle cx="250" cy="212" r="3"/><path d="M244 220 L250 212 L256 220 L250 226 Z"/>
+      <text x="250" y="252" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-ANL-03</text>
+    </g>
+    <g id="VIS-CRW-ANL-04-MARK-001">
+      <path d="M338 220 L346 220 A4 4 0 0 1 354 220 L362 220"/>
+      <text x="350" y="252" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-ANL-04</text>
+    </g>
+    <g id="VIS-CRW-ANL-05-MARK-001">
+      <path d="M438 212 L450 220 L438 228"/><path d="M448 212 L462 220 L448 228"/>
+      <text x="450" y="252" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-ANL-05</text>
+    </g>
+    <g id="VIS-CRW-PRT-01-MARK-001">
+      <path d="M36 310 A14 14 0 0 1 64 310"/><circle cx="50" cy="314" r="4"/>
+      <text x="50" y="342" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-PRT-01</text>
+    </g>
+    <g id="VIS-CRW-PRT-02-MARK-001">
+      <rect x="138" y="298" width="24" height="24"/><path d="M146 298 v10 h8"/>
+      <text x="150" y="342" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-PRT-02</text>
+    </g>
+    <g id="VIS-CRW-PRT-03-MARK-001">
+      <circle cx="250" cy="310" r="14"/><path d="M240 314 Q250 300 260 314"/>
+      <text x="250" y="342" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-PRT-03</text>
+    </g>
+    <g id="VIS-CRW-PRT-04-MARK-001">
+      <path d="M334 310 A16 16 0 0 1 366 310 A12 12 0 0 0 334 310"/>
+      <text x="350" y="342" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-PRT-04</text>
+    </g>
+    <g id="VIS-CRW-PRT-05-MARK-001">
+      <rect x="440" y="300" width="20" height="14"/><path d="M452 308 l4 4 l8 -10"/>
+      <text x="450" y="342" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-PRT-05</text>
+    </g>
+    <g id="VIS-CRW-LED-01-MARK-001">
+      <circle cx="44" cy="400" r="5"/><circle cx="56" cy="400" r="5"/><path d="M36 390 Q50 382 64 390"/>
+      <text x="50" y="432" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-LED-01</text>
+    </g>
+    <g id="VIS-CRW-LED-02-MARK-001">
+      <circle cx="158" cy="400" r="4"/><path d="M138 400 L154 400"/>
+      <text x="150" y="432" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-LED-02</text>
+    </g>
+    <g id="VIS-CRW-LED-03-MARK-001">
+      <path d="M238 392 Q250 400 238 408"/><path d="M262 392 Q250 400 262 408"/>
+      <text x="250" y="432" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-LED-03</text>
+    </g>
+    <g id="VIS-CRW-LED-04-MARK-001">
+      <rect x="338" y="390" width="24" height="20"/><path d="M342 396 h16 M342 402 h16 M342 408 h10"/>
+      <text x="350" y="432" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-LED-04</text>
+    </g>
+    <g id="VIS-CRW-LED-05-MARK-001">
+      <path d="M438 408 L446 392 L454 408"/><path d="M446 392 L462 392"/>
+      <text x="450" y="432" text-anchor="middle" stroke="none" fill="#111" font-size="8">CRW-LED-05</text>
+    </g>
+
+  </g>
+</svg>

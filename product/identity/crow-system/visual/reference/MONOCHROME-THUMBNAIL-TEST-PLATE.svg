@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200" role="img" aria-labelledby="title">
+  <title id="title">Monochrome thumbnail recognition plate</title>
+  <!-- REFERENCE VALIDATION ASSET · NOT RUNTIME · NOT PRODUCTION APPROVED · GHV.CROW-IDENTITY.1D -->
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <text x="10" y="16" stroke="none" fill="#111" font-size="10">Monochrome thumbnail strip (Mother Forms + sample Marks)</text>
+    <g transform="translate(0,20) scale(0.55)">
+    <ellipse cx="80" cy="90" rx="28" ry="22"/>
+    <circle cx="95" cy="78" r="10"/>
+    <path d="M68 90 L50 120 M92 90 L110 120"/>
+    <path d="M55 85 Q40 70 55 55 Q80 45 105 55 Q120 70 105 85"/>
+    <circle cx="80" cy="90" r="36" stroke-dasharray="4 6"/>
+    <text x="80" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="10">MF-OPR</text></g>
+<g transform="translate(-40,20) scale(0.55)">
+    <path d="M180 110 L210 70 L250 110 L240 130 L190 130 Z"/>
+    <path d="M200 90 L190 70 L210 55 L230 70 L220 90"/>
+    <rect x="205" y="85" width="20" height="14"/>
+    <path d="M195 70 L185 50 M225 70 L235 50"/>
+    <text x="215" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="10">MF-BLD</text></g>
+<g transform="translate(-80,20) scale(0.55)">
+    <ellipse cx="350" cy="100" rx="22" ry="18"/>
+    <path d="M360 85 L380 55 L395 60"/>
+    <circle cx="385" cy="55" r="8"/>
+    <line x1="395" y1="55" x2="430" y2="40"/>
+    <path d="M330 95 Q310 80 330 60 Q350 50 370 65"/>
+    <text x="355" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="10">MF-ANL</text></g>
+<g transform="translate(-120,20) scale(0.55)">
+    <path d="M490 70 Q470 90 475 120 Q500 135 525 120 Q530 90 510 70 Q500 60 490 70 Z"/>
+    <circle cx="500" cy="85" r="9"/>
+    <path d="M480 95 Q460 100 475 75 Q500 55 525 75 Q540 100 520 95"/>
+    <text x="500" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="10">MF-PRT</text></g>
+<g transform="translate(-160,20) scale(0.55)">
+    <ellipse cx="640" cy="100" rx="20" ry="16"/>
+    <circle cx="655" cy="88" r="9"/>
+    <path d="M620 95 Q580 70 600 50"/>
+    <path d="M660 95 Q700 70 680 50"/>
+    <path d="M630 115 L640 135 L650 115"/>
+    <text x="640" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="10">MF-LED</text></g>
+    <g transform="translate(40,140) scale(0.9)"><circle cx="0" cy="0" r="14"/><path d="M-10 0 h4 M6 0 h4 M0 -10 v4 M0 6 v4"/></g>
+<g transform="translate(130,140) scale(0.9)"><path d="M-14 -14 h28 v28 h-28 z"/><path d="M-8 -8 h16 v16"/></g>
+<g transform="translate(220,140) scale(0.9)"><circle cx="-8" cy="-6" r="2"/><circle cx="0" cy="-10" r="2"/><circle cx="8" cy="-6" r="2"/><circle cx="-4" cy="6" r="2"/><circle cx="4" cy="6" r="2"/></g>
+<g transform="translate(310,140) scale(0.9)"><path d="M-14 0 A14 14 0 0 1 14 0"/><circle cx="0" cy="4" r="4"/></g>
+<g transform="translate(400,140) scale(0.9)"><circle cx="-6" cy="0" r="5"/><circle cx="6" cy="0" r="5"/><path d="M-14 -10 Q0 -18 14 -10"/></g>
+
+  </g>
+</svg>

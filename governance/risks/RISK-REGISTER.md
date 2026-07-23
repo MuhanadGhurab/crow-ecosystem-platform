@@ -351,3 +351,8 @@ GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. Ex
 | RISK-CRW-025 | Suggestion leakage / public recommendation exposure | H | H | H | Accidental public API | Suggested always private | Privacy tests later | Founder | **OPEN** | Mitigated by 1C design | CROW-IDENTITY.1C |
 | RISK-CRW-026 | Payment or Nest score used to award Lineage | H | H | H | Commercial/readiness overclaim | Access≠award + Nest≠Lineage | Runtime Gate review | Founder | **OPEN** | Mitigated by 1C design | Identity runtime |
 | RISK-CRW-027 | Legal retention / appeal SLA values undefined | M | H | H | Invented deadlines | Explicitly deferred to legal/ops | Legal validation | Founder | **OPEN** | Honest open condition | Legal |
+
+| RISK-CRW-028 | Color-only or accessory-only Lineage differentiation | H | H | H | Weak recognition | Structural cues mandatory · 60-pair matrix | Product review | Founder | **OPEN** | Mitigated by 1D design | CROW-IDENTITY.1D |
+| RISK-CRW-029 | Wingprint or paid presentation mistaken for earned identity | H | H | H | Commercial overclaim | Layer separation · paid ≠ more earned | Runtime Gate review | Founder | **OPEN** | Mitigated by 1D design | Identity runtime |
+| RISK-CRW-030 | Motion-only or animation-mandatory identity meaning | M | H | H | Accessibility failure | Reduced-motion parity · no flash | A11y expert later | Founder | **OPEN** | Mitigated by 1D design | CROW-IDENTITY.1D |
+| RISK-CRW-031 | Abstract reference geometry over-read as final character art | M | M | M | False production claim | REFERENCE LOCKED · validation debt | Character-art review | Founder | **OPEN** | Honest condition | Art production |

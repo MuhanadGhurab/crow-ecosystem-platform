@@ -148,3 +148,8 @@
 | ASM-133 | Progression FRM-MST-* remain sufficient Mastery citations without new formulas | Active | Evidence/Mastery chain | FINAL-FORMULA-VERSION-REGISTRY | Re-open if Mastery baseline revises | CROW-IDENTITY.1C |
 | ASM-134 | Legal retention periods and appeal deadlines will be set in a later operational/legal Gate | Active | Retention honesty | Data classification doc | Do not invent numeric retention in Product Code | Legal |
 | ASM-135 | Visual Lineage Mark production remains 1D and will not reopen lifecycle semantics | Active | 1D boundary | Symbol matrix | Keep symbol semantics stable in 1D | CROW-IDENTITY.1D |
+
+| ASM-136 | Abstract SVG reference plates are sufficient to lock an internal visual design baseline | Active | 1D lock | Acceptance matrix · plates | Character art later | CROW-IDENTITY.1D |
+| ASM-137 | Expert Arabic/cultural/a11y/user recognition reviews can remain open without blocking design lock | Active | Validation debt | Honest debt register | Block PRODUCTION APPROVED claims | CROW-IDENTITY.1D |
+| ASM-138 | SVG + CSS/WAAPI remains viable near-term motion path until a later renderer spike | Active | Tech direction | Decision matrix | Spike Lottie/Rive/WebGL if needed | Identity runtime |
+| ASM-139 | Visual baseline will not reopen taxonomy IDs or lifecycle semantics | Active | Portfolio integrity | Preflight · 1B/1C locked | Reject semantic drift | CROW-IDENTITY.1D |

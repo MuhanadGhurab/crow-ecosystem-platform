@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" role="img" aria-labelledby="title">
+  <title id="title">RTL/LTR composition plate</title>
+  <!-- REFERENCE VALIDATION ASSET · NOT RUNTIME · NOT PRODUCTION APPROVED · GHV.CROW-IDENTITY.1D -->
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <text x="20" y="24" stroke="none" fill="#111" font-size="10">LTR composition</text>
+    <circle cx="50" cy="70" r="18"/>
+    <text x="80" y="75" stroke="none" fill="#111" font-size="12">Rhythm Keeper</text>
+    <text x="80" y="95" stroke="none" fill="#111" font-size="9">CRW-OPR-01</text>
+    <text x="300" y="24" stroke="none" fill="#111" font-size="10">RTL composition (label side mirrored; Mark geometry unchanged)</text>
+    <text x="470" y="75" text-anchor="end" stroke="none" fill="#111" font-size="12">حافظ الإيقاع</text>
+    <circle cx="490" cy="70" r="18"/>
+    <text x="470" y="95" text-anchor="end" stroke="none" fill="#111" font-size="9">CRW-OPR-01</text>
+    <text x="20" y="140" stroke="none" fill="#111" font-size="9">Arabic label CONTROLLED PROVISIONAL · native review NOT RUN · Mark does not embed language</text>
+
+  </g>
+</svg>

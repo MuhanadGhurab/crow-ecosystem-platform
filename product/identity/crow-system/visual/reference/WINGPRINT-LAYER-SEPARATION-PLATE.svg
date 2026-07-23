@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200" role="img" aria-labelledby="title">
+  <title id="title">Wingprint layer separation plate</title>
+  <!-- REFERENCE VALIDATION ASSET · NOT RUNTIME · NOT PRODUCTION APPROVED · GHV.CROW-IDENTITY.1D -->
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <text x="10" y="16" stroke="none" fill="#111" font-size="10">Layer stack (removable independently)</text>
+    <g id="L0-anatomy"><ellipse cx="100" cy="100" rx="30" ry="22"/><circle cx="118" cy="88" r="10"/><text x="100" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="8">L0 Anatomy</text></g>
+    <g id="L1-mother"><path d="M200 80 Q180 100 200 120 Q220 100 200 80"/><text x="200" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="8">L1 Mother</text></g>
+    <g id="L2-lineage"><path d="M280 85 L300 100 L280 115 L260 100 Z"/><text x="280" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="8">L2 Lineage</text></g>
+    <g id="L3-wingprint"><rect x="330" y="80" width="50" height="40" fill="#eeeeee" stroke="#111"/><text x="355" y="150" text-anchor="middle" stroke="none" fill="#111" font-size="8">L3 Wingprint</text></g>
+    <g id="L5-mark"><circle cx="100" cy="100" r="36"/><text x="100" y="170" text-anchor="middle" stroke="none" fill="#111" font-size="8">L5 Mark zone</text></g>
+
+  </g>
+</svg>
