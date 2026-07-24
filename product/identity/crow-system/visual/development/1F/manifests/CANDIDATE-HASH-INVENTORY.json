@@ -1,0 +1,302 @@
+[
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "DEFB276D433E393AF53E07A72ED92A5C60F71289450C42C3D3F77B9765DAE658",
+      "cinematic-4k-v0.1.png": "5334DBA916CF4901AE3B0DDA56E2A567BBF5BD27C60A0794DA6B677F3DA84017",
+      "silhouette-v0.1.png": "A58D2544FED24421EB0C76BC5D9D5C52C483BF2FFC35D15BAEE0EBF8D05F7A12",
+      "portrait-v0.1.png": "5B7896A12383C2B5DC7C0531B9D83D632ED3F06F034FD3D061E938DA5A693239",
+      "thumbnail-48px-v0.1.png": "1000CF9ABABC0A5364F3E6CE4B5278465D9E25024D5E6953D891E89E16D763F8",
+      "lineage-mark-study-v0.1.png": "E4C36F481428139CFDDF0721DCE8485DDDB9598A3E143955616029C5C9BDEE68"
+    },
+    "lineage": "O1",
+    "name": "Rhythm Keeper",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-01-rhythm-keeper\\A"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "1E02340353EFBB56020CD8AF2F3FDAF6182173119687578902A660B1978F264D",
+      "cinematic-4k-v0.1.png": "7EAF20E4C38140F844EE2DF81DA327A89AFCEEE4C45C2DF50B70CE07514E0433",
+      "silhouette-v0.1.png": "D3E478DEDE635BA7F03901EA7605F6CB17A59780F03A04A3039E8CBBE6A0DD49",
+      "portrait-v0.1.png": "D437EF4B5CB3A02157BC3F292C1807674C0F5307D7096F94A8FF07F54C37EB1E",
+      "thumbnail-48px-v0.1.png": "B9B4D592C264E91AF807268270797560565338DA77BC8B86444DDCC347670A35",
+      "lineage-mark-study-v0.1.png": "E26B210959B5418871B4933F931B6504A2A9509DBBEC4D16F56615C53051AF00"
+    },
+    "lineage": "O1",
+    "name": "Rhythm Keeper",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-01-rhythm-keeper\\B"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "7A3F83E37F8A2E519700D26DD5E8629BFAD57CF5882851CAC9C4C72D65378B21",
+      "cinematic-4k-v0.1.png": "2FC325F6118372DE0ECF5E2D19A591F825077C99EA99A1D0446EB3A112F33CBC",
+      "silhouette-v0.1.png": "5304183E00CBACEE8EC154CD851EC273DC134117215377B17D0AE9A16A1E08A7",
+      "portrait-v0.1.png": "6A1077AD104F2442E586BD7A38BDF19D00C32859C99D3A650A3C006B13CFA40D",
+      "thumbnail-48px-v0.1.png": "6A90E03AC3DDD8B7266478D027EB8ADE1CCA30B98AAE9E8470D155122AE0A91B",
+      "lineage-mark-study-v0.1.png": "0E7ECBBB670FA5423EE65789B43825564480B7FF5E533046EDB58C60D635C3FB"
+    },
+    "lineage": "O1",
+    "name": "Rhythm Keeper",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-01-rhythm-keeper\\C"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "DC8A2CEEAF304AC5E3AD58F6EDCF02FE541C28CD491643F63B29C48B57123A46",
+      "cinematic-4k-v0.1.png": "48DAEB02DDFB755E9721C4BE21CB5AE9B2DABC75DA1B500C3DA74DC775443A05",
+      "silhouette-v0.1.png": "E5D66A03FB739FF56CD9630C72FA70BD38B26BFE0AAD168977821A9EEF6306B6",
+      "portrait-v0.1.png": "AB7232D9745BF6AE423A40F2C000F3AACF4293ACD1920BF56B7E7CDC07A45791",
+      "thumbnail-48px-v0.1.png": "E1F5904F58F1ED295965DE24066A82EEF809B1EE8E1A8C91C637B461843A2950",
+      "lineage-mark-study-v0.1.png": "61618729F6CF1316EDB224B7C72F3772BB41A2CF5A91141C26B6E26B57C97FB4"
+    },
+    "lineage": "O2",
+    "name": "Flow Navigator",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-02-flow-navigator\\A"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "1A1AF42017CE4E76D150D1F63433744ED7647D762B3F703ACF6AE64F3897E32A",
+      "cinematic-4k-v0.1.png": "77DF648C72CF09D7FDA7ED487C390A3262B323A54263B56EA8C59FF4AAE0E521",
+      "silhouette-v0.1.png": "F9F7B5BD739363998AF24DB6C6C34CB0ADF47B8F5D9C559339CBDFFF3540AF29",
+      "portrait-v0.1.png": "610B958D67945E14BFAAF91F8A21B89FF13F4620AA625015DFC89D1B39B6B99F",
+      "thumbnail-48px-v0.1.png": "6F1691993D0AC7D72140BDB31ECC626B9A29F56D3C37E2D52CBF319CD56AA89C",
+      "lineage-mark-study-v0.1.png": "45AF15D6B6439BBB377377E147CBDC33AC36408DA6F8E15F60A45E4346B09B2C"
+    },
+    "lineage": "O2",
+    "name": "Flow Navigator",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-02-flow-navigator\\B"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "E819FA81862254A537ED11081CFBC696A89EA5A76517B588DD81E8D160E21819",
+      "cinematic-4k-v0.1.png": "3D8591148D5C71DDB919D2E5D424ADA035E241744D439185416D1CF8AF16943A",
+      "silhouette-v0.1.png": "52B8F75B29BF34086894CE4103F5E9A6061FE699123F21D1CDFAD69BE61A9FF1",
+      "portrait-v0.1.png": "11D9A8A87953D102C51D3A4D03159DE67036804FC3FAA4504A6EC512B67E1C09",
+      "thumbnail-48px-v0.1.png": "AB24051ECADB4AA5C91E61241540D89F8EB5EFE6762FD35736C0763A3E5901E9",
+      "lineage-mark-study-v0.1.png": "F49A5AA130C0D0399ED8F6EBFFB0C5C3EB4E3D6A252FF9936D3EE64AD21A6676"
+    },
+    "lineage": "O2",
+    "name": "Flow Navigator",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-02-flow-navigator\\C"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "3E2967CB09BF3D52E442AF35B8032E70EFB0726C8231883E1FD69A5EE032ECD4",
+      "cinematic-4k-v0.1.png": "43CEBFA2A467EC14687A29CAF882FAFC6DC9B91136F2D4C06650CF37087BCE43",
+      "silhouette-v0.1.png": "2C926A9E7FB22D48E04C5A46F2DEDFC454FE81A4BC220A465C4051AB91C7200D",
+      "portrait-v0.1.png": "F9D94AD11DE8022C83A401F5392B22FCCD3AF364B16C2A2A0417C7C89D675325",
+      "thumbnail-48px-v0.1.png": "462266F86C457304E611261494CB73B8DDF683922D446B7FDB1926052A4016B0",
+      "lineage-mark-study-v0.1.png": "3923CCC817F0BBECDA1BF989CA7D16163D39F6F34E07C19A98BB937C767DFBFB"
+    },
+    "lineage": "O3",
+    "name": "Recovery Smith",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-03-recovery-smith\\A"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "4B31700E4F19C265AC92412B163728D5510A781A5B5AB7CFA88DA54AEFFC7DFA",
+      "cinematic-4k-v0.1.png": "E77B8A5E38E197A62695C5A059BA5BD25A3118EA0DAAA1955059D2DB601EDC02",
+      "silhouette-v0.1.png": "5E02FAD8C0BE8D22FBF76CBC49CB1BF01D5EA033B1901704CAD7FF3952C85622",
+      "portrait-v0.1.png": "1F02C0D2DCB7757E21044287DCDC5D137FE3E81702ABE8973C927C34A1114145",
+      "thumbnail-48px-v0.1.png": "0BE5949A9918F06EB3F21B6CB46D7F40BD7CD6CD05E137A17F69C49BB7D90AEB",
+      "lineage-mark-study-v0.1.png": "B199C0D2B42DED31BE34C567F0FA33B0B198B8E2E1EEE4182DC6AF64F3FFB9A5"
+    },
+    "lineage": "O3",
+    "name": "Recovery Smith",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-03-recovery-smith\\B"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "BFCA04182A080544615901CAFDE6B3EEF98876DF4AC6D16BF98A2A6AA1364647",
+      "cinematic-4k-v0.1.png": "0D4212E3AA6257A2D2D8EE246E53E020E141A5454238391AF209CE0F847A373E",
+      "silhouette-v0.1.png": "94E881016081D34FE22DEC20903F03F7EA130C258BCA5AFA9446B7172383991F",
+      "portrait-v0.1.png": "56FF097FDEFCE741205B4E416AED5C4C765844E2129928FF658B9D307CE783AA",
+      "thumbnail-48px-v0.1.png": "C274085B252A6DB09047C7FEB9DC8DB4CC5633C25BD70CBBE02AB0E8A1829A17",
+      "lineage-mark-study-v0.1.png": "0B1A9942C93DE2458451B6F14B56F6C517EA41C5E4060B6D7AFD81D023CEB751"
+    },
+    "lineage": "O3",
+    "name": "Recovery Smith",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-03-recovery-smith\\C"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "55FCEA453CF9E32C47FB8DB581E2D3253138BF21393B61C206F8527CC32D7202",
+      "cinematic-4k-v0.1.png": "2DD5129F2A43E8143199B11A4B5E290EA4103F18D4E8BB0880E7F55D01F06CC3",
+      "silhouette-v0.1.png": "616DE6200B617B9481CF287F30831B42BEE713FA5691DA10845101CE94094BA3",
+      "portrait-v0.1.png": "AA82431207BAF20F69B1802BEDA8692A93B2E12CA4331D704D52512F494132DD",
+      "thumbnail-48px-v0.1.png": "9D4D55E14B45183F7A57AB46D18E3804DAF33DCD7F8DAB94CCD6A944E0739467",
+      "lineage-mark-study-v0.1.png": "FE073B13203F7E563BE91E34A185F42AA11ABEA0015337C39E69D9A82576B2B3"
+    },
+    "lineage": "O4",
+    "name": "Automation Conductor",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-04-automation-conductor\\A"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "2A965F25DC277506D36C375F7D0E49030026CCC834284EBBB5AC4F948326E47A",
+      "cinematic-4k-v0.1.png": "C20B27EDD18E4CEDC52F143006737F0AE64FCBF41CBD7865692744691878DE31",
+      "silhouette-v0.1.png": "429385EE073E633513D220BC427ABF4914124B9583FFE22F537C1194158BDD83",
+      "portrait-v0.1.png": "61F486EDA4AD78FC8A382D0A9571FB0E96FDA114593C067BC4C089E4E47B01BB",
+      "thumbnail-48px-v0.1.png": "5406DE52A2F6A99FF74996C260A94BFF960954BD854735D459323F6598097B61",
+      "lineage-mark-study-v0.1.png": "64F594BBC2E29C9D8AD944C3B7E0ED1FE4A7408C3EE9BB541BD095BEEFD2E0ED"
+    },
+    "lineage": "O4",
+    "name": "Automation Conductor",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-04-automation-conductor\\B"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "9D58E8ABD231F644B07382BDF6F98A575D08949F508A8487F5EBE992062A9D45",
+      "cinematic-4k-v0.1.png": "E31A4F736D82C9ACC04BC926C6AD0DA5978FB2672A183D4E41ACF6D8457F7073",
+      "silhouette-v0.1.png": "B1AD5767C1617BFDB3F2E24A57A41A984B911D92E4DD573EC6CAB55D67F57184",
+      "portrait-v0.1.png": "6097DF8038E21B1C98B123D2E3DFE94FC0C88F8AA9FFB1A4EB20E8A4ADFE3526",
+      "thumbnail-48px-v0.1.png": "564732697F749DF156A9EE13D9E166E68F01DE3EBE3B9FD0BDEBE31BB39E09C6",
+      "lineage-mark-study-v0.1.png": "72E9837C6FD531117CE85A8304BFBD2AC38F5EBFA53E21D11D0A0C3ADE91A170"
+    },
+    "lineage": "O4",
+    "name": "Automation Conductor",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-04-automation-conductor\\C"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "9C97AE10A7D8F64C2EE9251303319F3D3AC3AE442BBECC7182056150363EE688",
+      "cinematic-4k-v0.1.png": "78878373D2A6E813CA1C8DEE4D61FF17A7E759D4AA924377F6F9ABB7D4CB2365",
+      "silhouette-v0.1.png": "8EDACF3A1C646DB6F4CF78F2D22F6BABD48974A968E59C9EF3FBE9BD22056DB6",
+      "portrait-v0.1.png": "63C1828B6D411F7B81C5DC5C42105CAC5F5D8C1D0E1CB4AA2C5142D3AF219914",
+      "thumbnail-48px-v0.1.png": "2049A3ACDBD2FD1EFFE80FD2AC60B6061748ECDCB643EA7BFF2DE962CC0C3110",
+      "lineage-mark-study-v0.1.png": "97E5FD01A96639D5564B2F1AE2B4AFF7AC75D8B78F19E7669F7981030F64B748"
+    },
+    "lineage": "O5",
+    "name": "Service Steward",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-05-service-steward\\A"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "4E2F92A1622E1EB02629E6C287218CE7B39364F84CBABC7E97B658E632809246",
+      "cinematic-4k-v0.1.png": "E2CFC0311A1A9BF11CE46535E2F5CCEB34EB6103F2BAD0C3807FAE44B6BE2D35",
+      "silhouette-v0.1.png": "3A06278A8C32E03CFFF53EAF6C9F8441B1CE06E4AEDF6E19B00CE80C894F3DCB",
+      "portrait-v0.1.png": "D1DE78172F9828BE733A1A6B10AA4808816685C7FA60318EB669798AD63AE99C",
+      "thumbnail-48px-v0.1.png": "ABBDEA2E71C590B1FD23806B07FC7322E52B00559661BB08CD6A86454BED92B8",
+      "lineage-mark-study-v0.1.png": "160D8D338F7E48FB23778FE7C34E31F9EDFE12841D0658D6EAD6DCFA5BCA63EB"
+    },
+    "lineage": "O5",
+    "name": "Service Steward",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-05-service-steward\\B"
+  },
+  {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "960713901D659ED49BD657A33AE7A68DA4E1D4C89ADE3FF9163EDE410ECCDF7E",
+      "cinematic-4k-v0.1.png": "165D21774FCE8BCF90F2B13BD0F7BACB65B076E9DAA93CAECC027B06B5E293DD",
+      "silhouette-v0.1.png": "26CB57BC98A3FCA260DC46704EEE232EE88B4FAC30471B5876118011D1DC21EE",
+      "portrait-v0.1.png": "92F115DF640CA1CADF85337228A72819343E055FABFD0B93BA22710FFC1C3008",
+      "thumbnail-48px-v0.1.png": "9EE4E25B3EEB3C6996FB481F1A776E45E2147C275B57EFAC6EB4D706483C4DF0",
+      "lineage-mark-study-v0.1.png": "80C249681EC73F3F70A59409DE0196B72E8EE3A0FC6D99A566416904B6F4E8F9"
+    },
+    "lineage": "O5",
+    "name": "Service Steward",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-05-service-steward\\C"
+  }
+]

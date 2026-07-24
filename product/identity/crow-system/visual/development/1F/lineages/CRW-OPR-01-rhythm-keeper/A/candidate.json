@@ -1,0 +1,33 @@
+{
+  "gate": "GHV.CROW-IDENTITY.1F",
+  "lineage_id": "CRW-OPR-01",
+  "lineage_folder": "CRW-OPR-01-rhythm-keeper",
+  "lineage_code": "O1",
+  "lineage_name": "Rhythm Keeper",
+  "direction": "A",
+  "parent_mother_form": "MF-O-B",
+  "status": "LOCAL_CANDIDATE_EVIDENCE",
+  "canon": false,
+  "production_approved": false,
+  "runtime_authorized": false,
+  "presentation": {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "DEFB276D433E393AF53E07A72ED92A5C60F71289450C42C3D3F77B9765DAE658",
+      "cinematic-4k-v0.1.png": "5334DBA916CF4901AE3B0DDA56E2A567BBF5BD27C60A0794DA6B677F3DA84017",
+      "silhouette-v0.1.png": "A58D2544FED24421EB0C76BC5D9D5C52C483BF2FFC35D15BAEE0EBF8D05F7A12",
+      "portrait-v0.1.png": "5B7896A12383C2B5DC7C0531B9D83D632ED3F06F034FD3D061E938DA5A693239",
+      "thumbnail-48px-v0.1.png": "1000CF9ABABC0A5364F3E6CE4B5278465D9E25024D5E6953D891E89E16D763F8",
+      "lineage-mark-study-v0.1.png": "E4C36F481428139CFDDF0721DCE8485DDDB9598A3E143955616029C5C9BDEE68"
+    },
+    "lineage": "O1",
+    "name": "Rhythm Keeper",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-01-rhythm-keeper\\A"
+  }
+}

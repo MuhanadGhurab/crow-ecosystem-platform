@@ -3293,3 +3293,57 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1E |
 | **Evidence** | GHV.CROW-IDENTITY.1E.md · GHV.CROW-IDENTITY.1E-CLOSURE-REPORT.md · PROJECT_STATUS.md |
+
+## DEC-337 — Select CRW-OPR-01 Rhythm Keeper Direction A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate Lineage **CRW-OPR-01 Rhythm Keeper Direction A** after winning blind, 48 px and cinematic review under locked MF-O-B. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | SELECTED-OPERATE-LINEAGE-MANIFEST.md · FOUNDER-OPERATE-LINEAGE-DECISION.md |
+
+## DEC-338 — Select CRW-OPR-02 Flow Navigator Direction C
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate Lineage **CRW-OPR-02 Flow Navigator Direction C** by final cinematic founder judgment. Blind/48 px preference for A remains historical review evidence. Future polish must preserve small-scale clarity. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | SELECTED-OPERATE-LINEAGE-MANIFEST.md · FOUNDER-OPERATE-LINEAGE-DECISION.md |
+
+## DEC-339 — Select CRW-OPR-03 Recovery Smith Direction C
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate Lineage **CRW-OPR-03 Recovery Smith Direction C** after winning blind, 48 px and cinematic review. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | SELECTED-OPERATE-LINEAGE-MANIFEST.md · FOUNDER-OPERATE-LINEAGE-DECISION.md |
+
+## DEC-340 — Select CRW-OPR-04 Automation Conductor Direction A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate Lineage **CRW-OPR-04 Automation Conductor Direction A** after winning 48 px and cinematic review. Blind preference for C remains historical review evidence. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | SELECTED-OPERATE-LINEAGE-MANIFEST.md · FOUNDER-OPERATE-LINEAGE-DECISION.md |
+
+## DEC-341 — Select CRW-OPR-05 Service Steward Direction B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate Lineage **CRW-OPR-05 Service Steward Direction B** by final cinematic founder judgment. Blind/48 px preference for C remains historical review evidence. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | SELECTED-OPERATE-LINEAGE-MANIFEST.md · FOUNDER-OPERATE-LINEAGE-DECISION.md |
+
+## DEC-342 — Close 1F with Operate family PASS_WITH_MINOR_RISK; local-only binaries; no runtime
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Close GHV.CROW-IDENTITY.1F as PASS for five Operate Lineage directions (A/C/C/A/B) under locked MF-O-B. Family collision PASS_WITH_MINOR_RISK (O1/O4) with non-blocking polish notes. Binary policy LOCAL_ONLY_NO_COMMIT. Lineage Mark studies remain reference-only. Crow Identity runtime NOT AUTHORIZED. Core Crow Lineages **5/25**. Remaining 20 must not be generated in one unreviewed batch. Next Gate ID REQUIRES FOUNDER DECISION — do not invent. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1F |
+| **Evidence** | GHV.CROW-IDENTITY.1F.md · GHV.CROW-IDENTITY.1F-CLOSURE-REPORT.md · PROJECT_STATUS.md |

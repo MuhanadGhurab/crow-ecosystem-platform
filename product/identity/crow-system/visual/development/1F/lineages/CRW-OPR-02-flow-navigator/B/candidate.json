@@ -1,0 +1,33 @@
+{
+  "gate": "GHV.CROW-IDENTITY.1F",
+  "lineage_id": "CRW-OPR-02",
+  "lineage_folder": "CRW-OPR-02-flow-navigator",
+  "lineage_code": "O2",
+  "lineage_name": "Flow Navigator",
+  "direction": "B",
+  "parent_mother_form": "MF-O-B",
+  "status": "LOCAL_CANDIDATE_EVIDENCE",
+  "canon": false,
+  "production_approved": false,
+  "runtime_authorized": false,
+  "presentation": {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "1A1AF42017CE4E76D150D1F63433744ED7647D762B3F703ACF6AE64F3897E32A",
+      "cinematic-4k-v0.1.png": "77DF648C72CF09D7FDA7ED487C390A3262B323A54263B56EA8C59FF4AAE0E521",
+      "silhouette-v0.1.png": "F9F7B5BD739363998AF24DB6C6C34CB0ADF47B8F5D9C559339CBDFFF3540AF29",
+      "portrait-v0.1.png": "610B958D67945E14BFAAF91F8A21B89FF13F4620AA625015DFC89D1B39B6B99F",
+      "thumbnail-48px-v0.1.png": "6F1691993D0AC7D72140BDB31ECC626B9A29F56D3C37E2D52CBF319CD56AA89C",
+      "lineage-mark-study-v0.1.png": "45AF15D6B6439BBB377377E147CBDC33AC36408DA6F8E15F60A45E4346B09B2C"
+    },
+    "lineage": "O2",
+    "name": "Flow Navigator",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-02-flow-navigator\\B"
+  }
+}

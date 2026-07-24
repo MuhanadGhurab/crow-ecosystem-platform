@@ -1,0 +1,33 @@
+{
+  "gate": "GHV.CROW-IDENTITY.1F",
+  "lineage_id": "CRW-OPR-05",
+  "lineage_folder": "CRW-OPR-05-service-steward",
+  "lineage_code": "O5",
+  "lineage_name": "Service Steward",
+  "direction": "A",
+  "parent_mother_form": "MF-O-B",
+  "status": "LOCAL_CANDIDATE_EVIDENCE",
+  "canon": false,
+  "production_approved": false,
+  "runtime_authorized": false,
+  "presentation": {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "9C97AE10A7D8F64C2EE9251303319F3D3AC3AE442BBECC7182056150363EE688",
+      "cinematic-4k-v0.1.png": "78878373D2A6E813CA1C8DEE4D61FF17A7E759D4AA924377F6F9ABB7D4CB2365",
+      "silhouette-v0.1.png": "8EDACF3A1C646DB6F4CF78F2D22F6BABD48974A968E59C9EF3FBE9BD22056DB6",
+      "portrait-v0.1.png": "63C1828B6D411F7B81C5DC5C42105CAC5F5D8C1D0E1CB4AA2C5142D3AF219914",
+      "thumbnail-48px-v0.1.png": "2049A3ACDBD2FD1EFFE80FD2AC60B6061748ECDCB643EA7BFF2DE962CC0C3110",
+      "lineage-mark-study-v0.1.png": "97E5FD01A96639D5564B2F1AE2B4AFF7AC75D8B78F19E7669F7981030F64B748"
+    },
+    "lineage": "O5",
+    "name": "Service Steward",
+    "direction": "A",
+    "path": "lineages\\CRW-OPR-05-service-steward\\A"
+  }
+}

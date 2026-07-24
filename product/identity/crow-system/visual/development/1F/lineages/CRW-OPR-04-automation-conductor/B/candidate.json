@@ -1,0 +1,33 @@
+{
+  "gate": "GHV.CROW-IDENTITY.1F",
+  "lineage_id": "CRW-OPR-04",
+  "lineage_folder": "CRW-OPR-04-automation-conductor",
+  "lineage_code": "O4",
+  "lineage_name": "Automation Conductor",
+  "direction": "B",
+  "parent_mother_form": "MF-O-B",
+  "status": "LOCAL_CANDIDATE_EVIDENCE",
+  "canon": false,
+  "production_approved": false,
+  "runtime_authorized": false,
+  "presentation": {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "2A965F25DC277506D36C375F7D0E49030026CCC834284EBBB5AC4F948326E47A",
+      "cinematic-4k-v0.1.png": "C20B27EDD18E4CEDC52F143006737F0AE64FCBF41CBD7865692744691878DE31",
+      "silhouette-v0.1.png": "429385EE073E633513D220BC427ABF4914124B9583FFE22F537C1194158BDD83",
+      "portrait-v0.1.png": "61F486EDA4AD78FC8A382D0A9571FB0E96FDA114593C067BC4C089E4E47B01BB",
+      "thumbnail-48px-v0.1.png": "5406DE52A2F6A99FF74996C260A94BFF960954BD854735D459323F6598097B61",
+      "lineage-mark-study-v0.1.png": "64F594BBC2E29C9D8AD944C3B7E0ED1FE4A7408C3EE9BB541BD095BEEFD2E0ED"
+    },
+    "lineage": "O4",
+    "name": "Automation Conductor",
+    "direction": "B",
+    "path": "lineages\\CRW-OPR-04-automation-conductor\\B"
+  }
+}

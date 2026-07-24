@@ -156,3 +156,6 @@
 | ASM-140 | Founder-selected Mother Form directions can lock without repository-promoted production binaries | Active | 1E closure | LOCAL_ONLY_NO_COMMIT · selected manifest hashes | Separate binary promotion decision | CROW-IDENTITY.1E |
 | ASM-141 | DIRECTIONAL MATCH for Build A v0.2 is sufficient for Mother Form direction selection with open production polish | Active | Build reconciliation | Reconciliation report · non-claims | Optional v0.3 requires founder auth | CROW-IDENTITY.1E |
 | ASM-142 | Next Crow Identity Gate ID must not be invented by agents | Active | Gate sequencing | PROJECT_STATUS · GATE-REGISTER | Founder names next Gate | CROW-IDENTITY.1E |
+| ASM-143 | Founder-selected Operate Lineage directions can lock without repository-promoted production binaries | Active | 1F closure | LOCAL_ONLY_NO_COMMIT · selected Operate manifest hashes | Separate binary promotion decision | CROW-IDENTITY.1F |
+| ASM-144 | O1/O4 PASS_WITH_MINOR_RISK is acceptable with non-blocking polish notes and unchanged selected directions | Active | Family collision | FOUNDER-OPERATE-LINEAGE-DECISION.md | Optional polish Gate | CROW-IDENTITY.1F |
+| ASM-145 | Remaining 20 Core Crow Lineages require founder-named Horizon Gates; all-20 batch prohibited | Active | Gate sequencing | PROJECT_STATUS · GATE-REGISTER | Founder names next Gate | CROW-IDENTITY.1F |

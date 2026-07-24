@@ -66,7 +66,13 @@ LOCAL_ONLY_NO_COMMIT. Documentation may commit; candidate PNGs must not be stage
 
 ## 15. Non-changes
 
-No Product Code · no apps/packages/workers/scripts · no package.json · no workflows · no schemas/APIs/migrations · no runtime assets · no 25 Lineages · no invented next Gate ID.
+No Product Code · no apps/packages/workers/scripts · no workflows · no schemas/APIs/migrations · no runtime assets · no 25 Lineages · no invented next Gate ID.
+
+Package security exception (honest correction):
+
+`package.json` and `package-lock.json` changed only to add the `postcss@8.5.22` security override required to clear the blocking High advisory.
+
+No application Product Code, Crow Identity runtime, feature behavior or deployment authority changed.
 
 ## 16. Local validation
 

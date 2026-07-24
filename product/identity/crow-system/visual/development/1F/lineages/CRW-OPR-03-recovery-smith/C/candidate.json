@@ -1,0 +1,33 @@
+{
+  "gate": "GHV.CROW-IDENTITY.1F",
+  "lineage_id": "CRW-OPR-03",
+  "lineage_folder": "CRW-OPR-03-recovery-smith",
+  "lineage_code": "O3",
+  "lineage_name": "Recovery Smith",
+  "direction": "C",
+  "parent_mother_form": "MF-O-B",
+  "status": "LOCAL_CANDIDATE_EVIDENCE",
+  "canon": false,
+  "production_approved": false,
+  "runtime_authorized": false,
+  "presentation": {
+    "source_size": [
+      1536,
+      1024
+    ],
+    "native_4k": false,
+    "cinematic_4k_is_presentation_upscale": true,
+    "hashes": {
+      "cinematic-source-v0.1.png": "BFCA04182A080544615901CAFDE6B3EEF98876DF4AC6D16BF98A2A6AA1364647",
+      "cinematic-4k-v0.1.png": "0D4212E3AA6257A2D2D8EE246E53E020E141A5454238391AF209CE0F847A373E",
+      "silhouette-v0.1.png": "94E881016081D34FE22DEC20903F03F7EA130C258BCA5AFA9446B7172383991F",
+      "portrait-v0.1.png": "56FF097FDEFCE741205B4E416AED5C4C765844E2129928FF658B9D307CE783AA",
+      "thumbnail-48px-v0.1.png": "C274085B252A6DB09047C7FEB9DC8DB4CC5633C25BD70CBBE02AB0E8A1829A17",
+      "lineage-mark-study-v0.1.png": "0B1A9942C93DE2458451B6F14B56F6C517EA41C5E4060B6D7AFD81D023CEB751"
+    },
+    "lineage": "O3",
+    "name": "Recovery Smith",
+    "direction": "C",
+    "path": "lineages\\CRW-OPR-03-recovery-smith\\C"
+  }
+}
