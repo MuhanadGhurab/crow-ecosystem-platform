@@ -153,3 +153,6 @@
 | ASM-137 | Expert Arabic/cultural/a11y/user recognition reviews can remain open without blocking design lock | Active | Validation debt | Honest debt register | Block PRODUCTION APPROVED claims | CROW-IDENTITY.1D |
 | ASM-138 | SVG + CSS/WAAPI remains viable near-term motion path until a later renderer spike | Active | Tech direction | Decision matrix | Spike Lottie/Rive/WebGL if needed | Identity runtime |
 | ASM-139 | Visual baseline will not reopen taxonomy IDs or lifecycle semantics | Active | Portfolio integrity | Preflight · 1B/1C locked | Reject semantic drift | CROW-IDENTITY.1D |
+| ASM-140 | Founder-selected Mother Form directions can lock without repository-promoted production binaries | Active | 1E closure | LOCAL_ONLY_NO_COMMIT · selected manifest hashes | Separate binary promotion decision | CROW-IDENTITY.1E |
+| ASM-141 | DIRECTIONAL MATCH for Build A v0.2 is sufficient for Mother Form direction selection with open production polish | Active | Build reconciliation | Reconciliation report · non-claims | Optional v0.3 requires founder auth | CROW-IDENTITY.1E |
+| ASM-142 | Next Crow Identity Gate ID must not be invented by agents | Active | Gate sequencing | PROJECT_STATUS · GATE-REGISTER | Founder names next Gate | CROW-IDENTITY.1E |

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.17.0 |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B |
+| **Last updated** | 2026-07-24 |
+| **Source Gate** | GHV.CROW-IDENTITY.1E |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -3239,3 +3239,57 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1D |
 | **Evidence** | PROJECT_STATUS.md · GATE-REGISTER.md |
+
+## DEC-331 — Select Operate Mother Form direction MF-O-B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Operate — Grounded Flow direction **B (MF-O-B v0.1)** after blind, 48 px and cinematic founder review. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | SELECTED-MOTHER-FORM-MANIFEST.md · FOUNDER-VISUAL-DIRECTION-DECISION.md |
+
+## DEC-332 — Select Build Mother Form direction MF-B-A v0.2 after correction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Build — Constructive Frame **A corrected (MF-B-A v0.2)** after tool/accessory leakage removal. v0.1 remains rejected historical evidence. Attachment/local reconciliation is **DIRECTIONAL MATCH** with open production polish; not PRODUCTION APPROVED. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | BUILD-A-v0.2-FOUNDER-APPROVAL-RECONCILIATION.md · SELECTED-MOTHER-FORM-MANIFEST.md |
+
+## DEC-333 — Select Analyze Mother Form direction MF-A-A and preserve Lens Wing v2 lock
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Analyze — Perceptual Lens **A (MF-A-A)** and keep the existing Lens Wing v2 direction lock active. Do not reopen for B/C. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | SELECTED-MOTHER-FORM-MANIFEST.md · ANALYZE-MOTHER-FORM-LOCK.md |
+
+## DEC-334 — Select Protect Mother Form direction MF-P-A
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Protect — Guarded Mantle direction **A (MF-P-A v0.1)** for single-Crow composition and defensive presence. Future polish must avoid excessive armor mass. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | SELECTED-MOTHER-FORM-MANIFEST.md · FOUNDER-VISUAL-DIRECTION-DECISION.md |
+
+## DEC-335 — Select Lead Mother Form direction MF-L-B
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Select Lead — Directional Presence direction **B (MF-L-B v0.1)** for composed leadership clarity without crowns, military coding, Prestige leakage or holographic HUD dependence. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | SELECTED-MOTHER-FORM-MANIFEST.md · FOUNDER-VISUAL-DIRECTION-DECISION.md |
+
+## DEC-336 — Close 1E with local-only binaries; no runtime; next Gate requires Founder decision
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Close GHV.CROW-IDENTITY.1E as PASS for five selected Mother Form directions with hashed local evidence. Binary policy remains LOCAL_ONLY_NO_COMMIT. Selected binaries are not PRODUCTION APPROVED and not repository-promoted. Crow Identity runtime remains NOT AUTHORIZED. Core Crow Lineages remain 0/25. All-25 unreviewed batch generation remains PROHIBITED. Next Gate ID REQUIRES FOUNDER DECISION — do not invent. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1E |
+| **Evidence** | GHV.CROW-IDENTITY.1E.md · GHV.CROW-IDENTITY.1E-CLOSURE-REPORT.md · PROJECT_STATUS.md |

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | LOCKED inventory · Learning Design Baseline v1.0.0 · Progression Design Baseline v1.0.0 · **Architecture Design Baseline v1.0.0 LOCKED** · **External Technical Validation Baseline v0.1.0 PARTIAL** · **Implementation.0A bootstrap PASS** · **Implementation.0B activation slice PARTIAL** · **Implementation.0C activation UX PARTIAL** · **Master Screen Registry Baseline 7/92 CORRECTED AND LOCKED (v1.2.0 alias-safe)** |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1D |
+| **Last updated** | 2026-07-24 |
+| **Source Gate** | GHV.CROW-IDENTITY.1E |
 | **Related** | [SCOPE-BASELINE.md](../governance/scope/SCOPE-BASELINE.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) · [product/progression/README.md](./progression/README.md) · [WIREFRAME-REGISTRY.md](./wireframes/WIREFRAME-REGISTRY.md) · [IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md](../architecture/ghuravia/governance/IDENTITY-SECURITY-DATA-EVIDENCE-BASELINE.md) |
 
 Scope status vocabulary: CORE FOUNDATION · CONTROLLED LAUNCH · POST-LAUNCH PLANNED · CONDITIONAL · PENDING TECHNICAL VALIDATION · PENDING EXTERNAL VALIDATION · DEFERRED · OUT OF SCOPE · REJECTED
@@ -44,6 +44,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-IDN-001 | Core Crow Lineage taxonomy | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Taxonomy Baseline v1.0.0 · no runtime award | Founder | CROW-IDENTITY.1B |
 | CAP-IDN-002 | Chosen / Suggested / Earned Crow Lineage lifecycle | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Lifecycle Baseline v1.0.0 · Evidence-before-Mastery · privacy/projection · no runtime | Founder | CROW-IDENTITY.1C |
 | CAP-IDN-003 | Crow visual / Mother Form / Lineage Mark / motion system | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Visual Baseline v1.0.0 · REFERENCE LOCKED plates · no runtime | Founder | CROW-IDENTITY.1D |
+| CAP-IDN-004 | Founder-selected Horizon Mother Form visual directions | Identity | CORE FOUNDATION (design) | Identity | — | Specified | Operate MF-O-B · Build MF-B-A v0.2 · Analyze MF-A-A · Protect MF-P-A · Lead MF-L-B · local hashes · not production art · no runtime | Founder | CROW-IDENTITY.1E |
 | CAP-ONB-009 | Horizon and Route selection | Learning | CONTROLLED LAUNCH | Horizon/Route | ONB/WLD | Specified | Catalogue | Founder | Learning |
 | CAP-ONB-010 | Flight Plan | Learning | CONTROLLED LAUNCH | Flight Plan | ONB/WLD | Defined | Entitlement | Founder | 1B |
 | CAP-ONB-011 | Verification result / resend / expiry handling | Trust | CONTROLLED LAUNCH | Activate | **ACT-011** | **Specified** | CAP-ONB-003 · Email | Founder | BC.1 |
@@ -182,6 +183,7 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 - CROW-IDENTITY.1B: Core Crow Lineage Taxonomy Baseline v1.0.0 **LOCKED** (design); formal noun + CRW-* IDs + 25 registry + Nest vocabulary contract; Arabic CONTROLLED PROVISIONAL; Evolved Roles deferred; **0E Nest/readiness hold released** (no earned identity award). See [GHV.CROW-IDENTITY.1B.md](../governance/gates/GHV.CROW-IDENTITY.1B.md) · [GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md](./identity/crow-system/governance/GHURAVIA-CORE-CROW-LINEAGE-TAXONOMY-BASELINE.md).
 - CROW-IDENTITY.1C: Crow Identity Lifecycle Baseline v1.0.0 **LOCKED** (design); Chosen/Suggested/Earned; Evidence-before-Mastery; privacy/projection; symbol authorization; collision handoff grammar; Cross-Wing eligibility only; **no runtime**. See [GHV.CROW-IDENTITY.1C.md](../governance/gates/GHV.CROW-IDENTITY.1C.md) · [GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md](./identity/crow-system/governance/GHURAVIA-CROW-IDENTITY-LIFECYCLE-BASELINE.md).
 - CROW-IDENTITY.1D: Crow Visual and Motion Identity Baseline v1.0.0 **LOCKED** (design); five Mother Forms; 25 Lineage visuals/Marks; 60 visual collisions closed; lifecycle visual grammar; symbol/Wingprint separation; motion + reduced-motion; REFERENCE LOCKED SVG plates; **no runtime**. See [GHV.CROW-IDENTITY.1D.md](../governance/gates/GHV.CROW-IDENTITY.1D.md) · [GHURAVIA-CROW-VISUAL-AND-MOTION-BASELINE.md](./identity/crow-system/visual/governance/GHURAVIA-CROW-VISUAL-AND-MOTION-BASELINE.md).
+- CROW-IDENTITY.1E: Founder visual directions **SELECTED** for five Horizon Mother Forms (Operate MF-O-B · Build MF-B-A v0.2 · Analyze MF-A-A · Protect MF-P-A · Lead MF-L-B); Analyze Lens Wing v2 lock preserved; binaries LOCAL_ONLY_NO_COMMIT; Lineages **0/25**; **no runtime**. See [GHV.CROW-IDENTITY.1E.md](../governance/gates/GHV.CROW-IDENTITY.1E.md) · [SELECTED-MOTHER-FORM-MANIFEST.md](./identity/crow-system/visual/comparison/1E/founder-review/SELECTED-MOTHER-FORM-MANIFEST.md).
 
 ## Activation capability trace (BC.1 / CR-002)
 
