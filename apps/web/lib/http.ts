@@ -41,6 +41,8 @@ export function mapServiceError(e: unknown, correlationId?: string) {
       return jsonError("NOT_FOUND", message, 404, corr);
     case "CONFLICT":
       return jsonError("CONFLICT", message, 409, corr);
+    case "VERSION_CONFLICT":
+      return jsonError("CONFLICT", message, 409, corr);
     case "IDEMPOTENCY_CONFLICT":
       return jsonError("IDEMPOTENCY_CONFLICT", message, 409, corr);
     case "INVALID_TRANSITION":
