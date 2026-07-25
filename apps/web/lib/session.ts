@@ -1,5 +1,9 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { loadConfig, requireSyntheticSessionSecret } from "@ghuravia/config";
+import {
+  loadConfig,
+  requireSyntheticSessionSecret,
+  type Config,
+} from "@ghuravia/config";
 
 export type SyntheticSession = {
   accountId: string;
@@ -48,29 +52,45 @@ export function decodeSession(
   }
 }
 
-export function assertLocalRuntime(): ReturnType<typeof loadConfig> {
+function deny(message = "LOCAL_RUNTIME_ONLY"): never {
+  const err = new Error(message);
+  err.name = "LOCAL_RUNTIME_ONLY";
+  throw err;
+}
+
+/**
+ * Allows local development, automated CI, or verified controlled Preview.
+ * Production and unknown Vercel environments remain denied.
+ */
+export function assertLocalRuntime(): Config {
   const config = loadConfig();
-  if (
-    config.GHURAVIA_RUNTIME_MODE !== "local_development" &&
-    config.GHURAVIA_RUNTIME_MODE !== "automated_test"
-  ) {
-    const err = new Error("LOCAL_RUNTIME_ONLY");
-    err.name = "LOCAL_RUNTIME_ONLY";
-    throw err;
-  }
   const vercelEnv = process.env.VERCEL_ENV;
-  if (vercelEnv === "preview" || vercelEnv === "production") {
-    const err = new Error("LOCAL_RUNTIME_ONLY");
-    err.name = "LOCAL_RUNTIME_ONLY";
-    throw err;
-  }
+
   if (process.env.GHURAVIA_DEPLOYMENT_MARKERS === "1") {
-    const err = new Error("LOCAL_RUNTIME_ONLY");
-    err.name = "LOCAL_RUNTIME_ONLY";
-    throw err;
+    deny();
   }
-  requireSyntheticSessionSecret(config);
-  return config;
+
+  if (
+    config.GHURAVIA_RUNTIME_MODE === "local_development" ||
+    config.GHURAVIA_RUNTIME_MODE === "automated_test"
+  ) {
+    if (vercelEnv === "preview" || vercelEnv === "production") {
+      deny();
+    }
+    requireSyntheticSessionSecret(config);
+    return config;
+  }
+
+  // controlled_preview — only when Vercel Preview + verified demo-only DB
+  if (config.GHURAVIA_RUNTIME_MODE === "controlled_preview") {
+    if (vercelEnv !== "preview") {
+      deny("PREVIEW_RUNTIME_DENIED: VERCEL_ENV must be preview");
+    }
+    requireSyntheticSessionSecret(config);
+    return config;
+  }
+
+  deny();
 }
 
 export function getSessionSecret(): string {

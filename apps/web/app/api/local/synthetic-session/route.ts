@@ -28,16 +28,19 @@ export async function POST() {
       { accountId, contactRef, issuedAt: Date.now() },
       getSessionSecret(),
     );
+    const preview = process.env.VERCEL_ENV === "preview";
     const res = NextResponse.json({
       accountId,
       contactRef,
-      localOnly: true,
+      localOnly: !preview,
+      controlledPreview: preview,
     });
     res.cookies.set(sessionCookieName(), token, {
       httpOnly: true,
       sameSite: "lax",
       path: "/",
-      secure: false,
+      // Secure cookies only on HTTPS Preview — never force Secure on local http CI.
+      secure: preview,
     });
     return res;
   } catch (e) {
