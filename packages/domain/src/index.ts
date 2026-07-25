@@ -342,3 +342,10 @@ export {
   type NestReadinessItem,
   type NestReadinessOption,
 } from "./nest-readiness";
+
+export * from "./living-mission";
+export {
+  BLACK_SIGNAL_V010,
+  BLACK_SIGNAL_MISSION_ID,
+  BLACK_SIGNAL_VERSION,
+} from "./missions/black-signal/black-signal-v0.1.0";
