@@ -3,6 +3,7 @@
   "framework": "nextjs",
   "installCommand": "npm ci",
   "buildCommand": "npm run build --workspace=@ghuravia/web",
+  "outputDirectory": "apps/web/.next",
   "git": {
     "deploymentEnabled": {
       "feat/ghuravia-foundation": true
