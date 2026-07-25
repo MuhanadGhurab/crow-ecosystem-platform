@@ -105,11 +105,13 @@ PROJECT_STATUS · GATE-REGISTER · DECISION-REGISTER · RISK-REGISTER · ASSUMPT
 
 Portfolio recorded: Operate 5/5 · Build 5/5 · Core 10/25 · Remaining 15/25 · Runtime NOT AUTHORIZED.
 
-## 22. Non-Changes
+## 22. Non-Changes (documentation commit)
 
-No Product Code · no apps · no packages · no workers · no scripts · no package.json · no package-lock.json · no workflows · no migrations · no schemas · no APIs · no runtime assets · no deployment · no Build Mother Form redesign · no Operate Lineage change · no Analyze/Protect/Lead Lineages · no invented next Gate.
+Original 1G documentation commit changed no Product Code · apps · packages · workers · scripts · workflows · migrations · schemas · APIs · runtime assets · deployment · Build Mother Form · Operate Lineage · Analyze/Protect/Lead Lineages · and invented no next Gate.
 
-## 23. Local CI
+A later **separate dependency-only** remediation (authorized outside the Gate documentation set) may touch `package.json` / `package-lock.json` solely to clear advisory-feed drift. That remediation does not reopen Build Lineages, dossier evidence, or runtime authority.
+
+## 23. Local CI (documentation commit)
 
 ```text
 npm ci: PASS
@@ -117,25 +119,45 @@ git diff --check: PASS
 Six approved PNG hashes: PASS (1672×941 RGB)
 Fifteen pre-benchmark candidates preserved: PASS
 No PNG/ZIP staged: PASS
-Product Code / workflows / package manifests: unchanged
+Product Code / workflows: unchanged on docs commit
 
-npm run ci:
+npm run ci on docs SHA 7d23078c…:
   format/lint/typecheck/unit/integration/db/validate-routes: PASS
-  validate:high-advisory-boundaries: FAIL locally on unchanged lockfile
-  Cause: live npm audit feed now reports High via minimatch/brace-expansion
-  cascading through eslint toolchain (not introduced by this Gate)
-  Authoritative confirmation deferred to remote CI on the same lockfile
+  validate:high-advisory-boundaries: FAIL on unchanged lockfile
+  Cause: live npm audit feed reported High GHSA-mh99-v99m-4gvg
+  (brace-expansion <= 5.0.7 via eslint / minimatch@3) — advisory-feed drift
+```
+
+## 23A. Exact-SHA CI closure via dependency remediation
+
+```text
+Original 1G documentation commit SHA:
+  7d23078c3f3252a74e892dd857bb4fe99e7ef9a5
+  docs(identity): lock build lineage visual directions
+
+Original failed workflow run (exact docs SHA):
+  30159645920
+  Failure: validate:high-advisory-boundaries — GHSA-mh99-v99m-4gvg
+  Cause: newly published advisory-feed drift (not Product Code / Gate docs)
+
+Separate dependency-only remediation:
+  Preferred message: fix(deps): patch brace-expansion advisory
+  Allowed paths: package.json · package-lock.json · this closure-report amendment
+  Override: "minimatch@3": "10.2.5" → brace-expansion 5.0.8
+  This dependency commit is the exact-SHA closure candidate for remote CI.
+  Remote SUCCESS will be verified externally and does not require another
+  documentation-only commit merely to record the workflow ID.
 ```
 
 ## 24. Commit and Push
 
-Preferred message: `docs(identity): lock build lineage visual directions` → `origin/feat/ghuravia-foundation` only.
+Preferred docs message: `docs(identity): lock build lineage visual directions` → `origin/feat/ghuravia-foundation` only.
 
 Explicit path staging only. No `git add .` / `-A`. No PNG/ZIP staged. No PR · no merge · no tag · no deployment · no force-push.
 
 ## 25. Remote CI
 
-Identify workflow run for exact final SHA. Verify PostgreSQL init · npm ci · Chromium · migrations · full `npm run ci` · no deployment job · require SUCCESS. Do not make a follow-up commit merely to record the workflow ID.
+Docs SHA remote run `30159645920` failed on advisory-boundary validation. Exact-SHA SUCCESS is expected on the subsequent dependency-only remediation commit. Verify PostgreSQL init · npm ci · Chromium · migrations · full `npm run ci` · High/Critical = 0 · no deployment job · require SUCCESS. Do not make a follow-up commit merely to record the workflow ID.
 
 ## 26. Final Verdict
 
