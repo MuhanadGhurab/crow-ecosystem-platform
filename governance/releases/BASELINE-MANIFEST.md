@@ -6,7 +6,7 @@
 | **Version** | 1.33.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.IMPLEMENTATION.0F |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 
 ## Active baseline set
 

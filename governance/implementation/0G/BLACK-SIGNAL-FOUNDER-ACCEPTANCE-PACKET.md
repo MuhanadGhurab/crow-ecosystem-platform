@@ -6,12 +6,15 @@
 | **Auth** | GHV-IMP-AUTH-007 |
 | **Audience** | Muhannad Haitham Fuad Ghurab — GHURAVIA Founder |
 | **Preview** | Protected Vercel Preview (SSO) · synthetic data only |
+| **Preview alias** | `https://crow-ecosystem-platform-git-feat-9e7a86-muhanadghurabs-projects.vercel.app` |
+| **Mission route** | `/missions/black-signal` |
+| **Git SHA (technical readiness)** | `c61505a15081e6ecd87a4f412d4b23829141391f` |
 | **Founder verdict** | **PENDING EXPLICIT FOUNDER VERDICT** |
 
 ## How to play
 
-1. Open the protected Preview URL (Founder SSO).
-2. Create a synthetic session when prompted.
+1. Open the protected Preview alias above (Founder Vercel SSO).
+2. Create a synthetic session when prompted (Preview-only; no Production credentials).
 3. Enter Black Signal (`/missions/black-signal`).
 4. Complete the five play paths below (new synthetic session per path recommended).
 5. Record an explicit verdict using one of the options at the end.

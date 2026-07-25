@@ -23,7 +23,12 @@ Deterministic Mission rules, Black Signal content structure, Crowprint meaning, 
 - Vercel: [0G/VERCEL-PROJECT-IDENTITY-PREFLIGHT.md](../implementation/0G/VERCEL-PROJECT-IDENTITY-PREFLIGHT.md)
 - Supabase: [0G/SUPABASE-ENVIRONMENT-IDENTITY-PREFLIGHT.md](../implementation/0G/SUPABASE-ENVIRONMENT-IDENTITY-PREFLIGHT.md)
 - Access: [0G/PREVIEW-ACCESS-AND-DATA-CLASSIFICATION.md](../implementation/0G/PREVIEW-ACCESS-AND-DATA-CLASSIFICATION.md)
+- Isolation + deploy + hosted smoke: [0G/PREVIEW-ISOLATION-AND-DEPLOYMENT-EVIDENCE.md](../implementation/0G/PREVIEW-ISOLATION-AND-DEPLOYMENT-EVIDENCE.md)
 - Founder packet: [0G/BLACK-SIGNAL-FOUNDER-ACCEPTANCE-PACKET.md](../implementation/0G/BLACK-SIGNAL-FOUNDER-ACCEPTANCE-PACKET.md)
+
+## Technical readiness SHA
+
+`c61505a15081e6ecd87a4f412d4b23829141391f` · Preview deployment `dpl_LQFRGwjRSMmTAfSTtrsfZ6NoAd1h` · Hosted smoke **PASS** · Founder verdict still **PENDING**
 
 ## Non-claims
 

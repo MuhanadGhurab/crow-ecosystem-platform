@@ -20,12 +20,16 @@ GHURAVIA LIVING MISSION AND CROWPRINT PRODUCT KERNEL
 FOUNDER APPROVED AND LOCKED
 
 Head SHA:
-(see latest 0G commits on feat/ghuravia-foundation)
+c61505a15081e6ecd87a4f412d4b23829141391f
+(docs validation commit may follow on same branch)
 
 Controlled Preview:
 Core Platform Vercel · crow-ecosystem-platform
+Preview deployment · dpl_LQFRGwjRSMmTAfSTtrsfZ6NoAd1h (Ready)
+Alias · crow-ecosystem-platform-git-feat-9e7a86-…vercel.app
 Preview Supabase · ghuravia-black-signal-preview (…xqpt)
 SSO protection ON · demo_only synthetic only
+Hosted smoke · PASS · Founder verdict PENDING
 
 Sequencing pauses (not cancellations):
 Analyze / Protect / Lead Lineage visual development — PAUSED
