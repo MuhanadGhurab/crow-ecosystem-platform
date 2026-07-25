@@ -185,3 +185,82 @@ export const nestReadinessAnswers = pgTable(
     ),
   ],
 );
+
+export const missionRuns = pgTable("mission_runs", {
+  id: text().primaryKey(),
+  learnerRef: text("learner_ref").notNull(),
+  missionId: text("mission_id").notNull(),
+  missionVersion: text("mission_version").notNull(),
+  rulesetVersion: text("ruleset_version").notNull(),
+  kind: text().notNull(),
+  status: text().notNull(),
+  currentNodeId: text("current_node_id"),
+  world: jsonb().notNull(),
+  worldHash: text("world_hash").notNull(),
+  signals: jsonb().notNull().default([]),
+  choiceHistory: jsonb("choice_history").notNull().default([]),
+  outcomeId: text("outcome_id"),
+  parentRunId: text("parent_run_id"),
+  echoForkNodeId: text("echo_fork_node_id"),
+  version: integer().notNull().default(0),
+  crowprint: jsonb(),
+  suggestion: jsonb(),
+  flightLog: jsonb("flight_log"),
+  routeRecommendation: jsonb("route_recommendation"),
+  reflection: text(),
+  routeOverride: text("route_override"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  latestCorrelationId: text("latest_correlation_id"),
+});
+
+export const missionEvents = pgTable(
+  "mission_events",
+  {
+    id: text().primaryKey(),
+    runId: text("run_id")
+      .notNull()
+      .references(() => missionRuns.id),
+    seq: integer().notNull(),
+    eventType: text("event_type").notNull(),
+    actorRef: text("actor_ref").notNull(),
+    missionVersion: text("mission_version").notNull(),
+    nodeId: text("node_id"),
+    choiceId: text("choice_id"),
+    priorStateHash: text("prior_state_hash"),
+    resultingStateHash: text("resulting_state_hash"),
+    stateEffects: jsonb("state_effects"),
+    signalsEmitted: jsonb("signals_emitted"),
+    idempotencyKey: text("idempotency_key").notNull(),
+    correlationId: text("correlation_id").notNull(),
+    rulesetVersion: text("ruleset_version").notNull(),
+    recordedAt: timestamp("recorded_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [
+    uniqueIndex("mission_events_run_seq_unique").on(t.runId, t.seq),
+    uniqueIndex("mission_events_run_idempotency_unique").on(
+      t.runId,
+      t.idempotencyKey,
+    ),
+  ],
+);
+
+export const missionSnapshots = pgTable(
+  "mission_snapshots",
+  {
+    id: text().primaryKey(),
+    runId: text("run_id")
+      .notNull()
+      .references(() => missionRuns.id),
+    seq: integer().notNull(),
+    nodeId: text("node_id"),
+    world: jsonb().notNull(),
+    worldHash: text("world_hash").notNull(),
+    signals: jsonb().notNull(),
+    choiceHistory: jsonb("choice_history").notNull(),
+    version: integer().notNull(),
+    recordedAt: timestamp("recorded_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [uniqueIndex("mission_snapshots_run_seq_unique").on(t.runId, t.seq)],
+);

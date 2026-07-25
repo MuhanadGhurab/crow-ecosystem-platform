@@ -16,6 +16,7 @@ for (const name of [
   "0001_activation_runtime.sql",
   "0002_onboarding_personalization_origin.sql",
   "0003_nest_readiness.sql",
+  "0004_living_mission.sql",
 ]) {
   await sql.unsafe(await readFile(join(root, name), "utf8"));
 }
@@ -30,14 +31,17 @@ const tables = await sql`
     'command_receipts',
     'onboarding_aggregates',
     'nest_readiness_attempts',
-    'nest_readiness_answers'
+    'nest_readiness_answers',
+    'mission_runs',
+    'mission_events',
+    'mission_snapshots'
   )
 `;
-if (tables.length < 8) {
+if (tables.length < 11) {
   console.error("Missing tables", tables);
   process.exit(1);
 }
 await sql.end();
 console.log(
-  "db:validate OK — activation + onboarding + nest readiness tables present",
+  "db:validate OK — activation + onboarding + nest + living mission tables present",
 );
