@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.20.0 |
+| **Version** | 1.21.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|

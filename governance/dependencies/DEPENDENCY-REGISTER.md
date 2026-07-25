@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.18.0 |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|

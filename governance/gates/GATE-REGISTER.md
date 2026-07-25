@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.42.0 |
+| **Version** | 1.43.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-24 |
-| **Source Gate** | GHV.CROW-IDENTITY.1F PASS · five Operate Lineage directions SELECTED · Next Gate REQUIRES FOUNDER DECISION |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G PASS · five Build Lineage visual directions APPROVED · Core 10/25 · Next Gate REQUIRES FOUNDER DECISION |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -52,6 +52,7 @@
 | GHV.CROW-IDENTITY.1D | Visual and Animation Identity System | **PASS — GHURAVIA CROW VISUAL, MOTHER-FORM, LINEAGE-MARK, SYMBOL, MOTION, ACCESSIBILITY AND COMPOSITION BASELINE LOCKED WITH CONTROLLED REFERENCE ASSETS AND PRODUCTION-VALIDATION CONDITIONS** | Visual Baseline v1.0.0 **LOCKED** · no runtime authority · [Record](./GHV.CROW-IDENTITY.1D.md) · [Baseline](../../product/identity/crow-system/visual/governance/GHURAVIA-CROW-VISUAL-AND-MOTION-BASELINE.md) |
 | GHV.CROW-IDENTITY.1E | Founder Visual Direction Comparison | **PASS — FOUNDER VISUAL DIRECTIONS SELECTED FOR ALL FIVE GHURAVIA HORIZON MOTHER FORMS WITH CONTROLLED BUILD CORRECTION, ANALYZE LOCK PRESERVATION, HASHED SELECTION EVIDENCE AND NO RUNTIME AUTHORITY** | Operate MF-O-B · Build MF-B-A v0.2 · Analyze MF-A-A · Protect MF-P-A · Lead MF-L-B · LOCAL_ONLY_NO_COMMIT · Lineages **0/25** · [Record](./GHV.CROW-IDENTITY.1E.md) · [Closure](../../product/identity/crow-system/visual/comparison/1E/governance/GHV.CROW-IDENTITY.1E-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/comparison/1E/founder-review/SELECTED-MOTHER-FORM-MANIFEST.md) |
 | GHV.CROW-IDENTITY.1F | Operate Core Crow Lineage Visual Development and Founder Selection | **PASS — FIVE OPERATE CORE CROW LINEAGE VISUAL DIRECTIONS FOUNDER SELECTED UNDER LOCKED MF-O-B WITH HASHED LOCAL EVIDENCE, CONTROLLED FAMILY-COLLISION RISK, NO PRODUCTION APPROVAL AND NO RUNTIME AUTHORITY** | O1 A · O2 C · O3 C · O4 A · O5 B · MF-O-B locked parent · LOCAL_ONLY_NO_COMMIT · Lineages **5/25** · [Record](./GHV.CROW-IDENTITY.1F.md) · [Closure](../../product/identity/crow-system/visual/development/1F/governance/GHV.CROW-IDENTITY.1F-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/development/1F/founder-review/SELECTED-OPERATE-LINEAGE-MANIFEST.md) |
+| GHV.CROW-IDENTITY.1G | Build Core Crow Lineage Visual Directions — Founder Approval and Gate Closure | **PASS — FIVE BUILD CORE CROW LINEAGE VISUAL DIRECTIONS AND THE GHURAVIA BUILD DOSSIER FAMILY SYSTEM FOUNDER APPROVED UNDER LOCKED MF-B-A v0.2 WITH HASHED LOCAL EVIDENCE, ACCEPTED FAMILY COHESION RISK, OPEN COPY AND PRODUCTION-DERIVATIVE DEBT, NO PRODUCTION APPROVAL AND NO RUNTIME AUTHORITY** | B1–B5 external dossiers · MF-B-A v0.2 · LOCAL_ONLY_NO_COMMIT · Lineages **10/25** · [Record](./GHV.CROW-IDENTITY.1G.md) · [Closure](../../product/identity/crow-system/visual/development/1G/governance/GHV.CROW-IDENTITY.1G-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/development/1G/founder-review/SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md) |
 | GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0E.md) · Auth GHV-IMP-AUTH-005 · Baseline v0.5.0 · [Acceptance](../implementation/IMPLEMENTATION-0E-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0E-BROWSER-EVIDENCE-MATRIX.md) · local CI pending remote |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.18.0 |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-24 |
-| **Source Gate** | GHV.CROW-IDENTITY.1E |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded

@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.22.0 |
+| **Version** | 1.23.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1B |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G |
 | **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
