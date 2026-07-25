@@ -3455,3 +3455,12 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.IMPLEMENTATION.0G |
 | **Evidence** | 0G/SUPABASE-ENVIRONMENT-IDENTITY-PREFLIGHT.md |
+
+## DEC-355 — Founder requests GHURAVIA Hybrid H1 experience direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Record Founder declaration **FOUNDER REQUESTS HYBRID** for the public World Portal + Black Signal + Crowprint journey. Direction **A** = primary visual/atmospheric/emotional identity. Direction **B** = structural, responsive, accessibility and component-system foundation. Direction **C** = controlled spatial storytelling moments only (Horizon discovery, Mission transitions, Echo Flight divergence, Crowprint ceremony). Combined governed direction name: **GHURAVIA HYBRID H1**. No A/B/C direction is selected unchanged as final Product Code design. Materialization is design/static-prototype only. Frontend implementation remains **NOT AUTHORIZED** until Founder final Hybrid H1 visual approval and a later implementation Gate. **No Gate ID invented or opened by this decision.** |
+| **Status** | Accepted (direction selection) — Hybrid H1 final visual LOCK pending Founder verdict |
+| **Related Gate** | None — design materialization; next implementation Gate requires Founder decision after H1 approval |
+| **Evidence** | product/experience-design/hybrid-h1/ · FOUNDER-HYBRID-H1-FINAL-REVIEW.md · directions/FOUNDER-EXPERIENCE-DIRECTION-REVIEW.md |

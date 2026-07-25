@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مهمة — جوّال — Hybrid H1</title>
+  <link rel="stylesheet" href="./hybrid-h1.css" />
+</head>
+<body>
+  <a class="skip-link" href="#m-decisions">تخطَّ إلى القرارات</a>
+  <p class="proto-banner">Hybrid H1 · جوّال · قرارات أولاً · طوبولوجيا مدمجة</p>
+  <nav class="spine-nav"><a href="./03-mission-workspace.html">سطح المكتب</a><a href="./09-debrief-mobile.html">ختام جوّال</a></nav>
+  <div class="toolbar">
+    <button type="button" data-toggle-rm>تقليل الحركة</button>
+    <button type="button" data-open-drawer>الإشارات</button>
+    <span class="save-chip" data-save-chip data-state="synced">متزامن</span>
+  </div>
+  <div class="mobile-frame">
+    <main class="mission">
+      <h1>الإشارة السوداء</h1>
+      <p class="scene-id" data-state-label></p>
+      <div class="state-switch">
+        <button type="button" data-set-state="A" aria-pressed="true">أ</button>
+        <button type="button" data-set-state="B">ب</button>
+        <button type="button" data-set-state="C">ج</button>
+      </div>
+      <aside class="console" id="m-decisions">
+        <h2>تدخّلاتك</h2>
+        <button type="button" class="decision" data-set-state="B">أدلة أولاً<span class="stake">استقرار أعلى</span></button>
+        <button type="button" class="decision" data-set-state="C">اختصار خطر<span class="stake">دين ومخاطر</span></button>
+      </aside>
+      <section class="stage">
+        <div class="topology">
+          <svg class="topo-svg" viewBox="0 0 480 180" role="img" aria-label="طوبولوجيا مدمجة">
+            <path data-edge="e1" class="edge stressed" d="M90 90 H190" />
+            <path data-edge="e2" class="edge" d="M290 90 H390" />
+            <circle data-node="edge" class="node" cx="70" cy="90" r="24" />
+            <circle data-node="core" class="node hot" cx="240" cy="90" r="30" />
+            <circle data-node="svc" class="node" cx="410" cy="90" r="24" />
+          </svg>
+          <p class="topo-summary" data-topo-summary></p>
+        </div>
+        <div class="world-state" data-world-state></div>
+      </section>
+      <p><a class="btn-threshold" href="./09-debrief-mobile.html" style="width:100%;justify-content:center">إلى الختام</a></p>
+    </main>
+  </div>
+  <div class="drawer-backdrop" data-drawer-backdrop></div>
+  <aside class="drawer" data-drawer aria-hidden="true">
+    <button type="button" data-close-drawer>إغلاق</button>
+    <h2>إشارات</h2>
+    <ul><li>نبضة على الحافة</li><li>تأخّر خدمة</li></ul>
+    <h2>RAVEN</h2>
+    <p>الحضور متاح دون إعاقة القرار.</p>
+  </aside>
+  <p class="live sr-only" data-live-consequence aria-live="polite"></p>
+  <script src="./hybrid-h1.js"></script>
+</body>
+</html>

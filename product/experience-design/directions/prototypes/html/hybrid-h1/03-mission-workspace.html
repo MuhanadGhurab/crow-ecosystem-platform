@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مساحة عمل الإشارة السوداء — Hybrid H1</title>
+  <link rel="stylesheet" href="./hybrid-h1.css" />
+</head>
+<body>
+  <a class="skip-link" href="#decisions">تخطَّ إلى قرارات التدخل</a>
+  <p class="proto-banner">Hybrid H1 · طوبولوجيا مرتبطة بالحالة · أ/ب/ج · ليست لوحة SOC</p>
+  <nav class="spine-nav" aria-label="مسار التجربة">
+    <a href="./02-mission-briefing.html">إحاطة</a>
+    <a href="./03-mission-workspace.html" aria-current="page">المهمة</a>
+    <a href="./04-consequence.html">عواقب</a>
+    <a href="./05-crowprint-reveal.html">Crowprint</a>
+  </nav>
+  <div class="toolbar">
+    <button type="button" data-toggle-rm>تقليل الحركة</button>
+    <button type="button" data-open-drawer>شريط الإشارات</button>
+    <span class="save-chip" data-save-chip data-state="synced">متزامن</span>
+  </div>
+  <main class="mission">
+    <header class="mission-head">
+      <div>
+        <h1>الإشارة السوداء — مساحة العمل</h1>
+        <p class="scene-id" data-state-label>الحالة أ — بداية الحادث</p>
+      </div>
+    </header>
+    <div class="state-switch" role="group" aria-label="حالات الطوبولوجيا التجريبية">
+      <button type="button" data-set-state="A" aria-pressed="true">أ · بداية</button>
+      <button type="button" data-set-state="B" aria-pressed="false">ب · أدلة أولاً</button>
+      <button type="button" data-set-state="C" aria-pressed="false">ج · اختصار خطر</button>
+    </div>
+    <p class="live sr-only" data-live-consequence aria-live="polite"></p>
+    <div class="workspace">
+      <section class="stage" aria-label="حيّ الطوبولوجيا">
+        <div class="topology">
+          <svg class="topo-svg" viewBox="0 0 480 220" role="img" aria-labelledby="topo-title topo-desc">
+            <title id="topo-title">نموذج حيّ الخدمات</title>
+            <desc id="topo-desc">ثلاث عقد ومساران يتغيّران مع القرار. الملخص النصّي أسفل الرسم هو المرجع الأساسي.</desc>
+            <path data-edge="e1" class="edge stressed" d="M90 110 H190" />
+            <path data-edge="e2" class="edge" d="M290 110 H390" />
+            <circle data-node="edge" class="node" cx="70" cy="110" r="28" />
+            <circle data-node="core" class="node hot" cx="240" cy="110" r="36" />
+            <circle data-node="svc" class="node" cx="410" cy="110" r="28" />
+            <text x="55" y="160">حافة</text>
+            <text x="215" y="170">مركز</text>
+            <text x="390" y="160">خدمة</text>
+          </svg>
+          <p class="topo-summary" data-topo-summary></p>
+        </div>
+        <div class="world-state" data-world-state aria-label="حالة العالم"></div>
+      </section>
+      <aside class="console" id="decisions" aria-label="وحدة القرارات">
+        <h2>تدخّلاتك</h2>
+        <p style="margin:0;font-size:var(--ghv-fs-meta);color:var(--ghv-fg-secondary)">قرارات كتدخّل في الحيّ — لا إجابات اختبار.</p>
+        <button type="button" class="decision" data-set-state="B">
+          اجمع الأدلة قبل التوسيع
+          <span class="stake">يرجّح الاستمرارية والثقة · أبطأ ظاهرياً</span>
+        </button>
+        <button type="button" class="decision" data-set-state="C">
+          اختصار سريع لإعادة الخدمة
+          <span class="stake">يستعيد جزئياً · يرفع المخاطر والدين</span>
+        </button>
+        <a class="btn-secondary" href="./04-consequence.html" style="justify-content:center">انتقل إلى عاقبة القرار</a>
+      </aside>
+    </div>
+    <section class="raven-edge" aria-label="RAVEN على الحافة">
+      <h2>RAVEN</h2>
+      <p>أقرأ معك تغيّر الحيّ. لن أختار عنك. راقب الملخص النصّي مع الألوان والأشكال.</p>
+    </section>
+  </main>
+  <div class="drawer-backdrop" data-drawer-backdrop></div>
+  <aside class="drawer" data-drawer aria-hidden="true" aria-label="شريط الإشارات">
+    <button type="button" data-close-drawer>إغلاق</button>
+    <h2>إشارات واردة</h2>
+    <ul>
+      <li>نبضة غير مألوفة على مسار الحافة</li>
+      <li>تأخّر في استجابة الخدمة</li>
+      <li>طلب طرف معني بتوضيح الوضع</li>
+    </ul>
+  </aside>
+  <script src="./hybrid-h1.js"></script>
+</body>
+</html>

@@ -2,63 +2,77 @@
 
 | Field | Value |
 |-------|-------|
-| **Generated** | 2026-07-25 |
-| **Authority** | Design exploration only — **not** Product Design approval |
-| **Generated image text** | **NON-AUTHORITATIVE** — product copy remains separately controlled |
-| **Binary commit policy** | Large PNG boards remain **local-only** until binary policy explicitly authorizes commit |
-| **Product Code** | Unchanged by these artifacts |
+| **Updated** | 2026-07-25 |
+| **Authority** | Design exploration / Hybrid H1 final visual review — **not** Product Code |
+| **Generated image text** | **NON-AUTHORITATIVE** |
+| **Binary commit policy** | Large PNG boards remain **local-only** |
+| **Product Code** | Unchanged |
 
 ## HTML prototypes (committable)
+
+### Direction exploration (A/B/C)
 
 Path: `prototypes/html/`
 
 | File | Role |
 |------|------|
-| `index.html` | Index of direction families |
-| `direction-a.html` | Direction A — Portal / Mission / Debrief desktop frames |
-| `direction-b.html` | Direction B — desktop + mobile frames (recommended-extra mobiles) |
-| `direction-c.html` | Direction C — Portal / Mission / Debrief desktop frames |
-| `prototype.css` | Shared static prototype styles (outside production routes) |
+| `index.html` | Index — Hybrid H1 primary + A/B/C sources |
+| `direction-a.html` / `b` / `c` | Source direction frames |
+| `prototype.css` | Shared A/B/C prototype styles |
 
-Open via `file://` offline. Do **not** serve from the Next.js app.
+### Hybrid H1 (canonical connected journey)
+
+Path: `prototypes/html/hybrid-h1/`
+
+| File | Role |
+|------|------|
+| `index.html` | Journey index |
+| `hybrid-h1.css` | H1 tokenized styles |
+| `hybrid-h1.js` | State switching, drawer, reduced-motion |
+| `01-world-portal.html` | World Portal desktop |
+| `02-mission-briefing.html` | Mission briefing |
+| `03-mission-workspace.html` | Active workspace + topology states A/B/C |
+| `04-consequence.html` | Consequence transition |
+| `05-crowprint-reveal.html` | Crowprint / lineage / boundary |
+| `06-flight-log-debrief.html` | Flight Log / Echo / Route |
+| `07-world-portal-mobile.html` | Portal mobile |
+| `08-mission-workspace-mobile.html` | Mission mobile |
+| `09-debrief-mobile.html` | Debrief mobile |
+
+Open via `file://` or local static server. Do **not** serve from the Next.js app.
 
 ## Image boards (local-only)
 
-Path: `prototypes/boards-local/`  
-Source workspace assets copied for Founder review on this machine.
+### A/B/C exploration boards
 
-| File | Direction | Anchor | Viewport |
-|------|-----------|--------|----------|
-| `dir-a-portal-desktop.png` | A | World Portal | Desktop |
-| `dir-a-mission-desktop.png` | A | Black Signal | Desktop |
-| `dir-a-debrief-desktop.png` | A | Crowprint Debrief | Desktop |
-| `dir-b-portal-desktop.png` | B | World Portal | Desktop |
-| `dir-b-mission-desktop.png` | B | Black Signal | Desktop |
-| `dir-b-debrief-desktop.png` | B | Crowprint Debrief | Desktop |
-| `dir-b-portal-mobile.png` | B | World Portal | Mobile |
-| `dir-b-mission-mobile.png` | B | Black Signal | Mobile |
-| `dir-c-portal-desktop.png` | C | World Portal | Desktop |
-| `dir-c-mission-desktop.png` | C | Black Signal | Desktop |
-| `dir-c-debrief-desktop.png` | C | Crowprint Debrief | Desktop |
+Path: `prototypes/boards-local/` — see prior checksums in git history of this file for A/B/C boards.
 
-### SHA-256 (boards-local)
+### Hybrid H1 boards
+
+Path: `prototypes/boards-local/hybrid-h1/`
+
+| File | Viewport |
+|------|----------|
+| `h1-portal-desktop.png` | Desktop Portal |
+| `h1-mission-desktop.png` | Desktop Mission |
+| `h1-debrief-desktop.png` | Desktop Crowprint / Debrief |
+| `h1-portal-mobile.png` | Mobile Portal |
+| `h1-mission-mobile.png` | Mobile Mission |
+| `h1-debrief-mobile.png` | Mobile Debrief |
+
+### SHA-256 (hybrid-h1 boards)
 
 ```text
-58e5588acfa6d50fc8a2adbf35f184f6320d06b9cd7b8e35991479e6a4025c45  dir-a-portal-desktop.png
-80eb9ed837c4544c29dcd1501e0b0bf6eb44c4249e9caf966ec7e0bbc2d209ee  dir-a-mission-desktop.png
-6dc73736512c4494352b8b1e368f4a12aa6be1670b0b1c9acc0e176eb7be8e0b  dir-a-debrief-desktop.png
-51886f410844ee6be8e82c7c4131636725bd849bac98f6461e01558958be9905  dir-b-portal-desktop.png
-ef378c1b935716c37c1e064bcf1669ad648d471af82d32e6d060765f0c1c50e4  dir-b-mission-desktop.png
-1f954aaef95a45826ef2cb187004fc578ee3aabcc7e3eade5b284de9540c2c6b  dir-b-debrief-desktop.png
-b1bbe087bcff8822c42d9639002962cddca04e917a81f6ebad7a6c367fbf7a7f  dir-b-portal-mobile.png
-83eb76f4628b33964d06942faf46b537cb03dcfabe47e6f9ec5195c0d8bc0beb  dir-b-mission-mobile.png
-6a07d40763482b8b0c8c7258390d8b5a84bd68a072426d57822455f1ceeebac7  dir-c-portal-desktop.png
-684ed2fbd911ece0a6382b26461dc1b445e9b9a5eca1a6103ad924744d12cd6d  dir-c-mission-desktop.png
-94cff60c6575e1dee05ee22671b9286f3a3ee3c8980939bba9f8814521895c0e  dir-c-debrief-desktop.png
+cfe60700dddbfa4b527db61150134c6ad5f2c7cea885ca7534f1fc0cd1ce3194  h1-portal-desktop.png
+c1f61501061e06d9a40f1e31449ba02e9aa86636a5569455a2904e120f14b50f  h1-mission-desktop.png
+55ac24061143565919b0a7edd17c0975c147967a71c43637acc8394ff3fe2b24  h1-debrief-desktop.png
+05b4da72a666717d16288b74f08921500bcfb94198450910d930180f8ccdfcde  h1-portal-mobile.png
+54a8f0a010107de19e8051056fa9c85d75e127ad6bacb1048e84c0389db3edd0  h1-mission-mobile.png
+07aa60d66d7d1bd5e92f764dbf7b79b0a7268daa6cd814977ad02bbc07b8afa3  h1-debrief-mobile.png
 ```
 
-Also mirrored at `boards-local/CHECKSUMS.sha256` (local working copy).
+Also mirrored at `boards-local/hybrid-h1/CHECKSUMS.sha256` (local working copy).
 
 ## Preservation note
 
-Existing 1E / 1F / 1G Crow visual evidence under `product/identity/crow-system/visual/` remains **untracked / local** and is **not** altered by this experience-direction package.
+1E / 1F / 1G Crow visual evidence remains **untracked / local** and is **not** altered.
