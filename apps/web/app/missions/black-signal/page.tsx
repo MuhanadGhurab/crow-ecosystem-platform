@@ -18,7 +18,7 @@ export default async function BlackSignalPage() {
       if (session) {
         const { db } = getDb();
         const svc = new LivingMissionService(db);
-        initial = await svc.listActiveCanonical(session.accountId);
+        initial = await svc.listPreferredActive(session.accountId);
       }
     }
   } catch {

@@ -157,6 +157,37 @@ export class LivingMissionService {
     return rows[0] ? toResource(rows[0]) : null;
   }
 
+  /** In-progress Echo Flight for resume after browser refresh. */
+  async listActiveEcho(learnerRef: string): Promise<MissionResource | null> {
+    const rows = await this.db
+      .select()
+      .from(schema.missionRuns)
+      .where(
+        and(
+          eq(schema.missionRuns.learnerRef, learnerRef),
+          eq(schema.missionRuns.missionId, BLACK_SIGNAL_V010.missionId),
+          eq(schema.missionRuns.kind, "ECHO"),
+          eq(schema.missionRuns.status, "IN_PROGRESS"),
+        ),
+      )
+      .orderBy(desc(schema.missionRuns.updatedAt))
+      .limit(1);
+    return rows[0] ? toResource(rows[0]) : null;
+  }
+
+  /**
+   * Prefer active Echo, then active Canonical — for safe mid-path refresh.
+   * Does not replace completed Canonical history.
+   */
+  async listPreferredActive(
+    learnerRef: string,
+  ): Promise<MissionResource | null> {
+    return (
+      (await this.listActiveEcho(learnerRef)) ??
+      (await this.listActiveCanonical(learnerRef))
+    );
+  }
+
   async startCanonical(input: {
     learnerRef: string;
     idempotencyKey: string;

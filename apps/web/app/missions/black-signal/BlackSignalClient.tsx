@@ -230,6 +230,13 @@ export function BlackSignalClient({
       lang="ar"
       aria-labelledby={titleId}
       data-mission="black-signal"
+      data-run-id={resource?.run.runId ?? ""}
+      data-run-kind={resource?.run.kind ?? ""}
+      data-run-version={resource?.run.version ?? ""}
+      data-world-hash={resource?.run.worldHash ?? ""}
+      data-run-status={resource?.run.status ?? ""}
+      data-choice-count={resource?.run.choiceHistory.length ?? 0}
+      data-current-node={resource?.run.currentNodeId ?? ""}
     >
       <header className="mission-header">
         <p className="mission-kicker">غُرافيا · رحلة حية</p>
