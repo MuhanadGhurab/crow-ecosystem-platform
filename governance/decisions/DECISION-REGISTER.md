@@ -3461,6 +3461,15 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | Field | Value |
 |-------|-------|
 | **Decision** | Record Founder declaration **FOUNDER REQUESTS HYBRID** for the public World Portal + Black Signal + Crowprint journey. Direction **A** = primary visual/atmospheric/emotional identity. Direction **B** = structural, responsive, accessibility and component-system foundation. Direction **C** = controlled spatial storytelling moments only (Horizon discovery, Mission transitions, Echo Flight divergence, Crowprint ceremony). Combined governed direction name: **GHURAVIA HYBRID H1**. No A/B/C direction is selected unchanged as final Product Code design. Materialization is design/static-prototype only. Frontend implementation remains **NOT AUTHORIZED** until Founder final Hybrid H1 visual approval and a later implementation Gate. **No Gate ID invented or opened by this decision.** |
-| **Status** | Accepted (direction selection) — Hybrid H1 final visual LOCK pending Founder verdict |
+| **Status** | Accepted (direction selection) — superseded for final visual by DEC-356 |
 | **Related Gate** | None — design materialization; next implementation Gate requires Founder decision after H1 approval |
 | **Evidence** | product/experience-design/hybrid-h1/ · FOUNDER-HYBRID-H1-FINAL-REVIEW.md · directions/FOUNDER-EXPERIENCE-DIRECTION-REVIEW.md |
+
+## DEC-356 — Founder approves Hybrid H1 with interaction and motion revisions
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Record Founder verdict **FOUNDER APPROVES HYBRID H1 WITH REVISIONS**. Approves Hybrid H1 visual identity, A atmosphere, B structure/a11y, selective C spatial storytelling, palette laws, Arabic-first hierarchy, Portal/Mission/Crowprint composition, and CSS-variable design-system direction. Required revision before Product Code: controlled **Interaction, Motion and Living-World** enhancement (Hybrid H1.1) so the experience feels alive, reactive, and technologically advanced without weakening accessibility, reduced-motion, mobile, performance, Mission clarity, Crowprint explainability, or user control. Hybrid H1 remains **not fully LOCKED** until H1.1 receives explicit Founder approval. **No Gate ID invented. Product Code remains NOT AUTHORIZED.** |
+| **Status** | Accepted |
+| **Related Gate** | None — design revision only |
+| **Evidence** | product/experience-design/hybrid-h1-1/ · FOUNDER-H1-1-FINAL-INTERACTION-REVIEW.md · updated FOUNDER-HYBRID-H1-FINAL-REVIEW.md |

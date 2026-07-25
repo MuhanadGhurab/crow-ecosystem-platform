@@ -31,6 +31,12 @@ Preview Supabase · ghuravia-black-signal-preview (…xqpt)
 SSO protection ON · demo_only synthetic only
 Hosted smoke · PASS · Founder verdict PENDING
 
+Experience design (Hybrid H1 / H1.1):
+HYBRID H1 VISUAL — FOUNDER APPROVED WITH REVISIONS (DEC-356)
+HYBRID H1.1 INTERACTION LAYER — READY FOR FOUNDER REVIEW
+Product Code frontend from H1.1 — NOT AUTHORIZED
+No Gate opened for H1.1
+
 Sequencing pauses (not cancellations):
 Analyze / Protect / Lead Lineage visual development — PAUSED
 Production Crow art — PAUSED

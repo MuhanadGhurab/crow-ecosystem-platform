@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لغة الإشارات — Hybrid H1.1</title>
+  <link rel="stylesheet" href="./h1-1.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <p class="proto-banner">Hybrid H1.1 · تفاعل وحركة · نموذج ثابت · بيانات نموذجية · ليس Product Code</p>
+<nav class="spine-nav" aria-label="مسار H1.1">
+  <a href="./index.html">الفهرس</a>
+  <a href="./01-living-portal.html">البوابة</a>
+  <a href="./04-workspace.html">المهمة</a>
+  <a href="./07-notifications.html">إشارات</a>
+  <a href="./08-crowprint.html">Crowprint</a>
+  <a href="./09-flight-log.html">سجل</a>
+  <a href="./10-echo.html">صدى</a>
+</nav>
+  <div class="toolbar">
+    <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
+  </div>
+  <main class="debrief" id="main">
+    <h1>لغة إشارات غُرافيا</h1>
+    <p>ليست toasts عامة. حد أقصى إشارتان عابرتان. السجل يبقى بعد الإخفاء.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
+      <button type="button" class="btn" data-demo-signal="world" data-tag="إشارة عالم" data-text="نبضة بعيدة عبر السماء — بيانات نموذجية.">إشارة عالم</button>
+      <button type="button" class="btn" data-demo-signal="mission" data-tag="إشارة مهمة" data-text="تغيّر حالة المهمة بعد قرارك.">إشارة مهمة</button>
+      <button type="button" class="btn" data-demo-signal="raven" data-tag="توجيه RAVEN" data-text="ملاحظة سياقية مرتبطة بالعاقبة — ليست حقيقة نهائية.">توجيه RAVEN</button>
+      <button type="button" class="btn" data-demo-signal="save" data-tag="حفظ / مزامنة" data-text="الحالة متزامنة (نموذج).">حفظ</button>
+      <button type="button" class="btn" data-demo-signal="risk" data-tag="تصعيد مخاطر" data-text="سطح هجومي أوسع — راجع الملخص.">تصعيد مخاطر</button>
+      <button type="button" class="btn" data-demo-signal="world" data-tag="ملاحظة أدلة" data-text="دليل جديد وصل إلى سجل الطيران.">ملاحظة أدلة</button>
+      <button type="button" class="btn" data-demo-signal="mission" data-tag="توفر مسار" data-text="مسار جديد متاح بعد العاقبة.">توفر مسار</button>
+      <button type="button" class="btn" data-demo-signal="raven" data-tag="توفر صدى" data-text="انشعاب صدى جاهز للاستكشاف المضاد للواقع.">توفر صدى</button>
+    </div>
+    <p style="font-size:0.85rem;color:var(--ghv-fg-secondary)">بلا صوت تلقائي · إعلان live-region · إخفاء يدوي · السجل أدناه مستمر.</p>
+  </main>
+  <div class="signal-stack" data-signal-stack></div>
+  <p class="sr-only" data-live-signals aria-live="polite"></p>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
+  <script src="./h1-1.js"></script>
+</body>
+</html>

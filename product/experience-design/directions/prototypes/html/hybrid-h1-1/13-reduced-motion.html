@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مقارنة تقليل الحركة — Hybrid H1.1</title>
+  <link rel="stylesheet" href="./h1-1.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <p class="proto-banner">Hybrid H1.1 · تفاعل وحركة · نموذج ثابت · بيانات نموذجية · ليس Product Code</p>
+<nav class="spine-nav" aria-label="مسار H1.1">
+  <a href="./index.html">الفهرس</a>
+  <a href="./01-living-portal.html">البوابة</a>
+  <a href="./04-workspace.html">المهمة</a>
+  <a href="./07-notifications.html">إشارات</a>
+  <a href="./08-crowprint.html">Crowprint</a>
+  <a href="./09-flight-log.html">سجل</a>
+  <a href="./10-echo.html">صدى</a>
+</nav>
+  <div class="toolbar">
+    <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
+  </div>
+  <main id="main">
+    <p style="max-width:72rem;margin:1rem auto;padding:0 1rem">اللوحة اليمنى تفرض تقليل الحركة. المحتوى كامل في الحالتين.</p>
+    <div class="compare">
+      <div class="pane">
+        <h2>حركة كاملة</h2>
+        <p>تمرير · غراب · عتبة · إشارات متحركة</p>
+        <div class="crow-layer" style="position:relative;height:2.5rem" aria-hidden="true"><div class="crow crow-a"></div></div>
+        <a class="btn-primary btn-threshold" data-threshold href="./01-living-portal.html">جرّب البوابة</a>
+      </div>
+      <div class="pane rm" id="rm-pane">
+        <h2>تقليل الحركة</h2>
+        <p>نفس المحتوى فوراً · بلا حلقات محيطة · إشارات ثابتة</p>
+        <p><button type="button" class="btn" onclick="document.body.classList.add('rm')">فعّل RM على الصفحة</button></p>
+        <a class="btn-ghost" href="./01-living-portal.html">البوابة مع RM يدوي</a>
+      </div>
+    </div>
+  </main>
+  <div class="signal-stack" data-signal-stack></div>
+  <p class="sr-only" data-live-signals aria-live="polite"></p>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
+  <script src="./h1-1.js"></script>
+</body>
+</html>
