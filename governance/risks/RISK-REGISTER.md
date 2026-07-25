@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE — Initial |
-| **Version** | 1.23.0 |
+| **Version** | 1.24.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.CROW-IDENTITY.1G |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 | **Note** | Risks are identified, not claimed mitigated. **GHV.VALIDATION.1A PARTIAL** records external validation truth; **TECH-018 remains OPEN**; provider sandbox, migration/rollback/DR, legal, pen-test, and user-validation risks **remain Open**. Validation.1A does **not** grant Product Code or Implementation Authorization.
 
 Probability / Impact: H · M · L · Exposure = qualitative combination · Status: Open
@@ -372,3 +372,4 @@ GHV.ARCHITECTURE.1E locks the governed architecture **design** baseline only. Ex
 | RISK-CRW-043 | Crowprint over-read as Mastery or hiring score from one Mission | H | H | H | Single-mission confidence inflation | Max DEVELOPING · explicit non-Mastery copy · denylist | Product review | Founder | **OPEN** | Mitigated by 0F design | IMPLEMENTATION.0F |
 | RISK-CRW-044 | Echo Flight silently mutates canonical history or double-counts Evidence | H | H | H | Counterfactual merge bug | Kind=ECHO isolation · separate run rows | Runtime tests | Founder | **OPEN** | Mitigated by 0F tests | IMPLEMENTATION.0F |
 | RISK-CRW-045 | Suggested Lineage public leakage | H | H | H | Accidental public API/projection | Private-only status · dismiss · no Mark | Privacy tests | Founder | **OPEN** | Mitigated by 0F design | IMPLEMENTATION.0F |
+| RISK-CRW-046 | Controlled Preview accidentally reaches Production DB or public discovery | H | H | H | Data / scope breach | Dedicated Preview project · fingerprint denylist · SSO protection · no `--prod` | Ops review | Founder | **OPEN** | Mitigated by 0G controls | IMPLEMENTATION.0G |

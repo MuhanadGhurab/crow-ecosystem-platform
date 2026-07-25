@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.44.0 |
+| **Version** | 1.45.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.IMPLEMENTATION.0F PARTIAL · Auth GHV-IMP-AUTH-006 · Product Kernel LOCKED · Remote CI SUCCESS · prior 1G PASS |
+| **Source Gate** | GHV.IMPLEMENTATION.0G READY FOR FOUNDER ACCEPTANCE · Auth GHV-IMP-AUTH-007 · prior 0F PARTIAL |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -55,6 +55,7 @@
 | GHV.CROW-IDENTITY.1G | Build Core Crow Lineage Visual Directions — Founder Approval and Gate Closure | **PASS — FIVE BUILD CORE CROW LINEAGE VISUAL DIRECTIONS AND THE GHURAVIA BUILD DOSSIER FAMILY SYSTEM FOUNDER APPROVED UNDER LOCKED MF-B-A v0.2 WITH HASHED LOCAL EVIDENCE, ACCEPTED FAMILY COHESION RISK, OPEN COPY AND PRODUCTION-DERIVATIVE DEBT, NO PRODUCTION APPROVAL AND NO RUNTIME AUTHORITY** | B1–B5 external dossiers · MF-B-A v0.2 · LOCAL_ONLY_NO_COMMIT · Lineages **10/25** · [Record](./GHV.CROW-IDENTITY.1G.md) · [Closure](../../product/identity/crow-system/visual/development/1G/governance/GHV.CROW-IDENTITY.1G-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/development/1G/founder-review/SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md) |
 | GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0E.md) · Auth GHV-IMP-AUTH-005 · Baseline v0.5.0 · [Acceptance](../implementation/IMPLEMENTATION-0E-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0E-BROWSER-EVIDENCE-MATRIX.md) · local CI pending remote |
 | GHV.IMPLEMENTATION.0F | Living Mission and Crowprint Kernel — First Flight: Black Signal Vertical Slice | **PARTIAL — COMPLETE WITH NON-BLOCKING CONDITIONS · Remote CI SUCCESS · NO DEPLOY** | [Record](./GHV.IMPLEMENTATION.0F.md) · Auth [GHV-IMP-AUTH-006](../implementation/GHV.IMPLEMENTATION.0F-AUTHORIZATION.md) · Product Kernel LOCKED · SHA `413a1e9` · CI [30163111257](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/30163111257) |
+| GHV.IMPLEMENTATION.0G | Black Signal Controlled Preview, Resume / Echo Browser Closure and Founder Acceptance Readiness | **READY FOR FOUNDER ACCEPTANCE — CONTROLLED PREVIEW · DEP-134 · BROWSER CLOSURE · PRODUCTION NOT AUTHORIZED** | [Record](./GHV.IMPLEMENTATION.0G.md) · Auth [GHV-IMP-AUTH-007](../implementation/GHV.IMPLEMENTATION.0G-AUTHORIZATION.md) · Founder verdict PENDING |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)

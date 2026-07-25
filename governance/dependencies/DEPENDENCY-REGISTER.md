@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.CROW-IDENTITY.1G |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 
 | ID | Title | Type | Status | Description | Provider | Risk if unavailable | Unblocks |
 |----|-------|------|--------|-------------|---------|---------------------|----------|
@@ -77,7 +77,7 @@
 | DEP-078 | Screen-registry consistency validation (recurring) | Product/Governance | Planned | Re-verify 7/92 + ID uniqueness before Material CRs that touch screens; enforce freeze policy | Founder | Registry drift | Controlled changes |
 | DEP-079 | GHV.ARCHITECTURE.1B stack decisions | Technical | **SATISFIED (PARTIAL)** — Core Platform Stack Baseline v1.0.0 ACTIVE · ADR-ARC-001..012 ACCEPTED (some WITH CONDITIONS) · Gate verdict **PARTIAL** | P0 6/6 PASS · provider choices deferred · Product Code BLOCKED | Founder | Premature implementation if mistaken for Product Code | ARCH.1C |
 | DEP-080 | Technical spike authorization / execution (SPK-ARC-001…025) | Technical | **PARTIALLY SATISFIED** — P0 **6/6** · 1C domain **6/6 PASS** · remaining P1–P3 to 1D/1E · Product Code **BLOCKED** | spikes/ghuravia/architecture-1b/ + architecture-1c/ | Founder | Undetected feasibility defects in deferred domains | 1D–1E |
-| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | **Blocked** | DATABASE_URL/DIRECT_URL for Preview **ABSENT**; blocks Preview runtime and Preview-scoped proof, not local rehearsal | Founder | No Preview runtime | Preview readiness |
+| DEP-081 | Preview database remediation (TECH-018) | Infrastructure | **Satisfied for GHURAVIA 0G Preview path** | Dedicated Preview Supabase `…xqpt` + branch-scoped GHURAVIA_* vars; legacy CyberCrow Preview DATABASE_URL gaps remain separate | Founder | No Preview runtime | Preview readiness |
 | DEP-082 | Identity provider evaluation | Technical | **PARTIALLY SATISFIED** — adapter locked; provider deferred | ADR-013 · DEC-204 · sandbox still required | Engineering TBD | Weak auth | 1D/ops |
 | DEP-083 | Object-storage + scanning validation | Technical | **PARTIALLY SATISFIED** — pipeline/upload PASS; providers deferred | SPK-ARC-007 · 008 PASS · ADR-020/021 | Engineering TBD | Limit Evidence | 1D/ops |
 | DEP-084 | Event idempotency + formula-version technical proof | Technical | **P0 EVIDENCE AVAILABLE** — production controls still required | SPK-ARC-010 · 011 PASS · DEC-160/161 | Engineering TBD | Ledger corruption | 1D–1E |
@@ -146,4 +146,5 @@
 | DEP-132 | Controlled Analyze (and later Horizon) Lineage planning after founder decision | Governance/Design | Eligible after founder decision · not started | Requires Founder-named next Gate · not all-15 batch · Protect/Lead not authorized under 1G | Founder | Unreviewed multi-Horizon generation | Future Lineage Gate |
 
 | DEP-133 | GHV-IMP-AUTH-006 Living Mission / Crowprint Product Code | Governance | **Satisfied (GRANTED)** | Bounded 0F Black Signal slice | Founder | Scope overclaim | IMPLEMENTATION.0F |
-| DEP-134 | Preview database isolation before Preview deploy of Living Mission | Ops | Planned | Local/CI authorized; Preview requires verified non-prod DB | Founder | Prod data risk | Preview readiness |
+| DEP-134 | Preview database isolation before Preview deploy of Living Mission | Ops | **Satisfied (0G)** | Dedicated Preview project `…xqpt` · fingerprints distinct from Production `…urms` · Preview-scoped GHURAVIA vars · runtime guard denies Production · protected Preview | Founder | Prod data risk | Preview readiness |
+| DEP-135 | GHV-IMP-AUTH-007 controlled Preview / Founder acceptance readiness | Governance | **Satisfied (GRANTED)** | Bounded 0G Preview + browser closure + Founder packet | Founder | Scope overclaim | IMPLEMENTATION.0G |

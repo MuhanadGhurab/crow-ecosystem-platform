@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SRC-MAP-001 |
-| **Version** | 2.21.0 |
+| **Version** | 2.22.0 |
 | **Status** | LOCKED |
 | **Owner** | Founder (RAVEN) |
-| **Source Gate** | GHV.IMPLEMENTATION.0F |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 | **Last updated** | 2026-07-25 |
 
 ```text
@@ -64,7 +64,9 @@ Suggested Lineage runtime: PRIVATE ALPHA ONLY (Operate+Build eligible) · NO Ear
 Crowprint v0.1: PRIVATE PROVISIONAL · MAX CONFIDENCE DEVELOPING · NOT Mastery
 Analyze / Protect / Lead Lineage visual development: PAUSED (sequencing)
 Production Crow art: PAUSED (sequencing)
-Preview: BLOCKED
+GHV-IMP-AUTH-007 GRANTED — LIMITED TO GHV.IMPLEMENTATION.0G CONTROLLED PREVIEW / RESUME-ECHO CLOSURE / FOUNDER ACCEPTANCE READINESS
+GHV.IMPLEMENTATION.0G: READY FOR FOUNDER ACCEPTANCE — CONTROLLED PREVIEW ESTABLISHED · DEP-134 SATISFIED · PRODUCTION NOT AUTHORIZED · FOUNDER VERDICT PENDING
+Preview: CONTROLLED · PROTECTED · SYNTHETIC demo_only · Core Platform only
 Controlled Launch: NOT READY
 Production: NOT AUTHORIZED
 Archive: cybercrow-final-snapshot-20260720 → b1b1a6c14d5f51307cbffae1b968f4ae1ec1c40c

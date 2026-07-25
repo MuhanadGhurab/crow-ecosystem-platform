@@ -2,6 +2,14 @@
 
 ```text
 Current Gate:
+GHV.IMPLEMENTATION.0G — READY FOR FOUNDER ACCEPTANCE —
+BLACK SIGNAL CONTROLLED PREVIEW, RESUME / ECHO BROWSER
+CLOSURE AND FOUNDER ACCEPTANCE READINESS
+UNDER GHV-IMP-AUTH-007
+DEP-134 SATISFIED · PRODUCTION NOT AUTHORIZED
+FOUNDER VERDICT PENDING EXPLICIT FOUNDER PLAY
+
+Prior Implementation Gate:
 GHV.IMPLEMENTATION.0F — PARTIAL — LIVING MISSION AND
 CROWPRINT KERNEL — FIRST FLIGHT BLACK SIGNAL COMPLETE
 WITH NON-BLOCKING CONDITIONS UNDER GHV-IMP-AUTH-006
@@ -12,11 +20,12 @@ GHURAVIA LIVING MISSION AND CROWPRINT PRODUCT KERNEL
 FOUNDER APPROVED AND LOCKED
 
 Head SHA:
-413a1e9f59c302f9bcc1ccab09a17259e50f2226
+(see latest 0G commits on feat/ghuravia-foundation)
 
-Remote CI:
-https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/30163111257
-SUCCESS
+Controlled Preview:
+Core Platform Vercel · crow-ecosystem-platform
+Preview Supabase · ghuravia-black-signal-preview (…xqpt)
+SSO protection ON · demo_only synthetic only
 
 Sequencing pauses (not cancellations):
 Analyze / Protect / Lead Lineage visual development — PAUSED

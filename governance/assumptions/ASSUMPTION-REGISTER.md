@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.21.0 |
+| **Version** | 1.22.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.CROW-IDENTITY.1G |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 
 | ID | Statement | Status | Why needed | Validation method | If invalidated | Gate |
 |----|-----------|--------|------------|-------------------|----------------|------|
@@ -166,3 +166,4 @@
 
 | ASM-150 | Deterministic authored Living Mission rules are sufficient for First Flight without LLM scoring | Active | Kernel AI boundary | Black Signal fixture · domain tests | Add AI later only as non-authority assist | IMPLEMENTATION.0F |
 | ASM-151 | Black Signal alpha can validate kernel without joining Mission Blueprint inventory yet | Active | Portfolio boundary | Kernel spec · DEC-352 | Controlled learning amendment later | IMPLEMENTATION.0F |
+| ASM-152 | Dedicated Preview Supabase project with synthetic data is sufficient for Founder acceptance without Production clone | Active | DEP-134 | Preview identity preflight · isolation proof | Block Preview if fingerprints collide | IMPLEMENTATION.0G |

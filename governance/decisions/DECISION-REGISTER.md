@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.20.0 |
+| **Version** | 1.21.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.IMPLEMENTATION.0F |
+| **Source Gate** | GHV.IMPLEMENTATION.0G |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -3437,3 +3437,21 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.IMPLEMENTATION.0F |
 | **Evidence** | FIRST-FLIGHT-BLACK-SIGNAL-VERTICAL-SLICE-SPEC.md |
+
+## DEC-353 — Authorize GHV-IMP-AUTH-007 / GHV.IMPLEMENTATION.0G controlled Preview
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Grant GHV-IMP-AUTH-007 for Black Signal Controlled Preview, Resume / Echo browser closure, and Founder acceptance readiness. Production and trusted-user pilot remain unauthorized. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0G |
+| **Evidence** | GHV.IMPLEMENTATION.0G-AUTHORIZATION.md |
+
+## DEC-354 — Dedicated Preview Supabase project for Black Signal (DEP-134)
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Satisfy DEP-134 using dedicated non-production project `ghuravia-black-signal-preview` (ref suffix `…xqpt`), not Production `…urms`, and not a `--with-data` clone. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0G |
+| **Evidence** | 0G/SUPABASE-ENVIRONMENT-IDENTITY-PREFLIGHT.md |
