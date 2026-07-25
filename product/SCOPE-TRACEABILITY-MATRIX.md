@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | REVIEWED — GHV.IMPLEMENTATION.0C (activation UX **PARTIAL** · 0B activation slice **PARTIAL** · 0A bootstrap **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED**) |
-| **Version** | 1.17.0 |
+| **Version** | 1.18.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-22 |
-| **Source Gate** | GHV.CROW-IDENTITY.1F |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.CROW-IDENTITY.1G |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -52,9 +52,11 @@ GHV.CROW-IDENTITY.1D locks **Crow Visual and Motion Identity Baseline v1.0.0** (
 
 GHV.CROW-IDENTITY.1E selects founder Mother Form visual directions (Operate MF-O-B · Build MF-B-A v0.2 · Analyze MF-A-A · Protect MF-P-A · Lead MF-L-B) with hashed local evidence, Analyze lock preservation, LOCAL_ONLY_NO_COMMIT binaries, and **no runtime authority**.
 
-GHV.CROW-IDENTITY.1F selects five Operate Core Crow Lineage visual directions (CRW-OPR-01 A · CRW-OPR-02 C · CRW-OPR-03 C · CRW-OPR-04 A · CRW-OPR-05 B) under locked MF-O-B, with hashed local evidence, family collision PASS_WITH_MINOR_RISK, LOCAL_ONLY_NO_COMMIT binaries, and **no runtime authority**. Core Crow Lineages are **5/25**. Remaining **20/25** require founder-named Horizon Gates. Next Gate **REQUIRES FOUNDER DECISION**.
+GHV.CROW-IDENTITY.1F selects five Operate Core Crow Lineage visual directions (CRW-OPR-01 A · CRW-OPR-02 C · CRW-OPR-03 C · CRW-OPR-04 A · CRW-OPR-05 B) under locked MF-O-B, with hashed local evidence, family collision PASS_WITH_MINOR_RISK, LOCAL_ONLY_NO_COMMIT binaries, and **no runtime authority**.
 
-`GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) · [GHV.CROW-IDENTITY.1F.md](../governance/gates/GHV.CROW-IDENTITY.1F.md).
+GHV.CROW-IDENTITY.1G locks five Build Core Crow Lineage visual directions (CRW-BLD-01..05) and the GHURAVIA Build dossier family system under locked MF-B-A v0.2, with hashed local external evidence, family collision PASS_WITH_ACCEPTED_COHESION_RISK, non-authoritative embedded dossier copy, LOCAL_ONLY_NO_COMMIT binaries, and **no runtime authority**. Core Crow Lineages are **10/25**. Remaining **15/25** require founder-named Horizon Gates. Analyze planning is eligible only after founder decision. Protect/Lead planning is not authorized. All-15 unreviewed batch is **PROHIBITED**. Next Gate **REQUIRES FOUNDER DECISION**.
+
+`GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) · [GHV.CROW-IDENTITY.1G.md](../governance/gates/GHV.CROW-IDENTITY.1G.md).
 
 ## Progression architecture links (1A)
 

@@ -3347,3 +3347,66 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1F |
 | **Evidence** | GHV.CROW-IDENTITY.1F.md · GHV.CROW-IDENTITY.1F-CLOSURE-REPORT.md · PROJECT_STATUS.md |
+
+## DEC-343 — Rebaseline Build visual development method to founder/ChatGPT dossier workflow
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Record Build visual development method as rebaselined and founder approved. Pre-benchmark 15 A/B/C candidates remain historical exploration only. Final approved visuals are external founder-directed dossier evidence, not A/B/C selections. MF-B-A v0.2 unchanged. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | BUILD-VISUAL-METHOD-REBASELINE.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-344 — Approve CRW-BLD-01 Framework Seeker external visual direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-BLD-01 Framework Seeker as FOUNDER-APPROVED EXTERNAL VISUAL DIRECTION under MF-B-A v0.2. Hash `f44ad3b55000c801d19ba5775988d812fd5f0b1ac14b5bf577bb0c73614e8fd3`. Not an A/B/C selection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-345 — Approve CRW-BLD-02 Prototype Spark external visual direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-BLD-02 Prototype Spark as FOUNDER-APPROVED EXTERNAL VISUAL DIRECTION under MF-B-A v0.2. Hash `4fadd6658f4402003a0c5e7f9e5db89bfdc8e2ba2bfd45c494b51285e47d0948`. Not an A/B/C selection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-346 — Approve CRW-BLD-03 Systems Crafter external visual direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-BLD-03 Systems Crafter as FOUNDER-APPROVED EXTERNAL VISUAL DIRECTION under MF-B-A v0.2. Hash `106aa5607b480f0f15d615dfebf989946c8be0e53ec3ad3d4c0f3133e83d8532`. Not an A/B/C selection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-347 — Approve CRW-BLD-04 Network Weaver external visual direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-BLD-04 Network Weaver as FOUNDER-APPROVED EXTERNAL VISUAL DIRECTION under MF-B-A v0.2. Hash `c3158d14150f601f0ca13454dad724a4cd72c29b5c88277746f14933f351bfa4`. Not an A/B/C selection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-348 — Approve CRW-BLD-05 Silent Architect external visual direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Lock CRW-BLD-05 Silent Architect as FOUNDER-APPROVED EXTERNAL VISUAL DIRECTION under MF-B-A v0.2. Hash `495c672885c742acd5d1995c476d90481201856b06796d7b9d172f891c131e33`. Not an A/B/C selection. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md · FOUNDER-BUILD-FAMILY-DECISION.md |
+
+## DEC-349 — Close 1G with Build family PASS_WITH_ACCEPTED_COHESION_RISK; local-only binaries; no runtime
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Close GHV.CROW-IDENTITY.1G as PASS for five Build Lineage visual directions and the GHURAVIA Build dossier family system under locked MF-B-A v0.2. Approve family comparison board hash `8d72e96b…`. Family collision PASS_WITH_ACCEPTED_COHESION_RISK (B1/B3/B5). Embedded dossier copy non-authoritative. Exact silhouette/48px production derivatives pending. Binary policy LOCAL_ONLY_NO_COMMIT. Lineage Mark directions approved but runtime NOT AUTHORIZED. Crow Identity runtime NOT AUTHORIZED. Core Crow Lineages **10/25**. Remaining 15 must not be generated in one unreviewed batch. Analyze planning eligible only after founder decision. Protect/Lead not authorized. Next Gate ID REQUIRES FOUNDER DECISION — do not invent. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.CROW-IDENTITY.1G |
+| **Evidence** | GHV.CROW-IDENTITY.1G.md · GHV.CROW-IDENTITY.1G-CLOSURE-REPORT.md · PROJECT_STATUS.md |
