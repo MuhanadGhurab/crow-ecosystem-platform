@@ -1,0 +1,3 @@
+# Local-only generated visual boards — do not commit until binary policy authorizes.
+*.png
+CHECKSUMS.sha256
