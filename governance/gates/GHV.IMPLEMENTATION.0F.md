@@ -8,10 +8,13 @@
 | **Authorization** | GHV-IMP-AUTH-006 |
 | **Date** | 2026-07-25 |
 | **Branch** | `feat/ghuravia-foundation` |
+| **Head SHA** | `413a1e9f59c302f9bcc1ccab09a17259e50f2226` |
 | **Decision owner** | Muhannad Haitham Fuad Ghurab — GHURAVIA Founder |
 | **Change class** | MATERIAL SCOPE CHANGE · APPROVE NOW |
 | **Product Kernel** | [GHURAVIA-LIVING-MISSION-AND-CROWPRINT-PRODUCT-KERNEL.md](../../product/kernel/GHURAVIA-LIVING-MISSION-AND-CROWPRINT-PRODUCT-KERNEL.md) |
+| **Remote CI** | [30163111257](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/30163111257) · SUCCESS · exact SHA |
 | **Production approved** | **NO** |
+| **Preview** | **NOT AUTHORIZED** (DEP-134 open) |
 
 ## Founder declaration
 
@@ -23,18 +26,24 @@ FIRST FLIGHT — BLACK SIGNAL
 AUTHORIZED AS THE NEXT PRIMARY DEVELOPMENT VERTICAL SLICE
 ```
 
-## Scope
+## Scope delivered
 
-Implement a playable Arabic-first Living Mission vertical slice (Black Signal) with deterministic world-state, Evidence Signals, private Crowprint, private Suggested Lineage, Flight Log, one Echo Flight, and advisory Route recommendation — per GHV-IMP-AUTH-006.
+Deterministic Living Mission engine · Black Signal alpha fixture · Mission run persistence · Evidence Signals · private Crowprint v0.1 · private Suggested Lineage · Flight Log · Echo Flight (domain + UI; browser coverage unit-proven) · advisory Route · Arabic-first playable path · local/remote CI
 
-## Closure conditions
+## Non-blocking open conditions
 
-Governance registers consistent · Product Kernel materialized · Scope/Capability traceability updated · Black Signal playable end-to-end · deterministic behavior proven · save/resume · explainable Crowprint · private dismissible Suggested Lineage · Flight Log · Echo preserves canonical history · advisory Route · Arabic-first browser evidence · activation/Origin/Nest remain green · local CI PASS · exact-SHA remote CI SUCCESS · no deployment
+- Preview database isolation not verified (DEP-134)
+- Mid-mission browser refresh resume not a dedicated e2e scenario (snapshots + listActiveCanonical present)
+- Echo Flight browser path not mandatory in black-signal e2e (domain isolation proven)
+- Analyze / Protect / Lead visual development and production Crow art remain **PAUSED** (sequencing)
 
 ## Verdict
 
 ```text
 GHV.IMPLEMENTATION.0F:
-IN PROGRESS — LIMITED PRODUCT CODE AUTHORIZED
+PARTIAL — LIVING MISSION AND CROWPRINT KERNEL
+FIRST FLIGHT BLACK SIGNAL VERTICAL SLICE COMPLETE
+WITH NON-BLOCKING IMPLEMENTATION CONDITIONS
 UNDER GHV-IMP-AUTH-006
+REMOTE CI SUCCESS · NO PRODUCTION DEPLOYMENT
 ```

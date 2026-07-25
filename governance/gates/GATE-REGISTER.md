@@ -6,7 +6,7 @@
 | **Version** | 1.44.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.IMPLEMENTATION.0F IN PROGRESS · Auth GHV-IMP-AUTH-006 · Product Kernel LOCKED · prior 1G PASS |
+| **Source Gate** | GHV.IMPLEMENTATION.0F PARTIAL · Auth GHV-IMP-AUTH-006 · Product Kernel LOCKED · Remote CI SUCCESS · prior 1G PASS |
 
 | Gate ID | Title | Verdict | Notes |
 |---------|-------|---------|-------|
@@ -54,7 +54,7 @@
 | GHV.CROW-IDENTITY.1F | Operate Core Crow Lineage Visual Development and Founder Selection | **PASS — FIVE OPERATE CORE CROW LINEAGE VISUAL DIRECTIONS FOUNDER SELECTED UNDER LOCKED MF-O-B WITH HASHED LOCAL EVIDENCE, CONTROLLED FAMILY-COLLISION RISK, NO PRODUCTION APPROVAL AND NO RUNTIME AUTHORITY** | O1 A · O2 C · O3 C · O4 A · O5 B · MF-O-B locked parent · LOCAL_ONLY_NO_COMMIT · Lineages **5/25** · [Record](./GHV.CROW-IDENTITY.1F.md) · [Closure](../../product/identity/crow-system/visual/development/1F/governance/GHV.CROW-IDENTITY.1F-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/development/1F/founder-review/SELECTED-OPERATE-LINEAGE-MANIFEST.md) |
 | GHV.CROW-IDENTITY.1G | Build Core Crow Lineage Visual Directions — Founder Approval and Gate Closure | **PASS — FIVE BUILD CORE CROW LINEAGE VISUAL DIRECTIONS AND THE GHURAVIA BUILD DOSSIER FAMILY SYSTEM FOUNDER APPROVED UNDER LOCKED MF-B-A v0.2 WITH HASHED LOCAL EVIDENCE, ACCEPTED FAMILY COHESION RISK, OPEN COPY AND PRODUCTION-DERIVATIVE DEBT, NO PRODUCTION APPROVAL AND NO RUNTIME AUTHORITY** | B1–B5 external dossiers · MF-B-A v0.2 · LOCAL_ONLY_NO_COMMIT · Lineages **10/25** · [Record](./GHV.CROW-IDENTITY.1G.md) · [Closure](../../product/identity/crow-system/visual/development/1G/governance/GHV.CROW-IDENTITY.1G-CLOSURE-REPORT.md) · [Manifest](../../product/identity/crow-system/visual/development/1G/founder-review/SELECTED-BUILD-LINEAGE-VISUAL-MANIFEST.md) |
 | GHV.IMPLEMENTATION.0E | Nest Intro and Readiness Decision Vertical Slice | **PARTIAL — GHURAVIA NEST INTRO AND READINESS DECISION VERTICAL SLICE COMPLETE WITH NON-BLOCKING IMPLEMENTATION CONDITIONS** | [Record](./GHV.IMPLEMENTATION.0E.md) · Auth GHV-IMP-AUTH-005 · Baseline v0.5.0 · [Acceptance](../implementation/IMPLEMENTATION-0E-ACCEPTANCE-MATRIX.md) · [Browser evidence](../implementation/IMPLEMENTATION-0E-BROWSER-EVIDENCE-MATRIX.md) · local CI pending remote |
-| GHV.IMPLEMENTATION.0F | Living Mission and Crowprint Kernel — First Flight: Black Signal Vertical Slice | **IN PROGRESS — LIMITED PRODUCT CODE AUTHORIZED UNDER GHV-IMP-AUTH-006** | [Record](./GHV.IMPLEMENTATION.0F.md) · Auth [GHV-IMP-AUTH-006](../implementation/GHV.IMPLEMENTATION.0F-AUTHORIZATION.md) · Product Kernel LOCKED · Black Signal alpha fixture |
+| GHV.IMPLEMENTATION.0F | Living Mission and Crowprint Kernel — First Flight: Black Signal Vertical Slice | **PARTIAL — COMPLETE WITH NON-BLOCKING CONDITIONS · Remote CI SUCCESS · NO DEPLOY** | [Record](./GHV.IMPLEMENTATION.0F.md) · Auth [GHV-IMP-AUTH-006](../implementation/GHV.IMPLEMENTATION.0F-AUTHORIZATION.md) · Product Kernel LOCKED · SHA `413a1e9` · CI [30163111257](https://github.com/MuhanadGhurab/crow-ecosystem-platform/actions/runs/30163111257) |
 | GHV.ARCHITECTURE.1 | Technical Validation | NOT STARTED | Parallel future; includes TECH-018 |
 
 ## Programme status (post-Implementation.0A)
