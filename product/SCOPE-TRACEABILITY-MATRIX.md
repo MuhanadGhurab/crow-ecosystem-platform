@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | REVIEWED — GHV.IMPLEMENTATION.0C (activation UX **PARTIAL** · 0B activation slice **PARTIAL** · 0A bootstrap **PASS** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED**) |
-| **Version** | 1.18.0 |
+| **Status** | REVIEWED — GHV.IMPLEMENTATION.0F (Living Mission / Crowprint alpha **IN PROGRESS** · 0E Nest **PARTIAL** · 0D personalization **PARTIAL** · External Technical Validation Baseline **v0.1.0 PARTIAL** · Architecture Design Baseline **v1.0.0 LOCKED** · Master Screen Registry **7/92 CORRECTED AND LOCKED**) |
+| **Version** | 1.19.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.CROW-IDENTITY.1G |
+| **Source Gate** | GHV.IMPLEMENTATION.0F |
 | **Related** | [CAPABILITY-REGISTRY.md](./CAPABILITY-REGISTRY.md) · [MASTER-SCREEN-REGISTRY.md](./screens/MASTER-SCREEN-REGISTRY.md) · [LEARNING-PORTFOLIO-MANIFEST.md](./learning/governance/LEARNING-PORTFOLIO-MANIFEST.md) · [progression/governance/PROGRESSION-BASELINE-MANIFEST.md](./progression/governance/PROGRESSION-BASELINE-MANIFEST.md) · [progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md](./progression/governance/FINAL-FORMULA-VERSION-REGISTRY.md) |
 
 ## Traceability chain (progression + calibration)
@@ -57,6 +57,8 @@ GHV.CROW-IDENTITY.1F selects five Operate Core Crow Lineage visual directions (C
 GHV.CROW-IDENTITY.1G locks five Build Core Crow Lineage visual directions (CRW-BLD-01..05) and the GHURAVIA Build dossier family system under locked MF-B-A v0.2, with hashed local external evidence, family collision PASS_WITH_ACCEPTED_COHESION_RISK, non-authoritative embedded dossier copy, LOCAL_ONLY_NO_COMMIT binaries, and **no runtime authority**. Core Crow Lineages are **10/25**. Remaining **15/25** require founder-named Horizon Gates. Analyze planning is eligible only after founder decision. Protect/Lead planning is not authorized. All-15 unreviewed batch is **PROHIBITED**. Next Gate **REQUIRES FOUNDER DECISION**.
 
 `GHV.IMPLEMENTATION.0E` is **PARTIAL** for Nest Intro and Readiness Decision vertical slice (synthetic fixture; no earned Crow identity). See [GHV.IMPLEMENTATION.0E.md](../governance/gates/GHV.IMPLEMENTATION.0E.md) · [CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md](./identity/crow-system/taxonomy/CROW-IDENTITY-NEST-VOCABULARY-CONTRACT.md) · [GHV.CROW-IDENTITY.1G.md](../governance/gates/GHV.CROW-IDENTITY.1G.md).
+
+`GHV.IMPLEMENTATION.0F` / **GHV-IMP-AUTH-006** authorizes the Living Mission and Crowprint Product Kernel alpha (First Flight — Black Signal) under a MATERIAL SCOPE CHANGE (APPROVE NOW). Capabilities CAP-LRN-020..025 and CAP-IDN-007..008 map to journey phases Missions / Evidence / Identity / Return / Route. Playable UI states bind to canonical screens **LRN-001** (Mission Player) and **LRN-002** (Mission Complete) without adding Master Screen IDs. Black Signal is a separately governed Product Kernel alpha fixture (DEC-352) and does **not** mutate the Learning Portfolio 87 Mission Blueprint count. Earned Lineage, Lineage Mark, public Suggested Lineage, Mastery, Prestige, Trust, payment, and production Crow art remain **NOT AUTHORIZED**. See [product/kernel/](./kernel/) · [GHV.IMPLEMENTATION.0F.md](../governance/gates/GHV.IMPLEMENTATION.0F.md).
 
 ## Progression architecture links (1A)
 

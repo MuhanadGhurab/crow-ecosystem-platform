@@ -100,6 +100,10 @@ Publication conditions (all P0): Expert Review NOT RUN · Pilot NOT RUN · Publi
 
 No approximate (`~`) totals.
 
+### Controlled amendment note (GHV.IMPLEMENTATION.0F / DEC-352)
+
+First Flight — Black Signal is recorded as a **separately governed Product Kernel alpha fixture**. It does **not** change the locked Mission Blueprint count of **87** until a future controlled learning-baseline amendment decides whether it joins or replaces an existing blueprint.
+
 ---
 
 ## Readiness summary

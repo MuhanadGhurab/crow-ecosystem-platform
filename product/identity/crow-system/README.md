@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Domain** | Crow Identity |
-| **Intake Gate** | GHV.CROW-IDENTITY.1A · 1A-AMENDMENT-01 · **1B** · **1C** · **1D** · **1E** · **1F** · **1G** |
+| **Intake Gate** | GHV.CROW-IDENTITY.1A · 1A-AMENDMENT-01 · **1B** · **1C** · **1D** · **1E** · **1F** · **1G** · runtime alpha under **GHV.IMPLEMENTATION.0F** |
 | **Intake Baseline** | v0.1.1 — ADMITTED CANDIDATE |
 | **Taxonomy Baseline** | v1.0.0 — LOCKED (design; controlled provisional Arabic) |
 | **Lifecycle Baseline** | v1.0.0 — LOCKED (Chosen/Suggested/Earned design) |
@@ -13,14 +13,17 @@
 | **Selected Build Lineage visual directions** | LOCKED (1G) — B1–B5 external dossier visuals (not A/B/C) |
 | **Core Crow Lineages selected** | **10 / 25** |
 | **Selected binary status** | LOCAL CONTROLLED EVIDENCE — NOT PRODUCTION APPROVED — NOT REPOSITORY-PROMOTED |
-| **Implementation authority** | **NONE** |
+| **Runtime authority** | **LIMITED ALPHA** — private Crowprint v0.1 + private Suggested Lineage under GHV-IMP-AUTH-006 / 0F only |
+| **Earned Lineage / Mark / public Suggested** | **NOT AUTHORIZED** |
 | **Date** | 2026-07-25 |
 
 ## Purpose
 
 Governed home for Crow Identity intake, locked Core Crow Lineage taxonomy design, locked lifecycle/privacy/projection design, locked visual/symbol/motion design, founder-selected Mother Form / Operate / Build Lineage visual directions, and repository-aware mapping.
 
-Taxonomy Baseline v1.0.0, Lifecycle Baseline v1.0.0, Visual/Motion Baseline v1.0.0, 1E Mother Form direction selections, 1F Operate Lineage direction selections, and 1G Build Lineage visual directions are **internal design locks** only. This directory is **not** a runtime identity model, final character-art bible, or Product Code implementation authorization.
+Taxonomy Baseline v1.0.0, Lifecycle Baseline v1.0.0, Visual/Motion Baseline v1.0.0, 1E Mother Form direction selections, 1F Operate Lineage direction selections, and 1G Build Lineage visual directions are **internal design locks** only. Founder dossiers and reference plates remain **not** production character art.
+
+Under **GHV.IMPLEMENTATION.0F** / **GHV-IMP-AUTH-006**, a **private** Crowprint v0.1 and **private** Suggested Lineage runtime alpha may run for the Black Signal Living Mission slice only. That does **not** authorize Earned Lineage, Lineage Mark, public Suggested Lineage, Mastery awards, or repository promotion of founder-approved PNGs.
 
 ## Layout
 
@@ -45,16 +48,14 @@ REFERENCE LOCKED visual plates and 1E/1F/1G selected local candidates are **not*
 
 ## Next
 
-Next Gate — **REQUIRES FOUNDER DECISION** (do not invent a Gate ID).
+Current Product Code Gate — **GHV.IMPLEMENTATION.0F** (Living Mission / Crowprint Kernel — Black Signal) under **GHV-IMP-AUTH-006**.
 
-Analyze Lineage planning — **ELIGIBLE AFTER FOUNDER DECISION**.
+Analyze / Protect / Lead Lineage visual development — **PAUSED** (sequencing, not cancellation).
 
-Protect / Lead Lineage planning — **NOT AUTHORIZED**.
+Production Crow art — **PAUSED** (sequencing, not cancellation).
 
 Remaining Core Crow Lineages — **15 / 25** (Horizon-by-Horizon; all-15 unreviewed batch **PROHIBITED**).
 
-Crow Identity runtime implementation — **NOT AUTHORIZED**.
-
-Lineage Mark runtime — **NOT AUTHORIZED**.
+Earned Lineage / Lineage Mark / public Suggested Lineage — **NOT AUTHORIZED**.
 
 `GHV.IMPLEMENTATION.0E` — Nest readiness PARTIAL (must not award earned Lineage).

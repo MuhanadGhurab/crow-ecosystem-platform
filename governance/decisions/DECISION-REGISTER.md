@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.19.0 |
+| **Version** | 1.20.0 |
 | **Owner** | Founder (RAVEN) |
 | **Last updated** | 2026-07-25 |
-| **Source Gate** | GHV.CROW-IDENTITY.1G |
+| **Source Gate** | GHV.IMPLEMENTATION.0F |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
 Status values: Accepted · Conditionally Accepted · Pending Validation · Superseded
@@ -3410,3 +3410,30 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | **Status** | Accepted |
 | **Related Gate** | GHV.CROW-IDENTITY.1G |
 | **Evidence** | GHV.CROW-IDENTITY.1G.md · GHV.CROW-IDENTITY.1G-CLOSURE-REPORT.md · PROJECT_STATUS.md |
+
+## DEC-350 — Lock Living Mission and Crowprint Product Kernel direction
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Founder-approve and lock GHURAVIA Living Mission and Crowprint Product Kernel as MATERIAL SCOPE CHANGE (APPROVE NOW). Signature loop: Living Mission → decisions → world-state → Evidence signals → Crowprint → Suggested Lineage → Flight Log → Echo Flight → Route recommendation. Supplements Constitution; does not weaken it. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0F |
+| **Evidence** | product/kernel/GHURAVIA-LIVING-MISSION-AND-CROWPRINT-PRODUCT-KERNEL.md |
+
+## DEC-351 — Authorize GHV-IMP-AUTH-006 / GHV.IMPLEMENTATION.0F Black Signal slice
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Grant GHV-IMP-AUTH-006 for GHV.IMPLEMENTATION.0F Living Mission engine + First Flight Black Signal alpha vertical slice. Pause Analyze/Protect/Lead visual development and production Crow art as sequencing (not cancellation). |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0F |
+| **Evidence** | GHV.IMPLEMENTATION.0F-AUTHORIZATION.md |
+
+## DEC-352 — Black Signal is alpha fixture outside Mission Blueprint count mutation
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Record Black Signal as separately governed Product Kernel alpha fixture. Do not silently alter the locked Learning Portfolio 87 Mission Blueprint count until a controlled learning-baseline amendment. |
+| **Status** | Accepted |
+| **Related Gate** | GHV.IMPLEMENTATION.0F |
+| **Evidence** | FIRST-FLIGHT-BLACK-SIGNAL-VERTICAL-SLICE-SPEC.md |

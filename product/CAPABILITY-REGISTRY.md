@@ -199,3 +199,12 @@ Screen families: PUB · ACT · IDN · ONB · LRN · SKY/WLD · COM · LIV · PRG
 | CAP-ONB-013 | Trust | Learner / Support | Activate | ACT-012 | Support escalate | Help available | ACTIVATION-WIREFRAMES | Ops staffing |
 | CAP-ONB-014 | Trust | Learner | Activate | **ACT-013** | FLOW-001 / FLOW-001-DONE | `account_risk_status = acceptable` | ACTIVATION-WIREFRAMES · GHV-WF-ACT-013 | Risk policy · CR-002 |
 | CAP-EBUX-009 | Trust | Learner | Activate+ | ACT-003/011/012/013 + locks | Explainable Lock sheets | Assurance / incomplete | EXPLAINABLE-LOCKS | Usability NOT RUN |
+
+| CAP-LRN-020 | Living Mission Engine | Learning | CORE FOUNDATION (runtime alpha) | Missions | LRN | Specified | Deterministic reducer · versioned templates · GHV-IMP-AUTH-006 | Founder | IMPLEMENTATION.0F |
+| CAP-LRN-021 | Mission World-State Runtime | Learning | CORE FOUNDATION (runtime alpha) | Missions | LRN | Specified | Bounded dimensions · server-authoritative | Founder | IMPLEMENTATION.0F |
+| CAP-LRN-022 | Evidence Signal Ledger | Learning | CORE FOUNDATION (runtime alpha) | Evidence | LRN | Specified | Metadata ≠ approved Evidence | Founder | IMPLEMENTATION.0F |
+| CAP-IDN-007 | Crowprint v0.1 | Identity | CORE FOUNDATION (runtime alpha) | Identity | IDN | Specified | Private · provisional · denylist · max DEVELOPING | Founder | IMPLEMENTATION.0F |
+| CAP-IDN-008 | Suggested Lineage Runtime (private alpha) | Identity | CORE FOUNDATION (runtime alpha) | Identity | IDN | Specified | Operate+Build eligible · no public · no Earned | Founder | IMPLEMENTATION.0F |
+| CAP-LRN-023 | Echo Flight | Learning | CORE FOUNDATION (runtime alpha) | Missions | LRN | Specified | Counterfactual fork · canonical immutable | Founder | IMPLEMENTATION.0F |
+| CAP-LRN-024 | Evidence-backed Flight Log | Learning | CORE FOUNDATION (runtime alpha) | Return | LRN/PRG | Specified | Learner-visible · not certificate | Founder | IMPLEMENTATION.0F |
+| CAP-LRN-025 | Adaptive Route Recommendation | Learning | CORE FOUNDATION (runtime alpha) | Route | LRN | Specified | Advisory · overridable · no silent enrollment | Founder | IMPLEMENTATION.0F |

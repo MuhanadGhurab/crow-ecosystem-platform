@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Status** | ACTIVE |
-| **Version** | 1.32.0 |
+| **Version** | 1.33.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-24 |
-| **Source Gate** | GHV.CROW-IDENTITY.1F |
+| **Last updated** | 2026-07-25 |
+| **Source Gate** | GHV.IMPLEMENTATION.0F |
 
 ## Active baseline set
 
@@ -113,6 +113,23 @@ Build Lineages: 5 / 5 SELECTED · Core: 10 / 25 · Remaining: 15 / 25
 GHV.IMPLEMENTATION.0E:
 PARTIAL — NEST INTRO AND READINESS
 VERTICAL SLICE COMPLETE WITH CONDITIONS
+
+GHV.IMPLEMENTATION.0F:
+IN PROGRESS — LIVING MISSION AND CROWPRINT
+KERNEL — FIRST FLIGHT BLACK SIGNAL UNDER
+GHV-IMP-AUTH-006
+
+GHURAVIA Living Mission and Crowprint Product Kernel:
+FOUNDER APPROVED AND LOCKED
+(supplements Constitution; does not replace it)
+
+Black Signal alpha fixture:
+ACTIVE AS PRODUCT KERNEL ALPHA
+OUTSIDE Mission Blueprint count mutation (DEC-352)
+
+Sequencing pauses (not cancellations):
+Analyze / Protect / Lead Lineage visual development — PAUSED
+Production Crow art — PAUSED
 
 Preview:
 BLOCKED

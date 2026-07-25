@@ -144,3 +144,6 @@
 | DEP-130 | 3D topology and rig feasibility for Build family | Design/Tech | Planned | Not claimed by 1G | Founder | Rig/animation overclaim | 3D production |
 | DEP-131 | Accessibility, cultural and user-recognition validation for Build family | Validation | Planned | Open production-validation debt after 1G | Founder | Premature UX/a11y claims | Validation Gate |
 | DEP-132 | Controlled Analyze (and later Horizon) Lineage planning after founder decision | Governance/Design | Eligible after founder decision · not started | Requires Founder-named next Gate · not all-15 batch · Protect/Lead not authorized under 1G | Founder | Unreviewed multi-Horizon generation | Future Lineage Gate |
+
+| DEP-133 | GHV-IMP-AUTH-006 Living Mission / Crowprint Product Code | Governance | **Satisfied (GRANTED)** | Bounded 0F Black Signal slice | Founder | Scope overclaim | IMPLEMENTATION.0F |
+| DEP-134 | Preview database isolation before Preview deploy of Living Mission | Ops | Planned | Local/CI authorized; Preview requires verified non-prod DB | Founder | Prod data risk | Preview readiness |

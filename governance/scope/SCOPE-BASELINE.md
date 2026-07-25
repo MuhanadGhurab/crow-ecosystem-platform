@@ -3,10 +3,10 @@
 | Field | Value |
 |-------|-------|
 | **Document ID** | GHV-SCOPE-001 |
-| **Version** | 1.0.0 |
-| **Status** | LOCKED — FOUNDATION SCOPE BASELINE |
+| **Version** | 1.1.0 |
+| **Status** | LOCKED — FOUNDATION SCOPE BASELINE · **AMENDED 2026-07-25 (MATERIAL · APPROVE NOW)** |
 | **Owner** | Muhanad Haitham Fouad Ghurab (RAVEN) |
-| **Source Gate** | GHV.FOUNDATION.1B |
+| **Source Gate** | GHV.FOUNDATION.1B · amendment GHV.IMPLEMENTATION.0F |
 | **Effective date** | 2026-07-21 |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-CHANGE-IMPACT-MODEL.md](./SCOPE-CHANGE-IMPACT-MODEL.md) · [CAPABILITY-REGISTRY.md](../../product/CAPABILITY-REGISTRY.md) · [AUTHORITATIVE-SOURCE-MAP.md](../releases/AUTHORITATIVE-SOURCE-MAP.md) |
 
@@ -320,3 +320,21 @@ Any launch-scope addition must state what it **removes, delays, or replaces**.
 No Feature enters implementation without Pillar → Capability → Requirement → Test → Evidence traceability.
 
 Material and Foundational changes require a Change Request and [SCOPE-CHANGE-IMPACT-MODEL.md](./SCOPE-CHANGE-IMPACT-MODEL.md).
+
+---
+
+## 8. Amendment — Living Mission / Crowprint Product Kernel (2026-07-25)
+
+| Field | Value |
+|-------|-------|
+| **Change class** | MATERIAL SCOPE CHANGE |
+| **Outcome** | APPROVE NOW |
+| **Not** | Foundational Rebaseline |
+| **Kernel** | [GHURAVIA-LIVING-MISSION-AND-CROWPRINT-PRODUCT-KERNEL.md](../../product/kernel/GHURAVIA-LIVING-MISSION-AND-CROWPRINT-PRODUCT-KERNEL.md) |
+| **Auth** | GHV-IMP-AUTH-006 · GHV.IMPLEMENTATION.0F |
+
+Adds CORE FOUNDATION (runtime alpha) Capabilities CAP-LRN-020..025 and CAP-IDN-007..008 for Living Mission engine, world-state, Evidence Signals, Crowprint, private Suggested Lineage, Echo Flight, Flight Log, and advisory Route recommendation — bounded to Black Signal alpha.
+
+Unchanged: Product name · Six Pillars · audience · Horizons · learning hierarchy · Evidence-before-Mastery · Access ≠ Skill · Arabic-first · Constitution primacy.
+
+Sequencing pauses (not cancellations): Analyze / Protect / Lead visual Lineage development · production Crow art.

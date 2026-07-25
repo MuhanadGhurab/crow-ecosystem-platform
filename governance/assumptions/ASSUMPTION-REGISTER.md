@@ -163,3 +163,6 @@
 | ASM-147 | Embedded AI-generated dossier presentation copy is non-authoritative; repository taxonomy overrides PNG wording | Active | Copy boundary | FOUNDER-BUILD-FAMILY-DECISION.md | Future copy-proofing | CROW-IDENTITY.1G |
 | ASM-148 | B1/B3/B5 PASS_WITH_ACCEPTED_COHESION_RISK is acceptable with open production-art differentiation and unchanged approved identities | Active | Family collision | FOUNDER-BUILD-FAMILY-DECISION.md | Optional production differentiation | CROW-IDENTITY.1G |
 | ASM-149 | Remaining 15 Core Crow Lineages require founder-named Horizon Gates; all-15 batch prohibited; Analyze eligible only after founder decision | Active | Gate sequencing | PROJECT_STATUS · GATE-REGISTER | Founder names next Gate | CROW-IDENTITY.1G |
+
+| ASM-150 | Deterministic authored Living Mission rules are sufficient for First Flight without LLM scoring | Active | Kernel AI boundary | Black Signal fixture · domain tests | Add AI later only as non-authority assist | IMPLEMENTATION.0F |
+| ASM-151 | Black Signal alpha can validate kernel without joining Mission Blueprint inventory yet | Active | Portfolio boundary | Kernel spec · DEC-352 | Controlled learning amendment later | IMPLEMENTATION.0F |
