@@ -22,29 +22,29 @@
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
   </div>
   <main class="debrief" id="main">
-    <div style="display:flex;justify-content:space-between;gap:0.5rem;flex-wrap:wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
       <h1 style="margin:0">كشف Crowprint</h1>
-      <button type="button" class="btn" data-skip-ceremony>تخطَّ الاحتفال</button>
+      <button type="button" class="btn" data-skip-ceremony>تخطَّ العرض الحركي</button>
     </div>
-    <div class="chamber" data-chamber>
+    <section class="chamber" data-chamber>
       <div class="seal" aria-hidden="true">ختم</div>
-      <p>تجمّع هادئ للأدلة — مهم دون مبالغة.</p>
-      <ol class="stage-list" style="text-align:start;max-width:28rem;margin-inline:auto">
+      <p>Crowprint — بصمتك المهارية المتكوّنة من قراراتك وأدلتك. بناءً على هذه المهمة تكوّنت صورة أولية هادئة وقابلة للمراجعة.</p>
+      <ul>
         <li data-stage>وصول إشارة الأدلة</li>
         <li data-stage>تشكّل الختم بهدوء</li>
         <li data-stage>شرح الثقة (مؤقت)</li>
-        <li data-stage>سلالة مقترحة — ليست قدراً</li>
-      </ol>
-    </div>
-    <div class="boundary">
-      <strong>حدود صريحة قبل الإكمال:</strong> Crowprint أثر رحلتك — ليس تقييماً نهائياً لهويتك، وليس «اكتشاف مصيرك بالذكاء الاصطناعي».
-    </div>
+        <li data-stage>النسب المقترح — مؤقت ويمكنك تجاوزه</li>
+      </ul>
+    </section>
+    <p role="note">
+      <strong>حدود صريحة قبل الإكمال:</strong> Crowprint أثر رحلتك — ليس تقييماً نهائياً لهويتك، وليس اكتشاف مصير بالذكاء الاصطناعي.
+    </p>
     <p class="raven-distant">RAVEN: هذا انعكاس لما فعلت — قابل للمراجعة مع الأدلة.</p>
     <p><a class="btn-primary" href="./09-flight-log.html">إلى سجل الطيران</a></p>
   </main>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

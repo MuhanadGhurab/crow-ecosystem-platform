@@ -18,7 +18,7 @@
   </nav>
   <div class="toolbar">
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
-    <button type="button" data-open-drawer>شريط الإشارات</button>
+    <button type="button" data-open-drawer>عرض الإشارات</button>
     <span class="save-chip" data-save-chip data-state="synced">متزامن</span>
   </div>
   <main class="mission" id="main">
@@ -30,10 +30,10 @@
     </header>
     <p class="sr-only" data-live-consequence aria-live="polite"></p>
     <div class="workspace">
-      <section class="stage" aria-label="طوبولوجيا الحيّ">
+      <section class="stage" aria-label="خريطة حيّ الخدمات">
         <div class="topology">
           <svg class="topo-svg" viewBox="0 0 480 220" role="img" aria-labelledby="tt td">
-            <title id="tt">طوبولوجيا حيّة</title>
+            <title id="tt">خريطة خدمات حيّة</title>
             <desc id="td">عقد ومسارات تتغيّر مع القرار. الملخص النصّي مرجع أساسي.</desc>
             <path data-edge="e1" class="edge" d="M90 110 H190" />
             <path data-edge="e2" class="edge" d="M290 110 H390" />
@@ -50,10 +50,10 @@
       </section>
       <aside class="console" aria-label="قرارات">
         <h2>تدخّلاتك</h2>
-        <p style="font-size:0.85rem;color:var(--ghv-fg-secondary)">ثلاث عواقب مختلفة بصرياً ونصياً — ليست أزرار أركيد.</p>
-        <button type="button" class="decision" data-outcome="A" aria-pressed="false">أ · أدلة أولاً<span class="stake">استمرارية أعلى · مخاطر أقل</span></button>
-        <button type="button" class="decision" data-outcome="B" aria-pressed="false">ب · استعادة خدمة أولاً<span class="stake">عودة جزئية · راقب الحافة</span></button>
-        <button type="button" class="decision" data-outcome="C" aria-pressed="false">ج · اختصار عالي المخاطر<span class="stake">استجابة سريعة · سطح أوسع</span></button>
+        <p style="font-size:0.85rem;color:var(--ghv-fg-secondary)">ثلاثة تدخّلات بعواقب مختلفة — وليست أزرار لعبة.</p>
+        <button type="button" class="decision" data-outcome="A" aria-pressed="false">اجمع معلومات إضافية قبل التنفيذ<span class="stake">قد يتأخر الإصلاح · غالباً يتحسّن التوفر وتنخفض المخاطر</span></button>
+        <button type="button" class="decision" data-outcome="B" aria-pressed="false">أعد الخدمة بسرعة ثم راقب لاحقاً<span class="stake">عودة جزئية أسرع · راقب الحافة</span></button>
+        <button type="button" class="decision" data-outcome="C" aria-pressed="false">نفّذ اختصاراً سريعاً عالي المخاطر<span class="stake">استجابة أسرع · نطاق تعرّض أوسع</span></button>
         <p style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem">
           <a class="btn-ghost" href="./05-consequence-evidence.html">عاقبة أ</a>
           <a class="btn-ghost" href="./05b-consequence-service.html">عاقبة ب</a>
@@ -71,7 +71,7 @@
     <button type="button" data-close-drawer>إغلاق</button>
     <h2>إشارات واردة</h2>
     <ul>
-      <li>نبضة غير مألوفة على مسار الحافة</li>
+      <li>نشاط غير معتاد على مسار الحافة</li>
       <li>تأخّر في استجابة الخدمة</li>
       <li>طلب توضيح من طرف معني</li>
     </ul>

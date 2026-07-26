@@ -3,56 +3,53 @@
 | Field | Value |
 |-------|-------|
 | **Audience** | Muhannad Haitham Fuad Ghurab — GHURAVIA Founder |
-| **Status** | **PENDING EXPLICIT FOUNDER H1.1 VERDICT** |
-| **Rule** | Cursor must **not** infer approval |
-| **Parent verdict** | FOUNDER APPROVES HYBRID H1 WITH REVISIONS · [DEC-356](../../../governance/decisions/DECISION-REGISTER.md) |
+| **Status** | **VERDICT RECORDED** — Arabic UX copy remediation required |
+| **Decision** | [DEC-357](../../../governance/decisions/DECISION-REGISTER.md) |
+| **Parent visual** | [FOUNDER-HYBRID-H1-FINAL-REVIEW.md](../hybrid-h1/FOUNDER-HYBRID-H1-FINAL-REVIEW.md) · [DEC-356](../../../governance/decisions/DECISION-REGISTER.md) |
+| **Arabic next** | [FOUNDER-ARABIC-UX-COPY-REVIEW.md](../arabic-ux/FOUNDER-ARABIC-UX-COPY-REVIEW.md) |
 | **Prototypes** | [../directions/prototypes/html/hybrid-h1-1/](../directions/prototypes/html/hybrid-h1-1/) |
 | **Compare** | [../directions/prototypes/html/hybrid-h1/](../directions/prototypes/html/hybrid-h1/) |
 
-## How to review
-
-1. Open `hybrid-h1-1/index.html`.  
-2. Walk Living Portal (scroll, Horizons, Crow, notifications).  
-3. Black Signal briefing → workspace → evidence-first, service-first, and high-risk outcomes.  
-4. Crowprint → Flight Log → Echo.  
-5. Mobile Portal / Mission.  
-6. Reduced-motion comparison page.  
-7. Record exactly one verdict.
-
-## Required verdicts
+## Recorded Founder verdict
 
 ```text
-FOUNDER APPROVES HYBRID H1.1 INTERACTION LAYER
-
 FOUNDER APPROVES HYBRID H1.1 WITH REVISIONS
-
-FOUNDER REQUIRES INTERACTION REDESIGN
 ```
 
-## Required questions
+### Status breakdown
 
-1. Does the Portal feel alive immediately?  
-2. Do scroll interactions improve the world feeling?  
-3. Do Horizon interactions feel meaningful?  
-4. Do Crow movements add atmosphere without distraction?  
-5. Does RAVEN feel contextual rather than annoying?  
-6. Do notifications feel like world signals rather than generic toasts?  
-7. Does Black Signal react visibly to decisions?  
-8. Does the topology feel alive and consequential?  
-9. Does Crowprint feel ceremonial without becoming gimmicky?  
-10. Is Echo divergence visually understandable?  
-11. Does the experience feel modern and technologically advanced?  
-12. Is any motion excessive?  
-13. Does anything still feel static or timid?  
-14. Does mobile retain enough energy?  
-15. Is the interaction layer strong enough to authorize Product Code?
+| Area | Status |
+|------|--------|
+| Hybrid H1.1 | **FOUNDER APPROVED WITH ARABIC UX COPY REVISIONS REQUIRED** |
+| Design and interaction | **APPROVED** |
+| Arabic UX copy | **REJECTED — REMEDIATION REQUIRED** |
+| Product Code implementation | **BLOCKED PENDING FOUNDER APPROVAL OF ARABIC COPY BASELINE** |
+
+### Approved
+
+- Hybrid H1 visual direction
+- Hybrid H1.1 interaction and motion direction
+- World Portal structure
+- Black Signal structure and behavior
+- Crowprint / Flight Log / Echo composition
+- Arabic-first interface hierarchy
+- Accessibility and responsive direction
+
+### Rejected
+
+**CURRENT ARABIC UX COPY**
+
+Founder finding: the current Arabic is frequently unnatural, unclear, and difficult to understand even for a native Arabic speaker (literal translation, broken structure, unexplained metaphor, academic/machine terminology, mixed-language phrasing — عربي مكسّر).
 
 ## Founder response block
 
 | Item | Response |
 |------|----------|
-| Verdict | _pending_ |
-| Notes | |
-| Q1–Q15 | |
-| Date | |
+| Verdict | FOUNDER APPROVES HYBRID H1.1 WITH REVISIONS |
+| Revisions | Complete Arabic UX writing, terminology, and comprehension remediation |
+| Date | 2026-07-26 |
 | Signature | Muhannad Haitham Fuad Ghurab |
+
+## Arabic approval
+
+**PENDING** — separate worksheet. Cursor must not infer Arabic approval.

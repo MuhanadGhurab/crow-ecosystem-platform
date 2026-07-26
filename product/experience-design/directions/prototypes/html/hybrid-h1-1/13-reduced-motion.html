@@ -21,26 +21,25 @@
   <div class="toolbar">
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
   </div>
-  <main id="main">
+  <main class="debrief" id="main">
     <p style="max-width:72rem;margin:1rem auto;padding:0 1rem">اللوحة اليمنى تفرض تقليل الحركة. المحتوى كامل في الحالتين.</p>
-    <div class="compare">
-      <div class="pane">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:72rem;margin:0 auto;padding:1rem">
+      <section>
         <h2>حركة كاملة</h2>
         <p>تمرير · غراب · عتبة · إشارات متحركة</p>
-        <div class="crow-layer" style="position:relative;height:2.5rem" aria-hidden="true"><div class="crow crow-a"></div></div>
         <a class="btn-primary btn-threshold" data-threshold href="./01-living-portal.html">جرّب البوابة</a>
-      </div>
-      <div class="pane rm" id="rm-pane">
+      </section>
+      <section>
         <h2>تقليل الحركة</h2>
         <p>نفس المحتوى فوراً · بلا حلقات محيطة · إشارات ثابتة</p>
-        <p><button type="button" class="btn" onclick="document.body.classList.add('rm')">فعّل RM على الصفحة</button></p>
-        <a class="btn-ghost" href="./01-living-portal.html">البوابة مع RM يدوي</a>
-      </div>
+        <p><button type="button" class="btn" onclick="document.body.classList.add('rm')">فعّل تقليل الحركة على الصفحة</button></p>
+        <a class="btn-ghost" href="./01-living-portal.html">البوابة مع تقليل حركة يدوي</a>
+      </section>
     </div>
   </main>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

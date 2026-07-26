@@ -21,24 +21,22 @@
   <div class="toolbar">
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
   </div>
-  <div class="mobile-frame">
-    <div class="living-portal" data-portal-boot>
-      <div class="sky-layers" aria-hidden="true"><div class="sky-deep"></div><div class="sky-mid"></div></div>
-      <div class="crow-layer" aria-hidden="true"><div class="crow crow-a"></div></div>
-      <div class="portal-content" id="main">
+  <div class="living-portal mobile-frame" id="main">
+    <div class="portal-content">
+      <main>
         <h1 class="brand">غُرافيا<span class="en">GHURAVIA</span></h1>
-        <p class="promise">طاقة كافية على الجوال دون عاصفة جزيئات.</p>
-        <a class="btn-primary btn-threshold" data-threshold href="./12-mobile-mission.html">ادخل</a>
-        <ul class="horizon-map" style="margin-top:1rem">
-          <li><button type="button" class="horizon"><span class="label">تشغيل</span><span class="desc">إيقاع الخدمات</span></button></li>
-          <li><button type="button" class="horizon"><span class="label">حماية</span><span class="desc">تقليل السطح</span></button></li>
+        <p class="promise">غُرافيا على الجوال — ابدأ رحلتك واستكشف الآفاق بوضوح.</p>
+        <a class="btn-primary btn-threshold" data-threshold href="./12-mobile-mission.html">ابدأ رحلتك</a>
+        <ul class="horizon-map" aria-label="آفاق">
+          <li><button type="button" class="horizon"><span class="label">تشغيل</span><span class="desc">استقرار الخدمات</span></button></li>
+          <li><button type="button" class="horizon"><span class="label">حماية</span><span class="desc">حماية الأنظمة</span></button></li>
         </ul>
-      </div>
+      </main>
     </div>
   </div>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

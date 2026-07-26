@@ -28,4 +28,4 @@ Add Interaction, Motion and Living-World layer (Hybrid H1.1) before Product Code
 
 ## H1.1 approval
 
-**PENDING** — separate worksheet. Cursor must not infer H1.1 approval.
+**RECORDED** — FOUNDER APPROVES HYBRID H1.1 WITH REVISIONS (Arabic UX copy). See [FOUNDER-H1-1-FINAL-INTERACTION-REVIEW.md](../hybrid-h1-1/FOUNDER-H1-1-FINAL-INTERACTION-REVIEW.md) and [FOUNDER-ARABIC-UX-COPY-REVIEW.md](../arabic-ux/FOUNDER-ARABIC-UX-COPY-REVIEW.md). Cursor must not infer Arabic approval.

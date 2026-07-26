@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>انشعاب رحلة الصدى — Hybrid H1.1</title>
+  <title>رحلة الصدى — Hybrid H1.1</title>
   <link rel="stylesheet" href="./h1-1.css" />
 </head>
 <body>
@@ -22,26 +22,26 @@
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
   </div>
   <main class="debrief" id="main">
-    <h1>انشعاب رحلة الصدى</h1>
+    <h1>رحلة الصدى</h1>
     <p class="sr-only" data-live-echo aria-live="polite"></p>
-    <p>المسار الكنسي يبقى مرئياً. الفرع بديل / مضاد للواقع — العودة واضحة.</p>
-    <button type="button" class="btn-primary" data-split-echo>أظهر الانشعاب</button>
-    <div class="echo-branch" data-echo style="margin-top:1.25rem">
+    <p>رحلتك الأصلية محفوظة. يمكنك الآن استكشاف ما كان سيحدث لو اتخذت قراراً مختلفاً. هذه التجربة لا تغيّر سجلك الأصلي.</p>
+    <button type="button" class="btn-primary" data-split-echo>أظهر المسارين</button>
+    <div class="echo-split" data-echo style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch">
       <div class="path">
-        <strong>المسار الكنسي</strong>
-        <p>قرار الأدلة أولاً · الاستمرارية تتحسن · محفوظ في السجل.</p>
+        <strong>رحلتك الأصلية</strong>
+        <p>قرار جمع المعلومات قبل التنفيذ · تحسّن توفر الخدمة · محفوظ في السجل.</p>
       </div>
-      <div class="fork">نقطة محورية</div>
-      <div class="path echo">
-        <strong>فرع الصدى · استكشاف بديل</strong>
-        <p>ماذا لو اختصار عالي المخاطر؟ عاقبة مختلفة — ليست إعادة كتابة التاريخ الكنسي.</p>
+      <div class="fork">نقطة الاختيار</div>
+      <div class="path">
+        <strong>فرع الصدى · سيناريو بديل</strong>
+        <p>ماذا لو نفّذت اختصاراً عالي المخاطر؟ عاقبة مختلفة — بلا إعادة كتابة رحلتك الأصلية.</p>
       </div>
     </div>
-    <p><a class="btn-ghost" href="./09-flight-log.html">العودة إلى المسار الكنسي / السجل</a></p>
+    <p><a class="btn-ghost" href="./09-flight-log.html">عد إلى رحلتك الأصلية / السجل</a></p>
   </main>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

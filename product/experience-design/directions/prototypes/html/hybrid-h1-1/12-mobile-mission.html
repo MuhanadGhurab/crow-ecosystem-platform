@@ -21,24 +21,23 @@
   <div class="toolbar">
     <button type="button" data-toggle-rm aria-pressed="false">تقليل الحركة</button>
   </div>
-  <div class="mobile-frame">
-    <main class="mission" id="main">
+  <main class="mission mobile-frame" id="main">
+    <header class="mission-head">
       <h1>الإشارة السوداء</h1>
       <span class="save-chip" data-save-chip data-state="synced">متزامن</span>
-      <p class="sr-only" data-live-consequence aria-live="polite"></p>
-      <div class="topology">
-        <svg class="topo-svg" viewBox="0 0 480 180" role="img"><path data-edge="e1" class="edge" d="M90 90 H190"/><path data-edge="e2" class="edge" d="M290 90 H390"/><circle data-node="edge" class="node" cx="70" cy="90" r="24"/><circle data-node="core" class="node" cx="240" cy="90" r="30"/><circle data-node="svc" class="node" cx="410" cy="90" r="24"/></svg>
-        <p class="topo-summary" data-topo-summary></p>
-      </div>
-      <div class="world-state" data-world-state></div>
-      <button type="button" class="decision" data-outcome="A">أدلة أولاً</button>
-      <button type="button" class="decision" data-outcome="C">اختصار خطر</button>
-      <p data-raven-msg class="raven-distant">RAVEN على الحافة</p>
-    </main>
-  </div>
+    </header>
+    <p data-state-label>الحالة النشطة</p>
+    <p class="topo-summary" data-topo-summary></p>
+    <div class="world-state" data-world-state aria-label="حالة العالم"></div>
+    <div>
+      <button type="button" class="decision" data-outcome="A">اجمع معلومات إضافية</button>
+      <button type="button" class="decision" data-outcome="C">اختصار سريع خطر</button>
+      <p data-raven-msg class="raven-distant">RAVEN على الحافة — أشرح العواقب دون أن أختار عنك.</p>
+    </div>
+  </main>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

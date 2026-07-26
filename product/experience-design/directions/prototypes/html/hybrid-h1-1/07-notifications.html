@@ -23,22 +23,22 @@
   </div>
   <main class="debrief" id="main">
     <h1>لغة إشارات غُرافيا</h1>
-    <p>ليست toasts عامة. حد أقصى إشارتان عابرتان. السجل يبقى بعد الإخفاء.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
-      <button type="button" class="btn" data-demo-signal="world" data-tag="إشارة عالم" data-text="نبضة بعيدة عبر السماء — بيانات نموذجية.">إشارة عالم</button>
-      <button type="button" class="btn" data-demo-signal="mission" data-tag="إشارة مهمة" data-text="تغيّر حالة المهمة بعد قرارك.">إشارة مهمة</button>
-      <button type="button" class="btn" data-demo-signal="raven" data-tag="توجيه RAVEN" data-text="ملاحظة سياقية مرتبطة بالعاقبة — ليست حقيقة نهائية.">توجيه RAVEN</button>
-      <button type="button" class="btn" data-demo-signal="save" data-tag="حفظ / مزامنة" data-text="الحالة متزامنة (نموذج).">حفظ</button>
-      <button type="button" class="btn" data-demo-signal="risk" data-tag="تصعيد مخاطر" data-text="سطح هجومي أوسع — راجع الملخص.">تصعيد مخاطر</button>
-      <button type="button" class="btn" data-demo-signal="world" data-tag="ملاحظة أدلة" data-text="دليل جديد وصل إلى سجل الطيران.">ملاحظة أدلة</button>
-      <button type="button" class="btn" data-demo-signal="mission" data-tag="توفر مسار" data-text="مسار جديد متاح بعد العاقبة.">توفر مسار</button>
-      <button type="button" class="btn" data-demo-signal="raven" data-tag="توفر صدى" data-text="انشعاب صدى جاهز للاستكشاف المضاد للواقع.">توفر صدى</button>
-    </div>
-    <p style="font-size:0.85rem;color:var(--ghv-fg-secondary)">بلا صوت تلقائي · إعلان live-region · إخفاء يدوي · السجل أدناه مستمر.</p>
+    <p>ليست إشعارات عامة عابرة. حد أقصى إشارتان عابرتان. السجل يبقى بعد الإخفاء.</p>
+    <p style="display:flex;flex-wrap:wrap;gap:0.5rem">
+      <button type="button" class="btn" data-demo-signal="world" data-tag="إشارة عالم" data-text="نشاط نموذجي في السماء الحيّة — بلا تشغيل فعلي.">إشارة عالم</button>
+      <button type="button" class="btn" data-demo-signal="mission" data-tag="إشارة مهمة" data-text="تغيّرت حالة المهمة بعد قرارك.">إشارة مهمة</button>
+      <button type="button" class="btn" data-demo-signal="raven" data-tag="ملاحظة RAVEN" data-text="ملاحظة مرتبطة بالعاقبة — ليست حقيقة نهائية.">ملاحظة RAVEN</button>
+      <button type="button" class="btn" data-demo-signal="save" data-tag="حفظ" data-text="حالتك محفوظة ومتزامنة (نموذج).">حفظ</button>
+      <button type="button" class="btn" data-demo-signal="risk" data-tag="تنبيه مخاطر" data-text="اتسع نطاق التعرّض للمخاطر — راجع الملخص.">تنبيه مخاطر</button>
+      <button type="button" class="btn" data-demo-signal="world" data-tag="إشارة أدلة" data-text="دليل جديد وصل إلى سجل الطيران.">إشارة أدلة</button>
+      <button type="button" class="btn" data-demo-signal="mission" data-tag="مسار متاح" data-text="مسار جديد متاح بعد العاقبة.">مسار متاح</button>
+      <button type="button" class="btn" data-demo-signal="raven" data-tag="رحلة صدى" data-text="رحلة الصدى جاهزة — استكشف قراراً بديلاً دون تغيير رحلتك الأصلية.">رحلة صدى</button>
+    </p>
+    <p style="font-size:0.85rem;color:var(--ghv-fg-secondary)">بلا صوت تلقائي · إعلان منطقة حيّة · إخفاء يدوي · السجل أدناه مستمر.</p>
   </main>
+  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <div class="signal-stack" data-signal-stack></div>
   <p class="sr-only" data-live-signals aria-live="polite"></p>
-  <div class="signal-log" data-signal-log aria-label="سجل الإشارات المستمر"></div>
   <script src="./h1-1.js"></script>
 </body>
 </html>

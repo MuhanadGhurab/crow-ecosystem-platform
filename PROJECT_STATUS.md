@@ -32,10 +32,12 @@ SSO protection ON · demo_only synthetic only
 Hosted smoke · PASS · Founder verdict PENDING
 
 Experience design (Hybrid H1 / H1.1):
-HYBRID H1 VISUAL — FOUNDER APPROVED WITH REVISIONS (DEC-356)
-HYBRID H1.1 INTERACTION LAYER — READY FOR FOUNDER REVIEW
-Product Code frontend from H1.1 — NOT AUTHORIZED
-No Gate opened for H1.1
+HYBRID H1 VISUAL — FOUNDER APPROVED (DEC-356 / DEC-357)
+HYBRID H1.1 INTERACTION — FOUNDER APPROVED WITH ARABIC UX COPY REVISIONS REQUIRED (DEC-357)
+Design and interaction — APPROVED
+Arabic UX copy — REJECTED — REMEDIATION REQUIRED (baseline ready for Founder review)
+Product Code frontend from H1.1 — BLOCKED PENDING FOUNDER APPROVAL OF ARABIC COPY BASELINE
+No Gate opened for H1.1 / Arabic remediation
 
 Sequencing pauses (not cancellations):
 Analyze / Protect / Lead Lineage visual development — PAUSED

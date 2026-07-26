@@ -3,48 +3,46 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>سجل الطيران وEcho — Hybrid H1</title>
+  <title>سجل الطيران ورحلة الصدى — Hybrid H1</title>
   <link rel="stylesheet" href="./hybrid-h1.css" />
 </head>
 <body>
-  <p class="proto-banner">Hybrid H1 · Echo كانشعاب مكاني مضبوط · المسار استشاري وقابل للتجاوز</p>
-  <nav class="spine-nav">
-    <a href="./05-crowprint-reveal.html">Crowprint</a>
+  <p class="proto-banner">Hybrid H1 · رحلة الصدى لاستكشاف بديل · المسار استشاري وقابل للتجاوز</p>
+  <nav class="spine-nav" aria-label="مسار التجربة">
     <a href="./06-flight-log-debrief.html" aria-current="page">سجل الطيران</a>
     <a href="./01-world-portal.html">العودة للعالم</a>
   </nav>
   <main class="debrief">
-    <section class="panel">
+    <section>
       <h1>سجل الطيران</h1>
       <ol>
         <li>دخول حيّ الإشارة السوداء</li>
-        <li>قرار: جمع الأدلة قبل التوسيع</li>
-        <li>عاقبة: استمرارية أعلى · مخاطر أقل</li>
+        <li>قرار: جمع معلومات إضافية قبل التنفيذ</li>
+        <li>عاقبة: تحسّن توفر الخدمة · انخفاض المخاطر</li>
         <li>كشف Crowprint مؤقت</li>
       </ol>
     </section>
-    <section class="panel" aria-label="Echo Flight">
+    <section>
       <h2>رحلة الصدى · Echo Flight</h2>
-      <p>انشعاب من المسار الكنسي دون إعادة كتابته — لحظة C مضبوطة.</p>
-      <div class="echo-branch">
-        <div class="path">المسار الكنسي محفوظ</div>
-        <div class="fork" aria-hidden="true">⏐</div>
+      <p>رحلتك الأصلية محفوظة. يمكنك استكشاف ما كان سيحدث لو اتخذت قراراً مختلفاً — دون تغيير سجلك.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
+        <div class="path">رحلتك الأصلية محفوظة</div>
         <div class="path">صدى لاستكشاف بديل — بلا مصير مفروض</div>
       </div>
-      <p style="margin-block-start:1rem"><button type="button" class="btn-secondary">ابدأ Echo (نموذج ثابت)</button></p>
+      <p style="margin-block-start:1rem"><button type="button" class="btn-secondary">ابدأ رحلة الصدى (نموذج ثابت)</button></p>
     </section>
-    <section class="panel">
+    <section>
       <h2>المسار التالي (استشاري)</h2>
-      <p>مقترح: مسار تشغيل أعمق في نفس الأفق — قابل للتجاوز.</p>
-      <div class="cta-row" style="margin-block-start:1rem">
+      <p>مقترح: مسار تشغيل أعمق في نفس الأفق — يمكنك قبوله أو تجاوزه.</p>
+      <p style="display:flex;flex-wrap:wrap;gap:0.75rem">
         <a class="btn-threshold" href="./01-world-portal.html">قبول المقترح والعودة للعالم</a>
         <a class="btn-secondary" href="./01-world-portal.html">تجاوز · اختر مساراً آخر</a>
-      </div>
+      </p>
     </section>
-    <section class="raven-edge">
-      <h2>RAVEN</h2>
-      <p>أشرح الانشعاب دون إعلان مصير. الاختيار يبقى لك.</p>
+    <section class="raven-edge" aria-label="RAVEN">
+      <p>أشرح الفرق بين المسارين دون إعلان مصير. الاختيار يبقى لك.</p>
     </section>
   </main>
+  <script src="./hybrid-h1.js"></script>
 </body>
 </html>

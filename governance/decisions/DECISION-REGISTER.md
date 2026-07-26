@@ -5,7 +5,7 @@
 | **Status** | ACTIVE |
 | **Version** | 1.21.0 |
 | **Owner** | Founder (RAVEN) |
-| **Last updated** | 2026-07-25 |
+| **Last updated** | 2026-07-26 |
 | **Source Gate** | GHV.IMPLEMENTATION.0G |
 | **Related** | [PRODUCT-CONSTITUTION.md](../constitution/PRODUCT-CONSTITUTION.md) · [SCOPE-BASELINE.md](../scope/SCOPE-BASELINE.md) · [LEARNING-IDENTIFIER-STANDARD.md](../../product/learning/architecture/LEARNING-IDENTIFIER-STANDARD.md) · [LAUNCH-GRAPH-REGISTRY.md](../../product/learning/graph/LAUNCH-GRAPH-REGISTRY.md) |
 
@@ -3470,6 +3470,15 @@ CR-001 counted ACT-004 SUPERSEDED_ALIAS inside the inventory table. Architecture
 | Field | Value |
 |-------|-------|
 | **Decision** | Record Founder verdict **FOUNDER APPROVES HYBRID H1 WITH REVISIONS**. Approves Hybrid H1 visual identity, A atmosphere, B structure/a11y, selective C spatial storytelling, palette laws, Arabic-first hierarchy, Portal/Mission/Crowprint composition, and CSS-variable design-system direction. Required revision before Product Code: controlled **Interaction, Motion and Living-World** enhancement (Hybrid H1.1) so the experience feels alive, reactive, and technologically advanced without weakening accessibility, reduced-motion, mobile, performance, Mission clarity, Crowprint explainability, or user control. Hybrid H1 remains **not fully LOCKED** until H1.1 receives explicit Founder approval. **No Gate ID invented. Product Code remains NOT AUTHORIZED.** |
-| **Status** | Accepted |
+| **Status** | Accepted — design/interaction portion superseded in status by DEC-357 for Arabic copy |
 | **Related Gate** | None — design revision only |
 | **Evidence** | product/experience-design/hybrid-h1-1/ · FOUNDER-H1-1-FINAL-INTERACTION-REVIEW.md · updated FOUNDER-HYBRID-H1-FINAL-REVIEW.md |
+
+## DEC-357 — Hybrid H1.1 approved with Arabic UX copy remediation required
+
+| Field | Value |
+|-------|-------|
+| **Decision** | Record Founder verdict **FOUNDER APPROVES HYBRID H1.1 WITH REVISIONS**. Approves Hybrid H1 visual direction; Hybrid H1.1 interaction and motion; World Portal structure; Black Signal structure and behavior; Crowprint / Flight Log / Echo composition; Arabic-first interface hierarchy; accessibility and responsive direction. **Rejects current Arabic UX copy** as unnatural, unclear, and difficult for native speakers (literal translation, broken structure, unexplained metaphor, academic/machine terminology, mixed-language phrasing). Status: **HYBRID H1.1 — FOUNDER APPROVED WITH ARABIC UX COPY REVISIONS REQUIRED**. Design and interaction: **APPROVED**. Arabic UX copy: **REJECTED — REMEDIATION REQUIRED**. Product Code frontend from H1.1: **BLOCKED PENDING FOUNDER APPROVAL OF ARABIC COPY BASELINE**. No Gate ID invented. |
+| **Status** | Accepted (design/interaction) — Arabic baseline pending Founder copy review |
+| **Related Gate** | None — Arabic UX writing remediation only; next implementation Gate requires Founder Arabic approval |
+| **Evidence** | product/experience-design/arabic-ux/ · FOUNDER-ARABIC-UX-COPY-REVIEW.md · updated FOUNDER-H1-1-FINAL-INTERACTION-REVIEW.md · PROJECT_STATUS.md |
